@@ -53,3 +53,11 @@ Validate Device
     Should Be Equal    ${astate}    ${admin_state}    Device ${serial_number} admin_state != ENABLED    values=False
     Should Be Equal    ${opstatus}    ${oper_status}    Device ${serial_number} oper_status != ACTIVE    values=False
     Should Be Equal    ${cstatus}    ${connect_status}    Device ${serial_number} connect_status != REACHABLE    values=False
+
+Check CLI Tools Configured
+    [Documentation]    Tests that use 'voltctl' and 'kubectl' should execute this keyword in suite setup
+    # check voltctl and kubectl configured
+    ${voltctl_rc}=    Run And Return RC    voltctl
+    ${kubectl_rc}=    Run And Return RC    kubectl
+    Run Keyword If    ${voltctl_rc} != 1 or ${kubectl_rc} != 0    FATAL ERROR
+    ...    VOLTCTL and KUBECTL not configured. Please configure before executing tests.

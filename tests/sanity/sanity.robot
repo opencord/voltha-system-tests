@@ -47,17 +47,17 @@ Activate Device BBSIM OLT/ONU
 
 Validate OLT Connected to ONOS
     [Documentation]    Verifies the BBSIM-OLT device is activated in onos
-    [Tags]    notready
+    [Tags]    onosdevice
     Wait Until Keyword Succeeds    ${timeout}    5s    BBSIM OLT Device in ONOS
 
 Check EAPOL Flows in ONOS
     [Documentation]    Validates eapol flows for the onu are pushed from voltha
-    [Tags]    notready
+    [Tags]    eapol
     Wait Until Keyword Succeeds    ${timeout}    5s    Verify Eapol Flows Added
 
 Validate ONU Authenticated in ONOS
     [Documentation]    Validates onu is AUTHORIZED in ONOS as bbsim will attempt to authenticate
-    [Tags]    notready
+    [Tags]    aaa
     Wait Until Keyword Succeeds    ${timeout}    5s    Verify Number of AAA-Users    ${number_of_onus}
 
 Provision ONU Subscriber in ONOS
@@ -70,7 +70,8 @@ Validate DHCP Assignment in ONOS
 
 *** Keywords ***
 Setup
-    [Documentation]    Create HTTP Session with the ONOS Controller
+    [Documentation]    Setup environment
+    Check CLI Tools Configured
     ${onos_auth}=    Create List    karaf    karaf
     ${HEADERS}    Create Dictionary    Content-Type=application/json
     Create Session    ONOS    http://${server_ip}:${ONOS_REST_PORT}    auth=${ONOS_AUTH}
