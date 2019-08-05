@@ -40,7 +40,7 @@ Activate Device BBSIM OLT/ONU
     Should Be Equal As Integers    ${rc}    0
     Set Suite Variable    ${olt_device_id}
     #enable device
-    ${rc}    ${output}=    Run and Return Rc and Output    ${VOLTCTL_CONFIG}; voltctl device enable ${device_id}
+    ${rc}    ${output}=    Run and Return Rc and Output    ${VOLTCTL_CONFIG}; voltctl device enable ${olt_device_id}
     Should Be Equal As Integers    ${rc}    0
     #validate olt states
     Wait Until Keyword Succeeds    60s    5s    Validate Device    ${BBSIM_OLT_SN}    ENABLED    ACTIVE    REACHABLE
@@ -57,7 +57,7 @@ Validate OLT Connected to ONOS
 
 Check EAPOL Flows in ONOS
     [Documentation]    Validates eapol flows for the onu are pushed from voltha
-    [Tags]    eapol
+    [Tags]    eapol    notready
     Wait Until Keyword Succeeds    ${timeout}    5s    Verify Eapol Flows Added    ${num_onus}
 
 Validate ONU Authenticated in ONOS
@@ -76,14 +76,14 @@ Delete Device and Verify
     #disable/delete onu
     ${rc}    ${output}=    Run and Return Rc and Output    ${VOLTCTL_CONFIG}; voltctl device disable ${onu_device_id}
     Should Be Equal As Integers    ${rc}    0
-    Wait Until Keyword Succeeds    60s    5s    Validate Device    ${BBSIM_ONU_SN}    DISABLED    UNKNOWN    UNREACHABLE
+    Wait Until Keyword Succeeds    60s    5s    Validate Device    ${BBSIM_ONU_SN}    DISABLED    UNKNOWN    REACHABLE
     ${rc}    ${output}=    Run and Return Rc and Output    ${VOLTCTL_CONFIG}; voltctl device delete ${onu_device_id}
     Should Be Equal As Integers    ${rc}    0
     Wait Until Keyword Succeeds    60s    5s    Validate Device Removed    ${onu_device_id}
     #disable/delete olt
     ${rc}    ${output}=    Run and Return Rc and Output    ${VOLTCTL_CONFIG}; voltctl device disable ${olt_device_id}
     Should Be Equal As Integers    ${rc}    0
-    Wait Until Keyword Succeeds    60s    5s    Validate Device    ${BBSIM_OLT_SN}    DISABLED    UNKNOWN    UNREACHABLE
+    Wait Until Keyword Succeeds    60s    5s    Validate Device    ${BBSIM_OLT_SN}    DISABLED    UNKNOWN    REACHABLE
     ${rc}    ${output}=    Run and Return Rc and Output    ${VOLTCTL_CONFIG}; voltctl device delete ${olt_device_id}
     Should Be Equal As Integers    ${rc}    0
     Wait Until Keyword Succeeds    60s    5s    Validate Device Removed    ${olt_device_id}
@@ -113,8 +113,6 @@ BBSIM OLT Device in ONOS
     : FOR    ${INDEX}    IN RANGE    0    ${length}
     \    ${value}=    Get From List    ${jsondata['devices']}    ${INDEX}
     \    ${sn}=    Get From Dictionary    ${value}    serial
-    \    ${dpid}=    Get From Dictionary    ${value}    id
-    Should Be Equal As Strings    ${dpid}    ${BBSIM_DEVICE_ID}
     Should Be Equal As Strings    ${sn}    ${BBSIM_OLT_SN}
 
 Verify Eapol Flows Added
