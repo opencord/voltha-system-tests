@@ -13,7 +13,7 @@
 # limitations under the License.
 
 *** Variables ***
-${BBSIM_SERVICE}        bbsim.voltha.svc
+${BBSIM_IP}             bbsim.voltha.svc
 ${BBSIM_PORT}           50060
 ${BBSIM_DEVICE_ID}      of:0000626273696d76
 ${BBSIM_OLT_SN}         BBSIMOLT000
