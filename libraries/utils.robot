@@ -39,7 +39,7 @@ Validate Device
     [Arguments]    ${serial_number}    ${admin_state}    ${oper_status}    ${connect_status}
     [Documentation]    Parses the output of "voltctl device list" and inspects device ${serial_number}
     ...    Arguments are matched for device states of: "admin_state", "oper_status", and "connect_status"
-    ${output}=    Run    voltctl device list -o json
+    ${output}=    Run    ${VOLTCTL_CONFIG} voltctl device list -o json
     ${jsondata}=    To Json    ${output}
     Log    ${jsondata}
     ${length}=    Get Length    ${jsondata}
@@ -57,7 +57,7 @@ Validate Device
 Check CLI Tools Configured
     [Documentation]    Tests that use 'voltctl' and 'kubectl' should execute this keyword in suite setup
     # check voltctl and kubectl configured
-    ${voltctl_rc}=    Run And Return RC    voltctl
-    ${kubectl_rc}=    Run And Return RC    kubectl
+    ${voltctl_rc}=    Run And Return RC    ${VOLTCTL_CONFIG} voltctl
+    ${kubectl_rc}=    Run And Return RC    ${KUBECTL_CONFIG} kubectl
     Run Keyword If    ${voltctl_rc} != 1 or ${kubectl_rc} != 0    FATAL ERROR
     ...    VOLTCTL and KUBECTL not configured. Please configure before executing tests.
