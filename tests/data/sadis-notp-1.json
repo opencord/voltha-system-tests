@@ -1,0 +1,30 @@
+{
+  "apps": {
+    "org.opencord.sadis": {
+      "sadis": {
+        "integration": {
+          "cache": {
+            "enabled": false,
+            "maxsize": 50,
+            "ttl": "PT0m"
+          }
+        },
+        "entries": [
+          {
+            "id": "BBSIMOLT000",
+            "hardwareIdentifier": "00:00:0a:62:ce:e2",
+            "ipAddress": ":OLT_IPADDR:",
+            "nasId": "BBSIMOLT000",
+            "uplinkPort": 65536
+          },
+          {
+            "id": "BBSM00000001-1",
+            "cTag": 900,
+            "sTag": 900,
+            "nasPortId": "PON 2/1/01/1:1.1.1"
+          }
+        ]
+      }
+    }
+  }
+}

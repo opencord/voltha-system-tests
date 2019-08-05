@@ -24,9 +24,10 @@ Suite Setup       Setup
 Suite Teardown    Teardown
 
 *** Variables ***
-${server_ip}    localhost
-${timeout}      90s
-${num_onus}     1
+${server_ip}        localhost
+${timeout}          90s
+${num_onus}         1
+${SADIS_CONFIG}     ${CURDIR}/../data/sadis-notp-1.json
 
 *** Test Cases ***
 Activate Device BBSIM OLT/ONU
@@ -35,10 +36,10 @@ Activate Device BBSIM OLT/ONU
     ...    re-validate deployment
     [Tags]    activate
     #create/preprovision device
-    ${rc}    ${device_id}=    Run and Return Rc and Output    voltctl device create -t openolt -H ${BBSIM_SERVICE}:${BBSIM_PORT}
+    ${rc}    ${device_id}=    Run and Return Rc and Output    ${VOLTCTL_CONFIG} voltctl device create -t openolt -H ${BBSIM_SERVICE}:${BBSIM_PORT}
     Should Be Equal As Integers    ${rc}    0
     #enable device
-    ${rc}    ${output}=    Run and Return Rc and Output    voltctl device enable ${device_id}
+    ${rc}    ${output}=    Run and Return Rc and Output    ${VOLTCTL_CONFIG} voltctl device enable ${device_id}
     Should Be Equal As Integers    ${rc}    0
     #validate olt states
     Wait Until Keyword Succeeds    60s    5s    Validate Device    ${BBSIM_OLT_SN}    ENABLED    ACTIVE    REACHABLE
@@ -71,10 +72,15 @@ Validate DHCP Assignment in ONOS
 *** Keywords ***
 Setup
     [Documentation]    Setup environment
+    Log    Setting up
+    Set Global Variable    ${KUBECTL_CONFIG}    export KUBECONFIG=%{KUBECONFIG}
+    Set Global Variable    ${VOLTCTL_CONFIG}    export VOLTCONFIG=%{VOLTCONFIG}
     Check CLI Tools Configured
     ${onos_auth}=    Create List    karaf    karaf
     ${HEADERS}    Create Dictionary    Content-Type=application/json
     Create Session    ONOS    http://${server_ip}:${ONOS_REST_PORT}    auth=${ONOS_AUTH}
+    ## TODO upload sadis ${sadis_config}
+
 
 Teardown
     [Documentation]    Delete all http sessions
