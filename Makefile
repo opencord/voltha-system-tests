@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-LINT_ARGS           ?= --verbose --configure LineTooLong:130 --ignore TooFewTestSteps --ignore TooFewKeywordSteps
+LINT_ARGS           ?= --verbose --configure LineTooLong:130 --configure TooManyTestSteps:15 --ignore TooFewTestSteps --ignore TooFewKeywordSteps
 
 
 lint:
