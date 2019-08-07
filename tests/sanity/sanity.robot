@@ -33,7 +33,7 @@ Activate Device BBSIM OLT/ONU
     [Documentation]    Validate deployment ->
     ...    create and enable bbsim device ->
     ...    re-validate deployment
-    [Tags]    activate
+    [Tags]    sanity
     #create/preprovision device
     ${rc}    ${olt_device_id}=    Run and Return Rc and Output
     ...    ${VOLTCTL_CONFIG}; voltctl device create -t openolt -H ${BBSIM_IP}:${BBSIM_PORT}
@@ -52,27 +52,36 @@ Activate Device BBSIM OLT/ONU
 
 Validate OLT Connected to ONOS
     [Documentation]    Verifies the BBSIM-OLT device is activated in onos
-    [Tags]    onosdevice
+    [Tags]    sanity
     Wait Until Keyword Succeeds    ${timeout}    5s    BBSIM OLT Device in ONOS
 
 Check EAPOL Flows in ONOS
     [Documentation]    Validates eapol flows for the onu are pushed from voltha
-    [Tags]    eapol    notready
+    [Tags]    sanity    notready
     Wait Until Keyword Succeeds    ${timeout}    5s    Verify Eapol Flows Added    ${num_onus}
 
 Validate ONU Authenticated in ONOS
     [Documentation]    Validates onu is AUTHORIZED in ONOS as bbsim will attempt to authenticate
-    [Tags]    aaa
-    Wait Until Keyword Succeeds    ${timeout}    5s    Verify Number of AAA-Users    ${num_onus}
+    [Tags]    sanity
+    Wait Until Keyword Succeeds    ${timeout}    1s    Verify Number of AAA-Users    ${num_onus}
+
+Add Subscriber-Access in ONOS
+    [Documentation]    Through the olt-app in ONOS, execute 'volt-add-subscriber-access' and validate IP Flows
+    [Tags]    sanity
+    ##     TODO: this works fine with 1 onu, but with multiple onus, we need to ensure this is executes
+    ...    prior to to dhclient starting. possible start a process after first test case to just attempt
+    ...    "volt-add-subscriber-access" to all onus periodically?
+    ${output}=    Execute ONOS Command    volt-add-subscriber-access ${of_id} 16
+    Log    ${output}
 
 Validate DHCP Assignment in ONOS
     [Documentation]    After IP Flows are pushed to the device, BBSIM will start a dhclient for the ONU.
-    [Tags]    dhcp
+    [Tags]    sanity
     Wait Until Keyword Succeeds    120s    15s    Validate DHCP Allocations    ${num_onus}
 
 Delete Device and Verify
     [Documentation]    Disable -> Delete devices via voltctl and verify its removed
-    [Tags]    deletedevice
+    [Tags]    VOL-1705
     #disable/delete onu
     ${rc}    ${output}=    Run and Return Rc and Output    ${VOLTCTL_CONFIG}; voltctl device disable ${onu_device_id}
     Should Be Equal As Integers    ${rc}    0
@@ -113,7 +122,9 @@ BBSIM OLT Device in ONOS
     : FOR    ${INDEX}    IN RANGE    0    ${length}
     \    ${value}=    Get From List    ${jsondata['devices']}    ${INDEX}
     \    ${sn}=    Get From Dictionary    ${value}    serial
+    \    ${of_id}=    Get From Dictionary    ${value}    id
     Should Be Equal As Strings    ${sn}    ${BBSIM_OLT_SN}
+    Set Suite Variable    ${of_id}
 
 Verify Eapol Flows Added
     [Arguments]    ${expected_onus}
