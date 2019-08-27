@@ -28,10 +28,9 @@ fi
 
 echo "Installing python requirements in virtualenv with pip"
 source "${VENVDIR}/bin/activate"
-pip3 install --upgrade pip
-pip3 install cryptography==2.4.2 robotframework robotframework-requests robotframework-sshlibrary  \
+pip install cryptography==2.4.2 robotframework robotframework-requests robotframework-sshlibrary  \
     pexpect robotframework-httplibrary robotframework-kafkalibrary pygments pyyaml \
     robotframework-databaselibrary psycopg2==2.7.7 paramiko==2.4.2
-pip3 install requests tinydb
+pip install requests tinydb
 
 echo "VOLTHA-System-Tests virtualenv created. Run 'source ${VENVDIR}/bin/activate'."
