@@ -1,0 +1,132 @@
+{
+  "devices": {
+    "of:000000000ac014ce": {
+      "basic": {
+        "driver": "voltha"
+      }
+    },
+    "of:0000000000000001" : {
+      "segmentrouting" : {
+        "name" : "Leaf-R1",
+        "ipv4NodeSid" : 101,
+        "ipv4Loopback" : "10.6.1.254",
+        "routerMac" : "00:00:00:00:01:80",
+        "isEdgeRouter" : true,
+        "adjacencySids" : []
+      },
+      "basic" : {
+        "driver" : "ofdpa3"
+      }
+    }
+  },
+  "apps": {
+    "org.opencord.dhcpl2relay" : {
+      "dhcpl2relay" : {
+        "dhcpServerConnectPoints" : [ "of:0000000000000001/3" ],
+        "useOltUplinkForServerPktInOut" : false
+      }
+    },
+    "org.opencord.aaa": {
+      "AAA": {
+        "radiusConnectionType" : "socket",
+        "radiusHost" : "radius.voltha.svc.cluster.local",
+        "radiusServerPort" : "1812",
+        "radiusSecret" : "SECRET"
+      }
+    },
+    "org.opencord.sadis": {
+      "sadis": {
+        "integration": {
+          "cache": {
+            "enabled": false,
+            "maxsize": 50,
+            "ttl": "PT0m"
+          }
+        },
+        "entries": [
+          {
+            "id": "ALPHe3d1cfa7-1",
+            "cTag": 901,
+            "sTag": 111,
+            "nasPortId": "",
+            "circuitId": "",
+            "remoteId": "",
+            "technologyProfileId": 64,
+            "upstreamBandwidthProfile": "Default",
+            "downstreamBandwidthProfile": "Default"
+          },
+          {
+            "id": "ALPHe3d1cfa7-2",
+            "cTag": 902,
+            "sTag": 111,
+            "nasPortId": "",
+            "circuitId": "",
+            "remoteId": "",
+            "technologyProfileId": 64,
+            "upstreamBandwidthProfile": "Default",
+            "downstreamBandwidthProfile": "Default"
+          },
+          {
+            "id": "ALPHe3d1cfa7-3",
+            "cTag": 903,
+            "sTag": 111,
+            "nasPortId": "",
+            "circuitId": "",
+            "remoteId": "",
+            "technologyProfileId": 64,
+            "upstreamBandwidthProfile": "Default",
+            "downstreamBandwidthProfile": "Default"
+          },
+          {
+            "id": "ALPHe3d1cfa7-4",
+            "cTag": 904,
+            "sTag": 111,
+            "nasPortId": "",
+            "circuitId": "",
+            "remoteId": "",
+            "technologyProfileId": 64,
+            "upstreamBandwidthProfile": "Default",
+            "downstreamBandwidthProfile": "Default"
+          },
+          {
+            "id": "ALPHe3d1cfa7-5",
+            "cTag": 905,
+            "sTag": 111,
+            "nasPortId": "",
+            "circuitId": "",
+            "remoteId": "",
+            "technologyProfileId": 64,
+            "upstreamBandwidthProfile": "Default",
+            "downstreamBandwidthProfile": "Default"
+          },
+          {
+            "id": "EC1838000853",
+            "hardwareIdentifier": "aa:bb:cc:dd:ee:ff",
+            "ipAddress": "10.192.20.206",
+            "nasId": "EC1838000853",
+            "uplinkPort": 65536
+          }
+        ]
+      },
+      "bandwidthprofile":{
+          "integration":{
+              "cache":{
+                  "enabled":true,
+                  "maxsize":40,
+                  "ttl":"PT1m"
+              }
+          },
+          "entries":[
+              {
+                  "id": "Default",
+                  "air": 100000,
+                  "cbs": 30,
+                  "cir": 600,
+                  "ebs": 30,
+                  "eir": 400
+              }
+          ]
+      }
+    }
+  }
+}
