@@ -26,62 +26,6 @@ Library           RequestsLibrary
 Library           OperatingSystem
 
 *** Keywords ***
-Execute ONOS Command
-    [Arguments]    ${cmd}
-    [Documentation]    Establishes an ssh connection to the onos contoller and executes a command
-    ${conn_id}=    SSHLibrary.Open Connection    localhost    port=8101    prompt=onos>    timeout=300s
-    SSHLibrary.Login    karaf    karaf
-    ${output}=    SSHLibrary.Execute Command    ${cmd}
-    SSHLibrary.Close Connection
-    [Return]    ${output}
-
-Validate Device
-    [Arguments]    ${serial_number}    ${admin_state}    ${oper_status}    ${connect_status}
-    [Documentation]    Parses the output of "voltctl device list" and inspects device ${serial_number}
-    ...    Arguments are matched for device states of: "admin_state", "oper_status", and "connect_status"
-    ${output}=    Run    ${VOLTCTL_CONFIG}; voltctl device list -o json
-    ${jsondata}=    To Json    ${output}
-    Log    ${jsondata}
-    ${length}=    Get Length    ${jsondata}
-    : FOR    ${INDEX}    IN RANGE    0    ${length}
-    \    ${value}=    Get From List    ${jsondata}    ${INDEX}
-    \    ${astate}=    Get From Dictionary    ${value}    adminstate
-    \    ${opstatus}=    Get From Dictionary    ${value}    operstatus
-    \    ${cstatus}=    Get From Dictionary    ${value}    connectstatus
-    \    ${sn}=    Get From Dictionary    ${value}    serialnumber
-    \    Run Keyword If    '${sn}' == '${serial_number}'    Exit For Loop
-    Should Be Equal    ${astate}    ${admin_state}    Device ${serial_number} admin_state != ENABLED    values=False
-    Should Be Equal    ${opstatus}    ${oper_status}    Device ${serial_number} oper_status != ACTIVE    values=False
-    Should Be Equal    ${cstatus}    ${connect_status}    Device ${serial_number} connect_status != REACHABLE    values=False
-
-Get Device ID From SN
-    [Arguments]    ${serial_number}
-    [Documentation]    Gets the device id by matching for ${serial_number}
-    ${output}=    Run    ${VOLTCTL_CONFIG}; voltctl device list -o json
-    ${jsondata}=    To Json    ${output}
-    Log    ${jsondata}
-    ${length}=    Get Length    ${jsondata}
-    : FOR    ${INDEX}    IN RANGE    0    ${length}
-    \    ${value}=    Get From List    ${jsondata}    ${INDEX}
-    \    ${id}=    Get From Dictionary    ${value}    id
-    \    ${sn}=    Get From Dictionary    ${value}    serialnumber
-    \    Run Keyword If    '${sn}' == '${serial_number}'    Exit For Loop
-    [Return]    ${id}
-
-Validate Device Removed
-    [Arguments]    ${id}
-    [Documentation]    Verifys that device, ${serial_number}, has been removed
-    ${output}=    Run    ${VOLTCTL_CONFIG}; voltctl device list -o json
-    ${jsondata}=    To Json    ${output}
-    Log    ${jsondata}
-    ${length}=    Get Length    ${jsondata}
-    @{ids}=    Create List
-    : FOR    ${INDEX}    IN RANGE    0    ${length}
-    \    ${value}=    Get From List    ${jsondata}    ${INDEX}
-    \    ${device_id}=    Get From Dictionary    ${value}    id
-    \    Append To List    ${ids}    ${device_id}
-    List Should Not Contain Value    ${ids}    ${id}
-
 Check CLI Tools Configured
     [Documentation]    Tests that use 'voltctl' and 'kubectl' should execute this keyword in suite setup
     # check voltctl and kubectl configured

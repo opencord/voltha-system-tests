@@ -35,17 +35,14 @@ Activate Device BBSIM OLT/ONU
     ...    re-validate deployment
     [Tags]    sanity
     #create/preprovision device
-    ${rc}    ${olt_device_id}=    Run and Return Rc and Output
-    ...    ${VOLTCTL_CONFIG}; voltctl device create -t openolt -H ${BBSIM_IP}:${BBSIM_PORT}
-    Should Be Equal As Integers    ${rc}    0
+    ${olt_device_id}=    Create Device    ${BBSIM_IP}    ${BBSIM_PORT}
     Set Suite Variable    ${olt_device_id}
     #enable device
-    ${rc}    ${output}=    Run and Return Rc and Output    ${VOLTCTL_CONFIG}; voltctl device enable ${olt_device_id}
-    Should Be Equal As Integers    ${rc}    0
+    Enable Device    ${olt_device_id}
     #validate olt states
     Wait Until Keyword Succeeds    60s    5s    Validate Device    ${BBSIM_OLT_SN}    ENABLED    ACTIVE    REACHABLE
     #validate onu states
-    Wait Until Keyword Succeeds    60s    5s    Validate Device    ${BBSIM_ONU_SN}    ENABLED    ACTIVE    REACHABLE
+    Wait Until Keyword Succeeds    60s    5s    Validate Device    ${BBSIM_ONU_SN}    ENABLED    ACTIVE    REACHABLE    onu=True    onu_reason=tech-profile-config-download-success
     #get onu device id
     ${onu_device_id}=    Get Device ID From SN    ${BBSIM_ONU_SN}
     Set Suite Variable    ${onu_device_id}
@@ -53,7 +50,7 @@ Activate Device BBSIM OLT/ONU
 Validate OLT Connected to ONOS
     [Documentation]    Verifies the BBSIM-OLT device is activated in onos
     [Tags]    sanity
-    Wait Until Keyword Succeeds    ${timeout}    5s    BBSIM OLT Device in ONOS
+    Wait Until Keyword Succeeds    ${timeout}    5s    Validate OLT Device in ONOS    ${BBSIM_OLT_SN}
 
 Check EAPOL Flows in ONOS
     [Documentation]    Validates eapol flows for the onu are pushed from voltha
@@ -71,7 +68,7 @@ Add Subscriber-Access in ONOS
     ##     TODO: this works fine with 1 onu, but with multiple onus, we need to ensure this is executes
     ...    prior to to dhclient starting. possible start a process after first test case to just attempt
     ...    "volt-add-subscriber-access" to all onus periodically?
-    ${output}=    Execute ONOS Command    volt-add-subscriber-access ${of_id} 16
+    ${output}=    Execute ONOS Command    ${server_ip}    ${ONOS_SSH_PORT}    volt-add-subscriber-access ${of_id} 16
     Log    ${output}
 
 Validate DHCP Assignment in ONOS
@@ -111,35 +108,3 @@ Setup
 Teardown
     [Documentation]    Delete all http sessions
     Delete All Sessions
-
-BBSIM OLT Device in ONOS
-    [Documentation]    Checks if bbsim olt has been connected to ONOS
-    ${resp}=    Get Request    ONOS    onos/v1/devices
-    ${jsondata}=    To Json    ${resp.content}
-    Should Not Be Empty    ${jsondata['devices']}
-    ${length}=    Get Length    ${jsondata['devices']}
-    @{serial_numbers}=    Create List
-    : FOR    ${INDEX}    IN RANGE    0    ${length}
-    \    ${value}=    Get From List    ${jsondata['devices']}    ${INDEX}
-    \    ${sn}=    Get From Dictionary    ${value}    serial
-    \    ${of_id}=    Get From Dictionary    ${value}    id
-    Should Be Equal As Strings    ${sn}    ${BBSIM_OLT_SN}
-    Set Suite Variable    ${of_id}
-
-Verify Eapol Flows Added
-    [Arguments]    ${expected_onus}
-    [Documentation]    Matches for number of eapol flows based on number of onus
-    ${eapol_flows_added}=    Execute ONOS Command    flows -s -f ADDED | grep eapol | wc -l
-    Should Contain    ${eapol_flows_added}    ${expected_onus}
-
-Verify Number of AAA-Users
-    [Arguments]    ${expected_onus}
-    [Documentation]    Matches for number of aaa-users authorized based on number of onus
-    ${aaa_users}=    Execute ONOS Command    aaa-users | grep AUTHORIZED | wc -l
-    Should Contain    ${aaa_users}    ${expected_onus}
-
-Validate DHCP Allocations
-    [Arguments]    ${expected_onus}
-    [Documentation]    Matches for number of dhcpacks based on number of onus
-    ${allocations}=    Execute ONOS Command    dhcpl2relay-allocations | grep DHCPACK | wc -l
-    Should Contain    ${allocations}    ${expected_onus}
