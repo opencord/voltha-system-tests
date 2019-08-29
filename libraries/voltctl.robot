@@ -41,7 +41,7 @@ Enable Device
     Should Be Equal As Integers    ${rc}    0
 
 Validate Device
-    [Arguments]    ${serial_number}    ${admin_state}    ${oper_status}    ${connect_status}    ${onu_reason}    ${onu}=False
+    [Arguments]    ${serial_number}    ${admin_state}    ${oper_status}    ${connect_status}    ${onu_reason}=${EMPTY}    ${onu}=False
     [Documentation]    Parses the output of "voltctl device list" and inspects device ${serial_number}
     ...    Arguments are matched for device states of: "admin_state", "oper_status", and "connect_status"
     ${output}=    Run    ${VOLTCTL_CONFIG}; voltctl device list -o json

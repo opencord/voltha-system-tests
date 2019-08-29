@@ -57,13 +57,13 @@ Verify Eapol Flows Added
     Should Contain    ${eapol_flows_added}    ${expected_onus}
 
 Verify Number of AAA-Users
-    [Arguments]    ${expected_onus}
+    [Arguments]    ${ip}    ${port}    ${expected_onus}
     [Documentation]    Matches for number of aaa-users authorized based on number of onus
-    ${aaa_users}=    Execute ONOS Command    aaa-users | grep AUTHORIZED | wc -l
+    ${aaa_users}=    Execute ONOS Command    ${ip}    ${port}    aaa-users | grep AUTHORIZED | wc -l
     Should Contain    ${aaa_users}    ${expected_onus}
 
 Validate DHCP Allocations
-    [Arguments]    ${expected_onus}
+    [Arguments]    ${ip}    ${port}    ${expected_onus}
     [Documentation]    Matches for number of dhcpacks based on number of onus
-    ${allocations}=    Execute ONOS Command    dhcpl2relay-allocations | grep DHCPACK | wc -l
+    ${allocations}=    Execute ONOS Command    ${ip}    ${port}    dhcpl2relay-allocations | grep DHCPACK | wc -l
     Should Contain    ${allocations}    ${expected_onus}

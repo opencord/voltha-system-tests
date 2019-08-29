@@ -62,7 +62,7 @@ Check EAPOL Flows in ONOS
 Validate ONU Authenticated in ONOS
     [Documentation]    Validates onu is AUTHORIZED in ONOS as bbsim will attempt to authenticate
     [Tags]    sanity
-    Wait Until Keyword Succeeds    ${timeout}    1s    Verify Number of AAA-Users    ${num_onus}
+    Wait Until Keyword Succeeds    ${timeout}    1s    Verify Number of AAA-Users    ${server_ip}    ${ONOS_SSH_PORT}    ${num_onus}
 
 Add Subscriber-Access in ONOS
     [Documentation]    Through the olt-app in ONOS, execute 'volt-add-subscriber-access' and validate IP Flows
@@ -76,7 +76,7 @@ Add Subscriber-Access in ONOS
 Validate DHCP Assignment in ONOS
     [Documentation]    After IP Flows are pushed to the device, BBSIM will start a dhclient for the ONU.
     [Tags]    sanity
-    Wait Until Keyword Succeeds    120s    15s    Validate DHCP Allocations    ${num_onus}
+    Wait Until Keyword Succeeds    120s    15s    Validate DHCP Allocations    ${server_ip}    ${ONOS_SSH_PORT}     ${num_onus}
 
 Delete Device and Verify
     [Documentation]    Disable -> Delete devices via voltctl and verify its removed
