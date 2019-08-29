@@ -56,8 +56,10 @@ Validate OLT Connected to ONOS
 
 Check EAPOL Flows in ONOS
     [Documentation]    Validates eapol flows for the onu are pushed from voltha
-    [Tags]    sanity    notready
-    Wait Until Keyword Succeeds    ${timeout}    5s    Verify Eapol Flows Added    ${num_onus}
+    [Tags]    sanity
+    ${num_flows}=    Evaluate    ${num_onus} * 4
+    ${flows_str}=    Convert To String    ${num_flows}
+    Wait Until Keyword Succeeds    ${timeout}    5s    Verify Eapol Flows Added    ${server_ip}    ${ONOS_SSH_PORT}    ${flows_str}
 
 Validate ONU Authenticated in ONOS
     [Documentation]    Validates onu is AUTHORIZED in ONOS as bbsim will attempt to authenticate

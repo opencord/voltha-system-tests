@@ -51,10 +51,10 @@ Validate OLT Device in ONOS
     Set Suite Variable    ${of_id}
 
 Verify Eapol Flows Added
-    [Arguments]    ${expected_onus}
+    [Arguments]    ${ip}    ${port}    ${expected_flows}
     [Documentation]    Matches for number of eapol flows based on number of onus
-    ${eapol_flows_added}=    Execute ONOS Command    flows -s -f ADDED | grep eapol | wc -l
-    Should Contain    ${eapol_flows_added}    ${expected_onus}
+    ${eapol_flows_added}=    Execute ONOS Command    ${ip}    ${port}    flows -s -f ADDED | grep eapol | wc -l
+    Should Contain    ${eapol_flows_added}    ${expected_flows}
 
 Verify Number of AAA-Users
     [Arguments]    ${ip}    ${port}    ${expected_onus}
