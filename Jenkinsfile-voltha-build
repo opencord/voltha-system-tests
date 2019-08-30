@@ -16,10 +16,11 @@ node ("${TestNodeName}") {
     timeout (100) {
         try {
             stage ("Parse deployment configuration file") {
-                sh returnStdout: true, script: "rm -rf helm-repo-tools ${configBaseDir}"
+                sh returnStdout: true, script: "rm -rf helm-repo-tools ${configBaseDir} kind-voltha"
                 sh returnStdout: true, script: "git clone -b ${branch} ${cordRepoUrl}/helm-repo-tools"
                 sh returnStdout: true, script: "git clone -b ${branch} ${cordRepoUrl}/${configBaseDir}"
                 sh returnStdout: true, script: "git clone https://github.com/ciena/kind-voltha.git"
+                sh returnStdout: true, script: "git clone -b ${branch} ${cordRepoUrl}/voltha-system-tests"
                 deployment_config = readYaml file: "${configBaseDir}/${configDeploymentDir}/${configFileName}.yaml"
             }
             stage('Clean up') {

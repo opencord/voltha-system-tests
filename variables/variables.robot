@@ -20,3 +20,4 @@ ${BBSIM_OLT_SN}         BBSIMOLT000
 ${BBSIM_ONU_SN}         BBSM00000001
 ${ONOS_REST_PORT}       8181
 ${ONOS_SSH_PORT}        8101
+${OLT_PORT}             9191
