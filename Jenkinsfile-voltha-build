@@ -126,7 +126,7 @@ node ("${TestNodeName}") {
                             """
                     }
                 }
-                stage('Push Tech-Profile') {
+                /*stage('Push Tech-Profile') {
                     timeout(1) {
                         waitUntil {
                             sh returnStdout: true, script: """
@@ -135,7 +135,7 @@ node ("${TestNodeName}") {
                             """
                         }
                     }
-                }
+                }*/
             }
             currentBuild.result = 'SUCCESS'
         } catch (err) {
