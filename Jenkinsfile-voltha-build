@@ -120,11 +120,10 @@ node ("${TestNodeName}") {
             if ( params.configurePod ) {
                 stage('Configure ONOS Netcfg') {
                     timeout(1) {
-                        waitUntil {
                             sh returnStdout: true, script: """
-                            curl -w '\n%{http_code}' --fail -sSL --user karaf:karaf -X POST -H Content-Type:application/json http://${deployment_config.nodes[0].ip}:30120/onos/v1/network/configuration --data @voltha-system-tests/tests/data/${configFileName}-onos-netcfg.json
+                            curl -sSL --user karaf:karaf -X POST -H Content-Type:application/json http://${deployment_config.nodes[0].ip}:30120/onos/v1/network/configuration --data @$WORKSPACE/voltha-system-tests/tests/data/${configFileName}-onos-netcfg.json
+                            curl -sSL --user karaf:karaf -X POST http://${deployment_config.nodes[0].ip}:30120/onos/v1/applications/org.onosproject.segmentrouting/active
                             """
-                        }
                     }
                 }
                 stage('Push Tech-Profile') {

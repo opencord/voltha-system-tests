@@ -52,7 +52,7 @@ Activate Device BBSIM OLT/ONU
 Validate OLT Connected to ONOS
     [Documentation]    Verifies the BBSIM-OLT device is activated in onos
     [Tags]    sanity
-    Wait Until Keyword Succeeds    ${timeout}    5s    Validate OLT Device in ONOS    ${BBSIM_OLT_SN}
+    ${of_id}=    Wait Until Keyword Succeeds    ${timeout}    5s    Validate OLT Device in ONOS    ${BBSIM_OLT_SN}
 
 Check EAPOL Flows in ONOS
     [Documentation]    Validates eapol flows for the onu are pushed from voltha

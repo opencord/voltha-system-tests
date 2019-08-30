@@ -48,7 +48,7 @@ Validate OLT Device in ONOS
     \    ${sn}=    Get From Dictionary    ${value}    serial
     \    ${of_id}=    Get From Dictionary    ${value}    id
     Should Be Equal As Strings    ${sn}    ${serial_number}
-    Set Suite Variable    ${of_id}
+    [Return]    ${of_id}
 
 Verify Eapol Flows Added
     [Arguments]    ${ip}    ${port}    ${expected_flows}
@@ -59,11 +59,13 @@ Verify Eapol Flows Added
 Verify Number of AAA-Users
     [Arguments]    ${ip}    ${port}    ${expected_onus}
     [Documentation]    Matches for number of aaa-users authorized based on number of onus
+    ##TODO: filter by onu serial number instead of count
     ${aaa_users}=    Execute ONOS Command    ${ip}    ${port}    aaa-users | grep AUTHORIZED | wc -l
     Should Contain    ${aaa_users}    ${expected_onus}
 
 Validate DHCP Allocations
     [Arguments]    ${ip}    ${port}    ${expected_onus}
     [Documentation]    Matches for number of dhcpacks based on number of onus
+    ##TODO: filter by onu serial number instead of count
     ${allocations}=    Execute ONOS Command    ${ip}    ${port}    dhcpl2relay-allocations | grep DHCPACK | wc -l
     Should Contain    ${allocations}    ${expected_onus}
