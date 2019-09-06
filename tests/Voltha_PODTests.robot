@@ -15,7 +15,6 @@
 *** Settings ***
 Documentation     Test various end-to-end scenarios 
 Suite Setup       Setup Suite
-Suite Teardown    Teardown Suite
 Test Setup        Setup
 Test Teardown     Teardown
 Library           Collections
@@ -23,9 +22,10 @@ Library           String
 Library           OperatingSystem
 Library           XML
 Library           RequestsLibrary
-Resource           ../../home/sdn/voltha/tests/atests/common/testCaseUtils.py
-Resource           ../../home/sdn/cord-tester/src/test/cord-api/Framework/Subscriber.robot
-Resource           ../../home/sdn/cord-tester/src/test/cord-api/Framework/DHCP.robot
+Library           /home/cord/voltha/tests/atests/common/testCaseUtils.py
+Resource          /home/cord/cord-tester/src/test/cord-api/Framework/Subscriber.robot
+Resource          /home/cord/cord-tester/src/test/cord-api/Framework/DHCP.robot
+Resource          /home/cord/cord-tester/src/test/cord-api/Framework/Kubernetes.robot
 Resource          ../libraries/onos.robot
 Resource          ../libraries/voltctl.robot
 Resource          ../libraries/utils.robot
@@ -49,7 +49,7 @@ Sanity E2E Test for OLT/ONU on POD
     ...    Validate successful authentication/DHCP/E2E ping for the tech profile that is used
     #[Setup]    Clean Up Linux
     [Tags]    test1
-    ${of_id}=    Wait Until Keyword Succeeds    60s    15s    Validate OLT Connected to ONOS   ${olt_serial_number}
+    ${of_id}=    Wait Until Keyword Succeeds    60s    15s    Validate OLT Device in ONOS   ${olt_serial_number}
     Wait Until Keyword Succeeds    60s    2s    Check EAPOL Flows in ONOS
     Validate Authentication    True    ${src0['dp_iface_name']}    wpa_supplicant.conf    ${src0['ip']}    ${src0['user']}    ${src0['pass']}    ${src0['container_type']}    ${src0['container_name']}
     #Validate ONU authenticated in ONOS
@@ -63,7 +63,7 @@ Sanity E2E Test for OLT/ONU on POD
 
 *** Keywords ***
 Setup Suite
-    #Set Global Variable    ${KUBECTL_CONFIG}    export KUBECONFIG=%{KUBECONFIG}
+    Set Global Variable    ${KUBECTL_CONFIG}    export KUBECONFIG=%{KUBECONFIG}
     Set Global Variable    ${export_kubeconfig}    export KUBECONFIG=${KUBERNETES_CONF}
     Set Global Variable    ${of_id}
     Set Global Variable    ${VOLTCTL_CONFIG}    export VOLTCONFIG=%{VOLTCONFIG}
@@ -80,6 +80,8 @@ Setup Suite
     ${olt_pass}=    Evaluate    ${olts}[0].get("pass")
     ${olt_serial_number}=    Evaluate    ${olts}[0].get("serial")
     ${onu_serial_number}=    Evaluate    ${onus}[0].get("serial")
+    Set Suite Variable    ${olt_serial_number}
+    Set Suite Variable    ${onu_serial_number}
     Set Suite Variable    ${olt_ip}
     Set Suite Variable    ${olt_user}
     Set Suite Variable    ${olt_pass}
@@ -126,5 +128,5 @@ Clean Up Linux
     Run Keyword And Ignore Error    Kill Linux Process    [d]hclient    ${src0['ip']}    ${src0['user']}    ${src0['pass']}    ${src0['container_type']}    ${src0['container_name']}
     Run Keyword If    '${dst0['ip']}' != '${None}'    Run Keyword And Ignore Error    Kill Linux Process    [d]hcpd    ${dst0['ip']}    ${dst0['user']}    ${dst0['pass']}    ${dst0['container_type']}    ${dst0['container_name']}
     Delete IP Addresses from Interface on Remote Host    ${src0['dp_iface_name']}    ${src0['ip']}    ${src0['user']}    ${src0['pass']}    ${src0['container_type']}    ${src0['container_name']}
-    Run Keyword If    '${dst0['ip']}' != '${None}'    Delete Interface on Remote Host    ${dst0['dp_iface_name']}.${s_tag}    ${dst0['ip']}    ${dst0['user']}    ${dst0['pass']}    ${dst0['container_type']}    ${dst0['container_name']}
+    Run Keyword If    '${dst0['ip']}' != '${None}'    Delete Interface on Remote Host    ${dst0['dp_iface_name']}.${src0['s_tag']}    ${dst0['ip']}    ${dst0['user']}    ${dst0['pass']}    ${dst0['container_type']}    ${dst0['container_name']}
 
