@@ -26,7 +26,7 @@ Library           RequestsLibrary
 Library           OperatingSystem
 
 *** Keywords ***
-Execute ONOS Command
+Execute ONOS CLI Command
     [Arguments]    ${host}    ${port}    ${cmd}
     [Documentation]    Establishes an ssh connection to the onos contoller and executes a command
     ${conn_id}=    SSHLibrary.Open Connection    ${host}    port=${port}    prompt=onos>    timeout=300s
@@ -46,27 +46,28 @@ Validate OLT Device in ONOS
     @{serial_numbers}=    Create List
     : FOR    ${INDEX}    IN RANGE    0    ${length}
     \    ${value}=    Get From List    ${jsondata['devices']}    ${INDEX}
-    \    ${sn}=    Get From Dictionary    ${value}    serial
     \    ${of_id}=    Get From Dictionary    ${value}    id
+    \    ${sn}=    Get From Dictionary    ${value}    serial
+    \    Run Keyword If    '${sn}' == '${serial_number}'    Exit For Loop
     Should Be Equal As Strings    ${sn}    ${serial_number}
     [Return]    ${of_id}
 
 Verify Eapol Flows Added
     [Arguments]    ${ip}    ${port}    ${expected_flows}
     [Documentation]    Matches for number of eapol flows based on number of onus
-    ${eapol_flows_added}=    Execute ONOS Command    ${ip}    ${port}    flows -s -f ADDED | grep eapol | grep IN_PORT | wc -l
+    ${eapol_flows_added}=    Execute ONOS CLI Command    ${ip}    ${port}    flows -s -f ADDED | grep eapol | grep IN_PORT | wc -l
     Should Contain    ${eapol_flows_added}    ${expected_flows}
 
 Verify Number of AAA-Users
     [Arguments]    ${ip}    ${port}    ${expected_onus}
     [Documentation]    Matches for number of aaa-users authorized based on number of onus
     ##TODO: filter by onu serial number instead of count
-    ${aaa_users}=    Execute ONOS Command    ${ip}    ${port}    aaa-users | grep AUTHORIZED | wc -l
+    ${aaa_users}=    Execute ONOS CLI Command    ${ip}    ${port}    aaa-users | grep AUTHORIZED | wc -l
     Should Contain    ${aaa_users}    ${expected_onus}
 
 Validate DHCP Allocations
     [Arguments]    ${ip}    ${port}    ${expected_onus}
     [Documentation]    Matches for number of dhcpacks based on number of onus
     ##TODO: filter by onu serial number instead of count
-    ${allocations}=    Execute ONOS Command    ${ip}    ${port}    dhcpl2relay-allocations | grep DHCPACK | wc -l
+    ${allocations}=    Execute ONOS CLI Command    ${ip}    ${port}    dhcpl2relay-allocations | grep DHCPACK | wc -l
     Should Contain    ${allocations}    ${expected_onus}
