@@ -24,6 +24,7 @@ Resource          ${CURDIR}/../../libraries/utils.robot
 Resource          ${CURDIR}/../../variables/variables.robot
 Suite Setup       Setup
 Suite Teardown    Teardown
+Test Teardown     Execute ONOS Command    ${server_ip}    ${ONOS_SSH_PORT}    flows -s
 
 *** Variables ***
 ${server_ip}        localhost
