@@ -24,7 +24,7 @@ Resource          ${CURDIR}/../../libraries/utils.robot
 Resource          ${CURDIR}/../../variables/variables.robot
 Suite Setup       Setup
 Suite Teardown    Teardown
-Test Teardown     Execute ONOS Command    ${server_ip}    ${ONOS_SSH_PORT}    flows -s
+Test Teardown     Execute ONOS CLI Command    ${server_ip}    ${ONOS_SSH_PORT}    flows -s
 
 *** Variables ***
 ${server_ip}        localhost
@@ -74,7 +74,7 @@ Add Subscriber-Access in ONOS
     ##     TODO: this works fine with 1 onu, but with multiple onus, we need to ensure this is executes
     ...    prior to to dhclient starting. possible start a process after first test case to just attempt
     ...    "volt-add-subscriber-access" to all onus periodically?
-    ${output}=    Execute ONOS Command    ${server_ip}    ${ONOS_SSH_PORT}    volt-add-subscriber-access ${of_id} 16
+    ${output}=    Execute ONOS CLI Command    ${server_ip}    ${ONOS_SSH_PORT}    volt-add-subscriber-access ${of_id} 16
     Log    ${output}
 
 Validate DHCP Assignment in ONOS
