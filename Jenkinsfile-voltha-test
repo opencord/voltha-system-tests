@@ -23,7 +23,7 @@ node ("${TestNodeName}") {
             stage('Download Test repos') {
                 timeout(2) {
                     sh returnStdout: true, script: """
-                    rm -rf helm-charts cord-tester voltha
+                    rm -rf helm-charts cord-tester voltha voltha-system-tests
                     git clone -b ${branch} ${cordRepoUrl}/helm-charts
                     git clone -b ${branch} ${cordRepoUrl}/cord-tester
                     git clone -b ${branch} ${cordRepoUrl}/voltha-system-tests
@@ -35,8 +35,9 @@ node ("${TestNodeName}") {
                 timeout(180) {
                     sh """
                     export KUBECONFIG=$WORKSPACE/${configBaseDir}/${configKubernetesDir}/${configFileName}.conf
+                    export VOLTCONFIG=/home/cord/.volt/config
                     cd $WORKSPACE/voltha-system-tests/tests
-                    robot --removekeywords wuks -d Log -T -l Voltha_PODTests -V $WORKSPACE/${configBaseDir}/${configDeploymentDir}/${configFileName}.yaml -v POD_NAME:${configFileName} -v KUBERNETES_CONFIGS_DIR:$WORKSPACE/${configBaseDir}/${configKubernetesDir} Voltha_PODTests.robot || true
+                    robot --removekeywords wuks -d Log -V $WORKSPACE/${configBaseDir}/${configDeploymentDir}/${configFileName}.yaml -v POD_NAME:${configFileName} -v KUBERNETES_CONFIGS_DIR:$WORKSPACE/${configBaseDir}/${configKubernetesDir} Voltha_PODTests.robot || true
                     """
                 }
             }
