@@ -22,11 +22,11 @@ Library           String
 Library           OperatingSystem
 Library           XML
 Library           RequestsLibrary
-Library           /home/cord/voltha/tests/atests/common/testCaseUtils.py
-Resource          /home/cord/cord-tester/src/test/cord-api/Framework/Subscriber.robot
-Resource          /home/cord/cord-tester/src/test/cord-api/Framework/Voltha_OLT.robot
-Resource          /home/cord/cord-tester/src/test/cord-api/Framework/DHCP.robot
-Resource          /home/cord/cord-tester/src/test/cord-api/Framework/Kubernetes.robot
+Library           %{HOME}/voltha/tests/atests/common/testCaseUtils.py
+Resource          %{HOME}/cord-tester/src/test/cord-api/Framework/Subscriber.robot
+Resource          %{HOME}/cord-tester/src/test/cord-api/Framework/OLT.robot
+Resource          %{HOME}/cord-tester/src/test/cord-api/Framework/DHCP.robot
+Resource          %{HOME}/cord-tester/src/test/cord-api/Framework/Kubernetes.robot
 Resource          ../libraries/onos.robot
 Resource          ../libraries/voltctl.robot
 Resource          ../libraries/utils.robot
