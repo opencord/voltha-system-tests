@@ -1,4 +1,4 @@
-# Copyright 2017-present Open Networking Foundation
+#Copyright 2017-present Open Networking Foundation
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -24,6 +24,7 @@ Library           XML
 Library           RequestsLibrary
 Library           /home/cord/voltha/tests/atests/common/testCaseUtils.py
 Resource          /home/cord/cord-tester/src/test/cord-api/Framework/Subscriber.robot
+Resource          /home/cord/cord-tester/src/test/cord-api/Framework/Voltha_OLT.robot
 Resource          /home/cord/cord-tester/src/test/cord-api/Framework/DHCP.robot
 Resource          /home/cord/cord-tester/src/test/cord-api/Framework/Kubernetes.robot
 Resource          ../libraries/onos.robot
@@ -117,8 +118,8 @@ Setup
 
 Teardown
     [Documentation]    kills processes and cleans up interfaces on src+dst servers
-    #Get VOLTHA Status
-    #Get ONOS Status
+    Get VOLTHA Status
+    Get ONOS Status
     Clean Up Linux
     Log Kubernetes Containers Logs Since Time    ${datetime}    ${container_list}
 
