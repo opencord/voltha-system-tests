@@ -22,11 +22,11 @@ Library           String
 Library           OperatingSystem
 Library           XML
 Library           RequestsLibrary
-Library           %{HOME}/voltha/tests/atests/common/testCaseUtils.py
-Resource          %{HOME}/cord-tester/src/test/cord-api/Framework/Subscriber.robot
-Resource          %{HOME}/cord-tester/src/test/cord-api/Framework/OLT.robot
-Resource          %{HOME}/cord-tester/src/test/cord-api/Framework/DHCP.robot
-Resource          %{HOME}/cord-tester/src/test/cord-api/Framework/Kubernetes.robot
+Library           ../../voltha/tests/atests/common/testCaseUtils.py
+Resource          ../../cord-tester/src/test/cord-api/Framework/Subscriber.robot
+Resource          ../../cord-tester/src/test/cord-api/Framework/Voltha_OLT.robot
+Resource          ../../cord-tester/src/test/cord-api/Framework/DHCP.robot
+Resource          ../../cord-tester/src/test/cord-api/Framework/Kubernetes.robot
 Resource          ../libraries/onos.robot
 Resource          ../libraries/voltctl.robot
 Resource          ../libraries/utils.robot
@@ -43,6 +43,7 @@ ${VOLTHA_POD_NUM}           8
 ${timeout}          90s
 ${num_onus}         1
 ${of_id}            0
+${logical_id}            0
 
 *** Test Cases ***
 Sanity E2E Test for OLT/ONU on POD
@@ -104,22 +105,25 @@ Setup Suite
 
 Setup
     #create/preprovision device
-    ${olt_device_id}=    Create Device    ${olt_ip}    ${OLT_PORT}
-    Set Suite Variable    ${olt_device_id}
+    #${olt_device_id}=    Create Device    ${olt_ip}    ${OLT_PORT}
+    #Set Suite Variable    ${olt_device_id}
     #enable device
-    Enable Device    ${olt_device_id}
+    #Enable Device    ${olt_device_id}
     #validate olt states
     Wait Until Keyword Succeeds    60s    5s    Validate Device    ${olt_serial_number}    ENABLED    ACTIVE    REACHABLE
     #validate onu states
-    Wait Until Keyword Succeeds    60s    5s    Validate Device    ${onu_serial_number}    ENABLED    ACTIVE    REACHABLE    onu=True    onu_reason=tech-profile-config-download-success
+    #Wait Until Keyword Succeeds    60s    5s    Validate Device    ${onu_serial_number}    ENABLED    ACTIVE    REACHABLE    onu=True    onu_reason=tech-profile-config-download-success
     #get onu device id
     ${onu_device_id}=    Get Device ID From SN    ${onu_serial_number}
     Set Suite Variable    ${onu_device_id}
+    ${logical_id}=    Get Logical Device ID From SN    ${olt_serial_number}
+    Set Suite Variable    ${logical_id}
 
 Teardown
     [Documentation]    kills processes and cleans up interfaces on src+dst servers
-    Get VOLTHA Status
-    Get ONOS Status
+    Get Device Output from Voltha    ${of_id}
+    Get Logical Device Output from Voltha    ${logical_id}
+    Get ONOS Command output    ${k8s_node_ip}
     Clean Up Linux
     Log Kubernetes Containers Logs Since Time    ${datetime}    ${container_list}
 

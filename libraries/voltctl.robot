@@ -40,6 +40,30 @@ Enable Device
     ${rc}    ${output}=    Run and Return Rc and Output    ${VOLTCTL_CONFIG}; voltctl device enable ${device_id}
     Should Be Equal As Integers    ${rc}    0
 
+Get Device Flows from Voltha
+    [Arguments]    ${device_id}
+    ${rc}    ${output}=    Run and Return Rc and Output    ${VOLTCTL_CONFIG}; voltctl device flows ${device_id}
+    Should Be Equal As Integers    ${rc}    0
+    [Return]    ${output}
+
+Get Logical Device Output from Voltha
+    [Arguments]    ${device_id}
+    ${rc1}    ${flows}=    Run and Return Rc and Output    ${VOLTCTL_CONFIG}; voltctl logicaldevice flows ${device_id}
+    ${rc2}    ${ports}=    Run and Return Rc and Output    ${VOLTCTL_CONFIG}; voltctl logicaldevice ports ${device_id}
+    Log    ${flows}
+    Log    ${ports}
+    Should Be Equal As Integers    ${rc1}    0
+    Should Be Equal As Integers    ${rc2}    0
+
+Get Device Output from Voltha
+    [Arguments]    ${device_id}
+    ${rc1}    ${flows}=    Run and Return Rc and Output    ${VOLTCTL_CONFIG}; voltctl device flows ${device_id}
+    ${rc2}    ${ports}=    Run and Return Rc and Output    ${VOLTCTL_CONFIG}; voltctl device ports ${device_id}
+    Log    ${flows}
+    Log    ${ports}
+    Should Be Equal As Integers    ${rc1}    0
+    Should Be Equal As Integers    ${rc2}    0
+
 Validate Device
     [Arguments]    ${serial_number}    ${admin_state}    ${oper_status}    ${connect_status}    ${onu_reason}=${EMPTY}    ${onu}=False
     [Documentation]    Parses the output of "voltctl device list" and inspects device ${serial_number}
@@ -72,6 +96,20 @@ Get Device ID From SN
     : FOR    ${INDEX}    IN RANGE    0    ${length}
     \    ${value}=    Get From List    ${jsondata}    ${INDEX}
     \    ${id}=    Get From Dictionary    ${value}    id
+    \    ${sn}=    Get From Dictionary    ${value}    serialnumber
+    \    Run Keyword If    '${sn}' == '${serial_number}'    Exit For Loop
+    [Return]    ${id}
+
+Get Logical Device ID From SN
+    [Arguments]    ${serial_number}
+    [Documentation]    Gets the device id by matching for ${serial_number}
+    ${output}=    Run    ${VOLTCTL_CONFIG}; voltctl device list -o json
+    ${jsondata}=    To Json    ${output}
+    Log    ${jsondata}
+    ${length}=    Get Length    ${jsondata}
+    : FOR    ${INDEX}    IN RANGE    0    ${length}
+    \    ${value}=    Get From List    ${jsondata}    ${INDEX}
+    \    ${id}=    Get From Dictionary    ${value}    parentid
     \    ${sn}=    Get From Dictionary    ${value}    serialnumber
     \    Run Keyword If    '${sn}' == '${serial_number}'    Exit For Loop
     [Return]    ${id}
