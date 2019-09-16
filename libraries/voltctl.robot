@@ -37,17 +37,20 @@ Create Device
 
 Enable Device
     [Arguments]    ${device_id}
+    [Documentation]    Enables a device in VOLTHA
     ${rc}    ${output}=    Run and Return Rc and Output    ${VOLTCTL_CONFIG}; voltctl device enable ${device_id}
     Should Be Equal As Integers    ${rc}    0
 
 Get Device Flows from Voltha
     [Arguments]    ${device_id}
+    [Documentation]    Gets device flows from VOLTHA
     ${rc}    ${output}=    Run and Return Rc and Output    ${VOLTCTL_CONFIG}; voltctl device flows ${device_id}
     Should Be Equal As Integers    ${rc}    0
     [Return]    ${output}
 
 Get Logical Device Output from Voltha
     [Arguments]    ${device_id}
+    [Documentation]    Gets logicaldevice flows and ports from VOLTHA
     ${rc1}    ${flows}=    Run and Return Rc and Output    ${VOLTCTL_CONFIG}; voltctl logicaldevice flows ${device_id}
     ${rc2}    ${ports}=    Run and Return Rc and Output    ${VOLTCTL_CONFIG}; voltctl logicaldevice ports ${device_id}
     Log    ${flows}
@@ -57,6 +60,7 @@ Get Logical Device Output from Voltha
 
 Get Device Output from Voltha
     [Arguments]    ${device_id}
+    [Documentation]    Gets device flows and ports from VOLTHA
     ${rc1}    ${flows}=    Run and Return Rc and Output    ${VOLTCTL_CONFIG}; voltctl device flows ${device_id}
     ${rc2}    ${ports}=    Run and Return Rc and Output    ${VOLTCTL_CONFIG}; voltctl device ports ${device_id}
     Log    ${flows}
@@ -65,7 +69,8 @@ Get Device Output from Voltha
     Should Be Equal As Integers    ${rc2}    0
 
 Validate Device
-    [Arguments]    ${serial_number}    ${admin_state}    ${oper_status}    ${connect_status}    ${onu_reason}=${EMPTY}    ${onu}=False
+    [Arguments]    ${serial_number}    ${admin_state}    ${oper_status}
+    ....    ${connect_status}    ${onu_reason}=${EMPTY}    ${onu}=False
     [Documentation]    Parses the output of "voltctl device list" and inspects device ${serial_number}
     ...    Arguments are matched for device states of: "admin_state", "oper_status", and "connect_status"
     ${output}=    Run    ${VOLTCTL_CONFIG}; voltctl device list -o json
@@ -82,8 +87,10 @@ Validate Device
     \    Run Keyword If    '${sn}' == '${serial_number}'    Exit For Loop
     Should Be Equal    ${astate}    ${admin_state}    Device ${serial_number} admin_state != ENABLED    values=False
     Should Be Equal    ${opstatus}    ${oper_status}    Device ${serial_number} oper_status != ACTIVE    values=False
-    Should Be Equal    ${cstatus}    ${connect_status}    Device ${serial_number} connect_status != REACHABLE    values=False
-    Run Keyword If    '${onu}' == 'True'    Should Be Equal    ${mib_state}    ${onu_reason}    Device ${serial_number} mib_state incorrect    values=False
+    Should Be Equal    ${cstatus}    ${connect_status}
+    ....    Device ${serial_number} connect_status != REACHABLE    values=False
+    Run Keyword If    '${onu}' == 'True'    Should Be Equal    ${mib_state}    ${onu_reason}
+    ....    Device ${serial_number} mib_state incorrect    values=False
 
 
 Get Device ID From SN

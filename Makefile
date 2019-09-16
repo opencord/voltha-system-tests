@@ -12,8 +12,35 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-LINT_ARGS           ?= --verbose --configure LineTooLong:130 --configure TooManyTestSteps:15 --ignore TooFewTestSteps --ignore TooFewKeywordSteps
+# use bash for pushd/popd, and to fail quickly. virtualenv's activate
+# has undefined variables, so no -u
+SHELL = bash -e -o pipefail
 
+# Arguments
+LINT_ARGS 	?= --verbose --configure LineTooLong:120 --configure TooManyTestSteps:15
 
-lint:
-	rflint $(LINT_ARGS) .
+# virtualenv for the robot tools
+vst_venv:
+	virtualenv $@ ;\
+	source ./$@/bin/activate ;\
+	pip install -r requirements.txt
+
+test: lint
+
+lint: vst_venv
+	source ./vst_venv/bin/activate ;\
+	set -u ;\
+	rflint $(LINT_ARGS) tests libraries variables
+
+sanity: vst_venv
+	source ./vst_venv/bin/activate ;\
+	set -u ;\
+	cd tests/sanity ;\
+	robot --exclude notready sanity.robot
+
+clean:
+
+# find . -name output.xml -name report.xml -name log.html -print
+
+clean-all: clean
+	rm -rf vst_venv
