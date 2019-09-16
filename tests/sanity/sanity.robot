@@ -17,19 +17,19 @@
 Documentation     Creates bbsim olt/onu and validates activataion
 ...               Assumes voltha-go, go-based onu/olt adapters, and bbsim are installed
 ...               voltctl and kubectl should be configured prior to running these tests
+Suite Setup       Setup
+Suite Teardown    Teardown
+Test Teardown     Execute ONOS CLI Command    ${server_ip}    ${ONOS_SSH_PORT}    flows -s
 Library           OperatingSystem
 Resource          ${CURDIR}/../../libraries/onos.robot
 Resource          ${CURDIR}/../../libraries/voltctl.robot
 Resource          ${CURDIR}/../../libraries/utils.robot
 Resource          ${CURDIR}/../../variables/variables.robot
-Suite Setup       Setup
-Suite Teardown    Teardown
-Test Teardown     Execute ONOS CLI Command    ${server_ip}    ${ONOS_SSH_PORT}    flows -s
 
 *** Variables ***
-${server_ip}        localhost
-${timeout}          90s
-${num_onus}         1
+${server_ip}      localhost
+${timeout}        90s
+${num_onus}       1
 
 *** Test Cases ***
 Activate Device BBSIM OLT/ONU
@@ -43,9 +43,11 @@ Activate Device BBSIM OLT/ONU
     #enable device
     Enable Device    ${olt_device_id}
     #validate olt states
-    Wait Until Keyword Succeeds    60s    5s    Validate Device    ${BBSIM_OLT_SN}    ENABLED    ACTIVE    REACHABLE
+    Wait Until Keyword Succeeds    60s    5s    Validate Device    ${BBSIM_OLT_SN}    ENABLED    ACTIVE
+    ...    REACHABLE
     #validate onu states
-    Wait Until Keyword Succeeds    60s    5s    Validate Device    ${BBSIM_ONU_SN}    ENABLED    ACTIVE    REACHABLE    onu=True    onu_reason=tech-profile-config-download-success
+    Wait Until Keyword Succeeds    60s    5s    Validate Device    ${BBSIM_ONU_SN}    ENABLED    ACTIVE
+    ...    REACHABLE    onu=True    onu_reason=tech-profile-config-download-success
     #get onu device id
     ${onu_device_id}=    Get Device ID From SN    ${BBSIM_ONU_SN}
     Set Suite Variable    ${onu_device_id}
@@ -71,16 +73,16 @@ Validate ONU Authenticated in ONOS
 Add Subscriber-Access in ONOS
     [Documentation]    Through the olt-app in ONOS, execute 'volt-add-subscriber-access' and validate IP Flows
     [Tags]    sanity
-    ##     TODO: this works fine with 1 onu, but with multiple onus, we need to ensure this is executes
-    ...    prior to to dhclient starting. possible start a process after first test case to just attempt
-    ...    "volt-add-subscriber-access" to all onus periodically?
+    ##    TODO: this works fine with 1 onu, but with multiple onus, we need to ensure this is executes
+    ##    prior to to dhclient starting. possible start a process after first test case to just attempt
+    ##    "volt-add-subscriber-access" to all onus periodically?
     ${output}=    Execute ONOS CLI Command    ${server_ip}    ${ONOS_SSH_PORT}    volt-add-subscriber-access ${of_id} 16
     Log    ${output}
 
 Validate DHCP Assignment in ONOS
     [Documentation]    After IP Flows are pushed to the device, BBSIM will start a dhclient for the ONU.
     [Tags]    sanity
-    Wait Until Keyword Succeeds    120s    15s    Validate DHCP Allocations    ${server_ip}    ${ONOS_SSH_PORT}     ${num_onus}
+    Wait Until Keyword Succeeds    120s    15s    Validate DHCP Allocations    ${server_ip}    ${ONOS_SSH_PORT}    ${num_onus}
 
 Delete Device and Verify
     [Documentation]    Disable -> Delete devices via voltctl and verify its removed
@@ -88,14 +90,16 @@ Delete Device and Verify
     #disable/delete onu
     ${rc}    ${output}=    Run and Return Rc and Output    ${VOLTCTL_CONFIG}; voltctl device disable ${onu_device_id}
     Should Be Equal As Integers    ${rc}    0
-    Wait Until Keyword Succeeds    60s    5s    Validate Device    ${BBSIM_ONU_SN}    DISABLED    UNKNOWN    REACHABLE
+    Wait Until Keyword Succeeds    60s    5s    Validate Device    ${BBSIM_ONU_SN}    DISABLED    UNKNOWN
+    ...    REACHABLE
     ${rc}    ${output}=    Run and Return Rc and Output    ${VOLTCTL_CONFIG}; voltctl device delete ${onu_device_id}
     Should Be Equal As Integers    ${rc}    0
     Wait Until Keyword Succeeds    60s    5s    Validate Device Removed    ${onu_device_id}
     #disable/delete olt
     ${rc}    ${output}=    Run and Return Rc and Output    ${VOLTCTL_CONFIG}; voltctl device disable ${olt_device_id}
     Should Be Equal As Integers    ${rc}    0
-    Wait Until Keyword Succeeds    60s    5s    Validate Device    ${BBSIM_OLT_SN}    DISABLED    UNKNOWN    REACHABLE
+    Wait Until Keyword Succeeds    60s    5s    Validate Device    ${BBSIM_OLT_SN}    DISABLED    UNKNOWN
+    ...    REACHABLE
     ${rc}    ${output}=    Run and Return Rc and Output    ${VOLTCTL_CONFIG}; voltctl device delete ${olt_device_id}
     Should Be Equal As Integers    ${rc}    0
     Wait Until Keyword Succeeds    60s    5s    Validate Device Removed    ${olt_device_id}

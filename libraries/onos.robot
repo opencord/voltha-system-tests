@@ -37,35 +37,37 @@ Execute ONOS CLI Command
     [Return]    ${output}
 
 Validate OLT Device in ONOS
-    [Documentation]    Checks if olt has been connected to ONOS
     [Arguments]    ${serial_number}
+    [Documentation]    Checks if olt has been connected to ONOS
     ${resp}=    Get Request    ONOS    onos/v1/devices
     ${jsondata}=    To Json    ${resp.content}
     Should Not Be Empty    ${jsondata['devices']}
     ${length}=    Get Length    ${jsondata['devices']}
     @{serial_numbers}=    Create List
-    : FOR    ${INDEX}    IN RANGE    0    ${length}
-    \    ${value}=    Get From List    ${jsondata['devices']}    ${INDEX}
-    \    ${of_id}=    Get From Dictionary    ${value}    id
-    \    ${sn}=    Get From Dictionary    ${value}    serial
-    \    Run Keyword If    '${sn}' == '${serial_number}'    Exit For Loop
+    FOR    ${INDEX}    IN RANGE    0    ${length}
+        ${value}=    Get From List    ${jsondata['devices']}    ${INDEX}
+        ${of_id}=    Get From Dictionary    ${value}    id
+        ${sn}=    Get From Dictionary    ${value}    serial
+        Run Keyword If    '${sn}' == '${serial_number}'    Exit For Loop
+    END
     Should Be Equal As Strings    ${sn}    ${serial_number}
     [Return]    ${of_id}
 
 Get ONU Port in ONOS
+    [Arguments]    ${onu_serial_number}    ${olt_of_id}
     [Documentation]    Retrieves ONU port for the ONU in ONOS
-    [Arguments]    ${onu_serial_number}   ${olt_of_id}
     ${resp}=    Get Request    ONOS    onos/v1/devices/${olt_of_id}/ports
     ${jsondata}=    To Json    ${resp.content}
     Should Not Be Empty    ${jsondata['ports']}
     ${length}=    Get Length    ${jsondata['ports']}
     @{ports}=    Create List
-    : FOR    ${INDEX}    IN RANGE    0    ${length}
-    \    ${value}=    Get From List    ${jsondata['ports']}    ${INDEX}
-    \    ${annotations}=    Get From Dictionary    ${value}    annotations
-    \    ${onu_port}=    Get From Dictionary    ${value}    port
-    \    ${portName}=    Get From Dictionary    ${annotations}    portName
-    \    Run Keyword If    '${portName}' == '${onu_serial_number}'    Exit For Loop
+    FOR    ${INDEX}    IN RANGE    0    ${length}
+        ${value}=    Get From List    ${jsondata['ports']}    ${INDEX}
+        ${annotations}=    Get From Dictionary    ${value}    annotations
+        ${onu_port}=    Get From Dictionary    ${value}    port
+        ${portName}=    Get From Dictionary    ${annotations}    portName
+        Run Keyword If    '${portName}' == '${onu_serial_number}'    Exit For Loop
+    END
     Should Be Equal As Strings    ${portName}    ${onu_serial_number}
     [Return]    ${onu_port}
 
