@@ -1,0 +1,13 @@
+cryptography==2.4.2
+paramiko==2.4.2
+pexpect
+psycopg2==2.7.7
+pygments
+pyyaml
+robotframework
+robotframework-databaselibrary
+robotframework-httplibrary
+robotframework-kafkalibrary
+robotframework-lint
+robotframework-requests
+robotframework-sshlibrary
