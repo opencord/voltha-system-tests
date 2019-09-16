@@ -13,11 +13,11 @@
 # limitations under the License.
 
 *** Variables ***
-${BBSIM_IP}             bbsim.voltha.svc
-${BBSIM_PORT}           50060
-${BBSIM_DEVICE_ID}      of:0000626273696d76
-${BBSIM_OLT_SN}         BBSIMOLT000
-${BBSIM_ONU_SN}         BBSM00000001
-${ONOS_REST_PORT}       30120
-${ONOS_SSH_PORT}        30115
-${OLT_PORT}             9191
+${BBSIM_IP}       bbsim.voltha.svc
+${BBSIM_PORT}     50060
+${BBSIM_DEVICE_ID}    of:0000626273696d76
+${BBSIM_OLT_SN}    BBSIMOLT000
+${BBSIM_ONU_SN}    BBSM00000001
+${ONOS_REST_PORT}    30120
+${ONOS_SSH_PORT}    30115
+${OLT_PORT}       9191
