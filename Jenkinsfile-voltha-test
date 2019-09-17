@@ -35,6 +35,8 @@ node ("${TestNodeName}") {
                 timeout(180) {
                     sh """
                     export KUBECONFIG=$WORKSPACE/${configBaseDir}/${configKubernetesDir}/${configFileName}.conf
+                    screen -dmS voltha-api-minimal bash -c 'while true; do kubectl port-forward -n voltha service/voltha-api 55555:55555; done'
+                    screen -dmS voltha-ssh kubectl port-forward -n voltha service/voltha-cli 5022:5022
                     export VOLTCONFIG=/home/cord/.volt/config
                     cd $WORKSPACE/voltha-system-tests/tests
                     robot --removekeywords wuks -d Log -V $WORKSPACE/${configBaseDir}/${configDeploymentDir}/${configFileName}.yaml -v POD_NAME:${configFileName} -v KUBERNETES_CONFIGS_DIR:$WORKSPACE/${configBaseDir}/${configKubernetesDir} Voltha_PODTests.robot || true
