@@ -22,6 +22,30 @@
       "revId": "b63f98ef9ff980714dd131996e54c60990e64948",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "50829638_6c73ac59",
+        "filename": "tests/Voltha_PODTests.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1000011
+      },
+      "writtenOn": "2019-09-17T04:26:19Z",
+      "side": 1,
+      "message": "Previously there were uncommented and commented (previous revision lines 113 and 115) - this is equivalent.",
+      "parentUuid": "9a247f1a_ecd9d9a3",
+      "range": {
+        "startLine": 128,
+        "startChar": 4,
+        "endLine": 128,
+        "endChar": 5
+      },
+      "revId": "b63f98ef9ff980714dd131996e54c60990e64948",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
     }
   ]
 }
