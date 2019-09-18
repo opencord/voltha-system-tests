@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8a471b36_43dffc56",
+        "filename": "Makefile",
+        "patchSetId": 3
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1000010
+      },
+      "writtenOn": "2019-09-18T00:13:19Z",
+      "side": 1,
+      "message": "In the Jenkins job we\u0027re running the test like this:\n\nrobot -v ONOS_REST_PORT:8181 -v ONOS_SSH_PORT:8101 -e notready --critical sanity --noncritical VOL-1705 -v num_onus:1 sanity.robot",
+      "range": {
+        "startLine": 49,
+        "startChar": 1,
+        "endLine": 49,
+        "endChar": 38
+      },
+      "revId": "fb7e69624dab308872788914ff6ca2f4e1591745",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    }
+  ]
+}
