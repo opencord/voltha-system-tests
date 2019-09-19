@@ -9,18 +9,18 @@
       "max_gem_payload_size": "auto"
    },
    "us_scheduler": {
-      "additional_bw": "auto",
+      "additional_bw": "AdditionalBW_Auto",
       "direction": "UPSTREAM",
       "priority": 0,
       "weight": 0,
-      "q_sched_policy": "hybrid"
+      "q_sched_policy": "Hybrid"
    },
    "ds_scheduler": {
-      "additional_bw": "auto",
+      "additional_bw": "AdditionalBW_Auto",
       "direction": "DOWNSTREAM",
       "priority": 0,
       "weight": 0,
-      "q_sched_policy": "hybrid"
+      "q_sched_policy": "Hybrid"
    },
    "upstream_gem_port_attribute_list": [
       {
