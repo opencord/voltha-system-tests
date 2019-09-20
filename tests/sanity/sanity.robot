@@ -84,7 +84,7 @@ Validate DHCP Assignment in ONOS
 
 Delete Device and Verify
     [Documentation]    Disable -> Delete devices via voltctl and verify its removed
-    [Tags]    VOL-1705
+    [Tags]    sanity
     #disable/delete onu
     ${rc}    ${output}=    Run and Return Rc and Output    ${VOLTCTL_CONFIG}; voltctl device disable ${onu_device_id}
     Should Be Equal As Integers    ${rc}    0
