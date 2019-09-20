@@ -52,7 +52,7 @@ Sanity E2E Test for OLT/ONU on POD
     #[Setup]    Clean Up Linux
     [Tags]    test1
     ${of_id}=    Wait Until Keyword Succeeds    60s    15s    Validate OLT Device in ONOS   ${olt_serial_number}
-    Wait Until Keyword Succeeds    60s    2s    Verify Eapol Flows Added   ${k8s_node_ip}    ${ONOS_SSH_PORT}    5
+    #Wait Until Keyword Succeeds    60s    2s    Verify Eapol Flows Added   ${k8s_node_ip}    ${ONOS_SSH_PORT}    5
     Validate Authentication    True    ${src0['dp_iface_name']}    wpa_supplicant.conf    ${src0['ip']}    ${src0['user']}    ${src0['pass']}    ${src0['container_type']}    ${src0['container_name']}
     #Validate ONU authenticated in ONOS
     Wait Until Keyword Succeeds    90s    2s    Verify Number of AAA-Users    ${k8s_node_ip}    ${ONOS_SSH_PORT}    ${num_onus}
