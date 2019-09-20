@@ -23,7 +23,7 @@
     "org.opencord.dhcpl2relay" : {
       "dhcpl2relay" : {
         "dhcpServerConnectPoints" : [ "of:0000000000000001/3" ],
-        "useOltUplinkForServerPktInOut" : false
+        "useOltUplinkForServerPktInOut" : true
       }
     },
     "org.opencord.aaa": {
@@ -52,8 +52,8 @@
             "circuitId": "",
             "remoteId": "",
             "technologyProfileId": 64,
-            "upstreamBandwidthProfile": "Default",
-            "downstreamBandwidthProfile": "Default"
+            "upstreamBandwidthProfile": "User_Bandwidth1",
+            "downstreamBandwidthProfile": "User_Bandwidth1"
           },
           {
             "id": "ALPHe3d1cfa7-2",
@@ -63,8 +63,8 @@
             "circuitId": "",
             "remoteId": "",
             "technologyProfileId": 64,
-            "upstreamBandwidthProfile": "Default",
-            "downstreamBandwidthProfile": "Default"
+            "upstreamBandwidthProfile": "User_Bandwidth1",
+            "downstreamBandwidthProfile": "User_Bandwidth1"
           },
           {
             "id": "ALPHe3d1cfa7-3",
@@ -74,8 +74,8 @@
             "circuitId": "",
             "remoteId": "",
             "technologyProfileId": 64,
-            "upstreamBandwidthProfile": "Default",
-            "downstreamBandwidthProfile": "Default"
+            "upstreamBandwidthProfile": "User_Bandwidth1",
+            "downstreamBandwidthProfile": "User_Bandwidth1"
           },
           {
             "id": "ALPHe3d1cfa7-4",
@@ -85,8 +85,8 @@
             "circuitId": "",
             "remoteId": "",
             "technologyProfileId": 64,
-            "upstreamBandwidthProfile": "Default",
-            "downstreamBandwidthProfile": "Default"
+            "upstreamBandwidthProfile": "User_Bandwidth1",
+            "downstreamBandwidthProfile": "User_Bandwidth1"
           },
           {
             "id": "ALPHe3d1cfa7-5",
@@ -96,8 +96,8 @@
             "circuitId": "",
             "remoteId": "",
             "technologyProfileId": 64,
-            "upstreamBandwidthProfile": "Default",
-            "downstreamBandwidthProfile": "Default"
+            "upstreamBandwidthProfile": "User_Bandwidth1",
+            "downstreamBandwidthProfile": "User_Bandwidth1"
           },
           {
             "id": "EC1838000853",
@@ -124,7 +124,16 @@
                   "cir": 600,
                   "ebs": 30,
                   "eir": 400
+              },
+              {
+                  "id": "User_Bandwidth1",
+                  "air": 100000,
+                  "cbs": 10000,
+                  "cir": 5000,
+                  "ebs": 1000,
+                  "eir": 5000
               }
+
           ]
       }
     }
