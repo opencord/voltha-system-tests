@@ -37,6 +37,7 @@ Execute ONOS CLI Command
     [Return]    ${output}
 
 Validate OLT Device in ONOS
+#    FIXME use volt-olts to check that the OLT is ONOS
     [Documentation]    Checks if olt has been connected to ONOS
     [Arguments]    ${serial_number}
     ${resp}=    Get Request    ONOS    onos/v1/devices

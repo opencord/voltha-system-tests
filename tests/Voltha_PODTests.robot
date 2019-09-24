@@ -12,6 +12,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+# FIXME Can we use the same test against BBSim and Hardware?
+
 *** Settings ***
 Documentation     Test various end-to-end scenarios 
 Suite Setup       Setup Suite
