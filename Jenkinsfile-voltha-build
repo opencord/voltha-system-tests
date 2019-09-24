@@ -16,18 +16,22 @@ node ("${TestNodeName}") {
     timeout (100) {
         try {
             stage ("Parse deployment configuration file") {
-                sh returnStdout: true, script: "rm -rf helm-repo-tools ${configBaseDir} voltha-system-tests"
+                sh returnStdout: true, script: "rm -rf helm-repo-tools ${configBaseDir} voltha-system-tests kind-voltha"
                 sh returnStdout: true, script: "git clone -b master ${cordRepoUrl}/helm-repo-tools"
                 sh returnStdout: true, script: "git clone -b master ${cordRepoUrl}/${configBaseDir}"
                 sh returnStdout: true, script: "git clone -b master ${cordRepoUrl}/voltha-system-tests"
+                sh returnStdout: true, script: "git clone https://github.com/ciena/kind-voltha.git"
                 deployment_config = readYaml file: "${configBaseDir}/${configDeploymentDir}/${configFileName}.yaml"
             }
             stage('Clean up') {
-                timeout(10) {
+              timeout(10) {
                     sh returnStdout: true, script: """
                     export KUBECONFIG=$WORKSPACE/${configBaseDir}/${configKubernetesDir}/${configFileName}.conf
-                    cd kind-voltha/
-                    DEPLOY_K8S=no ./voltha down
+                    for hchart in \$(helm list -q | grep -E -v 'docker-registry|mavenrepo|ponnet');
+                    do
+                        echo "Purging chart: \${hchart}"
+                        helm delete --purge "\${hchart}"
+                    done
                     """
                     timeout(5) {
                         waitUntil {
@@ -116,25 +120,49 @@ node ("${TestNodeName}") {
                     }
                 }
             }
-            if ( params.configurePod ) {
-                stage('Configure ONOS Netcfg') {
-                    timeout(1) {
-                            sh returnStdout: true, script: """
-                            curl -sSL --user karaf:karaf -X POST -H Content-Type:application/json http://${deployment_config.nodes[0].ip}:30120/onos/v1/network/configuration --data @$WORKSPACE/voltha-system-tests/tests/data/${configFileName}-onos-netcfg.json
-                            curl -sSL --user karaf:karaf -X POST http://${deployment_config.nodes[0].ip}:30120/onos/v1/applications/org.onosproject.segmentrouting/active
-                            """
-                    }
+            if ( deployment_config.fabric_switches.size() > 0 ) {
+              stage('Configure ONOS') {
+                timeout(1) {
+                    netcfg_out = sh returnStatus: true, script: """
+                    curl -sSL --user karaf:karaf -X POST -H Content-Type:application/json http://${deployment_config.nodes[0].ip}:30120/onos/v1/network/configuration --data @$WORKSPACE/${configBaseDir}/${configToscaDir}/voltha/${configFileName}-onos-netcfg-switch.json
+                    curl -sSL --user karaf:karaf -X POST http://${deployment_config.nodes[0].ip}:30120/onos/v1/applications/org.onosproject.segmentrouting/active
+                    """
+                    return netcfg_out == 0
                 }
+                timeout(1) {
+                  xconnect_out = sh returnStatus: true, script: """
+                  curl -X POST --user karaf:karaf --header 'Content-Type: application/json' --header 'Accept: application/json' -d '{"deviceId": "of:0000000000000001", "vlanId": "111", "ports": [3,10]}' 'http://10.192.20.45:30120/onos/segmentrouting/xconnect'
+                  """
+                  return xconnect_out == 0
+                }
+              }
+            }
+            if ( params.configurePod ) {
                 stage('Push Tech-Profile') {
                     timeout(1) {
-                        sh returnStdout: true, script: """
+                        out_push_tp = sh returnStatus: true, script: """
                         export KUBECONFIG=$WORKSPACE/${configBaseDir}/${configKubernetesDir}/${configFileName}.conf
                         etcd_container=\$(kubectl get pods -n voltha | grep voltha-etcd-cluster | awk 'NR==1{print \$1}')
                         kubectl cp /home/cord/voltha-system-tests/tests/data/${configFileName}-${profile}.json voltha/\$etcd_container:/tmp/flexpod.json
                         put_result=\$(kubectl exec -it \$etcd_container -n voltha -- /bin/sh -c 'cat /tmp/flexpod.json | ETCDCTL_API=3 etcdctl put service/voltha/technology_profiles/xgspon/64')
-                        get_result=\$(kubectl exec -it \$etcd_container -n voltha -- /bin/sh -c 'ETCDCTL_API=3 etcdctl get --prefix service/voltha/technology_profiles/xgspon/64')
                         """
+                        return out_push_tp == 0
                     }
+                    timeout(1) {
+                      out_get_tp = sh returnStatus: true, script: """
+                      etcd_container=\$(kubectl get pods -n voltha | grep voltha-etcd-cluster | awk 'NR==1{print \$1}')
+                      get_result=\$(kubectl exec -it \$etcd_container -n voltha -- /bin/sh -c 'ETCDCTL_API=3 etcdctl get --prefix service/voltha/technology_profiles/xgspon/64')
+                      """
+                      return out_get_tp == 0
+                    }
+                }
+                stage('Push Sadis-config') {
+                  timeout(1) {
+                    sadis_out = sh returnStatus: true, script: """
+                    curl -sSL --user karaf:karaf -X POST -H Content-Type:application/json http://${deployment_config.nodes[0].ip}:30120/onos/v1/network/configuration --data @$WORKSPACE/voltha-system-tests/tests/data/${configFileName}-sadis.json
+                    """
+                    return sadis_out == 0
+                  }
                 }
             }
             currentBuild.result = 'SUCCESS'
@@ -146,4 +174,3 @@ node ("${TestNodeName}") {
         echo "RESULT: ${currentBuild.result}"
     }
 }
-
