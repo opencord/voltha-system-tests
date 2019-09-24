@@ -52,6 +52,23 @@ Validate OLT Device in ONOS
     Should Be Equal As Strings    ${sn}    ${serial_number}
     [Return]    ${of_id}
 
+Get ONU Port in ONOS
+    [Documentation]    Retrieves ONU port for the ONU in ONOS
+    [Arguments]    ${onu_serial_number}   ${olt_of_id}
+    ${resp}=    Get Request    ONOS    onos/v1/devices/${olt_of_id}/ports
+    ${jsondata}=    To Json    ${resp.content}
+    Should Not Be Empty    ${jsondata['ports']}
+    ${length}=    Get Length    ${jsondata['ports']}
+    @{ports}=    Create List
+    : FOR    ${INDEX}    IN RANGE    0    ${length}
+    \    ${value}=    Get From List    ${jsondata['ports']}    ${INDEX}
+    \    ${annotations}=    Get From Dictionary    ${value}    annotations
+    \    ${onu_port}=    Get From Dictionary    ${value}    port
+    \    ${portName}=    Get From Dictionary    ${annotations}    portName
+    \    Run Keyword If    '${portName}' == '${onu_serial_number}'    Exit For Loop
+    Should Be Equal As Strings    ${portName}    ${onu_serial_number}
+    [Return]    ${onu_port}
+
 Verify Eapol Flows Added
     [Arguments]    ${ip}    ${port}    ${expected_flows}
     [Documentation]    Matches for number of eapol flows based on number of onus
