@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+pipeline {
 node ("${TestNodeName}") {
     timeout (100) {
         try {
@@ -116,25 +117,34 @@ node ("${TestNodeName}") {
                     }
                 }
             }
-            if ( params.configurePod ) {
+            if (  deployment_config.fabric_switches.size() > 1 ) {
                 stage('Configure ONOS Netcfg') {
+                  // TODO move @$WORKSPACE/voltha-system-tests/tests/data/${configFileName}-onos-netcfg.json in pod-configs? (this is not really part of the VOLTHA tests, but it's POD configuration)
                     timeout(1) {
-                            sh returnStdout: true, script: """
-                            curl -sSL --user karaf:karaf -X POST -H Content-Type:application/json http://${deployment_config.nodes[0].ip}:30120/onos/v1/network/configuration --data @$WORKSPACE/voltha-system-tests/tests/data/${configFileName}-onos-netcfg.json
-                            curl -sSL --user karaf:karaf -X POST http://${deployment_config.nodes[0].ip}:30120/onos/v1/applications/org.onosproject.segmentrouting/active
-                            """
+                        netcfg_out = sh returnStatus: true, script: """
+                        curl -sSL --user karaf:karaf -X POST -H Content-Type:application/json http://${deployment_config.nodes[0].ip}:30120/onos/v1/network/configuration --data @$WORKSPACE/voltha-system-tests/tests/data/${configFileName}-onos-netcfg.json
+                        curl -sSL --user karaf:karaf -X POST http://${deployment_config.nodes[0].ip}:30120/onos/v1/applications/org.onosproject.segmentrouting/active
+                        """
+                        return netcfg_out.toInteger() == 0
                     }
                 }
+            }
+            if ( params.configurePod ) {
                 stage('Push Tech-Profile') {
                     timeout(1) {
-                        sh returnStdout: true, script: """
+                        out_push_tp = sh returnStatus: true, script: """
                         export KUBECONFIG=$WORKSPACE/${configBaseDir}/${configKubernetesDir}/${configFileName}.conf
                         etcd_container=\$(kubectl get pods -n voltha | grep voltha-etcd-cluster | awk 'NR==1{print \$1}')
                         kubectl cp /home/cord/voltha-system-tests/tests/data/${configFileName}-${profile}.json voltha/\$etcd_container:/tmp/flexpod.json
                         put_result=\$(kubectl exec -it \$etcd_container -n voltha -- /bin/sh -c 'cat /tmp/flexpod.json | ETCDCTL_API=3 etcdctl put service/voltha/technology_profiles/xgspon/64')
-                        get_result=\$(kubectl exec -it \$etcd_container -n voltha -- /bin/sh -c 'ETCDCTL_API=3 etcdctl get --prefix service/voltha/technology_profiles/xgspon/64')
                         """
+                        return out_push_tp.toInteger() == 0
                     }
+                    out_get_tp = sh returnStatus: true, script: """
+                    get_result=\$(kubectl exec -it \$etcd_container -n voltha -- /bin/sh -c 'ETCDCTL_API=3 etcdctl get --prefix service/voltha/technology_profiles/xgspon/64')
+                    """
+                    return out_get_tp.toInteger() == 0
+
                 }
             }
             currentBuild.result = 'SUCCESS'
@@ -146,4 +156,3 @@ node ("${TestNodeName}") {
         echo "RESULT: ${currentBuild.result}"
     }
 }
-

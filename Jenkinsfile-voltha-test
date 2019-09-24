@@ -24,10 +24,10 @@ node ("${TestNodeName}") {
                 timeout(2) {
                     sh returnStdout: true, script: """
                     rm -rf helm-charts cord-tester voltha voltha-system-tests
-                    git clone -b ${branch} ${cordRepoUrl}/helm-charts
+                    git clone -b ${branch} ${cordRepoUrl}/helm-charts # NOTE do we need helm-charts?
                     git clone -b ${branch} ${cordRepoUrl}/cord-tester
                     git clone -b ${branch} ${cordRepoUrl}/voltha-system-tests
-                    git clone -b ${branch} ${cordRepoUrl}/voltha
+                    git clone -b ${branch} ${cordRepoUrl}/voltha # NOTE do we need the voltha source code??
                     """
                 }
             }

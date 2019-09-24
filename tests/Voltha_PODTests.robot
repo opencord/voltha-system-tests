@@ -105,6 +105,7 @@ Setup Suite
 
 Setup
     #create/preprovision device
+    # FIXME why is this a setup?
     ${olt_device_id}=    Create Device    ${olt_ip}    ${OLT_PORT}
     Set Suite Variable    ${olt_device_id}
     #enable device
