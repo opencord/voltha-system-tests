@@ -52,9 +52,23 @@ Validate OLT Device in ONOS
     Should Be Equal As Strings    ${sn}    ${serial_number}
     [Return]    ${of_id}
 
+Get FabricSwitch in ONOS
+    [Documentation]    Returns of_id of the Fabric Switch in ONOS
+    ${resp}=    Get Request    ONOS    onos/v1/devices
+    ${jsondata}=    To Json    ${resp.content}
+    Should Not Be Empty    ${jsondata['devices']}
+    ${length}=    Get Length    ${jsondata['devices']}
+    : FOR    ${INDEX}    IN RANGE    0    ${length}
+    \    ${value}=    Get From List    ${jsondata['devices']}    ${INDEX}
+    \    ${of_id}=    Get From Dictionary    ${value}    id
+    \    ${type}=    Get From Dictionary    ${value}    type
+    \    Run Keyword If    '${type}' == "SWITCH"    Exit For Loop
+    [Return]    ${of_id}
+
 Get ONU Port in ONOS
     [Documentation]    Retrieves ONU port for the ONU in ONOS
     [Arguments]    ${onu_serial_number}   ${olt_of_id}
+    ${onu_serial_number}=    Catenate    SEPARATOR=-    ${onu_serial_number}    1
     ${resp}=    Get Request    ONOS    onos/v1/devices/${olt_of_id}/ports
     ${jsondata}=    To Json    ${resp.content}
     Should Not Be Empty    ${jsondata['ports']}
