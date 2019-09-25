@@ -55,12 +55,13 @@ Sanity E2E Test for OLT/ONU on POD
     #Wait Until Keyword Succeeds    60s    2s    Verify Eapol Flows Added   ${k8s_node_ip}    ${ONOS_SSH_PORT}    5
     Validate Authentication    True    ${src0['dp_iface_name']}    wpa_supplicant.conf    ${src0['ip']}    ${src0['user']}    ${src0['pass']}    ${src0['container_type']}    ${src0['container_name']}
     #Validate ONU authenticated in ONOS
-    Wait Until Keyword Succeeds    90s    2s    Verify Number of AAA-Users    ${k8s_node_ip}    ${ONOS_SSH_PORT}    ${num_onus}
-    Wait Until Keyword Succeeds    60s    2s    Execute ONOS Command    ${k8s_node_ip}    ${ONOS_SSH_PORT}    volt-add-subscriber-access ${of_id} 16
+    Wait Until Keyword Succeeds    60s    2s    Verify Number of AAA-Users    ${k8s_node_ip}    ${ONOS_SSH_PORT}    ${num_onus}
+    ${onu_port}=    Wait Until Keyword Succeeds    90s    2s    Get ONU Port in ONOS    ${onu_serial_number}   ${of_id}
+    Wait Until Keyword Succeeds    60s    2s    Execute ONOS Command    ${k8s_node_ip}    ${ONOS_SSH_PORT}    volt-add-subscriber-access ${of_id} ${onu_port}
     # Perform dhclient and ping operations
     Validate DHCP and Ping    True    True    ${src0['dp_iface_name']}    ${src0['s_tag']}    ${src0['c_tag']}    ${dst0['dp_iface_ip_qinq']}    ${src0['ip']}    ${src0['user']}    ${src0['pass']}    ${src0['container_type']}    ${src0['container_name']}    ${dst0['dp_iface_name']}    ${dst0['ip']}    ${dst0['user']}    ${dst0['pass']}    ${dst0['container_type']}    ${dst0['container_name']}
     #Validate DHCP allocation in ONOS
-    Wait Until Keyword Succeeds    60s    2s    Validate DHCP Allocations    ${k8s_node_ip}    ${ONOS_SSH_PORT}     ${num_onus}
+    #Wait Until Keyword Succeeds    60s    2s    Validate DHCP Allocations    ${k8s_node_ip}    ${ONOS_SSH_PORT}     ${num_onus}
 
 
 *** Keywords ***
@@ -82,6 +83,10 @@ Setup Suite
     ${olt_pass}=    Evaluate    ${olts}[0].get("pass")
     ${olt_serial_number}=    Evaluate    ${olts}[0].get("serial")
     ${onu_serial_number}=    Evaluate    ${onus}[0].get("serial")
+    ${bngPort}=    Evaluate    ${fabric_switches}[0].get("bngPort")
+    ${oltPort1}=    Evaluate    ${fabric_switches}[0].get("oltPort")
+    Set Suite Variable    ${bngPort}
+    Set Suite Variable    ${oltPort1}
     Set Suite Variable    ${olt_serial_number}
     Set Suite Variable    ${onu_serial_number}
     Set Suite Variable    ${olt_ip}
@@ -104,6 +109,10 @@ Setup Suite
     Set Suite Variable    ${datetime}
 
 Setup
+    # Create Fabric XC
+    ${switch_of_id}=    Get FabricSwitch in ONOS
+    Set Suite Variable    ${switch_of_id}
+    Wait Until Keyword Succeeds    60s    2s    Execute ONOS Command    ${k8s_node_ip}    ${ONOS_SSH_PORT}    sr-xconnect-add ${switch_of_id} ${src0['s_tag']} ${bngPort} ${oltPort1}
     #create/preprovision device
     ${olt_device_id}=    Create Device    ${olt_ip}    ${OLT_PORT}
     Set Suite Variable    ${olt_device_id}
@@ -112,7 +121,7 @@ Setup
     #validate olt states
     Wait Until Keyword Succeeds    60s    5s    Validate Device    ${olt_serial_number}    ENABLED    ACTIVE    REACHABLE
     #validate onu states
-    Wait Until Keyword Succeeds    60s    5s    Validate Device    ${onu_serial_number}    ENABLED    ACTIVE    REACHABLE    onu=True    onu_reason=tech-profile-config-download-success
+    Wait Until Keyword Succeeds    90s    5s    Validate Device    ${onu_serial_number}    ENABLED    ACTIVE    REACHABLE    onu=True    onu_reason=tech-profile-config-download-success
     #get onu device id
     ${onu_device_id}=    Get Device ID From SN    ${onu_serial_number}
     Set Suite Variable    ${onu_device_id}
