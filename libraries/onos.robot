@@ -71,6 +71,20 @@ Get ONU Port in ONOS
     Should Be Equal As Strings    ${portName}    ${onu_serial_number}
     [Return]    ${onu_port}
 
+Get FabricSwitch in ONOS
+    [Documentation]    Returns of_id of the Fabric Switch in ONOS
+    ${resp}=    Get Request    ONOS    onos/v1/devices
+    ${jsondata}=    To Json    ${resp.content}
+    Should Not Be Empty    ${jsondata['devices']}
+    ${length}=    Get Length    ${jsondata['devices']}
+    FOR    ${INDEX}    IN RANGE    0    ${length}
+        ${value}=    Get From List    ${jsondata['devices']}    ${INDEX}
+        ${of_id}=    Get From Dictionary    ${value}    id
+        ${type}=    Get From Dictionary    ${value}    type
+        Run Keyword If    '${type}' == "SWITCH"    Exit For Loop
+    END
+    [Return]    ${of_id}
+
 Verify Eapol Flows Added
     [Arguments]    ${ip}    ${port}    ${expected_flows}
     [Documentation]    Matches for number of eapol flows based on number of onus
