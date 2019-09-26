@@ -145,7 +145,7 @@ node ("${TestNodeName}") {
                         out_push_tp = sh returnStatus: true, script: """
                         export KUBECONFIG=$WORKSPACE/${configBaseDir}/${configKubernetesDir}/${configFileName}.conf
                         etcd_container=\$(kubectl get pods -n voltha | grep voltha-etcd-cluster | awk 'NR==1{print \$1}')
-                        kubectl cp /home/cord/voltha-system-tests/tests/data/${configFileName}-${profile}.json voltha/\$etcd_container:/tmp/flexpod.json
+                        kubectl cp /home/cord/voltha-system-tests/tests/data/${configFileName}-multipleGem.json voltha/\$etcd_container:/tmp/flexpod.json
                         put_result=\$(kubectl exec -it \$etcd_container -n voltha -- /bin/sh -c 'cat /tmp/flexpod.json | ETCDCTL_API=3 etcdctl put service/voltha/technology_profiles/xgspon/64')
                         """
                         return out_push_tp == 0
