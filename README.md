@@ -22,7 +22,8 @@ Intended use includes:
   - [kubectl](https://kubernetes.io/docs/reference/kubectl/kubectl/)
 
 * `voltctl` and `kubectl` must be properly configured on your system
-  prior to any test executions
+  prior to any test executions.  The `kind-voltha` environment will install
+  and configure these tools for you; see below.
 
 Directory is structured as follows:
 
@@ -34,12 +35,31 @@ Directory is structured as follows:
 └── variables           // shared variables across various test suites
 ```
 
+## Setting up a test environment
+
+An easy way to bring up VOLTHA + BBSim for testing is by using
+[kind-voltha](https://github.com/ciena/kind-voltha).  To set
+up a minimal environment, first [install Docker](https://docs.docker.com/install/)
+and then run the following commands:
+
+```bash
+git clone https://github.com/ciena/kind-voltha
+cd kind-voltha
+EXTRA_HELM_FLAGS="--set defaults.image_tag=voltha-2.1” TYPE=minimal WITH_RADIUS=y WITH_BBSIM=y INSTALL_ONOS_APPS=y CONFIG_SADIS=y ./voltha up
+source minimal-env.sh
+```
+
+The `defaults.image_tag` value above is used to specify which VOLTHA
+branch images to pull from Docker Hub.
+
 ## Running the sanity tests
 
-To run the the sanity tests using an environment previously
-set up by [kind-voltha](https://github.com/ciena/kind-voltha), run:
-```
-make sanity-kind
+Assuming that you have brought up VOLTHA as described above,
+to run the the sanity tests:
+
+```bash
+git clone https://github.com/opencord/voltha-system-tests
+make -C voltha-system-tests sanity-kind
 ```
 
 This test execution will generate three report files in
