@@ -58,8 +58,9 @@ Sanity E2E Test for OLT/ONU on POD
     Validate Authentication    True    ${src0['dp_iface_name']}    wpa_supplicant.conf    ${src0['ip']}    ${src0['user']}    ${src0['pass']}
     ...    ${src0['container_type']}    ${src0['container_name']}
     #Validate ONU authenticated in ONOS
-    Wait Until Keyword Succeeds    90s    2s    Verify Number of AAA-Users    ${k8s_node_ip}    ${ONOS_SSH_PORT}    ${num_onus}
-    Wait Until Keyword Succeeds    60s    2s    Execute ONOS Command    ${k8s_node_ip}    ${ONOS_SSH_PORT}    volt-add-subscriber-access ${of_id} 16
+    #Wait Until Keyword Succeeds    90s    2s    Verify Number of AAA-Users    ${k8s_node_ip}    ${ONOS_SSH_PORT}    ${num_onus}
+    ${onu_port}=    Wait Until Keyword Succeeds    90s    2s    Get ONU Port in ONOS    ${onu_serial_number}   ${of_id}
+    Wait Until Keyword Succeeds    60s    2s    Execute ONOS Command    ${k8s_node_ip}    ${ONOS_SSH_PORT}    volt-add-subscriber-access ${of_id} ${onu_port}
     # Perform dhclient and ping operations
     Validate DHCP and Ping    True    True    ${src0['dp_iface_name']}    ${src0['s_tag']}    ${src0['c_tag']}    ${dst0['dp_iface_ip_qinq']}
     ...    ${src0['ip']}    ${src0['user']}    ${src0['pass']}    ${src0['container_type']}    ${src0['container_name']}    ${dst0['dp_iface_name']}
@@ -129,8 +130,8 @@ Setup
 
 Teardown
     [Documentation]    kills processes and cleans up interfaces on src+dst servers
-    Get Device Output from Voltha    ${of_id}
-    Get Logical Device Output from Voltha    ${logical_id}
+    Get Device Output from Voltha    ${olt_device_id}
+    #Get Logical Device Output from Voltha    ${logical_id}
     Get ONOS Status    ${k8s_node_ip}
     Clean Up Linux
     Log Kubernetes Containers Logs Since Time    ${datetime}    ${container_list}
