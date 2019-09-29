@@ -21,6 +21,7 @@ node ("${TestNodeName}") {
                 sh returnStdout: true, script: "git clone -b master ${cordRepoUrl}/${configBaseDir}"
                 sh returnStdout: true, script: "git clone -b master ${cordRepoUrl}/voltha-system-tests"
                 sh returnStdout: true, script: "git clone https://github.com/ciena/kind-voltha.git"
+                sh returnStdout: true, script: "cp /home/cord/onos-dhcpl2relay-withFalse.json $WORKSPACE/kind-voltha/onos-files/onos-dhcpl2relay.json"
                 deployment_config = readYaml file: "${configBaseDir}/${configDeploymentDir}/${configFileName}.yaml"
             }
             stage('Clean up') {
