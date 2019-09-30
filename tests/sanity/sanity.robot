@@ -24,11 +24,12 @@ Library           OperatingSystem
 Resource          ${CURDIR}/../../libraries/onos.robot
 Resource          ${CURDIR}/../../libraries/voltctl.robot
 Resource          ${CURDIR}/../../libraries/utils.robot
+Resource          ${CURDIR}/../../libraries/k8s.robot
 Resource          ${CURDIR}/../../variables/variables.robot
 
 *** Variables ***
 ${server_ip}      localhost
-${timeout}        90s
+${timeout}        240s
 ${num_onus}       1
 
 *** Test Cases ***
@@ -38,7 +39,9 @@ Activate Device BBSIM OLT/ONU
     ...    re-validate deployment
     [Tags]    sanity
     #create/preprovision device
-    ${olt_device_id}=    Create Device    ${BBSIM_IP}    ${BBSIM_PORT}
+    ${bbsim_ip}=    Lookup Service IP    voltha    bbsim
+    ${bbsim_port}=    Lookup Service Port    voltha    bbsim
+    ${olt_device_id}=    Create Device    ${bbsim_ip}    ${bbsim_port}
     Set Suite Variable    ${olt_device_id}
     #enable device
     Enable Device    ${olt_device_id}
