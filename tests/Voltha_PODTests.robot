@@ -81,7 +81,7 @@ Setup Suite
     Check CLI Tools Configured
     ${onos_auth}=    Create List    karaf    karaf
     ${HEADERS}    Create Dictionary    Content-Type=application/json
-    Create Session    ONOS    http://${k8snode_ip}:${ONOS_REST_PORT}    auth=${ONOS_AUTH}
+    Create Session    ONOS    http://${k8s_node_ip}:${ONOS_REST_PORT}    auth=${ONOS_AUTH}
     Set Global Variable    ${export_kubeconfig}    export KUBECONFIG=${KUBERNETES_CONF}
     ${olt_ip}=    Evaluate    ${olts}[0].get("ip")
     ${olt_user}=    Evaluate    ${olts}[0].get("user")
