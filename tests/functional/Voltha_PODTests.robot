@@ -24,15 +24,15 @@ Library           String
 Library           OperatingSystem
 Library           XML
 Library           RequestsLibrary
-Library           ../../voltha/tests/atests/common/testCaseUtils.py
-Resource          ../../cord-tester/src/test/cord-api/Framework/Subscriber.robot
-Resource          ../../cord-tester/src/test/cord-api/Framework/OLT.robot
-Resource          ../../cord-tester/src/test/cord-api/Framework/DHCP.robot
-Resource          ../../cord-tester/src/test/cord-api/Framework/Kubernetes.robot
-Resource          ../libraries/onos.robot
-Resource          ../libraries/voltctl.robot
-Resource          ../libraries/utils.robot
-Resource          ../variables/variables.robot
+Library           ../../../voltha/tests/atests/common/testCaseUtils.py
+Resource          ../../../cord-tester/src/test/cord-api/Framework/Subscriber.robot
+Resource          ../../../cord-tester/src/test/cord-api/Framework/OLT.robot
+Resource          ../../../cord-tester/src/test/cord-api/Framework/DHCP.robot
+Resource          ../../../cord-tester/src/test/cord-api/Framework/Kubernetes.robot
+Resource          ../../libraries/onos.robot
+Resource          ../../libraries/voltctl.robot
+Resource          ../../libraries/utils.robot
+Resource          ../../variables/variables.robot
 
 *** Variables ***
 ${POD_NAME}       flex-ocp-cord

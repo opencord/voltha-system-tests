@@ -39,7 +39,7 @@ node ("${TestNodeName}") {
                     screen -dmS voltha-ssh kubectl port-forward -n voltha service/voltha-cli 5022:5022
                     export VOLTCONFIG=/home/cord/.volt/config
                     cd $WORKSPACE/voltha-system-tests/tests
-                    robot --removekeywords wuks -d Log -V $WORKSPACE/${configBaseDir}/${configDeploymentDir}/${configFileName}.yaml -v POD_NAME:${configFileName} -v KUBERNETES_CONFIGS_DIR:$WORKSPACE/${configBaseDir}/${configKubernetesDir} Voltha_PODTests.robot || true
+                    robot --removekeywords wuks -d Log -V $WORKSPACE/${configBaseDir}/${configDeploymentDir}/${configFileName}.yaml -v POD_NAME:${configFileName} -v KUBERNETES_CONFIGS_DIR:$WORKSPACE/${configBaseDir}/${configKubernetesDir} functional/Voltha_PODTests.robot || true
                     """
                 }
             }
@@ -47,7 +47,7 @@ node ("${TestNodeName}") {
                 sh returnStdout: true, script: """
                 if [ -d RobotLogs ]; then rm -r RobotLogs; fi; mkdir RobotLogs;
                 mkdir RobotLogs/TestDoc || true
-                cp -r $WORKSPACE/voltha-system-tests/tests/Log/* $WORKSPACE/RobotLogs || true
+                cp -r $WORKSPACE/voltha-system-tests/tests/functional/Log/* $WORKSPACE/RobotLogs || true
                 export KUBECONFIG=$WORKSPACE/${configBaseDir}/${configKubernetesDir}/${configFileName}.conf
                 ## get default pod logs
                 for pod in \$(kubectl get pods --no-headers | awk '{print \$1}');
