@@ -57,6 +57,7 @@ Validate OLT Device in ONOS
 Get ONU Port in ONOS
     [Arguments]    ${onu_serial_number}    ${olt_of_id}
     [Documentation]    Retrieves ONU port for the ONU in ONOS
+    ${onu_serial_number}=    Catenate    SEPARATOR=-    ${onu_serial_number}    1
     ${resp}=    Get Request    ONOS    onos/v1/devices/${olt_of_id}/ports
     ${jsondata}=    To Json    ${resp.content}
     Should Not Be Empty    ${jsondata['ports']}
