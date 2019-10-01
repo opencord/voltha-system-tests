@@ -82,11 +82,66 @@ with the arguments appropriate for your environment.  Look at
 [variables.robot](variables/variables.robot) for a list of variables that
 you may need to override.
 
+# Running Tests on Physical POD
+
+Assuming that a POD is available with all the required hardware and connections, we can
+deploy the POD by following the procedure in this section below.
+
+## Deploying POD
+
+Deploying POD can be either be manual or automated using Jenkins job.
+
+You can install it manually by following these steps below.
+
+```
+git clone https://github.com/ciena/kind-voltha.git
+cd kind-voltha/
+EXTRA_HELM_FLAGS='-f $WORKSPACE/${configBaseDir}/${configKubernetesDir}/voltha/${configFileName}.yml' WITH_RADIUS=y WITH_TP=yes DEPLOY_K8S=no INSTALL_KUBECTL=no INSTALL_HELM=no ONOS_TAG=voltha-2.1 ./voltha up
+```
+For more information on various environment variables with `./voltha up` please
+check the link [here](https://github.com/ciena/kind-voltha/blob/master/README.md)
+
+# Functional Testcases
+
+All functional test cases are placed under `functional` folder.
+`Voltha_PODTests.robot` consists of functional testcases that can be run on a physical POD.
+Each robot testcase has a description in the `Documentation` section.
+The same suite of tests can be run on any POD because parameters needed
+for the test are written in .yaml file. Instead of hardcoding the POD specific
+variables in the test case, tests rely on a separate configuration file which
+describes the POD setup. This `.yaml` file contains details like the ONUs, OLT, nodes etc.
+To create a configuration file for your POD, check this
+[example](https://github.com/opencord/pod-configs/blob/master/deployment-configs/flex-ocp-cord.yaml)
+
+Input data are stored in the `data` folder. Few examples of input data could be, test specific sadis configurations,
+tech profiles etc. Please give appropriate file names to the input files.
+
+To trigger tests on the physical POD
+```
+cd voltha-system-tests/tests/functional
+robot -V <PATH_TO_YOUR_POD_CONFIGURATION_FILE> Voltha_PODTests.robot
+```
+Note: PATH_TO_YOUR_POD_CONFIGURATION_FILE should point to the yaml file that describes your POD setup.
+
+Scenarios in each test suite can be associated with a `Tag`, using which a particular scenario can be
+invoked during test execution.
+As an example to execute only one testcase from the test suite you can do something like here
+```
+cd voltha-system-tests/tests/functional
+robot -i test1 -V <PATH_TO_YOUR_POD_CONFIGURATION_FILE> Voltha_PODTests.robot
+```
 ## Adding to the tests
 
 Most additions should be done by adding keywords to the libraries, then
 calling these keywords from the tests.  Consult a
 [guide on how to write good Robot framework tests](https://github.com/robotframework/HowToWriteGoodTestCases/blob/master/HowToWriteGoodTestCases.rst).
+When writing new functions, make sure there is proper documentation for it.  Also, follow a
+good naming convention for any new functions.
+There are also many keywords/functions available as part of the SEBA test framework which
+can be found [here](https://github.com/opencord/cord-tester/tree/master/src/test/cord-api/Framework)
+
+Tests should be written in RobotFramework as they need to be integrated with Jenkins test jobs.
+Libraries can be written in python or RobotFramework.
 
 Make sure that `make lint` passes, which runs
 [robotframework-lint](https://github.com/boakley/robotframework-lint) on any
