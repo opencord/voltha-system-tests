@@ -47,7 +47,7 @@ node ("${TestNodeName}") {
                 sh returnStdout: true, script: """
                 if [ -d RobotLogs ]; then rm -r RobotLogs; fi; mkdir RobotLogs;
                 mkdir RobotLogs/TestDoc || true
-                cp -r $WORKSPACE/voltha-system-tests/tests/functional/Log/* $WORKSPACE/RobotLogs || true
+                cp -r $WORKSPACE/voltha-system-tests/tests/Log/* $WORKSPACE/RobotLogs || true
                 export KUBECONFIG=$WORKSPACE/${configBaseDir}/${configKubernetesDir}/${configFileName}.conf
                 ## get default pod logs
                 for pod in \$(kubectl get pods --no-headers | awk '{print \$1}');
