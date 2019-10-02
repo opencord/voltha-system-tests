@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "51eece6f_1b5e3ca7",
+        "filename": "README.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1000010
+      },
+      "writtenOn": "2019-10-02T00:22:30Z",
+      "side": 1,
+      "message": "It’s definitely important to document how to use Jenkins to deploy a physical pod, but it’s not clear that the voltha-system-tests README is the place to do that.  I would move this part to another document.",
+      "range": {
+        "startLine": 85,
+        "startChar": 0,
+        "endLine": 85,
+        "endChar": 31
+      },
+      "revId": "32f3b42a420f626859874350fbe81bf7764e86a8",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2826ac63_afd582bd",
+        "filename": "README.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1000010
+      },
+      "writtenOn": "2019-10-02T00:22:30Z",
+      "side": 1,
+      "message": "Maybe summarize what the tests do?",
+      "range": {
+        "startLine": 129,
+        "startChar": 24,
+        "endLine": 129,
+        "endChar": 45
+      },
+      "revId": "32f3b42a420f626859874350fbe81bf7764e86a8",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ae7581d1_a6a09894",
+        "filename": "README.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1000010
+      },
+      "writtenOn": "2019-10-02T00:22:30Z",
+      "side": 1,
+      "message": "Right filename?",
+      "range": {
+        "startLine": 141,
+        "startChar": 47,
+        "endLine": 141,
+        "endChar": 58
+      },
+      "revId": "32f3b42a420f626859874350fbe81bf7764e86a8",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2ae9dc77_f6909526",
+        "filename": "README.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1000010
+      },
+      "writtenOn": "2019-10-02T00:22:30Z",
+      "side": 1,
+      "message": "See comment above",
+      "range": {
+        "startLine": 150,
+        "startChar": 56,
+        "endLine": 150,
+        "endChar": 67
+      },
+      "revId": "32f3b42a420f626859874350fbe81bf7764e86a8",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    }
+  ]
+}
