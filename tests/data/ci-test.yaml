@@ -31,12 +31,3 @@ images:
   rw_core:
     tag: 'citest'
     pullPolicy: 'Never'
-
-  afrouter:
-    tag: 'citest'
-    pullPolicy: 'Never'
-
-  afrouterd:
-    tag: 'citest'
-    pullPolicy: 'Never'
-    restartPolicy: 'Always'
