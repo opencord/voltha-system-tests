@@ -24,6 +24,8 @@ Library           Process
 Library           Collections
 Library           RequestsLibrary
 Library           OperatingSystem
+Library           BuiltIn
+Resource          ./voltctl.robot
 
 *** Keywords ***
 Check CLI Tools Configured
@@ -31,4 +33,34 @@ Check CLI Tools Configured
     # check voltctl and kubectl configured
     ${voltctl_rc}=    Run And Return RC    ${VOLTCTL_CONFIG}; voltctl device list
     ${kubectl_rc}=    Run And Return RC    ${KUBECTL_CONFIG}; kubectl get pods
-    Run Keyword If    ${voltctl_rc} != 0 or ${kubectl_rc} != 0    FATAL ERROR    VOLTCTL and KUBECTL not configured. Please configure before executing tests.
+    Run Keyword If    ${voltctl_rc} != 0 or ${kubectl_rc} != 0    FATAL ERROR
+    ...    VOLTCTL and KUBECTL not configured. Please configure before executing tests.
+
+Read Sadis File
+    [Documentation]  Read Sadis File and parse serial numbers
+    [Arguments]     ${SADIS_FILE}  ${BBSIM_OLT_SN}  ${List_ONU_Serial}
+    ${jsondata}=    Get Binary File   ${SADIS_FILE}
+    ${jsondict}=    evaluate  json.loads('''${jsondata}''')    json
+    ${length}=    Get Length    ${jsondata}
+    ${jsonentries}=    Set Variable  ${jsondict['org.opencord.sadis']['sadis']['entries']}
+    ${length}=    Get Length    ${jsonentries}
+    FOR    ${INDEX}   IN RANGE    0    ${length}
+        ${value}=    Get From List    ${jsonentries}    ${INDEX}
+        ${KeyIsPresent}=   Run Keyword And Return Status   Dictionary Should Contain Key  ${value}   id
+        ${deviceId}=    Run Keyword If  ${KeyIsPresent}   Get From Dictionary  ${value}   id
+        ${serialNum}=  Get SN From Device ID   ${deviceId}
+        ${KeyIsPresent}=   Run Keyword And Return Status   Dictionary Should Contain Key  ${value}   uplinkPort
+        ${uplinkPort}=  Run Keyword If  ${KeyIsPresent}   Get From Dictionary  ${value}   uplinkPort
+        Run Keyword If  '${uplinkPort}'=='65536'  Set Suite Variable  ${BBSIM_OLT_SN}   ${deviceId}
+        ...  ELSE    Run Keyword Unless  ${KeyIsPresent}  Append To List  ${List_ONU_Serial}   ${serialNum}
+    END
+
+Send File To Onos
+    [Documentation]  Send the content of the file to Onos to selected section of configuration using Post Request
+    [Arguments]  ${CONFIG_FILE}  ${section}
+    ${Headers}=  Create Dictionary  Content-Type   application/json
+    ${File_Data}=   Get Binary File   ${CONFIG_FILE}
+    Log     ${Headers}
+    Log     ${File_Data}
+    ${resp}=   Post Request  ONOS  /onos/v1/network/configuration/${section}  headers=${Headers}   data=${File_Data}
+    Should Be Equal As Strings    ${resp.status_code}  200
