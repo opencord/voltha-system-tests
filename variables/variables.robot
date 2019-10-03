@@ -15,6 +15,8 @@
 *** Variables ***
 ${BBSIM_OLT_SN}    BBSIMOLT000
 ${BBSIM_ONU_SN}    BBSM00000001
+${BBSIM_NAMESPACE}  voltha
+${BBSIM_SVC}        bbsim
 ${ONOS_REST_PORT}    30120
 ${ONOS_SSH_PORT}    30115
 ${OLT_PORT}       9191

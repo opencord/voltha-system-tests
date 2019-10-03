@@ -26,17 +26,27 @@ Library           RequestsLibrary
 Library           OperatingSystem
 
 *** Keywords ***
+Test Empty Device List
+    [Documentation]   Verify that there are no devices in the system
+    ${rc}  ${output}=    Run and Return Rc and Output    ${VOLTCTL_CONFIG}; voltctl device list -o json
+    Should Be Equal As Integers    ${rc}    0
+    ${jsondata}=    To Json    ${output}
+    Log    ${jsondata}
+    ${length}=    Get Length    ${jsondata}
+    [Return]  ${length}
+
 Create Device
     [Arguments]    ${ip}    ${port}
-    [Documentation]    Parses the output of "voltctl device list" and inspects device ${serial_number}
+    [Documentation]    Parses the output of "voltctl device list" and inspects device serial number
     #create/preprovision device
-    ${rc}    ${device_id}=    Run and Return Rc and Output    ${VOLTCTL_CONFIG}; voltctl device create -t openolt -H ${ip}:${port}
+    ${rc}    ${device_id}=    Run and Return Rc and Output
+    ...    ${VOLTCTL_CONFIG}; voltctl device create -t openolt -H ${ip}:${port}
     Should Be Equal As Integers    ${rc}    0
     [Return]    ${device_id}
 
 Enable Device
-    [Arguments]    ${device_id}
     [Documentation]    Enables a device in VOLTHA
+    [Arguments]    ${device_id}
     ${rc}    ${output}=    Run and Return Rc and Output    ${VOLTCTL_CONFIG}; voltctl device enable ${device_id}
     Should Be Equal As Integers    ${rc}    0
 
@@ -68,10 +78,12 @@ Get Device Output from Voltha
     Should Be Equal As Integers    ${rc2}    0
 
 Validate Device
-    [Arguments]    ${serial_number}    ${admin_state}    ${oper_status}    ${connect_status}    ${onu_reason}=${EMPTY}    ${onu}=False
+    [Arguments]  ${admin_state}  ${oper_status}  ${connect_status}  ${serial_number}=${EMPTY}  ${device_id}=${EMPTY}
+    ...    ${onu_reason}=${EMPTY}   ${onu}=False
     [Documentation]    Parses the output of "voltctl device list" and inspects device ${serial_number}
     ...    Arguments are matched for device states of: "admin_state", "oper_status", and "connect_status"
-    ${output}=    Run    ${VOLTCTL_CONFIG}; voltctl device list -o json
+    ${rc}  ${output}=    Run and Return Rc and Output    ${VOLTCTL_CONFIG}; voltctl device list -o json
+    Should Be Equal As Integers    ${rc}    0
     ${jsondata}=    To Json    ${output}
     Log    ${jsondata}
     ${length}=    Get Length    ${jsondata}
@@ -81,18 +93,137 @@ Validate Device
         ${opstatus}=    Get From Dictionary    ${value}    operstatus
         ${cstatus}=    Get From Dictionary    ${value}    connectstatus
         ${sn}=    Get From Dictionary    ${value}    serialnumber
+        ${devId}=    Get From Dictionary    ${value}    id
         ${mib_state}=    Get From Dictionary    ${value}    reason
-        Run Keyword If    '${sn}' == '${serial_number}'    Exit For Loop
+       Run Keyword If    '${sn}' == '${serial_number}' or '${devId}' == '${device_id}'    Exit For Loop
     END
-    Should Be Equal    ${astate}    ${admin_state}    Device ${serial_number} admin_state != ENABLED    values=False
-    Should Be Equal    ${opstatus}    ${oper_status}    Device ${serial_number} oper_status != ACTIVE    values=False
-    Should Be Equal    ${cstatus}    ${connect_status}    Device ${serial_number} connect_status != REACHABLE    values=False
-    Run Keyword If    '${onu}' == 'True'    Should Be Equal    ${mib_state}    ${onu_reason}    Device ${serial_number} mib_state incorrect    values=False
+    Should Be Equal    '${astate}'    '${admin_state}'    Device ${serial_number} admin_state != ENABLED    values=False
+    Should Be Equal    '${opstatus}'   '${oper_status}'    Device ${serial_number} oper_status != ACTIVE    values=False
+    Should Be Equal    '${cstatus}'    '${connect_status}'    Device ${serial_number} connect_status != REACHABLE
+    ...    values=False
+    Run Keyword If    '${onu}' == 'True'    Should Be Equal    '${mib_state}'    '${onu_reason}'
+    ...  Device ${serial_number} mib_state incorrect  values=False
+
+Validate OLT Device
+    [Documentation]  Parses the output of "voltctl device list" and inspects device ${serial_number} and/or
+    ...     ${device_id}   Match on OLT Serial number or Device Id and inspect states
+    [Arguments]    ${admin_state}    ${oper_status}    ${connect_status}   ${serial_number}=${EMPTY}
+    ...     ${device_id}=${EMPTY}
+    Validate Device  ${admin_state}    ${oper_status}    ${connect_status}   ${serial_number}   ${device_id}
+
+Validate ONU Devices
+    [Documentation]  Parses the output of "voltctl device list" and inspects device  ${serial_number}
+    ...   Iteratively match on each Serial number contained in ${List_ONU_Serial} and inspect states including MIB state
+    [Arguments]  ${List_ONU_Serial}    ${admin_state}    ${oper_status}    ${connect_status}
+    FOR   ${serial_number}  IN  @{List_ONU_Serial}
+       Validate Device  ${admin_state}    ${oper_status}    ${connect_status}   ${serial_number}
+    ...  onu_reason=tech-profile-config-download-success    onu=True
+    END
+
+Validate Device Port Types
+    [Documentation]  Parses the output of voltctl device ports <device_id> and matches the port types listed
+    [Arguments]  ${device_id}   ${pon_type}     ${ethernet_type}
+    ${rc}  ${output}=    Run and Return Rc and Output    ${VOLTCTL_CONFIG}; voltctl device ports ${device_id} -o json
+    Should Be Equal As Integers    ${rc}    0
+    ${jsondata}=    To Json    ${output}
+    Log    ${jsondata}
+    ${length}=    Get Length    ${jsondata}
+    FOR    ${INDEX}    IN RANGE    0    ${length}
+        ${value}=    Get From List    ${jsondata}    ${INDEX}
+        ${astate}=    Get From Dictionary    ${value}    adminstate
+        ${opstatus}=    Get From Dictionary    ${value}    operstatus
+        ${type}=    Get From Dictionary    ${value}    type
+       Should Be Equal    '${astate}'    'ENABLED'    Device ${device_id} port admin_state != ENABLED    values=False
+       Should Be Equal    '${opstatus}'    'ACTIVE'    Device ${device_id} port oper_status != ACTIVE    values=False
+       Should Be True    '${type}' == '${pon_type}' or '${type}' == '${ethernet_type}'
+    ...     Device ${device_id} port type is neither ${pon_type} or ${ethernet_type}
+    END
+
+Validate OLT Port Types
+    [Documentation]  Parses the output of voltctl device ports ${olt_device_id} and matches the port types listed
+    [Arguments]     ${pon_type}     ${ethernet_type}
+    Validate Device Port Types   ${olt_device_id}    ${pon_type}     ${ethernet_type}
+
+Validate ONU Port Types
+    [Documentation]  Parses the output of voltctl device ports for each ONU SN listed in ${List_ONU_Serial}
+    ...     and matches the port types listed
+    [Arguments]     ${List_ONU_Serial}  ${pon_type}     ${ethernet_type}
+    FOR   ${serial_number}  IN  @{List_ONU_Serial}
+       ${onu_dev_id}=  Get Device ID From SN   ${serial_number}
+       Validate Device Port Types  ${onu_dev_id}    ${pon_type}     ${ethernet_type}
+    END
+
+Validate Device Flows
+    [Documentation]  Parses the output of voltctl device flows <device_id> and expects flow count > 0
+    [Arguments]  ${device_id}   ${test}=${EMPTY}
+    ${rc}  ${output}=    Run and Return Rc and Output    ${VOLTCTL_CONFIG}; voltctl device flows ${device_id} -o json
+    Should Be Equal As Integers    ${rc}    0
+    ${jsondata}=    To Json    ${output}
+    Log    ${jsondata}
+    ${length}=    Get Length    ${jsondata}
+    Log     'Number of flows = ' ${length}
+    Run Keyword If  '${test}' == '${EMPTY}'     Should Be True  ${length} > 0   Number of flows for ${device_id} was 0
+    ...  ELSE IF    '${test}' == 'ZERO'   Should Be True  ${length} == 0
+    ...     Number of flows for ${device_id} was greater than 0
+
+Validate OLT Flows
+    [Documentation]  Parses the output of voltctl device flows ${olt_device_id} and expects flow count > 0
+    Validate Device Flows   ${olt_device_id}
+
+Validate ONU Flows
+    [Documentation]  Parses the output of voltctl device flows for each ONU SN listed in ${List_ONU_Serial}
+    ...     and expects flow count == 0
+    [Arguments]     ${List_ONU_Serial}      ${test}
+    FOR   ${serial_number}  IN  @{List_ONU_Serial}
+       ${onu_dev_id}=  Get Device ID From SN   ${serial_number}
+       Validate Device Flows  ${onu_dev_id}    ${test}
+    END
+
+Validate Logical Device
+    [Documentation]  Validate Logical Device is listed
+    ${rc}  ${output}=    Run and Return Rc and Output    ${VOLTCTL_CONFIG}; voltctl logicaldevice list -o json
+    Should Be Equal As Integers    ${rc}    0
+    ${jsondata}=    To Json    ${output}
+    Log    ${jsondata}
+    ${length}=    Get Length    ${jsondata}
+    FOR    ${INDEX}    IN RANGE    0    ${length}
+       ${value}=    Get From List    ${jsondata}    ${INDEX}
+       ${devid}=  Get From Dictionary    ${value}   id
+       ${rootdev}=  Get From Dictionary    ${value}   rootdeviceid
+       ${sn}=  Get From Dictionary    ${value}   serialnumber
+       Exit For Loop
+    END
+    Should Be Equal    '${rootdev}'    '${olt_device_id}'    Root Device does not match ${olt_device_id}    values=False
+    Should Be Equal    '${sn}'   '${BBSIM_OLT_SN}'   Logical Device ${sn} does not match ${BBSIM_OLT_SN}    values=False
+    [Return]  ${devid}
+
+Validate Logical Device Ports
+    [Documentation]  Validate Logical Device Ports are listed and are > 0
+    [Arguments]  ${logical_device_id}
+    ${rc}  ${output}=    Run and Return Rc and Output
+    ...    ${VOLTCTL_CONFIG}; voltctl logicaldevice ports ${logical_device_id} -o json
+    Should Be Equal As Integers    ${rc}    0
+    ${jsondata}=    To Json    ${output}
+    Log    ${jsondata}
+    ${length}=    Get Length    ${jsondata}
+    Should Be True  ${length} > 0   Number of ports for ${logical_device_id} was 0
+
+Validate Logical Device Flows
+    [Documentation]  Validate Logical Device Flows are listed and are > 0
+    [Arguments]  ${logical_device_id}
+    ${rc}  ${output}=    Run and Return Rc and Output
+    ...     ${VOLTCTL_CONFIG}; voltctl logicaldevice flows ${logical_device_id} -o json
+    Should Be Equal As Integers    ${rc}    0
+    ${jsondata}=    To Json    ${output}
+    Log    ${jsondata}
+    ${length}=    Get Length    ${jsondata}
+    Should Be True  ${length} > 0   Number of flows for ${logical_device_id} was 0
 
 Get Device ID From SN
-    [Arguments]    ${serial_number}
     [Documentation]    Gets the device id by matching for ${serial_number}
-    ${output}=    Run    ${VOLTCTL_CONFIG}; voltctl device list -o json
+    [Arguments]    ${serial_number}
+    ${rc}  ${output}=    Run and Return Rc and Output   ${VOLTCTL_CONFIG}; voltctl device list -o json
+    Should Be Equal As Integers    ${rc}    0
     ${jsondata}=    To Json    ${output}
     Log    ${jsondata}
     ${length}=    Get Length    ${jsondata}
@@ -104,25 +235,43 @@ Get Device ID From SN
     END
     [Return]    ${id}
 
-Get Logical Device ID From SN
-    [Arguments]    ${serial_number}
-    [Documentation]    Gets the device id by matching for ${serial_number}
-    ${output}=    Run    ${VOLTCTL_CONFIG}; voltctl device list -o json
+Build ONU SN List
+    [Documentation]    Appends all ONU SNs to the ${serial_numbers} list
+    [Arguments]    ${serial_numbers}
+    ${rc}  ${output}=    Run and Return Rc and Output   ${VOLTCTL_CONFIG}; voltctl device list -o json
+    Should Be Equal As Integers    ${rc}    0
     ${jsondata}=    To Json    ${output}
     Log    ${jsondata}
     ${length}=    Get Length    ${jsondata}
     FOR    ${INDEX}    IN RANGE    0    ${length}
         ${value}=    Get From List    ${jsondata}    ${INDEX}
-        ${id}=    Get From Dictionary    ${value}    parentid
+        ${id}=    Get From Dictionary    ${value}    id
         ${sn}=    Get From Dictionary    ${value}    serialnumber
-        Run Keyword If    '${sn}' == '${serial_number}'    Exit For Loop
+        Run Keyword If  '${id}' != '${olt_device_id}'   Append To List  ${serial_numbers}   ${sn}
     END
     [Return]    ${id}
+
+Get SN From Device ID
+    [Documentation]  Gets the device id by matching for ${device_id}
+    [Arguments]     ${device_id}
+    ${rc}  ${output}=    Run and Return Rc and Output   ${VOLTCTL_CONFIG}; voltctl device list -o json
+    Should Be Equal As Integers    ${rc}    0
+    ${jsondata}=    To Json    ${output}
+    Log    ${jsondata}
+    ${length}=    Get Length    ${jsondata}
+    FOR    ${INDEX}    IN RANGE    0    ${length}
+        ${value}=    Get From List    ${jsondata}    ${INDEX}
+        ${id}=    Get From Dictionary    ${value}    id
+        ${sn}=    Get From Dictionary    ${value}    serialnumber
+        Run Keyword If    '${id}' == '${device_id}'    Exit For Loop
+    END
+    [Return]  ${sn}
 
 Validate Device Removed
     [Arguments]    ${id}
     [Documentation]    Verifys that device, ${serial_number}, has been removed
-    ${output}=    Run    ${VOLTCTL_CONFIG}; voltctl device list -o json
+    ${rc}  ${output}=    Run and Return Rc and Output    ${VOLTCTL_CONFIG}; voltctl device list -o json
+    Should Be Equal As Integers    ${rc}    0
     ${jsondata}=    To Json    ${output}
     Log    ${jsondata}
     ${length}=    Get Length    ${jsondata}
