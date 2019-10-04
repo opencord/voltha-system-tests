@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fee4648c_0b1a7f38",
+        "filename": "libraries/voltctl.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1000064
+      },
+      "writtenOn": "2019-10-04T19:06:18Z",
+      "side": 0,
+      "message": "These keywords are required and needed for generating Logs for functional test cases for diagnose purpose.  Basically we want to dump the outputs of few functions here.  Currently, there are only two but we will be adding more into these keywords.  See the Teardown section in the functional test cases for its use.",
+      "range": {
+        "startLine": 43,
+        "startChar": 0,
+        "endLine": 68,
+        "endChar": 46
+      },
+      "revId": "7268009faaa2e3dd0af74971d11e3093938c6963",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    }
+  ]
+}
