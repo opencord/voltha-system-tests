@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f12158f4_7c38c36d",
+        "filename": "tests/data/sadis-with-tp.json",
+        "patchSetId": 1
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 1000007
+      },
+      "writtenOn": "2019-10-04T21:47:09Z",
+      "side": 1,
+      "message": "Ideally we should include this file in kind-voltha as it\u0027s done now for a single ONU: https://github.com/ciena/kind-voltha/blob/master/onos-files/onos-sadis-sample.json",
+      "range": {
+        "startLine": 2,
+        "startChar": 3,
+        "endLine": 217,
+        "endChar": 1
+      },
+      "revId": "9d60c8ea0e50888503c852cde121466a44421a02",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    }
+  ]
+}
