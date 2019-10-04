@@ -21,7 +21,6 @@ node ("${TestNodeName}") {
                 sh returnStdout: true, script: "git clone -b master ${cordRepoUrl}/${configBaseDir}"
                 sh returnStdout: true, script: "git clone -b master ${cordRepoUrl}/voltha-system-tests"
                 sh returnStdout: true, script: "git clone https://github.com/ciena/kind-voltha.git"
-                sh returnStdout: true, script: "cp /home/cord/onos-dhcpl2relay-withFalse.json $WORKSPACE/kind-voltha/onos-files/onos-dhcpl2relay.json"
                 deployment_config = readYaml file: "${configBaseDir}/${configDeploymentDir}/${configFileName}.yaml"
             }
             stage('Clean up') {
@@ -59,7 +58,7 @@ node ("${TestNodeName}") {
                     sh returnStdout: true, script: """
                     export KUBECONFIG=$WORKSPACE/${configBaseDir}/${configKubernetesDir}/${configFileName}.conf
                     cd kind-voltha/
-                    EXTRA_HELM_FLAGS='-f $WORKSPACE/${configBaseDir}/${configKubernetesDir}/voltha/${configFileName}.yml' WITH_RADIUS=y WITH_TP=yes DEPLOY_K8S=no INSTALL_KUBECTL=no INSTALL_HELM=no FANCY=0 ONOS_TAG=voltha-2.1 ./voltha up
+                    EXTRA_HELM_FLAGS='-f $WORKSPACE/${configBaseDir}/${configKubernetesDir}/voltha/${configFileName}.yml' WITH_SIM_ADAPTERS=n WITH_RADIUS=y WITH_TP=yes DEPLOY_K8S=no INSTALL_KUBECTL=no INSTALL_HELM=no FANCY=0 ONOS_TAG=voltha-2.1 ./voltha up
                     """
                 }
             }
