@@ -22,6 +22,30 @@
       "revId": "7268009faaa2e3dd0af74971d11e3093938c6963",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a5433e26_84cbb5dd",
+        "filename": "libraries/voltctl.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1000457
+      },
+      "writtenOn": "2019-10-04T19:36:31Z",
+      "side": 0,
+      "message": "I probably missed this when fixing the merge conflicts\nI\u0027ll add those back in\nI also see that they are checking for the return of the voltctl command and it is something I should be doing as well",
+      "parentUuid": "fee4648c_0b1a7f38",
+      "range": {
+        "startLine": 43,
+        "startChar": 0,
+        "endLine": 68,
+        "endChar": 46
+      },
+      "revId": "7268009faaa2e3dd0af74971d11e3093938c6963",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
     }
   ]
 }
