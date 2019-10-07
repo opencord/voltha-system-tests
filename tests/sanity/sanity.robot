@@ -21,6 +21,7 @@ Suite Setup       Setup
 Suite Teardown    Teardown
 Test Teardown     Execute ONOS CLI Command    ${server_ip}    ${ONOS_SSH_PORT}    flows -s
 Library           OperatingSystem
+Library           ${CURDIR}/../../libraries/DependencyLibrary.py
 Resource          ${CURDIR}/../../libraries/onos.robot
 Resource          ${CURDIR}/../../libraries/voltctl.robot
 Resource          ${CURDIR}/../../libraries/utils.robot
@@ -58,12 +59,14 @@ Activate Device BBSIM OLT/ONU
 Validate OLT Connected to ONOS
     [Documentation]    Verifies the BBSIM-OLT device is activated in onos
     [Tags]    sanity
+    [Setup]    Require test case    Activate Device BBSIM OLT/ONU
     ${of_id}=    Wait Until Keyword Succeeds    ${timeout}    5s    Validate OLT Device in ONOS    ${BBSIM_OLT_SN}
     Set Suite Variable    ${of_id}
 
 Check EAPOL Flows in ONOS
     [Documentation]    Validates eapol flows for the onu are pushed from voltha
     [Tags]    sanity
+    [Setup]    Require test case    Validate OLT Connected to ONOS
     ${num_flows}=    Evaluate    ${num_onus} * 4
     ${flows_str}=    Convert To String    ${num_flows}
     Wait Until Keyword Succeeds    ${timeout}    5s    Verify Eapol Flows Added    ${server_ip}    ${ONOS_SSH_PORT}    ${flows_str}
@@ -71,11 +74,13 @@ Check EAPOL Flows in ONOS
 Validate ONU Authenticated in ONOS
     [Documentation]    Validates onu is AUTHORIZED in ONOS as bbsim will attempt to authenticate
     [Tags]    sanity
+    [Setup]    Require test case    Check EAPOL Flows in ONOS
     Wait Until Keyword Succeeds    ${timeout}    1s    Verify Number of AAA-Users    ${server_ip}    ${ONOS_SSH_PORT}    ${num_onus}
 
 Add Subscriber-Access in ONOS
     [Documentation]    Through the olt-app in ONOS, execute 'volt-add-subscriber-access' and validate IP Flows
     [Tags]    sanity
+    [Setup]    Require test case    Validate ONU Authenticated in ONOS
     ##    TODO: this works fine with 1 onu, but with multiple onus, we need to ensure this is executes
     ##    prior to to dhclient starting. possible start a process after first test case to just attempt
     ##    "volt-add-subscriber-access" to all onus periodically?
@@ -85,11 +90,13 @@ Add Subscriber-Access in ONOS
 Validate DHCP Assignment in ONOS
     [Documentation]    After IP Flows are pushed to the device, BBSIM will start a dhclient for the ONU.
     [Tags]    sanity
+    [Setup]    Require test case    Add Subscriber-Access in ONOS
     Wait Until Keyword Succeeds    120s    15s    Validate DHCP Allocations    ${server_ip}    ${ONOS_SSH_PORT}    ${num_onus}
 
 Delete Device and Verify
     [Documentation]    Disable -> Delete devices via voltctl and verify its removed
     [Tags]    sanity
+    [Setup]    Require test case    Activate Device BBSIM OLT/ONU
     #disable/delete onu
     ${rc}    ${output}=    Run and Return Rc and Output    ${VOLTCTL_CONFIG}; voltctl device disable ${onu_device_id}
     Should Be Equal As Integers    ${rc}    0
