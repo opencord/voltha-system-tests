@@ -22,6 +22,30 @@
       "revId": "9d60c8ea0e50888503c852cde121466a44421a02",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "508385d7_ab043953",
+        "filename": "tests/data/sadis-with-tp.json",
+        "patchSetId": 1
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 1000457
+      },
+      "writtenOn": "2019-10-07T14:44:15Z",
+      "side": 1,
+      "message": "I was thinking that it may be best to have the single onu support sadis file in kind voltha which works with sanity test and any other specific sadis file such as this one get loaded during test execution.\nThat was what the data/ folder was there for.\nI don\u0027t think that kind voltha can load different types of sadis files as the test requires. I think this should remain as part of the testing framework",
+      "parentUuid": "f12158f4_7c38c36d",
+      "range": {
+        "startLine": 2,
+        "startChar": 3,
+        "endLine": 217,
+        "endChar": 1
+      },
+      "revId": "9d60c8ea0e50888503c852cde121466a44421a02",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
     }
   ]
 }
