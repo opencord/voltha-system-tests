@@ -20,6 +20,18 @@ SHELL = bash -e -o pipefail
 LINT_ARGS   ?= --verbose --configure LineTooLong:120 --configure TooManyTestSteps:15
 VERSION     ?= $(shell cat ./VERSION)
 
+.PHONY: gendocs
+
+## Variables for gendocs
+TEST_SOURCE := $(wildcard tests/*/*.robot)
+TEST_BASENAME := $(basename $(TEST_SOURCE))
+TEST_DIRS := $(dir $(TEST_SOURCE))
+
+LIB_SOURCE := $(wildcard libraries/*.robot)
+LIB_BASENAME := $(basename $(LIB_SOURCE))
+LIB_DIRS := $(dir $(LIB_SOURCE))
+
+
 sanity-kind: ROBOT_PORT_ARGS ?= -v ONOS_REST_PORT:8181 -v ONOS_SSH_PORT:8101
 sanity-kind: ROBOT_TEST_ARGS ?= --exclude notready --critical sanity
 sanity-kind: ROBOT_MISC_ARGS ?= -v num_onus:1
@@ -51,12 +63,19 @@ sanity: vst_venv
 	cd tests/sanity ;\
 	robot $(ROBOT_PORT_ARGS) $(ROBOT_TEST_ARGS) $(ROBOT_MISC_ARGS) sanity.robot
 
+
 gendocs: vst_venv
 	source ./vst_venv/bin/activate ;\
 	set -u ;\
-	mkdir -p gendocs ;\
-	python -m robot.libdoc --format HTML libraries/onos.robot gendocs/lib_onos_robot.html ;\
-	python -m robot.testdoc tests/Voltha_PODTests.robot gendocs/voltha_podtests.html
+	mkdir -p $@ ;\
+	for dir in ${LIB_DIRS}; do mkdir -p $@/$$dir; done;\
+	for dir in ${LIB_BASENAME}; do\
+		python -m robot.libdoc --format HTML $$dir.robot $@/$$dir.html ;\
+	done ;\
+	for dir in ${TEST_DIRS}; do mkdir -p $@/$$dir; done;\
+	for dir in ${TEST_BASENAME}; do\
+		python -m robot.testdoc $$dir.robot $@/$$dir.html ;\
+	done
 
 # explore use of --docformat REST - integration w/Sphinx?
 clean:
