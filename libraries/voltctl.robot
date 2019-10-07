@@ -28,7 +28,7 @@ Library           OperatingSystem
 *** Keywords ***
 Create Device
     [Arguments]    ${ip}    ${port}
-    [Documentation]    Parses the output of "voltctl device list" and inspects device ${serial_number}
+    [Documentation]    Creates a device in VOLTHA
     #create/preprovision device
     ${rc}    ${device_id}=    Run and Return Rc and Output    ${VOLTCTL_CONFIG}; voltctl device create -t openolt -H ${ip}:${port}
     Should Be Equal As Integers    ${rc}    0
