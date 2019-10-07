@@ -89,15 +89,16 @@ deploy the POD by following the procedure in this section below.
 
 ## Deploying POD
 
-Deploying POD can be either be manual or automated using Jenkins job.
+Deploying POD can be either manual or automated using Jenkins job.
 
 You can install it manually by following these steps below.
 
 ```
 git clone https://github.com/ciena/kind-voltha.git
 cd kind-voltha/
-EXTRA_HELM_FLAGS='-f $WORKSPACE/${configBaseDir}/${configKubernetesDir}/voltha/${configFileName}.yml' WITH_RADIUS=y WITH_TP=yes DEPLOY_K8S=no INSTALL_KUBECTL=no INSTALL_HELM=no ONOS_TAG=voltha-2.1 ./voltha up
+EXTRA_HELM_FLAGS='-f <PATH_TO_YOUR_K8S_CONFIG_FILE>' WITH_RADIUS=yes WITH_TP=yes DEPLOY_K8S=no INSTALL_KUBECTL=no INSTALL_HELM=no ONOS_TAG=voltha-2.1 ./voltha up
 ```
+Note: replace `PATH_TO_YOUR_K8S_CONFIG_FILE` with your Kubernetes configuration file. To create one please check this [example](https://github.com/opencord/pod-configs/blob/master/kubernetes-configs/voltha/flex-ocp-cord.yml).
 For more information on various environment variables with `./voltha up` please
 check the link [here](https://github.com/ciena/kind-voltha/blob/master/README.md)
 
@@ -118,10 +119,12 @@ tech profiles etc. Please give appropriate file names to the input files.
 
 To trigger tests on the physical POD
 ```
+git clone https://github.com/opencord/voltha-system-tests
+git clone https://github.com/opencord/cord-tester
 cd voltha-system-tests/tests/functional
 robot -V <PATH_TO_YOUR_POD_CONFIGURATION_FILE> Voltha_PODTests.robot
 ```
-Note: PATH_TO_YOUR_POD_CONFIGURATION_FILE should point to the yaml file that describes your POD setup.
+Note: `PATH_TO_YOUR_POD_CONFIGURATION_FILE` should point to the yaml file that describes your POD setup.
 
 Scenarios in each test suite can be associated with a `Tag`, using which a particular scenario can be
 invoked during test execution.
