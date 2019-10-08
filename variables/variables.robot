@@ -13,7 +13,7 @@
 # limitations under the License.
 
 *** Variables ***
-${BBSIM_OLT_SN}    BBSIMOLT000
+${BBSIM_OLT_SN}    BBSIM_OLT_0
 ${BBSIM_ONU_SN}    BBSM00000001
 ${ONOS_REST_PORT}    30120
 ${ONOS_SSH_PORT}    30115
