@@ -43,15 +43,18 @@ up a minimal environment, first install [Docker](https://docs.docker.com/install
 and [the Go programming language](https://golang.org/doc/install).
 Then run the following commands:
 
+Note: Please make sure you are able to run the docker command, you can run as root or add your running user into docker group.
+
 ```bash
 git clone https://github.com/ciena/kind-voltha
 cd kind-voltha
-EXTRA_HELM_FLAGS="--set defaults.image_tag=voltha-2.1” TYPE=minimal WITH_RADIUS=y WITH_BBSIM=y INSTALL_ONOS_APPS=y CONFIG_SADIS=y ./voltha up
+EXTRA_HELM_FLAGS="--set defaults.image_tag=voltha-2.1" TYPE=minimal WITH_RADIUS=y WITH_BBSIM=y INSTALL_ONOS_APPS=y CONFIG_SADIS=y ./voltha up
 source minimal-env.sh
 ```
 
 The `defaults.image_tag` value above is used to specify which VOLTHA
 branch images to pull from Docker Hub.
+See all available versions in [Docker voltha](https://hub.docker.com/u/voltha/).
 
 ## Running the sanity tests
 
