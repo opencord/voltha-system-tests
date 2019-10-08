@@ -22,6 +22,30 @@
       "revId": "8da6dd9ec2d32a8c3b863a5ab1509c7a633639e1",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5b339f30_98db3678",
+        "filename": "Makefile",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1000007
+      },
+      "writtenOn": "2019-10-08T20:02:16Z",
+      "side": 1,
+      "message": "These are needed as the new BBSim has a different OLT SN than the old one and the value is passed in the tests as a variable",
+      "parentUuid": "ef5ceeae_50c68023",
+      "range": {
+        "startLine": 22,
+        "startChar": 0,
+        "endLine": 23,
+        "endChar": 15
+      },
+      "revId": "8da6dd9ec2d32a8c3b863a5ab1509c7a633639e1",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
     }
   ]
 }
