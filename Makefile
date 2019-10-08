@@ -19,6 +19,16 @@ SHELL = bash -e -o pipefail
 # Variables
 LINT_ARGS   ?= --verbose --configure LineTooLong:120 --configure TooManyTestSteps:15
 VERSION     ?= $(shell cat ./VERSION)
+ROBOT_OLT_SN  =
+ROBOT_ONU_SN  =
+
+ifneq ($(BBSIM_OLT_SN),)
+ROBOT_OLT_SN=-v BBSIM_OLT_SN:$(BBSIM_OLT_SN)
+endif
+
+ifneq ($(BBSIM_ONU_SN),)
+ROBOT_ONU_SN=-v BBSIM_ONU_SN:$(BBSIM_ONU_SN)
+endif
 
 sanity-kind: ROBOT_PORT_ARGS ?= -v ONOS_REST_PORT:8181 -v ONOS_SSH_PORT:8101
 sanity-kind: ROBOT_TEST_ARGS ?= --exclude notready --critical sanity
@@ -49,7 +59,7 @@ sanity: vst_venv
 	source ./vst_venv/bin/activate ;\
 	set -u ;\
 	cd tests/sanity ;\
-	robot $(ROBOT_PORT_ARGS) $(ROBOT_TEST_ARGS) $(ROBOT_MISC_ARGS) sanity.robot
+	robot $(ROBOT_PORT_ARGS) $(ROBOT_TEST_ARGS) $(ROBOT_MISC_ARGS) $(ROBOT_OLT_SN) $(ROBOT_ONU_SN) sanity.robot
 
 gendocs: vst_venv
 	source ./vst_venv/bin/activate ;\
