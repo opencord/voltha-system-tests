@@ -22,6 +22,30 @@
       "revId": "752bf570bd09dc963f4fbe51468a085d490a61b4",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8cca0c8d_96ab1cc0",
+        "filename": "libraries/utils.robot",
+        "patchSetId": 4
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1000457
+      },
+      "writtenOn": "2019-10-09T18:08:39Z",
+      "side": 1,
+      "message": "That is why I did this. I\u0027ve seen different Sadis files that had uncommon values for BBSIM_OLT_SN. What was common was the uplink port it was using which did not change.\nAs for the BBSIM_ONU_SN, I trying not to break anything in the sanity test but in fact I\u0027m not using this value as for my Functional test cases, I\u0027m dealing 16 ONUs and hence a list of ONU_SNs",
+      "parentUuid": "35272ac8_fb8b32a9",
+      "range": {
+        "startLine": 54,
+        "startChar": 0,
+        "endLine": 54,
+        "endChar": 99
+      },
+      "revId": "752bf570bd09dc963f4fbe51468a085d490a61b4",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
     }
   ]
 }
