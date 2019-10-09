@@ -105,6 +105,24 @@
       "revId": "d81971e7718266ce79a30a579360323443507c60",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e8b744bd_c77cf630",
+        "filename": "variables/variables.robot",
+        "patchSetId": 3
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1000003
+      },
+      "writtenOn": "2019-10-09T20:55:29Z",
+      "side": 1,
+      "message": "not sure as i have not set up an ingress controller. we really should get one set up and play with it.",
+      "parentUuid": "282fe2e0_d6f0b9d2",
+      "revId": "d81971e7718266ce79a30a579360323443507c60",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
     }
   ]
 }
