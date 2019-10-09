@@ -70,6 +70,30 @@
       "revId": "752bf570bd09dc963f4fbe51468a085d490a61b4",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "29432839_09d38771",
+        "filename": "libraries/utils.robot",
+        "patchSetId": 4
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1000457
+      },
+      "writtenOn": "2019-10-09T21:40:22Z",
+      "side": 1,
+      "message": "I just tested the above suggested change even deriving my list of 16 ONUs the same way. This is much better than parsing the Sadis file as I had been doing.\nJust need to add in the check for no devices in the system.",
+      "parentUuid": "468c67f5_efbc34b7",
+      "range": {
+        "startLine": 54,
+        "startChar": 0,
+        "endLine": 54,
+        "endChar": 99
+      },
+      "revId": "752bf570bd09dc963f4fbe51468a085d490a61b4",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
     }
   ]
 }
