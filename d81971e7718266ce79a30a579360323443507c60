@@ -69,6 +69,24 @@
       "revId": "d81971e7718266ce79a30a579360323443507c60",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0129b7c9_5ce880e6",
+        "filename": "variables/variables.robot",
+        "patchSetId": 3
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1000003
+      },
+      "writtenOn": "2019-10-09T20:31:59Z",
+      "side": 1,
+      "message": "How would this then work with the physical test environment where port-forwards are not set up? I don\u0027t think robot is run within the k8s cluster so it will need to access the service from outside the cluster.",
+      "parentUuid": "2e23561c_14320ae7",
+      "revId": "d81971e7718266ce79a30a579360323443507c60",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
     }
   ]
 }
