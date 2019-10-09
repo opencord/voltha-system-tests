@@ -46,6 +46,30 @@
       "revId": "752bf570bd09dc963f4fbe51468a085d490a61b4",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "468c67f5_efbc34b7",
+        "filename": "libraries/utils.robot",
+        "patchSetId": 4
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1000003
+      },
+      "writtenOn": "2019-10-09T18:18:12Z",
+      "side": 1,
+      "message": "my point being is that in \"Activate Device BBSIM OLT/ONU\" the test uses the \"static configured\" SNs to verify the device is created/enabled. What about instead of using the static config for the test queries to get the SNs from the ID returned from the create. Then no one has to static configure the SNs.\n\nAdditionally, we could add a pre-condition to the test that there are no devices in the system",
+      "parentUuid": "8cca0c8d_96ab1cc0",
+      "range": {
+        "startLine": 54,
+        "startChar": 0,
+        "endLine": 54,
+        "endChar": 99
+      },
+      "revId": "752bf570bd09dc963f4fbe51468a085d490a61b4",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
     }
   ]
 }
