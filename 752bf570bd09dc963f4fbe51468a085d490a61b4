@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "35272ac8_fb8b32a9",
+        "filename": "libraries/utils.robot",
+        "patchSetId": 4
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1000003
+      },
+      "writtenOn": "2019-10-09T17:59:08Z",
+      "side": 1,
+      "message": "Based on this line, I am wondering if we need to set BBSIM_OLT_SN and BBSIM_ONU_SN in the variable file. Might we just look this up after we create the device? This would mean one less \"statically configed\" value when invoking the test and might make it easier to run against multiple targets (old bbsim, new bbsim, various real hardware)",
+      "range": {
+        "startLine": 54,
+        "startChar": 0,
+        "endLine": 54,
+        "endChar": 99
+      },
+      "revId": "752bf570bd09dc963f4fbe51468a085d490a61b4",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    }
+  ]
+}
