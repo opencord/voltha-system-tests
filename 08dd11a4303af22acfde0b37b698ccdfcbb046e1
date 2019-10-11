@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "814e5621_6a0ad1be",
+        "filename": "tests/data/bbsim-kind.yaml",
+        "patchSetId": 4
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1000064
+      },
+      "writtenOn": "2019-10-11T19:02:18Z",
+      "side": 1,
+      "message": "Please update the title",
+      "range": {
+        "startLine": 15,
+        "startChar": 41,
+        "endLine": 15,
+        "endChar": 62
+      },
+      "revId": "08dd11a4303af22acfde0b37b698ccdfcbb046e1",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "efca29af_98e55c67",
         "filename": "tests/data/bbsim-kind.yaml",
         "patchSetId": 4
