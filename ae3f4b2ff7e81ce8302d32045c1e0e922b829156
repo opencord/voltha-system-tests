@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "52455dd2_15b4d5ae",
+        "filename": "tests/functional/Voltha_PODTests.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1000003
+      },
+      "writtenOn": "2019-10-11T16:50:03Z",
+      "side": 1,
+      "message": "does it make sense to have these conditional based on \"bbsim\" or capability, i.e. Run Keyword supports_dataplane \u003d\u003d yes",
+      "range": {
+        "startLine": 69,
+        "startChar": 4,
+        "endLine": 69,
+        "endChar": 47
+      },
+      "revId": "ae3f4b2ff7e81ce8302d32045c1e0e922b829156",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    }
+  ]
+}
