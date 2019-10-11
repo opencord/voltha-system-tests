@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "ac7d0123_24806d3d",
+        "filename": "tests/functional/Voltha_PODTests.robot",
+        "patchSetId": 4
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1000003
+      },
+      "writtenOn": "2019-10-11T18:00:08Z",
+      "side": 1,
+      "message": "[repeat] can we make this dependent on \"capability\" as opposed to \"name\". so more like Run Keyword If \u0027${setup}.has_dataplane\"",
+      "range": {
+        "startLine": 65,
+        "startChar": 4,
+        "endLine": 65,
+        "endChar": 46
+      },
+      "revId": "08dd11a4303af22acfde0b37b698ccdfcbb046e1",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "75476fbe_daee5a7f",
         "filename": "tests/functional/Voltha_PODTests.robot",
         "patchSetId": 4
@@ -13,6 +36,30 @@
       "writtenOn": "2019-10-11T17:56:42Z",
       "side": 1,
       "message": "It seems to me that collecting the logs is the responsibility of the Jenkins job that invokes the tests rather than the Robot tests themselves.",
+      "range": {
+        "startLine": 138,
+        "startChar": 51,
+        "endLine": 138,
+        "endChar": 92
+      },
+      "revId": "08dd11a4303af22acfde0b37b698ccdfcbb046e1",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "34e64c75_becae036",
+        "filename": "tests/functional/Voltha_PODTests.robot",
+        "patchSetId": 4
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1000003
+      },
+      "writtenOn": "2019-10-11T18:00:08Z",
+      "side": 1,
+      "message": "i sort of agree. the question is can jenkins to that.",
+      "parentUuid": "75476fbe_daee5a7f",
       "range": {
         "startLine": 138,
         "startChar": 51,
