@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "efca29af_98e55c67",
+        "filename": "tests/data/bbsim-kind.yaml",
+        "patchSetId": 4
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1000011
+      },
+      "writtenOn": "2019-10-11T18:32:20Z",
+      "side": 1,
+      "message": "Minor nitpick - put the YAML doc start at the at beginning of file, or some YAML parsers will think this is two documents.",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 0
+      },
+      "revId": "08dd11a4303af22acfde0b37b698ccdfcbb046e1",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ac7d0123_24806d3d",
         "filename": "tests/functional/Voltha_PODTests.robot",
         "patchSetId": 4
