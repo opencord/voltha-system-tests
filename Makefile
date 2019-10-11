@@ -15,6 +15,7 @@
 # use bash for pushd/popd, and to fail quickly. virtualenv's activate
 # has undefined variables, so no -u
 SHELL = bash -e -o pipefail
+ROOT_DIR:=$(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
 
 # Variables
 LINT_ARGS   ?= --verbose --configure LineTooLong:120 --configure TooManyTestSteps:15
@@ -42,10 +43,11 @@ LIB_BASENAME := $(basename $(LIB_SOURCE))
 LIB_DIRS := $(dir $(LIB_SOURCE))
 
 
-sanity-kind: ROBOT_PORT_ARGS ?= -v ONOS_REST_PORT:8181 -v ONOS_SSH_PORT:8101
-sanity-kind: ROBOT_TEST_ARGS ?= --exclude notready --critical sanity
-sanity-kind: ROBOT_MISC_ARGS ?= -v num_onus:1
-sanity-kind: sanity
+sanity-kind: bbsim-kind
+
+bbsim-kind: ROBOT_PORT_ARGS ?= -v ONOS_REST_PORT:8181 -v ONOS_SSH_PORT:8101 -v OLT_PORT:50060
+bbsim-kind: ROBOT_MISC_ARGS ?= -v num_onus:1 -v setup:bbsim -V $(ROOT_DIR)/tests/data/bbsim-kind.yaml -v ports_per_onu:4 -X
+bbsim-kind: voltha-podtest
 
 # virtualenv for the robot tools
 vst_venv:
@@ -67,12 +69,11 @@ tidy:
 	set -u ;\
 	find . -name *.robot -exec python -m robot.tidy --inplace {} \;
 
-sanity: vst_venv
+voltha-podtest: vst_venv
 	source ./vst_venv/bin/activate ;\
 	set -u ;\
-	cd tests/sanity ;\
-	robot $(ROBOT_PORT_ARGS) $(ROBOT_TEST_ARGS) $(ROBOT_MISC_ARGS) $(ROBOT_OLT_SN) $(ROBOT_ONU_SN) sanity.robot
-
+	cd tests/functional ;\
+	robot $(ROBOT_PORT_ARGS) $(ROBOT_TEST_ARGS) $(ROBOT_MISC_ARGS) $(ROBOT_OLT_SN) $(ROBOT_ONU_SN) Voltha_PODTests.robot
 
 gendocs: vst_venv
 	source ./vst_venv/bin/activate ;\

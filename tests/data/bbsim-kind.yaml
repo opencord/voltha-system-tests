@@ -1,0 +1,69 @@
+# Copyright 2017-present Open Networking Foundation
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+# http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+# Automated deployment configuration for Flex POD 1 , olt/onu are connected to this
+
+---
+
+nodes:
+  -
+    ip: '127.0.0.1'
+    user: null
+    pass: null
+
+fabric_switches:
+  -
+    mac: null
+    ip: null
+    user: null
+    pass: null
+    bngPort: null
+    oltPort: null
+    device_id: null
+
+olts:
+  -
+    ip: bbsim.voltha.svc
+    user: null
+    pass: null
+    fortygig: null
+    serial: BBSIM_OLT_0
+
+onus:
+  -
+    serial: 'BBSM00000001'
+
+hosts:
+  src:
+    -
+      ip: null
+      pass: null
+      dp_iface_name: null
+      container_type: null
+      container_name: null
+      onu: null
+      c_tag: null
+      s_tag: null
+
+  dst:
+    -
+      ip: null
+      user: null
+      pass: null
+      dp_iface_name: null
+      dp_iface_ip_qinq: null
+      dp_iface_ip: null
+      dp_iface_gateway: null
+      container_type: null
+      container_name: null
