@@ -72,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "a4b2b991_a719bfff",
+        "filename": "tests/functional/Voltha_PODTests.robot",
+        "patchSetId": 4
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1000003
+      },
+      "writtenOn": "2019-10-11T18:48:46Z",
+      "side": 1,
+      "message": "no so much clearer, but then allows us to conditionalize so that if we have another sim that supports data plane, then we would get the data place tests with it.\n\nso any place where we have a condition around bbsim we likely want to see if we can generalize that to a required capability as opposed to a specific implementation.",
+      "parentUuid": "0e51fb40_26757e55",
+      "range": {
+        "startLine": 65,
+        "startChar": 4,
+        "endLine": 65,
+        "endChar": 46
+      },
+      "revId": "08dd11a4303af22acfde0b37b698ccdfcbb046e1",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "75476fbe_daee5a7f",
         "filename": "tests/functional/Voltha_PODTests.robot",
         "patchSetId": 4
