@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "6bc767a6_4841d66f",
+        "filename": "tests/data/bbsim-kind.yaml",
+        "patchSetId": 4
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1000010
+      },
+      "writtenOn": "2019-10-14T16:42:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "814e5621_6a0ad1be",
+      "range": {
+        "startLine": 15,
+        "startChar": 41,
+        "endLine": 15,
+        "endChar": 62
+      },
+      "revId": "08dd11a4303af22acfde0b37b698ccdfcbb046e1",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "efca29af_98e55c67",
         "filename": "tests/data/bbsim-kind.yaml",
         "patchSetId": 4
@@ -36,6 +60,30 @@
       "writtenOn": "2019-10-11T18:32:20Z",
       "side": 1,
       "message": "Minor nitpick - put the YAML doc start at the at beginning of file, or some YAML parsers will think this is two documents.",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 0
+      },
+      "revId": "08dd11a4303af22acfde0b37b698ccdfcbb046e1",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e84f1c34_5b375c33",
+        "filename": "tests/data/bbsim-kind.yaml",
+        "patchSetId": 4
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1000010
+      },
+      "writtenOn": "2019-10-14T16:42:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "efca29af_98e55c67",
       "range": {
         "startLine": 17,
         "startChar": 0,
@@ -107,6 +155,30 @@
       "side": 1,
       "message": "no so much clearer, but then allows us to conditionalize so that if we have another sim that supports data plane, then we would get the data place tests with it.\n\nso any place where we have a condition around bbsim we likely want to see if we can generalize that to a required capability as opposed to a specific implementation.",
       "parentUuid": "0e51fb40_26757e55",
+      "range": {
+        "startLine": 65,
+        "startChar": 4,
+        "endLine": 65,
+        "endChar": 46
+      },
+      "revId": "08dd11a4303af22acfde0b37b698ccdfcbb046e1",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "62cc728f_a25a6650",
+        "filename": "tests/functional/Voltha_PODTests.robot",
+        "patchSetId": 4
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1000010
+      },
+      "writtenOn": "2019-10-14T16:42:43Z",
+      "side": 1,
+      "message": "I think I\u0027ve addressed this request in the latest patchset",
+      "parentUuid": "a4b2b991_a719bfff",
       "range": {
         "startLine": 65,
         "startChar": 4,
