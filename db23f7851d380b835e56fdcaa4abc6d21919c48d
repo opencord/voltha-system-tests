@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "022a494a_b5740554",
+        "filename": "tests/data/bbsim-kind.yaml",
+        "patchSetId": 6
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1000003
+      },
+      "writtenOn": "2019-10-14T23:06:30Z",
+      "side": 1,
+      "message": "is it possible, or even a good idea, to look this up after creating the device as opposed to set it in a config?",
+      "range": {
+        "startLine": 50,
+        "startChar": 4,
+        "endLine": 50,
+        "endChar": 23
+      },
+      "revId": "db23f7851d380b835e56fdcaa4abc6d21919c48d",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ff0e319b_cfa53a6d",
+        "filename": "tests/data/bbsim-kind.yaml",
+        "patchSetId": 6
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1000003
+      },
+      "writtenOn": "2019-10-14T23:06:30Z",
+      "side": 1,
+      "message": "is it possible, or even a good idea, to look this up after creating the device as opposed to set it in a config?",
+      "range": {
+        "startLine": 54,
+        "startChar": 0,
+        "endLine": 54,
+        "endChar": 26
+      },
+      "revId": "db23f7851d380b835e56fdcaa4abc6d21919c48d",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5eed52ff_a099278e",
+        "filename": "tests/functional/Voltha_PODTests.robot",
+        "patchSetId": 6
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1000003
+      },
+      "writtenOn": "2019-10-14T23:06:30Z",
+      "side": 1,
+      "message": "more of a nit than anything real, but robot with its 4 space separator is a pain and i find it personally hard to manually parse read. is it possible to format this as a table (like the imports below) to lines things up a bit better and maybe make it more readable?",
+      "range": {
+        "startLine": 54,
+        "startChar": 0,
+        "endLine": 54,
+        "endChar": 6
+      },
+      "revId": "db23f7851d380b835e56fdcaa4abc6d21919c48d",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "87d11bbd_87144a5f",
+        "filename": "tests/functional/Voltha_PODTests.robot",
+        "patchSetId": 6
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1000003
+      },
+      "writtenOn": "2019-10-14T23:06:30Z",
+      "side": 1,
+      "message": "assume this is going away at some point?",
+      "range": {
+        "startLine": 57,
+        "startChar": 24,
+        "endLine": 57,
+        "endChar": 29
+      },
+      "revId": "db23f7851d380b835e56fdcaa4abc6d21919c48d",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    }
+  ]
+}
