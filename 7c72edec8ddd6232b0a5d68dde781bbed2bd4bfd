@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "04142b1a_b1bb7108",
+        "filename": "tests/data/bbsim-kind.yaml",
+        "patchSetId": 7
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1000010
+      },
+      "writtenOn": "2019-10-15T20:52:08Z",
+      "side": 1,
+      "message": "We\u0027ve switched over to the new BBSim and that uses the new name.",
+      "parentUuid": "5003265a_6789a224",
+      "revId": "7c72edec8ddd6232b0a5d68dde781bbed2bd4bfd",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9c724aeb_2f429dac",
         "filename": "tests/functional/Voltha_PODTests.robot",
         "patchSetId": 7
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "1787f0d0_03c3bd2b",
+        "filename": "tests/functional/Voltha_PODTests.robot",
+        "patchSetId": 7
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1000010
+      },
+      "writtenOn": "2019-10-15T20:52:08Z",
+      "side": 1,
+      "message": "It\u0027s 5 because that\u0027s the default number of ports on the ONUs that we\u0027re using for testing.  My goal was that this patch should work with our physical tests without requiring any changes to the existing pod config files.",
+      "parentUuid": "9c724aeb_2f429dac",
+      "revId": "7c72edec8ddd6232b0a5d68dde781bbed2bd4bfd",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1118265f_eb55afc5",
         "filename": "tests/functional/Voltha_PODTests.robot",
         "patchSetId": 7
@@ -47,6 +83,24 @@
       "writtenOn": "2019-10-15T17:44:45Z",
       "side": 1,
       "message": "${CURDIR}, although the version of Robot Framework recognizes it, Pycharm Robot Framework plugin does not leading to its inability to validate variables defined in those listed imports\nI have opted to use the \u0027.\u0027 instead which works the same and allows Pycharm to locate the said files",
+      "revId": "7c72edec8ddd6232b0a5d68dde781bbed2bd4bfd",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "149c77f9_d0012325",
+        "filename": "tests/functional/Voltha_PODTests.robot",
+        "patchSetId": 7
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1000010
+      },
+      "writtenOn": "2019-10-15T20:52:08Z",
+      "side": 1,
+      "message": "I removed it from the patch.  It was required to get the paths to resolve on our test pod, but the problem was with Robot framework on the pod.",
+      "parentUuid": "1118265f_eb55afc5",
       "revId": "7c72edec8ddd6232b0a5d68dde781bbed2bd4bfd",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
       "unresolved": false
