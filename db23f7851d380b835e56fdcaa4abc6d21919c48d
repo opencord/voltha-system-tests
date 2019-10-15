@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "3b3cd6cc_dce595e4",
+        "filename": "tests/data/bbsim-kind.yaml",
+        "patchSetId": 6
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1000003
+      },
+      "writtenOn": "2019-10-15T00:14:18Z",
+      "side": 1,
+      "message": "for some reason, i thought the lookup of this was already in the sanity test, if not, then yes, i suspect it can be pushed to further work, just need to define a JIRA.",
+      "parentUuid": "f0efcf98_da2196e7",
+      "range": {
+        "startLine": 50,
+        "startChar": 4,
+        "endLine": 50,
+        "endChar": 23
+      },
+      "revId": "db23f7851d380b835e56fdcaa4abc6d21919c48d",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ff0e319b_cfa53a6d",
         "filename": "tests/data/bbsim-kind.yaml",
         "patchSetId": 6
@@ -84,6 +108,30 @@
       "side": 1,
       "message": "We should definitely think about how to simplify these tests.  Can we delay this work to a future patch?",
       "parentUuid": "ff0e319b_cfa53a6d",
+      "range": {
+        "startLine": 54,
+        "startChar": 0,
+        "endLine": 54,
+        "endChar": 26
+      },
+      "revId": "db23f7851d380b835e56fdcaa4abc6d21919c48d",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "56e022df_f6c80cf8",
+        "filename": "tests/data/bbsim-kind.yaml",
+        "patchSetId": 6
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1000003
+      },
+      "writtenOn": "2019-10-15T00:14:18Z",
+      "side": 1,
+      "message": "for some reason, i thought the lookup of this was already in the sanity test, if not, then yes, i suspect it can be pushed to further work, just need to define a JIRA.",
+      "parentUuid": "11ff1ae2_fa114bae",
       "range": {
         "startLine": 54,
         "startChar": 0,
@@ -178,6 +226,30 @@
       "side": 1,
       "message": "I think it\u0027s there because it\u0027s nice to be able to select individual tests to run",
       "parentUuid": "87d11bbd_87144a5f",
+      "range": {
+        "startLine": 57,
+        "startChar": 24,
+        "endLine": 57,
+        "endChar": 29
+      },
+      "revId": "db23f7851d380b835e56fdcaa4abc6d21919c48d",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f00aa1b6_4cff4d2a",
+        "filename": "tests/functional/Voltha_PODTests.robot",
+        "patchSetId": 6
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1000003
+      },
+      "writtenOn": "2019-10-15T00:14:18Z",
+      "side": 1,
+      "message": "ok, is this tied to a dictionary somewhere then so that it is clear what \"test1\" means, i.e. like a UUID for a test that is in the test plan? Or do we need to make it meaningful in some other way. test1 seems a bit too abstract.",
+      "parentUuid": "01801ec9_8dda27ee",
       "range": {
         "startLine": 57,
         "startChar": 24,
