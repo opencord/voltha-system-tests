@@ -121,6 +121,30 @@
     },
     {
       "key": {
+        "uuid": "7768dc1b_7d5265f9",
+        "filename": "tests/data/bbsim-kind.yaml",
+        "patchSetId": 6
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1000010
+      },
+      "writtenOn": "2019-10-15T20:52:08Z",
+      "side": 1,
+      "message": "Sounds good to me",
+      "parentUuid": "74d3afc1_20f7c931",
+      "range": {
+        "startLine": 50,
+        "startChar": 4,
+        "endLine": 50,
+        "endChar": 23
+      },
+      "revId": "db23f7851d380b835e56fdcaa4abc6d21919c48d",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ff0e319b_cfa53a6d",
         "filename": "tests/data/bbsim-kind.yaml",
         "patchSetId": 6
@@ -228,6 +252,30 @@
       "side": 1,
       "message": "I\u0027ve already incorporated the lookup of Serial Numbers for both OLT and ONUs as suggested by David in my pending functional tests. I could enhance this test the same way as when I commit my changes",
       "parentUuid": "ae848534_b03fb51d",
+      "range": {
+        "startLine": 54,
+        "startChar": 0,
+        "endLine": 54,
+        "endChar": 26
+      },
+      "revId": "db23f7851d380b835e56fdcaa4abc6d21919c48d",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d5ec329a_e6242b12",
+        "filename": "tests/data/bbsim-kind.yaml",
+        "patchSetId": 6
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1000010
+      },
+      "writtenOn": "2019-10-15T20:52:08Z",
+      "side": 1,
+      "message": "Sounds good to me",
+      "parentUuid": "89a46126_0d074ffe",
       "range": {
         "startLine": 54,
         "startChar": 0,
