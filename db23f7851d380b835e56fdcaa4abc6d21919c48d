@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "f9d1c1ec_683bc35d",
+        "filename": "tests/data/bbsim-kind.yaml",
+        "patchSetId": 6
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1000010
+      },
+      "writtenOn": "2019-10-15T02:17:03Z",
+      "side": 1,
+      "message": "They\u0027re explicitly specified right now: https://github.com/opencord/voltha-system-tests/blob/master/variables/variables.robot#L16-L17\n\nWill make a JIRA to track test cleanup",
+      "parentUuid": "3b3cd6cc_dce595e4",
+      "range": {
+        "startLine": 50,
+        "startChar": 4,
+        "endLine": 50,
+        "endChar": 23
+      },
+      "revId": "db23f7851d380b835e56fdcaa4abc6d21919c48d",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ff0e319b_cfa53a6d",
         "filename": "tests/data/bbsim-kind.yaml",
         "patchSetId": 6
@@ -132,6 +156,30 @@
       "side": 1,
       "message": "for some reason, i thought the lookup of this was already in the sanity test, if not, then yes, i suspect it can be pushed to further work, just need to define a JIRA.",
       "parentUuid": "11ff1ae2_fa114bae",
+      "range": {
+        "startLine": 54,
+        "startChar": 0,
+        "endLine": 54,
+        "endChar": 26
+      },
+      "revId": "db23f7851d380b835e56fdcaa4abc6d21919c48d",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ae848534_b03fb51d",
+        "filename": "tests/data/bbsim-kind.yaml",
+        "patchSetId": 6
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1000010
+      },
+      "writtenOn": "2019-10-15T02:17:03Z",
+      "side": 1,
+      "message": "Same comment as above",
+      "parentUuid": "56e022df_f6c80cf8",
       "range": {
         "startLine": 54,
         "startChar": 0,
@@ -250,6 +298,30 @@
       "side": 1,
       "message": "ok, is this tied to a dictionary somewhere then so that it is clear what \"test1\" means, i.e. like a UUID for a test that is in the test plan? Or do we need to make it meaningful in some other way. test1 seems a bit too abstract.",
       "parentUuid": "01801ec9_8dda27ee",
+      "range": {
+        "startLine": 57,
+        "startChar": 24,
+        "endLine": 57,
+        "endChar": 29
+      },
+      "revId": "db23f7851d380b835e56fdcaa4abc6d21919c48d",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b92410ac_028723b1",
+        "filename": "tests/functional/Voltha_PODTests.robot",
+        "patchSetId": 6
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1000010
+      },
+      "writtenOn": "2019-10-15T02:17:03Z",
+      "side": 1,
+      "message": "I don\u0027t think there\u0027s any meaningful documentation about test labels.  It\u0027s maybe not straightforward to match Robot tests to the test plan - for instance, I think all of the clean-start-* tests in the plan will likely run this same test.  I\u0027ll create a Jira about test label documentation.",
+      "parentUuid": "f00aa1b6_4cff4d2a",
       "range": {
         "startLine": 57,
         "startChar": 24,
