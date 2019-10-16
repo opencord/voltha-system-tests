@@ -104,6 +104,24 @@
       "revId": "7c72edec8ddd6232b0a5d68dde781bbed2bd4bfd",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c966f914_8cc1e52b",
+        "filename": "tests/functional/Voltha_PODTests.robot",
+        "patchSetId": 7
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1000010
+      },
+      "writtenOn": "2019-10-16T00:03:03Z",
+      "side": 1,
+      "message": "I spent some more time looking at this. It seems like the import works in some environments without ${CURDIR} but not all.  I\u0027m re-adding it to the patch in order to be on the safe side.  We can revisit this later, and possibly remove in a subsequent patch.",
+      "parentUuid": "149c77f9_d0012325",
+      "revId": "7c72edec8ddd6232b0a5d68dde781bbed2bd4bfd",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
     }
   ]
 }
