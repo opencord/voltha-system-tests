@@ -62,7 +62,7 @@ node ("${TestNodeName}") {
                     """
                 }
             }
-            if ( params.configurePod )
+            /*if ( params.configurePod )
                 stage('Push Tech-Profile') {
                     timeout(1) {
                         out_push_tp = sh returnStatus: true, script: """
@@ -80,7 +80,7 @@ node ("${TestNodeName}") {
                         """
                         return out_get_tp == 0
                     }
-                }
+                }*/
                 stage('Push Sadis-config') {
                     timeout(1) {
                         sadis_out = sh returnStatus: true, script: """
