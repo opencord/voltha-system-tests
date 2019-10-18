@@ -22,6 +22,30 @@
       "revId": "3dd2f83055d053a864648027728c41bfeb724add",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "021799e2_83e406d7",
+        "filename": "tests/functional/Voltha_PODTests.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1000064
+      },
+      "writtenOn": "2019-10-18T23:27:09Z",
+      "side": 1,
+      "message": "I am not sure what the other ports really mean or signify.  But when we add the subscriber(volt-add-subscriber-access call) we usually take the first port only. Hence I am just checking for the first port ONU-{1}",
+      "parentUuid": "6ae31f27_489020cc",
+      "range": {
+        "startLine": 60,
+        "startChar": 71,
+        "endLine": 60,
+        "endChar": 91
+      },
+      "revId": "3dd2f83055d053a864648027728c41bfeb724add",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
     }
   ]
 }
