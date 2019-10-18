@@ -62,13 +62,13 @@ node ("${TestNodeName}") {
                     """
                 }
             }
-            /*if ( params.configurePod )
+            if ( params.configurePod && params.profile != "Default") {
                 stage('Push Tech-Profile') {
                     timeout(1) {
                         out_push_tp = sh returnStatus: true, script: """
                         export KUBECONFIG=$WORKSPACE/${configBaseDir}/${configKubernetesDir}/${configFileName}.conf
                         etcd_container=\$(kubectl get pods -n voltha | grep voltha-etcd-cluster | awk 'NR==1{print \$1}')
-                        kubectl cp $WORKSPACE/voltha-system-tests/tests/data/${configFileName}-multipleGem.json voltha/\$etcd_container:/tmp/flexpod.json
+                        kubectl cp $WORKSPACE/voltha-system-tests/tests/data/${configFileName}-${profile}.json voltha/\$etcd_container:/tmp/flexpod.json
                         put_result=\$(kubectl exec -it \$etcd_container -n voltha -- /bin/sh -c 'cat /tmp/flexpod.json | ETCDCTL_API=3 etcdctl put service/voltha/technology_profiles/xgspon/64')
                         """
                         return out_push_tp == 0
@@ -80,15 +80,16 @@ node ("${TestNodeName}") {
                         """
                         return out_get_tp == 0
                     }
-                }*/
-                stage('Push Sadis-config') {
-                    timeout(1) {
-                        sadis_out = sh returnStatus: true, script: """
+                }
+            }
+            stage('Push Sadis-config') {
+                timeout(1) {
+                    sadis_out = sh returnStatus: true, script: """
                         curl -sSL --user karaf:karaf -X POST -H Content-Type:application/json http://${deployment_config.nodes[0].ip}:30120/onos/v1/network/configuration --data @$WORKSPACE/voltha-system-tests/tests/data/${configFileName}-sadis.json
                         """
                         return sadis_out == 0
-                    }
                 }
+            }
 
             if ( params.reinstallOlt ) {
                 stage('Reinstall OLT software') {
