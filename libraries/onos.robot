@@ -93,6 +93,12 @@ Verify Eapol Flows Added
     ${eapol_flows_added}=    Execute ONOS CLI Command    ${ip}    ${port}    flows -s -f ADDED | grep eapol | grep IN_PORT | wc -l
     Should Contain    ${eapol_flows_added}    ${expected_flows}
 
+Verify Eapol Flows Added For ONU
+    [Arguments]    ${ip}    ${port}    ${onu_port}
+    [Documentation]    Verifies if the Eapol Flows are added in ONOS for the ONU
+    ${eapol_flows_added}=    Execute ONOS CLI Command    ${ip}    ${port}    flows -s -f ADDED | grep eapol | grep IN_PORT:${onu_port}
+    Should Not Be Empty    ${eapol_flows_added}
+
 Verify Number of AAA-Users
     [Arguments]    ${ip}    ${port}    ${expected_onus}
     [Documentation]    Matches for number of aaa-users authorized based on number of onus

@@ -57,14 +57,12 @@ Sanity E2E Test for OLT/ONU on POD
     #[Setup]    Clean Up Linux
     ${of_id}=    Wait Until Keyword Succeeds    ${timeout}    15s    Validate OLT Device in ONOS    ${olt_serial_number}
     Set Global Variable    ${of_id}
-    ${num_flows}=    Evaluate    ${num_onus} * ${ports_per_onu}
-    ${flows_str}=    Convert To String    ${num_flows}
-    Wait Until Keyword Succeeds    ${timeout}    2s    Verify Eapol Flows Added    ${k8s_node_ip}    ${ONOS_SSH_PORT}    ${flows_str}
+    ${onu_port}=    Wait Until Keyword Succeeds    ${timeout}    2s    Get ONU Port in ONOS    ${onu_serial_number}   ${of_id}
+    Wait Until Keyword Succeeds    ${timeout}    2s    Verify Eapol Flows Added For ONU    ${k8s_node_ip}    ${ONOS_SSH_PORT}    ${onu_port}
     Run Keyword If    ${has_dataplane}    Validate Authentication    True    ${src0['dp_iface_name']}
     ...    wpa_supplicant.conf    ${src0['ip']}    ${src0['user']}    ${src0['pass']}
     ...    ${src0['container_type']}    ${src0['container_name']}
     Wait Until Keyword Succeeds    ${timeout}    2s    Verify Number of AAA-Users    ${k8s_node_ip}    ${ONOS_SSH_PORT}    ${num_onus}
-    ${onu_port}=    Wait Until Keyword Succeeds    ${timeout}    2s    Get ONU Port in ONOS    ${onu_serial_number}   ${of_id}
     Wait Until Keyword Succeeds    ${timeout}    2s    Execute ONOS CLI Command    ${k8s_node_ip}    ${ONOS_SSH_PORT}
     ...    volt-add-subscriber-access ${of_id} ${onu_port}
     Run Keyword If    ${has_dataplane}    Validate DHCP and Ping    True    True    ${src0['dp_iface_name']}
