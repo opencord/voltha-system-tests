@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6ae31f27_489020cc",
+        "filename": "tests/functional/Voltha_PODTests.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1000010
+      },
+      "writtenOn": "2019-10-18T23:11:53Z",
+      "side": 1,
+      "message": "It looks like this keyword just gets the first port for a particular ONU, which may not be exactly what we want.  But I think it\u0027s OK for now.",
+      "range": {
+        "startLine": 60,
+        "startChar": 71,
+        "endLine": 60,
+        "endChar": 91
+      },
+      "revId": "3dd2f83055d053a864648027728c41bfeb724add",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    }
+  ]
+}
