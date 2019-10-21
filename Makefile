@@ -18,7 +18,8 @@ SHELL = bash -e -o pipefail
 ROOT_DIR:=$(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
 
 # Variables
-LINT_ARGS   ?= --verbose --configure LineTooLong:120 --configure TooManyTestSteps:15
+LINT_ARGS   ?= --verbose --configure LineTooLong:120 --configure TooManyTestSteps:15 \
+       --configure TooFewTestSteps:1 --configure TooFewKeywordSteps:1
 VERSION     ?= $(shell cat ./VERSION)
 ROBOT_VAR_FILE ?= $(ROOT_DIR)/tests/data/bbsim-kind.yaml
 
