@@ -90,13 +90,15 @@ Get FabricSwitch in ONOS
 Verify Eapol Flows Added
     [Arguments]    ${ip}    ${port}    ${expected_flows}
     [Documentation]    Matches for number of eapol flows based on number of onus
-    ${eapol_flows_added}=    Execute ONOS CLI Command    ${ip}    ${port}    flows -s -f ADDED | grep eapol | grep IN_PORT | wc -l
+    ${eapol_flows_added}=    Execute ONOS CLI Command    ${ip}    ${port}
+    ...  flows -s -f ADDED | grep eapol | grep IN_PORT | wc -l
     Should Contain    ${eapol_flows_added}    ${expected_flows}
 
 Verify Eapol Flows Added For ONU
     [Arguments]    ${ip}    ${port}    ${onu_port}
     [Documentation]    Verifies if the Eapol Flows are added in ONOS for the ONU
-    ${eapol_flows_added}=    Execute ONOS CLI Command    ${ip}    ${port}    flows -s -f ADDED | grep eapol | grep IN_PORT:${onu_port}
+    ${eapol_flows_added}=    Execute ONOS CLI Command    ${ip}    ${port}
+    ...    flows -s -f ADDED | grep eapol | grep IN_PORT:${onu_port}
     Should Not Be Empty    ${eapol_flows_added}
 
 Verify ONU in AAA-Users
