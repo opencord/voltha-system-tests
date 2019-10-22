@@ -31,4 +31,5 @@ Check CLI Tools Configured
     # check voltctl and kubectl configured
     ${voltctl_rc}=    Run And Return RC    ${VOLTCTL_CONFIG}; voltctl device list
     ${kubectl_rc}=    Run And Return RC    ${KUBECTL_CONFIG}; kubectl get pods
-    Run Keyword If    ${voltctl_rc} != 0 or ${kubectl_rc} != 0    FATAL ERROR    VOLTCTL and KUBECTL not configured. Please configure before executing tests.
+    Run Keyword If    ${voltctl_rc} != 0 or ${kubectl_rc} != 0    FATAL ERROR
+    ...    VOLTCTL and KUBECTL not configured. Please configure before executing tests.
