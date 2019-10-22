@@ -1,0 +1,114 @@
+{
+  "devices": {
+    "of:000000000a5a0072": {
+      "basic": {
+        "driver": "voltha"
+      }
+    }
+  },
+  "apps": {
+    "org.opencord.sadis": {
+      "sadis": {
+        "integration": {
+          "cache": {
+            "enabled": false,
+            "maxsize": 50,
+            "ttl": "PT0m"
+          }
+        },
+        "entries": [
+          {
+            "id": "ALPHe3d1cfde-1",
+            "cTag": 112,
+            "sTag": 111,
+            "nasPortId": "",
+            "circuitId": "",
+            "remoteId": "",
+            "technologyProfileId": 64,
+            "upstreamBandwidthProfile": "Default",
+            "downstreamBandwidthProfile": "Default"
+          },
+          {
+            "id": "ALPHe3d1cfde-2",
+            "cTag": 902,
+            "sTag": 111,
+            "nasPortId": "",
+            "circuitId": "",
+            "remoteId": "",
+            "technologyProfileId": 64,
+            "upstreamBandwidthProfile": "Default",
+            "downstreamBandwidthProfile": "Default"
+          },
+          {
+            "id": "ALPHe3d1cfde-3",
+            "cTag": 903,
+            "sTag": 111,
+            "nasPortId": "",
+            "circuitId": "",
+            "remoteId": "",
+            "technologyProfileId": 64,
+            "upstreamBandwidthProfile": "Default",
+            "downstreamBandwidthProfile": "Default"
+          },
+          {
+            "id": "ALPHe3d1cfde-4",
+            "cTag": 904,
+            "sTag": 111,
+            "nasPortId": "",
+            "circuitId": "",
+            "remoteId": "",
+            "technologyProfileId": 64,
+            "upstreamBandwidthProfile": "Default",
+            "downstreamBandwidthProfile": "Default"
+          },
+          {
+            "id": "ALPHe3d1cfde-5",
+            "cTag": 905,
+            "sTag": 111,
+            "nasPortId": "",
+            "circuitId": "",
+            "remoteId": "",
+            "technologyProfileId": 64,
+            "upstreamBandwidthProfile": "Default",
+            "downstreamBandwidthProfile": "Default"
+          },
+          {
+            "id": "EC1838000853",
+            "hardwareIdentifier": "aa:bb:cc:dd:ee:ff",
+            "ipAddress": "10.192.20.206",
+            "nasId": "EC1838000853",
+            "uplinkPort": 65536
+          }
+        ]
+      },
+      "bandwidthprofile":{
+          "integration":{
+              "cache":{
+                  "enabled":true,
+                  "maxsize":40,
+                  "ttl":"PT1m"
+              }
+          },
+          "entries":[
+              {
+                  "id": "Default",
+                  "air": 100000,
+                  "cbs": 30,
+                  "cir": 600,
+                  "ebs": 30,
+                  "eir": 400
+              },
+              {
+                  "id": "User_Bandwidth1",
+                  "air": 100000,
+                  "cbs": 10000,
+                  "cir": 5000,
+                  "ebs": 1000,
+                  "eir": 5000
+              }
+
+          ]
+      }
+    }
+  }
+}
