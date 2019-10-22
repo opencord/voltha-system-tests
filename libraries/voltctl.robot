@@ -68,7 +68,7 @@ Get Device Output from Voltha
     Should Be Equal As Integers    ${rc2}    0
 
 Validate Device
-    [Arguments]    ${serial_number}    ${admin_state}    ${oper_status}    ${connect_status}    ${onu_reason}=${EMPTY}    ${onu}=False
+    [Arguments]    ${serial_number}    ${admin_state}    ${oper_status}    ${connect_status}    ${onu_reasons}=${EMPTY}    ${onu}=False
     [Documentation]    Parses the output of "voltctl device list" and inspects device ${serial_number}
     ...    Arguments are matched for device states of: "admin_state", "oper_status", and "connect_status"
     ${output}=    Run    ${VOLTCTL_CONFIG}; voltctl device list -o json
@@ -87,7 +87,7 @@ Validate Device
     Should Be Equal    ${astate}    ${admin_state}    Device ${serial_number} admin_state != ENABLED    values=False
     Should Be Equal    ${opstatus}    ${oper_status}    Device ${serial_number} oper_status != ACTIVE    values=False
     Should Be Equal    ${cstatus}    ${connect_status}    Device ${serial_number} connect_status != REACHABLE    values=False
-    Run Keyword If    '${onu}' == 'True'    Should Be Equal    ${mib_state}    ${onu_reason}    Device ${serial_number} mib_state incorrect    values=False
+    Run Keyword If    '${onu}' == 'True'    Should Contain    ${onu_reasons}    ${mib_state}    Device ${serial_number} mib_state incorrect    values=False
 
 Get Device ID From SN
     [Arguments]    ${serial_number}
