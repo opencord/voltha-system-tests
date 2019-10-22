@@ -65,36 +65,40 @@ Sanity E2E Test for OLT/ONU on POD
         ...    REACHABLE    onu=True    onu_reasons=${onu_reasons}
 
         ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
-        ${onu_port}=    Wait Until Keyword Succeeds    ${timeout}    2s    Get ONU Port in ONOS    ${src['onu']}   ${of_id}
-        Wait Until Keyword Succeeds    ${timeout}    2s    Verify Eapol Flows Added For ONU    ${k8s_node_ip}    ${ONOS_SSH_PORT}    ${onu_port}
-
-        Run Keyword If    ${has_dataplane}   Run Keyword And Continue On Failure    Validate Authentication    True    ${src['dp_iface_name']}
-        ...    wpa_supplicant.conf    ${src['ip']}    ${src['user']}    ${src['pass']}
+        ${onu_port}=    Wait Until Keyword Succeeds    ${timeout}    2s    Get ONU Port in ONOS    ${src['onu']}
+        ...    ${of_id}
+        Wait Until Keyword Succeeds    ${timeout}    2s    Verify Eapol Flows Added For ONU    ${k8s_node_ip}
+        ...    ${ONOS_SSH_PORT}    ${onu_port}
+        Run Keyword If    ${has_dataplane}    Run Keyword And Continue On Failure    Validate Authentication    True
+        ...    ${src['dp_iface_name']}    wpa_supplicant.conf    ${src['ip']}    ${src['user']}    ${src['pass']}
         ...    ${src['container_type']}    ${src['container_name']}
-
-        Wait Until Keyword Succeeds    ${timeout}    2s    Verify ONU in AAA-Users    ${k8s_node_ip}    ${ONOS_SSH_PORT}
-        ...    ${onu_port}
-
-        Wait Until Keyword Succeeds    ${timeout}    2s    Execute ONOS CLI Command    ${k8s_node_ip}    ${ONOS_SSH_PORT}
-        ...    volt-add-subscriber-access ${of_id} ${onu_port}
-
-        Run Keyword If    ${has_dataplane}    Run Keyword And Continue On Failure    Validate DHCP and Ping    True    True    ${src['dp_iface_name']}
-        ...    ${src['s_tag']}    ${src['c_tag']}    ${dst['dp_iface_ip_qinq']}    ${src['ip']}    ${src['user']}
-        ...    ${src['pass']}    ${src['container_type']}    ${src['container_name']}    ${dst['dp_iface_name']}
-        ...    ${dst['ip']}    ${dst['user']}    ${dst['pass']}    ${dst['container_type']}    ${dst['container_name']}
-
-        Wait Until Keyword Succeeds    ${timeout}    2s    Run Keyword And Continue On Failure    Validate Subscriber DHCP Allocation    ${k8s_node_ip}    ${ONOS_SSH_PORT}    ${onu_port}
+        Wait Until Keyword Succeeds    ${timeout}    2s    Verify ONU in AAA-Users    ${k8s_node_ip}
+        ...    ${ONOS_SSH_PORT}     ${onu_port}
+        Wait Until Keyword Succeeds    ${timeout}    2s    Execute ONOS CLI Command    ${k8s_node_ip}
+        ...    ${ONOS_SSH_PORT}    volt-add-subscriber-access ${of_id} ${onu_port}
+        Run Keyword If    ${has_dataplane}    Run Keyword And Continue On Failure    Validate DHCP and Ping    True
+        ...    True    ${src['dp_iface_name']}    ${src['s_tag']}    ${src['c_tag']}    ${dst['dp_iface_ip_qinq']}
+        ...    ${src['ip']}    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
+        ...    ${dst['dp_iface_name']}    ${dst['ip']}    ${dst['user']}    ${dst['pass']}    ${dst['container_type']}
+        ...    ${dst['container_name']}
+        Wait Until Keyword Succeeds    ${timeout}    2s    Run Keyword And Continue On Failure
+        ...    Validate Subscriber DHCP Allocation    ${k8s_node_ip}    ${ONOS_SSH_PORT}    ${onu_port}
     END
 
 *** Keywords ***
 Setup Suite
     [Documentation]    Setup the whole test suite
     # BBSim sanity test doesn't need these imports from other repositories
-    Run Keyword If    ${external_libs}    Import Library    ${CURDIR}/../../../voltha/tests/atests/common/testCaseUtils.py
-    Run Keyword If    ${external_libs}    Import Resource    ${CURDIR}/../../../cord-tester/src/test/cord-api/Framework/Subscriber.robot
-    Run Keyword If    ${external_libs}    Import Resource    ${CURDIR}/../../../cord-tester/src/test/cord-api/Framework/OLT.robot
-    Run Keyword If    ${external_libs}    Import Resource    ${CURDIR}/../../../cord-tester/src/test/cord-api/Framework/DHCP.robot
-    Run Keyword If    ${external_libs}    Import Resource    ${CURDIR}/../../../cord-tester/src/test/cord-api/Framework/Kubernetes.robot
+    Run Keyword If    ${external_libs}    Import Library
+    ...    ${CURDIR}/../../../voltha/tests/atests/common/testCaseUtils.py
+    Run Keyword If    ${external_libs}    Import Resource
+    ...    ${CURDIR}/../../../cord-tester/src/test/cord-api/Framework/Subscriber.robot
+    Run Keyword If    ${external_libs}    Import Resource
+    ...    ${CURDIR}/../../../cord-tester/src/test/cord-api/Framework/OLT.robot
+    Run Keyword If    ${external_libs}    Import Resource
+    ...    ${CURDIR}/../../../cord-tester/src/test/cord-api/Framework/DHCP.robot
+    Run Keyword If    ${external_libs}    Import Resource
+    ...    ${CURDIR}/../../../cord-tester/src/test/cord-api/Framework/Kubernetes.robot
     Set Global Variable    ${KUBECTL_CONFIG}    export KUBECONFIG=%{KUBECONFIG}
     Set Global Variable    ${export_kubeconfig}    export KUBECONFIG=${KUBERNETES_CONF}
     Set Global Variable    ${VOLTCTL_CONFIG}    export VOLTCONFIG=%{VOLTCONFIG}

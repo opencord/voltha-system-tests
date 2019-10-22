@@ -29,13 +29,15 @@ Library           OperatingSystem
 Lookup Service IP
     [Arguments]    ${namespace}    ${name}
     [Documentation]    Uses kubeclt to resolve a service name to an IP
-    ${rc}    ${ip}=    Run and Return Rc and Output    kubectl get svc -n ${namespace} ${name} -o jsonpath={.spec.clusterIP}
+    ${rc}    ${ip}=    Run and Return Rc and Output
+    ...    kubectl get svc -n ${namespace} ${name} -o jsonpath={.spec.clusterIP}
     Should Be Equal as Integers    ${rc}    0
     [Return]    ${ip}
 
 Lookup Service PORT
     [Arguments]    ${namespace}    ${name}
     [Documentation]    Uses kubeclt to resolve a service name to an PORT
-    ${rc}    ${port}=    Run and Return Rc and Output    kubectl get svc -n ${namespace} ${name} -o jsonpath={.spec.ports[0].port}
+    ${rc}    ${port}=    Run and Return Rc and Output
+    ...    kubectl get svc -n ${namespace} ${name} -o jsonpath={.spec.ports[0].port}
     Should Be Equal as Integers    ${rc}    0
     [Return]    ${port}
