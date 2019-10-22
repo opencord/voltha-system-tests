@@ -128,8 +128,9 @@ Setup
     Enable Device    ${olt_device_id}
     Wait Until Keyword Succeeds    ${timeout}    5s    Validate Device    ${olt_serial_number}    ENABLED    ACTIVE
     ...    REACHABLE
+    ${onu_reasons}=    Create List     tech-profile-config-download-success    omci-flows-pushed
     Wait Until Keyword Succeeds    ${timeout}    5s    Validate Device    ${onu_serial_number}    ENABLED    ACTIVE
-    ...    REACHABLE    onu=True    onu_reason=tech-profile-config-download-success
+    ...    REACHABLE    onu=True    onu_reasons=${onu_reasons}
     ${onu_device_id}=    Get Device ID From SN    ${onu_serial_number}
     Set Suite Variable    ${onu_device_id}
     ${logical_id}=    Get Logical Device ID From SN    ${olt_serial_number}
