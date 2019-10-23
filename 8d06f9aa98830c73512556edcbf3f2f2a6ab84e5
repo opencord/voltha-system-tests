@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ce7401d7_35c1e325",
+        "filename": "tests/data/onf-demo-pod-multipleGem.json",
+        "patchSetId": 1
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1000064
+      },
+      "writtenOn": "2019-10-23T18:56:26Z",
+      "side": 1,
+      "message": "We don\u0027t need this file anymore.  Now we have generic file that says TechProfile-1T4GEM.json that is used to push to ETCD.  Please delete this file.",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 3,
+        "endChar": 8
+      },
+      "revId": "8d06f9aa98830c73512556edcbf3f2f2a6ab84e5",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    }
+  ]
+}
