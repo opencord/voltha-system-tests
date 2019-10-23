@@ -36,6 +36,12 @@ olts:
 hosts:
   src:
     - onu: 'BBSM00000001'
+    - onu: 'BBSM00000002'
+    - onu: 'BBSM00000101'
+    - onu: 'BBSM00000102'
 
   dst:
+    - ip: null
+    - ip: null
+    - ip: null
     - ip: null
