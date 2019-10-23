@@ -19,8 +19,8 @@
         "entries": [
           {
             "id": "BRCM22222222-1",
-            "cTag": 99,
-            "sTag": 11,
+            "cTag": 11,
+            "sTag": 99,
             "nasPortId": "",
             "circuitId": "",
             "remoteId": "",
@@ -30,8 +30,8 @@
           },
           {
             "id": "ALPHe3d1cf9d-1",
-            "cTag": 99,
-            "sTag": 22,
+            "cTag": 22,
+            "sTag": 99,
             "nasPortId": "",
             "circuitId": "",
             "remoteId": "",
