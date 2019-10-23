@@ -38,7 +38,7 @@ ROBOT_MISC_ARGS ?=
 sanity-kind: ROBOT_MISC_ARGS += -i sanity
 sanity-kind: bbsim-kind
 
-bbsim-kind: ROBOT_MISC_ARGS += -v num_onus:1 -X
+bbsim-kind: ROBOT_MISC_ARGS += -X
 bbsim-kind: voltha-podtest
 
 # virtualenv for the robot tools
