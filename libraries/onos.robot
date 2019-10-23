@@ -99,6 +99,12 @@ Verify Eapol Flows Added For ONU
     ${eapol_flows_added}=    Execute ONOS CLI Command    ${ip}    ${port}    flows -s -f ADDED | grep eapol | grep IN_PORT:${onu_port}
     Should Not Be Empty    ${eapol_flows_added}
 
+Verify ONU in AAA-Users
+    [Arguments]    ${ip}    ${port}    ${onu_port}
+    [Documentation]    Verifies that the specified onu_port exists in aaa-users output
+    ${aaa_users}=    Execute ONOS CLI Command    ${ip}    ${port}    aaa-users | grep AUTHORIZED | grep ${onu_port}
+    Should Not Be Empty    ${aaa_users}
+
 Verify Number of AAA-Users
     [Arguments]    ${ip}    ${port}    ${expected_onus}
     [Documentation]    Matches for number of aaa-users authorized based on number of onus
@@ -112,3 +118,10 @@ Validate DHCP Allocations
     ##TODO: filter by onu serial number instead of count
     ${allocations}=    Execute ONOS CLI Command    ${ip}    ${port}    dhcpl2relay-allocations | grep DHCPACK | wc -l
     Should Contain    ${allocations}    ${expected_onus}
+
+Validate Subscriber DHCP Allocation
+    [Arguments]    ${ip}    ${port}    ${onu_port}
+    [Documentation]    Verifies that the specified subscriber is found in DHCP allocations
+    ##TODO: Enhance the keyword to include DHCP allocated address is not 0.0.0.0
+    ${allocations}=    Execute ONOS CLI Command    ${ip}    ${port}    dhcpl2relay-allocations | grep DHCPACK | grep ${onu_port}
+    Should Not Be Empty    ${allocations}

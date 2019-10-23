@@ -57,20 +57,31 @@ Sanity E2E Test for OLT/ONU on POD
     #[Setup]    Clean Up Linux
     ${of_id}=    Wait Until Keyword Succeeds    ${timeout}    15s    Validate OLT Device in ONOS    ${olt_serial_number}
     Set Global Variable    ${of_id}
-    ${onu_port}=    Wait Until Keyword Succeeds    ${timeout}    2s    Get ONU Port in ONOS    ${onu_serial_number}   ${of_id}
-    Wait Until Keyword Succeeds    ${timeout}    2s    Verify Eapol Flows Added For ONU    ${k8s_node_ip}    ${ONOS_SSH_PORT}    ${onu_port}
-    Run Keyword If    ${has_dataplane}    Validate Authentication    True    ${src0['dp_iface_name']}
-    ...    wpa_supplicant.conf    ${src0['ip']}    ${src0['user']}    ${src0['pass']}
-    ...    ${src0['container_type']}    ${src0['container_name']}
-    Wait Until Keyword Succeeds    ${timeout}    2s    Verify Number of AAA-Users    ${k8s_node_ip}    ${ONOS_SSH_PORT}    ${num_onus}
-    Wait Until Keyword Succeeds    ${timeout}    2s    Execute ONOS CLI Command    ${k8s_node_ip}    ${ONOS_SSH_PORT}
-    ...    volt-add-subscriber-access ${of_id} ${onu_port}
-    Run Keyword If    ${has_dataplane}    Validate DHCP and Ping    True    True    ${src0['dp_iface_name']}
-    ...    ${src0['s_tag']}    ${src0['c_tag']}    ${dst0['dp_iface_ip_qinq']}    ${src0['ip']}    ${src0['user']}
-    ...    ${src0['pass']}    ${src0['container_type']}    ${src0['container_name']}    ${dst0['dp_iface_name']}
-    ...    ${dst0['ip']}    ${dst0['user']}    ${dst0['pass']}    ${dst0['container_type']}    ${dst0['container_name']}
-    Wait Until Keyword Succeeds    ${timeout}    2s    Validate DHCP Allocations    ${k8s_node_ip}    ${ONOS_SSH_PORT}    ${num_onus}
-
+    ${length}=    Get Length    ${num_onus}
+    FOR    ${I}    IN RANGE    0    ${num_onus}
+        ${src}=    Set Variable    ${src${I}}
+        ${dst}=    Set Variable    ${dst${I}}
+        Set Suite Variable    ${src}
+        Set Suite Variable    ${dst}
+        ${onu_reasons}=    Create List     tech-profile-config-download-success    omci-flows-pushed
+        Wait Until Keyword Succeeds    ${timeout}    5s    Validate Device    ${src['onu']}    ENABLED    ACTIVE
+        ...    REACHABLE    onu=True    onu_reasons=${onu_reasons}
+        ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
+        Set Suite Variable    ${onu_device_id}
+        ${onu_port}=    Wait Until Keyword Succeeds    ${timeout}    2s    Get ONU Port in ONOS    ${src['onu']}   ${of_id}
+        Wait Until Keyword Succeeds    ${timeout}    2s    Verify Eapol Flows Added For ONU    ${k8s_node_ip}    ${ONOS_SSH_PORT}    ${onu_port}
+        Run Keyword If    ${has_dataplane}   Run Keyword And Continue On Failure    Validate Authentication    True    ${src['dp_iface_name']}
+        ...    wpa_supplicant.conf    ${src['ip']}    ${src['user']}    ${src['pass']}
+        ...    ${src['container_type']}    ${src['container_name']}
+        Wait Until Keyword Succeeds    ${timeout}    2s    Verify Number of AAA-Users    ${k8s_node_ip}    ${ONOS_SSH_PORT}    ${num_onus}
+        Wait Until Keyword Succeeds    ${timeout}    2s    Execute ONOS CLI Command    ${k8s_node_ip}    ${ONOS_SSH_PORT}
+        ...    volt-add-subscriber-access ${of_id} ${onu_port}
+        Run Keyword If    ${has_dataplane}    Run Keyword And Continue On Failure    Validate DHCP and Ping    True    True    ${src['dp_iface_name']}
+        ...    ${src['s_tag']}    ${src['c_tag']}    ${dst['dp_iface_ip_qinq']}    ${src['ip']}    ${src['user']}
+        ...    ${src['pass']}    ${src['container_type']}    ${src['container_name']}    ${dst['dp_iface_name']}
+        ...    ${dst['ip']}    ${dst['user']}    ${dst['pass']}    ${dst['container_type']}    ${dst['container_name']}
+        Wait Until Keyword Succeeds    ${timeout}    2s    Validate Subscriber DHCP Allocation    ${k8s_node_ip}    ${ONOS_SSH_PORT}    ${onu_port}
+    END
 *** Keywords ***
 Setup Suite
     [Documentation]    Setup the whole test suite
@@ -128,11 +139,11 @@ Setup
     Enable Device    ${olt_device_id}
     Wait Until Keyword Succeeds    ${timeout}    5s    Validate Device    ${olt_serial_number}    ENABLED    ACTIVE
     ...    REACHABLE
-    ${onu_reasons}=    Create List     tech-profile-config-download-success    omci-flows-pushed
-    Wait Until Keyword Succeeds    ${timeout}    5s    Validate Device    ${onu_serial_number}    ENABLED    ACTIVE
-    ...    REACHABLE    onu=True    onu_reasons=${onu_reasons}
-    ${onu_device_id}=    Get Device ID From SN    ${onu_serial_number}
-    Set Suite Variable    ${onu_device_id}
+    #${onu_reasons}=    Create List     tech-profile-config-download-success    omci-flows-pushed
+    #Wait Until Keyword Succeeds    ${timeout}    5s    Validate Device    ${onu_serial_number}    ENABLED    ACTIVE
+    #...    REACHABLE    onu=True    onu_reasons=${onu_reasons}
+    #${onu_device_id}=    Get Device ID From SN    ${onu_serial_number}
+    #Set Suite Variable    ${onu_device_id}
     ${logical_id}=    Get Logical Device ID From SN    ${olt_serial_number}
     Set Suite Variable    ${logical_id}
 
@@ -152,28 +163,32 @@ Teardown Suite
 
 Clean Up Linux
     [Documentation]    Kill processes and clean up interfaces on src+dst servers
-    Run Keyword And Ignore Error    Kill Linux Process    [w]pa_supplicant    ${src0['ip']}
-    ...    ${src0['user']}    ${src0['pass']}    ${src0['container_type']}    ${src0['container_name']}
-    Run Keyword And Ignore Error    Kill Linux Process    [d]hclient    ${src0['ip']}
-    ...    ${src0['user']}    ${src0['pass']}    ${src0['container_type']}    ${src0['container_name']}
-    Run Keyword If    '${dst0['ip']}' != '${None}'    Run Keyword And Ignore Error
-    ...    Kill Linux Process    [d]hcpd    ${dst0['ip']}    ${dst0['user']}
-    ...    ${dst0['pass']}    ${dst0['container_type']}    ${dst0['container_name']}
-    Delete IP Addresses from Interface on Remote Host    ${src0['dp_iface_name']}    ${src0['ip']}
-    ...    ${src0['user']}    ${src0['pass']}    ${src0['container_type']}    ${src0['container_name']}
-    Run Keyword If    '${dst0['ip']}' != '${None}'    Delete Interface on Remote Host
-    ...    ${dst0['dp_iface_name']}.${src0['s_tag']}    ${dst0['ip']}    ${dst0['user']}    ${dst0['pass']}
-    ...    ${dst0['container_type']}    ${dst0['container_name']}
+    FOR    ${I}    IN RANGE    0    ${num_onus}
+        ${src}=    Set Variable    ${src${I}}
+        ${dst}=    Set Variable    ${dst${I}}
+        Run Keyword And Ignore Error    Kill Linux Process    [w]pa_supplicant    ${src['ip']}
+        ...    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
+        Run Keyword And Ignore Error    Kill Linux Process    [d]hclient    ${src['ip']}
+        ...    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
+        Run Keyword If    '${dst['ip']}' != '${None}'    Run Keyword And Ignore Error
+        ...    Kill Linux Process    [d]hcpd    ${dst['ip']}    ${dst['user']}
+        ...    ${dst['pass']}    ${dst['container_type']}    ${dst['container_name']}
+        Delete IP Addresses from Interface on Remote Host    ${src['dp_iface_name']}    ${src['ip']}
+        ...    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
+        Run Keyword If    '${dst['ip']}' != '${None}'    Delete Interface on Remote Host
+        ...    ${dst['dp_iface_name']}.${src['s_tag']}    ${dst['ip']}    ${dst['user']}    ${dst['pass']}
+        ...    ${dst['container_type']}    ${dst['container_name']}
+    END
 
 Delete Device and Verify
     [Documentation]    Disable -> Delete devices via voltctl and verify its removed
-    ${rc}    ${output}=    Run and Return Rc and Output    ${VOLTCTL_CONFIG}; voltctl device disable ${onu_device_id}
-    Should Be Equal As Integers    ${rc}    0
-    Wait Until Keyword Succeeds    ${timeout}    5s    Validate Device    ${onu_serial_number}    DISABLED    UNKNOWN
-    ...    REACHABLE
-    ${rc}    ${output}=    Run and Return Rc and Output    ${VOLTCTL_CONFIG}; voltctl device delete ${onu_device_id}
-    Should Be Equal As Integers    ${rc}    0
-    Wait Until Keyword Succeeds    ${timeout}    5s    Validate Device Removed    ${onu_device_id}
+    #${rc}    ${output}=    Run and Return Rc and Output    ${VOLTCTL_CONFIG}; voltctl device disable ${onu_device_id}
+    #Should Be Equal As Integers    ${rc}    0
+    #Wait Until Keyword Succeeds    ${timeout}    5s    Validate Device    ${onu_serial_number}    DISABLED    UNKNOWN
+    #...    REACHABLE
+    #${rc}    ${output}=    Run and Return Rc and Output    ${VOLTCTL_CONFIG}; voltctl device delete ${onu_device_id}
+    #Should Be Equal As Integers    ${rc}    0
+    #Wait Until Keyword Succeeds    ${timeout}    5s    Validate Device Removed    ${onu_device_id}
     ${rc}    ${output}=    Run and Return Rc and Output    ${VOLTCTL_CONFIG}; voltctl device disable ${olt_device_id}
     Should Be Equal As Integers    ${rc}    0
     Wait Until Keyword Succeeds    ${timeout}    5s    Validate Device    ${olt_serial_number}    DISABLED    UNKNOWN
