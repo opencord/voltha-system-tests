@@ -1,0 +1,81 @@
+{
+  "devices": {
+    "of:000000000a80645a": {
+      "basic": {
+        "driver": "voltha"
+      }
+    }
+  },
+  "apps": {
+    "org.opencord.sadis": {
+      "sadis": {
+        "integration": {
+          "cache": {
+            "enabled": false,
+            "maxsize": 50,
+            "ttl": "PT0m"
+          }
+        },
+        "entries": [
+          {
+            "id": "BRCM22222222-1",
+            "cTag": 99,
+            "sTag": 11,
+            "nasPortId": "",
+            "circuitId": "",
+            "remoteId": "",
+            "technologyProfileId": 64,
+            "upstreamBandwidthProfile": "Default",
+            "downstreamBandwidthProfile": "Default"
+          },
+          {
+            "id": "ALPHe3d1cf9d-1",
+            "cTag": 99,
+            "sTag": 22,
+            "nasPortId": "",
+            "circuitId": "",
+            "remoteId": "",
+            "technologyProfileId": 64,
+            "upstreamBandwidthProfile": "Default",
+            "downstreamBandwidthProfile": "Default"
+          },
+          {
+            "id": "EC1904000654",
+            "hardwareIdentifier": "aa:bb:cc:dd:ee:ff",
+            "ipAddress": "10.192.20.206",
+            "nasId": "EC1904000654",
+            "uplinkPort": 65536
+          }
+        ]
+      },
+      "bandwidthprofile":{
+          "integration":{
+              "cache":{
+                  "enabled":true,
+                  "maxsize":40,
+                  "ttl":"PT1m"
+              }
+          },
+          "entries":[
+              {
+                  "id": "Default",
+                  "air": 100000,
+                  "cbs": 30,
+                  "cir": 600,
+                  "ebs": 30,
+                  "eir": 400
+              },
+              {
+                  "id": "User_Bandwidth1",
+                  "air": 100000,
+                  "cbs": 10000,
+                  "cir": 5000,
+                  "ebs": 1000,
+                  "eir": 5000
+              }
+
+          ]
+      }
+    }
+  }
+}
