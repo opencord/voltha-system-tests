@@ -69,6 +69,24 @@
       "revId": "7a5f748a6014fac64f623650c1974769b3167d2d",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "776853de_e136f173",
+        "filename": "tests/functional/Voltha_PODTests.robot",
+        "patchSetId": 3
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1000457
+      },
+      "writtenOn": "2019-10-24T20:29:48Z",
+      "side": 1,
+      "message": "You\u0027re right, I missed that you we\u0027re reassigning the value of ${src} at the top of the loop",
+      "parentUuid": "4535820a_3fa4360c",
+      "revId": "7a5f748a6014fac64f623650c1974769b3167d2d",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
     }
   ]
 }
