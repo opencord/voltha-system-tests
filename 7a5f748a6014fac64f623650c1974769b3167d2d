@@ -33,6 +33,24 @@
       "revId": "7a5f748a6014fac64f623650c1974769b3167d2d",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4535820a_3fa4360c",
+        "filename": "tests/functional/Voltha_PODTests.robot",
+        "patchSetId": 3
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1000010
+      },
+      "writtenOn": "2019-10-24T18:26:40Z",
+      "side": 1,
+      "message": "${src} is updated on each iteration of the loop, so this correctly handles multiple ONUs. I\u0027m testing this patch with BBSim with 4 ONUs and it is working fine.",
+      "parentUuid": "999696cb_6add0575",
+      "revId": "7a5f748a6014fac64f623650c1974769b3167d2d",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
     }
   ]
 }
