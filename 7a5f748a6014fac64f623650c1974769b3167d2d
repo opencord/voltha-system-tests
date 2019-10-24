@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "871672c1_38138a40",
+        "filename": "tests/functional/Voltha_PODTests.robot",
+        "patchSetId": 3
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1000457
+      },
+      "writtenOn": "2019-10-24T17:42:40Z",
+      "side": 1,
+      "message": "With multiple ONUs the full test suite is being run serially. Wouldn\u0027t it make more sense to transition through each test step with all ONUs involved\nWouldn\u0027t this be faster?",
+      "revId": "7a5f748a6014fac64f623650c1974769b3167d2d",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    }
+  ]
+}
