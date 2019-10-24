@@ -16,6 +16,23 @@
       "revId": "7a5f748a6014fac64f623650c1974769b3167d2d",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "999696cb_6add0575",
+        "filename": "tests/functional/Voltha_PODTests.robot",
+        "patchSetId": 3
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1000457
+      },
+      "writtenOn": "2019-10-24T18:11:09Z",
+      "side": 1,
+      "message": "The notation ${src[\u0027onu\u0027]} used a few times is only good for a single onu. The config file will need to define a unique set of keys for each ONU serial number and the above notation will not handle that\nWe need to build is the Suite Setup a List with all onu serial numbers\nI will make this change when I deliver my tests for 16 ONUs",
+      "revId": "7a5f748a6014fac64f623650c1974769b3167d2d",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
     }
   ]
 }
