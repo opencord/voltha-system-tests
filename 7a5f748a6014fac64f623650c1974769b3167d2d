@@ -51,6 +51,24 @@
       "revId": "7a5f748a6014fac64f623650c1974769b3167d2d",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a1320ebf_f33fb3d3",
+        "filename": "tests/functional/Voltha_PODTests.robot",
+        "patchSetId": 3
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1000010
+      },
+      "writtenOn": "2019-10-24T18:38:49Z",
+      "side": 1,
+      "message": "I added bbsim-kind-2x2.yaml file that I\u0027m using to test",
+      "parentUuid": "4535820a_3fa4360c",
+      "revId": "7a5f748a6014fac64f623650c1974769b3167d2d",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
     }
   ]
 }
