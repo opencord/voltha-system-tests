@@ -22,6 +22,30 @@
       "revId": "6da3ace1e035a8108de4eab66acef71c323a7643",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f0f43211_af1c4b07",
+        "filename": "libraries/voltctl.robot",
+        "patchSetId": 3
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1000457
+      },
+      "writtenOn": "2019-10-25T17:37:09Z",
+      "side": 1,
+      "message": "Yet another merge conflict fix gone wrong\nRecovered previous statement items",
+      "parentUuid": "82e1eb98_aa051c7e",
+      "range": {
+        "startLine": 92,
+        "startChar": 44,
+        "endLine": 92,
+        "endChar": 92
+      },
+      "revId": "6da3ace1e035a8108de4eab66acef71c323a7643",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
     }
   ]
 }
