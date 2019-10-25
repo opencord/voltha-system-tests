@@ -11,6 +11,8 @@ Intended use includes:
 * Scale Testing using BBSIM
 * Failure scenario testing
 
+Learn more about VOLTHA System Test in [Test Automation Brigade](https://drive.google.com/drive/u/1/folders/1BzyBoEURG2pVfyYBXnWUI30uy0FfdBHA).
+
 ## Prerequisites
 
 * Python [virtualenv](https://virtualenv.pypa.io/en/latest/)
@@ -29,7 +31,6 @@ Directory is structured as follows:
 
 ```
 ├── tests
-  └── sanity/           // basic tests that should always pass. Will be used as gating-patchsets
   └── functional/       // feature/functionality tests that should be implemented as new features get developed
 └── libraries           // shared test keywords (functions) across various test suites
 └── variables           // shared variables across various test suites
@@ -59,7 +60,7 @@ See all available versions in [Docker voltha](https://hub.docker.com/u/voltha/).
 ## Running the sanity tests
 
 Assuming that you have brought up VOLTHA as described above,
-to run the the sanity tests:
+to run the sanity tests:
 
 ```bash
 git clone https://github.com/opencord/voltha-system-tests
