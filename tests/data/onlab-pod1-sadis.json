@@ -21,8 +21,8 @@
             "id": "ALPHe3d1cfde-1",
             "cTag": 112,
             "sTag": 111,
-            "nasPortId": "",
-            "circuitId": "",
+            "nasPortId": "ALPHe3d1cfde-1",
+            "circuitId": "ALPHe3d1cfde-1",
             "remoteId": "",
             "technologyProfileId": 64,
             "upstreamBandwidthProfile": "Default",
@@ -73,10 +73,10 @@
             "downstreamBandwidthProfile": "Default"
           },
           {
-            "id": "EC1838000853",
+            "id": "EC1721000216",
             "hardwareIdentifier": "aa:bb:cc:dd:ee:ff",
-            "ipAddress": "10.192.20.206",
-            "nasId": "EC1838000853",
+            "ipAddress": "10.90.0.114",
+            "nasId": "EC1721000216",
             "uplinkPort": 65536
           }
         ]
@@ -93,10 +93,10 @@
               {
                   "id": "Default",
                   "air": 100000,
-                  "cbs": 30,
-                  "cir": 600,
-                  "ebs": 30,
-                  "eir": 400
+                  "cbs": 300,
+                  "cir": 8000,
+                  "ebs": 300,
+                  "eir": 8000
               },
               {
                   "id": "User_Bandwidth1",
