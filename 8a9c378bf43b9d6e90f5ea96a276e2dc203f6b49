@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "426fe605_48e89639",
+        "filename": "libraries/voltctl.robot",
+        "patchSetId": 3
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1000010
+      },
+      "writtenOn": "2019-10-25T16:28:47Z",
+      "side": 0,
+      "message": "This got dropped somehow?",
+      "range": {
+        "startLine": 70,
+        "startChar": 0,
+        "endLine": 70,
+        "endChar": 15
+      },
+      "revId": "8a9c378bf43b9d6e90f5ea96a276e2dc203f6b49",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    }
+  ]
+}
