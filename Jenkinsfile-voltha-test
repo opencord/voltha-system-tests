@@ -42,7 +42,7 @@ node ("${TestNodeName}") {
                     export VOLTCONFIG=/home/cord/.volt/config
                     cd $WORKSPACE/voltha-system-tests/tests
                     robot --removekeywords wuks -d Log -V $WORKSPACE/${configBaseDir}/${configDeploymentDir}/${configFileName}.yaml -v POD_NAME:${configFileName} -v KUBERNETES_CONFIGS_DIR:$WORKSPACE/${configBaseDir}/${configKubernetesDir} functional/Voltha_PODTests.robot || true
-                    kubectl get pods --all-namespaces -o jsonpath="{..image}" |tr -s "[[:space:]]" "\n" | sort | uniq -c
+                    kubectl get pods --all-namespaces -o jsonpath="{range .items[*].status.containerStatuses[*]}{.image}{'\\t'}{.imageID}{'\\n'}" | sort | uniq -c
                     kubectl get nodes -o wide
                     kubectl get pods -n voltha -o wide
                     """
