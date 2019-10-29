@@ -26,7 +26,9 @@ node ("${TestNodeName}") {
             stage('Clean up') {
                 timeout(10) {
                     sh returnStdout: true, script: """
-                    export KUBECONFIG=$WORKSPACE/${configBaseDir}/${configKubernetesDir}/${configFileName}.conf
+                    echo "Cleaning up patchset directory"
+                    rm -rf voltha
+                    export KUBECONFIG='$WORKSPACE/${configBaseDir}/${configKubernetesDir}/${configFileName}.conf'
                     for hchart in \$(helm list -q | grep -E -v 'docker-registry|mavenrepo|ponnet');
                     do
                         echo "Purging chart: \${hchart}"
@@ -36,7 +38,7 @@ node ("${TestNodeName}") {
                     timeout(5) {
                         waitUntil {
                             helm_deleted = sh returnStdout: true, script: """
-                            export KUBECONFIG=$WORKSPACE/${configBaseDir}/${configKubernetesDir}/${configFileName}.conf &&
+                            export KUBECONFIG='$WORKSPACE/${configBaseDir}/${configKubernetesDir}/${configFileName}.conf'
                             helm ls -q | grep -E -v 'docker-registry|mavenrepo|ponnet' | wc -l
                             """
                             return helm_deleted.toInteger() == 0
@@ -45,7 +47,7 @@ node ("${TestNodeName}") {
                     timeout(5) {
                         waitUntil {
                             kubectl_deleted = sh returnStdout: true, script: """
-                            export KUBECONFIG=$WORKSPACE/${configBaseDir}/${configKubernetesDir}/${configFileName}.conf &&
+                            export KUBECONFIG='$WORKSPACE/${configBaseDir}/${configKubernetesDir}/${configFileName}.conf'
                             kubectl get pods --all-namespaces --no-headers | grep -E -v 'kube-system|docker-registry|mavenrepo|ponnet' | wc -l
                             """
                             return kubectl_deleted.toInteger() == 0
@@ -53,20 +55,99 @@ node ("${TestNodeName}") {
                     }
                 }
             }
-            stage('Install Voltha') {
-                timeout(10) {
-                    sh returnStdout: true, script: """
-                    export KUBECONFIG=$WORKSPACE/${configBaseDir}/${configKubernetesDir}/${configFileName}.conf
-                    cd kind-voltha/
-                    EXTRA_HELM_FLAGS='-f $WORKSPACE/${configBaseDir}/${configKubernetesDir}/voltha/${configFileName}.yml' VOLTHA_LOG_LEVEL=DEBUG WITH_SIM_ADAPTERS=n WITH_RADIUS=y WITH_TP=yes DEPLOY_K8S=no INSTALL_KUBECTL=no INSTALL_HELM=no FANCY=0 ./voltha up
-                    """
+            if ( params.isChangeset ) {
+                stage('Repo') {
+                    steps {
+                        checkout(changelog: false, \
+                            poll: false,
+                            scm: [$class: 'RepoScm', \
+                            manifestRepositoryUrl: "${params.manifestUrl}", \
+                            manifestBranch: "${params.manifestBranch}", \
+                            currentBranch: true, \
+                            destinationDir: 'voltha', \
+                            forceSync: true,
+                            resetFirst: true, \
+                            quiet: true, \
+                            jobs: 4, \
+                            showAllChanges: true] \
+                        )
+                    }
+                }
+                stage('Patch') {
+                    steps {
+                        sh """
+                        cd voltha
+                        PROJECT_PATH=\$(xmllint --xpath "string(//project[@name=\\\"${gerritProject}\\\"]/@path)" .repo/manifest.xml)
+                        repo download "\$PROJECT_PATH" "${gerritChangeNumber}/${gerritPatchsetNumber}"
+                        """
+                    }
+                }
+
+                stage('Build and Push Images') {
+                    steps {
+                        sh """
+                        if ! [[ "${gerritProject}" =~ ^(voltha-helm-charts|voltha-system-tests)\$ ]]; then
+                            cd $WORKSPACE/voltha/${gerritProject}/
+                            make DOCKER_REGISTRY=${dockerRegistry} DOCKER_REPOSITORY=voltha/ DOCKER_TAG=citest docker-build docker-push
+                        fi
+                        """
+                    }
+                }
+                stage('Install Voltha') {
+                    timeout(10) {
+                        sh returnStdout: true, script: """
+                        export KUBECONFIG='$WORKSPACE/${configBaseDir}/${configKubernetesDir}/${configFileName}.conf'
+                        cd kind-voltha/
+                        EXTRA_HELM_FLAGS='-f $WORKSPACE/${configBaseDir}/${configKubernetesDir}/voltha/${configFileName}.yml '
+                        IMAGES = ""
+                        if [ "${gerritProject}" = "voltha-go" ]; then
+                            IMAGES += "cli ofagent rw_core ro_core "
+                        elif [ "${gerritProject}" = "voltha-openolt-adapter" ]; then
+                            IMAGES += "adapter_open_olt "
+                        elif [ "${gerritProject}" = "voltha-openonu-adapter" ]; then
+                            IMAGES += "adapter_open_onu "
+                        elif [ "${gerritProject}" = "bbsim" ]; then
+                            IMAGES += "bbsim "
+                        elif [ "${gerritProject}" = "voltha-api-server" ]; then
+                            IMAGES += "afrouter afrouterd "
+                        else
+                            echo "No images to push"
+                        fi
+
+                        for I in \$IMAGES
+                        do
+                            EXTRA_HELM_FLAGS += "--set images.\$I.registry=${dockerRegistry},images.\$I.tag=citest,images.\$I.pullPolicy=Never "
+                        done
+
+                        if [ "${gerritProject}" = "voltha-helm-charts" ]; then
+                            export CHART_PATH=$WORKSPACE/voltha/voltha-helm-charts
+                            export VOLTHA_CHART=\$CHART_PATH/voltha
+                            export VOLTHA_ADAPTER_OPEN_OLT_CHART=\$CHART_PATH/voltha-adapter-openolt
+                            export VOLTHA_ADAPTER_OPEN_ONU_CHART=\$CHART_PATH/voltha-adapter-openonu
+                            helm dep update \$VOLTHA_CHART
+                            helm dep update \$VOLTHA_ADAPTER_OPEN_OLT_CHART
+                            helm dep update \$VOLTHA_ADAPTER_OPEN_ONU_CHART
+                        fi
+                        VOLTHA_LOG_LEVEL=DEBUG WITH_SIM_ADAPTERS=n WITH_RADIUS=y DEPLOY_K8S=no INSTALL_KUBECTL=no INSTALL_HELM=no FANCY=0 ./voltha up
+                        """
+                    }
+                }
+            } else {
+                stage('Install Voltha') {
+                    timeout(10) {
+                        sh returnStdout: true, script: """
+                        cd kind-voltha/
+                        EXTRA_HELM_FLAGS='-f $WORKSPACE/${configBaseDir}/${configKubernetesDir}/voltha/${configFileName}.yml '
+                        VOLTHA_LOG_LEVEL=DEBUG WITH_SIM_ADAPTERS=n WITH_RADIUS=y DEPLOY_K8S=no INSTALL_KUBECTL=no INSTALL_HELM=no FANCY=0 ./voltha up
+                        """
+                    }
                 }
             }
             if ( params.configurePod && params.profile != "Default") {
                 stage('Push Tech-Profile') {
                     timeout(1) {
                         out_push_tp = sh returnStatus: true, script: """
-                        export KUBECONFIG=$WORKSPACE/${configBaseDir}/${configKubernetesDir}/${configFileName}.conf
+                        export KUBECONFIG='$WORKSPACE/${configBaseDir}/${configKubernetesDir}/${configFileName}.conf'
                         etcd_container=\$(kubectl get pods -n voltha | grep voltha-etcd-cluster | awk 'NR==1{print \$1}')
                         kubectl cp $WORKSPACE/voltha-system-tests/tests/data/TechProfile-${profile}.json voltha/\$etcd_container:/tmp/flexpod.json
                         put_result=\$(kubectl exec -it \$etcd_container -n voltha -- /bin/sh -c 'cat /tmp/flexpod.json | ETCDCTL_API=3 etcdctl put service/voltha/technology_profiles/xgspon/64')
@@ -75,6 +156,7 @@ node ("${TestNodeName}") {
                     }
                     timeout(1) {
                         out_get_tp = sh returnStatus: true, script: """
+                        export KUBECONFIG='$WORKSPACE/${configBaseDir}/${configKubernetesDir}/${configFileName}.conf'
                         etcd_container=\$(kubectl get pods -n voltha | grep voltha-etcd-cluster | awk 'NR==1{print \$1}')
                         get_result=\$(kubectl exec -it \$etcd_container -n voltha -- /bin/sh -c 'ETCDCTL_API=3 etcdctl get --prefix service/voltha/technology_profiles/xgspon/64')
                         """
