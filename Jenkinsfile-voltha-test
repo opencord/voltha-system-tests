@@ -39,7 +39,7 @@ node ("${TestNodeName}") {
                     rm -rf *.log
                     screen -dmS voltha-api-minimal bash -c 'while true; do kubectl port-forward -n voltha service/voltha-api 55555:55555; done'
                     screen -dmS voltha-ssh kubectl port-forward -n voltha service/voltha-cli 5022:5022
-                    export VOLTCONFIG=/home/cord/.volt/config
+                    export VOLTCONFIG=/home/cord/.volt/config ; sleep 10
                     cd $WORKSPACE/voltha-system-tests/tests
                     robot --removekeywords wuks -d Log -V $WORKSPACE/${configBaseDir}/${configDeploymentDir}/${configFileName}.yaml -v POD_NAME:${configFileName} -v KUBERNETES_CONFIGS_DIR:$WORKSPACE/${configBaseDir}/${configKubernetesDir} functional/Voltha_PODTests.robot || true
                     kubectl get pods --all-namespaces -o jsonpath="{range .items[*].status.containerStatuses[*]}{.image}{'\\t'}{.imageID}{'\\n'}" | sort | uniq -c
