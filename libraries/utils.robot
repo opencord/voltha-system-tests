@@ -33,3 +33,13 @@ Check CLI Tools Configured
     ${kubectl_rc}=    Run And Return RC    ${KUBECTL_CONFIG}; kubectl get pods
     Run Keyword If    ${voltctl_rc} != 0 or ${kubectl_rc} != 0    FATAL ERROR
     ...    VOLTCTL and KUBECTL not configured. Please configure before executing tests.
+
+Send File To Onos
+    [Documentation]  Send the content of the file to Onos to selected section of configuration using Post Request
+    [Arguments]  ${CONFIG_FILE}  ${section}
+    ${Headers}=  Create Dictionary  Content-Type   application/json
+    ${File_Data}=   Get Binary File   ${CONFIG_FILE}
+    Log     ${Headers}
+    Log     ${File_Data}
+    ${resp}=   Post Request  ONOS  /onos/v1/network/configuration/${section}  headers=${Headers}   data=${File_Data}
+    Should Be Equal As Strings    ${resp.status_code}  200
