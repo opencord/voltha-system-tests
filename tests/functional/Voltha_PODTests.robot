@@ -40,9 +40,10 @@ ${KUBERNETES_CONFIGS_DIR}    ~/pod-configs/kubernetes-configs
 ${KUBERNETES_YAML}    ${KUBERNETES_CONFIGS_DIR}/${POD_NAME}.yml
 ${HELM_CHARTS_DIR}    ~/helm-charts
 ${VOLTHA_POD_NUM}    8
-${timeout}        60s
-${of_id}          0
-${logical_id}     0
+${timeout}         60s
+${long_timeout}    420
+${of_id}           0
+${logical_id}      0
 ${has_dataplane}    True
 ${external_libs}    True
 ${teardown_device}    False
@@ -60,9 +61,8 @@ Sanity E2E Test for OLT/ONU on POD
         ${src}=    Set Variable    ${hosts.src[${I}]}
         ${dst}=    Set Variable    ${hosts.dst[${I}]}
 
-        ${onu_reasons}=    Create List     tech-profile-config-download-success    omci-flows-pushed
-        Wait Until Keyword Succeeds    ${timeout}    5s    Validate Device    ${src['onu']}    ENABLED    ACTIVE
-        ...    REACHABLE    onu=True    onu_reasons=${onu_reasons}
+        Wait Until Keyword Succeeds    ${timeout}    5s    Validate Device        ENABLED    ACTIVE    REACHABLE
+        ...    ${src['onu']}    onu=True    onu_reason=omci-flows-pushed
 
         ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
         ${onu_port}=    Wait Until Keyword Succeeds    ${timeout}    2s    Get ONU Port in ONOS    ${src['onu']}
@@ -84,6 +84,22 @@ Sanity E2E Test for OLT/ONU on POD
         Wait Until Keyword Succeeds    ${timeout}    2s    Run Keyword And Continue On Failure
         ...    Validate Subscriber DHCP Allocation    ${k8s_node_ip}    ${ONOS_SSH_PORT}    ${onu_port}
     END
+
+Functional Tests Cases for OLT/ONU on POD
+    [Documentation]    Functional Test Cases comprising of more coverage over above what is provided by the Sanity
+    ...    and over a larger number of ONUs
+    [Tags]    functional
+    #onu discovery
+    ONU Discovery
+    #validate onu states
+    Wait Until Keyword Succeeds    ${long_timeout}    20s    Validate ONU Devices    ENABLED    ACTIVE    REACHABLE
+    ...    ${List_ONU_Serial}
+    #validates ports and flows
+    Validate Device's Ports And Flows
+    #validate logical device
+    Validate Logical Device Ports And Flows
+    #validate peer devices
+    Validate Peer Devices
 
 *** Keywords ***
 Setup Suite
@@ -116,6 +132,10 @@ Setup Suite
     ${olt_serial_number}=    Evaluate    ${olts}[0].get("serial")
     ${num_onus}=    Get Length    ${hosts.src}
     ${num_onus}=    Convert to String    ${num_onus}
+    #send sadis file to onos
+    ${sadis_file}=    Evaluate    ${sadis}.get("file")
+    Log To Console  \nSadis File:${sadis_file}
+    Run Keyword Unless    '${sadis_file}' is '${None}'    Send File To Onos    ${sadis_file}    apps/
     Set Suite Variable    ${num_onus}
     Set Suite Variable    ${olt_serial_number}
     Set Suite Variable    ${olt_ip}
@@ -130,15 +150,20 @@ Setup Suite
     ${datetime}=    Get Current Date
     Set Suite Variable    ${datetime}
 
-
 Setup
     [Documentation]    Pre-test Setup
+    #test for empty device list
+    ${length}=    Test Empty Device List
+    Should Be Equal As Integers  ${length}     0
     #create/preprovision device
     ${olt_device_id}=    Create Device    ${olt_ip}    ${OLT_PORT}
     Set Suite Variable    ${olt_device_id}
+    #validate olt states
+    Wait Until Keyword Succeeds    ${timeout}    5s    Validate OLT Device    PREPROVISIONED    UNKNOWN    UNKNOWN
+    ...    ${EMPTY}    ${olt_device_id}
     Enable Device    ${olt_device_id}
-    Wait Until Keyword Succeeds    ${timeout}    5s    Validate Device    ${olt_serial_number}    ENABLED    ACTIVE
-    ...    REACHABLE
+    Wait Until Keyword Succeeds    ${timeout}    5s    Validate OLT Device    ENABLED    ACTIVE    REACHABLE
+    ...    ${olt_serial_number}
     ${logical_id}=    Get Logical Device ID From SN    ${olt_serial_number}
     Set Suite Variable    ${logical_id}
 
@@ -153,8 +178,11 @@ Teardown
 Teardown Suite
     [Documentation]    Clean up device if desired
     Run Keyword If    ${teardown_device}    Delete Device and Verify
+    ${length}=    Run Keyword If    ${teardown_device}    Run Keyword And Return    Test Empty Device List
+    Run Keyword If    ${teardown_device}    Should Be Equal As Integers    ${length}    0
     Run Keyword If    ${teardown_device}    Execute ONOS CLI Command    ${k8s_node_ip}    ${ONOS_SSH_PORT}
     ...    device-remove ${of_id}
+
 
 Clean Up Linux
     [Documentation]    Kill processes and clean up interfaces on src+dst servers
@@ -179,8 +207,8 @@ Delete Device and Verify
     [Documentation]    Disable -> Delete devices via voltctl and verify its removed
     ${rc}    ${output}=    Run and Return Rc and Output    ${VOLTCTL_CONFIG}; voltctl device disable ${olt_device_id}
     Should Be Equal As Integers    ${rc}    0
-    Wait Until Keyword Succeeds    ${timeout}    5s    Validate Device    ${olt_serial_number}    DISABLED    UNKNOWN
-    ...    REACHABLE
+    Wait Until Keyword Succeeds    ${timeout}    5s    Validate OLT Device    DISABLED    UNKNOWN    REACHABLE
+    ...    ${olt_serial_number}
     ${rc}    ${output}=    Run and Return Rc and Output    ${VOLTCTL_CONFIG}; voltctl device delete ${olt_device_id}
     Should Be Equal As Integers    ${rc}    0
     Wait Until Keyword Succeeds    ${timeout}    5s    Validate Device Removed    ${olt_device_id}
