@@ -1,0 +1,75 @@
+---
+
+# Copyright 2017-present Open Networking Foundation
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+# http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+# Automated deployment configuration for kind-voltha running BBSim
+
+# Change default values in tests
+has_dataplane: False
+external_libs: False
+teardown_device: True
+ONOS_REST_PORT: 8181
+ONOS_SSH_PORT: 8101
+OLT_PORT: 50060
+num_onu_flows: 4
+
+nodes:
+  -
+    ip: '127.0.0.1'
+
+olts:
+  -
+    ip: bbsim.voltha.svc
+    serial: BBSIM_OLT_0
+
+hosts:
+  src:
+    - onu: 'BBSM00000001'
+    - onu: 'BBSM00000002'
+    - onu: 'BBSM00000101'
+    - onu: 'BBSM00000102'
+    - onu: 'BBSM00000201'
+    - onu: 'BBSM00000202'
+    - onu: 'BBSM00000301'
+    - onu: 'BBSM00000302'
+    - onu: 'BBSM00000401'
+    - onu: 'BBSM00000402'
+    - onu: 'BBSM00000501'
+    - onu: 'BBSM00000502'
+    - onu: 'BBSM00000601'
+    - onu: 'BBSM00000602'
+    - onu: 'BBSM00000701'
+    - onu: 'BBSM00000702'
+
+  dst:
+    - ip: null
+    - ip: null
+    - ip: null
+    - ip: null
+    - ip: null
+    - ip: null
+    - ip: null
+    - ip: null
+    - ip: null
+    - ip: null
+    - ip: null
+    - ip: null
+    - ip: null
+    - ip: null
+    - ip: null
+    - ip: null
+
+sadis:
+  file: ${CURDIR}/../tests/data/sadis-with-tp-8x2.json
