@@ -12,13 +12,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# FIXME Can we use the same test against BBSim and Hardware?
-
 *** Settings ***
-Documentation     Test various end-to-end scenarios
+Documentation    Test suite that engages a larger number of ONU at the same which makes it a more realistic test
+...    It is addaptable to either BBSim or Real H/W using a configuration file
 Suite Setup       Setup Suite
-Test Setup        Setup
-Test Teardown     Teardown
 Suite Teardown    Teardown Suite
 Library           Collections
 Library           String
@@ -33,56 +30,84 @@ Resource          ../../libraries/k8s.robot
 Resource          ../../variables/variables.robot
 
 *** Variables ***
-${POD_NAME}       flex-ocp-cord
-${KUBERNETES_CONF}    ${KUBERNETES_CONFIGS_DIR}/${POD_NAME}.conf
-${KUBERNETES_CONFIGS_DIR}    ~/pod-configs/kubernetes-configs
-#${KUBERNETES_CONFIGS_DIR}    ${KUBERNETES_CONFIGS_DIR}/${POD_NAME}.conf
-${KUBERNETES_YAML}    ${KUBERNETES_CONFIGS_DIR}/${POD_NAME}.yml
-${HELM_CHARTS_DIR}    ~/helm-charts
-${VOLTHA_POD_NUM}    8
-${timeout}        60s
-${of_id}          0
-${logical_id}     0
+${timeout}         60s
+${long_timeout}    420
+${of_id}           0
+${logical_id}      0
 ${has_dataplane}    True
 ${external_libs}    True
 ${teardown_device}    False
 
 *** Test Cases ***
-Sanity E2E Test for OLT/ONU on POD
-    [Documentation]    Validates E2E Ping Connectivity and object states for the given scenario:
-    ...    Validate successful authentication/DHCP/E2E ping for the tech profile that is used
-    [Tags]    sanity    test1
-    #[Setup]    Clean Up Linux
-    ${of_id}=    Wait Until Keyword Succeeds    ${timeout}    15s    Validate OLT Device in ONOS    ${olt_serial_number}
-    Set Global Variable    ${of_id}
+Activate Devices OLT/ONU
+    [Documentation]    Validate deployment -> Empty Device List
+    ...    create and enable device -> Preprovision and Enable
+    ...    re-validate deployment -> Active OLT
+    [Tags]    active
+    #test for empty device list
+    ${length}=    Test Empty Device List
+    Should Be Equal As Integers  ${length}    0
+    #create/preprovision device
+    ${olt_device_id}=    Create Device    ${olt_ip}    ${OLT_PORT}
+    Set Global Variable    ${olt_device_id}
+    #validate olt states
+    Wait Until Keyword Succeeds    60s    5s    Validate OLT Device   PREPROVISIONED    UNKNOWN    UNKNOWN  ${EMPTY}
+    ...    ${olt_device_id}
+    #enable device
+    Enable Device    ${olt_device_id}
+    #validate olt states
+    Wait Until Keyword Succeeds    60s    5s    Validate OLT Device   ENABLED    ACTIVE    REACHABLE    ${EMPTY}
+    ...    ${olt_device_id}
 
-    FOR    ${I}    IN RANGE    0    ${num_onus}
-        ${src}=    Set Variable    ${hosts.src[${I}]}
-        ${dst}=    Set Variable    ${hosts.dst[${I}]}
+ONU Discovery
+    [Documentation]    Discover lists of ONUS, their Serial Numbers and device id
+    [Tags]    active
+    #build onu sn list
+    ${List_ONU_Serial}    Create List
+    Set Suite Variable    ${List_ONU_Serial}
+    Build ONU SN List    ${List_ONU_Serial}
+    Log    ${List_ONU_Serial}
+    #validate onu states
+    Wait Until Keyword Succeeds    ${long_timeout}    20s    Validate ONU Devices    ENABLED    ACTIVE    REACHABLE
+    ...    ${List_ONU_Serial}
 
-        Wait Until Keyword Succeeds    ${timeout}    5s    Validate Device        ENABLED    ACTIVE    REACHABLE
-        ...    ${src['onu']}    onu=True    onu_reason=omci-flows-pushed
+Validate Device's Ports and Flows
+    [Documentation]    Verify Ports and Flows listed for OLT and ONUs
+    ...    For OLT we validate the port types and numbers and for flows we simply verify that their numbers > 0
+    ...    For each ONU, we validate the port types and numbers for each and for flows.
+    ...    For flows they should be == 0 at this stage
+    [Tags]    active
+    #validate olt port types
+    Validate OLT Port Types    PON_OLT    ETHERNET_NNI
+    #validate olt flows
+    Validate OLT Flows
+    #validate onu port types
+    Validate ONU Port Types    ${List_ONU_Serial}    PON_ONU    ETHERNET_UNI
+    #validate onu flows
+    Validate ONU Flows    ${List_ONU_Serial}    ${num_onu_flows}
 
-        ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
-        ${onu_port}=    Wait Until Keyword Succeeds    ${timeout}    2s    Get ONU Port in ONOS    ${src['onu']}
-        ...    ${of_id}
-        Wait Until Keyword Succeeds    ${timeout}    2s    Verify Eapol Flows Added For ONU    ${k8s_node_ip}
-        ...    ${ONOS_SSH_PORT}    ${onu_port}
-        Run Keyword If    ${has_dataplane}    Run Keyword And Continue On Failure    Validate Authentication    True
-        ...    ${src['dp_iface_name']}    wpa_supplicant.conf    ${src['ip']}    ${src['user']}    ${src['pass']}
-        ...    ${src['container_type']}    ${src['container_name']}
-        Wait Until Keyword Succeeds    ${timeout}    2s    Verify ONU in AAA-Users    ${k8s_node_ip}
-        ...    ${ONOS_SSH_PORT}     ${onu_port}
-        Wait Until Keyword Succeeds    ${timeout}    2s    Execute ONOS CLI Command    ${k8s_node_ip}
-        ...    ${ONOS_SSH_PORT}    volt-add-subscriber-access ${of_id} ${onu_port}
-        Run Keyword If    ${has_dataplane}    Run Keyword And Continue On Failure    Validate DHCP and Ping    True
-        ...    True    ${src['dp_iface_name']}    ${src['s_tag']}    ${src['c_tag']}    ${dst['dp_iface_ip_qinq']}
-        ...    ${src['ip']}    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
-        ...    ${dst['dp_iface_name']}    ${dst['ip']}    ${dst['user']}    ${dst['pass']}    ${dst['container_type']}
-        ...    ${dst['container_name']}
-        Wait Until Keyword Succeeds    ${timeout}    2s    Run Keyword And Continue On Failure
-        ...    Validate Subscriber DHCP Allocation    ${k8s_node_ip}    ${ONOS_SSH_PORT}    ${onu_port}
-    END
+Validate Logical Device
+    [Documentation]    Verify that logical device exists and then verify its ports and flows
+    [Tags]    active
+    #Verify logical device exists
+    ${logical_device_id}=    Validate Logical Device
+    #Verify logical device ports
+    Validate Logical Device Ports    ${logical_device_id}
+    #Verify logical device flows
+    Validate Logical Device Flows    ${logical_device_id}
+
+Validate Peer Devices
+    [Documentation]    Verify that peer lists matches up between that of ${olt_device_id}
+    ...    and individual ONU device ids
+    [Tags]    active
+    #Retrieve peer list from OLT
+    ${olt_peer_list}=    Create List
+    Retrieve Peer List From OLT    ${olt_peer_list}
+    Log    ${olt_peer_list}
+    #Validate OLT peer id list
+    Validate OLT Peer Id List    ${olt_peer_list}
+    #Validate ONU peer ids
+    Validate ONU Peer Id    ${olt_device_id}    ${List_ONU_Serial}
 
 *** Keywords ***
 Setup Suite
@@ -99,7 +124,6 @@ Setup Suite
     Run Keyword If    ${external_libs}    Import Resource
     ...    ${CURDIR}/../../../cord-tester/src/test/cord-api/Framework/Kubernetes.robot
     Set Global Variable    ${KUBECTL_CONFIG}    export KUBECONFIG=%{KUBECONFIG}
-    Set Global Variable    ${export_kubeconfig}    export KUBECONFIG=${KUBERNETES_CONF}
     Set Global Variable    ${VOLTCTL_CONFIG}    export VOLTCONFIG=%{VOLTCONFIG}
     ${k8s_node_ip}=    Evaluate    ${nodes}[0].get("ip")
     ${k8s_node_user}=    Evaluate    ${nodes}[0].get("user")
@@ -114,6 +138,10 @@ Setup Suite
     ${olt_serial_number}=    Evaluate    ${olts}[0].get("serial")
     ${num_onus}=    Get Length    ${hosts.src}
     ${num_onus}=    Convert to String    ${num_onus}
+    #send sadis file to onos
+    ${sadis_file}=    Evaluate    ${sadis}.get("file")
+    Log To Console  \nSadis File:${sadis_file}
+    Run Keyword Unless    '${sadis_file}' is '${None}'    Send File To Onos    ${sadis_file}    apps/
     Set Suite Variable    ${num_onus}
     Set Suite Variable    ${olt_serial_number}
     Set Suite Variable    ${olt_ip}
@@ -128,39 +156,17 @@ Setup Suite
     ${datetime}=    Get Current Date
     Set Suite Variable    ${datetime}
 
-Setup
-    [Documentation]    Pre-test Setup
-    #test for empty device list
-    ${length}=    Test Empty Device List
-    Should Be Equal As Integers  ${length}     0
-    #create/preprovision device
-    ${olt_device_id}=    Create Device    ${olt_ip}    ${OLT_PORT}
-    Set Suite Variable    ${olt_device_id}
-    #validate olt states
-    Wait Until Keyword Succeeds    ${timeout}    5s    Validate OLT Device    PREPROVISIONED    UNKNOWN    UNKNOWN
-    ...    ${EMPTY}    ${olt_device_id}
-    Enable Device    ${olt_device_id}
-    Wait Until Keyword Succeeds    ${timeout}    5s    Validate OLT Device    ENABLED    ACTIVE    REACHABLE
-    ...    ${olt_serial_number}
-    ${logical_id}=    Get Logical Device ID From SN    ${olt_serial_number}
-    Set Suite Variable    ${logical_id}
-
-Teardown
-    [Documentation]    kills processes and cleans up interfaces on src+dst servers
-    Get Device Output from Voltha    ${olt_device_id}
-    #Get Logical Device Output from Voltha    ${logical_id}
+Teardown Suite
+    [Documentation]    Clean up devices if desired
+    ...    kills processes and cleans up interfaces on src+dst servers
     Run Keyword If    ${external_libs}    Get ONOS Status    ${k8s_node_ip}
     Run Keyword If    ${has_dataplane}    Clean Up Linux
     Run Keyword If    ${external_libs}    Log Kubernetes Containers Logs Since Time    ${datetime}    ${container_list}
-
-Teardown Suite
-    [Documentation]    Clean up device if desired
     Run Keyword If    ${teardown_device}    Delete Device and Verify
     ${length}=    Run Keyword If    ${teardown_device}    Run Keyword And Return    Test Empty Device List
     Run Keyword If    ${teardown_device}    Should Be Equal As Integers    ${length}    0
     Run Keyword If    ${teardown_device}    Execute ONOS CLI Command    ${k8s_node_ip}    ${ONOS_SSH_PORT}
     ...    device-remove ${of_id}
-
 
 Clean Up Linux
     [Documentation]    Kill processes and clean up interfaces on src+dst servers
