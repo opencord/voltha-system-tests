@@ -36,15 +36,55 @@ olts:
 hosts:
   src:
     - onu: 'BBSM00000001'
+      sn: 'BBSM00000001'
     - onu: 'BBSM00000002'
+      sn: 'BBSM00000002'
     - onu: 'BBSM00000101'
+      sn: 'BBSM00000003'
     - onu: 'BBSM00000102'
+      sn: 'BBSM00000004'
+    - onu: 'BBSM00000201'
+      sn: 'BBSM00000005'
+    - onu: 'BBSM00000202'
+      sn: 'BBSM00000006'
+    - onu: 'BBSM00000301'
+      sn: 'BBSM00000007'
+    - onu: 'BBSM00000302'
+      sn: 'BBSM00000008'
+    - onu: 'BBSM00000401'
+      sn: 'BBSM00000009'
+    - onu: 'BBSM00000402'
+      sn: 'BBSM0000000a'
+    - onu: 'BBSM00000501'
+      sn: 'BBSM0000000b'
+    - onu: 'BBSM00000502'
+      sn: 'BBSM0000000c'
+    - onu: 'BBSM00000601'
+      sn: 'BBSM0000000d'
+    - onu: 'BBSM00000602'
+      sn: 'BBSM0000000e'
+    - onu: 'BBSM00000701'
+      sn: 'BBSM0000000f'
+    - onu: 'BBSM00000702'
+      sn: 'BBSM00000010'
 
   dst:
     - ip: null
     - ip: null
     - ip: null
     - ip: null
+    - ip: null
+    - ip: null
+    - ip: null
+    - ip: null
+    - ip: null
+    - ip: null
+    - ip: null
+    - ip: null
+    - ip: null
+    - ip: null
+    - ip: null
+    - ip: null
 
 sadis:
-  file:
+  file: ${CURDIR}/../tests/data/sadis-with-tp.json

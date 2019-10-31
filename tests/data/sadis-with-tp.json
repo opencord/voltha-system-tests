@@ -1,0 +1,233 @@
+{
+   "org.opencord.sadis": {
+      "sadis": {
+         "integration": {
+            "cache": {
+               "enabled": false,
+               "maxsize": 50,
+               "ttl": "PT0m"
+            }
+         },
+         "entries": [
+            {
+               "id": "BBSIM_OLT_0",
+               "hardwareIdentifier": "00:00:0a:62:ce:e2",
+               "ipAddress": "192.168.1.252",
+               "nasId": "BBSIM_OLT_0",
+               "uplinkPort": 65536
+            },
+            {
+               "id": "BBSM00000001-1",
+               "cTag": 55,
+               "sTag": 66,
+               "nasPortId": "BBSM00000001-1",
+               "circuitId": "BBSM00000001-1",
+               "remoteId" : "BBSIM_OLT_0",
+               "technologyProfileId": 64,
+               "upstreamBandwidthProfile": "High-Speed-Internet",
+               "downstreamBandwidthProfile": "User1-Specific"
+            },
+            {
+               "id": "BBSM00000002-1",
+               "cTag": 56,
+               "sTag": 66,
+               "nasPortId": "BBSM00000002-1",
+               "circuitId": "BBSM00000002-1",
+               "remoteId" : "BBSIM_OLT_0",
+               "technologyProfileId": 64,
+               "upstreamBandwidthProfile": "High-Speed-Internet",
+               "downstreamBandwidthProfile": "User1-Specific"
+            },
+            {
+               "id": "BBSM00000003-1",
+               "cTag": 57,
+               "sTag": 66,
+               "nasPortId": "BBSM00000101-1",
+               "circuitId": "BBSM00000101-1",
+               "remoteId" : "BBSIM_OLT_0",
+               "technologyProfileId": 64,
+               "upstreamBandwidthProfile": "High-Speed-Internet",
+               "downstreamBandwidthProfile": "User1-Specific"
+            },
+            {
+               "id": "BBSM00000004-1",
+               "cTag": 58,
+               "sTag": 66,
+               "nasPortId": "BBSM00000102-1",
+               "circuitId": "BBSM00000102-1",
+               "remoteId" : "BBSIM_OLT_0",
+               "technologyProfileId": 64,
+               "upstreamBandwidthProfile": "High-Speed-Internet",
+               "downstreamBandwidthProfile": "User1-Specific"
+            },
+            {
+               "id": "BBSM00000005-1",
+               "cTag": 60,
+               "sTag": 77,
+               "nasPortId": "BBSM00000201-1",
+               "circuitId": "BBSM00000201-1",
+               "remoteId" : "BBSIM_OLT_0",
+               "technologyProfileId": 64,
+               "upstreamBandwidthProfile": "High-Speed-Internet",
+               "downstreamBandwidthProfile": "User1-Specific"
+            },
+            {
+               "id": "BBSM00000006-1",
+               "cTag": 61,
+               "sTag": 77,
+               "nasPortId": "BBSM00000202-1",
+               "circuitId": "BBSM00000202-1",
+               "remoteId" : "BBSIM_OLT_0",
+               "technologyProfileId": 64,
+               "upstreamBandwidthProfile": "High-Speed-Internet",
+               "downstreamBandwidthProfile": "User1-Specific"
+            },
+            {
+               "id": "BBSM00000007-1",
+               "cTag": 62,
+               "sTag": 77,
+               "nasPortId": "BBSM00000301-1",
+               "circuitId": "BBSM00000301-1",
+               "remoteId" : "BBSIM_OLT_0",
+               "technologyProfileId": 64,
+               "upstreamBandwidthProfile": "High-Speed-Internet",
+               "downstreamBandwidthProfile": "User1-Specific"
+            },
+            {
+               "id": "BBSM00000008-1",
+               "cTag": 63,
+               "sTag": 77,
+               "nasPortId": "BBSM00000302-1",
+               "circuitId": "BBSM00000302-1",
+               "remoteId" : "BBSIM_OLT_0",
+               "technologyProfileId": 64,
+               "upstreamBandwidthProfile": "High-Speed-Internet",
+               "downstreamBandwidthProfile": "User1-Specific"
+            },
+            {
+               "id": "BBSM00000009-1",
+               "cTag": 70,
+               "sTag": 88,
+               "nasPortId": "BBSM00000401-1",
+               "circuitId": "BBSM00000401-1",
+               "remoteId" : "BBSIM_OLT_0",
+               "technologyProfileId": 64,
+               "upstreamBandwidthProfile": "High-Speed-Internet",
+               "downstreamBandwidthProfile": "User1-Specific"
+            },
+            {
+               "id": "BBSM0000000a-1",
+               "cTag": 71,
+               "sTag": 88,
+               "nasPortId": "BBSM00000402-1",
+               "circuitId": "BBSM00000402-1",
+               "remoteId" : "BBSIM_OLT_0",
+               "technologyProfileId": 64,
+               "upstreamBandwidthProfile": "High-Speed-Internet",
+               "downstreamBandwidthProfile": "User1-Specific"
+            },
+            {
+               "id": "BBSM0000000b-1",
+               "cTag": 72,
+               "sTag": 88,
+               "nasPortId": "BBSM00000501-1",
+               "circuitId": "BBSM00000501-1",
+               "remoteId" : "BBSIM_OLT_0",
+               "technologyProfileId": 64,
+               "upstreamBandwidthProfile": "High-Speed-Internet",
+               "downstreamBandwidthProfile": "User1-Specific"
+            },
+            {
+               "id": "BBSM0000000c-1",
+               "cTag": 73,
+               "sTag": 88,
+               "nasPortId": "BBSM00000502-1",
+               "circuitId": "BBSM00000502-1",
+               "remoteId" : "BBSIM_OLT_0",
+               "technologyProfileId": 64,
+               "upstreamBandwidthProfile": "High-Speed-Internet",
+               "downstreamBandwidthProfile": "User1-Specific"
+            },
+            {
+               "id": "BBSM0000000d-1",
+               "cTag": 80,
+               "sTag": 99,
+               "nasPortId": "BBSM00000601-1",
+               "circuitId": "BBSM00000601-1",
+               "remoteId" : "BBSIM_OLT_0",
+               "technologyProfileId": 64,
+               "upstreamBandwidthProfile": "High-Speed-Internet",
+               "downstreamBandwidthProfile": "User1-Specific"
+            },
+            {
+               "id": "BBSM0000000e-1",
+               "cTag": 81,
+               "sTag": 99,
+               "nasPortId": "BBSM00000602-1",
+               "circuitId": "BBSM00000602-1",
+               "remoteId" : "BBSIM_OLT_0",
+               "technologyProfileId": 64,
+               "upstreamBandwidthProfile": "High-Speed-Internet",
+               "downstreamBandwidthProfile": "User1-Specific"
+            },
+            {
+               "id": "BBSM0000000f-1",
+               "cTag": 82,
+               "sTag": 99,
+               "nasPortId": "BBSM00000701-1",
+               "circuitId": "BBSM00000701-1",
+               "remoteId" : "BBSIM_OLT_0",
+               "technologyProfileId": 64,
+               "upstreamBandwidthProfile": "High-Speed-Internet",
+               "downstreamBandwidthProfile": "User1-Specific"
+            },
+            {
+               "id": "BBSM00000010-1",
+               "cTag": 83,
+               "sTag": 99,
+               "nasPortId": "BBSM00000702-1",
+               "circuitId": "BBSM00000702-1",
+               "remoteId" : "BBSIM_OLT_0",
+               "technologyProfileId": 64,
+               "upstreamBandwidthProfile": "High-Speed-Internet",
+               "downstreamBandwidthProfile": "User1-Specific"
+            }
+         ]
+      },
+      "bandwidthprofile": {
+         "integration": {
+            "cache": {
+               "enabled": true,
+               "maxsize": 40,
+               "ttl": "PT1m"
+            }
+         },
+         "entries": [
+            {
+               "id": "High-Speed-Internet",
+               "cir": 200000000,
+               "cbs": 348000,
+               "eir": 10000000,
+               "ebs": 348000,
+               "air": 10000000
+            },
+            {
+               "id": "User1-Specific",
+               "cir": 300000000,
+               "cbs": 348000,
+               "eir": 20000000,
+               "ebs": 348000,
+               "air": 30000000
+            },
+            {
+               "id": "Default",
+               "cir": 300000000,
+               "cbs": 348000,
+               "eir": 20000000,
+               "ebs": 348000,
+               "air": 30000000
+            }
+         ]
+      }
+   }
+}
