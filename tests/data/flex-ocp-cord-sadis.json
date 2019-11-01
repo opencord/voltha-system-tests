@@ -25,8 +25,8 @@
             "circuitId": "ALPHe3d1cfa7-1",
             "remoteId": "EC1838000853",
             "technologyProfileId": 64,
-            "upstreamBandwidthProfile": "Default",
-            "downstreamBandwidthProfile": "Default"
+            "upstreamBandwidthProfile": "User_Bandwidth3",
+            "downstreamBandwidthProfile": "User_Bandwidth3"
           },
           {
             "id": "ALPHe3d1cfa7-2",
@@ -80,8 +80,8 @@
             "circuitId": "ALPHe3d1cea3-1",
             "remoteId": "EC1838000853",
             "technologyProfileId": 64,
-            "upstreamBandwidthProfile": "Default",
-            "downstreamBandwidthProfile": "Default"
+            "upstreamBandwidthProfile": "User_Bandwidth2",
+            "downstreamBandwidthProfile": "User_Bandwidth2"
           },
           {
             "id": "ALPHe3d1cea3-2",
@@ -160,6 +160,22 @@
                   "cir": 5000,
                   "ebs": 1000,
                   "eir": 5000
+              },
+              {
+                  "id": "User_Bandwidth2",
+                  "air": 100000,
+                  "cbs": 5000,
+                  "cir": 100000,
+                  "ebs": 5000,
+                  "eir": 100000
+              },
+              {
+                  "id": "User_Bandwidth3",
+                  "air": 100000,
+                  "cbs": 5000,
+                  "cir": 1000000,
+                  "ebs": 5000,
+                  "eir": 1000000
               }
 
           ]
