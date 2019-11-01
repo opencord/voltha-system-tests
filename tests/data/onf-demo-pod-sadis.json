@@ -25,8 +25,8 @@
             "circuitId": "",
             "remoteId": "",
             "technologyProfileId": 64,
-            "upstreamBandwidthProfile": "User_Bandwidth1",
-            "downstreamBandwidthProfile": "User_Bandwidth1"
+            "upstreamBandwidthProfile": "Default",
+            "downstreamBandwidthProfile": "Default"
           },
           {
             "id": "ALPHe3d1cf9d-1",
@@ -36,7 +36,7 @@
             "circuitId": "",
             "remoteId": "",
             "technologyProfileId": 64,
-            "upstreamBandwidthProfile": "User_Bandwidth2",
+            "upstreamBandwidthProfile": "User_Bandwidth1",
             "downstreamBandwidthProfile": "User_Bandwidth2"
           },
           {
