@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1d79547d_f4a8fdb7",
+        "filename": "tests/functional/Voltha_PODTests.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1000016
+      },
+      "writtenOn": "2019-11-01T16:34:21Z",
+      "side": 1,
+      "message": "Does this prevent running the test a second time, if the first attempt fails (because device will already exist) ?",
+      "range": {
+        "startLine": 152,
+        "startChar": 4,
+        "endLine": 152,
+        "endChar": 84
+      },
+      "revId": "829e51c72fc9b279f74b270d95eb0030d68aa73c",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    }
+  ]
+}
