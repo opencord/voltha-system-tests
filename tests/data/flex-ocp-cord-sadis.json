@@ -128,6 +128,17 @@
             "downstreamBandwidthProfile": "Default"
           },
           {
+            "id": "ALPHe3d1ceb7-1",
+            "cTag": 101,
+            "sTag": 222,
+            "nasPortId": "ALPHe3d1ceb7-1",
+            "circuitId": "ALPHe3d1ceb7-1",
+            "remoteId": "EC1838000853",
+            "technologyProfileId": 64,
+            "upstreamBandwidthProfile": "Default",
+            "downstreamBandwidthProfile": "Default"
+          },
+          {
             "id": "EC1838000853",
             "hardwareIdentifier": "aa:bb:cc:dd:ee:ff",
             "ipAddress": "10.192.20.206",
