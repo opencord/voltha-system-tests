@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "0d3b4571_3a2af1d1",
+        "filename": "tests/data/sadis-with-tp.json",
+        "patchSetId": 5
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1000010
+      },
+      "writtenOn": "2019-11-04T23:23:31Z",
+      "side": 1,
+      "message": "The ONU IDs listed here don\u0027t match bbsim-kind-16.yaml.\nI believe the ONU IDs here will work for BBSim configured with 8 PON ports and 2 ONUs per port.  In bbsim-kind-16.yaml the serial numbers are for 16 ONUs all on the same PON port.",
+      "range": {
+        "startLine": 185,
+        "startChar": 22,
+        "endLine": 185,
+        "endChar": 34
+      },
+      "revId": "bbd5ffba13c51c3bc0816b73bbb5940b79db807c",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a65756a2_e09f2c2c",
         "filename": "tests/data/sadis-with-tp.json",
         "patchSetId": 5
