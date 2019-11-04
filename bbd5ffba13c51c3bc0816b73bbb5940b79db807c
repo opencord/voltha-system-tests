@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a65756a2_e09f2c2c",
+        "filename": "tests/data/sadis-with-tp.json",
+        "patchSetId": 5
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 1000064
+      },
+      "writtenOn": "2019-11-04T23:07:20Z",
+      "side": 1,
+      "message": "Please update the bandwidth profiles. References could be found from the sadis configuration on PODs (ex: flex-ocp-cord-sadis.json)",
+      "range": {
+        "startLine": 207,
+        "startChar": 14,
+        "endLine": 228,
+        "endChar": 30
+      },
+      "revId": "bbd5ffba13c51c3bc0816b73bbb5940b79db807c",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    }
+  ]
+}
