@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "34672620_5efe6e19",
+        "filename": "tests/data/sadis-with-tp.json",
+        "patchSetId": 5
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1000457
+      },
+      "writtenOn": "2019-11-05T15:51:51Z",
+      "side": 1,
+      "message": "Regardless of the ONU-IDs I would specify in the sadis file, the ONU Enabled in Voltha had SNs of ...001 through ...010. Is there something not yet working in Voltha that should register 8 PONs with 2 ONUs each. I have not seen this happen yet.\nAs for the bbsim-kind-16(I named it as such to match voltha) needs to have the ONUs IDs listed as Voltha SNs for test to pass\nAm I missing something here?",
+      "parentUuid": "0d3b4571_3a2af1d1",
+      "range": {
+        "startLine": 185,
+        "startChar": 22,
+        "endLine": 185,
+        "endChar": 34
+      },
+      "revId": "bbd5ffba13c51c3bc0816b73bbb5940b79db807c",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a65756a2_e09f2c2c",
         "filename": "tests/data/sadis-with-tp.json",
         "patchSetId": 5
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "920db2a5_b0fb9c29",
+        "filename": "tests/data/sadis-with-tp.json",
+        "patchSetId": 5
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 1000457
+      },
+      "writtenOn": "2019-11-05T15:51:51Z",
+      "side": 1,
+      "message": "Will do",
+      "parentUuid": "a65756a2_e09f2c2c",
+      "range": {
+        "startLine": 207,
+        "startChar": 14,
+        "endLine": 228,
+        "endChar": 30
+      },
+      "revId": "bbd5ffba13c51c3bc0816b73bbb5940b79db807c",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bca46297_14984d6c",
         "filename": "tests/functional/Voltha_ActivePODTests.robot",
         "patchSetId": 5
@@ -59,6 +107,30 @@
       "writtenOn": "2019-11-04T23:32:40Z",
       "side": 1,
       "message": "I feel we should change the naming for this file. (Voltha_ActivePODTests.robot) to something else",
+      "range": {
+        "startLine": 42,
+        "startChar": 0,
+        "endLine": 42,
+        "endChar": 8
+      },
+      "revId": "bbd5ffba13c51c3bc0816b73bbb5940b79db807c",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e2d810a8_5954356f",
+        "filename": "tests/functional/Voltha_ActivePODTests.robot",
+        "patchSetId": 5
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1000457
+      },
+      "writtenOn": "2019-11-05T15:51:51Z",
+      "side": 1,
+      "message": "Be my guest. The best name was ...FunctionalPODTests.robot but \"functional\" was already the name of the folder and is the generic name you refer to all the existing and yet to be written future Test Cases\nSo that is why I came up with \"Active\" after a bit of research on my side.\nBut I welcome any name just let me know...",
+      "parentUuid": "bca46297_14984d6c",
       "range": {
         "startLine": 42,
         "startChar": 0,
