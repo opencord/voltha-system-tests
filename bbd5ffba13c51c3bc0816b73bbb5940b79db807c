@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "54a29e33_79fec8c5",
+        "filename": "tests/data/sadis-with-tp.json",
+        "patchSetId": 5
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1000010
+      },
+      "writtenOn": "2019-11-05T18:01:04Z",
+      "side": 1,
+      "message": "If you want to bring up BBSim in an 8x2 configuration you would specify EXTRA_HELM_FLAGS\u003d\"--set onu\u003d2,pon\u003d8\" to kind-voltha",
+      "parentUuid": "34672620_5efe6e19",
+      "range": {
+        "startLine": 185,
+        "startChar": 22,
+        "endLine": 185,
+        "endChar": 34
+      },
+      "revId": "bbd5ffba13c51c3bc0816b73bbb5940b79db807c",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a65756a2_e09f2c2c",
         "filename": "tests/data/sadis-with-tp.json",
         "patchSetId": 5
