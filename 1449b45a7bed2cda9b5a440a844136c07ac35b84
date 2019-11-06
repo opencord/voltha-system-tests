@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c1e6e19d_0aa06a39",
+        "filename": "Jenkinsfile-voltha-build",
+        "patchSetId": 2
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1000010
+      },
+      "writtenOn": "2019-11-06T00:42:07Z",
+      "side": 1,
+      "message": "Could we maybe inline this into the script and then only have a single block?  Something like:\n\nEXTRA_HELM_FLAGS\u003d\u0027-f $WORKSPACE/${configBaseDir}/${configKubernetesDir}/voltha/${configFileName}.yml \u0027\nif ( ${released} ); then\n  EXTRA_HELM_FLAGS+\u003d\"--set defaults.image_tag\u003dnull\"\nfi",
+      "range": {
+        "startLine": 57,
+        "startChar": 21,
+        "endLine": 57,
+        "endChar": 36
+      },
+      "revId": "1449b45a7bed2cda9b5a440a844136c07ac35b84",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    }
+  ]
+}
