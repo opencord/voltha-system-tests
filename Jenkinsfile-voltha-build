@@ -53,25 +53,109 @@ node ("${TestNodeName}") {
                     }
                 }
             }
-            stage('Install Voltha')  {
-                timeout(10) {
-                    sh returnStdout: true, script: """
-                    export KUBECONFIG=$WORKSPACE/${configBaseDir}/${configKubernetesDir}/${configFileName}.conf
-                    cd kind-voltha/
-                    if ( ${released} ); then
-                        export EXTRA_HELM_FLAGS="--set defaults.image_tag=null"
-                    else
-                        export EXTRA_HELM_FLAGS='-f $WORKSPACE/${configBaseDir}/${configKubernetesDir}/voltha/${configFileName}.yml'
-                    fi
-
-                    # VOL-2194 ONOS SSH and REST ports hardcoded to 30115/30120 in tests
-                    ONOS_SSH_PORT=30115 ONOS_API_PORT=30120 VOLTHA_LOG_LEVEL=DEBUG WITH_SIM_ADAPTERS=n WITH_RADIUS=y WITH_TP=yes DEPLOY_K8S=no INSTALL_KUBECTL=no INSTALL_HELM=no FANCY=0 ./voltha up
-
-                    kubectl get pods --all-namespaces -o jsonpath="{range .items[*].status.containerStatuses[*]}{.image}{'\\t'}{.imageID}{'\\n'}" | sort | uniq -c
-                    kubectl get nodes -o wide
-                    kubectl get pods -n voltha -o wide
+            if ( params.withPatchset ) {
+                // NOTE: Currently this part of the pipeline assumes a kind-voltha deployment (i.e., virtual nodes)
+                stage('Repo') {
+                    checkout(changelog: false, \
+                        poll: false,
+                        scm: [$class: 'RepoScm', \
+                        manifestRepositoryUrl: "${params.manifestUrl}", \
+                        manifestBranch: "${params.manifestBranch}", \
+                        currentBranch: true, \
+                        destinationDir: 'voltha', \
+                        forceSync: true,
+                        resetFirst: true, \
+                        quiet: true, \
+                        jobs: 4, \
+                        showAllChanges: true] \
+                    )
+                }
+                stage('Patch') {
+                    sh returnStdout: false, script: """
+                    cd voltha
+                    PROJECT_PATH=\$(xmllint --xpath "string(//project[@name=\\\"${gerritProject}\\\"]/@path)" .repo/manifest.xml)
+                    repo download "\$PROJECT_PATH" "${gerritChangeNumber}/${gerritPatchsetNumber}"
                     """
+                }
+                stage('Build Images') {
+                    sh returnStdout: false, script: """
+                    cd $WORKSPACE/voltha/${gerritProject}/
+                    make DOCKER_REPOSITORY=voltha/ DOCKER_TAG=citest docker-build
+                    """
+                }
+
+                stage('Push Images') {
+                    sh returnStdout: false, script:  """
+                    export TYPE=minimal
+                    export KUBECONFIG="\$(./bin/kind get kubeconfig-path --name="voltha-minimal")"
+                    export PATH=$WORKSPACE/kind-voltha/bin:\$PATH
+                    docker images | grep citest
+                    for image in \$(docker images -f "reference=*/*citest" --format "{{.Repository}}")
+                    do
+                        echo "Pushing \$image to nodes"
+                        kind load docker-image \$image:citest --name voltha-\$TYPE --nodes voltha-\$TYPE-worker,voltha-\$TYPE-worker2
+                        docker rmi \$image:citest \$image:latest || true
+                    done
+                    """
+                }
+                stage('Install Voltha') {
+                    timeout(10) {
+                        sh returnStdout: false, script: """
+                        export KUBECONFIG='$WORKSPACE/${configBaseDir}/${configKubernetesDir}/${configFileName}.conf'
+                        cd kind-voltha/
+                        if ( ${released} ); then
+                            export EXTRA_HELM_FLAGS="--set defaults.image_tag=null "
+                        else
+                            export EXTRA_HELM_FLAGS='-f $WORKSPACE/${configBaseDir}/${configKubernetesDir}/voltha/${configFileName}.yml '
+                        fi
+                        IMAGES=""
+                        if [ "${gerritProject}" = "voltha-go" ]; then
+                            IMAGES="cli ofagent rw_core ro_core "
+                        elif [ "${gerritProject}" = "voltha-openolt-adapter" ]; then
+                            IMAGES="adapter_open_olt "
+                        elif [ "${gerritProject}" = "voltha-openonu-adapter" ]; then
+                            IMAGES="adapter_open_onu "
+                        elif [ "${gerritProject}" = "voltha-api-server" ]; then
+                            IMAGES="afrouter afrouterd "
+                        else
+                            echo "No images to push"
+                        fi
+
+                        for I in \$IMAGES
+                        do
+                            EXTRA_HELM_FLAGS+="--set images.\$I.tag=citest,images.\$I.pullPolicy=Never "
+                        done
+
+                        # VOL-2194 ONOS SSH and REST ports hardcoded to 30115/30120 in tests
+                        ONOS_SSH_PORT=30115 ONOS_API_PORT=30120 VOLTHA_LOG_LEVEL=DEBUG WITH_SIM_ADAPTERS=n WITH_RADIUS=y WITH_TP=yes DEPLOY_K8S=no INSTALL_KUBECTL=no INSTALL_HELM=no FANCY=0 ./voltha up
+
+                        kubectl get pods --all-namespaces -o jsonpath="{range .items[*].status.containerStatuses[*]}{.image}{'\\t'}{.imageID}{'\\n'}" | sort | uniq -c
+                        kubectl get nodes -o wide
+                        kubectl get pods -n voltha -o wide
+                        """
                     }
+                }
+            } else {
+                stage('Install Voltha')  {
+                    timeout(10) {
+                        sh returnStdout: false, script: """
+                        export KUBECONFIG=$WORKSPACE/${configBaseDir}/${configKubernetesDir}/${configFileName}.conf
+                        cd kind-voltha/
+                        if ( ${released} ); then
+                            export EXTRA_HELM_FLAGS="--set defaults.image_tag=null"
+                        else
+                            export EXTRA_HELM_FLAGS='-f $WORKSPACE/${configBaseDir}/${configKubernetesDir}/voltha/${configFileName}.yml'
+                        fi
+
+                        # VOL-2194 ONOS SSH and REST ports hardcoded to 30115/30120 in tests
+                        ONOS_SSH_PORT=30115 ONOS_API_PORT=30120 VOLTHA_LOG_LEVEL=DEBUG WITH_SIM_ADAPTERS=n WITH_RADIUS=y WITH_TP=yes DEPLOY_K8S=no INSTALL_KUBECTL=no INSTALL_HELM=no FANCY=0 ./voltha up
+
+                        kubectl get pods --all-namespaces -o jsonpath="{range .items[*].status.containerStatuses[*]}{.image}{'\\t'}{.imageID}{'\\n'}" | sort | uniq -c
+                        kubectl get nodes -o wide
+                        kubectl get pods -n voltha -o wide
+                        """
+                    }
+                }
             }
             if ( params.configurePod && params.profile != "Default") {
                 stage('Push Tech-Profile') {
