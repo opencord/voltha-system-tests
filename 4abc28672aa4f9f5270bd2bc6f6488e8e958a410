@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ba41447d_da29b7d6",
+        "filename": "libraries/k8s.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1000064
+      },
+      "writtenOn": "2019-11-07T23:40:55Z",
+      "side": 1,
+      "message": "Can we please enhance this script to show the full error strings as well? Currently you are printing the POD names, Is it possible to add the error messages and display them on the console?",
+      "range": {
+        "startLine": 118,
+        "startChar": 18,
+        "endLine": 118,
+        "endChar": 30
+      },
+      "revId": "4abc28672aa4f9f5270bd2bc6f6488e8e958a410",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    }
+  ]
+}
