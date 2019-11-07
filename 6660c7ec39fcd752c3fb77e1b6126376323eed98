@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "10de7cb7_4a5cc4bf",
+        "filename": "libraries/k8s.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1000064
+      },
+      "writtenOn": "2019-11-07T23:26:48Z",
+      "side": 1,
+      "message": "Can we make this function generic?Something like `POD Restart` where it accepts the name of any POD and restarts it.  That way we could use this keyword for other test cases as well.",
+      "range": {
+        "startLine": 45,
+        "startChar": 0,
+        "endLine": 45,
+        "endChar": 18
+      },
+      "revId": "6660c7ec39fcd752c3fb77e1b6126376323eed98",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "988e95d9_c7637198",
         "filename": "tests/functional/Voltha_PODTests.robot",
         "patchSetId": 2
