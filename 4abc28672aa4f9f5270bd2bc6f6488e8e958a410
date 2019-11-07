@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "c631c356_ab0a5de9",
+        "filename": "libraries/k8s.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1000064
+      },
+      "writtenOn": "2019-11-07T23:43:10Z",
+      "side": 1,
+      "message": "Please use `tidy` module from robot to to arrange the display of the FOR loop in this case.  You could use something like this \nFrom the voltha-system-tests repo execute the following command\n`make vst_venv; source ./vst_venv/bin/activate; python -m robot.tidy --inplace \u003cfilename\u003e`\nBut please make sure to re-add the copy right header into the file as the above command will remove the copy right headers.  Thanks!",
+      "range": {
+        "startLine": 50,
+        "startChar": 4,
+        "endLine": 50,
+        "endChar": 38
+      },
+      "revId": "4abc28672aa4f9f5270bd2bc6f6488e8e958a410",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ba41447d_da29b7d6",
         "filename": "libraries/k8s.robot",
         "patchSetId": 2
