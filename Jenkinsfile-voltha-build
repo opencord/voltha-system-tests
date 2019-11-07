@@ -59,7 +59,7 @@ node ("${TestNodeName}") {
                     export KUBECONFIG=$WORKSPACE/${configBaseDir}/${configKubernetesDir}/${configFileName}.conf
                     cd kind-voltha/
                     if ( ${released} ); then
-                        export EXTRA_HELM_FLAGS="--set defaults.image_tag=null"
+                        export EXTRA_HELM_FLAGS="--set defaults.image_tag=null,images.onos.tag=2.2.0"
                     else
                         export EXTRA_HELM_FLAGS='-f $WORKSPACE/${configBaseDir}/${configKubernetesDir}/voltha/${configFileName}.yml'
                     fi
