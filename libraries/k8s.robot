@@ -41,3 +41,11 @@ Lookup Service PORT
     ...    kubectl get svc -n ${namespace} ${name} -o jsonpath={.spec.ports[0].port}
     Should Be Equal as Integers    ${rc}    0
     [Return]    ${port}
+
+Restart Pod
+    [Arguments]    ${namespace}    ${name}
+    [Documentation]    Uses kubectl to force delete  radius pod
+    ${rc}    ${restart_pod_name}=    Run and Return Rc and Output    kubectl get pods --template $'{{range .items}}{{.metadata.name}}{{"\\n"}}{{end}}', -n ${namespace} | grep ${name}
+    Log    ${restart_pod_name}
+    ${rc}    ${output}=    Run and Return Rc and Output    kubectl delete pod ${restart_pod_name} -n ${namespace} --grace-period=0 --force  
+    Log    ${output}
