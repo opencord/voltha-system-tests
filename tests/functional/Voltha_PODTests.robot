@@ -40,6 +40,10 @@ ${KUBERNETES_CONFIGS_DIR}    ~/pod-configs/kubernetes-configs
 ${KUBERNETES_YAML}    ${KUBERNETES_CONFIGS_DIR}/${POD_NAME}.yml
 ${HELM_CHARTS_DIR}    ~/helm-charts
 ${VOLTHA_POD_NUM}    8
+${NAMESPACE}   voltha
+# For below variable value, using deployment name as using grep for
+# parsing radius pod name, we can also use full radius pod name
+${RADIUS_POD_NAME}   radius
 ${timeout}        60s
 ${of_id}          0
 ${logical_id}     0
@@ -53,6 +57,54 @@ Sanity E2E Test for OLT/ONU on POD
     ...    Validate successful authentication/DHCP/E2E ping for the tech profile that is used
     [Tags]    sanity    test1
     #[Setup]    Clean Up Linux
+    ${of_id}=    Wait Until Keyword Succeeds    ${timeout}    15s    Validate OLT Device in ONOS    ${olt_serial_number}
+    Set Global Variable    ${of_id}
+
+    FOR    ${I}    IN RANGE    0    ${num_onus}
+        ${src}=    Set Variable    ${hosts.src[${I}]}
+        ${dst}=    Set Variable    ${hosts.dst[${I}]}
+
+        ${onu_reasons}=    Create List     tech-profile-config-download-success    omci-flows-pushed
+        Wait Until Keyword Succeeds    ${timeout}    5s    Validate Device    ${src['onu']}    ENABLED    ACTIVE
+        ...    REACHABLE    onu=True    onu_reasons=${onu_reasons}
+
+        ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
+        ${onu_port}=    Wait Until Keyword Succeeds    ${timeout}    2s    Get ONU Port in ONOS    ${src['onu']}
+        ...    ${of_id}
+        Wait Until Keyword Succeeds    ${timeout}    2s    Verify Eapol Flows Added For ONU    ${k8s_node_ip}
+        ...    ${ONOS_SSH_PORT}    ${onu_port}
+        Run Keyword If    ${has_dataplane}    Run Keyword And Continue On Failure    Validate Authentication    True
+        ...    ${src['dp_iface_name']}    wpa_supplicant.conf    ${src['ip']}    ${src['user']}    ${src['pass']}
+        ...    ${src['container_type']}    ${src['container_name']}
+        Wait Until Keyword Succeeds    ${timeout}    2s    Verify ONU in AAA-Users    ${k8s_node_ip}
+        ...    ${ONOS_SSH_PORT}     ${onu_port}
+        Wait Until Keyword Succeeds    ${timeout}    2s    Execute ONOS CLI Command    ${k8s_node_ip}
+        ...    ${ONOS_SSH_PORT}    volt-add-subscriber-access ${of_id} ${onu_port}
+        Run Keyword If    ${has_dataplane}    Run Keyword And Continue On Failure    Validate DHCP and Ping    True
+        ...    True    ${src['dp_iface_name']}    ${src['s_tag']}    ${src['c_tag']}    ${dst['dp_iface_ip_qinq']}
+        ...    ${src['ip']}    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
+        ...    ${dst['dp_iface_name']}    ${dst['ip']}    ${dst['user']}    ${dst['pass']}    ${dst['container_type']}
+        ...    ${dst['container_name']}
+        Wait Until Keyword Succeeds    ${timeout}    2s    Run Keyword And Continue On Failure
+        ...    Validate Subscriber DHCP Allocation    ${k8s_node_ip}    ${ONOS_SSH_PORT}    ${onu_port}
+    END
+
+Check OLT/ONU Authentication After Radius Pod Restart
+    [Documentation]    After radius restart, creates bbsim olt/onu, validates activataion,
+    ...    check eapol flow and validates onu in onos
+    [Tags]    sanity    test2
+    #[Setup]    Clean Up Linux
+    [Setup]   NONE	
+    Delete Device and Verify
+    Execute ONOS CLI Command    ${k8s_node_ip}    ${ONOS_SSH_PORT}   device-remove ${of_id}   
+    Wait Until Keyword Succeeds    ${timeout}    15s    Restart Radius Pod    ${NAMESPACE}    ${RADIUS_POD_NAME}
+    ${olt_device_id}=    Create Device    ${olt_ip}    ${OLT_PORT}
+    Set Suite Variable    ${olt_device_id}
+    Enable Device    ${olt_device_id}
+    Wait Until Keyword Succeeds    ${timeout}    5s    Validate Device    ${olt_serial_number}    ENABLED    ACTIVE
+    ...    REACHABLE
+    ${logical_id}=    Get Logical Device ID From SN    ${olt_serial_number}
+    Set Suite Variable    ${logical_id}
     ${of_id}=    Wait Until Keyword Succeeds    ${timeout}    15s    Validate OLT Device in ONOS    ${olt_serial_number}
     Set Global Variable    ${of_id}
 
