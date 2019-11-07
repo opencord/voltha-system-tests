@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "988e95d9_c7637198",
+        "filename": "tests/functional/Voltha_PODTests.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1000064
+      },
+      "writtenOn": "2019-11-07T23:23:43Z",
+      "side": 1,
+      "message": "It\u0027s best not to delete the OLT before each test.  In this test please make an assumption that the OLT is up and running, subscriber is already auth+dhcp+pingable.  This setup will be available from the previous test run. Proceed with \"Radius Restart\" and then perform auth+dhcp+ping steps later",
+      "range": {
+        "startLine": 98,
+        "startChar": 4,
+        "endLine": 98,
+        "endChar": 28
+      },
+      "revId": "6660c7ec39fcd752c3fb77e1b6126376323eed98",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    }
+  ]
+}
