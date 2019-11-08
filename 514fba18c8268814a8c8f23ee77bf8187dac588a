@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "acf325a0_38f57e8f",
+        "filename": "tests/functional/Voltha_PODTests.robot",
+        "patchSetId": 4
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1000064
+      },
+      "writtenOn": "2019-11-08T22:31:52Z",
+      "side": 1,
+      "message": "Add \"[Teardown]   None\", because the subscriber should have been authenticated/dhcped/pingable before proceeding with the next \"Radius Restart\"",
+      "range": {
+        "startLine": 59,
+        "startChar": 4,
+        "endLine": 59,
+        "endChar": 30
+      },
+      "revId": "514fba18c8268814a8c8f23ee77bf8187dac588a",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    }
+  ]
+}
