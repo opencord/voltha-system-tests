@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "98a3c786_d246b7e6",
+        "filename": "Jenkinsfile-voltha-build-and-test",
+        "patchSetId": 4
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1000011
+      },
+      "writtenOn": "2019-11-08T17:11:01Z",
+      "side": 1,
+      "message": "This is being standardized to be `params.buildNode`",
+      "range": {
+        "startLine": 27,
+        "startChar": 20,
+        "endLine": 27,
+        "endChar": 32
+      },
+      "revId": "11aff352cdc759a1844be4965080f5fc48111b79",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "11f700e0_4f95b697",
+        "filename": "Jenkinsfile-voltha-build-and-test",
+        "patchSetId": 4
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1000011
+      },
+      "writtenOn": "2019-11-08T17:11:01Z",
+      "side": 1,
+      "message": "Why not run `sh` once?",
+      "range": {
+        "startLine": 50,
+        "startChar": 0,
+        "endLine": 50,
+        "endChar": 113
+      },
+      "revId": "11aff352cdc759a1844be4965080f5fc48111b79",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cecae68c_66d5b795",
+        "filename": "Jenkinsfile-voltha-build-and-test",
+        "patchSetId": 4
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1000011
+      },
+      "writtenOn": "2019-11-08T17:11:01Z",
+      "side": 1,
+      "message": "This may be premature, but could these two stages be run in parallel?",
+      "range": {
+        "startLine": 80,
+        "startChar": 0,
+        "endLine": 90,
+        "endChar": 36
+      },
+      "revId": "11aff352cdc759a1844be4965080f5fc48111b79",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0a4741fd_ed4bf3ca",
+        "filename": "Jenkinsfile-voltha-build-and-test",
+        "patchSetId": 4
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1000011
+      },
+      "writtenOn": "2019-11-08T17:11:01Z",
+      "side": 1,
+      "message": "What does this redirect do?",
+      "range": {
+        "startLine": 192,
+        "startChar": 3,
+        "endLine": 193,
+        "endChar": 88
+      },
+      "revId": "11aff352cdc759a1844be4965080f5fc48111b79",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    }
+  ]
+}
