@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "2e64d9f3_8c68cbd5",
+        "filename": "Jenkinsfile-voltha-build-and-test",
+        "patchSetId": 4
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1000010
+      },
+      "writtenOn": "2019-11-08T19:31:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "98a3c786_d246b7e6",
+      "range": {
+        "startLine": 27,
+        "startChar": 20,
+        "endLine": 27,
+        "endChar": 32
+      },
+      "revId": "11aff352cdc759a1844be4965080f5fc48111b79",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "11f700e0_4f95b697",
         "filename": "Jenkinsfile-voltha-build-and-test",
         "patchSetId": 4
@@ -45,6 +69,30 @@
       "revId": "11aff352cdc759a1844be4965080f5fc48111b79",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6f2f8490_3525b9fd",
+        "filename": "Jenkinsfile-voltha-build-and-test",
+        "patchSetId": 4
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1000010
+      },
+      "writtenOn": "2019-11-08T19:31:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "11f700e0_4f95b697",
+      "range": {
+        "startLine": 50,
+        "startChar": 0,
+        "endLine": 50,
+        "endChar": 113
+      },
+      "revId": "11aff352cdc759a1844be4965080f5fc48111b79",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "21d4e333_8bc7cc9b",
+        "filename": "Jenkinsfile-voltha-build-and-test",
+        "patchSetId": 4
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1000010
+      },
+      "writtenOn": "2019-11-08T19:31:40Z",
+      "side": 1,
+      "message": "Creating the cluster can run in parallel with the Docker image build, but pushing the images requires the cluster to be up.  We could refactor these steps to exploit this parallelism.  Let\u0027s put off for now.",
+      "parentUuid": "cecae68c_66d5b795",
+      "range": {
+        "startLine": 80,
+        "startChar": 0,
+        "endLine": 90,
+        "endChar": 36
+      },
+      "revId": "11aff352cdc759a1844be4965080f5fc48111b79",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "0a4741fd_ed4bf3ca",
         "filename": "Jenkinsfile-voltha-build-and-test",
         "patchSetId": 4
@@ -82,6 +154,30 @@
       "writtenOn": "2019-11-08T17:11:01Z",
       "side": 1,
       "message": "What does this redirect do?",
+      "range": {
+        "startLine": 192,
+        "startChar": 3,
+        "endLine": 193,
+        "endChar": 88
+      },
+      "revId": "11aff352cdc759a1844be4965080f5fc48111b79",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3eff45b1_043629e7",
+        "filename": "Jenkinsfile-voltha-build-and-test",
+        "patchSetId": 4
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1000010
+      },
+      "writtenOn": "2019-11-08T19:31:40Z",
+      "side": 1,
+      "message": "I think it just blanks out the files.  I replaced with \"rm -f ...\"",
+      "parentUuid": "0a4741fd_ed4bf3ca",
       "range": {
         "startLine": 192,
         "startChar": 3,
