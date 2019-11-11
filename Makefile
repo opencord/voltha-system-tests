@@ -21,7 +21,10 @@ ROOT_DIR:=$(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
 LINT_ARGS   ?= --verbose --configure LineTooLong:120 --configure TooManyTestSteps:15 \
        --configure TooFewTestSteps:1 --configure TooFewKeywordSteps:1
 VERSION     ?= $(shell cat ./VERSION)
-ROBOT_VAR_FILE ?= $(ROOT_DIR)/tests/data/bbsim-kind.yaml
+ROBOT_SANITY_SINGLE_PON_FILE ?= $(ROOT_DIR)/tests/data/bbsim-kind.yaml
+ROBOT_SANITY_MULT_PON_FILE ?= $(ROOT_DIR)/tests/data/bbsim-kind-2x2.yaml
+ROBOT_SCALE_SINGLE_PON_FILE ?= $(ROOT_DIR)/tests/data/bbsim-kind-16.yaml
+ROBOT_SCALE_MULT_PON_FILE ?= $(ROOT_DIR)/tests/data/bbsim-kind-8x2.yaml
 
 .PHONY: gendocs
 
@@ -36,11 +39,29 @@ LIB_DIRS := $(dir $(LIB_SOURCE))
 
 ROBOT_MISC_ARGS ?=
 
-sanity-kind: ROBOT_MISC_ARGS += -i sanity
-sanity-kind: bbsim-kind
+sanity-single-kind: ROBOT_MISC_ARGS += -i sanity
+sanity-single-kind: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_SINGLE_PON_FILE)
+sanity-single-kind: bbsim-kind
+
+sanity-multi-kind: ROBOT_MISC_ARGS += -i sanity
+sanity-multi-kind: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_MULT_PON_FILE)
+sanity-multi-kind: bbsim-kind
 
 bbsim-kind: ROBOT_MISC_ARGS += -X
-bbsim-kind: voltha-podtest
+bbsim-kind: ROBOT_FILE := Voltha_PODTests.robot
+bbsim-kind: voltha-test
+
+scale-single-kind: ROBOT_MISC_ARGS += -i active
+scale-single-kind: ROBOT_CONFIG_FILE := $(ROBOT_SCALE_SINGLE_PON_FILE)
+scale-single-kind: bbsim-scale-kind
+
+scale-multi-kind: ROBOT_MISC_ARGS += -i active
+scale-multi-kind: ROBOT_CONFIG_FILE := $(ROBOT_SCALE_MULT_PON_FILE)
+scale-multi-kind: bbsim-scale-kind
+
+bbsim-scale-kind: ROBOT_MISC_ARGS += -X
+bbsim-scale-kind: ROBOT_FILE := Voltha_ScaleFunctionalTests.robot
+bbsim-scale-kind: voltha-test
 
 # virtualenv for the robot tools
 vst_venv:
@@ -62,11 +83,11 @@ tidy:
 	set -u ;\
 	find . -name *.robot -exec python -m robot.tidy --inplace {} \;
 
-voltha-podtest: vst_venv
+voltha-test: vst_venv
 	source ./vst_venv/bin/activate ;\
 	set -u ;\
 	cd tests/functional ;\
-	robot -V $(ROBOT_VAR_FILE) $(ROBOT_MISC_ARGS) Voltha_PODTests.robot
+	robot -V $(ROBOT_CONFIG_FILE) $(ROBOT_MISC_ARGS) $(ROBOT_FILE)
 
 gendocs: vst_venv
 	source ./vst_venv/bin/activate ;\
