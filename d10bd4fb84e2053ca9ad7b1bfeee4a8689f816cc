@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8b98bc7d_e3070e95",
+        "filename": "Makefile",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1000010
+      },
+      "writtenOn": "2019-11-12T00:23:23Z",
+      "side": 1,
+      "message": "Right now the test runs `make sanity-kind`.   To get it to pass the test, you probably need to add:\n\nsanity-kind: sanity-single-kind",
+      "range": {
+        "startLine": 42,
+        "startChar": 0,
+        "endLine": 42,
+        "endChar": 48
+      },
+      "revId": "d10bd4fb84e2053ca9ad7b1bfeee4a8689f816cc",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    }
+  ]
+}
