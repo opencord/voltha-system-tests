@@ -18,6 +18,9 @@
 node {
     // Need this so that deployment_config has global scope when it's read later
     deployment_config = null
+    localDeploymentConfigFile = null
+    localKindVolthaValuesFile = null
+    localSadisConfigFile = null
 }
 
 pipeline {
@@ -33,16 +36,12 @@ pipeline {
   environment {
     KUBECONFIG="$HOME/.kube/kind-config-voltha-minimal"
     VOLTCONFIG="$HOME/.volt/config-minimal"
+    PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:$WORKSPACE/kind-voltha/bin"
     TYPE="minimal"
     FANCY=0
-    PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:$WORKSPACE/kind-voltha/bin"
     //VOL-2194 ONOS SSH and REST ports hardcoded to 30115/30120 in tests
     ONOS_SSH_PORT=30115
     ONOS_API_PORT=30120
-    VOLTHA_LOG_LEVEL="debug"
-    DEPLOYMENT_CONFIG_FILE="$WORKSPACE/${configBaseDir}/${configDeploymentDir}/${configFileName}.yaml"
-    ROBOT_VAR_FILE="$DEPLOYMENT_CONFIG_FILE"
-    ROBOT_MISC_ARGS="--removekeywords wuks -d $WORKSPACE/RobotLogs -v POD_NAME:${configFileName} -v KUBERNETES_CONFIGS_DIR:$WORKSPACE/${configBaseDir}/${configKubernetesDir}"
   }
 
   stages {
@@ -52,13 +51,40 @@ pipeline {
         test -e $WORKSPACE/kind-voltha/voltha && cd $WORKSPACE/kind-voltha && ./voltha down
         cd $WORKSPACE
         rm -rf $WORKSPACE/*
-        git clone -b master ${cordRepoUrl}/${configBaseDir}
         """
-        script { deployment_config = readYaml file: "$DEPLOYMENT_CONFIG_FILE" }
+        script {
+          if (env.configRepo && ! env.localConfigDir) {
+            env.localConfigDir = "$WORKSPACE"
+            sh returnStdout: true, script: "git clone -b master ${cordRepoUrl}/${configRepo}"
+          }
+          localDeploymentConfigFile = "${env.localConfigDir}/${params.deploymentConfigFile}"
+          localKindVolthaValuesFile = "${env.localConfigDir}/${params.kindVolthaValuesFile}"
+          localSadisConfigFile = "${env.localConfigDir}/${params.sadisConfigFile}"
+          if ( ! params.withPatchset ) {
+            sh returnStdout: false, script: """
+            mkdir -p voltha
+            cd voltha
+            git clone -b ${branch} ${cordRepoUrl}/voltha-system-tests
+            """
+          }
+          try {
+            deployment_config = readYaml file: "${localDeploymentConfigFile}"
+          } catch (err) {
+            echo "Error reading ${localDeploymentConfigFile}"
+            throw err
+          }
+          sh returnStdout: false, script: """
+          if [ ! -e ${localKindVolthaValuesFile} ]; then echo "${localKindVolthaValuesFile} not found"; exit 1; fi
+          if [ ! -e ${localSadisConfigFile} ]; then echo "${localSadisConfigFile} not found"; exit 1; fi
+          """
+        }
       }
     }
 
     stage('Get Patch') {
+      when {
+        expression { params.withPatchset }
+      }
       steps {
         checkout(changelog: false, \
           poll: false,
@@ -92,6 +118,9 @@ pipeline {
     }
 
     stage('Build and Push Images') {
+      when {
+        expression { params.withPatchset }
+      }
       steps {
         sh returnStdout: false, script: """
         if ! [[ "${gerritProject}" =~ ^(voltha-system-tests)\$ ]]; then
@@ -109,38 +138,55 @@ pipeline {
     }
 
     stage('Deploy Voltha') {
+      environment {
+        WITH_SIM_ADAPTERS="n"
+        WITH_RADIUS="y"
+        DEPLOY_K8S="n"
+        VOLTHA_LOG_LEVEL="debug"
+      }
       steps {
-        sh returnStdout: false, script: """
-        export EXTRA_HELM_FLAGS='-f $WORKSPACE/${configBaseDir}/${configKubernetesDir}/voltha/${configFileName}.yml '
+        script {
+          if ( params.withPatchset ) {
+            sh returnStdout: false, script: """
+            export EXTRA_HELM_FLAGS='-f ${localKindVolthaValuesFile} '
 
-        IMAGES=""
-        if [ "${gerritProject}" = "voltha-go" ]; then
-            IMAGES="cli ofagent rw_core ro_core "
-        elif [ "${gerritProject}" = "voltha-openolt-adapter" ]; then
-            IMAGES="adapter_open_olt "
-        elif [ "${gerritProject}" = "voltha-openonu-adapter" ]; then
-            IMAGES="adapter_open_onu "
-        elif [ "${gerritProject}" = "voltha-api-server" ]; then
-            IMAGES="afrouter afrouterd "
-        else
-            echo "No images to push"
-        fi
+            IMAGES=""
+            if [ "${gerritProject}" = "voltha-go" ]; then
+                IMAGES="cli ofagent rw_core ro_core "
+            elif [ "${gerritProject}" = "voltha-openolt-adapter" ]; then
+                IMAGES="adapter_open_olt "
+            elif [ "${gerritProject}" = "voltha-openonu-adapter" ]; then
+                IMAGES="adapter_open_onu "
+            elif [ "${gerritProject}" = "voltha-api-server" ]; then
+                IMAGES="afrouter afrouterd "
+            else
+                echo "No images to push"
+            fi
 
-        for I in \$IMAGES
-        do
-            EXTRA_HELM_FLAGS+="--set images.\$I.tag=citest,images.\$I.pullPolicy=Never "
-        done
+            for I in \$IMAGES
+            do
+                EXTRA_HELM_FLAGS+="--set images.\$I.tag=citest,images.\$I.pullPolicy=Never "
+            done
 
-        cd $WORKSPACE/kind-voltha/
-        echo \$EXTRA_HELM_FLAGS
-        WITH_SIM_ADAPTERS=n WITH_RADIUS=y DEPLOY_K8S=no ./voltha up
-        """
+            cd $WORKSPACE/kind-voltha/
+            echo \$EXTRA_HELM_FLAGS
+            ./voltha up
+            """
+          } else {
+            sh returnStdout: false, script: """
+            export EXTRA_HELM_FLAGS='-f ${localKindVolthaValuesFile} '
+            cd $WORKSPACE/kind-voltha/
+            echo \$EXTRA_HELM_FLAGS
+            ./voltha up
+            """
+          }
+        }
       }
     }
 
     stage('Push Tech-Profile') {
       when {
-        expression { params.configurePod && params.profile != "Default" }
+        expression { params.profile != "Default" }
       }
       steps {
         sh returnStdout: false, script: """
@@ -154,7 +200,7 @@ pipeline {
     stage('Push Sadis-config') {
       steps {
         sh returnStdout: false, script: """
-        curl -sSL --user karaf:karaf -X POST -H Content-Type:application/json http://${deployment_config.nodes[0].ip}:$ONOS_API_PORT/onos/v1/network/configuration --data @$WORKSPACE/voltha/voltha-system-tests/tests/data/${configFileName}-sadis.json
+        curl -sSL --user karaf:karaf -X POST -H Content-Type:application/json http://${deployment_config.nodes[0].ip}:$ONOS_API_PORT/onos/v1/network/configuration --data @${localSadisConfigFile}
         """
       }
     }
@@ -210,6 +256,10 @@ pipeline {
     }
 
     stage('Run E2E Tests') {
+      environment {
+        ROBOT_VAR_FILE="${localDeploymentConfigFile}"
+        ROBOT_MISC_ARGS="--removekeywords wuks -d $WORKSPACE/RobotLogs"
+      }
       steps {
         sh returnStdout: false, script: """
         cd voltha
@@ -265,4 +315,3 @@ pipeline {
     }
   }
 }
-
