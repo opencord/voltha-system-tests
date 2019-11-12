@@ -53,43 +53,54 @@ node ("${TestNodeName}") {
                     }
                 }
             }
-            stage('Install Voltha') {
+            stage('Install Voltha')  {
                 timeout(10) {
                     sh returnStdout: true, script: """
                     export KUBECONFIG=$WORKSPACE/${configBaseDir}/${configKubernetesDir}/${configFileName}.conf
                     cd kind-voltha/
-                    EXTRA_HELM_FLAGS='-f $WORKSPACE/${configBaseDir}/${configKubernetesDir}/voltha/${configFileName}.yml' VOLTHA_LOG_LEVEL=DEBUG WITH_SIM_ADAPTERS=n WITH_RADIUS=y WITH_TP=yes DEPLOY_K8S=no INSTALL_KUBECTL=no INSTALL_HELM=no FANCY=0 ONOS_TAG=voltha-2.1 ./voltha up
+                    if ( ${released} ); then
+                        export EXTRA_HELM_FLAGS="--set defaults.image_tag=null,images.onos.tag=2.2.0"
+                    else
+                        export EXTRA_HELM_FLAGS='-f $WORKSPACE/${configBaseDir}/${configKubernetesDir}/voltha/${configFileName}.yml'
+                    fi
+
+                    # VOL-2194 ONOS SSH and REST ports hardcoded to 30115/30120 in tests
+                    ONOS_SSH_PORT=30115 ONOS_API_PORT=30120 VOLTHA_LOG_LEVEL=DEBUG WITH_SIM_ADAPTERS=n WITH_RADIUS=y WITH_TP=yes DEPLOY_K8S=no INSTALL_KUBECTL=no INSTALL_HELM=no FANCY=0 ./voltha up
+
+                    kubectl get pods --all-namespaces -o jsonpath="{range .items[*].status.containerStatuses[*]}{.image}{'\\t'}{.imageID}{'\\n'}" | sort | uniq -c
+                    kubectl get nodes -o wide
+                    kubectl get pods -n voltha -o wide
                     """
-                }
+                    }
             }
-            if ( params.configurePod )
+            if ( params.configurePod && params.profile != "Default") {
                 stage('Push Tech-Profile') {
                     timeout(1) {
                         out_push_tp = sh returnStatus: true, script: """
                         export KUBECONFIG=$WORKSPACE/${configBaseDir}/${configKubernetesDir}/${configFileName}.conf
                         etcd_container=\$(kubectl get pods -n voltha | grep voltha-etcd-cluster | awk 'NR==1{print \$1}')
-                        kubectl cp $WORKSPACE/voltha-system-tests/tests/data/TechProfile-${profile}.json voltha/\$etcd_container:/tmp/tp.json
-                        put_result=\$(kubectl exec -it \$etcd_container -n voltha -- /bin/sh -c 'cat /tmp/tp.json | ETCDCTL_API=3 etcdctl put service/voltha/technology_profiles/XGS-PON/64')
+                        kubectl cp $WORKSPACE/voltha-system-tests/tests/data/TechProfile-${profile}.json voltha/\$etcd_container:/tmp/flexpod.json
+                        put_result=\$(kubectl exec -it \$etcd_container -n voltha -- /bin/sh -c 'cat /tmp/flexpod.json | ETCDCTL_API=3 etcdctl put service/voltha/technology_profiles/XGS-PON/64')
                         """
                         return out_push_tp == 0
                     }
                     timeout(1) {
                         out_get_tp = sh returnStatus: true, script: """
                         etcd_container=\$(kubectl get pods -n voltha | grep voltha-etcd-cluster | awk 'NR==1{print \$1}')
-                        get_result=\$(kubectl exec -it \$etcd_container -- /bin/sh -c 'ETCDCTL_API=3 etcdctl get --prefix service/voltha/technology_profiles/XGS-PON/64')
+                        get_result=\$(kubectl exec -it \$etcd_container -n voltha -- /bin/sh -c 'ETCDCTL_API=3 etcdctl get --prefix service/voltha/technology_profiles/XGS-PON/64')
                         """
                         return out_get_tp == 0
                     }
                 }
-                stage('Push Sadis-config') {
-                    timeout(1) {
-                        sadis_out = sh returnStatus: true, script: """
+            }
+            stage('Push Sadis-config') {
+                timeout(1) {
+                    sadis_out = sh returnStatus: true, script: """
                         curl -sSL --user karaf:karaf -X POST -H Content-Type:application/json http://${deployment_config.nodes[0].ip}:30120/onos/v1/network/configuration --data @$WORKSPACE/voltha-system-tests/tests/data/${configFileName}-sadis.json
                         """
                         return sadis_out == 0
-                    }
                 }
-
+            }
             if ( params.reinstallOlt ) {
                 stage('Reinstall OLT software') {
                     for(int i=0; i < deployment_config.olts.size(); i++) {
@@ -132,6 +143,7 @@ node ("${TestNodeName}") {
                     }
                 }
             }
+       
             if ( deployment_config.fabric_switches.size() > 0 ) {
                 stage('Switch Configurations in ONOS') {
                     timeout(1) {
