@@ -85,7 +85,7 @@ Sanity E2E Test for OLT/ONU on POD
         ...    ${src['ip']}    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
         ...    ${dst['dp_iface_name']}    ${dst['ip']}    ${dst['user']}    ${dst['pass']}    ${dst['container_type']}
         ...    ${dst['container_name']}
-        Wait Until Keyword Succeeds    ${timeout}    2s    Run Keyword And Continue On Failure
+        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
         ...    Validate Subscriber DHCP Allocation    ${k8s_node_ip}    ${ONOS_SSH_PORT}    ${onu_port}
     END
 
