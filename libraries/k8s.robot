@@ -45,7 +45,9 @@ Lookup Service PORT
 Restart Pod
     [Arguments]    ${namespace}    ${name}
     [Documentation]    Uses kubectl to force delete pod
-    ${rc}    ${restart_pod_name}=    Run and Return Rc and Output    kubectl get pods --template $'{{range .items}}{{.metadata.name}}{{"\\n"}}{{end}}', -n ${namespace} | grep ${name}
+    ${rc}    ${restart_pod_name}=    Run and Return Rc and Output
+    ...    kubectl get pods --template '{{range .items}}{{.metadata.name}}{{"\\n"}}{{end}}', -n ${namespace} | grep ${name}
     Log    ${restart_pod_name}
+    Should Not Be Empty    ${restart_pod_name}    Unable to parse pod name
     ${rc}    ${output}=    Run and Return Rc and Output    kubectl delete pod ${restart_pod_name} -n ${namespace} --grace-period=0 --force  
     Log    ${output}
