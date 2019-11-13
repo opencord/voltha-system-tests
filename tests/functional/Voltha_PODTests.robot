@@ -57,7 +57,7 @@ Sanity E2E Test for OLT/ONU on POD
     ...    Validate successful authentication/DHCP/E2E ping for the tech profile that is used
     [Tags]    sanity    test1
     #[Setup]    Clean Up Linux
-    [Teardown]    NONE
+    #[Teardown]    NONE
     ${of_id}=    Wait Until Keyword Succeeds    ${timeout}    15s    Validate OLT Device in ONOS    ${olt_serial_number}
     Set Global Variable    ${of_id}
 
