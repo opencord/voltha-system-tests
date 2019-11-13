@@ -92,7 +92,7 @@ Sanity E2E Test for OLT/ONU on POD
 Check OLT/ONU Authentication After Radius Pod Restart
     [Documentation]    After radius restart, validates eapol flows and dhcp allocation
     ...    and validates onu in onos
-    [Tags]    sanity    test2
+    [Tags]    functional    test2
     #[Setup]    Clean Up Linux
     [Setup]   NONE	
     Wait Until Keyword Succeeds    ${timeout}    15s    Restart Pod    ${NAMESPACE}    ${RESTART_POD_NAME}
