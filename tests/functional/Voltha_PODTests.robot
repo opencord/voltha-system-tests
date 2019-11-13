@@ -89,37 +89,37 @@ Sanity E2E Test for OLT/ONU on POD
         ...    Validate Subscriber DHCP Allocation    ${k8s_node_ip}    ${ONOS_SSH_PORT}    ${onu_port}
     END
 
-Check OLT/ONU Authentication After Radius Pod Restart
-    [Documentation]    After radius restart, validates eapol flows and dhcp allocation
-    ...    and validates onu in onos
-    [Tags]    sanity    test2
+#Check OLT/ONU Authentication After Radius Pod Restart
+#    [Documentation]    After radius restart, validates eapol flows and dhcp allocation
+#    ...    and validates onu in onos
+#    [Tags]    sanity    test2
     #[Setup]    Clean Up Linux
-    [Setup]   NONE	
-    Wait Until Keyword Succeeds    ${timeout}    15s    Restart Pod    ${NAMESPACE}    ${RESTART_POD_NAME}
+#    [Setup]   NONE	
+#    Wait Until Keyword Succeeds    ${timeout}    15s    Restart Pod    ${NAMESPACE}    ${RESTART_POD_NAME}
 
-    FOR    ${I}    IN RANGE    0    ${num_onus}
-        ${src}=    Set Variable    ${hosts.src[${I}]}
-        ${dst}=    Set Variable    ${hosts.dst[${I}]}
+#    FOR    ${I}    IN RANGE    0    ${num_onus}
+#        ${src}=    Set Variable    ${hosts.src[${I}]}
+#        ${dst}=    Set Variable    ${hosts.dst[${I}]}
 
 
-        ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
-        ${onu_port}=    Wait Until Keyword Succeeds    ${timeout}    2s    Get ONU Port in ONOS    ${src['onu']}
-        ...    ${of_id}
-        Wait Until Keyword Succeeds    ${timeout}    2s    Verify Eapol Flows Added For ONU    ${k8s_node_ip}
-        ...    ${ONOS_SSH_PORT}    ${onu_port}
-        Run Keyword If    ${has_dataplane}    Run Keyword And Continue On Failure    Validate Authentication    True
-        ...    ${src['dp_iface_name']}    wpa_supplicant.conf    ${src['ip']}    ${src['user']}    ${src['pass']}
-        ...    ${src['container_type']}    ${src['container_name']}
-        Wait Until Keyword Succeeds    ${timeout}    2s    Verify ONU in AAA-Users    ${k8s_node_ip}
-        ...    ${ONOS_SSH_PORT}     ${onu_port}
-        Run Keyword If    ${has_dataplane}    Run Keyword And Continue On Failure    Validate DHCP and Ping    True
-        ...    True    ${src['dp_iface_name']}    ${src['s_tag']}    ${src['c_tag']}    ${dst['dp_iface_ip_qinq']}
-        ...    ${src['ip']}    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
-        ...    ${dst['dp_iface_name']}    ${dst['ip']}    ${dst['user']}    ${dst['pass']}    ${dst['container_type']}
-        ...    ${dst['container_name']}
-        Wait Until Keyword Succeeds    ${timeout}    2s    Run Keyword And Continue On Failure
-        ...    Validate Subscriber DHCP Allocation    ${k8s_node_ip}    ${ONOS_SSH_PORT}    ${onu_port}
-    END
+#        ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
+#        ${onu_port}=    Wait Until Keyword Succeeds    ${timeout}    2s    Get ONU Port in ONOS    ${src['onu']}
+#        ...    ${of_id}
+#        Wait Until Keyword Succeeds    ${timeout}    2s    Verify Eapol Flows Added For ONU    ${k8s_node_ip}
+#        ...    ${ONOS_SSH_PORT}    ${onu_port}
+#        Run Keyword If    ${has_dataplane}    Run Keyword And Continue On Failure    Validate Authentication    True
+#        ...    ${src['dp_iface_name']}    wpa_supplicant.conf    ${src['ip']}    ${src['user']}    ${src['pass']}
+#        ...    ${src['container_type']}    ${src['container_name']}
+#        Wait Until Keyword Succeeds    ${timeout}    2s    Verify ONU in AAA-Users    ${k8s_node_ip}
+#        ...    ${ONOS_SSH_PORT}     ${onu_port}
+#        Run Keyword If    ${has_dataplane}    Run Keyword And Continue On Failure    Validate DHCP and Ping    True
+#        ...    True    ${src['dp_iface_name']}    ${src['s_tag']}    ${src['c_tag']}    ${dst['dp_iface_ip_qinq']}
+#        ...    ${src['ip']}    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
+#        ...    ${dst['dp_iface_name']}    ${dst['ip']}    ${dst['user']}    ${dst['pass']}    ${dst['container_type']}
+#        ...    ${dst['container_name']}
+#        Wait Until Keyword Succeeds    ${timeout}    2s    Run Keyword And Continue On Failure
+#        ...    Validate Subscriber DHCP Allocation    ${k8s_node_ip}    ${ONOS_SSH_PORT}    ${onu_port}
+#    END
 
 *** Keywords ***
 Setup Suite
