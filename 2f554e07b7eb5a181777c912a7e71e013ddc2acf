@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4b0aafe4_8345f7a0",
+        "filename": "libraries/k8s.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1000064
+      },
+      "writtenOn": "2019-11-13T20:06:31Z",
+      "side": 1,
+      "message": "This command didn\u0027t work, may be we can use this \nkubectl get pods -n voltha | grep radius | awk \u0027NR\u003d\u003d1{print $1}\u0027\nwhich worked",
+      "range": {
+        "startLine": 49,
+        "startChar": 11,
+        "endLine": 49,
+        "endChar": 123
+      },
+      "revId": "2f554e07b7eb5a181777c912a7e71e013ddc2acf",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    }
+  ]
+}
