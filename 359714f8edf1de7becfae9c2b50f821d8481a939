@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "920d55dc_fba89071",
+        "filename": "tests/functional/Voltha_ScaleFunctionalTests.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1000457
+      },
+      "writtenOn": "2019-11-14T22:48:53Z",
+      "side": 1,
+      "message": "I missed these two as well (Line 54 and 59) While were at it\n${timeout} \u003c- 60s",
+      "revId": "359714f8edf1de7becfae9c2b50f821d8481a939",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e07a1c7f_63d95326",
+        "filename": "tests/functional/Voltha_ScaleFunctionalTests.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1000457
+      },
+      "writtenOn": "2019-11-14T22:48:53Z",
+      "side": 1,
+      "message": "Can you use ${timeout} here instead and down below instead of 60s",
+      "revId": "359714f8edf1de7becfae9c2b50f821d8481a939",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    }
+  ]
+}
