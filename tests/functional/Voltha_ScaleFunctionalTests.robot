@@ -51,12 +51,12 @@ Activate Devices OLT/ONU
     ${olt_device_id}=    Create Device    ${olt_ip}    ${OLT_PORT}
     Set Global Variable    ${olt_device_id}
     #validate olt states
-    Wait Until Keyword Succeeds    60s    5s    Validate OLT Device   PREPROVISIONED    UNKNOWN    UNKNOWN  ${EMPTY}
+    Wait Until Keyword Succeeds    ${timeout}    5s    Validate OLT Device   PREPROVISIONED    UNKNOWN    UNKNOWN  ${EMPTY}
     ...    ${olt_device_id}
     #enable device
     Enable Device    ${olt_device_id}
     #validate olt states
-    Wait Until Keyword Succeeds    60s    5s    Validate OLT Device   ENABLED    ACTIVE    REACHABLE    ${EMPTY}
+    Wait Until Keyword Succeeds    ${timeout}    5s    Validate OLT Device   ENABLED    ACTIVE    REACHABLE    ${EMPTY}
     ...    ${olt_device_id}
 
 ONU Discovery
@@ -80,11 +80,11 @@ Validate Device's Ports and Flows
     #validate olt port types
     Validate OLT Port Types    PON_OLT    ETHERNET_NNI
     #validate olt flows
-    Validate OLT Flows
+    Wait Until Keyword Succeeds    ${timeout}    5s    Validate OLT Flows
     #validate onu port types
     Validate ONU Port Types    ${List_ONU_Serial}    PON_ONU    ETHERNET_UNI
     #validate onu flows
-    Validate ONU Flows    ${List_ONU_Serial}    ${num_onu_flows}
+    Wait Until Keyword Succeeds    ${timeout}    5s    Validate ONU Flows    ${List_ONU_Serial}    ${num_onu_flows}
 
 Validate Logical Device
     [Documentation]    Verify that logical device exists and then verify its ports and flows
