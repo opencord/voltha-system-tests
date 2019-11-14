@@ -80,11 +80,11 @@ Validate Device's Ports and Flows
     #validate olt port types
     Validate OLT Port Types    PON_OLT    ETHERNET_NNI
     #validate olt flows
-    Validate OLT Flows
+    Wait Until Keyword Succeeds    60s    5s    Validate OLT Flows
     #validate onu port types
     Validate ONU Port Types    ${List_ONU_Serial}    PON_ONU    ETHERNET_UNI
     #validate onu flows
-    Validate ONU Flows    ${List_ONU_Serial}    ${num_onu_flows}
+    Wait Until Keyword Succeeds    60s    5s    Validate ONU Flows    ${List_ONU_Serial}    ${num_onu_flows}
 
 Validate Logical Device
     [Documentation]    Verify that logical device exists and then verify its ports and flows
