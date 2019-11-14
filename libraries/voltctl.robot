@@ -50,6 +50,12 @@ Enable Device
     ${rc}    ${output}=    Run and Return Rc and Output    ${VOLTCTL_CONFIG}; voltctl device enable ${device_id}
     Should Be Equal As Integers    ${rc}    0
 
+Disable Device
+    [Arguments]    ${device_id}
+    [Documentation]    Enables a device in VOLTHA
+    ${rc}    ${output}=    Run and Return Rc and Output    ${VOLTCTL_CONFIG}; voltctl device disable ${device_id}
+    Should Be Equal As Integers    ${rc}    0
+
 Get Device Flows from Voltha
     [Arguments]    ${device_id}
     [Documentation]    Gets device flows from VOLTHA
