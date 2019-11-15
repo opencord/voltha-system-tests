@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "02b88d86_ecc09f6d",
+        "filename": "tests/functional/Voltha_PODTests.robot",
+        "patchSetId": 5
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1000010
+      },
+      "writtenOn": "2019-11-15T20:11:05Z",
+      "side": 1,
+      "message": "Do we also want to check that the dhcpl2relay-allocation was removed?  Is that the expected behavior?",
+      "range": {
+        "startLine": 109,
+        "startChar": 8,
+        "endLine": 110,
+        "endChar": 145
+      },
+      "revId": "23190e4f32011e2b4be5beff37d8fdaaa1f64950",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    }
+  ]
+}
