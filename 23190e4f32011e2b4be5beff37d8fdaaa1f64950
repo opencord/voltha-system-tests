@@ -22,6 +22,30 @@
       "revId": "23190e4f32011e2b4be5beff37d8fdaaa1f64950",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2f27d841_aa623d6e",
+        "filename": "tests/functional/Voltha_PODTests.robot",
+        "patchSetId": 5
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1000064
+      },
+      "writtenOn": "2019-11-15T20:16:41Z",
+      "side": 1,
+      "message": "In this case, subscriber won\u0027t remove get removed.  So we don\u0027t need to check, but after enable.. just rechecking to make sure the entry still exists.",
+      "parentUuid": "02b88d86_ecc09f6d",
+      "range": {
+        "startLine": 109,
+        "startChar": 8,
+        "endLine": 110,
+        "endChar": 145
+      },
+      "revId": "23190e4f32011e2b4be5beff37d8fdaaa1f64950",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
     }
   ]
 }
