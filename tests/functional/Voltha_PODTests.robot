@@ -56,7 +56,8 @@ Sanity E2E Test for OLT/ONU on POD
     [Documentation]    Validates E2E Ping Connectivity and object states for the given scenario:
     ...    Validate successful authentication/DHCP/E2E ping for the tech profile that is used
     [Tags]    sanity    test1
-    [Teardown]    NONE
+    [Setup]    Clean Up Linux
+    #[Teardown]    NONE
     ${of_id}=    Wait Until Keyword Succeeds    ${timeout}    15s    Validate OLT Device in ONOS    ${olt_serial_number}
     Set Global Variable    ${of_id}
 
@@ -207,11 +208,11 @@ Setup
     Set Suite Variable    ${logical_id}
 
 Teardown
-    [Documentation]    kills processes and cleans up interfaces on src+dst servers
-    Get Device Output from Voltha    ${olt_device_id}
-    #Get Logical Device Output from Voltha    ${logical_id}
+    [Documentation]    Collects Logs and Data after test run
+    Run Keyword and Ignore Error    Get Device Output from Voltha    ${olt_device_id}
+    Run Keyword and Ignore Error    Get Logical Device Output from Voltha    ${logical_id}
     Run Keyword If    ${external_libs}    Get ONOS Status    ${k8s_node_ip}
-    Run Keyword If    ${has_dataplane}    Clean Up Linux
+    #Run Keyword If    ${has_dataplane}    Clean Up Linux
     Run Keyword If    ${external_libs}    Log Kubernetes Containers Logs Since Time    ${datetime}    ${container_list}
 
 Teardown Suite
