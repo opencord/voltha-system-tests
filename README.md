@@ -46,16 +46,42 @@ Then run the following commands:
 
 Note: Please make sure you are able to run the docker command, you can run as root or add your running user into docker group.
 
+The testing environment will be setup in the kubernetes cluster and you can use your own one or use the one provided by [kind-voltha](https://github.com/ciena/kind-voltha).
+
+If you doesn't have a kubernetes cluster, please use the following command to set up the kubernetes cluster and install required packages.
 ```bash
 git clone https://github.com/ciena/kind-voltha
 cd kind-voltha
-EXTRA_HELM_FLAGS="--set defaults.image_tag=voltha-2.1" TYPE=minimal WITH_RADIUS=y WITH_BBSIM=y INSTALL_ONOS_APPS=y CONFIG_SADIS=y ./voltha up
+EXTRA_HELM_FLAGS="--set defaults.image_tag=master" TYPE=minimal WITH_RADIUS=y WITH_BBSIM=y INSTALL_ONOS_APPS=y CONFIG_SADIS=y ./voltha up
+source minimal-env.sh
+```
+
+If you prefer to use your own kubernetes cluster, please read the document [kind-voltha configuration options](https://github.com/ciena/kind-voltha#voltha-up-configuration-options) first to see how to configure the `kind-voltha` installation behavior.
+
+* Recommended software versions
+Helm: v2.14.3
+Kubernetes: v1.15.0
+KIND: v0.4.0
+
+
+You can skip the installation of kubernetes cluster and helm server/client by setting environment variables.
+For example, using the following command to install voltha required packages only.
+```bash
+git clone https://github.com/ciena/kind-voltha
+cd kind-voltha
+EXTRA_HELM_FLAGS="--set defaults.image_tag=master" TYPE=minimal WITH_RADIUS=y WITH_BBSIM=y INSTALL_ONOS_APPS=y CONFIG_SADIS=y DEPLOY_K8S=no INSTALL_KUBECTL=no INSTALL_HELM=no ./voltha up
 source minimal-env.sh
 ```
 
 The `defaults.image_tag` value above is used to specify which VOLTHA
 branch images to pull from Docker Hub.
 See all available versions in [Docker voltha](https://hub.docker.com/u/voltha/).
+
+### Debug the kind-voltha installation
+If you meet any issues when you set up the voltha testing environment by running `voltha up`.
+You can see the installation logs from the file `kind-voltha/install-$TYPE.log`.
+
+The $TYPE should be `full` or `minimal`, depending on the variable you used in `voltah up`, e.g, install-minimal.
 
 ## Running the sanity tests
 
