@@ -49,7 +49,7 @@ Note: Please make sure you are able to run the docker command, you can run as ro
 ```bash
 git clone https://github.com/ciena/kind-voltha
 cd kind-voltha
-EXTRA_HELM_FLAGS="--set defaults.image_tag=voltha-2.1" TYPE=minimal WITH_RADIUS=y WITH_BBSIM=y INSTALL_ONOS_APPS=y CONFIG_SADIS=y ./voltha up
+EXTRA_HELM_FLAGS="--set defaults.image_tag=master" TYPE=minimal WITH_RADIUS=y WITH_BBSIM=y INSTALL_ONOS_APPS=y CONFIG_SADIS=y ./voltha up
 source minimal-env.sh
 ```
 
