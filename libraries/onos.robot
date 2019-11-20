@@ -128,3 +128,12 @@ Validate Subscriber DHCP Allocation
     ${allocations}=    Execute ONOS CLI Command    ${ip}    ${port}
     ...    dhcpl2relay-allocations | grep DHCPACK | grep ${onu_port}
     Should Not Be Empty    ${allocations}    ONU port ${onu_port} not found in dhcpl2relay-allocations
+
+Device Is Available In ONOS
+    [Arguments]    ${url}    ${dpid}
+    [Documentation]    Validates the device exists and it available in ONOS
+    ${rc}    ${json}    Run And Return Rc And Output    curl --fail -sSL ${url}/onos/v1/devices/${dpid}
+    Should Be Equal As Integers    0    ${rc}
+    ${rc}    ${value}    Run And Return Rc And Output    echo '${json}' | jq -r .available
+    Should Be Equal As Integers    0    ${rc}
+    Should Be Equal    'true'    '${value}'
