@@ -56,6 +56,22 @@ Disable Device
     ${rc}    ${output}=    Run and Return Rc and Output    ${VOLTCTL_CONFIG}; voltctl device disable ${device_id}
     Should Be Equal As Integers    ${rc}    0
 
+Disable All Devices In Voltha
+    [Documentation]    Disables all the known devices in voltha
+    ${rc}    Run and Return Rc    ${VOLTCTL_CONFIG}; voltctl device disable $(voltctl device list --orderby=Root -q)
+    Should Be Equal As Integers    ${rc}    0
+
+Test All Devices Disabled In Voltha
+    [Documentation]    Tests to verify that all devices in VOLTHA are disabled
+    ${rc}    ${count}    Run and Return Rc and Output    ${VOLTCTL_CONFIG}; voltctl device list --filter AdminState=ENABLED -q | wc -l
+    Should Be Equal As Integers    ${rc}    0
+    Should Be Equal As Integers    ${count}    0
+
+Delete All Devices In Voltha
+    [Documentation]    Disables all the known devices in voltha
+    ${rc}    Run and Return Rc    ${VOLTCTL_CONFIG}; voltctl device delete $(voltctl device list --orderby=Root -q)
+    Should Be Equal As Integers    ${rc}    0
+
 Get Device Flows from Voltha
     [Arguments]    ${device_id}
     [Documentation]    Gets device flows from VOLTHA
