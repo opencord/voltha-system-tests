@@ -1,4 +1,4 @@
-#Copyright 2017-present Open Networking Foundation
+# Copyright 2017 - present Open Networking Foundation
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -28,6 +28,7 @@ Library           RequestsLibrary
 Library           ../../libraries/DependencyLibrary.py
 Resource          ../../libraries/onos.robot
 Resource          ../../libraries/voltctl.robot
+Resource          ../../libraries/voltha.robot
 Resource          ../../libraries/utils.robot
 Resource          ../../libraries/k8s.robot
 Resource          ../../variables/variables.robot
@@ -50,6 +51,7 @@ ${logical_id}     0
 ${has_dataplane}    True
 ${external_libs}    True
 ${teardown_device}    False
+${scripts}    ../../scripts
 
 *** Test Cases ***
 Sanity E2E Test for OLT/ONU on POD
@@ -149,6 +151,67 @@ Check OLT/ONU Authentication After Radius Pod Restart
         ...    Validate Subscriber DHCP Allocation    ${k8s_node_ip}    ${ONOS_SSH_PORT}    ${onu_port}
     END
 
+Sanity E2E Test for OLT/ONU on POD With Core Fail and Restart
+    [Documentation]    Deploys an device instance and waits for it to authenticate. After
+    ...    authentication is successful the rw-core deployment is scaled to 0 instances to
+    ...    simulate a POD crash. The test then scales the rw-core back to a single instance
+    ...    and configures ONOS for access. The test succeeds if the device is able to 
+    ...    complete the DHCP sequence.
+    [Tags]    functional    test4
+    [Setup]    Clear All Devices Then Create New Device
+    ${of_id}=    Wait Until Keyword Succeeds    ${timeout}    15s    Validate OLT Device in ONOS    ${olt_serial_number}
+    Set Global Variable    ${of_id}
+
+    FOR    ${I}    IN RANGE    0    ${num_onus}
+        ${src}=    Set Variable    ${hosts.src[${I}]}
+        ${dst}=    Set Variable    ${hosts.dst[${I}]}
+        ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
+        ${onu_port}=    Wait Until Keyword Succeeds    ${timeout}    2s    Get ONU Port in ONOS    ${src['onu']}
+        ...    ${of_id}
+
+        # Bring up the device and verify it authenticates
+        Wait Until Keyword Succeeds    ${timeout}    5s    Validate Device        ENABLED    ACTIVE    REACHABLE
+        ...    ${onu_device_id}    onu=True    onu_reason=omci-flows-pushed
+        Wait Until Keyword Succeeds    ${timeout}    2s    Verify Eapol Flows Added For ONU    ${k8s_node_ip}
+        ...    ${ONOS_SSH_PORT}    ${onu_port}
+        Run Keyword If    ${has_dataplane}    Run Keyword And Continue On Failure    Validate Authentication    True
+        ...    ${src['dp_iface_name']}    wpa_supplicant.conf    ${src['ip']}    ${src['user']}    ${src['pass']}
+        ...    ${src['container_type']}    ${src['container_name']}
+        Wait Until Keyword Succeeds    ${timeout}    2s    Verify ONU in AAA-Users    ${k8s_node_ip}
+        ...    ${ONOS_SSH_PORT}     ${onu_port}
+
+        # Scale down the rw-core deployment to 0 PODs and once confirmed, scale it back to 1
+        Scale K8s Deployment    voltha    voltha-rw-core    0
+        Wait Until Keyword Succeeds    ${timeout}    2s    Pod Does Not Exist    voltha    voltha-rw-core
+        # Ensure the ofagent POD goes "not-ready" as expected
+        Wait Until keyword Succeeds    ${timeout}    2s    Check Expected Available Deployment Replicas    voltha    voltha-ofagent    0
+        # Scale up the core deployment and make sure both it and the ofagent deployment are back
+        Scale K8s Deployment    voltha    voltha-rw-core    1
+        Wait Until Keyword Succeeds    ${timeout}    2s    Check Expected Available Deployment Replicas    voltha    voltha-rw-core    1
+        Wait Until Keyword Succeeds    ${timeout}    2s    Check Expected Available Deployment Replicas    voltha    voltha-ofagent    1
+
+        # For some reason scaling down and up the POD behind a service causes the port forward to stop working,
+        # so restart the port forwarding for the API service
+        Run Keyword Unless    ${has_dataplane}
+        ...    Restart VOLTHA Port Foward    voltha-api-minimal
+
+        # Ensure that the ofagent pod is up and ready and the device is available in ONOS, this
+        # represents system connectivity being restored
+        Wait Until Keyword Succeeds    ${timeout}    2s    Device Is Available In ONOS
+        ...    http://karaf:karaf@${k8s_node_ip}:${ONOS_REST_PORT}    ${of_id}
+
+        # Add subscriber access and verify that DHCP completes to ensure system is still functioning properly
+        Wait Until Keyword Succeeds    ${timeout}    2s    Execute ONOS CLI Command    ${k8s_node_ip}
+        ...    ${ONOS_SSH_PORT}    volt-add-subscriber-access ${of_id} ${onu_port}
+        Run Keyword If    ${has_dataplane}    Run Keyword And Continue On Failure    Validate DHCP and Ping    True
+        ...    True    ${src['dp_iface_name']}    ${src['s_tag']}    ${src['c_tag']}    ${dst['dp_iface_ip_qinq']}
+        ...    ${src['ip']}    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
+        ...    ${dst['dp_iface_name']}    ${dst['ip']}    ${dst['user']}    ${dst['pass']}    ${dst['container_type']}
+        ...    ${dst['container_name']}
+        Wait Until Keyword Succeeds    ${timeout}    2s    Run Keyword And Continue On Failure
+        ...    Validate Subscriber DHCP Allocation    ${k8s_node_ip}    ${ONOS_SSH_PORT}    ${onu_port}
+    END
+
 *** Keywords ***
 Setup Suite
     [Documentation]    Set up the test suite
@@ -170,6 +233,26 @@ Setup
     ...    ${olt_serial_number}
     ${logical_id}=    Get Logical Device ID From SN    ${olt_serial_number}
     Set Suite Variable    ${logical_id}
+
+Clear All Devices Then Create New Device
+    [Documentation]    Remove any devices from VOLTHA and ONOS
+
+    # Fetch device list count
+    ${rc}    ${count}    Run and Return Rc and Output    ${VOLTCTL_CONFIG}; voltctl device list -q | wc -l
+    Should Be Equal As Integers    ${rc}    0
+
+    # Clear devices from VOLTHA
+    Run Keyword If    ${count} == '0'    Run Disable All Devices In Voltha
+    Run Keyword If    ${count} == '0'    Wait Unitl Keyword Succeeds    ${timeout}    2s    Test Devices Disabled In Voltha
+    Run Keyword If    ${count} == '0'    Delete All Devices In Voltha
+    Run Keyword If    ${count} == '0'    Wait Until Keyword Succeeds    ${timeout}    2s    Test Empty Device List
+
+    # Clear devices from ONOS
+    Remove All Devices From ONOS
+    ...    http://karaf:karaf@${k8s_node_ip}:${ONOS_REST_PORT}
+
+    # Execute normal test Setup Keyword
+    Setup
 
 Teardown
     [Documentation]    kills processes and cleans up interfaces on src+dst servers

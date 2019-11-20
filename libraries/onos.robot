@@ -128,3 +128,22 @@ Validate Subscriber DHCP Allocation
     ${allocations}=    Execute ONOS CLI Command    ${ip}    ${port}
     ...    dhcpl2relay-allocations | grep DHCPACK | grep ${onu_port}
     Should Not Be Empty    ${allocations}    ONU port ${onu_port} not found in dhcpl2relay-allocations
+
+Device Is Available In ONOS
+    [Arguments]    ${url}    ${dpid}
+    [Documentation]    Validates the device exists and it available in ONOS
+    ${rc}    ${json}    Run And Return Rc And Output    curl --fail -sSL ${url}/onos/v1/devices/${dpid}
+    Should Be Equal As Integers    0    ${rc}
+    ${rc}    ${value}    Run And Return Rc And Output    echo '${json}' | jq -r .available
+    Should Be Equal As Integers    0    ${rc}
+    Should Be Equal    'true'    '${value}'
+
+Remove All Devices From ONOS
+    [Arguments]    ${url}
+    [Documentation]    Executes the device-remove command on each device in ONOS
+    ${rc}    @{dpids}    Run And Return Rc And Output    curl --fail -sSL ${url}/onos/v1/devices | jq -r '.devices[].id'
+    Should Be Equal As Integers    ${rc}    0
+    ${count}=    Get length    ${dpids}
+    :FOR    ${dpid}    IN    @{dpids}
+    \    ${rc}=    Run Keyword If    '${dpid}' != ''    Run And Return Rc    curl -XDELETE --fail -sSL ${url}/onos/v1/devices/${dpid}
+    \    Run Keyword If    '${dpid}' != ''    Should Be Equal As Integers    ${rc}    0
