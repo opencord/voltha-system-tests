@@ -33,7 +33,7 @@ Test Empty Device List
     ${jsondata}=    To Json    ${output}
     Log    ${jsondata}
     ${length}=    Get Length    ${jsondata}
-    [Return]  ${length}
+    Should Be Equal As Integers    ${length}    0
 
 Create Device
     [Arguments]    ${ip}    ${port}
@@ -55,6 +55,24 @@ Disable Device
     [Documentation]    Enables a device in VOLTHA
     ${rc}    ${output}=    Run and Return Rc and Output    ${VOLTCTL_CONFIG}; voltctl device disable ${device_id}
     Should Be Equal As Integers    ${rc}    0
+
+Disable All Devices In Voltha
+    [Documentation]    Disables all the known devices in voltha
+    ${rc}    ${output}=    Run and Return Rc and Output    ${VOLTCTL_CONFIG}; voltctl device disable $(voltctl device list --orderby=Root -q)
+    Should Be Equal As Integers    ${rc}    0
+    Log    ${output}
+
+Test All Devices Disabled In Voltha
+    [Documentation]    Tests to verify that all devices in VOLTHA are disabled
+    ${rc}    ${count}=    Run and Return Rc and Output    ${VOLTCTL_CONFIG}; voltctl device list --filter 'AdminState!=DISABLED' -q | wc -l
+    Should Be Equal As Integers    ${rc}    0
+    Should Be Equal As Integers    ${count}    0
+
+Delete All Devices In Voltha
+    [Documentation]    Disables all the known devices in voltha
+    ${rc}    ${output}=    Run and Return Rc and Output    ${VOLTCTL_CONFIG}; voltctl device delete $(voltctl device list --orderby=Root -q)
+    Should Be Equal As Integers    ${rc}    0
+    Log    ${output}
 
 Get Device Flows from Voltha
     [Arguments]    ${device_id}
