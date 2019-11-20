@@ -22,9 +22,11 @@ LINT_ARGS   ?= --verbose --configure LineTooLong:120 --configure TooManyTestStep
        --configure TooFewTestSteps:1 --configure TooFewKeywordSteps:1
 VERSION     ?= $(shell cat ./VERSION)
 ROBOT_SANITY_SINGLE_PON_FILE ?= $(ROOT_DIR)/tests/data/bbsim-kind.yaml
+ROBOT_FAIL_SINGLE_PON_FILE ?= $(ROOT_DIR)/tests/data/bbsim-kind.yaml
 ROBOT_SANITY_MULT_PON_FILE ?= $(ROOT_DIR)/tests/data/bbsim-kind-2x2.yaml
 ROBOT_SCALE_SINGLE_PON_FILE ?= $(ROOT_DIR)/tests/data/bbsim-kind-16.yaml
 ROBOT_SCALE_MULT_PON_FILE ?= $(ROOT_DIR)/tests/data/bbsim-kind-8x2.yaml
+ROBOT_DEBUG_LOG_OPT ?= 
 
 ROBOT_SYSTEM_SETUP_MISC_ARGS ?= -i scaledown -l systemup_log.html -r systemup_report.html -o systemup_output.xml
 ROBOT_SYSTEM_TEARDOWN_MISC_ARGS ?= -i scaleup -l systemdown_log.html -r systemdown_report.html -o sysstemdown_output.xml
@@ -46,11 +48,16 @@ ROBOT_MISC_ARGS ?=
 # for backwards compatibility
 sanity-kind: sanity-single-kind
 
-sanity-single-kind: ROBOT_MISC_ARGS += -i sanity
+sanity-single-kind: ROBOT_MISC_ARGS += -i sanity $(ROBOT_DEBUG_LOG_OPT)
 sanity-single-kind: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_SINGLE_PON_FILE)
 sanity-single-kind: bbsim-kind
 
-sanity-multi-kind: ROBOT_MISC_ARGS += -i sanity
+rwcore-restart-single-kind: ROBOT_MISC_ARGS += -X -i bbsimANDrwcore-restart $(ROBOT_DEBUG_LOG_OPT)
+rwcore-restart-single-kind: ROBOT_CONFIG_FILE := $(ROBOT_FAIL_SINGLE_PON_FILE)
+rwcore-restart-single-kind: ROBOT_FILE := Voltha_PODTests.robot
+rwcore-restart-single-kind: voltha-test
+
+sanity-multi-kind: ROBOT_MISC_ARGS += -i sanity $(ROBOT_DEBUG_LOG_OPT)
 sanity-multi-kind: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_MULT_PON_FILE)
 sanity-multi-kind: bbsim-kind
 
@@ -58,15 +65,15 @@ bbsim-kind: ROBOT_MISC_ARGS += -X
 bbsim-kind: ROBOT_FILE := Voltha_PODTests.robot
 bbsim-kind: voltha-test
 
-scale-single-kind: ROBOT_MISC_ARGS += -i active
+scale-single-kind: ROBOT_MISC_ARGS += -i active $(ROBOT_DEBUG_LOG_OPT)
 scale-single-kind: ROBOT_CONFIG_FILE := $(ROBOT_SCALE_SINGLE_PON_FILE)
 scale-single-kind: bbsim-scale-kind
 
-scale-multi-kind: ROBOT_MISC_ARGS += -i active
+scale-multi-kind: ROBOT_MISC_ARGS += -i active $(ROBOT_DEBUG_LOG_OPT)
 scale-multi-kind: ROBOT_CONFIG_FILE := $(ROBOT_SCALE_MULT_PON_FILE)
 scale-multi-kind: bbsim-scale-kind
 
-bbsim-scale-kind: ROBOT_MISC_ARGS += -X
+bbsim-scale-kind: ROBOT_MISC_ARGS += -X $(ROBOT_DEBUG_LOG_OPT)
 bbsim-scale-kind: ROBOT_FILE := Voltha_ScaleFunctionalTests.robot
 bbsim-scale-kind: voltha-test
 
