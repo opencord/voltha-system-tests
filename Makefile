@@ -22,6 +22,7 @@ LINT_ARGS   ?= --verbose --configure LineTooLong:120 --configure TooManyTestStep
        --configure TooFewTestSteps:1 --configure TooFewKeywordSteps:1
 VERSION     ?= $(shell cat ./VERSION)
 ROBOT_SANITY_SINGLE_PON_FILE ?= $(ROOT_DIR)/tests/data/bbsim-kind.yaml
+ROBOT_FAIL_SINGLE_PON_FILE ?= $(ROOT_DIR)/tests/data/bbsim-kind.yaml
 ROBOT_SANITY_MULT_PON_FILE ?= $(ROOT_DIR)/tests/data/bbsim-kind-2x2.yaml
 ROBOT_SCALE_SINGLE_PON_FILE ?= $(ROOT_DIR)/tests/data/bbsim-kind-16.yaml
 ROBOT_SCALE_MULT_PON_FILE ?= $(ROOT_DIR)/tests/data/bbsim-kind-8x2.yaml
@@ -45,6 +46,11 @@ sanity-kind: sanity-single-kind
 sanity-single-kind: ROBOT_MISC_ARGS += -i sanity
 sanity-single-kind: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_SINGLE_PON_FILE)
 sanity-single-kind: bbsim-kind
+
+fail-single-kind: ROBOT_MISC_ARGS += -X -i sanity
+fail-single-kind: ROBOT_CONFIG_FILE := $(ROBOT_FAIL_SINGLE_PON_FILE)
+fail-single-kind: ROBOT_FILE := Voltha_POD_Fail_Test.robot
+fail-single-kind: voltha-test
 
 sanity-multi-kind: ROBOT_MISC_ARGS += -i sanity
 sanity-multi-kind: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_MULT_PON_FILE)
