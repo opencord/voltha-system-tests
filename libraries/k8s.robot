@@ -28,7 +28,7 @@ Library           OperatingSystem
 *** Keywords ***
 Lookup Service IP
     [Arguments]    ${namespace}    ${name}
-    [Documentation]    Uses kubeclt to resolve a service name to an IP
+    [Documentation]    Uses kubectl to resolve a service name to an IP
     ${rc}    ${ip}=    Run and Return Rc and Output
     ...    kubectl get svc -n ${namespace} ${name} -o jsonpath={.spec.clusterIP}
     Should Be Equal as Integers    ${rc}    0
@@ -36,7 +36,7 @@ Lookup Service IP
 
 Lookup Service PORT
     [Arguments]    ${namespace}    ${name}
-    [Documentation]    Uses kubeclt to resolve a service name to an PORT
+    [Documentation]    Uses kubectl to resolve a service name to an PORT
     ${rc}    ${port}=    Run and Return Rc and Output
     ...    kubectl get svc -n ${namespace} ${name} -o jsonpath={.spec.ports[0].port}
     Should Be Equal as Integers    ${rc}    0
@@ -155,3 +155,36 @@ Validate Error For Given Pods
     END
     [Return]    ${errorPodList}
 
+Delete K8s Pod
+    [Arguments]    ${namespace}    ${name}
+    [Documentation]    Uses kubectl to delete a named POD
+    ${rc}    Run and Return Rc
+    ...    kubectl delete -n ${namespace} pod/${name}
+    Should Be Equal as Integers    ${rc}    0
+
+Scale K8s Deployment
+    [Arguments]    ${namespace}    ${name}    ${count}
+    [Documentation]    Uses kubectl to scale a named deployment
+    ${rc}    Run and Return Rc
+    ...    kubectl scale --replicas=${count} -n ${namespace} deploy/${name}
+    Should Be Equal as Integers    ${rc}    0
+
+Get Deployment Replica Count
+    [Arguments]    ${namespace}    ${name}
+    [Documentation]    Uses kubectl to fetch the number of configured replicas on a deployment
+    ${rc}    ${value}    Run and Return Rc and Output
+    ...    kubectl -n ${namespace} get deploy/${name} -o 'jsonpath={.status.replicas}'
+    Should Be Equal as Integers    ${rc}    0
+    ${replicas}=    Run Keyword If    '${value}' == ''    Set Variable    0
+    ...    ELSE    Set Variable    ${value}
+    [Return]  ${replicas}
+
+Does Deployment Have Replicas
+    [Arguments]    ${namespace}    ${name}    ${expected_count}
+    [Documentation]    Uses kubectl to fetch the number of configured replicas on a deployment
+    ${rc}    ${value}    Run and Return Rc and Output
+    ...    kubectl -n ${namespace} get deploy/${name} -o 'jsonpath={.status.replicas}'
+    Should Be Equal as Integers    ${rc}    0
+    ${replicas}=    Run Keyword If    '${value}' == ''    Set Variable    0
+    ...    ELSE    Set Variable    ${value}
+    Should be Equal as Integers    ${replicas}    ${expected_count}
