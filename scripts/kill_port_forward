@@ -1,0 +1,11 @@
+#!/bin/bash
+NAME=$1
+
+P_ID=$(ps e -ww | grep _TAG=$NAME | grep -v grep | awk '{printf("%s %s\n", $1, $5)}' | grep -v bash | awk '{print $1}')
+
+if [ -z "$P_ID" ]; then
+    exit 1
+else
+    exec kill -9 $P_ID
+fi
+
