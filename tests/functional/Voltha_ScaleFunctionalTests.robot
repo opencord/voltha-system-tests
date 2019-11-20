@@ -45,8 +45,7 @@ Activate Devices OLT/ONU
     ...    re-validate deployment -> Active OLT
     [Tags]    active
     #test for empty device list
-    ${length}=    Test Empty Device List
-    Should Be Equal As Integers  ${length}    0
+    Test Empty Device List
     #create/preprovision device
     ${olt_device_id}=    Create Device    ${olt_ip}    ${OLT_PORT}
     Set Global Variable    ${olt_device_id}
@@ -121,8 +120,7 @@ Teardown Suite
     Run Keyword If    ${has_dataplane}    Clean Up Linux
     Run Keyword If    ${external_libs}    Log Kubernetes Containers Logs Since Time    ${datetime}    ${container_list}
     Run Keyword If    ${teardown_device}    Delete Device and Verify
-    ${length}=    Run Keyword If    ${teardown_device}    Test Empty Device List
-    Run Keyword If    ${teardown_device}    Should Be Equal As Integers    ${length}    0
+    Run Keyword If    ${teardown_device}    Test Empty Device List
     Run Keyword If    ${teardown_device}    Execute ONOS CLI Command    ${k8s_node_ip}    ${ONOS_SSH_PORT}
     ...    device-remove ${of_id}
 

@@ -33,7 +33,7 @@ Test Empty Device List
     ${jsondata}=    To Json    ${output}
     Log    ${jsondata}
     ${length}=    Get Length    ${jsondata}
-    [Return]  ${length}
+    Should Be Equal As Integers    ${length}    0
 
 Create Device
     [Arguments]    ${ip}    ${port}
@@ -55,6 +55,36 @@ Disable Device
     [Documentation]    Enables a device in VOLTHA
     ${rc}    ${output}=    Run and Return Rc and Output    ${VOLTCTL_CONFIG}; voltctl device disable ${device_id}
     Should Be Equal As Integers    ${rc}    0
+
+Disable Devices In Voltha
+    [Documentation]    Disables all the known devices in voltha
+    [Arguments]    ${filter}
+    ${arg}=    Set Variable    ${EMPTY}
+    ${arg}=    Run Keyword If    len('${filter}'.strip()) != 0    Set Variable    --filter ${filter}
+    ${rc}    ${devices}=    Run and Return Rc and Output    ${VOLTCTL_CONFIG}; voltctl device list ${arg} --orderby Root -q | xargs echo -n
+    Should Be Equal As Integers    ${rc}    0
+    ${rc}    ${output}=    Run Keyword If    len('${devices}') != 0    Run and Return Rc and Output    ${VOLTCTL_CONFIG}; voltctl device disable ${devices}
+    Run Keyword If    len('${devices}') != 0    Should Be Equal As Integers    ${rc}    0
+
+Test Devices Disabled In Voltha
+    [Documentation]    Tests to verify that all devices in VOLTHA are disabled
+    [Arguments]    ${filter}
+    ${rc}    ${output}=    Run and Return Rc and Output    ${VOLTCTL_CONFIG}; voltctl device list --filter '${filter},AdminState!=DISABLED'
+    Should Be Equal As Integers    ${rc}    0
+    Log    Device List: ${output}
+    ${rc}    ${count}=    Run and Return Rc and Output    ${VOLTCTL_CONFIG}; voltctl device list --filter '${filter},AdminState!=DISABLED' -q | wc -l
+    Should Be Equal As Integers    ${rc}    0
+    Should Be Equal As Integers    ${count}    0
+
+Delete Devices In Voltha
+    [Documentation]    Disables all the known devices in voltha
+    [Arguments]    ${filter}
+    ${arg}=    Set Variable    ${EMPTY}
+    ${arg}=    Run Keyword If    len('${filter}'.strip()) != 0    Set Variable    --filter ${filter}
+    ${rc}    ${devices}=    Run and Return Rc and Output    ${VOLTCTL_CONFIG}; voltctl device list ${arg} --orderby Root -q | xargs echo -n
+    Should Be Equal As Integers    ${rc}    0
+    ${rc}    ${output}=    Run Keyword If    len('${devices}') != 0    Run and Return Rc and Output    ${VOLTCTL_CONFIG}; voltctl device delete ${devices}
+    Run Keyword If    len('${devices}') != 0    Should Be Equal As Integers    ${rc}    0
 
 Get Device Flows from Voltha
     [Arguments]    ${device_id}
