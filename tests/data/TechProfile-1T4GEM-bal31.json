@@ -13,14 +13,14 @@
       "direction":"UPSTREAM",
       "priority":0,
       "weight":0,
-      "q_sched_policy":"hybrid"
+      "q_sched_policy":"Hybrid"
    },
    "ds_scheduler":{ 
       "additional_bw":"AdditionalBW_BestEffort",
       "direction":"DOWNSTREAM",
       "priority":0,
       "weight":0,
-      "q_sched_policy":"hybrid"
+      "q_sched_policy":"Hybrid"
    },
    "upstream_gem_port_attribute_list":[ 
       { 
