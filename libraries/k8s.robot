@@ -28,7 +28,7 @@ Library           OperatingSystem
 *** Keywords ***
 Lookup Service IP
     [Arguments]    ${namespace}    ${name}
-    [Documentation]    Uses kubeclt to resolve a service name to an IP
+    [Documentation]    Uses kubectl to resolve a service name to an IP
     ${rc}    ${ip}=    Run and Return Rc and Output
     ...    kubectl get svc -n ${namespace} ${name} -o jsonpath={.spec.clusterIP}
     Should Be Equal as Integers    ${rc}    0
@@ -36,7 +36,7 @@ Lookup Service IP
 
 Lookup Service PORT
     [Arguments]    ${namespace}    ${name}
-    [Documentation]    Uses kubeclt to resolve a service name to an PORT
+    [Documentation]    Uses kubectl to resolve a service name to an PORT
     ${rc}    ${port}=    Run and Return Rc and Output
     ...    kubectl get svc -n ${namespace} ${name} -o jsonpath={.spec.ports[0].port}
     Should Be Equal as Integers    ${rc}    0
@@ -155,3 +155,64 @@ Validate Error For Given Pods
     END
     [Return]    ${errorPodList}
 
+Delete K8s Pod
+    [Arguments]    ${namespace}    ${name}
+    [Documentation]    Uses kubectl to delete a named POD
+    ${rc}    Run and Return Rc
+    ...    kubectl delete -n ${namespace} pod/${name}
+    Should Be Equal as Integers    ${rc}    0
+
+Scale K8s Deployment
+    [Arguments]    ${namespace}    ${name}    ${count}
+    [Documentation]    Uses kubectl to scale a named deployment
+    ${rc}    Run and Return Rc
+    ...    kubectl scale --replicas=${count} -n ${namespace} deploy/${name}
+    Should Be Equal as Integers    ${rc}    0
+
+Pod Exists
+    [Arguments]    ${namespace}    ${name}
+    [Documentation]    Succeeds it the named POD exists
+    ${rc}    ${count}    Run and Return Rc    kubectl get -n ${namespace} pod -o json | jq -r ".items[].metadata.name" | grep ${name}
+    Should Be True    ${count}>0
+
+Pod Does Not Exist
+    [Arguments]    ${namespace}    ${name}
+    [Documentation]    Succeeds if the named POD does not exist
+    ${rc}    ${count}    Run and Return Rc And Output
+    ...    kubectl get -n ${namespace} pod -o json | jq -r ".items[].metadata.name" | grep -c ${name}
+    Should Be Equal As Integers    ${count}    0
+    Should Be True    ${count}==0
+
+Get Available Deployment Replicas
+    [Arguments]    ${namespace}    ${name}
+    [Documentation]    Succeeds if the named POD exists and has a ready count > 0
+    ${rc}    ${count}    Run and Return Rc and Output    ${KUBECTL_CONFIG};kubectl get -n ${namespace} deploy/${name} -o jsonpath='{.status.availableReplicas}'
+    Run Keyword If    '${count}'==''
+    ...    ${count}=    Set Variable    '0'
+    [Return]    ${count}
+
+Check Expected Available Deployment Replicas
+    [Arguments]    ${namespace}    ${name}    ${expected}
+    [Documentation]    Succeeds if the named POD exists and has a ready count > 0
+    ${count}=    Get Available Deployment Replicas    ${namespace}    ${name}
+    Should Be Equal As Integers    ${expected}    ${count}
+    
+Get Deployment Replica Count
+    [Arguments]    ${namespace}    ${name}
+    [Documentation]    Uses kubectl to fetch the number of configured replicas on a deployment
+    ${rc}    ${value}    Run and Return Rc and Output
+    ...    kubectl -n ${namespace} get deploy/${name} -o 'jsonpath={.status.replicas}'
+    Should Be Equal as Integers    ${rc}    0
+    ${replicas}=    Run Keyword If    '${value}' == ''    Set Variable    0
+    ...    ELSE    Set Variable    ${value}
+    [Return]  ${replicas}
+
+Does Deployment Have Replicas
+    [Arguments]    ${namespace}    ${name}    ${expected_count}
+    [Documentation]    Uses kubectl to fetch the number of configured replicas on a deployment
+    ${rc}    ${value}    Run and Return Rc and Output
+    ...    kubectl -n ${namespace} get deploy/${name} -o 'jsonpath={.status.replicas}'
+    Should Be Equal as Integers    ${rc}    0
+    ${replicas}=    Run Keyword If    '${value}' == ''    Set Variable    0
+    ...    ELSE    Set Variable    ${value}
+    Should be Equal as Integers    ${replicas}    ${expected_count}
