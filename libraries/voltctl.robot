@@ -91,7 +91,6 @@ Validate Device
     ${rc}    ${output}=    Run and Return Rc and Output    ${VOLTCTL_CONFIG}; voltctl device list -o json
     Should Be Equal As Integers    ${rc}    0
     ${jsondata}=    To Json    ${output}
-    Log    ${jsondata}
     ${length}=    Get Length    ${jsondata}
     FOR    ${INDEX}    IN RANGE    0    ${length}
         ${value}=    Get From List    ${jsondata}    ${INDEX}
@@ -103,6 +102,7 @@ Validate Device
         ${mib_state}=    Get From Dictionary    ${value}    reason
         Run Keyword If    '${sn}' == '${serial_number}' or '${devId}' == '${device_id}'    Exit For Loop
     END
+    Log    ${value}
     Should Be Equal    '${astate}'    '${admin_state}'    Device ${serial_number} admin_state != ${admin_state}
     ...    values=False
     Should Be Equal    '${opstatus}'   '${oper_status}'    Device ${serial_number} oper_status != ${oper_status}
