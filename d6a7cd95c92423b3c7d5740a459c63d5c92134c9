@@ -16,6 +16,24 @@
       "revId": "d6a7cd95c92423b3c7d5740a459c63d5c92134c9",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4b603b8d_1ff4c467",
+        "filename": "scripts/which_deployment_owns_device.sh",
+        "patchSetId": 6
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1000003
+      },
+      "writtenOn": "2019-11-25T23:54:05Z",
+      "side": 1,
+      "message": "will change to ONF",
+      "parentUuid": "7c3bf707_aedbe0cf",
+      "revId": "d6a7cd95c92423b3c7d5740a459c63d5c92134c9",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
     }
   ]
 }
