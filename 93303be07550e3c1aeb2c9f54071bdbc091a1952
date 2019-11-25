@@ -46,6 +46,30 @@
       "revId": "93303be07550e3c1aeb2c9f54071bdbc091a1952",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "995534d4_e14720dc",
+        "filename": "tests/functional/Voltha_POD_Fail_Test.robot",
+        "patchSetId": 5
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1000003
+      },
+      "writtenOn": "2019-11-25T23:49:10Z",
+      "side": 1,
+      "message": "ok, now i understand. i likely shouldn\u0027t gate patches (at time time), but it should run \"nightly\" and it should be obvious when this breaks to the community knows which patchset(s) might have caused it to crash.",
+      "parentUuid": "f616efa1_58a8340e",
+      "range": {
+        "startLine": 56,
+        "startChar": 14,
+        "endLine": 56,
+        "endChar": 20
+      },
+      "revId": "93303be07550e3c1aeb2c9f54071bdbc091a1952",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
     }
   ]
 }
