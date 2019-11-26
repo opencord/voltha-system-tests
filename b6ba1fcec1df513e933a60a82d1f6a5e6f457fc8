@@ -22,6 +22,30 @@
       "revId": "b6ba1fcec1df513e933a60a82d1f6a5e6f457fc8",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "59050c5b_399b76b6",
+        "filename": "tests/data/sadis-with-tp-2x2.json",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1000010
+      },
+      "writtenOn": "2019-11-26T23:38:25Z",
+      "side": 1,
+      "message": "Yes, I wanted to verify that this patch will pass the sanity tests.  Once it\u0027s merged, I\u0027ll update my other patch that handles the NNI port renumbering.",
+      "parentUuid": "a597315a_2fd48a27",
+      "range": {
+        "startLine": 15,
+        "startChar": 22,
+        "endLine": 15,
+        "endChar": 27
+      },
+      "revId": "b6ba1fcec1df513e933a60a82d1f6a5e6f457fc8",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
     }
   ]
 }
