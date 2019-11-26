@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ec82da71_f75e7704",
+        "filename": "tests/functional/Voltha_PODTests.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 1000064
+      },
+      "writtenOn": "2019-11-26T21:12:25Z",
+      "side": 1,
+      "message": "Please write this keyword in utils.robot",
+      "range": {
+        "startLine": 257,
+        "startChar": 0,
+        "endLine": 257,
+        "endChar": 15
+      },
+      "revId": "bf268b65fe412396b8af191900f1138b1334dd0b",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    }
+  ]
+}
