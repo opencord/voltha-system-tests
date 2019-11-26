@@ -78,6 +78,19 @@ Get Device Output from Voltha
     [Documentation]    Gets device flows and ports from VOLTHA
     ${rc1}    ${flows}=    Run and Return Rc and Output    ${VOLTCTL_CONFIG}; voltctl device flows ${device_id}
     ${rc2}    ${ports}=    Run and Return Rc and Output    ${VOLTCTL_CONFIG}; voltctl device ports ${device_id}
+    ${rc3}    ${devices}=    Run and Return Rc and Output    ${VOLTCTL_CONFIG}; voltctl device list
+    Log    ${flows}
+    Log    ${ports}
+    Log    ${devices}
+    Should Be Equal As Integers    ${rc1}    0
+    Should Be Equal As Integers    ${rc2}    0
+    Should Be Equal As Integers    ${rc3}    0
+
+Get ONU Device Output from Voltha
+    [Arguments]    ${device_id}
+    [Documentation]    Gets ONU device flows and ports from VOLTHA
+    ${rc1}    ${flows}=    Run and Return Rc and Output    ${VOLTCTL_CONFIG}; voltctl device flows ${device_id}
+    ${rc2}    ${ports}=    Run and Return Rc and Output    ${VOLTCTL_CONFIG}; voltctl device ports ${device_id}
     Log    ${flows}
     Log    ${ports}
     Should Be Equal As Integers    ${rc1}    0
