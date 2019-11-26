@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "b3aa44b5_a6176ecd",
+        "filename": "libraries/voltctl.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1000064
+      },
+      "writtenOn": "2019-11-26T21:45:29Z",
+      "side": 1,
+      "message": "That should work, initially I didn\u0027t want to create a separate keyword just for \"device list\".  I think it makes sense to use the `Get Device Output` for both OLT and ONU. I will change that.",
+      "parentUuid": "1699cd96_5d211461",
+      "range": {
+        "startLine": 81,
+        "startChar": 0,
+        "endLine": 81,
+        "endChar": 99
+      },
+      "revId": "613a03604c6ef1e516607c6156794a32f1471579",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "61c79db0_efab8698",
         "filename": "tests/functional/Voltha_PODTests.robot",
         "patchSetId": 2
