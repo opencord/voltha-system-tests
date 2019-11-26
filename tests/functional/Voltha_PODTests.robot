@@ -95,7 +95,7 @@ Test Disable and Enable ONU
     ...    Perform enable on the ONUs and validate that the pings are successful
     [Tags]    functional    test2
     [Setup]    None
-    #[Teardown]    None
+    [Teardown]    None
 
     FOR    ${I}    IN RANGE    0    ${num_onus}
         ${src}=    Set Variable    ${hosts.src[${I}]}
@@ -115,8 +115,10 @@ Test Disable and Enable ONU
     END
 
 Check OLT/ONU Authentication After Radius Pod Restart
-    [Documentation]    After radius restart, validates eapol flows and dhcp allocation
-    ...    and validates onu in onos
+    [Documentation]    After radius restart, triggers reassociation, checks status and
+    ...    authentication, validates dhcp and ping. Note : wpa reassociate works only when
+    ...    wpa supplicant is running in background hence it is recommended to remove
+    ...    teardown from previous test or uncomment 'Teardown    None'
     [Tags]    functional    test3
     [Setup]   NONE
     Wait Until Keyword Succeeds    ${timeout}    15s    Restart Pod    ${NAMESPACE}    ${RESTART_POD_NAME}
@@ -131,8 +133,8 @@ Check OLT/ONU Authentication After Radius Pod Restart
         ...    ${of_id}
         Wait Until Keyword Succeeds    ${timeout}    2s    Verify Eapol Flows Added For ONU    ${k8s_node_ip}
         ...    ${ONOS_SSH_PORT}    ${onu_port}
-        Run Keyword If    ${has_dataplane}    Run Keyword And Continue On Failure    Validate Authentication    True
-        ...    ${src['dp_iface_name']}    wpa_supplicant.conf    ${src['ip']}    ${src['user']}    ${src['pass']}
+        Run Keyword If    ${has_dataplane}    Run Keyword And Continue On Failure    Validate Authentication After Reassociate
+        ...    True    ${src['dp_iface_name']}    ${src['ip']}    ${src['user']}    ${src['pass']}
         ...    ${src['container_type']}    ${src['container_name']}
         Wait Until Keyword Succeeds    ${timeout}    2s    Verify ONU in AAA-Users    ${k8s_node_ip}
         ...    ${ONOS_SSH_PORT}     ${onu_port}
@@ -251,3 +253,29 @@ Delete Device and Verify
     ${rc}    ${output}=    Run and Return Rc and Output    ${VOLTCTL_CONFIG}; voltctl device delete ${olt_device_id}
     Should Be Equal As Integers    ${rc}    0
     Wait Until Keyword Succeeds    ${timeout}    5s    Validate Device Removed    ${olt_device_id}
+    
+WPA Reassociate
+    [Arguments]    ${iface}    ${ip}    ${user}    ${pass}=${None}    ${container_type}=${None}    ${container_name}=${None}
+    [Documentation]    Executes a particular wpa_cli reassociate, which performs force reassociation
+    #Below for loops are used instead of sleep time, to execute reassociate command and check status
+    : FOR    ${i}    IN RANGE    60
+    \    ${output}=    Login And Run Command On Remote System    wpa_cli -i ${iface} reassociate    ${ip}    ${user}
+    ...    ${pass}    ${container_type}    ${container_name}
+    \    ${passed}=    Run Keyword And Return Status    Should Contain    ${output}    OK
+    \    Run Keyword If    ${passed}    Exit For Loop
+    : FOR    ${i}    IN RANGE    60
+    \    ${output}=    Login And Run Command On Remote System    wpa_cli status | grep SUCCESS    ${ip}    ${user}
+    ...    ${pass}    ${container_type}    ${container_name}
+    \    ${passed}=    Run Keyword And Return Status    Should Contain    ${output}    SUCCESS
+    \    Run Keyword If    ${passed}    Exit For Loop
+	
+Validate Authentication After Reassociate
+    [Arguments]    ${auth_pass}    ${iface}    ${ip}    ${user}    ${pass}=${None}    ${container_type}=${None}    ${container_name}=${None}
+    [Documentation]    Executes a particular reassociate request on the RG using wpa_cli. auth_pass determines if authentication should pass
+    WPA Reassociate    ${iface}    ${ip}    ${user}    ${pass}    ${container_type}    ${container_name}
+    Run Keyword If    '${auth_pass}' == 'True'    Wait Until Keyword Succeeds    ${timeout}    2s    Check Remote File Contents
+    ...    True    /tmp/wpa.log    authentication completed successfully    ${ip}    ${user}    ${pass}    
+    ...    ${container_type}    ${container_name}
+    Run Keyword If    '${auth_pass}' == 'False'    Sleep    20s
+    Run Keyword If    '${auth_pass}' == 'False'    Check Remote File Contents    False    /tmp/wpa.log    
+    ...    authentication completed successfully    ${ip}    ${user}    ${pass}    ${container_type}    ${container_name}
