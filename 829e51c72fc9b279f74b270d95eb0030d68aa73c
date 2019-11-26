@@ -22,6 +22,30 @@
       "revId": "829e51c72fc9b279f74b270d95eb0030d68aa73c",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b1f2bb06_50494d86",
+        "filename": "tests/functional/Voltha_PODTests.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1000003
+      },
+      "writtenOn": "2019-11-26T01:28:34Z",
+      "side": 1,
+      "message": "i think it does. The idea being you can triage. i would think we don\u0027t need this, i.e. automatically set `teardown_device` to false particularly as this could override the value set by the operator. i would rather always delete the device and then if an operator chooses to keep the device around then they can set the value.",
+      "parentUuid": "1d79547d_f4a8fdb7",
+      "range": {
+        "startLine": 152,
+        "startChar": 4,
+        "endLine": 152,
+        "endChar": 84
+      },
+      "revId": "829e51c72fc9b279f74b270d95eb0030d68aa73c",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
     }
   ]
 }
