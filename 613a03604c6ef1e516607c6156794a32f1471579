@@ -72,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "40e26224_538b9150",
+        "filename": "tests/functional/Voltha_PODTests.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1000064
+      },
+      "writtenOn": "2019-11-26T21:50:00Z",
+      "side": 1,
+      "message": "I purposely didn\u0027t add this into`Teardown`, if we put in the teardown or teardown suite, then we need to loop through the ONUs which is still fine. But the purpose here is that we want to capture the current states of the flows/ports on the ONU right after the test for the ONU has been completed.  Regarding `Teardown` and `Teardown Suite` these need to be refactored later with few enhancements.  I would like to run `Teardown` ideally for each test, but currently we cannot do it due to the clean ups that it performs.  It\u0027s a discussion that we can talk about it later.",
+      "parentUuid": "61c79db0_efab8698",
+      "range": {
+        "startLine": 89,
+        "startChar": 8,
+        "endLine": 89,
+        "endChar": 73
+      },
+      "revId": "613a03604c6ef1e516607c6156794a32f1471579",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d4f202bd_c3d11b06",
         "filename": "tests/functional/Voltha_PODTests.robot",
         "patchSetId": 2
