@@ -111,50 +111,8 @@ Validate Peer Devices
 
 *** Keywords ***
 Setup Suite
-    [Documentation]    Setup the whole test suite
-    # BBSim sanity test doesn't need these imports from other repositories
-    Run Keyword If    ${external_libs}    Import Library
-    ...    ${CURDIR}/../../../voltha/tests/atests/common/testCaseUtils.py
-    Run Keyword If    ${external_libs}    Import Resource
-    ...    ${CURDIR}/../../../cord-tester/src/test/cord-api/Framework/Subscriber.robot
-    Run Keyword If    ${external_libs}    Import Resource
-    ...    ${CURDIR}/../../../cord-tester/src/test/cord-api/Framework/OLT.robot
-    Run Keyword If    ${external_libs}    Import Resource
-    ...    ${CURDIR}/../../../cord-tester/src/test/cord-api/Framework/DHCP.robot
-    Run Keyword If    ${external_libs}    Import Resource
-    ...    ${CURDIR}/../../../cord-tester/src/test/cord-api/Framework/Kubernetes.robot
-    Set Global Variable    ${KUBECTL_CONFIG}    export KUBECONFIG=%{KUBECONFIG}
-    Set Global Variable    ${VOLTCTL_CONFIG}    export VOLTCONFIG=%{VOLTCONFIG}
-    ${k8s_node_ip}=    Evaluate    ${nodes}[0].get("ip")
-    ${k8s_node_user}=    Evaluate    ${nodes}[0].get("user")
-    ${k8s_node_pass}=    Evaluate    ${nodes}[0].get("pass")
-    Check CLI Tools Configured
-    ${onos_auth}=    Create List    karaf    karaf
-    ${HEADERS}    Create Dictionary    Content-Type=application/json
-    Create Session    ONOS    http://${k8s_node_ip}:${ONOS_REST_PORT}    auth=${ONOS_AUTH}
-    ${olt_ip}=    Evaluate    ${olts}[0].get("ip")
-    ${olt_user}=    Evaluate    ${olts}[0].get("user")
-    ${olt_pass}=    Evaluate    ${olts}[0].get("pass")
-    ${olt_serial_number}=    Evaluate    ${olts}[0].get("serial")
-    ${num_onus}=    Get Length    ${hosts.src}
-    ${num_onus}=    Convert to String    ${num_onus}
-    #send sadis file to onos
-    ${sadis_file}=    Evaluate    ${sadis}.get("file")
-    Log To Console  \nSadis File:${sadis_file}
-    Run Keyword Unless    '${sadis_file}' is '${None}'    Send File To Onos    ${sadis_file}    apps/
-    Set Suite Variable    ${num_onus}
-    Set Suite Variable    ${olt_serial_number}
-    Set Suite Variable    ${olt_ip}
-    Set Suite Variable    ${olt_user}
-    Set Suite Variable    ${olt_pass}
-    Set Suite Variable    ${k8s_node_ip}
-    Set Suite Variable    ${k8s_node_user}
-    Set Suite Variable    ${k8s_node_pass}
-    @{container_list}=    Create List    adapter-open-olt    adapter-open-onu    voltha-api-server
-    ...    voltha-ro-core    voltha-rw-core-11    voltha-rw-core-12    voltha-ofagent
-    Set Suite Variable    ${container_list}
-    ${datetime}=    Get Current Date
-    Set Suite Variable    ${datetime}
+    [Documentation]    Set up the test suite
+    Common Test Suite Setup
 
 Teardown Suite
     [Documentation]    Clean up devices if desired
