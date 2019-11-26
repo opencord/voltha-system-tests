@@ -83,6 +83,12 @@ Get Device Output from Voltha
     Should Be Equal As Integers    ${rc1}    0
     Should Be Equal As Integers    ${rc2}    0
 
+Get Device List from Voltha
+    [Documentation]    Gets Device List Output from Voltha
+    ${rc1}    ${devices}=    Run and Return Rc and Output    ${VOLTCTL_CONFIG}; voltctl device list
+    Log    ${devices}
+    Should Be Equal As Integers    ${rc1}    0
+
 Validate Device
     [Arguments]    ${admin_state}  ${oper_status}  ${connect_status}  ${serial_number}=${EMPTY}  ${device_id}=${EMPTY}
     ...    ${onu_reason}=${EMPTY}   ${onu}=False
