@@ -45,3 +45,6 @@ hosts:
     - ip: null
     - ip: null
     - ip: null
+
+sadis:
+  file: ${CURDIR}/../../data/sadis-with-tp-2x2.json
