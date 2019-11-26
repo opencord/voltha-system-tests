@@ -15,7 +15,7 @@
             "hardwareIdentifier": "00:00:0a:62:ce:e2",
             "ipAddress": ":OLT_IPADDR:",
             "nasId": "BBSIMOLT000",
-            "uplinkPort": 65536
+            "uplinkPort": 1048576
           },
           {
             "id": "BBSM00000001-1",
