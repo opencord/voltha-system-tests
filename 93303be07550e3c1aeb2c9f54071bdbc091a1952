@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "201d8c2b_19f3b973",
+        "filename": "tests/functional/Voltha_POD_Fail_Test.robot",
+        "patchSetId": 5
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1000064
+      },
+      "writtenOn": "2019-11-26T00:04:49Z",
+      "side": 1,
+      "message": "We s",
+      "range": {
+        "startLine": 53,
+        "startChar": 31,
+        "endLine": 53,
+        "endChar": 61
+      },
+      "revId": "93303be07550e3c1aeb2c9f54071bdbc091a1952",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0431cd37_1a135dbd",
         "filename": "tests/functional/Voltha_POD_Fail_Test.robot",
         "patchSetId": 5
@@ -61,6 +84,30 @@
       "side": 1,
       "message": "ok, now i understand. i likely shouldn\u0027t gate patches (at time time), but it should run \"nightly\" and it should be obvious when this breaks to the community knows which patchset(s) might have caused it to crash.",
       "parentUuid": "f616efa1_58a8340e",
+      "range": {
+        "startLine": 56,
+        "startChar": 14,
+        "endLine": 56,
+        "endChar": 20
+      },
+      "revId": "93303be07550e3c1aeb2c9f54071bdbc091a1952",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a5e3098d_630e7ba8",
+        "filename": "tests/functional/Voltha_POD_Fail_Test.robot",
+        "patchSetId": 5
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1000064
+      },
+      "writtenOn": "2019-11-26T00:04:49Z",
+      "side": 1,
+      "message": "yes, nightly jobs will show us on what images the tests were running. \nThis is a good functional test and this could be run nightly.\nBut, there is one concern here, as this test duplicates code from Voltha_PODTests.robot and it gets difficult to maintain.  We will need to implement this test similar to how we have been dealing with `etcd scale up and down` scenario and validating the functionality.  I will send you those patches on slack that show the approach for these type of functional tests.",
+      "parentUuid": "995534d4_e14720dc",
       "range": {
         "startLine": 56,
         "startChar": 14,
