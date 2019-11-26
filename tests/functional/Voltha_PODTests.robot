@@ -86,6 +86,7 @@ Sanity E2E Test for OLT/ONU on POD
         ...    ${dst['container_name']}
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
         ...    Validate Subscriber DHCP Allocation    ${k8s_node_ip}    ${ONOS_SSH_PORT}    ${onu_port}
+        Run Keyword and Ignore Error   Get Device Output from Voltha    ${onu_device_id}
     END
 
 Test Disable and Enable ONU
@@ -208,8 +209,9 @@ Setup
 
 Teardown
     [Documentation]    kills processes and cleans up interfaces on src+dst servers
-    Get Device Output from Voltha    ${olt_device_id}
-    #Get Logical Device Output from Voltha    ${logical_id}
+    Run Keyword and Ignore Error    Get Device List from Voltha
+    Run Keyword and Ignore Error    Get Device Output from Voltha    ${olt_device_id}
+    Run Keyword and Ignore Error    Get Logical Device Output from Voltha    ${logical_id}
     Run Keyword If    ${external_libs}    Get ONOS Status    ${k8s_node_ip}
     Run Keyword If    ${has_dataplane}    Clean Up Linux
     Run Keyword If    ${external_libs}    Log Kubernetes Containers Logs Since Time    ${datetime}    ${container_list}
