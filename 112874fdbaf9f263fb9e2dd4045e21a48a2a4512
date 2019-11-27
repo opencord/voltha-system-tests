@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e5f787a7_6f8a6e9c",
+        "filename": "tests/functional/Voltha_PODTests.robot",
+        "patchSetId": 10
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1000064
+      },
+      "writtenOn": "2019-11-27T04:39:24Z",
+      "side": 1,
+      "message": "Please add [Teardown]    None",
+      "range": {
+        "startLine": 124,
+        "startChar": 4,
+        "endLine": 124,
+        "endChar": 18
+      },
+      "revId": "112874fdbaf9f263fb9e2dd4045e21a48a2a4512",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f8b20dcb_687349cb",
+        "filename": "tests/functional/Voltha_PODTests.robot",
+        "patchSetId": 10
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1000064
+      },
+      "writtenOn": "2019-11-27T04:39:24Z",
+      "side": 1,
+      "message": "we need add \"[Setup]   None\" for the test",
+      "range": {
+        "startLine": 155,
+        "startChar": 4,
+        "endLine": 155,
+        "endChar": 30
+      },
+      "revId": "112874fdbaf9f263fb9e2dd4045e21a48a2a4512",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    }
+  ]
+}
