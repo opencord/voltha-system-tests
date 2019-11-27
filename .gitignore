@@ -2,8 +2,6 @@
 vst_venv
 
 # robot framework output
-output.xml
-report.xml
-log.html
-report.html
+*.html
+*.xml
 *.pyc
