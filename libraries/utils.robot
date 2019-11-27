@@ -48,15 +48,15 @@ Common Test Suite Setup
     [Documentation]    Setup the test suite
     # BBSim sanity test doesn't need these imports from other repositories
     Run Keyword If    ${external_libs}    Import Library
-    ...    ${CURDIR}/../../../voltha/tests/atests/common/testCaseUtils.py
+    ...    ${CURDIR}/../../voltha/tests/atests/common/testCaseUtils.py
     Run Keyword If    ${external_libs}    Import Resource
-    ...    ${CURDIR}/../../../cord-tester/src/test/cord-api/Framework/Subscriber.robot
+    ...    ${CURDIR}/../../cord-tester/src/test/cord-api/Framework/Subscriber.robot
     Run Keyword If    ${external_libs}    Import Resource
-    ...    ${CURDIR}/../../../cord-tester/src/test/cord-api/Framework/OLT.robot
+    ...    ${CURDIR}/../../cord-tester/src/test/cord-api/Framework/OLT.robot
     Run Keyword If    ${external_libs}    Import Resource
-    ...    ${CURDIR}/../../../cord-tester/src/test/cord-api/Framework/DHCP.robot
+    ...    ${CURDIR}/../../cord-tester/src/test/cord-api/Framework/DHCP.robot
     Run Keyword If    ${external_libs}    Import Resource
-    ...    ${CURDIR}/../../../cord-tester/src/test/cord-api/Framework/Kubernetes.robot
+    ...    ${CURDIR}/../../cord-tester/src/test/cord-api/Framework/Kubernetes.robot
     Set Global Variable    ${KUBECTL_CONFIG}    export KUBECONFIG=%{KUBECONFIG}
     Set Global Variable    ${VOLTCTL_CONFIG}    export VOLTCONFIG=%{VOLTCONFIG}
     ${k8s_node_ip}=    Evaluate    ${nodes}[0].get("ip")
