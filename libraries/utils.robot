@@ -43,3 +43,31 @@ Send File To Onos
     Log     ${File_Data}
     ${resp}=   Post Request  ONOS  /onos/v1/network/configuration/${section}  headers=${Headers}   data=${File_Data}
     Should Be Equal As Strings    ${resp.status_code}  200
+
+WPA Reassociate
+    [Arguments]    ${iface}    ${ip}    ${user}    ${pass}=${None}    ${container_type}=${None}    ${container_name}=${None}
+    [Documentation]    Executes a particular wpa_cli reassociate, which performs force reassociation
+    #Below for loops are used instead of sleep time, to execute reassociate command and check status
+    : FOR    ${i}    IN RANGE    60
+    \    ${output}=    Login And Run Command On Remote System    wpa_cli -i ${iface} reassociate    ${ip}    ${user}
+    ...    ${pass}    ${container_type}    ${container_name}
+    \    ${passed}=    Run Keyword And Return Status    Should Contain    ${output}    OK
+    \    Run Keyword If    ${passed}    Exit For Loop
+    : FOR    ${i}    IN RANGE    60
+    \    ${output}=    Login And Run Command On Remote System    wpa_cli status | grep SUCCESS    ${ip}    ${user}
+    ...    ${pass}    ${container_type}    ${container_name}
+    \    ${passed}=    Run Keyword And Return Status    Should Contain    ${output}    SUCCESS
+    \    Run Keyword If    ${passed}    Exit For Loop
+
+Validate Authentication After Reassociate
+    [Arguments]    ${auth_pass}    ${iface}    ${ip}    ${user}    ${pass}=${None}    ${container_type}=${None}    ${container_name}=${None}
+    [Documentation]    Executes a particular reassociate request on the RG using wpa_cli. auth_pass determines if authentication should pass
+    WPA Reassociate    ${iface}    ${ip}    ${user}    ${pass}    ${container_type}    ${container_name}
+    Run Keyword If    '${auth_pass}' == 'True'    Wait Until Keyword Succeeds    ${timeout}    2s    Check Remote File Contents
+    ...    True    /tmp/wpa.log    authentication completed successfully    ${ip}    ${user}    ${pass}
+    ...    ${container_type}    ${container_name}
+    Run Keyword If    '${auth_pass}' == 'False'    Sleep    20s
+    Run Keyword If    '${auth_pass}' == 'False'    Check Remote File Contents    False    /tmp/wpa.log
+    ...    authentication completed successfully    ${ip}    ${user}    ${pass}    ${container_type}    ${container_name}
+
+
