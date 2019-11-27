@@ -48,17 +48,18 @@ Common Test Suite Setup
     [Documentation]    Setup the test suite
     # BBSim sanity test doesn't need these imports from other repositories
     Run Keyword If    ${external_libs}    Import Library
-    ...    ${CURDIR}/../../../voltha/tests/atests/common/testCaseUtils.py
+    ...    ${CURDIR}/../../voltha/tests/atests/common/testCaseUtils.py
     Run Keyword If    ${external_libs}    Import Resource
-    ...    ${CURDIR}/../../../cord-tester/src/test/cord-api/Framework/Subscriber.robot
+    ...    ${CURDIR}/../../cord-tester/src/test/cord-api/Framework/Subscriber.robot
     Run Keyword If    ${external_libs}    Import Resource
-    ...    ${CURDIR}/../../../cord-tester/src/test/cord-api/Framework/OLT.robot
+    ...    ${CURDIR}/../../cord-tester/src/test/cord-api/Framework/OLT.robot
     Run Keyword If    ${external_libs}    Import Resource
-    ...    ${CURDIR}/../../../cord-tester/src/test/cord-api/Framework/DHCP.robot
+    ...    ${CURDIR}/../../cord-tester/src/test/cord-api/Framework/DHCP.robot
     Run Keyword If    ${external_libs}    Import Resource
-    ...    ${CURDIR}/../../../cord-tester/src/test/cord-api/Framework/Kubernetes.robot
+    ...    ${CURDIR}/../../cord-tester/src/test/cord-api/Framework/Kubernetes.robot
     Set Global Variable    ${KUBECTL_CONFIG}    export KUBECONFIG=%{KUBECONFIG}
     Set Global Variable    ${VOLTCTL_CONFIG}    export VOLTCONFIG=%{VOLTCONFIG}
+    Set Global Variable    ${export_kubeconfig}    export KUBECONFIG=%{KUBECONFIG}
     ${k8s_node_ip}=    Evaluate    ${nodes}[0].get("ip")
     ${k8s_node_user}=    Evaluate    ${nodes}[0].get("user")
     ${k8s_node_pass}=    Evaluate    ${nodes}[0].get("pass")
@@ -73,7 +74,7 @@ Common Test Suite Setup
     ${num_onus}=    Get Length    ${hosts.src}
     ${num_onus}=    Convert to String    ${num_onus}
     #send sadis file to onos
-    ${sadis_file}=    Evaluate    ${sadis}.get("file")
+    ${sadis_file}=    Get Variable Value    ${sadis.file}
     Log To Console  \nSadis File:${sadis_file}
     Run Keyword Unless    '${sadis_file}' is '${None}'    Send File To Onos    ${sadis_file}    apps/
     Set Suite Variable    ${num_onus}
