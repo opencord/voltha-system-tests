@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9dd95f0e_db2bffa5",
+        "filename": "libraries/k8s.robot",
+        "patchSetId": 19
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000457
+      },
+      "writtenOn": "2019-11-28T03:58:31Z",
+      "side": 1,
+      "message": "Many lines in this file are over the 120 chars from guideline",
+      "revId": "71746bc02ad753622adadb53630bd55bddbea746",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "960c29d6_3d45ae27",
+        "filename": "libraries/voltha.robot",
+        "patchSetId": 19
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1000457
+      },
+      "writtenOn": "2019-11-28T03:58:31Z",
+      "side": 1,
+      "message": "Line more than 120 chars",
+      "revId": "71746bc02ad753622adadb53630bd55bddbea746",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "99b988de_f1f2d0ff",
+        "filename": "tests/functional/Voltha_PODTests.robot",
+        "patchSetId": 19
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 1000457
+      },
+      "writtenOn": "2019-11-28T03:58:31Z",
+      "side": 1,
+      "message": "Line more than 120 chars",
+      "revId": "71746bc02ad753622adadb53630bd55bddbea746",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2df18cc2_cb3c4562",
+        "filename": "tests/functional/Voltha_PODTests.robot",
+        "patchSetId": 19
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 1000457
+      },
+      "writtenOn": "2019-11-28T03:58:31Z",
+      "side": 1,
+      "message": "Line more than 120 chars",
+      "revId": "71746bc02ad753622adadb53630bd55bddbea746",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    }
+  ]
+}
