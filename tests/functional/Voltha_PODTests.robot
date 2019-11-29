@@ -96,7 +96,7 @@ Test Disable and Enable ONU
     ...    Perform enable on the ONUs and validate that the pings are successful
     [Tags]    functional    test2
     [Setup]    None
-    #[Teardown]    None
+    [Teardown]    None
 
     FOR    ${I}    IN RANGE    0    ${num_onus}
         ${src}=    Set Variable    ${hosts.src[${I}]}
@@ -116,8 +116,11 @@ Test Disable and Enable ONU
     END
 
 Check OLT/ONU Authentication After Radius Pod Restart
-    [Documentation]    After radius restart, validates eapol flows and dhcp allocation
-    ...    and validates onu in onos
+    [Documentation]    After radius restart, triggers reassociation, checks status and
+    ...    authentication, validates dhcp and ping. Note : wpa reassociate works only when
+    ...    wpa supplicant is running in background hence it is recommended to remove
+    ...    teardown from previous test or uncomment 'Teardown    None'.
+    ...    Assuming that test1 was executed where all the ONUs are authenticated/DHCP/pingable
     [Tags]    functional    test3
     [Setup]   NONE
     Wait Until Keyword Succeeds    ${timeout}    15s    Restart Pod    ${NAMESPACE}    ${RESTART_POD_NAME}
@@ -132,9 +135,9 @@ Check OLT/ONU Authentication After Radius Pod Restart
         ...    ${of_id}
         Wait Until Keyword Succeeds    ${timeout}    2s    Verify Eapol Flows Added For ONU    ${k8s_node_ip}
         ...    ${ONOS_SSH_PORT}    ${onu_port}
-        Run Keyword If    ${has_dataplane}    Run Keyword And Continue On Failure    Validate Authentication    True
-        ...    ${src['dp_iface_name']}    wpa_supplicant.conf    ${src['ip']}    ${src['user']}    ${src['pass']}
-        ...    ${src['container_type']}    ${src['container_name']}
+        Run Keyword If    ${has_dataplane}    Run Keyword And Continue On Failure    Validate Authentication After Reassociate
+        ...    True    ${src['dp_iface_name']}    ${src['ip']}    ${src['user']}    ${src['pass']}
+        ...    ${src['container_type']}    ${src['container_name']}  
         Wait Until Keyword Succeeds    ${timeout}    2s    Verify ONU in AAA-Users    ${k8s_node_ip}
         ...    ${ONOS_SSH_PORT}     ${onu_port}
         Run Keyword If    ${has_dataplane}    Run Keyword And Continue On Failure    Validate DHCP and Ping    True
