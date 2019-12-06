@@ -171,6 +171,11 @@ node ("${TestNodeName}") {
                     timeout(1) {
                         waitUntil {
                             sr_active_out = sh returnStatus: true, script: """
+                            ssh-keyscan -p 30115 -H ${deployment_config.nodes[0].ip} >> ~/.ssh/known_hosts
+                            sshpass -p karaf ssh -p 30115 karaf@${deployment_config.nodes[0].ip} "log:set TRACE org.opencord.dhcpl2relay"
+                            sshpass -p karaf ssh -p 30115 karaf@${deployment_config.nodes[0].ip} "log:set TRACE org.opencord.aaa"
+                            sshpass -p karaf ssh -p 30115 karaf@${deployment_config.nodes[0].ip} "log:set TRACE org.opencord.olt"
+
                             curl -sSL --user karaf:karaf -X GET http://${deployment_config.nodes[0].ip}:30120/onos/v1/applications/org.onosproject.segmentrouting | jq '.state' | grep ACTIVE
                             """
                             return sr_active_out == 0
