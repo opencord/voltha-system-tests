@@ -26,6 +26,17 @@
             "technologyProfileId": 64,
             "upstreamBandwidthProfile": "User_Bandwidth1",
             "downstreamBandwidthProfile": "User_Bandwidth1"
+          },
+          {
+            "id": "ISKT71e801a0-1",
+            "cTag": 12,
+            "sTag": 11,
+            "nasPortId": "ISKT71e801a0-1",
+            "circuitId": "ISKT71e801a0-1",
+            "remoteId": "ISKT71e801a0",
+            "technologyProfileId": 64,
+            "upstreamBandwidthProfile": "User_Bandwidth2",
+            "downstreamBandwidthProfile": "User_Bandwidth2"
           }
         ]
       },
