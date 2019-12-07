@@ -136,7 +136,7 @@ Check DHCP attempt fails when subscriber is not added
     ...    Assuming that test1 or sanity test  was executed where all the ONUs are authenticated/DHCP/pingable
     [Tags]    functional    SubsRemoveDHCP
     [Setup]    None
-    #[Teardown]    None
+    [Teardown]    None
 
     FOR    ${I}    IN RANGE    0    ${num_onus}
         ${src}=    Set Variable    ${hosts.src[${I}]}
