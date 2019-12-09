@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e0439014_491c8d27",
+        "filename": "libraries/k8s.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1000003
+      },
+      "writtenOn": "2019-12-09T21:50:00Z",
+      "side": 1,
+      "message": "might want to consider using the kubectl -o json or -o jsonpath or -o gotemplate to get the value you need as opposed to grep and awj.",
+      "revId": "1654c7f4a4925d6483b363df90249b867897db73",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    }
+  ]
+}
