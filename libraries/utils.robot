@@ -31,32 +31,26 @@ Check CLI Tools Configured
     # check voltctl and kubectl configured
     ${voltctl_rc}=    Run And Return RC    ${VOLTCTL_CONFIG}; voltctl device list
     ${kubectl_rc}=    Run And Return RC    ${KUBECTL_CONFIG}; kubectl get pods
-    Run Keyword If    ${voltctl_rc} != 0 or ${kubectl_rc} != 0    FATAL ERROR
-    ...    VOLTCTL and KUBECTL not configured. Please configure before executing tests.
+    Run Keyword If    ${voltctl_rc} != 0 or ${kubectl_rc} != 0    FATAL ERROR    VOLTCTL and KUBECTL not configured. Please configure before executing tests.
 
 Send File To Onos
-    [Documentation]  Send the content of the file to Onos to selected section of configuration using Post Request
-    [Arguments]  ${CONFIG_FILE}  ${section}
-    ${Headers}=  Create Dictionary  Content-Type   application/json
-    ${File_Data}=   Get Binary File   ${CONFIG_FILE}
-    Log     ${Headers}
-    Log     ${File_Data}
-    ${resp}=   Post Request  ONOS  /onos/v1/network/configuration/${section}  headers=${Headers}   data=${File_Data}
-    Should Be Equal As Strings    ${resp.status_code}  200
+    [Arguments]    ${CONFIG_FILE}    ${section}
+    [Documentation]    Send the content of the file to Onos to selected section of configuration using Post Request
+    ${Headers}=    Create Dictionary    Content-Type    application/json
+    ${File_Data}=    Get Binary File    ${CONFIG_FILE}
+    Log    ${Headers}
+    Log    ${File_Data}
+    ${resp}=    Post Request    ONOS    /onos/v1/network/configuration/${section}    headers=${Headers}    data=${File_Data}
+    Should Be Equal As Strings    ${resp.status_code}    200
 
 Common Test Suite Setup
     [Documentation]    Setup the test suite
     # BBSim sanity test doesn't need these imports from other repositories
-    Run Keyword If    ${external_libs}    Import Library
-    ...    ${CURDIR}/../../voltha/tests/atests/common/testCaseUtils.py
-    Run Keyword If    ${external_libs}    Import Resource
-    ...    ${CURDIR}/../../cord-tester/src/test/cord-api/Framework/Subscriber.robot
-    Run Keyword If    ${external_libs}    Import Resource
-    ...    ${CURDIR}/../../cord-tester/src/test/cord-api/Framework/OLT.robot
-    Run Keyword If    ${external_libs}    Import Resource
-    ...    ${CURDIR}/../../cord-tester/src/test/cord-api/Framework/DHCP.robot
-    Run Keyword If    ${external_libs}    Import Resource
-    ...    ${CURDIR}/../../cord-tester/src/test/cord-api/Framework/Kubernetes.robot
+    Run Keyword If    ${external_libs}    Import Library    ${CURDIR}/../../voltha/tests/atests/common/testCaseUtils.py
+    Run Keyword If    ${external_libs}    Import Resource    ${CURDIR}/../../cord-tester/src/test/cord-api/Framework/Subscriber.robot
+    Run Keyword If    ${external_libs}    Import Resource    ${CURDIR}/../../cord-tester/src/test/cord-api/Framework/OLT.robot
+    Run Keyword If    ${external_libs}    Import Resource    ${CURDIR}/../../cord-tester/src/test/cord-api/Framework/DHCP.robot
+    Run Keyword If    ${external_libs}    Import Resource    ${CURDIR}/../../cord-tester/src/test/cord-api/Framework/Kubernetes.robot
     Set Global Variable    ${KUBECTL_CONFIG}    export KUBECONFIG=%{KUBECONFIG}
     Set Global Variable    ${VOLTCTL_CONFIG}    export VOLTCONFIG=%{VOLTCONFIG}
     Set Global Variable    ${export_kubeconfig}    export KUBECONFIG=%{KUBECONFIG}
@@ -75,7 +69,7 @@ Common Test Suite Setup
     ${num_onus}=    Convert to String    ${num_onus}
     #send sadis file to onos
     ${sadis_file}=    Get Variable Value    ${sadis.file}
-    Log To Console  \nSadis File:${sadis_file}
+    Log To Console    \nSadis File:${sadis_file}
     Run Keyword Unless    '${sadis_file}' is '${None}'    Send File To Onos    ${sadis_file}    apps/
     Set Suite Variable    ${num_onus}
     Set Suite Variable    ${olt_serial_number}
@@ -85,8 +79,8 @@ Common Test Suite Setup
     Set Suite Variable    ${k8s_node_ip}
     Set Suite Variable    ${k8s_node_user}
     Set Suite Variable    ${k8s_node_pass}
-    @{container_list}=    Create List    adapter-open-olt    adapter-open-onu    voltha-api-server
-    ...    voltha-ro-core    voltha-rw-core-11    voltha-rw-core-12    voltha-ofagent
+    @{container_list}=    Create List    adapter-open-olt    adapter-open-onu    voltha-api-server    voltha-ro-core    voltha-rw-core-11
+    ...    voltha-rw-core-12    voltha-ofagent
     Set Suite Variable    ${container_list}
     ${datetime}=    Get Current Date
     Set Suite Variable    ${datetime}
@@ -95,24 +89,53 @@ WPA Reassociate
     [Arguments]    ${iface}    ${ip}    ${user}    ${pass}=${None}    ${container_type}=${None}    ${container_name}=${None}
     [Documentation]    Executes a particular wpa_cli reassociate, which performs force reassociation
     #Below for loops are used instead of sleep time, to execute reassociate command and check status
-    : FOR    ${i}    IN RANGE    70
-    \    ${output}=    Login And Run Command On Remote System    wpa_cli -i ${iface} reassociate    ${ip}    ${user}
-    ...    ${pass}    ${container_type}    ${container_name}
-    \    ${passed}=    Run Keyword And Return Status    Should Contain    ${output}    OK
-    \    Run Keyword If    ${passed}    Exit For Loop
-    : FOR    ${i}    IN RANGE    70
-    \    ${output}=    Login And Run Command On Remote System    wpa_cli status | grep SUCCESS    ${ip}    ${user}
-    ...    ${pass}    ${container_type}    ${container_name}
-    \    ${passed}=    Run Keyword And Return Status    Should Contain    ${output}    SUCCESS
-    \    Run Keyword If    ${passed}    Exit For Loop
-	
+    FOR    ${i}    IN RANGE    70
+        ${output}=    Login And Run Command On Remote System    wpa_cli -i ${iface} reassociate    ${ip}    ${user}    ${pass}
+        ...    ${container_type}    ${container_name}
+        ${passed}=    Run Keyword And Return Status    Should Contain    ${output}    OK
+        Run Keyword If    ${passed}    Exit For Loop
+    END
+    FOR    ${i}    IN RANGE    70
+        ${output}=    Login And Run Command On Remote System    wpa_cli status | grep SUCCESS    ${ip}    ${user}    ${pass}
+        ...    ${container_type}    ${container_name}
+        ${passed}=    Run Keyword And Return Status    Should Contain    ${output}    SUCCESS
+        Run Keyword If    ${passed}    Exit For Loop
+    END
+
 Validate Authentication After Reassociate
-    [Arguments]    ${auth_pass}    ${iface}    ${ip}    ${user}    ${pass}=${None}    ${container_type}=${None}    ${container_name}=${None}
+    [Arguments]    ${auth_pass}    ${iface}    ${ip}    ${user}    ${pass}=${None}    ${container_type}=${None}
+    ...    ${container_name}=${None}
     [Documentation]    Executes a particular reassociate request on the RG using wpa_cli. auth_pass determines if authentication should pass
     WPA Reassociate    ${iface}    ${ip}    ${user}    ${pass}    ${container_type}    ${container_name}
-    Run Keyword If    '${auth_pass}' == 'True'    Wait Until Keyword Succeeds    ${timeout}    2s    Check Remote File Contents
-    ...    True    /tmp/wpa.log    authentication completed successfully    ${ip}    ${user}    ${pass}    
-    ...    ${container_type}    ${container_name}
+    Run Keyword If    '${auth_pass}' == 'True'    Wait Until Keyword Succeeds    ${timeout}    2s    Check Remote File Contents    True
+    ...    /tmp/wpa.log    authentication completed successfully    ${ip}    ${user}    ${pass}    ${container_type}
+    ...    ${container_name}
     Run Keyword If    '${auth_pass}' == 'False'    Sleep    20s
-    Run Keyword If    '${auth_pass}' == 'False'    Check Remote File Contents    False    /tmp/wpa.log    
-    ...    authentication completed successfully    ${ip}    ${user}    ${pass}    ${container_type}    ${container_name}
+    Run Keyword If    '${auth_pass}' == 'False'    Check Remote File Contents    False    /tmp/wpa.log    authentication completed successfully    ${ip}
+    ...    ${user}    ${pass}    ${container_type}    ${container_name}
+
+Run Sanity Check on ONUs
+    [Arguments]    ${num_onus}
+    [Documentation]    Runs the sanity check like Eapol flows,DHCP,Ping(for Physical pods)
+    Set Variable    ${timeout}    120s
+    FOR    ${I}    IN RANGE    0    ${num_onus}
+        ${src}=    Set Variable    ${hosts.src[${I}]}
+        ${dst}=    Set Variable    ${hosts.dst[${I}]}
+        Wait Until Keyword Succeeds    ${timeout}    5s    Validate Device    ENABLED    ACTIVE
+        ...    REACHABLE    ${src['onu']}    onu=True    onu_reason=omci-flows-pushed
+        ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
+        ${onu_port}=    Wait Until Keyword Succeeds    ${timeout}    2s    Get ONU Port in ONOS    ${src['onu']}
+        ...    ${of_id}
+        Wait Until Keyword Succeeds    ${timeout}    2s    Run Keyword And Continue On Failure    Verify Eapol Flows Added For ONU    ${k8s_node_ip}
+        ...    ${ONOS_SSH_PORT}    ${onu_port}
+        Run Keyword If    ${has_dataplane}    Run Keyword And Continue On Failure    Validate Authentication After Reassociate    True    ${src['dp_iface_name']}
+        ...    ${src['ip']}    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
+        Wait Until Keyword Succeeds    ${timeout}    2s    Verify ONU in AAA-Users    ${k8s_node_ip}    ${ONOS_SSH_PORT}
+        ...    ${onu_port}
+        Run Keyword If    ${has_dataplane}    Run Keyword And Continue On Failure    Validate DHCP and Ping    True    True
+        ...    ${src['dp_iface_name']}    ${src['s_tag']}    ${src['c_tag']}    ${dst['dp_iface_ip_qinq']}    ${src['ip']}
+        ...    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}    ${dst['dp_iface_name']}
+        ...    ${dst['ip']}    ${dst['user']}    ${dst['pass']}    ${dst['container_type']}    ${dst['container_name']}
+        Wait Until Keyword Succeeds    ${timeout}    2s    Run Keyword And Continue On Failure    Validate Subscriber DHCP Allocation    ${k8s_node_ip}
+        ...    ${ONOS_SSH_PORT}    ${onu_port}
+    END

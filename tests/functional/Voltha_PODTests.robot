@@ -17,9 +17,9 @@
 *** Settings ***
 Documentation     Test various end-to-end scenarios
 Suite Setup       Setup Suite
+Suite Teardown    Teardown Suite
 Test Setup        Setup
 Test Teardown     Teardown
-Suite Teardown    Teardown Suite
 Library           Collections
 Library           String
 Library           OperatingSystem
@@ -40,10 +40,10 @@ ${KUBERNETES_CONFIGS_DIR}    ~/pod-configs/kubernetes-configs
 ${KUBERNETES_YAML}    ${KUBERNETES_CONFIGS_DIR}/${POD_NAME}.yml
 ${HELM_CHARTS_DIR}    ~/helm-charts
 ${VOLTHA_POD_NUM}    8
-${NAMESPACE}   voltha
+${NAMESPACE}      voltha
 # For below variable value, using deployment name as using grep for
 # parsing radius pod name, we can also use full radius pod name
-${RESTART_POD_NAME}   radius
+${RESTART_POD_NAME}    radius
 ${timeout}        60s
 ${of_id}          0
 ${logical_id}     0
@@ -56,38 +56,34 @@ Sanity E2E Test for OLT/ONU on POD
     [Documentation]    Validates E2E Ping Connectivity and object states for the given scenario:
     ...    Validate successful authentication/DHCP/E2E ping for the tech profile that is used
     [Tags]    sanity    test1
-    [Teardown]    NONE
     ${of_id}=    Wait Until Keyword Succeeds    ${timeout}    15s    Validate OLT Device in ONOS    ${olt_serial_number}
     Set Global Variable    ${of_id}
-
     FOR    ${I}    IN RANGE    0    ${num_onus}
         ${src}=    Set Variable    ${hosts.src[${I}]}
         ${dst}=    Set Variable    ${hosts.dst[${I}]}
-
-        Wait Until Keyword Succeeds    ${timeout}    5s    Validate Device        ENABLED    ACTIVE    REACHABLE
-        ...    ${src['onu']}    onu=True    onu_reason=omci-flows-pushed
-
+        Wait Until Keyword Succeeds    ${timeout}    5s    Validate Device    ENABLED    ACTIVE
+        ...    REACHABLE    ${src['onu']}    onu=True    onu_reason=omci-flows-pushed
         ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
         ${onu_port}=    Wait Until Keyword Succeeds    ${timeout}    2s    Get ONU Port in ONOS    ${src['onu']}
         ...    ${of_id}
-        Wait Until Keyword Succeeds    ${timeout}    2s    Verify Eapol Flows Added For ONU    ${k8s_node_ip}
+        Wait Until Keyword Succeeds    ${timeout}    2s    Verify Eapol Flows Added For ONU    ${k8s_node_ip}    ${ONOS_SSH_PORT}
+        ...    ${onu_port}
+        Run Keyword If    ${has_dataplane}    Run Keyword And Continue On Failure    Validate Authentication    True    ${src['dp_iface_name']}
+        ...    wpa_supplicant.conf    ${src['ip']}    ${src['user']}    ${src['pass']}    ${src['container_type']}
+        ...    ${src['container_name']}
+        Wait Until Keyword Succeeds    ${timeout}    2s    Verify ONU in AAA-Users    ${k8s_node_ip}    ${ONOS_SSH_PORT}
+        ...    ${onu_port}
+        Wait Until Keyword Succeeds    ${timeout}    2s    Execute ONOS CLI Command    ${k8s_node_ip}    ${ONOS_SSH_PORT}
+        ...    volt-add-subscriber-access ${of_id} ${onu_port}
+        Run Keyword If    ${has_dataplane}    Run Keyword And Continue On Failure    Validate DHCP and Ping    True    True
+        ...    ${src['dp_iface_name']}    ${src['s_tag']}    ${src['c_tag']}    ${dst['dp_iface_ip_qinq']}    ${src['ip']}
+        ...    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}    ${dst['dp_iface_name']}
+        ...    ${dst['ip']}    ${dst['user']}    ${dst['pass']}    ${dst['container_type']}    ${dst['container_name']}
+        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s    Validate Subscriber DHCP Allocation    ${k8s_node_ip}
         ...    ${ONOS_SSH_PORT}    ${onu_port}
-        Run Keyword If    ${has_dataplane}    Run Keyword And Continue On Failure    Validate Authentication    True
-        ...    ${src['dp_iface_name']}    wpa_supplicant.conf    ${src['ip']}    ${src['user']}    ${src['pass']}
-        ...    ${src['container_type']}    ${src['container_name']}
-        Wait Until Keyword Succeeds    ${timeout}    2s    Verify ONU in AAA-Users    ${k8s_node_ip}
-        ...    ${ONOS_SSH_PORT}     ${onu_port}
-        Wait Until Keyword Succeeds    ${timeout}    2s    Execute ONOS CLI Command    ${k8s_node_ip}
-        ...    ${ONOS_SSH_PORT}    volt-add-subscriber-access ${of_id} ${onu_port}
-        Run Keyword If    ${has_dataplane}    Run Keyword And Continue On Failure    Validate DHCP and Ping    True
-        ...    True    ${src['dp_iface_name']}    ${src['s_tag']}    ${src['c_tag']}    ${dst['dp_iface_ip_qinq']}
-        ...    ${src['ip']}    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
-        ...    ${dst['dp_iface_name']}    ${dst['ip']}    ${dst['user']}    ${dst['pass']}    ${dst['container_type']}
-        ...    ${dst['container_name']}
-        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
-        ...    Validate Subscriber DHCP Allocation    ${k8s_node_ip}    ${ONOS_SSH_PORT}    ${onu_port}
-        Run Keyword and Ignore Error   Get Device Output from Voltha    ${onu_device_id}
+        Run Keyword and Ignore Error    Get Device Output from Voltha    ${onu_device_id}
     END
+    [Teardown]    NONE
 
 Test Disable and Enable ONU
     [Documentation]    Validates E2E Ping Connectivity and object states for the given scenario:
@@ -96,58 +92,75 @@ Test Disable and Enable ONU
     ...    Perform enable on the ONUs and validate that the pings are successful
     [Tags]    functional    test2
     [Setup]    None
-    [Teardown]    None
-
     FOR    ${I}    IN RANGE    0    ${num_onus}
         ${src}=    Set Variable    ${hosts.src[${I}]}
         ${dst}=    Set Variable    ${hosts.dst[${I}]}
-
         ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
         ${onu_port}=    Wait Until Keyword Succeeds    ${timeout}    2s    Get ONU Port in ONOS    ${src['onu']}
         ...    ${of_id}
         Disable Device    ${onu_device_id}
-        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    60s    2s    Check Ping    False    ${dst['dp_iface_ip_qinq']}    
-        ...    ${src['dp_iface_name']}    ${src['ip']}    ${src['user']}    ${src['pass']}   ${src['container_type']}    ${src['container_name']}
+        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    60s    2s    Check Ping    False
+        ...    ${dst['dp_iface_ip_qinq']}    ${src['dp_iface_name']}    ${src['ip']}    ${src['user']}    ${src['pass']}
+        ...    ${src['container_type']}    ${src['container_name']}
         Enable Device    ${onu_device_id}
-        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
-        ...    Validate Subscriber DHCP Allocation    ${k8s_node_ip}    ${ONOS_SSH_PORT}    ${onu_port}
-        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    60s    2s    Check Ping    True    ${dst['dp_iface_ip_qinq']}    
-        ...    ${src['dp_iface_name']}    ${src['ip']}    ${src['user']}    ${src['pass']}   ${src['container_type']}    ${src['container_name']}
+        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s    Validate Subscriber DHCP Allocation    ${k8s_node_ip}
+        ...    ${ONOS_SSH_PORT}    ${onu_port}
+        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    60s    2s    Check Ping    True
+        ...    ${dst['dp_iface_ip_qinq']}    ${src['dp_iface_name']}    ${src['ip']}    ${src['user']}    ${src['pass']}
+        ...    ${src['container_type']}    ${src['container_name']}
     END
+    [Teardown]    None
 
 Check OLT/ONU Authentication After Radius Pod Restart
     [Documentation]    After radius restart, triggers reassociation, checks status and
     ...    authentication, validates dhcp and ping. Note : wpa reassociate works only when
     ...    wpa supplicant is running in background hence it is recommended to remove
-    ...    teardown from previous test or uncomment 'Teardown    None'.
+    ...    teardown from previous test or uncomment 'Teardown None'.
     ...    Assuming that test1 was executed where all the ONUs are authenticated/DHCP/pingable
     [Tags]    functional    test3
-    [Setup]   NONE
+    [Setup]    NONE
     Wait Until Keyword Succeeds    ${timeout}    15s    Restart Pod    ${NAMESPACE}    ${RESTART_POD_NAME}
-
     FOR    ${I}    IN RANGE    0    ${num_onus}
         ${src}=    Set Variable    ${hosts.src[${I}]}
         ${dst}=    Set Variable    ${hosts.dst[${I}]}
-
-
         ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
         ${onu_port}=    Wait Until Keyword Succeeds    ${timeout}    2s    Get ONU Port in ONOS    ${src['onu']}
         ...    ${of_id}
-        Wait Until Keyword Succeeds    ${timeout}    2s    Verify Eapol Flows Added For ONU    ${k8s_node_ip}
-        ...    ${ONOS_SSH_PORT}    ${onu_port}
-        Run Keyword If    ${has_dataplane}    Run Keyword And Continue On Failure    Validate Authentication After Reassociate
-        ...    True    ${src['dp_iface_name']}    ${src['ip']}    ${src['user']}    ${src['pass']}
-        ...    ${src['container_type']}    ${src['container_name']}
-        Wait Until Keyword Succeeds    ${timeout}    2s    Verify ONU in AAA-Users    ${k8s_node_ip}
-        ...    ${ONOS_SSH_PORT}     ${onu_port}
-        Run Keyword If    ${has_dataplane}    Run Keyword And Continue On Failure    Validate DHCP and Ping    True
-        ...    True    ${src['dp_iface_name']}    ${src['s_tag']}    ${src['c_tag']}    ${dst['dp_iface_ip_qinq']}
+        Wait Until Keyword Succeeds    ${timeout}    2s    Verify Eapol Flows Added For ONU    ${k8s_node_ip}    ${ONOS_SSH_PORT}
+        ...    ${onu_port}
+        Run Keyword If    ${has_dataplane}    Run Keyword And Continue On Failure    Validate Authentication After Reassociate    True    ${src['dp_iface_name']}
         ...    ${src['ip']}    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
-        ...    ${dst['dp_iface_name']}    ${dst['ip']}    ${dst['user']}    ${dst['pass']}    ${dst['container_type']}
-        ...    ${dst['container_name']}
-        Wait Until Keyword Succeeds    ${timeout}    2s    Run Keyword And Continue On Failure
-        ...    Validate Subscriber DHCP Allocation    ${k8s_node_ip}    ${ONOS_SSH_PORT}    ${onu_port}
+        Wait Until Keyword Succeeds    ${timeout}    2s    Verify ONU in AAA-Users    ${k8s_node_ip}    ${ONOS_SSH_PORT}
+        ...    ${onu_port}
+        Run Keyword If    ${has_dataplane}    Run Keyword And Continue On Failure    Validate DHCP and Ping    True    True
+        ...    ${src['dp_iface_name']}    ${src['s_tag']}    ${src['c_tag']}    ${dst['dp_iface_ip_qinq']}    ${src['ip']}
+        ...    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}    ${dst['dp_iface_name']}
+        ...    ${dst['ip']}    ${dst['user']}    ${dst['pass']}    ${dst['container_type']}    ${dst['container_name']}
+        Wait Until Keyword Succeeds    ${timeout}    2s    Run Keyword And Continue On Failure    Validate Subscriber DHCP Allocation    ${k8s_node_ip}
+        ...    ${ONOS_SSH_PORT}    ${onu_port}
     END
+
+Verify restart any container after VOLTHA is operational
+    [Documentation]    Restart any container after VOLTHA is operational.
+    ...    Prerequisite : ONUs are authenticated and pingable.
+    [Tags]    functional   VOL-1958   RestartPods
+    [Setup]    NONE
+    ${waitforRestart}    Set Variable    120s
+    ${podStatusOutput}=    Run    ${KUBECTL_CONFIG};kubectl get pods -n ${NAMESPACE}
+    Log    ${podStatusOutput}
+    ${countBforRestart}=    Run    ${KUBECTL_CONFIG};kubectl get pods -n ${NAMESPACE} | grep Running | wc -l
+    FOR    ${podName}    IN    adapter-open-olt    adapter-open-onu    ofagent
+        Restart Pod    ${NAMESPACE}    ${podName}
+        Wait Until Keyword Succeeds    ${waitforRestart}    2s    Validate Pod Status    ${podName}    ${NAMESPACE}
+        ...    Running
+        Run Sanity Check on ONUs    ${num_onus}
+        ${podStatusOutput}=    Run    ${KUBECTL_CONFIG};kubectl get pods -n ${NAMESPACE}
+        Log    ${podStatusOutput}
+        ${countAfterRestart}=    Run    ${KUBECTL_CONFIG};kubectl get pods -n ${NAMESPACE} | grep Running | wc -l
+        Should Be Equal As Strings    ${countAfterRestart}    ${countBforRestart}
+        Log to console    Pod ${podName} restarted and sanity checks passed successfully
+    END
+    Log    Successfully restarted containers without crashing other containers
 
 *** Keywords ***
 Setup Suite
@@ -158,7 +171,7 @@ Setup
     [Documentation]    Pre-test Setup
     #test for empty device list
     ${length}=    Test Empty Device List
-    Should Be Equal As Integers  ${length}     0
+    Should Be Equal As Integers    ${length}    0
     #create/preprovision device
     ${olt_device_id}=    Create Device    ${olt_ip}    ${OLT_PORT}
     Set Suite Variable    ${olt_device_id}
@@ -185,27 +198,23 @@ Teardown Suite
     Run Keyword If    ${teardown_device}    Delete Device and Verify
     ${length}=    Run Keyword If    ${teardown_device}    Run Keyword And Return    Test Empty Device List
     Run Keyword If    ${teardown_device}    Should Be Equal As Integers    ${length}    0
-    Run Keyword If    ${teardown_device}    Execute ONOS CLI Command    ${k8s_node_ip}    ${ONOS_SSH_PORT}
-    ...    device-remove ${of_id}
-
+    Run Keyword If    ${teardown_device}    Execute ONOS CLI Command    ${k8s_node_ip}    ${ONOS_SSH_PORT}    device-remove ${of_id}
 
 Clean Up Linux
     [Documentation]    Kill processes and clean up interfaces on src+dst servers
     FOR    ${I}    IN RANGE    0    ${num_onus}
         ${src}=    Set Variable    ${hosts.src[${I}]}
         ${dst}=    Set Variable    ${hosts.dst[${I}]}
-        Run Keyword And Ignore Error    Kill Linux Process    [w]pa_supplicant    ${src['ip']}
-        ...    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
-        Run Keyword And Ignore Error    Kill Linux Process    [d]hclient    ${src['ip']}
-        ...    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
-        Run Keyword If    '${dst['ip']}' != '${None}'    Run Keyword And Ignore Error
-        ...    Kill Linux Process    [d]hcpd    ${dst['ip']}    ${dst['user']}
+        Run Keyword And Ignore Error    Kill Linux Process    [w]pa_supplicant    ${src['ip']}    ${src['user']}    ${src['pass']}
+        ...    ${src['container_type']}    ${src['container_name']}
+        Run Keyword And Ignore Error    Kill Linux Process    [d]hclient    ${src['ip']}    ${src['user']}    ${src['pass']}
+        ...    ${src['container_type']}    ${src['container_name']}
+        Run Keyword If    '${dst['ip']}' != '${None}'    Run Keyword And Ignore Error    Kill Linux Process    [d]hcpd    ${dst['ip']}
+        ...    ${dst['user']}    ${dst['pass']}    ${dst['container_type']}    ${dst['container_name']}
+        Delete IP Addresses from Interface on Remote Host    ${src['dp_iface_name']}    ${src['ip']}    ${src['user']}    ${src['pass']}    ${src['container_type']}
+        ...    ${src['container_name']}
+        Run Keyword If    '${dst['ip']}' != '${None}'    Delete Interface on Remote Host    ${dst['dp_iface_name']}.${src['s_tag']}    ${dst['ip']}    ${dst['user']}
         ...    ${dst['pass']}    ${dst['container_type']}    ${dst['container_name']}
-        Delete IP Addresses from Interface on Remote Host    ${src['dp_iface_name']}    ${src['ip']}
-        ...    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
-        Run Keyword If    '${dst['ip']}' != '${None}'    Delete Interface on Remote Host
-        ...    ${dst['dp_iface_name']}.${src['s_tag']}    ${dst['ip']}    ${dst['user']}    ${dst['pass']}
-        ...    ${dst['container_type']}    ${dst['container_name']}
     END
 
 Delete Device and Verify
