@@ -1,3 +1,4 @@
+---
 # Copyright 2019-present Open Networking Foundation
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -13,16 +14,8 @@
 # limitations under the License.
 
 # values files for ci-test jobs
----
 
 images:
-  cli:
-    tag: 'citest'
-    pullPolicy: 'Never'
-
-  ofagent:
-    tag: 'citest'
-    pullPolicy: 'Never'
 
   ro_core:
     tag: 'citest'
@@ -31,3 +24,4 @@ images:
   rw_core:
     tag: 'citest'
     pullPolicy: 'Never'
+
