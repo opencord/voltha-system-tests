@@ -155,3 +155,10 @@ Validate Error For Given Pods
     END
     [Return]    ${errorPodList}
 
+Validate Pod Status
+    [Arguments]    ${pod_name}    ${namespace}   ${expectedStatus}
+    [Documentation]    To run the kubectl command and check the status of the given pod matches the expected status
+    ${pod_status_str}=    Run    ${KUBECTL_CONFIG}; kubectl -n ${namespace} get pod|grep "^${pod_name}"| awk '{print $3}'
+    Log    ${pod_status_str}
+    Should Contain    ${pod_status_str}    ${expectedStatus}
+
