@@ -183,7 +183,7 @@ Teardown
 Teardown Suite
     [Documentation]    Clean up device if desired
     Run Keyword If    ${teardown_device}    Delete Device and Verify
-    ${length}=    Run Keyword If    ${teardown_device}    Run Keyword And Return    Test Empty Device List
+    ${length}=    Run Keyword If    ${teardown_device}    Test Empty Device List
     Run Keyword If    ${teardown_device}    Should Be Equal As Integers    ${length}    0
     Run Keyword If    ${teardown_device}    Execute ONOS CLI Command    ${k8s_node_ip}    ${ONOS_SSH_PORT}
     ...    device-remove ${of_id}
