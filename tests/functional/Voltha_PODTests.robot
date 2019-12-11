@@ -87,14 +87,16 @@ Sanity E2E Test for OLT/ONU on POD
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
         ...    Validate Subscriber DHCP Allocation    ${k8s_node_ip}    ${ONOS_SSH_PORT}    ${onu_port}
         Run Keyword and Ignore Error   Get Device Output from Voltha    ${onu_device_id}
+        Run Keyword and Ignore Error   Collect Logs
     END
+    Run Keyword and Ignore Error    Collect Logs
 
 Test Disable and Enable ONU
     [Documentation]    Validates E2E Ping Connectivity and object states for the given scenario:
     ...    Assuming that test1 was executed where all the ONUs are authenticated/DHCP/pingable
     ...    Perform disable on the ONUs and validate that the pings do not succeed
     ...    Perform enable on the ONUs and validate that the pings are successful
-    [Tags]    functional    test2
+    [Tags]    functional    DisableEnableONU
     [Setup]    None
     [Teardown]    None
 
@@ -113,7 +115,10 @@ Test Disable and Enable ONU
         ...    Validate Subscriber DHCP Allocation    ${k8s_node_ip}    ${ONOS_SSH_PORT}    ${onu_port}
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    60s    2s    Check Ping    True    ${dst['dp_iface_ip_qinq']}    
         ...    ${src['dp_iface_name']}    ${src['ip']}    ${src['user']}    ${src['pass']}   ${src['container_type']}    ${src['container_name']}
+        Run Keyword and Ignore Error   Get Device Output from Voltha    ${onu_device_id}
+        Run Keyword and Ignore Error   Collect Logs
     END
+    Run Keyword and Ignore Error   Collect Logs
 
 Check OLT/ONU Authentication After Radius Pod Restart
     [Documentation]    After radius restart, triggers reassociation, checks status and
@@ -121,7 +126,7 @@ Check OLT/ONU Authentication After Radius Pod Restart
     ...    wpa supplicant is running in background hence it is recommended to remove
     ...    teardown from previous test or uncomment 'Teardown    None'.
     ...    Assuming that test1 was executed where all the ONUs are authenticated/DHCP/pingable
-    [Tags]    functional    test3
+    [Tags]    functional    RadiusRestart
     [Setup]   NONE
     Wait Until Keyword Succeeds    ${timeout}    15s    Restart Pod    ${NAMESPACE}    ${RESTART_POD_NAME}
 
@@ -147,7 +152,10 @@ Check OLT/ONU Authentication After Radius Pod Restart
         ...    ${dst['container_name']}
         Wait Until Keyword Succeeds    ${timeout}    2s    Run Keyword And Continue On Failure
         ...    Validate Subscriber DHCP Allocation    ${k8s_node_ip}    ${ONOS_SSH_PORT}    ${onu_port}
+        Run Keyword and Ignore Error   Get Device Output from Voltha    ${onu_device_id}
+        Run Keyword and Ignore Error   Collect Logs
     END
+    Run Keyword and Ignore Error   Collect Logs
 
 *** Keywords ***
 Setup Suite
@@ -173,12 +181,15 @@ Setup
 
 Teardown
     [Documentation]    kills processes and cleans up interfaces on src+dst servers
+    Run Keyword If    ${has_dataplane}    Clean Up Linux
+    Run Keyword If    ${external_libs}    Log Kubernetes Containers Logs Since Time    ${datetime}    ${container_list}
+
+Collect Logs
+    [Documentation]    Collect Logs from voltha and onos cli for various commands
     Run Keyword and Ignore Error    Get Device List from Voltha
     Run Keyword and Ignore Error    Get Device Output from Voltha    ${olt_device_id}
     Run Keyword and Ignore Error    Get Logical Device Output from Voltha    ${logical_id}
     Run Keyword If    ${external_libs}    Get ONOS Status    ${k8s_node_ip}
-    Run Keyword If    ${has_dataplane}    Clean Up Linux
-    Run Keyword If    ${external_libs}    Log Kubernetes Containers Logs Since Time    ${datetime}    ${container_list}
 
 Teardown Suite
     [Documentation]    Clean up device if desired
