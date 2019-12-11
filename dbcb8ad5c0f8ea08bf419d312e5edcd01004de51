@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "76b6eb51_b9b1b344",
+        "filename": "tests/functional/Voltha_PODTests.robot",
+        "patchSetId": 37
+      },
+      "lineNbr": 235,
+      "author": {
+        "id": 1000064
+      },
+      "writtenOn": "2019-12-11T22:11:10Z",
+      "side": 1,
+      "message": "We are leaving the tests just with \"disable OLT\" and \"delete OLT\" , we will not be disabling the ONUs before disable/delete of the OLT.",
+      "range": {
+        "startLine": 235,
+        "startChar": 0,
+        "endLine": 235,
+        "endChar": 29
+      },
+      "revId": "dbcb8ad5c0f8ea08bf419d312e5edcd01004de51",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    }
+  ]
+}
