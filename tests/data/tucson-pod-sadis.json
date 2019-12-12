@@ -37,6 +37,17 @@
             "technologyProfileId": 64,
             "upstreamBandwidthProfile": "User_Bandwidth2",
             "downstreamBandwidthProfile": "User_Bandwidth2"
+          },
+          {
+            "id": "ALPHe3d1cfac-1",
+            "cTag": 21,
+            "sTag": 21,
+            "nasPortId": "ALPHe3d1cfac-1",
+            "circuitId": "ALPHe3d1cfac-1",
+            "remoteId": "ALPHe3d1cfac",
+            "technologyProfileId": 64,
+            "upstreamBandwidthProfile": "User_Bandwidth3",
+            "downstreamBandwidthProfile": "User_Bandwidth3"
           }
         ]
       },
