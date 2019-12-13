@@ -116,3 +116,13 @@ Validate Authentication After Reassociate
     Run Keyword If    '${auth_pass}' == 'False'    Sleep    20s
     Run Keyword If    '${auth_pass}' == 'False'    Check Remote File Contents    False    /tmp/wpa.log    
     ...    authentication completed successfully    ${ip}    ${user}    ${pass}    ${container_type}    ${container_name}
+
+Send Dhclient Request To Release Assigned IP
+    [Arguments]    ${iface}    ${ip}    ${user}    ${path_dhcpleasefile}    ${pass}=${None}    ${container_type}=${None}
+    ...    ${container_name}=${None}
+    [Documentation]    Executes a dhclient with option to release ip against a particular interface on the RG (src)
+    ${result}=    Login And Run Command On Remote System    dhclient -r -v ${iface} && rm ${path_dhcpleasefile}/dhclient.*    ${ip}    ${user}
+    ...    ${pass}    ${container_type}    ${container_name}
+    Log    ${result}
+    #Should Contain    ${result}    DHCPRELEASE
+    [Return]    ${result}

@@ -98,7 +98,8 @@ Check OLT/ONU Authentication After Radius Pod Restart
     ...    teardown from previous test or uncomment 'Teardown    None'.
     ...    Assuming that test1 was executed where all the ONUs are authenticated/DHCP/pingable
     [Tags]    functional    RadiusRestart
-    [Setup]   NONE
+    [Setup]   None
+    [Teardown]   None
     Wait Until Keyword Succeeds    ${timeout}    15s    Restart Pod    ${NAMESPACE}    ${RESTART_POD_NAME}
 
     FOR    ${I}    IN RANGE    0    ${num_onus}
@@ -127,6 +128,42 @@ Check OLT/ONU Authentication After Radius Pod Restart
         Run Keyword and Ignore Error   Collect Logs
     END
     Run Keyword and Ignore Error   Collect Logs
+
+Check DHCP attempt fails when subscriber is not added
+    [Documentation]    Validates when removed subscriber access, DHCP attempt, ping fails and
+    ...    when again added subscriber access, DHCP attempt, ping succeeds
+    ...    Assuming that test1 or sanity test  was executed where all the ONUs are authenticated/DHCP/pingable
+    [Tags]    functional    SubsRemoveDHCP
+    [Setup]    None
+    #[Teardown]    None
+
+    FOR    ${I}    IN RANGE    0    ${num_onus}
+        ${src}=    Set Variable    ${hosts.src[${I}]}
+        ${dst}=    Set Variable    ${hosts.dst[${I}]}
+		
+	${onu_device_id}=    Get Device ID From SN    ${src['onu']}
+        ${onu_port}=    Wait Until Keyword Succeeds    ${timeout}    2s    Get ONU Port in ONOS    ${src['onu']}
+        ...    ${of_id}
+        Wait Until Keyword Succeeds    ${timeout}    2s    Execute ONOS CLI Command    ${k8s_node_ip}
+        ...    ${ONOS_SSH_PORT}    volt-remove-subscriber-access ${of_id} ${onu_port}
+        # For releasing IP, also deleting lease file. Hence passing path where DHCP Client program writes the lease
+        Run Keyword If    ${has_dataplane}    Wait Until Keyword Succeeds    ${timeout}    2s
+	...    Send Dhclient Request To Release Assigned IP    ${src['dp_iface_name']}    ${src['ip']}
+	...    ${src['user']}    /var/lib/dhcp    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
+        Run Keyword If    ${has_dataplane}    Run Keyword And Continue On Failure    Validate DHCP and Ping    False
+        ...    False    ${src['dp_iface_name']}    ${src['s_tag']}    ${src['c_tag']}    ${dst['dp_iface_ip_qinq']}
+        ...    ${src['ip']}    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
+        ...    ${dst['dp_iface_name']}    ${dst['ip']}    ${dst['user']}    ${dst['pass']}    ${dst['container_type']}
+        ...    ${dst['container_name']}
+        Wait Until Keyword Succeeds    ${timeout}    2s    Execute ONOS CLI Command    ${k8s_node_ip}
+        ...    ${ONOS_SSH_PORT}    volt-add-subscriber-access ${of_id} ${onu_port}
+        Run Keyword If    ${has_dataplane}    Run Keyword And Continue On Failure    Validate DHCP and Ping    True
+        ...    True    ${src['dp_iface_name']}    ${src['s_tag']}    ${src['c_tag']}    ${dst['dp_iface_ip_qinq']}
+        ...    ${src['ip']}    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
+        ...    ${dst['dp_iface_name']}    ${dst['ip']}    ${dst['user']}    ${dst['pass']}    ${dst['container_type']}
+        ...    ${dst['container_name']}
+    END
+    Run Keyword and Ignore Error    Collect Logs
 
 Sanity E2E Test for OLT/ONU on POD With Core Fail and Restart
     [Documentation]    Deploys an device instance and waits for it to authenticate. After
