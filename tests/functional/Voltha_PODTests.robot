@@ -188,6 +188,28 @@ Sanity E2E Test for OLT/ONU on POD With Core Fail and Restart
         ...    Validate Subscriber DHCP Allocation    ${k8s_node_ip}    ${ONOS_SSH_PORT}    ${onu_port}
     END
 
+Verify restart any container after VOLTHA is operational
+    [Documentation]    Restart any container after VOLTHA is operational.
+    ...    Prerequisite : ONUs are authenticated and pingable.
+    [Tags]    functional   VOL-1958   RestartPods
+    [Setup]    NONE
+    ${waitforRestart}    Set Variable    120s
+    ${podStatusOutput}=    Run    ${KUBECTL_CONFIG};kubectl get pods -n ${NAMESPACE}
+    Log    ${podStatusOutput}
+    ${countBforRestart}=    Run    ${KUBECTL_CONFIG};kubectl get pods -n ${NAMESPACE} | grep Running | wc -l
+    FOR    ${podName}    IN    adapter-open-olt    adapter-open-onu    ofagent
+        Restart Pod    ${NAMESPACE}    ${podName}
+        Wait Until Keyword Succeeds    ${waitforRestart}    2s    Validate Pod Status    ${podName}    ${NAMESPACE}
+        ...    Running
+        Run Sanity Check on ONUs    ${num_onus}
+        ${podStatusOutput}=    Run    ${KUBECTL_CONFIG};kubectl get pods -n ${NAMESPACE}
+        Log    ${podStatusOutput}
+        ${countAfterRestart}=    Run    ${KUBECTL_CONFIG};kubectl get pods -n ${NAMESPACE} | grep Running | wc -l
+        Should Be Equal As Strings    ${countAfterRestart}    ${countBforRestart}
+        Log to console    Pod ${podName} restarted and sanity checks passed successfully
+    END
+    Log    Successfully restarted containers without crashing other containers
+
 *** Keywords ***
 Setup Suite
     [Documentation]    Set up the test suite

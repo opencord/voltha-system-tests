@@ -83,7 +83,7 @@ Verify All Voltha Pods For Any Error Logs
         Run Keyword And Ignore Error    Run Keyword If    '${returnStatusFlag}'=='UnexpectedErrorfound'    Run Keywords    Log    Unexpected Error Log found in pod ${podName}
         ...    AND    Set to Dictionary    ${errorPodDict}    ${podName}    ${errorDict}
     END
-    Print to Console    Error Statement logged in the following pods : ${errorPodDict}
+    Log to Console    Error Statement logged in the following pods : ${errorPodDict}
     [Return]    ${errorPodDict}
 
 Check For Error Logs in Pod Type1 Given the Log Output
@@ -120,7 +120,7 @@ Get Container Dictionary
     ${containerName}    Set Variable    ${EMPTY}
     ${podName}    Run    ${KUBECTL_CONFIG};kubectl get deployment -n voltha | awk 'NR>1 {print $1}'
     @{podNameList}=    Split To Lines    ${podName}
-    Append To List    ${podNameList}    voltha-etcd-cluster    voltha-kafka    voltha-ro-core    voltha-zookeeper
+    Append To List    ${podNameList}    voltha-etcd-cluster    voltha-kafka     voltha-zookeeper
     Log    ${podNameList}
     #Creatiing dictionary to correspond pod name and container name
     FOR    ${pod}    IN    @{podNameList}
@@ -216,3 +216,19 @@ Does Deployment Have Replicas
     ${replicas}=    Run Keyword If    '${value}' == ''    Set Variable    0
     ...    ELSE    Set Variable    ${value}
     Should be Equal as Integers    ${replicas}    ${expected_count}
+
+Validate Pod Status
+    [Arguments]    ${pod_name}    ${namespace}   ${expectedStatus}
+    [Documentation]    To run the kubectl command and check the status of the given pod matches the expected status
+    ${length}=    Run    ${KUBECTL_CONFIG}; kubectl get pod -n ${namespace} | wc -l
+    FOR    ${index}    IN RANGE    ${length}-1
+        ${currentPodName}=    Run    ${KUBECTL_CONFIG}; kubectl get pod -n ${namespace} -o jsonpath={.items[${index}].status.containerStatuses[0].name}
+        Log    Required Pod : ${pod_name}
+        Log    Current Pod: ${currentPodName}
+        Run Keyword and Ignore Error    Run Keyword If    '${currentPodName}'=='${pod_name}'    Exit For Loop
+    END
+    ${currentStatusofPod}=    Run    ${KUBECTL_CONFIG}; kubectl get pod -n ${namespace} -o jsonpath={.items[${index}].status.phase}
+    Log    ${currentStatusofPod}
+    Should Contain    ${currentStatusofPod}    ${expectedStatus}
+
+
