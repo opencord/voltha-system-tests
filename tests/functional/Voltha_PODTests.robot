@@ -133,7 +133,7 @@ Check DHCP attempt fails when subscriber is not added
     [Documentation]    Validates when removed subscriber access, DHCP attempt, ping fails and
     ...    when again added subscriber access, DHCP attempt, ping succeeds
     ...    Assuming that test1 or sanity test  was executed where all the ONUs are authenticated/DHCP/pingable
-    [Tags]    functional    SubsRemoveDHCP
+    [Tags]    functional    SubsRemoveDHCP    notready
     [Setup]    None
     #[Teardown]    None
 

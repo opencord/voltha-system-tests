@@ -82,6 +82,9 @@ system-scale-test: ROBOT_MISC_ARGS += -X -i sanity
 system-scale-test: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_SINGLE_PON_FILE)
 system-scale-test: k8s-system-test
 
+voltha-test: ROBOT_MISC_ARGS += -e notready
+k8s-system-test: ROBOT_MISC_ARGS += -e notready
+
 # virtualenv for the robot tools
 vst_venv:
 	virtualenv $@ ;\
