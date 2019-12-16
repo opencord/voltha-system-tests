@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9b21f2e4_dfc95cc4",
+        "filename": "tests/functional/Voltha_PODTests.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 1000064
+      },
+      "writtenOn": "2019-12-16T23:33:41Z",
+      "side": 1,
+      "message": "We already have a keyword in this file `Perform Sanity Test` that does the sanity check. Will this not work here?",
+      "range": {
+        "startLine": 183,
+        "startChar": 8,
+        "endLine": 183,
+        "endChar": 32
+      },
+      "revId": "8c61aa4eeafd8901fe6bd261e9d98f4f3f89e415",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    }
+  ]
+}
