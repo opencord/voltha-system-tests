@@ -59,6 +59,7 @@ Sanity E2E Test for OLT/ONU on POD
     ...    Validate successful authentication/DHCP/E2E ping for the tech profile that is used
     [Tags]    sanity    test1
     [Teardown]    NONE
+    Run Keyword If    ${has_dataplane}    Clean Up Linux
     Wait Until Keyword Succeeds    ${timeout}   2s    Perform Sanity Test
     Run Keyword and Ignore Error    Collect Logs
 
