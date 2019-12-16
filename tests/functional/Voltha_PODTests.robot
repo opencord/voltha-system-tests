@@ -151,6 +151,9 @@ Check DHCP attempt fails when subscriber is not added
         Run Keyword If    ${has_dataplane}    Wait Until Keyword Succeeds    ${timeout}    2s
 	...    Send Dhclient Request To Release Assigned IP    ${src['dp_iface_name']}    ${src['ip']}
 	...    ${src['user']}    /var/lib/dhcp    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
+	Run Keyword If    ${has_dataplane}    Wait Until Keyword Succeeds    ${timeout}    2s
+	...    Delete IP Addresses from Interface on Remote Host    ${src['dp_iface_name']}    ${src['ip']}
+	...    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
         Run Keyword If    ${has_dataplane}    Run Keyword And Continue On Failure    Validate DHCP and Ping    False
         ...    False    ${src['dp_iface_name']}    ${src['s_tag']}    ${src['c_tag']}    ${dst['dp_iface_ip_qinq']}
         ...    ${src['ip']}    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
