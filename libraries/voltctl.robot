@@ -340,7 +340,8 @@ Match ONU Peer Id
 Get Device ID From SN
     [Arguments]    ${serial_number}
     [Documentation]    Gets the device id by matching for ${serial_number}
-    ${output}=    Run    ${VOLTCTL_CONFIG}; voltctl device list -o json
+    ${rc}  ${output}=    Run and Return Rc and Output    ${VOLTCTL_CONFIG}; voltctl device list -o json
+    Should Be Equal As Integers    ${rc}    0
     ${jsondata}=    To Json    ${output}
     Log    ${jsondata}
     ${length}=    Get Length    ${jsondata}
@@ -355,7 +356,8 @@ Get Device ID From SN
 Get Logical Device ID From SN
     [Arguments]    ${serial_number}
     [Documentation]    Gets the device id by matching for ${serial_number}
-    ${output}=    Run    ${VOLTCTL_CONFIG}; voltctl device list -o json
+    ${rc}  ${output}=    Run and Return Rc and Output    ${VOLTCTL_CONFIG}; voltctl device list -o json
+    Should Be Equal As Integers    ${rc}    0
     ${jsondata}=    To Json    ${output}
     Log    ${jsondata}
     ${length}=    Get Length    ${jsondata}
@@ -393,7 +395,8 @@ Get SN From Device ID
 Validate Device Removed
     [Arguments]    ${id}
     [Documentation]    Verifys that device, ${serial_number}, has been removed
-    ${output}=    Run    ${VOLTCTL_CONFIG}; voltctl device list -o json
+    ${rc}  ${output}=    Run and Return Rc and Output    ${VOLTCTL_CONFIG}; voltctl device list -o json
+    Should Be Equal As Integers    ${rc}    0
     ${jsondata}=    To Json    ${output}
     Log    ${jsondata}
     ${length}=    Get Length    ${jsondata}
