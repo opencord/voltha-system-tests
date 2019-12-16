@@ -100,7 +100,7 @@ Check OLT/ONU Authentication After Radius Pod Restart
     ...    Assuming that test1 was executed where all the ONUs are authenticated/DHCP/pingable
     [Tags]    functional    RadiusRestart
     [Setup]   None
-    [Teardown]   None
+    #[Teardown]   None
     Wait Until Keyword Succeeds    ${timeout}    15s    Restart Pod    ${NAMESPACE}    ${RESTART_POD_NAME}
 
     FOR    ${I}    IN RANGE    0    ${num_onus}
