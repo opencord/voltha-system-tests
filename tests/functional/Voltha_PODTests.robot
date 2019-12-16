@@ -100,7 +100,7 @@ Check OLT/ONU Authentication After Radius Pod Restart
     ...    Assuming that test1 was executed where all the ONUs are authenticated/DHCP/pingable
     [Tags]    functional    RadiusRestart
     [Setup]   None
-    #[Teardown]   None
+    [Teardown]   None
     Wait Until Keyword Succeeds    ${timeout}    15s    Restart Pod    ${NAMESPACE}    ${RESTART_POD_NAME}
 
     FOR    ${I}    IN RANGE    0    ${num_onus}
@@ -134,7 +134,7 @@ Check DHCP attempt fails when subscriber is not added
     [Documentation]    Validates when removed subscriber access, DHCP attempt, ping fails and
     ...    when again added subscriber access, DHCP attempt, ping succeeds
     ...    Assuming that test1 or sanity test  was executed where all the ONUs are authenticated/DHCP/pingable
-    [Tags]    functional    SubsRemoveDHCP    notready
+    [Tags]    functional    SubsRemoveDHCP
     [Setup]    None
     #[Teardown]    None
 
