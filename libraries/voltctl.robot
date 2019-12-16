@@ -340,31 +340,19 @@ Match ONU Peer Id
 Get Device ID From SN
     [Arguments]    ${serial_number}
     [Documentation]    Gets the device id by matching for ${serial_number}
-    ${output}=    Run    ${VOLTCTL_CONFIG}; voltctl device list -o json
-    ${jsondata}=    To Json    ${output}
-    Log    ${jsondata}
-    ${length}=    Get Length    ${jsondata}
-    FOR    ${INDEX}    IN RANGE    0    ${length}
-        ${value}=    Get From List    ${jsondata}    ${INDEX}
-        ${id}=    Get From Dictionary    ${value}    id
-        ${sn}=    Get From Dictionary    ${value}    serialnumber
-        Run Keyword If    '${sn}' == '${serial_number}'    Exit For Loop
-    END
+    ${rc}  ${id}=    Run and Return Rc and Output
+    ...    ${VOLTCTL_CONFIG}; voltctl device list --filter=SerialNumber=${serial_number} --format='{{.Id}}'
+    Should Be Equal As Integers    ${rc}    0
+    Log    ${id}
     [Return]    ${id}
 
 Get Logical Device ID From SN
     [Arguments]    ${serial_number}
     [Documentation]    Gets the device id by matching for ${serial_number}
-    ${output}=    Run    ${VOLTCTL_CONFIG}; voltctl device list -o json
-    ${jsondata}=    To Json    ${output}
-    Log    ${jsondata}
-    ${length}=    Get Length    ${jsondata}
-    FOR    ${INDEX}    IN RANGE    0    ${length}
-        ${value}=    Get From List    ${jsondata}    ${INDEX}
-        ${id}=    Get From Dictionary    ${value}    parentid
-        ${sn}=    Get From Dictionary    ${value}    serialnumber
-        Run Keyword If    '${sn}' == '${serial_number}'    Exit For Loop
-    END
+    ${rc}  ${id}=    Run and Return Rc and Output
+    ...    ${VOLTCTL_CONFIG}; voltctl logicaldevice list --filter=SerialNumber=${serial_number} --format='{{.Id}}'
+    Should Be Equal As Integers    ${rc}    0
+    Log    ${id}
     [Return]    ${id}
 
 Build ONU SN List
@@ -377,23 +365,17 @@ Build ONU SN List
 Get SN From Device ID
     [Arguments]    ${device_id}
     [Documentation]    Gets the device id by matching for ${device_id}
-    ${rc}  ${output}=    Run and Return Rc and Output    ${VOLTCTL_CONFIG}; voltctl device list -o json
+    ${rc}  ${sn}=    Run and Return Rc and Output
+    ...    ${VOLTCTL_CONFIG}; voltctl device list --filter=Id=${device_id} --format='{{.SerialNumber}}'
     Should Be Equal As Integers    ${rc}    0
-    ${jsondata}=    To Json    ${output}
-    Log    ${jsondata}
-    ${length}=    Get Length    ${jsondata}
-    FOR    ${INDEX}    IN RANGE    0    ${length}
-        ${value}=    Get From List    ${jsondata}    ${INDEX}
-        ${id}=    Get From Dictionary    ${value}    id
-        ${sn}=    Get From Dictionary    ${value}    serialnumber
-        Run Keyword If    '${id}' == '${device_id}'    Exit For Loop
-    END
+    Log    ${sn}
     [Return]    ${sn}
 
 Validate Device Removed
     [Arguments]    ${id}
     [Documentation]    Verifys that device, ${serial_number}, has been removed
-    ${output}=    Run    ${VOLTCTL_CONFIG}; voltctl device list -o json
+    ${rc}  ${output}=    Run and Return Rc and Output    ${VOLTCTL_CONFIG}; voltctl device list -o json
+    Should Be Equal As Integers    ${rc}    0
     ${jsondata}=    To Json    ${output}
     Log    ${jsondata}
     ${length}=    Get Length    ${jsondata}
