@@ -216,3 +216,18 @@ Does Deployment Have Replicas
     ${replicas}=    Run Keyword If    '${value}' == ''    Set Variable    0
     ...    ELSE    Set Variable    ${value}
     Should be Equal as Integers    ${replicas}    ${expected_count}
+
+Validate Pod Status
+    [Arguments]    ${pod_name}    ${namespace}   ${expectedStatus}
+    [Documentation]    To run the kubectl command and check the status of the given pod matches the expected status
+    ${length}=    Run    ${KUBECTL_CONFIG}; kubectl get pod -n ${namespace} | wc -l
+    FOR    ${index}    IN RANGE    ${length}-1
+        ${currentPodName}=    Run    ${KUBECTL_CONFIG}; kubectl get pod -n ${namespace} -o jsonpath={.items[${index}].status.containerStatuses[0].name}
+        Log    Required Pod : ${pod_name}
+        Log    Current Pod: ${currentPodName}
+        Run Keyword and Ignore Error    Run Keyword If    '${currentPodName}'=='${pod_name}'    Exit For Loop
+    END
+    ${currentStatusofPod}=    Run    ${KUBECTL_CONFIG}; kubectl get pod -n ${namespace} -o jsonpath={.items[${index}].status.phase}
+    Log    ${currentStatusofPod}
+    Should Contain    ${currentStatusofPod}    ${expectedStatus}
+
