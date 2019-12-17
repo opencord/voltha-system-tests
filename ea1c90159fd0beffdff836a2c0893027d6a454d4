@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f89294e7_f3708425",
+        "filename": "tests/functional/Voltha_PODTests.robot",
+        "patchSetId": 3
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1000064
+      },
+      "writtenOn": "2019-12-17T01:21:07Z",
+      "side": 1,
+      "message": "We may need up a clean up Linux procedure after this, otherwise auth and dhcp will fail the next time.",
+      "range": {
+        "startLine": 186,
+        "startChar": 8,
+        "endLine": 186,
+        "endChar": 27
+      },
+      "revId": "ea1c90159fd0beffdff836a2c0893027d6a454d4",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    }
+  ]
+}
