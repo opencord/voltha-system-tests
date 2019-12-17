@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a8951a4a_039d34a0",
+        "filename": "tests/functional/Voltha_PODTests.robot",
+        "patchSetId": 4
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1000064
+      },
+      "writtenOn": "2019-12-17T07:24:22Z",
+      "side": 1,
+      "message": "We need to uncomment Teardown in this test for the \"ONU disable/enable\" to succeed, because we are assuming that the subscribers are up and running.",
+      "range": {
+        "startLine": 139,
+        "startChar": 4,
+        "endLine": 139,
+        "endChar": 23
+      },
+      "revId": "4d5171fc38f9572cb4394ebca084b57927484183",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    }
+  ]
+}
