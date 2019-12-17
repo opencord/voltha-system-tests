@@ -175,7 +175,7 @@ Sanity E2E Test for OLT/ONU on POD With Core Fail and Restart
     ...    simulate a POD crash. The test then scales the rw-core back to a single instance
     ...    and configures ONOS for access. The test succeeds if the device is able to
     ...    complete the DHCP sequence.
-    [Tags]    bbsim    rwcore-restart
+    [Tags]    sanity    rwcore-restart
     [Setup]    Clear All Devices Then Create New Device
     ${of_id}=    Wait Until Keyword Succeeds    ${timeout}    15s    Validate OLT Device in ONOS    ${olt_serial_number}
     Set Global Variable    ${of_id}
@@ -237,7 +237,7 @@ Sanity E2E Test for OLT/ONU on POD With OLT Adapters Fail and Restart
     ...    simulate a POD crash. The test then scales the rw-core back to a single instance
     ...    and configures ONOS for access. The test succeeds if the device is able to 
     ...    complete the DHCP sequence.
-    [Tags]    bbsim    olt-adapter-restart
+    [Tags]    sanity    olt-adapter-restart
     [Setup]    Clear All Devices Then Create New Device
     ${of_id}=    Wait Until Keyword Succeeds    ${timeout}    15s    Validate OLT Device in ONOS    ${olt_serial_number}
     Set Global Variable    ${of_id}
@@ -324,6 +324,11 @@ Clear All Devices Then Create New Device
 
     # Remove all devices from voltha and nos
     Delete All Devices and Verify
+
+    # A delete of the OLT will cause a reboot, so wait until OLT
+    # reboot completes
+    Sleep    180s
+    Run Keyword If    ${has_dataplane} and ${external_libs}    Wait Until Keyword Succeeds    120s    10s    Check Remote System Reachability    False    ${olt_ip}
 
     # Execute normal test Setup Keyword
     Setup
