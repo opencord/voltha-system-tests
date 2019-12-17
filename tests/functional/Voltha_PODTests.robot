@@ -57,7 +57,7 @@ ${scripts}    ../../scripts
 Sanity E2E Test for OLT/ONU on POD
     [Documentation]    Validates E2E Ping Connectivity and object states for the given scenario:
     ...    Validate successful authentication/DHCP/E2E ping for the tech profile that is used
-    [Tags]    sanity    test1
+    [Tags]    bbsim    test1
     [Teardown]    NONE
     Run Keyword If    ${has_dataplane}    Clean Up Linux
     Wait Until Keyword Succeeds    ${timeout}   2s    Perform Sanity Test
@@ -175,7 +175,7 @@ Sanity E2E Test for OLT/ONU on POD With Core Fail and Restart
     ...    simulate a POD crash. The test then scales the rw-core back to a single instance
     ...    and configures ONOS for access. The test succeeds if the device is able to
     ...    complete the DHCP sequence.
-    [Tags]    bbsim    rwcore-restart
+    [Tags]    functional    rwcore-restart
     [Setup]    Clear All Devices Then Create New Device
     ${of_id}=    Wait Until Keyword Succeeds    ${timeout}    15s    Validate OLT Device in ONOS    ${olt_serial_number}
     Set Global Variable    ${of_id}
@@ -237,7 +237,7 @@ Sanity E2E Test for OLT/ONU on POD With OLT Adapters Fail and Restart
     ...    simulate a POD crash. The test then scales the rw-core back to a single instance
     ...    and configures ONOS for access. The test succeeds if the device is able to 
     ...    complete the DHCP sequence.
-    [Tags]    bbsim    olt-adapter-restart
+    [Tags]    sanity    olt-adapter-restart
     [Setup]    Clear All Devices Then Create New Device
     ${of_id}=    Wait Until Keyword Succeeds    ${timeout}    15s    Validate OLT Device in ONOS    ${olt_serial_number}
     Set Global Variable    ${of_id}
