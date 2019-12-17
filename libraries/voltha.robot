@@ -46,7 +46,7 @@ Restart VOLTHA Port Foward
     [Arguments]    ${name}
     [Documentation]    Uses a script to restart a kubectl port-forward
     ${rc}    ${pid}    Run And Return Rc And Output
-    ...    ps e -ww | grep _TAG=${name} | grep -v grep | awk '{printf(\"%s %s\\n\",$1,$5)}' | grep -v bash | awk '{print $1}'
+    ...    ps e -ww -A | grep _TAG=${name} | grep -v grep | awk '{printf(\"%s %s\\n\",$1,$5)}' | grep -v bash | awk '{print $1}'
     Should Be Equal as Integers    ${rc}    0
     Run Keyword If    '${pid}' != ''    Run And Return Rc    kill -9 ${pid}
     Should Be Equal as Integers    ${rc}    0

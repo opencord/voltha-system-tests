@@ -44,6 +44,7 @@ LIB_BASENAME := $(basename $(LIB_SOURCE))
 LIB_DIRS := $(dir $(LIB_SOURCE))
 
 ROBOT_MISC_ARGS ?=
+TEST_TAGS ?= sanity
 
 # for backwards compatibility
 sanity-kind: sanity-single-kind
@@ -56,6 +57,11 @@ rwcore-restart-single-kind: ROBOT_MISC_ARGS += -X -i bbsimANDrwcore-restart $(RO
 rwcore-restart-single-kind: ROBOT_CONFIG_FILE := $(ROBOT_FAIL_SINGLE_PON_FILE)
 rwcore-restart-single-kind: ROBOT_FILE := Voltha_PODTests.robot
 rwcore-restart-single-kind: voltha-test
+
+single-kind: ROBOT_MISC_ARGS += -X -i $(TEST_TAGS) $(ROBOT_DEBUG_LOG_OPT)
+single-kind: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_SINGLE_PON_FILE)
+single-kind: ROBOT_FILE := Voltha_PODTests.robot
+single-kind: voltha-test
 
 sanity-multi-kind: ROBOT_MISC_ARGS += -i sanity $(ROBOT_DEBUG_LOG_OPT)
 sanity-multi-kind: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_MULT_PON_FILE)
