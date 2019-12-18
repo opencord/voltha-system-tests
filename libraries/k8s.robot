@@ -162,6 +162,13 @@ Delete K8s Pod
     ...    kubectl delete -n ${namespace} pod/${name}
     Should Be Equal as Integers    ${rc}    0
 
+Delete K8s Pods By Label
+    [Arguments]    ${namespace}    ${key}    ${value}
+    [Documentation]    Uses kubectl to delete a PODs, filtering by label   
+    ${rc}=    Run and Return Rc
+    ...    kubectl -n ${namespace} delete pods -l${key}=${value}
+    Should Be Equal as Integers    ${rc}    0
+
 Scale K8s Deployment
     [Arguments]    ${namespace}    ${name}    ${count}
     [Documentation]    Uses kubectl to scale a named deployment
@@ -180,6 +187,14 @@ Pod Does Not Exist
     [Documentation]    Succeeds if the named POD does not exist
     ${rc}    ${count}    Run and Return Rc And Output
     ...    kubectl get -n ${namespace} pod -o json | jq -r ".items[].metadata.name" | grep -c ${name}
+    Should Be Equal As Integers    ${count}    0
+    Should Be True    ${count}==0
+
+Pods Does Not Exist By Label
+    [Arguments]    ${namespace}    ${key}    ${value}
+    [Documentation]    Succeeds if the named POD does not exist
+    ${rc}    ${count}    Run and Return Rc And Output
+    ...    kubectl get -n ${namespace} pod -l${key}=${value} -o json | jq -r ".items[].metadata.name" | wc -l
     Should Be Equal As Integers    ${count}    0
     Should Be True    ${count}==0
 
@@ -216,3 +231,10 @@ Does Deployment Have Replicas
     ${replicas}=    Run Keyword If    '${value}' == ''    Set Variable    0
     ...    ELSE    Set Variable    ${value}
     Should be Equal as Integers    ${replicas}    ${expected_count}
+
+Pods Does Not Ready By Label
+    [Arguments]    ${namespace}    ${key}    ${value}
+    [Documentation]    Check PODs Ready Status
+    ${rc}    ${count}    Run and Return Rc and Output
+    ...    kubectl -n ${namespace} get pods -l ${key}=${value} -o json | jq -r ".items[].status.containerStatuses[].ready" | grep -c false
+    Should Be Equal as Integers    ${rc}    0
