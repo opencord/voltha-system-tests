@@ -13,58 +13,77 @@
 # limitations under the License.
 
 *** Settings ***
-Documentation     Provide the function to scale up/down the etcd cluster
+Documentation     Provide the function to perform system related test
 Library           OperatingSystem
+Resource          ../../libraries/k8s.robot
 
 *** Variables ***
 ${timeout}        60s
-${desired_etcd_cluster_size}        3
-${minimal_etcd_cluster_size}        2
+${desired_ETCD_cluster_size}        3
+${minimal_ETCD_cluster_size}        2
 ${namespace}        voltha
-${etcd__resources}        etcdclusters.etcd.database.coreos.com
-${etcd_name}       voltha-etcd-cluster
+${ETCD_resources}        ETCDclusters.ETCD.database.coreos.com
+${ETCD_name}       voltha-ETCD-cluster
+${ETCD_pod_label_key}    ETCD_cluster
+${common_pod_label_key}    app
+${rwcore_pod_label_value}    rw-core
+${ofagent_pod_label_value}    ofagent
+${adapter_openolt_pod_label_value}    adapter-open-olt
 
 *** Test Cases ***
-Scale Down etcd Cluster
-    [Documentation]    Scale Down the etcd cluster to minimal size, skip test if current cluster size < 3
-    [Tags]    scaledown    etcddown
-    ${current_size}=   Get etcd Running Size    voltha
-    Pass Execution If    '${current_size}' != '${desired_etcd_cluster_size}'
+Scale Down ETCD Cluster
+    [Documentation]    Scale Down the ETCD cluster to minimal size, skip test if current cluster size < 3
+    [Tags]    scaledown    ETCDdown
+    ${current_size}=   Get ETCD Running Size    voltha
+    Pass Execution If    '${current_size}' != '${desired_ETCD_cluster_size}'
     ...    'Skip the test if the cluster size smaller than minimal size 3'
     # The minimal cluster size after scale down
-    # based on https://github.com/etcd-io/etcd/blob/master/Documentation/faq.md#what-is-failure-tolerance
-    Scale etcd    ${namespace}    ${minimal_etcd_cluster_size}
-    Wait Until Keyword Succeeds    ${timeout}    2s    Validate etcd Size   ${namespace}    ${minimal_etcd_cluster_size}
+    # based on https://github.com/ETCD-io/ETCD/blob/master/Documentation/faq.md#what-is-failure-tolerance
+    Scale ETCD    ${namespace}    ${minimal_ETCD_cluster_size}
+    Wait Until Keyword Succeeds    ${timeout}    2s    Validate ETCD Size   ${namespace}    ${minimal_ETCD_cluster_size}
 
-Scale Up etcd Cluster
-    [Documentation]    Recover the etcd cluster by scaling up its size
-    [Tags]    scaleup    etcdup
-    ${current_size}=   Get etcd Running Size    voltha
-    Pass Execution If    '${current_size}' != '${minimal_etcd_cluster_size}'
+Scale Up ETCD Cluster
+    [Documentation]    Recover the ETCD cluster by scaling up its size
+    [Tags]    scaleup    ETCDup
+    ${current_size}=   Get ETCD Running Size    voltha
+    Pass Execution If    '${current_size}' != '${minimal_ETCD_cluster_size}'
     ...    'Skip the test if the cluster size smaller than minimal size 3'
-    Scale etcd    ${namespace}    ${desired_etcd_cluster_size}
-    # We scale up the size to 3, the recommended size of etcd cluster.
-    Wait Until Keyword Succeeds    ${timeout}    2s    Validate etcd Size   ${namespace}    ${desired_etcd_cluster_size}
+    Scale ETCD    ${namespace}    ${desired_ETCD_cluster_size}
+    # We scale up the size to 3, the recommended size of ETCD cluster.
+    Wait Until Keyword Succeeds    ${timeout}    2s    Validate ETCD Size   ${namespace}    ${desired_ETCD_cluster_size}
+
+ETCD Failure Test
+    [Documentation]    Failure Scenario Test: ETCD Crash
+    [Tags]    FailureTest
+    Delete K8s Pods By Label    ${namespace}    ${ETCD_pod_label_key}    ${ETCD_name}
+     Wait Until Keyword Succeeds    ${timeout}    2s
+     ...    Pods Does Not Exist By Label   ${namespace}   ${ETCD_pod_label_key}    ${ETCD_name}
+     Wait Until Keyword Succeeds    ${timeout}    2s
+     ...    Pods Does Not Ready By Label   ${namespace}   ${common_pod_label_key}    ${rwcore_pod_label_value}
+     Wait Until Keyword Succeeds    ${timeout}    2s
+     ...    Pods Does Not Ready By Label   ${namespace}   ${common_pod_label_key}    ${ofagent_pod_label_value}
+     Wait Until Keyword Succeeds    ${timeout}    2s
+     ...    Pods Does Not Ready By Label   ${namespace}   ${common_pod_label_key}    ${adapter_openolt_pod_label_value}
 
 *** Keywords ***
-Get etcd Running Size
+Get ETCD Running Size
     [Arguments]    ${namespace}
-    [Documentation]    Get the number of running etcd nodes
+    [Documentation]    Get the number of running ETCD nodes
     ${rc}    ${size}=    Run and Return Rc and Output
-    ...    kubectl -n ${namespace} get ${etcd__resources} ${etcd_name} -o jsonpath='{.status.size}'
+    ...    kubectl -n ${namespace} get ${ETCD_resources} ${ETCD_name} -o jsonpath='{.status.size}'
     Should Be Equal As Integers    ${rc}    0
     [Return]    ${size}
 
-Scale etcd
+Scale ETCD
     [Arguments]    ${namespace}    ${size}
-    [Documentation]    Scale down the number of etcd pod
+    [Documentation]    Scale down the number of ETCD pod
     ${rc}=    Run and Return Rc
-    ...    kubectl -n ${namespace} patch ${etcd__resources} ${etcd_name} --type='merge' -p '{"spec":{"size":${size}}}'
+    ...    kubectl -n ${namespace} patch ${ETCD_resources} ${ETCD_name} --type='merge' -p '{"spec":{"size":${size}}}'
     Should Be Equal As Integers    ${rc}    0
 
-Validate etcd Size
-    [Arguments]    ${namespace}    ${etcd_cluster_size}
-    [Documentation]    Scale down the number of etcd pod
+Validate ETCD Size
+    [Arguments]    ${namespace}    ${ETCD_cluster_size}
+    [Documentation]    Scale down the number of ETCD pod
     ${rc}    ${size}=    Run and Return Rc and Output
-    ...    kubectl -n ${namespace} get ${etcd__resources} ${etcd_name} -o jsonpath='{.status.size}'
-    Should Be Equal As Integers    ${size}    ${etcd_cluster_size}
+    ...    kubectl -n ${namespace} get ${ETCD_resources} ${ETCD_name} -o jsonpath='{.status.size}'
+    Should Be Equal As Integers    ${size}    ${ETCD_cluster_size}
