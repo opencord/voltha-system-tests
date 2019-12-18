@@ -92,6 +92,39 @@ Test Disable and Enable ONU
     END
     Run Keyword and Ignore Error   Collect Logs
 
+Test Subscriber Delete and Add
+    [Documentation]    Validates E2E Ping Connectivity and object states for the given scenario:
+    ...    Assuming that all the ONUs are authenticated/DHCP/pingable
+    ...    Delete a subscriber and  validate that the pings do not succeed
+    ...    Re-add the subscriber and validate that the pings are successful
+    [Tags]    functional    DisableEnableONU
+    [Setup]    None
+    [Teardown]    None
+
+    FOR    ${I}    IN RANGE    0    ${num_onus}
+        ${src}=    Set Variable    ${hosts.src[${I}]}
+        ${dst}=    Set Variable    ${hosts.dst[${I}]}
+
+        ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
+        ${onu_port}=    Wait Until Keyword Succeeds    ${timeout}    2s    Get ONU Port in ONOS    ${src['onu']}
+        ...    ${of_id}
+        Wait Until Keyword Succeeds    ${timeout}    2s    Execute ONOS CLI Command    ${k8s_node_ip}
+        ...    ${ONOS_SSH_PORT}    volt-remove-subscriber-access ${of_id} ${onu_port}
+        Sleep    10s
+        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    60s    2s    Check Ping    False    ${dst['dp_iface_ip_qinq']}
+        ...    ${src['dp_iface_name']}    ${src['ip']}    ${src['user']}    ${src['pass']}   ${src['container_type']}    ${src['container_name']}
+        Wait Until Keyword Succeeds    ${timeout}    2s    Execute ONOS CLI Command    ${k8s_node_ip}
+        ...    ${ONOS_SSH_PORT}    volt-add-subscriber-access ${of_id} ${onu_port}
+        Sleep    10s
+        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
+        ...    Validate Subscriber DHCP Allocation    ${k8s_node_ip}    ${ONOS_SSH_PORT}    ${onu_port}
+        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    60s    2s    Check Ping    True    ${dst['dp_iface_ip_qinq']}
+        ...    ${src['dp_iface_name']}    ${src['ip']}    ${src['user']}    ${src['pass']}   ${src['container_type']}    ${src['container_name']}
+        Run Keyword and Ignore Error   Get Device Output from Voltha    ${onu_device_id}
+        Run Keyword and Ignore Error   Collect Logs
+    END
+    Run Keyword and Ignore Error   Collect Logs
+
 Check OLT/ONU Authentication After Radius Pod Restart
     [Documentation]    After radius restart, triggers reassociation, checks status and
     ...    authentication, validates dhcp and ping. Note : wpa reassociate works only when
@@ -136,7 +169,7 @@ Check DHCP attempt fails when subscriber is not added
     ...    Assuming that test1 or sanity test  was executed where all the ONUs are authenticated/DHCP/pingable
     [Tags]    functional    SubsRemoveDHCP
     [Setup]    None
-    #[Teardown]    None
+    [Teardown]    None
 
     FOR    ${I}    IN RANGE    0    ${num_onus}
         ${src}=    Set Variable    ${hosts.src[${I}]}
@@ -145,15 +178,24 @@ Check DHCP attempt fails when subscriber is not added
 	${onu_device_id}=    Get Device ID From SN    ${src['onu']}
         ${onu_port}=    Wait Until Keyword Succeeds    ${timeout}    2s    Get ONU Port in ONOS    ${src['onu']}
         ...    ${of_id}
+        Run Keyword And Ignore Error    Login And Run Command On Remote System    killall dhclient    ${src['ip']}
+        ...    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
+        Run Keyword And Ignore Error    Login And Run Command On Remote System    ps -ef | grep dhclient    ${src['ip']}
+        ...    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
         Wait Until Keyword Succeeds    ${timeout}    2s    Execute ONOS CLI Command    ${k8s_node_ip}
         ...    ${ONOS_SSH_PORT}    volt-remove-subscriber-access ${of_id} ${onu_port}
+        Sleep   5s
+        Run Keyword And Ignore Error    Login And Run Command On Remote System    ps -ef | grep dhclient    ${src['ip']}
+        ...    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
         # For releasing IP, also deleting lease file. Hence passing path where DHCP Client program writes the lease
-        Run Keyword If    ${has_dataplane}    Wait Until Keyword Succeeds    ${timeout}    2s
-	...    Send Dhclient Request To Release Assigned IP    ${src['dp_iface_name']}    ${src['ip']}
-	...    ${src['user']}    /var/lib/dhcp    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
+        #Run Keyword If    ${has_dataplane}    Wait Until Keyword Succeeds    ${timeout}    2s
+	#...    Send Dhclient Request To Release Assigned IP    ${src['dp_iface_name']}    ${src['ip']}
+	#...    ${src['user']}    /var/lib/dhcp    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
 	Run Keyword If    ${has_dataplane}    Wait Until Keyword Succeeds    ${timeout}    2s
 	...    Delete IP Addresses from Interface on Remote Host    ${src['dp_iface_name']}    ${src['ip']}
 	...    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
+        Run Keyword And Ignore Error    Login And Run Command On Remote System    ifconfig | grep -A 10 ens    ${src['ip']}
+        ...    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
         Run Keyword If    ${has_dataplane}    Run Keyword And Continue On Failure    Validate DHCP and Ping    False
         ...    False    ${src['dp_iface_name']}    ${src['s_tag']}    ${src['c_tag']}    ${dst['dp_iface_ip_qinq']}
         ...    ${src['ip']}    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
@@ -166,6 +208,56 @@ Check DHCP attempt fails when subscriber is not added
         ...    ${src['ip']}    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
         ...    ${dst['dp_iface_name']}    ${dst['ip']}    ${dst['user']}    ${dst['pass']}    ${dst['container_type']}
         ...    ${dst['container_name']}
+        Run Keyword and Ignore Error    Collect Logs
+    END
+    Run Keyword and Ignore Error    Collect Logs
+
+
+Test Disable and Enable ONU scenario for ATT workflow
+    [Documentation]    Validates E2E Ping Connectivity and object states for the given scenario:
+    ...    Assuming that test1 was executed where all the ONUs are authenticated/DHCP/pingable
+    ...    Perform disable on the ONUs, call volt-remove-subscriber and validate that the pings do not succeed
+    ...    Perform enable on the ONUs, authentication check, volt-add-subscriber-access and validate that the pings are successful
+    ...    VOL-2284
+    [Tags]    functional    ATT_DisableEnableONU
+    [Setup]    None
+    #[Teardown]    None
+
+    FOR    ${I}    IN RANGE    0    ${num_onus}
+        ${src}=    Set Variable    ${hosts.src[${I}]}
+        ${dst}=    Set Variable    ${hosts.dst[${I}]}
+
+        ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
+        ${onu_port}=    Wait Until Keyword Succeeds    ${timeout}    2s    Get ONU Port in ONOS    ${src['onu']}
+        ...    ${of_id}
+        Disable Device    ${onu_device_id}
+        Wait Until Keyword Succeeds    ${timeout}    2s    Execute ONOS CLI Command    ${k8s_node_ip}
+        ...    ${ONOS_SSH_PORT}    volt-remove-subscriber-access ${of_id} ${onu_port}
+        Sleep    10s
+        Run Keyword If    ${has_dataplane}    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    60s    2s    Check Ping    False    ${dst['dp_iface_ip_qinq']}
+        ...    ${src['dp_iface_name']}    ${src['ip']}    ${src['user']}    ${src['pass']}   ${src['container_type']}    ${src['container_name']}
+        ...    ELSE    sleep    60s
+        Enable Device    ${onu_device_id}
+        Wait Until Keyword Succeeds    ${timeout}    2s    Verify Eapol Flows Added For ONU    ${k8s_node_ip}
+        ...    ${ONOS_SSH_PORT}    ${onu_port}
+        Run Keyword If    ${has_dataplane}    Run Keyword And Continue On Failure    Validate Authentication After Reassociate
+        ...    True    ${src['dp_iface_name']}    ${src['ip']}    ${src['user']}    ${src['pass']}
+        ...    ${src['container_type']}    ${src['container_name']}
+        Wait Until Keyword Succeeds    ${timeout}    2s    Verify ONU in AAA-Users    ${k8s_node_ip}
+        ...    ${ONOS_SSH_PORT}     ${onu_port}
+        Wait Until Keyword Succeeds    ${timeout}    2s    Execute ONOS CLI Command    ${k8s_node_ip}
+        ...    ${ONOS_SSH_PORT}    volt-add-subscriber-access ${of_id} ${onu_port}
+        Sleep    10s
+        Run Keyword If    ${has_dataplane}    Run Keyword And Continue On Failure    Validate DHCP and Ping    True
+        ...    False    ${src['dp_iface_name']}    ${src['s_tag']}    ${src['c_tag']}    ${dst['dp_iface_ip_qinq']}
+        ...    ${src['ip']}    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
+        ...    ${dst['dp_iface_name']}    ${dst['ip']}    ${dst['user']}    ${dst['pass']}    ${dst['container_type']}
+        ...    ${dst['container_name']}
+        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
+        ...    Validate Subscriber DHCP Allocation    ${k8s_node_ip}    ${ONOS_SSH_PORT}    ${onu_port}
+        #Run Keyword If    ${has_dataplane}    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    60s    2s    Check Ping    True    ${dst['dp_iface_ip_qinq']}
+        #...    ${src['dp_iface_name']}    ${src['ip']}    ${src['user']}    ${src['pass']}   ${src['container_type']}    ${src['container_name']}
+        Run Keyword and Ignore Error    Collect Logs
     END
     Run Keyword and Ignore Error    Collect Logs
 
@@ -227,45 +319,6 @@ Sanity E2E Test for OLT/ONU on POD With Core Fail and Restart
         ...    ${dst['container_name']}
         Wait Until Keyword Succeeds    ${timeout}    2s    Run Keyword And Continue On Failure
         ...    Validate Subscriber DHCP Allocation    ${k8s_node_ip}    ${ONOS_SSH_PORT}    ${onu_port}
-    END
-
-Test Disable and Enable ONU scenario for ATT workflow
-    [Documentation]    Validates E2E Ping Connectivity and object states for the given scenario:
-    ...    Assuming that test1 was executed where all the ONUs are authenticated/DHCP/pingable
-    ...    Perform disable on the ONUs, call volt-remove-subscriber and validate that the pings do not succeed
-    ...    Perform enable on the ONUs, authentication check, volt-add-subscriber-access and validate that the pings are successful
-    ...    VOL-2284
-    [Tags]    functional    test4
-    [Setup]    None
-    #[Teardown]    None
-
-    FOR    ${I}    IN RANGE    0    ${num_onus}
-        ${src}=    Set Variable    ${hosts.src[${I}]}
-        ${dst}=    Set Variable    ${hosts.dst[${I}]}
-
-        ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
-        ${onu_port}=    Wait Until Keyword Succeeds    ${timeout}    2s    Get ONU Port in ONOS    ${src['onu']}
-        ...    ${of_id}
-        Disable Device    ${onu_device_id}
-        Wait Until Keyword Succeeds    ${timeout}    2s    Execute ONOS CLI Command    ${k8s_node_ip}
-        ...    ${ONOS_SSH_PORT}    volt-remove-subscriber ${of_id} ${onu_port}
-        Run Keyword If    ${has_dataplane}    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    60s    2s    Check Ping    False    ${dst['dp_iface_ip_qinq']}
-        ...    ${src['dp_iface_name']}    ${src['ip']}    ${src['user']}    ${src['pass']}   ${src['container_type']}    ${src['container_name']}
-	...    ELSE    sleep    60s
-        Enable Device    ${onu_device_id}
-        Wait Until Keyword Succeeds    ${timeout}    2s    Verify Eapol Flows Added For ONU    ${k8s_node_ip}
-        ...    ${ONOS_SSH_PORT}    ${onu_port}
-        Run Keyword If    ${has_dataplane}    Run Keyword And Continue On Failure    Validate Authentication After Reassociate
-        ...    True    ${src['dp_iface_name']}    ${src['ip']}    ${src['user']}    ${src['pass']}
-        ...    ${src['container_type']}    ${src['container_name']}
-        Wait Until Keyword Succeeds    ${timeout}    2s    Verify ONU in AAA-Users    ${k8s_node_ip}
-        ...    ${ONOS_SSH_PORT}     ${onu_port}
-        Wait Until Keyword Succeeds    ${timeout}    2s    Execute ONOS CLI Command    ${k8s_node_ip}
-        ...    ${ONOS_SSH_PORT}    volt-add-subscriber-access ${of_id} ${onu_port}
-        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
-        ...    Validate Subscriber DHCP Allocation    ${k8s_node_ip}    ${ONOS_SSH_PORT}    ${onu_port}
-        Run Keyword If    ${has_dataplane}    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    60s    2s    Check Ping    True    ${dst['dp_iface_ip_qinq']}
-        ...    ${src['dp_iface_name']}    ${src['ip']}    ${src['user']}    ${src['pass']}   ${src['container_type']}    ${src['container_name']}
     END
 
 *** Keywords ***
