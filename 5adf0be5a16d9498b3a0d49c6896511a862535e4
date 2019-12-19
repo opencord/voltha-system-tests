@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4b316a45_f05d3e1d",
+        "filename": "tests/functional/Voltha_PODTests.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 1000064
+      },
+      "writtenOn": "2019-12-19T20:56:28Z",
+      "side": 1,
+      "message": "Can you add \u0027not ready\u0027 tag to this test? I was going to submit a patch for it, since you are making changes to the tags, it will help",
+      "range": {
+        "startLine": 222,
+        "startChar": 52,
+        "endLine": 222,
+        "endChar": 58
+      },
+      "revId": "5adf0be5a16d9498b3a0d49c6896511a862535e4",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    }
+  ]
+}
