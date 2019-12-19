@@ -219,7 +219,7 @@ Test Disable and Enable ONU scenario for ATT workflow
     ...    Perform disable on the ONUs, call volt-remove-subscriber and validate that the pings do not succeed
     ...    Perform enable on the ONUs, authentication check, volt-add-subscriber-access and validate that the pings are successful
     ...    VOL-2284
-    [Tags]    functional    ATT_DisableEnableONU
+    [Tags]    functional    ATT_DisableEnableONU    notready
     [Setup]    None
     #[Teardown]    None
 
@@ -249,7 +249,7 @@ Test Disable and Enable ONU scenario for ATT workflow
         ...    ${ONOS_SSH_PORT}    volt-add-subscriber-access ${of_id} ${onu_port}
         Sleep    10s
         Run Keyword If    ${has_dataplane}    Run Keyword And Continue On Failure    Validate DHCP and Ping    True
-        ...    False    ${src['dp_iface_name']}    ${src['s_tag']}    ${src['c_tag']}    ${dst['dp_iface_ip_qinq']}
+        ...    True    ${src['dp_iface_name']}    ${src['s_tag']}    ${src['c_tag']}    ${dst['dp_iface_ip_qinq']}
         ...    ${src['ip']}    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
         ...    ${dst['dp_iface_name']}    ${dst['ip']}    ${dst['user']}    ${dst['pass']}    ${dst['container_type']}
         ...    ${dst['container_name']}
