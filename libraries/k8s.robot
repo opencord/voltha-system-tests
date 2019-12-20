@@ -52,6 +52,20 @@ Restart Pod
     ${rc}    ${output}=    Run and Return Rc and Output    kubectl delete pod ${restart_pod_name} -n ${namespace} --grace-period=0 --force  
     Log    ${output}
 
+Validate Pod Status
+    [Arguments]    ${pod_name}    ${namespace}   ${expectedStatus}
+    [Documentation]    To run the kubectl command and check the status of the given pod matches the expected status
+    ${length}=    Run    ${KUBECTL_CONFIG}; kubectl get pod -n ${namespace} | wc -l
+    FOR    ${index}    IN RANGE    ${length}-1
+        ${currentPodName}=    Run    ${KUBECTL_CONFIG}; kubectl get pod -n ${namespace} -o jsonpath={.items[${index}].status.containerStatuses[0].name}
+        Log    Required Pod : ${pod_name}
+        Log    Current Pod: ${currentPodName}
+        Run Keyword and Ignore Error    Run Keyword If    '${currentPodName}'=='${pod_name}'    Exit For Loop
+    END
+    ${currentStatusofPod}=    Run    ${KUBECTL_CONFIG}; kubectl get pod -n ${namespace} -o jsonpath={.items[${index}].status.phase}
+    Log    ${currentStatusofPod}
+    Should Contain    ${currentStatusofPod}    ${expectedStatus}
+
 Verify All Voltha Pods For Any Error Logs
     [Arguments]    ${datetime}
     [Documentation]    This keyword checks for the error occurence in the voltha pods
