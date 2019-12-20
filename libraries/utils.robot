@@ -126,3 +126,10 @@ Send Dhclient Request To Release Assigned IP
     Log    ${result}
     #Should Contain    ${result}    DHCPRELEASE
     [Return]    ${result}
+
+Check Remote File Contents For WPA Logs
+    [Arguments]    ${file_should_exist}    ${file}    ${pattern}    ${ip}    ${user}    ${pass}=${None}    ${container_type}=${None}
+    ...    ${container_name}=${None}    ${prompt}=~$
+    ${result}=    Login And Run Command On Remote System    cat ${file} | grep '${pattern}' | wc -l    ${ip}    ${user}    ${pass}
+    ...    ${container_type}    ${container_name}    ${prompt}
+    [Return]    ${result}

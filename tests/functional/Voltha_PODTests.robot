@@ -163,6 +163,52 @@ Check OLT/ONU Authentication After Radius Pod Restart
     END
     Run Keyword and Ignore Error   Collect Logs
 
+Check ONU adapter crash not forcing authentication again
+    [Documentation]    After ONU adapter restart, checks wpa log for 'authentication started'
+    ...    message count to make sure auth not started again and validates EAP status and  ping.
+    ...    Assuming that test1 or sanity was executed where all the ONUs are authenticated/DHCP/pingable
+    [Tags]    functional    ONUAdaptCrash
+    [Setup]   None
+    [Teardown]   None
+    FOR    ${I}    IN RANGE    0    ${num_onus}
+        ${src}=    Set Variable    ${hosts.src[${I}]}
+        ${dst}=    Set Variable    ${hosts.dst[${I}]}
+	@{before_list}=    Create List
+	@{after_list}=    Create List
+        ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
+        ${onu_port}=    Wait Until Keyword Succeeds    ${timeout}    2s    Get ONU Port in ONOS    ${src['onu']}
+        ...    ${of_id}
+        ${before}=    Run Keyword If    ${has_dataplane}    Check Remote File Contents For WPA Logs
+        ...    True    /tmp/wpa.log    authentication started    ${src['ip']}    ${src['user']}    ${src['pass']}
+        ...    ${src['container_type']}    ${src['container_name']}
+	Append To List    ${before_list}    ${before}
+    END	
+    Wait Until Keyword Succeeds    ${timeout}    15s    Restart Pod    ${NAMESPACE}    adapter-open-onu
+    Wait Until Keyword Succeeds    ${timeout}    2s    Validate Pod Status    ${podName}    ${NAMESPACE}
+    ...    Running
+    FOR    ${I}    IN RANGE    0    ${num_onus}
+        ${src}=    Set Variable    ${hosts.src[${I}]}
+        ${dst}=    Set Variable    ${hosts.dst[${I}]}
+        ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
+        ${onu_port}=    Wait Until Keyword Succeeds    ${timeout}    2s    Get ONU Port in ONOS    ${src['onu']}
+        ...    ${of_id}
+        ${after}=    Run Keyword If    ${has_dataplane}    Check Remote File Contents For WPA Logs
+        ...    True    /tmp/wpa.log    authentication started    ${src['ip']}    ${src['user']}    ${src['pass']}
+        ...    ${src['container_type']}    ${src['container_name']}
+	Append To List    ${after_list}    ${after}
+	${output}=    Run Keyword If    ${has_dataplane}    Login And Run Command On Remote System
+	...    wpa_cli status | grep SUCCESS    ${src['ip']}    ${src['user']}    ${src['pass']}
+	...    ${src['container_type']}    ${src['container_name']}
+	Should Contain    ${output}    SUCCESS
+	Run Keyword If    ${has_dataplane}    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    60s    2s    Check Ping
+        ...    True    ${dst['dp_iface_ip_qinq']}    ${src['dp_iface_name']}    ${src['ip']}    ${src['user']}
+        ...    ${src['pass']}   ${src['container_type']}    ${src['container_name']}
+    END
+    Lists Should Be Equal    ${after_list}    ${before_list}
+    Log    ${after_list}
+    Log    ${before_list}
+    Run Keyword and Ignore Error   Collect Logs
+
 Check DHCP attempt fails when subscriber is not added
     [Documentation]    Validates when removed subscriber access, DHCP attempt, ping fails and
     ...    when again added subscriber access, DHCP attempt, ping succeeds
