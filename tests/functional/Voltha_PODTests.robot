@@ -261,6 +261,21 @@ Test Disable and Enable ONU scenario for ATT workflow
     END
     Run Keyword and Ignore Error    Collect Logs
 
+Verify ONU Reboot
+    [Documentation]    Reboot ONU and verify that ONU comes up properly
+    [Tags]    VOL-1957    RebootONU
+    [Setup]   NONE
+    FOR    ${I}    IN RANGE    0    ${num_onus}
+        ${src}=    Set Variable    ${hosts.src[${I}]}
+        ${dst}=    Set Variable    ${hosts.dst[${I}]}
+        ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
+        Run Keyword and Ignore Error    Run Keyword If    '${onu_device_id}'!= '${EMPTY}'   Exit For Loop
+    END
+    Reboot ONU    ${onu_device_id}
+    Run Keyword If    ${has_dataplane}    Clean Up Linux
+    #Check after reboot that ONUs are active, authenticated/DHCP/pingable
+    Perform Sanity Test
+
 Sanity E2E Test for OLT/ONU on POD With Core Fail and Restart
     [Documentation]    Deploys an device instance and waits for it to authenticate. After
     ...    authentication is successful the rw-core deployment is scaled to 0 instances to
