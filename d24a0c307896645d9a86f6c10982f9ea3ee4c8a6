@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "47c5d65a_6f7af49f",
+        "filename": "tests/functional/Voltha_PODTests.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 1000064
+      },
+      "writtenOn": "2019-12-24T06:32:23Z",
+      "side": 1,
+      "message": "You might want to reboot every ONU and might be needed in the loop.  After reboot of ONU, we need to perform the auth+dhcp+pings inside the loop.",
+      "range": {
+        "startLine": 274,
+        "startChar": 4,
+        "endLine": 274,
+        "endChar": 34
+      },
+      "revId": "d24a0c307896645d9a86f6c10982f9ea3ee4c8a6",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    }
+  ]
+}
