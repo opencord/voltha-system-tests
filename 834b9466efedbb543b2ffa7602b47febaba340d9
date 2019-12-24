@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "215cab4a_c9ea6ffb",
+        "filename": "tests/functional/Voltha_PODTests.robot",
+        "patchSetId": 3
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1000003
+      },
+      "writtenOn": "2019-12-24T07:12:26Z",
+      "side": 1,
+      "message": "trailing space",
+      "range": {
+        "startLine": 185,
+        "startChar": 7,
+        "endLine": 185,
+        "endChar": 8
+      },
+      "revId": "834b9466efedbb543b2ffa7602b47febaba340d9",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0dd234a6_4fd76ac5",
+        "filename": "tests/functional/Voltha_PODTests.robot",
+        "patchSetId": 3
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1000003
+      },
+      "writtenOn": "2019-12-24T07:12:26Z",
+      "side": 1,
+      "message": "do you need to confirm that the pod is down somehow, i.e. waiting until it it no longer listed in the kubectl get po list?",
+      "range": {
+        "startLine": 186,
+        "startChar": 0,
+        "endLine": 186,
+        "endChar": 103
+      },
+      "revId": "834b9466efedbb543b2ffa7602b47febaba340d9",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    }
+  ]
+}
