@@ -306,6 +306,25 @@ Test Disable and Enable ONU scenario for ATT workflow
     END
     Run Keyword and Ignore Error    Collect Logs
 
+Adding the same OLT before enabling the device
+    [Documentation]    Create OLT, Create the same OLT again and Check for the Error message
+    [Tags]    VOL-2405    sanity
+    [Setup]   Delete Device and Verify    
+    [Teardown]    Enable Device    ${olt_device_id}
+	Run Keyword If    ${has_dataplane}    Sleep    180s
+    #create/preprovision device
+    ${olt_device_id}=    Create Device    ${olt_ip}    ${OLT_PORT}
+    Set Suite Variable    ${olt_device_id}
+    #validate olt states
+    Wait Until Keyword Succeeds    ${timeout}    5s    Validate OLT Device    PREPROVISIONED    UNKNOWN    UNKNOWN
+    ...    ${EMPTY}    ${olt_device_id}
+    #Create the same OLT again
+    ${rc}    ${output}=    Run and Return Rc and Output
+    ...    ${VOLTCTL_CONFIG}; voltctl device create -t openolt -H ${olt_ip}:${OLT_PORT}
+    Should Be Equal As Integers    ${rc}    1
+    Log    ${output}
+    Should Be Equal As Strings     '${output}'     'ERROR: UNKNOWN: Device is already pre-provisioned'
+
 Sanity E2E Test for OLT/ONU on POD With Core Fail and Restart
     [Documentation]    Deploys an device instance and waits for it to authenticate. After
     ...    authentication is successful the rw-core deployment is scaled to 0 instances to
