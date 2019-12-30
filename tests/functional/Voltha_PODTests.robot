@@ -300,6 +300,27 @@ Test Disable and Enable ONU scenario for ATT workflow
     END
     Run Keyword and Ignore Error    Collect Logs
 
+Verify restart ofagent container after VOLTHA is operational
+    [Documentation]    Restart ofagent container after VOLTHA is operational.Please note this test case should be run before the restart of other containers.
+    ...    Prerequisite : ONUs are authenticated and pingable.
+    [Tags]    functional   VOL-2409   RestartPods   notready
+    [Setup]    NONE
+    [Teardown]    NONE
+    ${waitforRestart}    Set Variable    120s
+    ${podStatusOutput}=    Run    ${KUBECTL_CONFIG};kubectl get pods -n ${NAMESPACE}
+    Log    ${podStatusOutput}
+    ${countBforRestart}=    Run    ${KUBECTL_CONFIG};kubectl get pods -n ${NAMESPACE} | grep Running | wc -l
+    Restart Pod    ${NAMESPACE}    ofagent
+    Sleep    60s
+    Wait Until Keyword Succeeds    ${waitforRestart}    2s    Validate Pod Status    ofagent    ${NAMESPACE}
+    ...    Running
+    Repeat Sanity Test
+    ${podStatusOutput}=    Run    ${KUBECTL_CONFIG};kubectl get pods -n ${NAMESPACE}
+    Log    ${podStatusOutput}
+    ${countAfterRestart}=    Run    ${KUBECTL_CONFIG};kubectl get pods -n ${NAMESPACE} | grep Running | wc -l
+    Should Be Equal As Strings    ${countAfterRestart}    ${countBforRestart}
+    Run Keyword and Ignore Error   Collect Logs
+
 Sanity E2E Test for OLT/ONU on POD With Core Fail and Restart
     [Documentation]    Deploys an device instance and waits for it to authenticate. After
     ...    authentication is successful the rw-core deployment is scaled to 0 instances to
