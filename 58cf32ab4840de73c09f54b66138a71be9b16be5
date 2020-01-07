@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "be27aa1f_aed23077",
+        "filename": "tests/functional/Voltha_PODTests.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 320,
+      "author": {
+        "id": 1000064
+      },
+      "writtenOn": "2020-01-07T19:56:30Z",
+      "side": 1,
+      "message": "These need to be moved out of the loop.  Otherwise after every ONU reboot, we are performing the sanity test for all the ONUs in the system.  I hope we don\u0027t want to do that.  Or if you want to test auth+dhcp+pings right after reboot, then it\u0027s best to not call the function \"Perform Sanity Test\" instead call individual steps for auth+dhcp+ping inside the loop.",
+      "range": {
+        "startLine": 318,
+        "startChar": 8,
+        "endLine": 320,
+        "endChar": 27
+      },
+      "revId": "58cf32ab4840de73c09f54b66138a71be9b16be5",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    }
+  ]
+}
