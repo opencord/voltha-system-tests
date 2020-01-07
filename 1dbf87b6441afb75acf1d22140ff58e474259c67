@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "330ccb06_8d7fc2d5",
+        "filename": "tests/functional/Voltha_PODTests.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 319,
+      "author": {
+        "id": 1000064
+      },
+      "writtenOn": "2020-01-07T23:46:28Z",
+      "side": 1,
+      "message": "Remove this container from the test as we have covered in another test",
+      "range": {
+        "startLine": 319,
+        "startChar": 51,
+        "endLine": 319,
+        "endChar": 67
+      },
+      "revId": "1dbf87b6441afb75acf1d22140ff58e474259c67",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    }
+  ]
+}
