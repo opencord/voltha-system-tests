@@ -22,6 +22,29 @@
       "revId": "1dbf87b6441afb75acf1d22140ff58e474259c67",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0a704c17_8d81731f",
+        "filename": "tests/functional/Voltha_PODTests.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 520,
+      "author": {
+        "id": 1000064
+      },
+      "writtenOn": "2020-01-07T23:50:55Z",
+      "side": 1,
+      "message": "please update the name of the keyword to \"Repeat Sanity Test\"",
+      "range": {
+        "startLine": 520,
+        "startChar": 20,
+        "endLine": 520,
+        "endChar": 35
+      },
+      "revId": "1dbf87b6441afb75acf1d22140ff58e474259c67",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
     }
   ]
 }
