@@ -47,4 +47,4 @@ hosts:
     - ip: null
 
 sadis:
-  file: ${CURDIR}/../../data/sadis-with-tp-8x2.json
+  file: ${CURDIR}/../../data/onos-sadis-bbsim.json
