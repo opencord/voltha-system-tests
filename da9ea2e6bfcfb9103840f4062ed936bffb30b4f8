@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "849c8e46_f129f69d",
+        "filename": "tests/functional/Voltha_PODTests.robot",
+        "patchSetId": 5
+      },
+      "lineNbr": 347,
+      "author": {
+        "id": 1000064
+      },
+      "writtenOn": "2020-01-08T00:20:51Z",
+      "side": 1,
+      "message": "Do we have a keyword for this procedure?",
+      "range": {
+        "startLine": 323,
+        "startChar": 4,
+        "endLine": 347,
+        "endChar": 7
+      },
+      "revId": "da9ea2e6bfcfb9103840f4062ed936bffb30b4f8",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    }
+  ]
+}
