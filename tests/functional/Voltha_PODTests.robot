@@ -231,6 +231,7 @@ Check ONU adapter crash not forcing authentication again
     Wait Until Keyword Succeeds    ${timeout}    15s    Restart Pod    ${NAMESPACE}    adapter-open-onu
     Wait Until Keyword Succeeds    ${timeout}    2s    Validate Pod Status    ${podName}    ${NAMESPACE}
     ...    Running
+    Sleep    60s
     FOR    ${I}    IN RANGE    0    ${num_onus}
         ${src}=    Set Variable    ${hosts.src[${I}]}
         ${dst}=    Set Variable    ${hosts.dst[${I}]}
@@ -252,6 +253,7 @@ Check ONU adapter crash not forcing authentication again
     Lists Should Be Equal    ${after_list}    ${before_list}
     Log    ${after_list}
     Log    ${before_list}
+    Repeat Sanity Test
     Run Keyword and Ignore Error   Collect Logs
 
 Test Disable and Enable ONU scenario for ATT workflow
@@ -566,7 +568,6 @@ Repeat Sanity Test
         ${src}=    Set Variable    ${hosts.src[${I}]}
         ${dst}=    Set Variable    ${hosts.dst[${I}]}
 
-
         ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
         ${onu_port}=    Wait Until Keyword Succeeds    ${timeout}    2s    Get ONU Port in ONOS    ${src['onu']}
         ...    ${of_id}
@@ -589,4 +590,3 @@ Repeat Sanity Test
         Run Keyword and Ignore Error   Get Device Output from Voltha    ${onu_device_id}
         Run Keyword and Ignore Error   Collect Logs
     END
-
