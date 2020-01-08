@@ -22,9 +22,9 @@ ${timeout}        60s
 ${desired_ETCD_cluster_size}        3
 ${minimal_ETCD_cluster_size}        2
 ${namespace}        voltha
-${ETCD_resources}        ETCDclusters.ETCD.database.coreos.com
-${ETCD_name}       voltha-ETCD-cluster
-${ETCD_pod_label_key}    ETCD_cluster
+${ETCD_resources}        etcdclusters.etcd.database.coreos.com
+${ETCD_name}       voltha-etcd-cluster
+${ETCD_pod_label_key}    etcd_cluster
 ${common_pod_label_key}    app
 ${rwcore_pod_label_value}    rw-core
 ${ofagent_pod_label_value}    ofagent
