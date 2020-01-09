@@ -68,7 +68,7 @@ Test Disable and Enable ONU
     ...    Assuming that test1 was executed where all the ONUs are authenticated/DHCP/pingable
     ...    Perform disable on the ONUs and validate that the pings do not succeed
     ...    Perform enable on the ONUs and validate that the pings are successful
-    [Tags]    functional    DisableEnableONU
+    [Tags]    functional    DisableEnableONU    released
     [Setup]    None
     [Teardown]    None
 
@@ -97,7 +97,7 @@ Test Subscriber Delete and Add
     ...    Assuming that all the ONUs are authenticated/DHCP/pingable
     ...    Delete a subscriber and  validate that the pings do not succeed
     ...    Re-add the subscriber and validate that the pings are successful
-    [Tags]    functional    DisableEnableONU
+    [Tags]    functional    SubAddDelete    released
     [Setup]    None
     [Teardown]    None
 
@@ -131,7 +131,7 @@ Check OLT/ONU Authentication After Radius Pod Restart
     ...    wpa supplicant is running in background hence it is recommended to remove
     ...    teardown from previous test or uncomment 'Teardown    None'.
     ...    Assuming that test1 was executed where all the ONUs are authenticated/DHCP/pingable
-    [Tags]    functional    RadiusRestart
+    [Tags]    functional    RadiusRestart    released
     [Setup]   None
     [Teardown]   None
     Wait Until Keyword Succeeds    ${timeout}    15s    Restart Pod    ${NAMESPACE}    ${RESTART_POD_NAME}
@@ -167,7 +167,7 @@ Check DHCP attempt fails when subscriber is not added
     [Documentation]    Validates when removed subscriber access, DHCP attempt, ping fails and
     ...    when again added subscriber access, DHCP attempt, ping succeeds
     ...    Assuming that test1 or sanity test  was executed where all the ONUs are authenticated/DHCP/pingable
-    [Tags]    functional    SubsRemoveDHCP
+    [Tags]    functional    SubsRemoveDHCP    released
     [Setup]    None
     [Teardown]    None
 
@@ -187,10 +187,6 @@ Check DHCP attempt fails when subscriber is not added
         Sleep   5s
         Run Keyword And Ignore Error    Login And Run Command On Remote System    ps -ef | grep dhclient    ${src['ip']}
         ...    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
-        # For releasing IP, also deleting lease file. Hence passing path where DHCP Client program writes the lease
-        #Run Keyword If    ${has_dataplane}    Wait Until Keyword Succeeds    ${timeout}    2s
-	#...    Send Dhclient Request To Release Assigned IP    ${src['dp_iface_name']}    ${src['ip']}
-	#...    ${src['user']}    /var/lib/dhcp    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
 	Run Keyword If    ${has_dataplane}    Wait Until Keyword Succeeds    ${timeout}    2s
 	...    Delete IP Addresses from Interface on Remote Host    ${src['dp_iface_name']}    ${src['ip']}
 	...    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
@@ -216,7 +212,7 @@ Check ONU adapter crash not forcing authentication again
     [Documentation]    After ONU adapter restart, checks wpa log for 'authentication started'
     ...    message count to make sure auth not started again and validates EAP status and  ping.
     ...    Assuming that test1 or sanity was executed where all the ONUs are authenticated/DHCP/pingable
-    [Tags]    functional    ONUAdaptCrash
+    [Tags]    functional    ONUAdaptCrash    notready
     [Setup]   None
     [Teardown]   None
     @{before_list}=    Create List
@@ -264,7 +260,7 @@ Test Disable and Enable ONU scenario for ATT workflow
     ...    Perform disable on the ONUs, call volt-remove-subscriber and validate that the pings do not succeed
     ...    Perform enable on the ONUs, authentication check, volt-add-subscriber-access and validate that the pings are successful
     ...    VOL-2284
-    [Tags]    functional    ATT_DisableEnableONU    notready
+    [Tags]    functional    ATT_DisableEnableONU
     [Setup]    None
     #[Teardown]    None
 
@@ -276,9 +272,9 @@ Test Disable and Enable ONU scenario for ATT workflow
         ${onu_port}=    Wait Until Keyword Succeeds    ${timeout}    2s    Get ONU Port in ONOS    ${src['onu']}
         ...    ${of_id}
         Disable Device    ${onu_device_id}
+        Sleep    5s
         Wait Until Keyword Succeeds    ${timeout}    2s    Execute ONOS CLI Command    ${k8s_node_ip}
         ...    ${ONOS_SSH_PORT}    volt-remove-subscriber-access ${of_id} ${onu_port}
-        Sleep    10s
         Run Keyword If    ${has_dataplane}    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    60s    2s    Check Ping    False    ${dst['dp_iface_ip_qinq']}
         ...    ${src['dp_iface_name']}    ${src['ip']}    ${src['user']}    ${src['pass']}   ${src['container_type']}    ${src['container_name']}
         ...    ELSE    sleep    60s
@@ -300,8 +296,6 @@ Test Disable and Enable ONU scenario for ATT workflow
         ...    ${dst['container_name']}
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
         ...    Validate Subscriber DHCP Allocation    ${k8s_node_ip}    ${ONOS_SSH_PORT}    ${onu_port}
-        #Run Keyword If    ${has_dataplane}    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    60s    2s    Check Ping    True    ${dst['dp_iface_ip_qinq']}
-        #...    ${src['dp_iface_name']}    ${src['ip']}    ${src['user']}    ${src['pass']}   ${src['container_type']}    ${src['container_name']}
         Run Keyword and Ignore Error    Collect Logs
     END
     Run Keyword and Ignore Error    Collect Logs
