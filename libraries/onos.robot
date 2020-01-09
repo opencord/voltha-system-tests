@@ -29,7 +29,7 @@ Library           OperatingSystem
 Execute ONOS CLI Command
     [Arguments]    ${host}    ${port}    ${cmd}
     [Documentation]    Establishes an ssh connection to the onos contoller and executes a command
-    ${conn_id}=    SSHLibrary.Open Connection    ${host}    port=${port}    prompt=onos>    timeout=300s
+    ${conn_id}=    SSHLibrary.Open Connection    ${host}    port=${port}    timeout=300s
     SSHLibrary.Login    karaf    karaf
     ${output}=    SSHLibrary.Execute Command    ${cmd}
     Log    ${output}
