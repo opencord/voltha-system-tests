@@ -48,6 +48,9 @@ ROBOT_MISC_ARGS ?=
 # for backwards compatibility
 sanity-kind: sanity-single-kind
 
+functional-single-kind: ROBOT_MISC_ARGS += -i functional
+functional-single-kind: sanity-single-kind
+	
 sanity-single-kind: ROBOT_MISC_ARGS += -i sanity $(ROBOT_DEBUG_LOG_OPT)
 sanity-single-kind: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_SINGLE_PON_FILE)
 sanity-single-kind: bbsim-kind
@@ -60,6 +63,7 @@ rwcore-restart-single-kind: voltha-test
 sanity-multi-kind: ROBOT_MISC_ARGS += -i sanity $(ROBOT_DEBUG_LOG_OPT)
 sanity-multi-kind: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_MULT_PON_FILE)
 sanity-multi-kind: bbsim-kind
+
 
 bbsim-kind: ROBOT_MISC_ARGS += -X
 bbsim-kind: ROBOT_FILE := Voltha_PODTests.robot
