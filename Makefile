@@ -14,36 +14,36 @@
 
 # use bash for pushd/popd, and to fail quickly. virtualenv's activate
 # has undefined variables, so no -u
-SHELL = bash -e -o pipefail
-ROOT_DIR:=$(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
+SHELL     := bash -e -o pipefail
 
-# Variables
-LINT_ARGS   ?= --verbose --configure LineTooLong:120 --configure TooManyTestSteps:15 \
-       --configure TooFewTestSteps:1 --configure TooFewKeywordSteps:1
-VERSION     ?= $(shell cat ./VERSION)
-ROBOT_SANITY_SINGLE_PON_FILE ?= $(ROOT_DIR)/tests/data/bbsim-kind.yaml
-ROBOT_FAIL_SINGLE_PON_FILE ?= $(ROOT_DIR)/tests/data/bbsim-kind.yaml
-ROBOT_SANITY_MULT_PON_FILE ?= $(ROOT_DIR)/tests/data/bbsim-kind-2x2.yaml
-ROBOT_SCALE_SINGLE_PON_FILE ?= $(ROOT_DIR)/tests/data/bbsim-kind-16.yaml
-ROBOT_SCALE_MULT_PON_FILE ?= $(ROOT_DIR)/tests/data/bbsim-kind-8x2.yaml
-ROBOT_DEBUG_LOG_OPT ?= 
+ROOT_DIR  := $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
 
-ROBOT_SYSTEM_SETUP_MISC_ARGS ?= -i scaledown -l systemup_log.html -r systemup_report.html -o systemup_output.xml
+# Configuration and lists of files for linting/testing
+VERSION   ?= $(shell cat ./VERSION)
+LINT_ARGS ?= --verbose --configure LineTooLong:120 -e LineTooLong \
+             --configure TooManyTestSteps:30 -e TooManyTestSteps \
+             --configure TooFewTestSteps:1 \
+             --configure TooFewKeywordSteps:1 \
+             --configure FileTooLong:600 -e FileTooLong \
+             -e TrailingWhitespace
+
+PYTHON_FILES := $(wildcard libraries/*.py)
+ROBOT_FILES  := $(shell find . -name *.robot -print)
+YAML_FILES   := $(shell find ./tests -type f \( -name *.yaml -o -name *.yml \) -print)
+JSON_FILES   := $(shell find ./tests -name *.json -print)
+
+# Robot config
+ROBOT_SANITY_SINGLE_PON_FILE    ?= $(ROOT_DIR)/tests/data/bbsim-kind.yaml
+ROBOT_FAIL_SINGLE_PON_FILE      ?= $(ROOT_DIR)/tests/data/bbsim-kind.yaml
+ROBOT_SANITY_MULT_PON_FILE      ?= $(ROOT_DIR)/tests/data/bbsim-kind-2x2.yaml
+ROBOT_SCALE_SINGLE_PON_FILE     ?= $(ROOT_DIR)/tests/data/bbsim-kind-16.yaml
+ROBOT_SCALE_MULT_PON_FILE       ?= $(ROOT_DIR)/tests/data/bbsim-kind-8x2.yaml
+ROBOT_DEBUG_LOG_OPT             ?=
+ROBOT_MISC_ARGS                 ?=
+
+ROBOT_SYSTEM_SETUP_MISC_ARGS    ?= -i scaledown -l systemup_log.html -r systemup_report.html -o systemup_output.xml
 ROBOT_SYSTEM_TEARDOWN_MISC_ARGS ?= -i scaleup -l systemdown_log.html -r systemdown_report.html -o sysstemdown_output.xml
-ROBOT_SYSTEM_FILE ?= K8S_SystemTest.robot
-
-.PHONY: gendocs
-
-## Variables for gendocs
-TEST_SOURCE := $(wildcard tests/*/*.robot)
-TEST_BASENAME := $(basename $(TEST_SOURCE))
-TEST_DIRS := $(dir $(TEST_SOURCE))
-
-LIB_SOURCE := $(wildcard libraries/*.robot)
-LIB_BASENAME := $(basename $(LIB_SOURCE))
-LIB_DIRS := $(dir $(LIB_SOURCE))
-
-ROBOT_MISC_ARGS ?=
+ROBOT_SYSTEM_FILE               ?= K8S_SystemTest.robot
 
 # for backwards compatibility
 sanity-kind: sanity-single-kind
@@ -90,44 +90,71 @@ failure-test: voltha-test
 voltha-test: ROBOT_MISC_ARGS += -e notready
 k8s-system-test: ROBOT_MISC_ARGS += -e notready
 
-# virtualenv for the robot tools
-vst_venv:
-	virtualenv $@ ;\
-	source ./$@/bin/activate ;\
-	pip install -r requirements.txt
-
-test: lint
-
-lint: vst_venv
-	source ./vst_venv/bin/activate ;\
-	set -u ;\
-	find . -name *.robot -exec rflint $(LINT_ARGS) {} +
-
-# tidy will be more useful once this issue with removing leading comments is
-# resolved: https://github.com/robotframework/robotframework/issues/3263
-tidy:
-	source ./vst_venv/bin/activate ;\
-	set -u ;\
-	find . -name *.robot -exec python -m robot.tidy --inplace {} \;
-
-voltha-test: vst_venv
-	source ./vst_venv/bin/activate ;\
-	set -u ;\
-	cd tests/functional ;\
-	robot -V $(ROBOT_CONFIG_FILE) $(ROBOT_MISC_ARGS) $(ROBOT_FILE)
-
 #bbsim-only
 k8s-system-test: vst_venv
-	source ./vst_venv/bin/activate ;\
-	set -u ;\
+	source ./$</bin/activate ; set -u ;\
 	cd tests/functional ;\
 	robot $(ROBOT_SYSTEM_SETUP_MISC_ARGS) $(ROBOT_MISC_ARGS) $(ROBOT_SYSTEM_FILE) && \
 	robot -V $(ROBOT_CONFIG_FILE) $(ROBOT_MISC_ARGS) $(ROBOT_FILE) && \
 	robot $(ROBOT_SYSTEM_TEARDOWN_MISC_ARGS) $(ROBOT_MISC_ARGS) $(ROBOT_SYSTEM_FILE)
 
+voltha-test: vst_venv
+	source ./$</bin/activate ; set -u ;\
+	cd tests/functional ;\
+	robot -V $(ROBOT_CONFIG_FILE) $(ROBOT_MISC_ARGS) $(ROBOT_FILE)
+
+# self-test, lint, and setup targets
+
+# virtualenv for the robot tools
+vst_venv:
+	virtualenv -p python3 $@ ;\
+	source ./$@/bin/activate ;\
+	pip install -r requirements.txt
+
+test: lint
+
+lint: lint-robot lint-python lint-yaml lint-json
+
+lint-robot: vst_venv
+	source ./$</bin/activate ; set -u ;\
+	rflint $(LINT_ARGS) $(ROBOT_FILES)
+
+# check deps for format and python3 cleanliness
+lint-python: vst_venv
+	source ./$</bin/activate ; set -u ;\
+	pylint --py3k $(PYTHON_FILES) ;\
+	flake8 --max-line-length=99 --count $(PYTHON_FILES)
+
+lint-yaml: vst_venv
+	source ./$</bin/activate ; set -u ;\
+  yamllint -s $(YAML_FILES)
+
+lint-json: vst_venv
+	source ./$</bin/activate ; set -u ;\
+	for jsonfile in $(JSON_FILES); do \
+		echo "Validating json file: $$jsonfile" ;\
+		python -m json.tool $$jsonfile > /dev/null ;\
+	done
+
+# tidy target will be more useful once issue with removing leading comments
+# is resolved: https://github.com/robotframework/robotframework/issues/3263
+tidy-robot: vst_venv
+	source ./$</bin/activate ; set -u ;\
+	python -m robot.tidy --inplace $(ROBOT_FILES);
+
+## Variables for gendocs
+TEST_SOURCE := $(wildcard tests/*/*.robot)
+TEST_BASENAME := $(basename $(TEST_SOURCE))
+TEST_DIRS := $(dir $(TEST_SOURCE))
+
+LIB_SOURCE := $(wildcard libraries/*.robot)
+LIB_BASENAME := $(basename $(LIB_SOURCE))
+LIB_DIRS := $(dir $(LIB_SOURCE))
+
+.PHONY: gendocs lint test
+# In future explore use of --docformat REST - integration w/Sphinx?
 gendocs: vst_venv
-	source ./vst_venv/bin/activate ;\
-	set -u ;\
+	source ./$</bin/activate ; set -u ;\
 	mkdir -p $@ ;\
 	for dir in ${LIB_DIRS}; do mkdir -p $@/$$dir; done;\
 	for dir in ${LIB_BASENAME}; do\
@@ -138,7 +165,6 @@ gendocs: vst_venv
 		python -m robot.testdoc $$dir.robot $@/$$dir.html ;\
 	done
 
-# explore use of --docformat REST - integration w/Sphinx?
 clean:
 	find . -name output.xml -print
 
