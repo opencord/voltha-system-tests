@@ -11,13 +11,11 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-
 # voltctl common functions
 
 *** Settings ***
 Documentation     Library for various utilities
 Library           SSHLibrary
-Library           HttpLibrary.HTTP
 Library           String
 Library           DateTime
 Library           Process
@@ -49,20 +47,23 @@ Restart Pod
     ...    kubectl get pods -n ${namespace} | grep ${name} | awk 'NR==1{print $1}'
     Log    ${restart_pod_name}
     Should Not Be Empty    ${restart_pod_name}    Unable to parse pod name
-    ${rc}    ${output}=    Run and Return Rc and Output    kubectl delete pod ${restart_pod_name} -n ${namespace} --grace-period=0 --force  
+    ${rc}    ${output}=    Run and Return Rc and Output
+    ...    kubectl delete pod ${restart_pod_name} -n ${namespace} --grace-period=0 --force
     Log    ${output}
 
 Validate Pod Status
-    [Arguments]    ${pod_name}    ${namespace}   ${expectedStatus}
+    [Arguments]    ${pod_name}    ${namespace}    ${expectedStatus}
     [Documentation]    To run the kubectl command and check the status of the given pod matches the expected status
     ${length}=    Run    ${KUBECTL_CONFIG}; kubectl get pod -n ${namespace} | wc -l
     FOR    ${index}    IN RANGE    ${length}-1
-        ${currentPodName}=    Run    ${KUBECTL_CONFIG}; kubectl get pod -n ${namespace} -o jsonpath={.items[${index}].status.containerStatuses[0].name}
+        ${currentPodName}=    Run
+        ...    kubectl get pod -n ${namespace} -o=jsonpath={.items[${index}].status.containerStatuses[0].name}
         Log    Required Pod : ${pod_name}
         Log    Current Pod: ${currentPodName}
         Run Keyword and Ignore Error    Run Keyword If    '${currentPodName}'=='${pod_name}'    Exit For Loop
     END
-    ${currentStatusofPod}=    Run    ${KUBECTL_CONFIG}; kubectl get pod -n ${namespace} -o jsonpath={.items[${index}].status.phase}
+    ${currentStatusofPod}=    Run
+    ...    ${KUBECTL_CONFIG}; kubectl get pod -n ${namespace} -o=jsonpath="{.items[${index}].status.phase}"
     Log    ${currentStatusofPod}
     Should Contain    ${currentStatusofPod}    ${expectedStatus}
 
@@ -73,28 +74,42 @@ Verify All Voltha Pods For Any Error Logs
     &{containerDict}    Get Container Dictionary
     FOR    ${podName}    IN    @{PODLIST1}
         ${containerName}    Get From Dictionary    ${containerDict}    ${podName}
-        ${rc}    ${logOutput}    Run And Return Rc And Output    ${KUBECTL_CONFIG};kubectl logs --timestamps -n voltha --since-time=${datetime} ${containerName}
-        Run Keyword And Ignore Error    Run Keyword If    '${logOutput}'=='${EMPTY}'    Run Keywords    Log    No Log found in pod ${podName}
+        ${rc}    ${logOutput}    Run And Return Rc And Output
+        ...    ${KUBECTL_CONFIG};kubectl logs --timestamps -n voltha --since-time=${datetime} ${containerName}
+        Run Keyword And Ignore Error
+        ...    Run Keyword If    '${logOutput}'=='${EMPTY}'
+        ...    Run Keywords    Log    No Log found in pod ${podName}
         ...    AND    Continue For Loop
         ${errorDict}    Check For Error Logs in Pod Type1 Given the Log Output    ${logOutput}
         ${returnStatusFlagList}    Get Dictionary Keys    ${errorDict}
         ${returnStatusFlag}    Get From List    ${returnStatusFlagList}    0
-        Run Keyword And Ignore Error    Run Keyword If    '${returnStatusFlag}'=='Nologfound'    Run Keywords    Log    No Error Log found in pod ${podName}
+        Run Keyword And Ignore Error
+        ...    Run Keyword If    '${returnStatusFlag}'=='Nologfound'
+        ...    Run Keywords    Log    No Error Log found in pod ${podName}
         ...    AND    Continue For Loop
-        Run Keyword And Ignore Error    Run Keyword If    '${returnStatusFlag}'=='UnexpectedErrorfound'    Run Keywords    Log    Unexpected Error Log found in pod ${podName}
+        Run Keyword And Ignore Error
+        ...    Run Keyword If    '${returnStatusFlag}'=='UnexpectedErrorfound'
+        ...    Run Keywords    Log    Unexpected Error Log found in pod ${podName}
         ...    AND    Set to Dictionary    ${errorPodDict}    ${podName}    ${errorDict}
     END
     FOR    ${podName}    IN    @{PODLIST2}
         ${containerName}    Get From Dictionary    ${containerDict}    ${podName}
-        ${rc}    ${logOutput}    Run And Return Rc And Output    ${KUBECTL_CONFIG};kubectl logs --timestamps -n voltha --since-time=${datetime} ${containerName}
-        Run Keyword And Ignore Error    Run Keyword If    '${logOutput}'=='${EMPTY}'    Run Keywords    Log    No Log found in pod ${podName}
+        ${rc}    ${logOutput}    Run And Return Rc And Output
+        ...    ${KUBECTL_CONFIG};kubectl logs --timestamps -n voltha --since-time=${datetime} ${containerName}
+        Run Keyword And Ignore Error
+        ...    Run Keyword If    '${logOutput}'=='${EMPTY}'
+        ...    Run Keywords    Log    No Log found in pod ${podName}
         ...    AND    Continue For Loop
         ${errorDict}    Check For Error Logs in Pod Type2 Given the Log Output    ${logOutput}
         ${returnStatusFlagList}    Get Dictionary Keys    ${errorDict}
         ${returnStatusFlag}    Get From List    ${returnStatusFlagList}    0
-        Run Keyword And Ignore Error    Run Keyword If    '${returnStatusFlag}'=='Nologfound'    Run Keywords    Log    No Error Log found in pod ${podName}
+        Run Keyword And Ignore Error
+        ...    Run Keyword If    '${returnStatusFlag}'=='Nologfound'
+        ...    Run Keywords    Log    No Error Log found in pod ${podName}
         ...    AND    Continue For Loop
-        Run Keyword And Ignore Error    Run Keyword If    '${returnStatusFlag}'=='UnexpectedErrorfound'    Run Keywords    Log    Unexpected Error Log found in pod ${podName}
+        Run Keyword And Ignore Error
+        ...    Run Keyword If    '${returnStatusFlag}'=='UnexpectedErrorfound'
+        ...    Run Keywords    Log    Unexpected Error Log found in pod ${podName}
         ...    AND    Set to Dictionary    ${errorPodDict}    ${podName}    ${errorDict}
     END
     Print to Console    Error Statement logged in the following pods : ${errorPodDict}
@@ -106,10 +121,13 @@ Check For Error Logs in Pod Type1 Given the Log Output
     Log    ${logOutput}
     ${linesContainingLog} =    Get Lines Matching Regexp    ${logOutput}    .*\s\${logLevel}.*    partial_match=true
     ${is_exec_status}    ${output}    Run Keyword And Ignore Error    Should Be Empty    ${linesContainingLog}
-    ${returnStatusFlag}    Set Variable If    '${is_exec_status}'=='PASS'    Nologfound    '${is_exec_status}'=='FAIL'    Errorlogfound
-    ${linesContainingError} =    Get Lines Matching Regexp    ${logOutput}    .*\s\${logLevel}.*${errorMessage}    partial_match=true
+    ${returnStatusFlag}    Set Variable If    '${is_exec_status}'=='PASS'
+    ...    Nologfound    '${is_exec_status}'=='FAIL'    Errorlogfound
+    ${linesContainingError} =    Get Lines Matching Regexp
+    ...    ${logOutput}    .*\s\${logLevel}.*${errorMessage}    partial_match=true
     ${is_exec_status}    ${output}    Run Keyword And Ignore Error    Should Be Empty    ${linesContainingError}
-    ${returnStatusFlag}    Set Variable If    '${is_exec_status}'=='PASS'    UnexpectedErrorfound    '${is_exec_status}'=='FAIL'    MatchingErrorlogfound
+    ${returnStatusFlag}    Set Variable If    '${is_exec_status}'=='PASS'
+    ...    UnexpectedErrorfound    '${is_exec_status}'=='FAIL'    MatchingErrorlogfound
     Log    {linesContainingError}
     &{errorDict}    Create Dictionary    ${returnStatusFlag}    ${linesContainingLog}
     [Return]    ${errorDict}
@@ -118,12 +136,16 @@ Check For Error Logs in Pod Type2 Given the Log Output
     [Arguments]    ${logOutput}    ${logLevel}=warn    ${errorMessage}=${EMPTY}
     [Documentation]    Checks for error message in the particular set of pods
     Log    ${logOutput}
-    ${linesContainingLog} =    Get Lines Matching Regexp    ${logOutput}    .*?\s.*level.*${logLevel}.*    partial_match=true
+    ${linesContainingLog} =    Get Lines Matching Regexp
+    ...    ${logOutput}    .*?\s.*level.*${logLevel}.*    partial_match=true
     ${is_exec_status}    ${output}    Run Keyword And Ignore Error    Should Be Empty    ${linesContainingLog}
-    ${returnStatusFlag}    Set Variable If    '${is_exec_status}'=='PASS'    Nologfound    '${is_exec_status}'=='FAIL'    Errorlogfound
-    ${linesContainingError} =    Get Lines Matching Regexp    ${logOutput}    .*?\s.*level.*${logLevel}.*msg.*${errorMessage}    partial_match=true
+    ${returnStatusFlag}    Set Variable If    '${is_exec_status}'=='PASS'
+    ...    Nologfound    '${is_exec_status}'=='FAIL'    Errorlogfound
+    ${linesContainingError} =    Get Lines Matching Regexp
+    ...    ${logOutput}    .*?\s.*level.*${logLevel}.*msg.*${errorMessage}    partial_match=true
     ${is_exec_status}    ${output}    Run Keyword And Ignore Error    Should Be Empty    ${linesContainingError}
-    ${returnStatusFlag}    Set Variable If    '${is_exec_status}'=='PASS'    UnexpectedErrorfound    '${is_exec_status}'=='FAIL'    MatchingErrorlogfound
+    ${returnStatusFlag}    Set Variable If    '${is_exec_status}'=='PASS'
+    ...    UnexpectedErrorfound    '${is_exec_status}'=='FAIL'    MatchingErrorlogfound
     Log    {linesContainingError}
     &{errorDict}    Create Dictionary    ${returnStatusFlag}    ${linesContainingLog}
     [Return]    ${errorDict}
@@ -146,25 +168,41 @@ Get Container Dictionary
 
 Validate Error For Given Pods
     [Arguments]    ${datetime}    ${podDict}
-    [Documentation]    This keyword is used to get the list of pods if there is any unexpected error in a particular pod(s) given the time-${datetime} from which the log needs to be analysed and the dictionary of pods and the error in the dictionary format ${podDict] .
+    [Documentation]
+    ...    This keyword is used to get the list of pods if there is any unexpected error
+    ...    in a particular pod(s) given the time-${datetime} from which the log needs to
+    ...    be analysed and the dictionary of pods and the error in the dictionary format
+    ...    ${podDict] .
     ...
-    ...    Usage : ${returnStatusFlag} Validate Error For Given Pods ${datetime} ${podDict}
-    ...    where,
+    ...    Usage: ${returnStatusFlag} Validate Error For Given Pods ${datetime} ${podDict}
+    ...
+    ...    Arguments:
+    ...
     ...    ${datetime} = time from which the log needs to be taken
-    ...    ${podDict} = Key-value pair of the pod name and the error msg expected like ${podDict} = Set Dictionary ${podDict} radius sample error message.
+    ...    ${podDict} = Key-value pair of the pod name and the error msg
     ...
-    ...    In case the radius pod log has any other error than the expected error, then the podname will be returned
+    ...    Example: ${podDict} = Set Dictionary ${podDict} radius sample error message.
+    ...
+    ...    In case the radius pod log has any other error than the expected
+    ...    error, then the podname will be returned
     ${podList} =    Get Dictionary Keys    ${podDict}
     FOR    ${podName}    IN    @{podList}
         ${containerName}    Get From Dictionary    ${containerDict}    ${podName}
         ${expectedError}    Get From Dictionary    ${podDict}    ${podName}
-        ${rc}    ${logOutput}    Run And Return Rc And Output    ${KUBECTL_CONFIG};kubectl logs --timestamps -n voltha --since-time=${datetime} ${containerName}
-        Run Keyword And Ignore Error    Run Keyword If    '${logOutput}'=='${EMPTY}'    Run Keywords    Log    No Log found in pod ${podName}
+        ${rc}    ${logOutput}    Run And Return Rc And Output
+        ...    ${KUBECTL_CONFIG};kubectl logs --timestamps -n voltha --since-time=${datetime} ${containerName}
+        Run Keyword And Ignore Error
+        ...    Run Keyword If    '${logOutput}'=='${EMPTY}'
+        ...    Run Keywords    Log    No Log found in pod ${podName}
         ...    AND    Continue For Loop
         ${returnStatusFlag}    Check For Error Logs in Pod Type1 Given the Log Output    ${logOutput}
-        Run Keyword And Ignore Error    Run Keyword If    '${returnStatusFlag}'=='Nologfound'    Run Keywords    Log    No Error Log found in pod ${podName}
+        Run Keyword And Ignore Error
+        ...    Run Keyword If    '${returnStatusFlag}'=='Nologfound'
+        ...    Run Keywords    Log    No Error Log found in pod ${podName}
         ...    AND    Continue For Loop
-        Run Keyword And Ignore Error    Run Keyword If    '${returnStatusFlag}'=='UnexpectedErrorfound'    Run Keywords    Log    Unexpected Error Log found in pod ${podName}
+        Run Keyword And Ignore Error
+        ...    Run Keyword If    '${returnStatusFlag}'=='UnexpectedErrorfound'
+        ...    Run Keywords    Log    Unexpected Error Log found in pod ${podName}
         ...    AND    Append To List    ${errorPodList}    ${podName}
     END
     [Return]    ${errorPodList}
@@ -178,7 +216,7 @@ Delete K8s Pod
 
 Delete K8s Pods By Label
     [Arguments]    ${namespace}    ${key}    ${value}
-    [Documentation]    Uses kubectl to delete a PODs, filtering by label   
+    [Documentation]    Uses kubectl to delete a PODs, filtering by label
     ${rc}=    Run and Return Rc
     ...    kubectl -n ${namespace} delete pods -l${key}=${value}
     Should Be Equal as Integers    ${rc}    0
@@ -193,7 +231,8 @@ Scale K8s Deployment
 Pod Exists
     [Arguments]    ${namespace}    ${name}
     [Documentation]    Succeeds it the named POD exists
-    ${rc}    ${count}    Run and Return Rc    kubectl get -n ${namespace} pod -o json | jq -r ".items[].metadata.name" | grep ${name}
+    ${rc}    ${count}    Run and Return Rc
+    ...    kubectl get -n ${namespace} pod -o json | jq -r ".items[].metadata.name" | grep ${name}
     Should Be True    ${count}>0
 
 Pod Does Not Exist
@@ -204,7 +243,7 @@ Pod Does Not Exist
     Should Be Equal As Integers    ${count}    0
     Should Be True    ${count}==0
 
-Pods Does Not Exist By Label
+Pods Do Not Exist By Label
     [Arguments]    ${namespace}    ${key}    ${value}
     [Documentation]    Succeeds if the named POD does not exist
     ${rc}    ${count}    Run and Return Rc And Output
@@ -215,7 +254,8 @@ Pods Does Not Exist By Label
 Get Available Deployment Replicas
     [Arguments]    ${namespace}    ${name}
     [Documentation]    Succeeds if the named POD exists and has a ready count > 0
-    ${rc}    ${count}    Run and Return Rc and Output    ${KUBECTL_CONFIG};kubectl get -n ${namespace} deploy/${name} -o jsonpath='{.status.availableReplicas}'
+    ${rc}    ${count}    Run and Return Rc and Output
+    ...    ${KUBECTL_CONFIG};kubectl get -n ${namespace} deploy/${name} -o jsonpath='{.status.availableReplicas}'
     ${result}=    Run Keyword If    '${count}' == ''    Set Variable    0
     ...    ELSE    Set Variable    ${count}
     [Return]    ${result}
@@ -234,7 +274,7 @@ Get Deployment Replica Count
     Should Be Equal as Integers    ${rc}    0
     ${replicas}=    Run Keyword If    '${value}' == ''    Set Variable    0
     ...    ELSE    Set Variable    ${value}
-    [Return]  ${replicas}
+    [Return]    ${replicas}
 
 Does Deployment Have Replicas
     [Arguments]    ${namespace}    ${name}    ${expected_count}
@@ -246,24 +286,26 @@ Does Deployment Have Replicas
     ...    ELSE    Set Variable    ${value}
     Should be Equal as Integers    ${replicas}    ${expected_count}
 
-Pods Does Not Ready By Label
+Pods Are Ready By Label
     [Arguments]    ${namespace}    ${key}    ${value}
-    [Documentation]    Check PODs Ready Status
-    ${rc}    ${count}    Run and Return Rc and Output
-    ...    kubectl -n ${namespace} get pods -l ${key}=${value} -o json | jq -r ".items[].status.containerStatuses[].ready" | grep -c false
-    Should Be Equal as Integers    ${rc}    0
+    [Documentation]    Check that all pods with a label are ready
+    ${output}=    Run
+    ...    kubectl -n ${namespace} get pods -l ${key}=${value} -o=jsonpath="{.items[].status.containerStatuses[].ready}"
+    Should Not Contain    ${output}    "false"
 
 Validate Pod Status
     [Arguments]    ${pod_name}    ${namespace}   ${expectedStatus}
     [Documentation]    To run the kubectl command and check the status of the given pod matches the expected status
     ${length}=    Run    ${KUBECTL_CONFIG}; kubectl get pod -n ${namespace} | wc -l
     FOR    ${index}    IN RANGE    ${length}-1
-        ${currentPodName}=    Run    ${KUBECTL_CONFIG}; kubectl get pod -n ${namespace} -o jsonpath={.items[${index}].status.containerStatuses[0].name}
+        ${currentPodName}=    Run
+        ...    kubectl get pod -n ${namespace} -o jsonpath="{.items[${index}].status.containerStatuses[0].name}"
         Log    Required Pod : ${pod_name}
         Log    Current Pod: ${currentPodName}
         Run Keyword and Ignore Error    Run Keyword If    '${currentPodName}'=='${pod_name}'    Exit For Loop
     END
-    ${currentStatusofPod}=    Run    ${KUBECTL_CONFIG}; kubectl get pod -n ${namespace} -o jsonpath={.items[${index}].status.phase}
+    ${currentStatusofPod}=    Run
+    ...    ${KUBECTL_CONFIG}; kubectl get pod -n ${namespace} -o jsonpath="{.items[${index}].status.phase}"
     Log    ${currentStatusofPod}
     Should Contain    ${currentStatusofPod}    ${expectedStatus}
 
