@@ -11,8 +11,11 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-#
+
+from __future__ import absolute_import
+
 from robot.libraries.BuiltIn import BuiltIn
+
 
 class DependencyLibrary(object):
     ROBOT_LISTENER_API_VERSION = 2
@@ -24,10 +27,10 @@ class DependencyLibrary(object):
 
     def require_test_case(self, name):
         key = name.lower()
-        if (key not in self.test_status):
+        if key not in self.test_status:
             BuiltIn().fail("required test case can't be found: '%s'" % name)
 
-        if (self.test_status[key] != "PASS"):
+        if self.test_status[key] != "PASS":
             BuiltIn().fail("required test case failed: '%s'" % name)
 
         return True

@@ -1,14 +1,10 @@
-cryptography==2.4.2
-docutils
-paramiko==2.4.2
+flake8
 pexpect
-psycopg2==2.7.7
-pygments
+pylint
 pyyaml
 robotframework
-robotframework-databaselibrary
-robotframework-httplibrary
 robotframework-kafkalibrary
 robotframework-lint
 robotframework-requests
 robotframework-sshlibrary
+yamllint
