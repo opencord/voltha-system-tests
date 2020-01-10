@@ -11,13 +11,11 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-
 # onos common functions
 
 *** Settings ***
 Documentation     Library for various utilities
 Library           SSHLibrary
-Library           HttpLibrary.HTTP
 Library           String
 Library           DateTime
 Library           Process
@@ -37,7 +35,7 @@ Execute ONOS CLI Command
     [Return]    ${output}
 
 Validate OLT Device in ONOS
-#    FIXME use volt-olts to check that the OLT is ONOS
+    #    FIXME use volt-olts to check that the OLT is ONOS
     [Arguments]    ${serial_number}
     [Documentation]    Checks if olt has been connected to ONOS
     ${resp}=    Get Request    ONOS    onos/v1/devices
@@ -141,9 +139,13 @@ Device Is Available In ONOS
 Remove All Devices From ONOS
     [Arguments]    ${url}
     [Documentation]    Executes the device-remove command on each device in ONOS
-    ${rc}    @{dpids}    Run And Return Rc And Output    curl --fail -sSL ${url}/onos/v1/devices | jq -r '.devices[].id'
+    ${rc}    @{dpids}    Run And Return Rc And Output
+    ...    curl --fail -sSL ${url}/onos/v1/devices | jq -r '.devices[].id'
     Should Be Equal As Integers    ${rc}    0
     ${count}=    Get length    ${dpids}
-    :FOR    ${dpid}    IN    @{dpids}
-    \    ${rc}=    Run Keyword If    '${dpid}' != ''    Run And Return Rc    curl -XDELETE --fail -sSL ${url}/onos/v1/devices/${dpid}
-    \    Run Keyword If    '${dpid}' != ''    Should Be Equal As Integers    ${rc}    0
+    FOR    ${dpid}    IN    @{dpids}
+        ${rc}=    Run Keyword If    '${dpid}' != ''
+        ...    Run And Return Rc    curl -XDELETE --fail -sSL ${url}/onos/v1/devices/${dpid}
+        Run Keyword If    '${dpid}' != ''
+        ...    Should Be Equal As Integers    ${rc}    0
+    END

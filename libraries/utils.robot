@@ -11,13 +11,11 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-
 # robot test functions
 
 *** Settings ***
 Documentation     Library for various utilities
 Library           SSHLibrary
-Library           HttpLibrary.HTTP
 Library           String
 Library           DateTime
 Library           Process
@@ -35,20 +33,20 @@ Check CLI Tools Configured
     ...    VOLTCTL and KUBECTL not configured. Please configure before executing tests.
 
 Send File To Onos
-    [Documentation]  Send the content of the file to Onos to selected section of configuration using Post Request
-    [Arguments]  ${CONFIG_FILE}  ${section}
-    ${Headers}=  Create Dictionary  Content-Type   application/json
-    ${File_Data}=   Get Binary File   ${CONFIG_FILE}
-    Log     ${Headers}
-    Log     ${File_Data}
-    ${resp}=   Post Request  ONOS  /onos/v1/network/configuration/${section}  headers=${Headers}   data=${File_Data}
-    Should Be Equal As Strings    ${resp.status_code}  200
+    [Documentation]    Send the content of the file to Onos to selected section of configuration
+    ...   using Post Request
+    [Arguments]    ${CONFIG_FILE}    ${section}
+    ${Headers}=    Create Dictionary    Content-Type    application/json
+    ${File_Data}=    OperatingSystem.Get File    ${CONFIG_FILE}
+    Log    ${Headers}
+    Log    ${File_Data}
+    ${resp}=    Post Request    ONOS
+    ...    /onos/v1/network/configuration/${section}    headers=${Headers}    data=${File_Data}
+    Should Be Equal As Strings    ${resp.status_code}    200
 
 Common Test Suite Setup
     [Documentation]    Setup the test suite
     # BBSim sanity test doesn't need these imports from other repositories
-    Run Keyword If    ${external_libs}    Import Library
-    ...    ${CURDIR}/../../voltha/tests/atests/common/testCaseUtils.py
     Run Keyword If    ${external_libs}    Import Resource
     ...    ${CURDIR}/../../cord-tester/src/test/cord-api/Framework/Subscriber.robot
     Run Keyword If    ${external_libs}    Import Resource
@@ -75,7 +73,7 @@ Common Test Suite Setup
     ${num_onus}=    Convert to String    ${num_onus}
     #send sadis file to onos
     ${sadis_file}=    Get Variable Value    ${sadis.file}
-    Log To Console  \nSadis File:${sadis_file}
+    Log To Console    \nSadis File:${sadis_file}
     Run Keyword Unless    '${sadis_file}' is '${None}'    Send File To Onos    ${sadis_file}    apps/
     Set Suite Variable    ${num_onus}
     Set Suite Variable    ${olt_serial_number}
@@ -92,45 +90,56 @@ Common Test Suite Setup
     Set Suite Variable    ${datetime}
 
 WPA Reassociate
-    [Arguments]    ${iface}    ${ip}    ${user}    ${pass}=${None}    ${container_type}=${None}    ${container_name}=${None}
     [Documentation]    Executes a particular wpa_cli reassociate, which performs force reassociation
+    [Arguments]    ${iface}    ${ip}    ${user}    ${pass}=${None}
+    ...    ${container_type}=${None}    ${container_name}=${None}
     #Below for loops are used instead of sleep time, to execute reassociate command and check status
-    : FOR    ${i}    IN RANGE    70
-    \    ${output}=    Login And Run Command On Remote System    wpa_cli -i ${iface} reassociate    ${ip}    ${user}
-    ...    ${pass}    ${container_type}    ${container_name}
-    \    ${passed}=    Run Keyword And Return Status    Should Contain    ${output}    OK
-    \    Run Keyword If    ${passed}    Exit For Loop
-    : FOR    ${i}    IN RANGE    70
-    \    ${output}=    Login And Run Command On Remote System    wpa_cli status | grep SUCCESS    ${ip}    ${user}
-    ...    ${pass}    ${container_type}    ${container_name}
-    \    ${passed}=    Run Keyword And Return Status    Should Contain    ${output}    SUCCESS
-    \    Run Keyword If    ${passed}    Exit For Loop
-	
+    FOR    ${i}    IN RANGE    70
+        ${output}=    Login And Run Command On Remote System
+        ...    wpa_cli -i ${iface} reassociate    ${ip}    ${user}
+        ...    ${pass}    ${container_type}    ${container_name}
+        ${passed}=    Run Keyword And Return Status    Should Contain    ${output}    OK
+        Run Keyword If    ${passed}    Exit For Loop
+    END
+    FOR    ${i}    IN RANGE    70
+        ${output}=    Login And Run Command On Remote System
+        ...    wpa_cli status | grep SUCCESS    ${ip}    ${user}
+        ...    ${pass}    ${container_type}    ${container_name}
+        ${passed}=    Run Keyword And Return Status    Should Contain    ${output}    SUCCESS
+        Run Keyword If    ${passed}    Exit For Loop
+    END
+
 Validate Authentication After Reassociate
-    [Arguments]    ${auth_pass}    ${iface}    ${ip}    ${user}    ${pass}=${None}    ${container_type}=${None}    ${container_name}=${None}
-    [Documentation]    Executes a particular reassociate request on the RG using wpa_cli. auth_pass determines if authentication should pass
+    [Arguments]    ${auth_pass}    ${iface}    ${ip}    ${user}    ${pass}=${None}
+    ...    ${container_type}=${None}    ${container_name}=${None}
+    [Documentation]
+    ...    Executes a particular reassociate request on the RG using wpa_cli.
+    ...    auth_pass determines if authentication should pass
     WPA Reassociate    ${iface}    ${ip}    ${user}    ${pass}    ${container_type}    ${container_name}
-    Run Keyword If    '${auth_pass}' == 'True'    Wait Until Keyword Succeeds    ${timeout}    2s    Check Remote File Contents
-    ...    True    /tmp/wpa.log    authentication completed successfully    ${ip}    ${user}    ${pass}    
-    ...    ${container_type}    ${container_name}
+    Run Keyword If    '${auth_pass}' == 'True'    Wait Until Keyword Succeeds    ${timeout}    2s
+    ...    Check Remote File Contents    True    /tmp/wpa.log    authentication completed successfully
+    ...    ${ip}    ${user}    ${pass}    ${container_type}    ${container_name}
     Run Keyword If    '${auth_pass}' == 'False'    Sleep    20s
-    Run Keyword If    '${auth_pass}' == 'False'    Check Remote File Contents    False    /tmp/wpa.log    
-    ...    authentication completed successfully    ${ip}    ${user}    ${pass}    ${container_type}    ${container_name}
+    Run Keyword If    '${auth_pass}' == 'False'    Check Remote File Contents    False    /tmp/wpa.log
+    ...    authentication completed successfully    ${ip}    ${user}    ${pass}
+    ...    ${container_type}    ${container_name}
 
 Send Dhclient Request To Release Assigned IP
-    [Arguments]    ${iface}    ${ip}    ${user}    ${path_dhcpleasefile}    ${pass}=${None}    ${container_type}=${None}
-    ...    ${container_name}=${None}
+    [Arguments]    ${iface}    ${ip}    ${user}    ${path_dhcpleasefile}    ${pass}=${None}
+    ...    ${container_type}=${None}    ${container_name}=${None}
     [Documentation]    Executes a dhclient with option to release ip against a particular interface on the RG (src)
-    ${result}=    Login And Run Command On Remote System    dhclient -nw -r ${iface} && rm ${path_dhcpleasefile}/dhclient.*    ${ip}    ${user}
+    ${result}=    Login And Run Command On Remote System
+    ...    dhclient -nw -r ${iface} && rm ${path_dhcpleasefile}/dhclient.*    ${ip}    ${user}
     ...    ${pass}    ${container_type}    ${container_name}
     Log    ${result}
     #Should Contain    ${result}    DHCPRELEASE
     [Return]    ${result}
 
 Check Remote File Contents For WPA Logs
-    [Arguments]    ${file_should_exist}    ${file}    ${pattern}    ${ip}    ${user}    ${pass}=${None}    ${container_type}=${None}
-    ...    ${container_name}=${None}    ${prompt}=~$
+    [Arguments]    ${file_should_exist}    ${file}    ${pattern}    ${ip}    ${user}    ${pass}=${None}
+    ...    ${container_type}=${None}    ${container_name}=${None}    ${prompt}=~$
     [Documentation]    Checks for particular pattern count in a file
-    ${result}=    Login And Run Command On Remote System    cat ${file} | grep '${pattern}' | wc -l    ${ip}    ${user}    ${pass}
+    ${result}=    Login And Run Command On Remote System
+    ...    cat ${file} | grep '${pattern}' | wc -l    ${ip}    ${user}    ${pass}
     ...    ${container_type}    ${container_name}    ${prompt}
     [Return]    ${result}
