@@ -17,9 +17,9 @@
 # Automated deployment configuration for kind-voltha running BBSim
 
 # Change default values in tests
-has_dataplane: False
-external_libs: False
-teardown_device: True
+has_dataplane: false
+external_libs: false
+teardown_device: true
 ONOS_REST_PORT: 8181
 ONOS_SSH_PORT: 8101
 OLT_PORT: 50060

@@ -13,8 +13,8 @@
 # limitations under the License.
 
 *** Settings ***
-Documentation    Test suite that engages a larger number of ONU at the same which makes it a more realistic test
-...    It is addaptable to either BBSim or Real H/W using a configuration file
+Documentation     Test suite that engages a larger number of ONU at the same time to test scale
+...               It is compatible with either BBSim or real H/W using a configuration file
 Suite Setup       Setup Suite
 Suite Teardown    Teardown Suite
 Library           Collections
@@ -30,10 +30,10 @@ Resource          ../../libraries/k8s.robot
 Resource          ../../variables/variables.robot
 
 *** Variables ***
-${timeout}         60s
+${timeout}        60s
 ${long_timeout}    420
-${of_id}           0
-${logical_id}      0
+${of_id}          0
+${logical_id}     0
 ${has_dataplane}    True
 ${external_libs}    True
 ${teardown_device}    False
@@ -50,13 +50,13 @@ Activate Devices OLT/ONU
     ${olt_device_id}=    Create Device    ${olt_ip}    ${OLT_PORT}
     Set Global Variable    ${olt_device_id}
     #validate olt states
-    Wait Until Keyword Succeeds    ${timeout}    5s    Validate OLT Device   PREPROVISIONED    UNKNOWN    UNKNOWN  ${EMPTY}
-    ...    ${olt_device_id}
+    Wait Until Keyword Succeeds    ${timeout}    5s
+    ... Validate OLT Device    PREPROVISIONED    UNKNOWN    UNKNOWN    ${EMPTY}    ${olt_device_id}
     #enable device
     Enable Device    ${olt_device_id}
     #validate olt states
-    Wait Until Keyword Succeeds    ${timeout}    5s    Validate OLT Device   ENABLED    ACTIVE    REACHABLE    ${EMPTY}
-    ...    ${olt_device_id}
+    Wait Until Keyword Succeeds    ${timeout}    5s
+    ... Validate OLT Device    ENABLED    ACTIVE    REACHABLE    ${EMPTY}    ${olt_device_id}
 
 ONU Discovery
     [Documentation]    Discover lists of ONUS, their Serial Numbers and device id
@@ -67,12 +67,13 @@ ONU Discovery
     Build ONU SN List    ${List_ONU_Serial}
     Log    ${List_ONU_Serial}
     #validate onu states
-    Wait Until Keyword Succeeds    ${long_timeout}    20s    Validate ONU Devices    ENABLED    ACTIVE    REACHABLE
-    ...    ${List_ONU_Serial}
+    Wait Until Keyword Succeeds    ${long_timeout}    20s
+    ...    Validate ONU Devices    ENABLED    ACTIVE    REACHABLE    ${List_ONU_Serial}
 
 Validate Device's Ports and Flows
     [Documentation]    Verify Ports and Flows listed for OLT and ONUs
-    ...    For OLT we validate the port types and numbers and for flows we simply verify that their numbers > 0
+    ...    For OLT we validate the port types and numbers and for flows we simply
+    ...    verify that their numbers > 0
     ...    For each ONU, we validate the port types and numbers for each and for flows.
     ...    For flows they should be == 0 at this stage
     [Tags]    active
@@ -83,7 +84,8 @@ Validate Device's Ports and Flows
     #validate onu port types
     Validate ONU Port Types    ${List_ONU_Serial}    PON_ONU    ETHERNET_UNI
     #validate onu flows
-    Wait Until Keyword Succeeds    ${timeout}    5s    Validate ONU Flows    ${List_ONU_Serial}    ${num_onu_flows}
+    Wait Until Keyword Succeeds    ${timeout}    5s
+    ...    Validate ONU Flows    ${List_ONU_Serial}    ${num_onu_flows}
 
 Validate Logical Device
     [Documentation]    Verify that logical device exists and then verify its ports and flows
@@ -118,7 +120,8 @@ Teardown Suite
     ...    kills processes and cleans up interfaces on src+dst servers
     Run Keyword If    ${external_libs}    Get ONOS Status    ${k8s_node_ip}
     Run Keyword If    ${has_dataplane}    Clean Up Linux
-    Run Keyword If    ${external_libs}    Log Kubernetes Containers Logs Since Time    ${datetime}    ${container_list}
+    Run Keyword If    ${external_libs}
+    ...    Log Kubernetes Containers Logs Since Time    ${datetime}    ${container_list}
     Run Keyword If    ${teardown_device}    Delete Device and Verify
     Run Keyword If    ${teardown_device}    Test Empty Device List
     Run Keyword If    ${teardown_device}    Execute ONOS CLI Command    ${k8s_node_ip}    ${ONOS_SSH_PORT}
@@ -145,10 +148,12 @@ Clean Up Linux
 
 Delete Device and Verify
     [Documentation]    Disable -> Delete devices via voltctl and verify its removed
-    ${rc}    ${output}=    Run and Return Rc and Output    ${VOLTCTL_CONFIG}; voltctl device disable ${olt_device_id}
+    ${rc}    ${output}=    Run and Return Rc and Output
+    ...    ${VOLTCTL_CONFIG}; voltctl device disable ${olt_device_id}
     Should Be Equal As Integers    ${rc}    0
-    Wait Until Keyword Succeeds    ${timeout}    5s    Validate OLT Device    DISABLED    UNKNOWN    REACHABLE
-    ...    ${olt_serial_number}
-    ${rc}    ${output}=    Run and Return Rc and Output    ${VOLTCTL_CONFIG}; voltctl device delete ${olt_device_id}
+    Wait Until Keyword Succeeds    ${timeout}    5s
+    ...    Validate OLT Device    DISABLED    UNKNOWN    REACHABLE    ${olt_serial_number}
+    ${rc}    ${output}=    Run and Return Rc and Output
+    ...    ${VOLTCTL_CONFIG}; voltctl device delete ${olt_device_id}
     Should Be Equal As Integers    ${rc}    0
     Wait Until Keyword Succeeds    ${timeout}    5s    Validate Device Removed    ${olt_device_id}
