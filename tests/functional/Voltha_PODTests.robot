@@ -300,6 +300,22 @@ Test Disable and Enable ONU scenario for ATT workflow
     END
     Run Keyword and Ignore Error    Collect Logs
 
+Delete OLT, ReAdd OLT and Perform Sanity Test
+    [Documentation]    Validates E2E Ping Connectivity and object states for the given scenario:
+    ...    Disable and Delete the OLT
+    ...    Create/Enable the same OLT again
+    ...    Validate authentication/DHCP/E2E pings succeed for all the ONUs connected to the OLT
+    [Tags]    functional    DeleteOLT
+    [Setup]    None
+    [Teardown]    NONE
+    Run Keyword If    ${has_dataplane}    Clean Up Linux
+    Run Keyword If    ${has_dataplane}    Delete Device and Verify
+    Run Keyword and Ignore Error    Collect Logs
+    # Recreate the OLT
+    Run Keyword If    ${has_dataplane}    Setup
+    Wait Until Keyword Succeeds    ${timeout}   2s    Perform Sanity Test
+    Run Keyword and Ignore Error    Collect Logs
+
 Adding the same OLT after enabling the device
     [Documentation]    Create OLT, enable it, Create the same OLT again and Check for the Error message
     [Tags]    VOL-2406     AddEnableOLT_AddTheSameOLTAgain    notready
@@ -393,6 +409,9 @@ Setup
     [Documentation]    Pre-test Setup
     #test for empty device list
     Test Empty Device List
+    Run Keyword If    ${has_dataplane}    Wait Until Keyword Succeeds    120s    10s    Openolt is Up
+    ...    ${olt_ip}    ${olt_user}    ${olt_pass}
+    Sleep    60s
     #create/preprovision device
     ${olt_device_id}=    Create Device    ${olt_ip}    ${OLT_PORT}
     Set Suite Variable    ${olt_device_id}
@@ -466,6 +485,7 @@ Delete Device and Verify
     [Documentation]    Disable -> Delete devices via voltctl and verify its removed
     ${rc}    ${output}=    Run and Return Rc and Output    ${VOLTCTL_CONFIG}; voltctl device disable ${olt_device_id}
     Should Be Equal As Integers    ${rc}    0
+    Sleep    5s
     Wait Until Keyword Succeeds    ${timeout}    5s    Validate OLT Device    DISABLED    UNKNOWN    REACHABLE
     ...    ${olt_serial_number}
     ${rc}    ${output}=    Run and Return Rc and Output    ${VOLTCTL_CONFIG}; voltctl device delete ${olt_device_id}
