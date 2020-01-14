@@ -267,4 +267,9 @@ Validate Pod Status
     Log    ${currentStatusofPod}
     Should Contain    ${currentStatusofPod}    ${expectedStatus}
 
-
+Check Expected Running Pods Number By Label
+    [Arguments]    ${namespace}    ${key}    ${value}    ${number}
+    [Documentation]    Succeeds if the desired pod has expected number replicas
+    ${rc}    ${count}    Run and Return Rc and Output
+    ...    kubectl -n ${namespace} get pods -l ${key}=${value} -o json | jq -r ".items[].status.phase" | wc -l
+    Should Be Equal as Integers    ${count}    ${number}

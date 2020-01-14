@@ -18,7 +18,7 @@ Library           OperatingSystem
 Resource          ../../libraries/k8s.robot
 
 *** Variables ***
-${timeout}        60s
+${timeout}        120s
 ${desired_ETCD_cluster_size}        3
 ${minimal_ETCD_cluster_size}        2
 ${namespace}        voltha
@@ -41,6 +41,8 @@ Scale Down ETCD Cluster
     # based on https://github.com/ETCD-io/ETCD/blob/master/Documentation/faq.md#what-is-failure-tolerance
     Scale ETCD    ${namespace}    ${minimal_ETCD_cluster_size}
     Wait Until Keyword Succeeds    ${timeout}    2s    Validate ETCD Size   ${namespace}    ${minimal_ETCD_cluster_size}
+    Wait Until Keyword Succeeds    ${timeout}    2s
+    ...    Check Expected Running Pods Number By Label    ${namespace}   ${ETCD_pod_label_key}    ${ETCD_name}    2
 
 Scale Up ETCD Cluster
     [Documentation]    Recover the ETCD cluster by scaling up its size
