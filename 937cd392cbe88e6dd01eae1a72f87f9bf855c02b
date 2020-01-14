@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c46dc621_010cd057",
+        "filename": "libraries/k8s.robot",
+        "patchSetId": 10
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 1000596
+      },
+      "writtenOn": "2020-01-14T05:48:39Z",
+      "side": 0,
+      "message": "The original function will return true if there is one pod isn\u0027t ready.\nex.\npod-1 . 0/1 running \u003c-- not ready due to 0/1\npod-2 . 1/1 running\npod-3 . 1/1 running\nIt used the items[] to scan all pods and use the grep to filter any failure condition.\n\nI think the modified version will get the list of ready status. \nex.\nfalse\nTrue\nTrue\nand it\u0027s not easy to use the build-in compare function (Should Be Equal) to filter the output.",
+      "revId": "937cd392cbe88e6dd01eae1a72f87f9bf855c02b",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    }
+  ]
+}
