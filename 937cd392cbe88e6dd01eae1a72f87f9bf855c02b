@@ -16,6 +16,24 @@
       "revId": "937cd392cbe88e6dd01eae1a72f87f9bf855c02b",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4cd38b13_a3f45943",
+        "filename": "libraries/k8s.robot",
+        "patchSetId": 10
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 1000011
+      },
+      "writtenOn": "2020-01-14T15:18:14Z",
+      "side": 0,
+      "message": "Ah, you\u0027re correct - I was thinking this was looking for one pod, but it\u0027s many.   Fixed this in rev 13\n\nAlso renaming this to be \"Pods Are\" rather than  \"Pod Is\", as name was not easy to understand before, which contributed to why the earlier solution wasn\u0027t sufficient.",
+      "parentUuid": "c46dc621_010cd057",
+      "revId": "937cd392cbe88e6dd01eae1a72f87f9bf855c02b",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
     }
   ]
 }
