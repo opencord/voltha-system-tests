@@ -303,7 +303,7 @@ Test Disable and Enable ONU scenario for ATT workflow
 Verify restart any container after VOLTHA is operational
     [Documentation]    Restart any container after VOLTHA is operational.
     ...    Prerequisite : ONUs are authenticated and pingable.
-    [Tags]    functional   VOL-1958   RestartPods    notready
+    [Tags]    functional   VOL-1958   RestartPods
     [Setup]    NONE
     [Teardown]    NONE
     ${waitforRestart}    Set Variable    120s
