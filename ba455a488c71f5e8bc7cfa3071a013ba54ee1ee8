@@ -22,6 +22,30 @@
       "revId": "ba455a488c71f5e8bc7cfa3071a013ba54ee1ee8",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fd0cd093_2089f5c7",
+        "filename": "libraries/k8s.robot",
+        "patchSetId": 14
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1000011
+      },
+      "writtenOn": "2020-01-14T19:20:40Z",
+      "side": 0,
+      "message": "It\u0027s not needed, and not universally applied across the file prior to every kubectl invocation.\n\nIn next patchset I\u0027ve universally applied the assumption that these are set outside of the robot invocation.",
+      "parentUuid": "7afda11c_9b79118d",
+      "range": {
+        "startLine": 60,
+        "startChar": 39,
+        "endLine": 60,
+        "endChar": 53
+      },
+      "revId": "ba455a488c71f5e8bc7cfa3071a013ba54ee1ee8",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
     }
   ]
 }

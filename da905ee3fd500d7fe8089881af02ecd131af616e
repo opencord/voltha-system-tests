@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "11484816_cb2148a5",
+        "filename": "tests/functional/K8S_SystemTest.robot",
+        "patchSetId": 14
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1000011
+      },
+      "writtenOn": "2020-01-14T19:20:40Z",
+      "side": 1,
+      "message": "Fixed.",
+      "parentUuid": "395b9df0_6557d8f2",
+      "range": {
+        "startLine": 22,
+        "startChar": 10,
+        "endLine": 22,
+        "endChar": 14
+      },
+      "revId": "da905ee3fd500d7fe8089881af02ecd131af616e",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d6b25001_f69c35e1",
         "filename": "tests/functional/K8S_SystemTest.robot",
         "patchSetId": 14
@@ -36,6 +60,30 @@
       "writtenOn": "2020-01-14T18:49:29Z",
       "side": 1,
       "message": "Looks like ETCD is capitalized elsewhere",
+      "range": {
+        "startLine": 23,
+        "startChar": 10,
+        "endLine": 23,
+        "endChar": 14
+      },
+      "revId": "da905ee3fd500d7fe8089881af02ecd131af616e",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3a39d894_be884d38",
+        "filename": "tests/functional/K8S_SystemTest.robot",
+        "patchSetId": 14
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1000011
+      },
+      "writtenOn": "2020-01-14T19:20:40Z",
+      "side": 1,
+      "message": "Ditto.",
+      "parentUuid": "d6b25001_f69c35e1",
       "range": {
         "startLine": 23,
         "startChar": 10,
