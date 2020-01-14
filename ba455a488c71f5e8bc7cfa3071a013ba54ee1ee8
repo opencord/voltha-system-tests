@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7afda11c_9b79118d",
+        "filename": "libraries/k8s.robot",
+        "patchSetId": 14
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1000010
+      },
+      "writtenOn": "2020-01-14T18:49:29Z",
+      "side": 0,
+      "message": "This gets removed by the change?",
+      "range": {
+        "startLine": 60,
+        "startChar": 39,
+        "endLine": 60,
+        "endChar": 53
+      },
+      "revId": "ba455a488c71f5e8bc7cfa3071a013ba54ee1ee8",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    }
+  ]
+}
