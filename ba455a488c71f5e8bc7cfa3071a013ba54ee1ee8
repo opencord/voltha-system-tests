@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9df7233c_03017cb5",
+        "filename": "libraries/k8s.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1000596
+      },
+      "writtenOn": "2020-01-14T08:26:05Z",
+      "side": 1,
+      "message": "Same definition here,",
+      "revId": "ba455a488c71f5e8bc7cfa3071a013ba54ee1ee8",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    }
+  ]
+}
