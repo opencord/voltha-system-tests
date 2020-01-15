@@ -51,12 +51,12 @@ Activate Devices OLT/ONU
     Set Global Variable    ${olt_device_id}
     #validate olt states
     Wait Until Keyword Succeeds    ${timeout}    5s
-    ... Validate OLT Device    PREPROVISIONED    UNKNOWN    UNKNOWN    ${EMPTY}    ${olt_device_id}
+    ...    Validate OLT Device    PREPROVISIONED    UNKNOWN    UNKNOWN    ${EMPTY}    ${olt_device_id}
     #enable device
     Enable Device    ${olt_device_id}
     #validate olt states
     Wait Until Keyword Succeeds    ${timeout}    5s
-    ... Validate OLT Device    ENABLED    ACTIVE    REACHABLE    ${EMPTY}    ${olt_device_id}
+    ...    Validate OLT Device    ENABLED    ACTIVE    REACHABLE    ${EMPTY}    ${olt_device_id}
 
 ONU Discovery
     [Documentation]    Discover lists of ONUS, their Serial Numbers and device id
