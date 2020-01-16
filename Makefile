@@ -49,6 +49,10 @@ ROBOT_SYSTEM_FILE               ?= K8S_SystemTest.robot
 # for backwards compatibility
 sanity-kind: sanity-single-kind
 
+functional-single-kind: ROBOT_MISC_ARGS += -i sanity -i functional $(ROBOT_DEBUG_LOG_OPT)
+functional-single-kind: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_SINGLE_PON_FILE)
+functional-single-kind: bbsim-kind
+
 sanity-single-kind: ROBOT_MISC_ARGS += -i sanity $(ROBOT_DEBUG_LOG_OPT)
 sanity-single-kind: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_SINGLE_PON_FILE)
 sanity-single-kind: bbsim-kind
