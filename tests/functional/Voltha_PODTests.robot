@@ -359,7 +359,7 @@ Adding the same OLT after enabling the device
     ...    ${VOLTCTL_CONFIG}; voltctl device create -t openolt -H ${olt_ip}:${OLT_PORT}
     Should Not Be Equal As Integers    ${rc}    0
     Log    ${output}
-    Should Contain     '${output}'     'ERROR: UNKNOWN: Device is already pre-provisioned'
+    Should Contain     '${output}'     'Device is already pre-provisioned'
     Log    "This OLT is added already and enabled"
 
 Sanity E2E Test for OLT/ONU on POD With Core Fail and Restart
@@ -464,8 +464,9 @@ Clear All Devices Then Create New Device
 Teardown
     [Documentation]    kills processes and cleans up interfaces on src+dst servers
     Run Keyword If    ${has_dataplane}    Clean Up Linux
-    Run Keyword If    ${external_libs}    Log Kubernetes Containers
-    ...    Logs Since Time    ${datetime}    ${container_list}
+    Run Keyword If    ${external_libs}        Run Keyword and Ignore Error
+    ...    Log Kubernetes Containers Logs Since Time
+    ...    ${datetime}    ${container_list}
 
 Collect Logs
     [Documentation]    Collect Logs from voltha and onos cli for various commands
