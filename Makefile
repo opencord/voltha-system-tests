@@ -79,7 +79,7 @@ bbsim-scale-kind: ROBOT_FILE := Voltha_ScaleFunctionalTests.robot
 bbsim-scale-kind: voltha-test
 
 system-scale-test: ROBOT_FILE := Voltha_PODTests.robot
-system-scale-test: ROBOT_MISC_ARGS += -X -i sanity
+system-scale-test: ROBOT_MISC_ARGS += -X -i sanity $(ROBOT_DEBUG_LOG_OPT)
 system-scale-test: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_SINGLE_PON_FILE)
 system-scale-test: k8s-system-test
 
