@@ -142,3 +142,96 @@ Check Remote File Contents For WPA Logs
     ...    cat ${file} | grep '${pattern}' | wc -l    ${ip}    ${user}    ${pass}
     ...    ${container_type}    ${container_name}    ${prompt}
     [Return]    ${result}
+
+Perform Sanity Test
+    [Documentation]    This keyword performs Sanity Test Procedure
+    ...    Sanity test performs authentication, dhcp and pings for all the ONUs given for the POD
+    ...    This keyword can be used to call in any other tests where sanity check is required
+    ...    and avoids duplication of code.
+    ${of_id}=    Wait Until Keyword Succeeds    ${timeout}    15s    Validate OLT Device in ONOS    ${olt_serial_number}
+    Set Global Variable    ${of_id}
+    FOR    ${I}    IN RANGE    0    ${num_onus}
+        ${src}=    Set Variable    ${hosts.src[${I}]}
+        ${dst}=    Set Variable    ${hosts.dst[${I}]}
+        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s    Validate Device
+        ...    ENABLED    ACTIVE    REACHABLE
+        ...    ${src['onu']}    onu=True    onu_reason=omci-flows-pushed
+        ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
+        ${onu_port}=    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
+        ...    Get ONU Port in ONOS    ${src['onu']}    ${of_id}
+        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
+        ...    Verify Eapol Flows Added For ONU    ${k8s_node_ip}    ${ONOS_SSH_PORT}    ${onu_port}
+        Run Keyword If    ${has_dataplane}    Run Keyword And Continue On Failure    Validate Authentication    True
+        ...    ${src['dp_iface_name']}    wpa_supplicant.conf    ${src['ip']}    ${src['user']}    ${src['pass']}
+        ...    ${src['container_type']}    ${src['container_name']}
+        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2
+        ...    Verify ONU in AAA-Users    ${k8s_node_ip}    ${ONOS_SSH_PORT}    ${onu_port}
+        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2
+        ...    Execute ONOS CLI Command    ${k8s_node_ip}    ${ONOS_SSH_PORT}
+        ...    volt-add-subscriber-access ${of_id} ${onu_port}
+        Run Keyword If    ${has_dataplane}    Run Keyword And Continue On Failure    Validate DHCP and Ping    True
+        ...    True    ${src['dp_iface_name']}    ${src['s_tag']}    ${src['c_tag']}    ${dst['dp_iface_ip_qinq']}
+        ...    ${src['ip']}    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
+        ...    ${dst['dp_iface_name']}    ${dst['ip']}    ${dst['user']}    ${dst['pass']}    ${dst['container_type']}
+        ...    ${dst['container_name']}
+        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
+        ...    Validate Subscriber DHCP Allocation    ${k8s_node_ip}    ${ONOS_SSH_PORT}    ${onu_port}
+        Run Keyword and Ignore Error    Get Device Output from Voltha    ${onu_device_id}
+        Run Keyword and Ignore Error    Collect Logs
+    END
+
+Setup
+    [Documentation]    Pre-test Setup
+    #test for empty device list
+    Test Empty Device List
+    Run Keyword If    ${has_dataplane}    Wait Until Keyword Succeeds    120s    10s    Openolt is Up
+    ...    ${olt_ip}    ${olt_user}    ${olt_pass}
+    Sleep    60s
+    #create/preprovision device
+    ${olt_device_id}=    Create Device    ${olt_ip}    ${OLT_PORT}
+    Set Suite Variable    ${olt_device_id}
+    #validate olt states
+    Wait Until Keyword Succeeds    ${timeout}    5s
+    ...    Validate OLT Device    PREPROVISIONED    UNKNOWN    UNKNOWN    ${EMPTY}    ${olt_device_id}
+    Enable Device    ${olt_device_id}
+    Wait Until Keyword Succeeds    ${timeout}    5s
+    ...    Validate OLT Device    ENABLED    ACTIVE    REACHABLE    ${olt_serial_number}
+    ${logical_id}=    Get Logical Device ID From SN    ${olt_serial_number}
+    Set Suite Variable    ${logical_id}
+
+Delete All Devices and Verify
+    [Documentation]    Remove any devices from VOLTHA and ONOS
+    # Clear devices from VOLTHA
+    Disable Devices In Voltha    Root=true
+    Wait Until Keyword Succeeds    ${timeout}    2s    Test Devices Disabled In Voltha    Root=true
+    Delete Devices In Voltha    Root=true
+    Wait Until Keyword Succeeds    ${timeout}    2s    Test Empty Device List
+    # Clear devices from ONOS
+    Remove All Devices From ONOS
+    ...    http://karaf:karaf@${k8s_node_ip}:${ONOS_REST_PORT}
+
+Teardown
+    [Documentation]    kills processes and cleans up interfaces on src+dst servers
+    Run Keyword If    ${has_dataplane}    Clean Up Linux
+    Run Keyword If    ${external_libs}        Run Keyword and Ignore Error
+    ...    Log Kubernetes Containers Logs Since Time
+    ...    ${datetime}    ${container_list}
+
+Teardown Suite
+    [Documentation]    Clean up device if desired
+    Run Keyword If    ${teardown_device}    Delete All Devices and Verify
+
+Delete Device and Verify
+    [Documentation]    Disable -> Delete devices via voltctl and verify its removed
+    ${rc}    ${output}=    Run and Return Rc and Output
+    ...    ${VOLTCTL_CONFIG}; voltctl device disable ${olt_device_id}
+    Should Be Equal As Integers    ${rc}    0
+    Sleep    5s
+    Wait Until Keyword Succeeds    ${timeout}    5s
+    ...    Validate OLT Device    DISABLED    UNKNOWN    REACHABLE    ${olt_serial_number}
+    ${rc}    ${output}=    Run and Return Rc and Output
+    ...    ${VOLTCTL_CONFIG}; voltctl device delete ${olt_device_id}
+    Sleep    50s
+    Should Be Equal As Integers    ${rc}    0
+    Wait Until Keyword Succeeds    ${timeout}    5s    Validate Device Removed    ${olt_device_id}
+
