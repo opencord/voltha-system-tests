@@ -364,7 +364,7 @@ Adding the same OLT after enabling the device
     ...    ${VOLTCTL_CONFIG}; voltctl device create -t openolt -H ${olt_ip}:${OLT_PORT}
     Should Not Be Equal As Integers    ${rc}    0
     Log    ${output}
-    Should Contain     '${output}'     'Device is already pre-provisioned'
+    Should Contain     ${output}    Device is already pre-provisioned
     Log    "This OLT is added already and enabled"
 
 Sanity E2E Test for OLT/ONU on POD With Core Fail and Restart
