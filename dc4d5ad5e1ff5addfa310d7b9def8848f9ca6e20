@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "edb79ace_549ed7a2",
+        "filename": "tests/functional/Voltha_PODTests.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1000064
+      },
+      "writtenOn": "2020-01-17T07:11:56Z",
+      "side": 1,
+      "message": "This tag needs to be removed for the sanity test, because it will omit this test for sanity checks (during patch validation)",
+      "range": {
+        "startLine": 59,
+        "startChar": 31,
+        "endLine": 59,
+        "endChar": 40
+      },
+      "revId": "dc4d5ad5e1ff5addfa310d7b9def8848f9ca6e20",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    }
+  ]
+}
