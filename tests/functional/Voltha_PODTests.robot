@@ -340,7 +340,7 @@ Delete OLT, ReAdd OLT and Perform Sanity Test
 
 Adding the same OLT after enabling the device
     [Documentation]    Create OLT, enable it, Create the same OLT again and Check for the Error message
-    [Tags]    VOL-2406     AddEnableOLT_AddTheSameOLTAgain    notready
+    [Tags]    VOL-2406     AddEnableOLT_AddTheSameOLTAgain    functional
     [Setup]   Delete Device and Verify
     [Teardown]    None
     Run Keyword If    ${has_dataplane}    Sleep    180s
@@ -508,6 +508,7 @@ Delete Device and Verify
     ...    Validate OLT Device    DISABLED    UNKNOWN    REACHABLE    ${olt_serial_number}
     ${rc}    ${output}=    Run and Return Rc and Output
     ...    ${VOLTCTL_CONFIG}; voltctl device delete ${olt_device_id}
+    Sleep    50s
     Should Be Equal As Integers    ${rc}    0
     Wait Until Keyword Succeeds    ${timeout}    5s    Validate Device Removed    ${olt_device_id}
 
