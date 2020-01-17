@@ -325,7 +325,6 @@ Verify restart any container after VOLTHA is operational
     Log    ${podStatusOutput}
     ${countAfterRestart}=    Run    kubectl get pods -n ${NAMESPACE} | grep Running | wc -l
     Should Be Equal As Strings    ${countAfterRestart}    ${countBforRestart}
-    Log to console    Pod ${podName} restarted and sanity checks passed successfully
 
 Delete OLT, ReAdd OLT and Perform Sanity Test
     [Documentation]    Validates E2E Ping Connectivity and object states for the given scenario:
@@ -343,23 +342,35 @@ Delete OLT, ReAdd OLT and Perform Sanity Test
     Wait Until Keyword Succeeds    ${timeout}   2s    Perform Sanity Test
     Run Keyword and Ignore Error    Collect Logs
 
+Adding the same OLT before enabling the device
+    [Documentation]    Create OLT, Create the same OLT again and Check for the Error message
+    [Tags]    VOL-2405    AddSameOLT   notready
+    [Setup]   Delete Device and Verify
+    [Teardown]    Enable Device    ${olt_device_id}
+    Run Keyword If    ${has_dataplane}    Sleep    180s
+    ${olt_device_id}=    Create Device    ${olt_ip}    ${OLT_PORT}
+    Set Suite Variable    ${olt_device_id}
+    Wait Until Keyword Succeeds    ${timeout}    5s    Validate OLT Device    PREPROVISIONED    UNKNOWN    UNKNOWN
+    ...    ${EMPTY}    ${olt_device_id}
+    ${rc}    ${output}=    Run and Return Rc and Output
+    ...    ${VOLTCTL_CONFIG}; voltctl device create -t openolt -H ${olt_ip}:${OLT_PORT}
+    Should Not Be Equal As Integers    ${rc}    0
+    Should Contain     ${output}     Device is already pre-provisioned
+
 Adding the same OLT after enabling the device
     [Documentation]    Create OLT, enable it, Create the same OLT again and Check for the Error message
     [Tags]    VOL-2406     AddEnableOLT_AddTheSameOLTAgain    functional
     [Setup]   Delete Device and Verify
     [Teardown]    None
     Run Keyword If    ${has_dataplane}    Sleep    180s
-    #create/preprovision device
     ${olt_device_id}=    Create Device    ${olt_ip}    ${OLT_PORT}
     Set Suite Variable    ${olt_device_id}
-    #validate olt states
     Wait Until Keyword Succeeds    ${timeout}    5s    Validate OLT Device    PREPROVISIONED    UNKNOWN    UNKNOWN
     ...    ${EMPTY}    ${olt_device_id}
     #Enable the created OLT device
     Enable Device    ${olt_device_id}
     Wait Until Keyword Succeeds    ${timeout}    5s    Validate OLT Device    ENABLED    ACTIVE    REACHABLE
     ...    ${olt_serial_number}
-    #Create the same OLT again
     ${rc}    ${output}=    Run and Return Rc and Output
     ...    ${VOLTCTL_CONFIG}; voltctl device create -t openolt -H ${olt_ip}:${OLT_PORT}
     Should Not Be Equal As Integers    ${rc}    0
@@ -555,19 +566,12 @@ Perform Sanity Test
     END
 
 Repeat Sanity Test
-    [Documentation]    This keyword performs Sanity Test Procedure
-    ...    Sanity test performs authentication, dhcp and pings for all the ONUs given for the POD
-    ...    This keyword can be used to call in any other tests where sanity check is required
-    ...    with wpa reassociation
-
+    [Documentation]    Performs Sanity Test Procedure where sanity check is required with wpa reassociation
     ${of_id}=    Wait Until Keyword Succeeds    ${timeout}    15s    Validate OLT Device in ONOS    ${olt_serial_number}
     Set Global Variable    ${of_id}
-
     FOR    ${I}    IN RANGE    0    ${num_onus}
         ${src}=    Set Variable    ${hosts.src[${I}]}
         ${dst}=    Set Variable    ${hosts.dst[${I}]}
-
-
         ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
         ${onu_port}=    Wait Until Keyword Succeeds    ${timeout}    2s
         ...    Get ONU Port in ONOS    ${src['onu']}    ${of_id}
@@ -593,4 +597,3 @@ Repeat Sanity Test
         Run Keyword and Ignore Error   Get Device Output from Voltha    ${onu_device_id}
         Run Keyword and Ignore Error   Collect Logs
     END
-
