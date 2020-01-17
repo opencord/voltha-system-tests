@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "78642a0e_bc90c988",
+        "filename": "tests/functional/Voltha_PODTests.robot",
+        "patchSetId": 3
+      },
+      "lineNbr": 335,
+      "author": {
+        "id": 1000064
+      },
+      "writtenOn": "2020-01-17T22:38:33Z",
+      "side": 1,
+      "message": "not sure why we made this as `not ready` this test has been working fine.",
+      "range": {
+        "startLine": 335,
+        "startChar": 40,
+        "endLine": 335,
+        "endChar": 48
+      },
+      "revId": "23d8b164871bad11e97d25f816c5fba4cf536095",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    }
+  ]
+}
