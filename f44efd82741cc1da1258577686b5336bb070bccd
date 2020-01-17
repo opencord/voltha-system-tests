@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0735be2a_9ca92d03",
+        "filename": "libraries/power_switch.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1000064
+      },
+      "writtenOn": "2020-01-17T19:11:48Z",
+      "side": 1,
+      "message": "Can you please add more documentation for the keyword.. indicating what ${port} argument means here",
+      "range": {
+        "startLine": 39,
+        "startChar": 23,
+        "endLine": 39,
+        "endChar": 51
+      },
+      "revId": "f44efd82741cc1da1258577686b5336bb070bccd",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    }
+  ]
+}
