@@ -362,6 +362,51 @@ Adding the same OLT after enabling the device
     Should Contain     '${output}'     'Device is already pre-provisioned'
     Log    "This OLT is added already and enabled"
 
+Test disable ONUs and OLT then delete ONUs and OLT
+    [Documentation]    On deployed POD, disable the ONU, disable the OLT and then delete ONU and OLT.
+    ...    Devices will be removed during the execution of this TC
+    ...    so calling setup at the end to add the devices back to avoid the confusion.
+    [Tags]    functional    VOL-2354    DisableDeleteONUOLT
+    [Setup]    NONE
+    [Teardown]    None
+    FOR    ${I}    IN RANGE    0    ${num_onus}
+        ${src}=    Set Variable    ${hosts.src[${I}]}
+        ${dst}=    Set Variable    ${hosts.dst[${I}]}
+        ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
+        Wait Until Keyword Succeeds    ${timeout}    5s    Validate Device    ENABLED    ACTIVE
+        ...    REACHABLE    ${src['onu']}    onu=True    onu_reason=omci-flows-pushed
+        Wait Until Keyword Succeeds    ${timeout}    5s    Validate OLT Device    ENABLED    ACTIVE
+        ...    REACHABLE    ${olt_serial_number}
+        ${rc}    ${output}=    Run and Return Rc and Output
+        ...    ${VOLTCTL_CONFIG}; voltctl device disable ${onu_device_id}
+        Should Be Equal As Integers    ${rc}    0
+        Wait Until Keyword Succeeds    ${timeout}    5s    Validate Device    DISABLED    UNKNOWN
+        ...    REACHABLE    ${src['onu']}    onu=false
+        Wait Until Keyword Succeeds    ${timeout}    5s    Validate OLT Device    ENABLED    ACTIVE
+        ...    REACHABLE    ${olt_serial_number}
+    END
+    ${rc}    ${output}=    Run and Return Rc and Output    ${VOLTCTL_CONFIG}; voltctl device disable ${olt_device_id}
+    Should Be Equal As Integers    ${rc}    0
+    Wait Until Keyword Succeeds    ${timeout}    5s    Validate OLT Device    DISABLED    UNKNOWN    REACHABLE
+    ...    ${olt_serial_number}
+    FOR    ${I}    IN RANGE    0    ${num_onus}
+        ${src}=    Set Variable    ${hosts.src[${I}]}
+        ${dst}=    Set Variable    ${hosts.dst[${I}]}
+        ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
+        Wait Until Keyword Succeeds    ${timeout}    5s    Validate Device    DISABLED    DISCOVERED
+        ...    UNREACHABLE    ${src['onu']}    onu=false
+        ${rc}    ${output}=    Run and Return Rc and Output    ${VOLTCTL_CONFIG}; voltctl device delete ${onu_device_id}
+        Should Be Equal As Integers    ${rc}    0
+        Wait Until Keyword Succeeds    ${timeout}    5s    Validate OLT Device    DISABLED    UNKNOWN
+        ...    REACHABLE    ${olt_serial_number}
+    END
+    ${rc}    ${output}=    Run and Return Rc and Output    ${VOLTCTL_CONFIG}; voltctl device delete ${olt_device_id}
+    Should Be Equal As Integers    ${rc}    0
+    Wait Until Keyword Succeeds    ${timeout}    5s    Test Empty Device List
+    #Adding setup here to add the devices back since this TC removes the devices
+    Run Keyword If    ${has_dataplane}    sleep    180s
+    setup
+
 Sanity E2E Test for OLT/ONU on POD With Core Fail and Restart
     [Documentation]    Deploys an device instance and waits for it to authenticate. After
     ...    authentication is successful the rw-core deployment is scaled to 0 instances to
@@ -588,4 +633,3 @@ Repeat Sanity Test
         Run Keyword and Ignore Error   Get Device Output from Voltha    ${onu_device_id}
         Run Keyword and Ignore Error   Collect Logs
     END
-
