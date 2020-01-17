@@ -1,0 +1,85 @@
+{
+  "devices": {
+    "of:000000000ac014ce": {
+      "basic": {
+        "driver": "voltha"
+      }
+    }
+  },
+  "apps": {
+    "org.opencord.sadis": {
+      "sadis": {
+        "integration": {
+          "cache": {
+            "enabled": false,
+            "maxsize": 50,
+            "ttl": "PT0m"
+          }
+        },
+        "entries": [
+          {
+            "id": "ALPHe3d1cf5c-1",
+            "cTag": 11,
+            "sTag": 11,
+            "nasPortId": "ALPHe3d1cf5c-1",
+            "circuitId": "ALPHe3d1cf5c-1",
+            "remoteId": "EC1838000853",
+            "technologyProfileId": 64,
+            "upstreamBandwidthProfile": "User_Bandwidth3",
+            "downstreamBandwidthProfile": "User_Bandwidth2"
+          },
+          {
+            "id": "EC1838000853",
+            "hardwareIdentifier": "aa:bb:cc:dd:ee:ff",
+            "nasId": "EC1838000853",
+            "uplinkPort": 1048576
+          }
+        ]
+      },
+      "bandwidthprofile":{
+          "integration":{
+              "cache":{
+                  "enabled":true,
+                  "maxsize":40,
+                  "ttl":"PT1m"
+              }
+          },
+          "entries":[
+              {
+                  "id": "Default",
+                  "air": 100000,
+                  "cbs": 30,
+                  "cir": 10000,
+                  "ebs": 30,
+                  "eir": 10000
+              },
+              {
+                  "id": "User_Bandwidth1",
+                  "air": 100000,
+                  "cbs": 10000,
+                  "cir": 30000,
+                  "ebs": 1000,
+                  "eir": 20000
+              },
+              {
+                  "id": "User_Bandwidth2",
+                  "air": 100000,
+                  "cbs": 5000,
+                  "cir": 100000,
+                  "ebs": 5000,
+                  "eir": 100000
+              },
+              {
+                  "id": "User_Bandwidth3",
+                  "air": 100000,
+                  "cbs": 5000,
+                  "cir": 1000000,
+                  "ebs": 5000,
+                  "eir": 1000000
+              }
+
+          ]
+      }
+    }
+  }
+}
