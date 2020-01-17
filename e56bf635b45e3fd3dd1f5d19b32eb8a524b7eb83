@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "69d7a45c_e4f2e480",
+        "filename": "tests/data/dt-berlin-pod-sadis.json",
+        "patchSetId": 4
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1000007
+      },
+      "writtenOn": "2020-01-17T18:10:04Z",
+      "side": 1,
+      "message": "don\u0027t we have two ONUs there? Anyway is fine to add the second later",
+      "range": {
+        "startLine": 13,
+        "startChar": 10,
+        "endLine": 23,
+        "endChar": 12
+      },
+      "revId": "e56bf635b45e3fd3dd1f5d19b32eb8a524b7eb83",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    }
+  ]
+}
