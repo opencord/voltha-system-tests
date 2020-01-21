@@ -67,7 +67,7 @@ Test Disable and Enable ONU
     ...    Assuming that test1 was executed where all the ONUs are authenticated/DHCP/pingable
     ...    Perform disable on the ONUs and validate that the pings do not succeed
     ...    Perform enable on the ONUs and validate that the pings are successful
-    [Tags]    functional    DisableEnableONU    released
+    [Tags]    functional    DisableEnableONU    released    sanity
     [Setup]    None
     [Teardown]    None
     FOR    ${I}    IN RANGE    0    ${num_onus}
@@ -77,7 +77,7 @@ Test Disable and Enable ONU
         ${onu_port}=    Wait Until Keyword Succeeds    ${timeout}    2s    Get ONU Port in ONOS    ${src['onu']}
         ...    ${of_id}
         Disable Device    ${onu_device_id}
-        #Test Devices Disabled in VOLTHA    Id=${onu_device_id}
+        Wait Until Keyword Succeeds    20s    2s    Test Devices Disabled in VOLTHA    Id=${onu_device_id}
         Run Keyword If    ${has_dataplane}    Run Keyword And Continue On Failure
         ...    Wait Until Keyword Succeeds    60s    2s
         ...    Check Ping    False    ${dst['dp_iface_ip_qinq']}    ${src['dp_iface_name']}
