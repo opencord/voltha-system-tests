@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e6f427f4_a6388e78",
+        "filename": "tests/functional/Voltha_FailureTests.robot",
+        "patchSetId": 6
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1000064
+      },
+      "writtenOn": "2020-01-21T06:17:31Z",
+      "side": 1,
+      "message": "BTW, this should be a functional tests.  Move \"Error scenario\" tests into this file.  Tests as an example \"Readding the same OLT\"",
+      "range": {
+        "startLine": 56,
+        "startChar": 0,
+        "endLine": 56,
+        "endChar": 45
+      },
+      "revId": "9dfe788fb1a8051dc66027881cb4ada5860e2d51",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    }
+  ]
+}
