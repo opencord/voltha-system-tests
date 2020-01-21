@@ -23,7 +23,7 @@ teardown_device: true
 ONOS_REST_PORT: 8181
 ONOS_SSH_PORT: 8101
 OLT_PORT: 50060
-num_onu_flows: 4
+num_onu_flows: 1
 
 nodes:
   -
