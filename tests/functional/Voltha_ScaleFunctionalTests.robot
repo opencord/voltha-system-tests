@@ -31,7 +31,7 @@ Resource          ../../variables/variables.robot
 
 *** Variables ***
 ${timeout}        60s
-${long_timeout}    420
+${long_timeout}    420s
 ${of_id}          0
 ${logical_id}     0
 ${has_dataplane}    True
@@ -156,4 +156,4 @@ Delete Device and Verify
     ${rc}    ${output}=    Run and Return Rc and Output
     ...    ${VOLTCTL_CONFIG}; voltctl device delete ${olt_device_id}
     Should Be Equal As Integers    ${rc}    0
-    Wait Until Keyword Succeeds    ${timeout}    5s    Validate Device Removed    ${olt_device_id}
+    Wait Until Keyword Succeeds    ${long_timeout}    5s    Validate Device Removed    ${olt_device_id}
