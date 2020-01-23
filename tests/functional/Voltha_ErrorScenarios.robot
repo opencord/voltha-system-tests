@@ -58,6 +58,7 @@ Adding the same OLT before and after enabling the device
     [Tags]    VOL-2405   VOL-2406   AddSameOLT   functional
     [Setup]    None
     [Teardown]   None
+    Run Keyword If    ${has_dataplane}    Delete Device and Verify
     ${olt_device_id}=    Create Device    ${olt_ip}    ${OLT_PORT}
     Set Suite Variable    ${olt_device_id}
     Wait Until Keyword Succeeds    ${timeout}    5s    Validate OLT Device    PREPROVISIONED    UNKNOWN    UNKNOWN
