@@ -236,3 +236,38 @@ Delete Device and Verify
     Should Be Equal As Integers    ${rc}    0
     Wait Until Keyword Succeeds    ${timeout}    5s    Validate Device Removed    ${olt_device_id}
 
+Repeat Sanity Test
+    [Documentation]    This keyword performs Sanity Test Procedure
+    ...    Sanity test performs authentication, dhcp and pings for all the ONUs given for the POD
+    ...    This keyword can be used to call in any other tests where sanity check is required
+    ...    with wpa reassociation
+    ${of_id}=    Wait Until Keyword Succeeds    ${timeout}    15s    Validate OLT Device in ONOS    ${olt_serial_number}
+    Set Global Variable    ${of_id}
+    FOR    ${I}    IN RANGE    0    ${num_onus}
+        ${src}=    Set Variable    ${hosts.src[${I}]}
+        ${dst}=    Set Variable    ${hosts.dst[${I}]}
+        ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
+        ${onu_port}=    Wait Until Keyword Succeeds    ${timeout}    2s
+        ...    Get ONU Port in ONOS    ${src['onu']}    ${of_id}
+        Wait Until Keyword Succeeds    ${timeout}    2s
+        ...    Verify Eapol Flows Added For ONU    ${k8s_node_ip}    ${ONOS_SSH_PORT}    ${onu_port}
+        Run Keyword If    ${has_dataplane}    Run Keyword And Continue On Failure
+        ...    Validate Authentication After Reassociate
+        ...    True    ${src['dp_iface_name']}    ${src['ip']}    ${src['user']}    ${src['pass']}
+        ...    ${src['container_type']}    ${src['container_name']}
+        Wait Until Keyword Succeeds    ${timeout}    2s
+        ...    Verify ONU in AAA-Users    ${k8s_node_ip}    ${ONOS_SSH_PORT}     ${onu_port}
+        Wait Until Keyword Succeeds    ${timeout}    2s
+        ...    Execute ONOS CLI Command    ${k8s_node_ip}    ${ONOS_SSH_PORT}
+        ...    volt-add-subscriber-access ${of_id} ${onu_port}
+        Run Keyword If    ${has_dataplane}    Run Keyword And Continue On Failure
+        ...    Validate DHCP and Ping    True    True
+        ...    ${src['dp_iface_name']}    ${src['s_tag']}    ${src['c_tag']}    ${dst['dp_iface_ip_qinq']}
+        ...    ${src['ip']}    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
+        ...    ${dst['dp_iface_name']}    ${dst['ip']}    ${dst['user']}    ${dst['pass']}    ${dst['container_type']}
+        ...    ${dst['container_name']}
+        Wait Until Keyword Succeeds    ${timeout}    2s    Run Keyword And Continue On Failure
+        ...    Validate Subscriber DHCP Allocation    ${k8s_node_ip}    ${ONOS_SSH_PORT}    ${onu_port}
+        Run Keyword and Ignore Error   Get Device Output from Voltha    ${onu_device_id}
+        Run Keyword and Ignore Error   Collect Logs
+    END
