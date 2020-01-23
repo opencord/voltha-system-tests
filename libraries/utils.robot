@@ -223,6 +223,7 @@ Teardown Suite
 
 Delete Device and Verify
     [Documentation]    Disable -> Delete devices via voltctl and verify its removed
+    ${olt_device_id}=    Get Device ID From SN    ${olt_serial_number}
     ${rc}    ${output}=    Run and Return Rc and Output
     ...    ${VOLTCTL_CONFIG}; voltctl device disable ${olt_device_id}
     Should Be Equal As Integers    ${rc}    0

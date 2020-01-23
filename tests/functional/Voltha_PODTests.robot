@@ -331,7 +331,7 @@ Delete OLT, ReAdd OLT and Perform Sanity Test
     ...    Disable and Delete the OLT
     ...    Create/Enable the same OLT again
     ...    Validate authentication/DHCP/E2E pings succeed for all the ONUs connected to the OLT
-    [Tags]    functional    DeleteOLT   notready
+    [Tags]    functional    DeleteOLT
     [Setup]    None
     [Teardown]    NONE
     Run Keyword If    ${has_dataplane}    Clean Up Linux
@@ -344,7 +344,7 @@ Delete OLT, ReAdd OLT and Perform Sanity Test
 
 Adding the same OLT after enabling the device
     [Documentation]    Create OLT, enable it, Create the same OLT again and Check for the Error message
-    [Tags]    VOL-2406     AddEnableOLT_AddTheSameOLTAgain    functional
+    [Tags]    VOL-2406     AddEnableOLT_AddTheSameOLTAgain    notready
     [Setup]   Delete Device and Verify
     [Teardown]    None
     Run Keyword If    ${has_dataplane}    Sleep    180s
