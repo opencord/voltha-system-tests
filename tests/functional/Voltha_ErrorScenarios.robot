@@ -47,7 +47,7 @@ ${RESTART_POD_NAME}    radius
 ${timeout}        60s
 ${of_id}          0
 ${logical_id}     0
-${has_dataplane}    False
+${has_dataplane}    True
 ${external_libs}    True
 ${teardown_device}    False
 ${scripts}        ../../scripts
@@ -55,7 +55,7 @@ ${scripts}        ../../scripts
 *** Test Cases ***
 Adding the same OLT before and after enabling the device
     [Documentation]    Create OLT, Create the same OLT again and Check for the Error message
-    [Tags]    VOL-2405   VOL-2406   AddSameOLT   notready
+    [Tags]    VOL-2405   VOL-2406   AddSameOLT   functional
     [Setup]    None
     [Teardown]   None
     ${olt_device_id}=    Create Device    ${olt_ip}    ${OLT_PORT}
