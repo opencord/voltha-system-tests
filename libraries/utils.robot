@@ -271,3 +271,10 @@ Repeat Sanity Test
         Run Keyword and Ignore Error   Get Device Output from Voltha    ${onu_device_id}
         Run Keyword and Ignore Error   Collect Logs
     END
+    
+Collect Logs
+    [Documentation]    Collect Logs from voltha and onos cli for various commands
+    Run Keyword and Ignore Error    Get Device List from Voltha
+    Run Keyword and Ignore Error    Get Device Output from Voltha    ${olt_device_id}
+    Run Keyword and Ignore Error    Get Logical Device Output from Voltha    ${logical_id}
+    Run Keyword If    ${external_libs}    Get ONOS Status    ${k8s_node_ip}
