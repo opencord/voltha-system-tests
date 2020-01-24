@@ -47,7 +47,7 @@ ${RESTART_POD_NAME}    radius
 ${timeout}        60s
 ${of_id}          0
 ${logical_id}     0
-${has_dataplane}    False
+${has_dataplane}    True
 ${external_libs}    True
 ${teardown_device}    False
 ${scripts}        ../../scripts
@@ -56,7 +56,7 @@ ${scripts}        ../../scripts
 Verify restart any container after VOLTHA is operational
     [Documentation]    Restart any container after VOLTHA is operational.
     ...    Prerequisite : ONUs are authenticated and pingable.
-    [Tags]    functional   VOL-1958   RestartPods    notready
+    [Tags]    functional   VOL-1958   RestartPods
     [Setup]    NONE
     [Teardown]    NONE
     ${waitforRestart}    Set Variable    120s

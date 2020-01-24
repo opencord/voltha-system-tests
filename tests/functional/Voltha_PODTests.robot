@@ -306,26 +306,6 @@ Test Disable and Enable ONU scenario for ATT workflow
     END
     Run Keyword and Ignore Error    Collect Logs
 
-Verify restart any container after VOLTHA is operational
-    [Documentation]    Restart any container after VOLTHA is operational.
-    ...    Prerequisite : ONUs are authenticated and pingable.
-    [Tags]    functional   VOL-1958   RestartPods
-    [Setup]    NONE
-    [Teardown]    NONE
-    ${waitforRestart}    Set Variable    120s
-    ${podStatusOutput}=    Run    kubectl get pods -n ${NAMESPACE}
-    Log    ${podStatusOutput}
-    ${countBforRestart}=    Run    kubectl get pods -n ${NAMESPACE} | grep Running | wc -l
-    ${podName}    Set Variable     adapter-open-olt
-    Restart Pod    ${NAMESPACE}    ${podName}
-    Wait Until Keyword Succeeds    ${waitforRestart}    2s    Validate Pod Status    ${podName}    ${NAMESPACE}
-    ...    Running
-    Repeat Sanity Test
-    ${podStatusOutput}=    Run    kubectl get pods -n ${NAMESPACE}
-    Log    ${podStatusOutput}
-    ${countAfterRestart}=    Run    kubectl get pods -n ${NAMESPACE} | grep Running | wc -l
-    Should Be Equal As Strings    ${countAfterRestart}    ${countBforRestart}
-
 Delete OLT, ReAdd OLT and Perform Sanity Test
     [Documentation]    Validates E2E Ping Connectivity and object states for the given scenario:
     ...    Disable and Delete the OLT
@@ -341,27 +321,6 @@ Delete OLT, ReAdd OLT and Perform Sanity Test
     Run Keyword If    ${has_dataplane}    Setup
     Wait Until Keyword Succeeds    ${timeout}   2s    Perform Sanity Test
     Run Keyword and Ignore Error    Collect Logs
-
-Adding the same OLT after enabling the device
-    [Documentation]    Create OLT, enable it, Create the same OLT again and Check for the Error message
-    [Tags]    VOL-2406     AddEnableOLT_AddTheSameOLTAgain    notready
-    [Setup]   Delete Device and Verify
-    [Teardown]    None
-    Run Keyword If    ${has_dataplane}    Sleep    180s
-    ${olt_device_id}=    Create Device    ${olt_ip}    ${OLT_PORT}
-    Set Suite Variable    ${olt_device_id}
-    Wait Until Keyword Succeeds    ${timeout}    5s    Validate OLT Device    PREPROVISIONED    UNKNOWN    UNKNOWN
-    ...    ${EMPTY}    ${olt_device_id}
-    #Enable the created OLT device
-    Enable Device    ${olt_device_id}
-    Wait Until Keyword Succeeds    ${timeout}    5s    Validate OLT Device    ENABLED    ACTIVE    REACHABLE
-    ...    ${olt_serial_number}
-    ${rc}    ${output}=    Run and Return Rc and Output
-    ...    ${VOLTCTL_CONFIG}; voltctl device create -t openolt -H ${olt_ip}:${OLT_PORT}
-    Should Not Be Equal As Integers    ${rc}    0
-    Log    ${output}
-    Should Contain     ${output}    Device is already pre-provisioned
-    Log    "This OLT is added already and enabled"
 
 Test disable ONUs and OLT then delete ONUs and OLT
     [Documentation]    On deployed POD, disable the ONU, disable the OLT and then delete ONU and OLT.
@@ -504,35 +463,3 @@ Clean Up Linux
         ...    ${dst['container_type']}    ${dst['container_name']}
     END
 
-Repeat Sanity Test
-    [Documentation]    Performs Sanity Test Procedure where sanity check is required with wpa reassociation
-    ${of_id}=    Wait Until Keyword Succeeds    ${timeout}    15s    Validate OLT Device in ONOS    ${olt_serial_number}
-    Set Global Variable    ${of_id}
-    FOR    ${I}    IN RANGE    0    ${num_onus}
-        ${src}=    Set Variable    ${hosts.src[${I}]}
-        ${dst}=    Set Variable    ${hosts.dst[${I}]}
-        ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
-        ${onu_port}=    Wait Until Keyword Succeeds    ${timeout}    2s
-        ...    Get ONU Port in ONOS    ${src['onu']}    ${of_id}
-        Wait Until Keyword Succeeds    ${timeout}    2s
-        ...    Verify Eapol Flows Added For ONU    ${k8s_node_ip}    ${ONOS_SSH_PORT}    ${onu_port}
-        Run Keyword If    ${has_dataplane}    Run Keyword And Continue On Failure
-        ...    Validate Authentication After Reassociate
-        ...    True    ${src['dp_iface_name']}    ${src['ip']}    ${src['user']}    ${src['pass']}
-        ...    ${src['container_type']}    ${src['container_name']}
-        Wait Until Keyword Succeeds    ${timeout}    2s
-        ...    Verify ONU in AAA-Users    ${k8s_node_ip}    ${ONOS_SSH_PORT}     ${onu_port}
-        Wait Until Keyword Succeeds    ${timeout}    2s
-        ...    Execute ONOS CLI Command    ${k8s_node_ip}    ${ONOS_SSH_PORT}
-        ...    volt-add-subscriber-access ${of_id} ${onu_port}
-        Run Keyword If    ${has_dataplane}    Run Keyword And Continue On Failure
-        ...    Validate DHCP and Ping    True    True
-        ...    ${src['dp_iface_name']}    ${src['s_tag']}    ${src['c_tag']}    ${dst['dp_iface_ip_qinq']}
-        ...    ${src['ip']}    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
-        ...    ${dst['dp_iface_name']}    ${dst['ip']}    ${dst['user']}    ${dst['pass']}    ${dst['container_type']}
-        ...    ${dst['container_name']}
-        Wait Until Keyword Succeeds    ${timeout}    2s    Run Keyword And Continue On Failure
-        ...    Validate Subscriber DHCP Allocation    ${k8s_node_ip}    ${ONOS_SSH_PORT}    ${onu_port}
-        Run Keyword and Ignore Error   Get Device Output from Voltha    ${onu_device_id}
-        Run Keyword and Ignore Error   Collect Logs
-    END
