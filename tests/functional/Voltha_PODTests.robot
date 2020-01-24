@@ -129,44 +129,6 @@ Test Subscriber Delete and Add
     END
     Run Keyword and Ignore Error    Collect Logs
 
-Check OLT/ONU Authentication After Radius Pod Restart
-    [Documentation]    After radius restart, triggers reassociation, checks status and
-    ...    authentication, validates dhcp and ping. Note : wpa reassociate works only when
-    ...    wpa supplicant is running in background hence it is recommended to remove
-    ...    teardown from previous test or uncomment 'Teardown    None'.
-    ...    Assuming that test1 was executed where all the ONUs are authenticated/DHCP/pingable
-    [Tags]    functional    RadiusRestart    released
-    [Setup]    None
-    [Teardown]    None
-    Wait Until Keyword Succeeds    ${timeout}    15s    Restart Pod    ${NAMESPACE}    ${RESTART_POD_NAME}
-    FOR    ${I}    IN RANGE    0    ${num_onus}
-        ${src}=    Set Variable    ${hosts.src[${I}]}
-        ${dst}=    Set Variable    ${hosts.dst[${I}]}
-        ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
-        ${onu_port}=    Wait Until Keyword Succeeds    ${timeout}    2s
-        ...    Get ONU Port in ONOS    ${src['onu']}    ${of_id}
-        Wait Until Keyword Succeeds    ${timeout}    2s
-        ...    Verify Eapol Flows Added For ONU    ${k8s_node_ip}    ${ONOS_SSH_PORT}    ${onu_port}
-        Run Keyword If    ${has_dataplane}    Run Keyword And Continue On Failure
-        ...    Validate Authentication After Reassociate    True    ${src['dp_iface_name']}
-        ...    ${src['ip']}    ${src['user']}    ${src['pass']}
-        ...    ${src['container_type']}    ${src['container_name']}
-        Wait Until Keyword Succeeds    ${timeout}    2s    Verify ONU in AAA-Users    ${k8s_node_ip}
-        ...    ${ONOS_SSH_PORT}    ${onu_port}
-        Run Keyword If    ${has_dataplane}    Run Keyword And Continue On Failure
-        ...    Validate DHCP and Ping    True    True    ${src['dp_iface_name']}
-        ...    ${src['s_tag']}    ${src['c_tag']}    ${dst['dp_iface_ip_qinq']}
-        ...    ${src['ip']}    ${src['user']}    ${src['pass']}
-        ...    ${src['container_type']}    ${src['container_name']}
-        ...    ${dst['dp_iface_name']}    ${dst['ip']}    ${dst['user']}
-        ...    ${dst['pass']}    ${dst['container_type']}    ${dst['container_name']}
-        Wait Until Keyword Succeeds    ${timeout}    2s    Run Keyword And Continue On Failure
-        ...    Validate Subscriber DHCP Allocation    ${k8s_node_ip}    ${ONOS_SSH_PORT}    ${onu_port}
-        Run Keyword and Ignore Error    Get Device Output from Voltha    ${onu_device_id}
-        Run Keyword and Ignore Error    Collect Logs
-    END
-    Run Keyword and Ignore Error    Collect Logs
-
 Check DHCP attempt fails when subscriber is not added
     [Documentation]    Validates when removed subscriber access, DHCP attempt, ping fails and
     ...    when again added subscriber access, DHCP attempt, ping succeeds
@@ -209,53 +171,6 @@ Check DHCP attempt fails when subscriber is not added
         ...    ${dst['container_name']}
         Run Keyword and Ignore Error    Collect Logs
     END
-    Run Keyword and Ignore Error    Collect Logs
-
-Check ONU adapter crash not forcing authentication again
-    [Documentation]    After ONU adapter restart, checks wpa log for 'authentication started'
-    ...    message count to make sure auth not started again and validates EAP status and ping.
-    ...    Assuming that test1 or sanity was executed where all the ONUs are authenticated/DHCP/pingable
-    [Tags]    functional    ONUAdaptCrash    notready
-    [Setup]    None
-    [Teardown]    None
-    @{before_list}=    Create List
-    @{after_list}=    Create List
-    FOR    ${I}    IN RANGE    0    ${num_onus}
-        ${src}=    Set Variable    ${hosts.src[${I}]}
-        ${dst}=    Set Variable    ${hosts.dst[${I}]}
-        ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
-        ${onu_port}=    Wait Until Keyword Succeeds    ${timeout}    2s    Get ONU Port in ONOS    ${src['onu']}
-        ...    ${of_id}
-        ${before}=    Run Keyword If    ${has_dataplane}    Check Remote File Contents For WPA Logs
-        ...    True    /tmp/wpa.log    authentication started    ${src['ip']}    ${src['user']}    ${src['pass']}
-        ...    ${src['container_type']}    ${src['container_name']}
-        Append To List    ${before_list}    ${before}
-    END
-    Wait Until Keyword Succeeds    ${timeout}    15s    Restart Pod    ${NAMESPACE}    adapter-open-onu
-    Wait Until Keyword Succeeds    ${timeout}    2s    Validate Pod Status    ${podName}    ${NAMESPACE}
-    ...    Running
-    FOR    ${I}    IN RANGE    0    ${num_onus}
-        ${src}=    Set Variable    ${hosts.src[${I}]}
-        ${dst}=    Set Variable    ${hosts.dst[${I}]}
-        ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
-        ${onu_port}=    Wait Until Keyword Succeeds    ${timeout}    2s    Get ONU Port in ONOS    ${src['onu']}
-        ...    ${of_id}
-        ${after}=    Run Keyword If    ${has_dataplane}    Check Remote File Contents For WPA Logs
-        ...    True    /tmp/wpa.log    authentication started    ${src['ip']}    ${src['user']}    ${src['pass']}
-        ...    ${src['container_type']}    ${src['container_name']}
-        Append To List    ${after_list}    ${after}
-        ${output}=    Run Keyword If    ${has_dataplane}    Login And Run Command On Remote System
-        ...    wpa_cli status | grep SUCCESS    ${src['ip']}    ${src['user']}    ${src['pass']}
-        ...    ${src['container_type']}    ${src['container_name']}
-        Run Keyword If    ${has_dataplane}    Should Contain    ${output}    SUCCESS
-        Run Keyword If    ${has_dataplane}    Run Keyword And Continue On Failure
-        ...    Wait Until Keyword Succeeds    60s    2s    Check Ping
-        ...    True    ${dst['dp_iface_ip_qinq']}    ${src['dp_iface_name']}    ${src['ip']}    ${src['user']}
-        ...    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
-    END
-    Lists Should Be Equal    ${after_list}    ${before_list}
-    Log    ${after_list}
-    Log    ${before_list}
     Run Keyword and Ignore Error    Collect Logs
 
 Test Disable and Enable ONU scenario for ATT workflow
