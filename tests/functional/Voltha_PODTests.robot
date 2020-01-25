@@ -327,9 +327,10 @@ Test disable ONUs and OLT then delete ONUs and OLT
     ...    This TC is to confirm that ONU removal is not impacting OLT
     ...    Devices will be removed during the execution of this TC
     ...    so calling setup at the end to add the devices back to avoid the confusion.
-    [Tags]    VOL-2354    DisableDeleteONUandOLT    notready
+    [Tags]    functional    VOL-2354    DisableDeleteONUandOLT
     [Setup]    NONE
     [Teardown]    None
+    ${olt_device_id}=    Get Device ID From SN    ${olt_serial_number}
     FOR    ${I}    IN RANGE    0    ${num_onus}
         ${src}=    Set Variable    ${hosts.src[${I}]}
         ${dst}=    Set Variable    ${hosts.dst[${I}]}
@@ -354,8 +355,8 @@ Test disable ONUs and OLT then delete ONUs and OLT
         ${src}=    Set Variable    ${hosts.src[${I}]}
         ${dst}=    Set Variable    ${hosts.dst[${I}]}
         ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
-        Wait Until Keyword Succeeds    ${timeout}    5s    Validate Device    DISABLED    DISCOVERED
-        ...    UNREACHABLE    ${src['onu']}    onu=false
+        Wait Until Keyword Succeeds    ${timeout}    5s    Validate Device    DISABLED    UNKNOWN
+        ...    REACHABLE    ${src['onu']}    onu=false
         ${rc}    ${output}=    Run and Return Rc and Output    ${VOLTCTL_CONFIG}; voltctl device delete ${onu_device_id}
         Should Be Equal As Integers    ${rc}    0
         Wait Until Keyword Succeeds    ${timeout}    5s    Validate OLT Device    DISABLED    UNKNOWN
