@@ -77,3 +77,30 @@ Adding the same OLT before and after enabling the device
     Log    ${output}
     Should Contain     ${output}    Device is already pre-provisioned
     Log    "This OLT is added already and enabled"
+
+Test Disable different device id which is not in the device list
+    [Documentation]    Disable a device id which is not listed in the voltctl device list
+    ...    command and ensure that error message is shown.
+    [Tags]    VOL-2412
+    [Setup]    None
+    [Teardown]    None
+    ${rc}  ${output}=    Run and Return Rc and Output    ${VOLTCTL_CONFIG}; voltctl device list -o json
+    Should Be Equal As Integers    ${rc}    0
+    ${jsondata}=    To Json    ${output}
+    Log    ${jsondata}
+    ${length}=    Get Length    ${jsondata}
+    @{ids}=    Create List
+    FOR    ${INDEX}    IN RANGE    0    ${length}
+        ${value}=    Get From List    ${jsondata}    ${INDEX}
+        ${device_id}=    Get From Dictionary    ${value}    id
+        Append To List    ${ids}    ${device_id}
+    END
+    #Create a new fake device id
+    ${fakeDeviceId}    Replace String Using Regexp          ${device_id}    \\d\\d     xx    count=1
+    Log     ${fakeDeviceId}
+    #Ensure that the new id created is not in the device id list
+    List Should Not Contain Value    ${ids}    ${fakeDeviceId}
+    #Disable fake device id
+    ${rc}  ${output}=    Run and Return Rc and Output    ${VOLTCTL_CONFIG}; voltctl device disable ${fakeDeviceId}
+    Should Be Equal As Strings    ${output}     ERROR: Error while disabling '${fakeDeviceId}': NOTFOUND: ${fakeDeviceId}
+
