@@ -81,7 +81,7 @@ Adding the same OLT before and after enabling the device
 Test Disable different device id which is not in the device list
     [Documentation]    Disable a device id which is not listed in the voltctl device list
     ...    command and ensure that error message is shown.
-    [Tags]    VOL-2412
+    [Tags]    functional    DisableInvalidDevice    VOL-2412
     [Setup]    None
     [Teardown]    None
     ${rc}  ${output}=    Run and Return Rc and Output    ${VOLTCTL_CONFIG}; voltctl device list -o json
@@ -102,5 +102,4 @@ Test Disable different device id which is not in the device list
     List Should Not Contain Value    ${ids}    ${fakeDeviceId}
     #Disable fake device id
     ${rc}  ${output}=    Run and Return Rc and Output    ${VOLTCTL_CONFIG}; voltctl device disable ${fakeDeviceId}
-    Should Be Equal As Strings    ${output}     Error while disabling '${fakeDeviceId}': NOTFOUND: ${fakeDeviceId}
-
+    Should Contain    ${output}     Error while disabling '${fakeDeviceId}': rpc error: code = NotFound desc
