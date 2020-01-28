@@ -112,7 +112,9 @@ node ("${TestNodeName}") {
                             waitUntil {
                                 olt_sw_present = sh returnStdout: true, script: """
                                 sshpass -p ${deployment_config.olts[i].pass} ssh -l ${deployment_config.olts[i].user} ${deployment_config.olts[i].ip} 'dpkg --list | grep asfvolt16 | wc -l'
-                                sshpass -p ${deployment_config.olts[i].pass} ssh -l ${deployment_config.olts[i].user} ${deployment_config.olts[i].ip} 'echo "port ce128 sp=40000" >> /broadcom/qax.soc'
+                                if ( ${deployment_config.olts[i].fortygig} ); then
+                                    sshpass -p ${deployment_config.olts[i].pass} ssh -l ${deployment_config.olts[i].user} ${deployment_config.olts[i].ip} 'echo "port ce128 sp=40000" >> /broadcom/qax.soc'
+                                fi
                                 """
                                 return olt_sw_present.toInteger() == 1
                             }
