@@ -14,7 +14,7 @@
 # FIXME Can we use the same test against BBSim and Hardware?
 
 *** Settings ***
-Documentation     Test various end-to-end scenarios
+Documentation     Test various failure scenarios
 Suite Setup       Common Test Suite Setup
 Test Setup        Setup
 Test Teardown     Teardown
@@ -31,6 +31,7 @@ Resource          ../../libraries/voltha.robot
 Resource          ../../libraries/utils.robot
 Resource          ../../libraries/k8s.robot
 Resource          ../../variables/variables.robot
+Resource          ../../libraries/power_switch.robot
 
 *** Variables ***
 ${POD_NAME}       flex-ocp-cord
@@ -96,3 +97,27 @@ Verify restart any container after VOLTHA is operational
     Should Be Equal As Strings    ${countAfterRestart}    ${countBforRestart}
     Log to console    Pod ${podName} restarted and sanity checks passed successfully
 
+Verify ONU after rebooting physically
+    [Documentation]    Test the ONU funcaionality by physically turning on/off ONU.
+    ...    Prerequisite : Subscriber are authenticated/DHCP/pingable state
+    [Tags]    functional   VOL-2488    PowerSwitch
+    [Setup]    NONE
+    [Teardown]    NONE
+    Power Switch Connection Suite    ${web_power_switch.ip}    ${web_power_switch.user}    ${web_power_switch.password}
+    FOR    ${I}    IN RANGE    0    ${num_onus}
+        ${src}=    Set Variable    ${hosts.src[${I}]}
+        ${dst}=    Set Variable    ${hosts.dst[${I}]}
+        Disable Switch Outlet    ${src['power_switch_port']}
+        Run Keyword If    ${has_dataplane}    Run Keyword And Continue On Failure
+        ...    Wait Until Keyword Succeeds    60s    2s
+        ...    Check Ping    False    ${dst['dp_iface_ip_qinq']}    ${src['dp_iface_name']}
+        ...    ${src['ip']}    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
+
+        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s    Validate Device
+        ...    ENABLED    ACTIVE    REACHABLE    ${src['onu']}
+        Enable Switch Outlet    ${src['power_switch_port']}
+        Run Keyword If    ${has_dataplane}    Run Keyword And Continue On Failure
+        ...    Wait Until Keyword Succeeds    60s    2s
+        ...    Check Ping    True    ${dst['dp_iface_ip_qinq']}    ${src['dp_iface_name']}
+        ...    ${src['ip']}    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
+    END
