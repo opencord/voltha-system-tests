@@ -299,3 +299,11 @@ Check Expected Running Pods Number By Label
     ${rc}    ${count}    Run and Return Rc and Output
     ...    kubectl -n ${namespace} get pods -l ${key}=${value} -o json | jq -r ".items[].status.phase" | wc -l
     Should Be Equal as Integers    ${count}    ${number}
+
+Reboot ONU
+    [Arguments]    ${onu_id}    ${src}   ${dst}
+    [Documentation]   Using voltctl command reboot ONU and verify that ONU comes up to running state
+    ${rc}    ${devices}=    Run and Return Rc and Output    ${VOLTCTL_CONFIG}; voltctl device reboot ${onu_id}
+    Should Be Equal As Integers    ${rc}    0
+    Run Keyword and Ignore Error    Wait Until Keyword Succeeds    30   1s    Validate Device
+    ...    ENABLED    ACTIVATING    UNREACHABLE   ${onu_id}    onu=True
