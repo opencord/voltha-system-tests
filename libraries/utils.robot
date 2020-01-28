@@ -278,3 +278,16 @@ Collect Logs
     Run Keyword and Ignore Error    Get Device Output from Voltha    ${olt_device_id}
     Run Keyword and Ignore Error    Get Logical Device Output from Voltha    ${logical_id}
     Run Keyword If    ${external_libs}    Get ONOS Status    ${k8s_node_ip}
+
+Verify ping is succesful except for given device
+    [Arguments]    ${num_onus}    ${exceptional_onu_id}   
+    [Documentation]    Checks that ping for all the devices are successful except the given ONU.
+	${pingStatus}     Set Variable    True
+	FOR    ${I}    IN RANGE    0    ${num_onus}
+        ${src}=    Set Variable    ${hosts.src[${I}]}
+        ${dst}=    Set Variable    ${hosts.dst[${I}]}
+        ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
+	${pingStatus}     Run Keyword If    '${onu_device_id}' == '${exceptional_onu_id}'    Set Variable     False
+	Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    60s    2s    Check Ping    pingStatus    ${dst['dp_iface_ip_qinq']}    
+        ...    ${src['dp_iface_name']}    ${src['ip']}    ${src['user']}    ${src['pass']}   ${src['container_type']}    ${src['container_name']}
+
