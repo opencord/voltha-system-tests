@@ -13,6 +13,10 @@
 // limitations under the License.
 
 node ("${TestNodeName}") {
+    def withKind = false
+    if (params.withKind != null){
+        withKind = params.withKind
+    }
     timeout (100) {
         try {
             stage ("Parse deployment configuration file") {
@@ -51,6 +55,14 @@ node ("${TestNodeName}") {
                             return kubectl_deleted.toInteger() == 0
                         }
                     }
+                    timeout(1) {
+                        sh returnStdout: true, script: """
+                        port_fwd_pid=`ps -ax | grep "port-forward -n default service/onos-openflow" | grep -v "grep" | awk '{print \$1}'`
+                        if [[ "" !=  "\$port_fwd_pid" ]]; then
+                            kill -9 \$port_fwd_pid > /dev/null 2>&1
+                        fi
+                        """
+                    }
                 }
             }
             stage('Install Voltha')  {
@@ -72,6 +84,20 @@ node ("${TestNodeName}") {
                     kubectl get pods -n voltha -o wide
                     """
                     }
+            }
+            if ( withKind && deployment_config.fabric_switches.size() > 0 ) {
+                stage('OpenFlow port forward for aggregation switch') {
+                    timeout(1) {
+                        sh returnStdout: true, script: """
+                        export KUBECONFIG=$WORKSPACE/${configBaseDir}/${configKubernetesDir}/${configFileName}.conf
+                        #This uses the default route out, porperly configured is the management
+                        mgmt_address=`ip route get 1 | awk '{print \$NF;exit}'`
+                        while true; do
+                            kubectl port-forward -n default service/onos-openflow --address=\$mgmt_address 6653:6653;
+                        done & > /dev/null 2>&1
+                        """
+                    }
+                }
             }
             if ( params.configurePod && params.profile != "Default") {
                 stage('Push Tech-Profile') {
