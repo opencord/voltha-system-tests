@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a15697f7_3de0b37b",
+        "filename": "tests/functional/Voltha_FailureScenarios.robot",
+        "patchSetId": 3
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1000064
+      },
+      "writtenOn": "2020-01-28T03:15:20Z",
+      "side": 1,
+      "message": "Please add \"notready\" tag, otherwise it will execute on all PODs",
+      "range": {
+        "startLine": 103,
+        "startChar": 4,
+        "endLine": 103,
+        "endChar": 10
+      },
+      "revId": "33d46b89be66b30b0352b662938e6b87c1e9e42d",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    }
+  ]
+}
