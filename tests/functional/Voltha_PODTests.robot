@@ -258,6 +258,21 @@ Check ONU adapter crash not forcing authentication again
     Log    ${before_list}
     Run Keyword and Ignore Error    Collect Logs
 
+Verify ONU Reboot
+    [Documentation]    Reboot ONU and verify that ONU comes up properly
+    [Tags]    VOL-1957    RebootONU   notready
+    [Setup]   NONE
+    FOR    ${I}    IN RANGE    0    ${num_onus}
+        ${src}=    Set Variable    ${hosts.src[${I}]}
+        ${dst}=    Set Variable    ${hosts.dst[${I}]}
+        ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
+        Reboot ONU    ${onu_device_id}   ${src}   ${dst}
+        Verify ping is succesful except for given device     ${num_onus}    ${onu_device_id}
+        Run Keyword If    ${has_dataplane}    Clean Up Linux
+        #Check after reboot that ONUs are active, authenticated/DHCP/pingable
+        Perform Sanity Test
+    END
+
 Test Disable and Enable ONU scenario for ATT workflow
     [Documentation]    Validates E2E Ping Connectivity and object states for the given scenario:
     ...    Assuming that test1 was executed where all the ONUs are authenticated/DHCP/pingable
