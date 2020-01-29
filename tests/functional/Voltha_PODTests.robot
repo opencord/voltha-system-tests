@@ -62,6 +62,50 @@ Sanity E2E Test for OLT/ONU on POD
     Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test
     Run Keyword and Ignore Error    Collect Logs
 
+Test Disable and Enable OLT
+    [Documentation]    Validates E2E Ping Connectivity and object states for the given scenario:
+    ...    Assuming that test1 was executed where all the ONUs are authenticated/DHCP/pingable
+    ...    Perform disable on the OLT and validate that the pings do not succeed
+    ...    Perform enable on the OLT and validate that the pings are successful
+    [Tags]    VOL-2410    DisableEnableOLT    notready
+    [Setup]    None
+    [Teardown]    None
+    #Disable the OLT and verify the OLT/ONUs are disabled properly
+    ${rc}    ${output}=    Run and Return Rc and Output    ${VOLTCTL_CONFIG}; voltctl device disable ${olt_device_id}
+    Should Be Equal As Integers    ${rc}    0
+    Wait Until Keyword Succeeds    ${timeout}    5s    Validate OLT Device    DISABLED    UNKNOWN    REACHABLE
+    ...    ${olt_serial_number}
+    FOR    ${I}    IN RANGE    0    ${num_onus}
+        ${src}=    Set Variable    ${hosts.src[${I}]}
+        ${dst}=    Set Variable    ${hosts.dst[${I}]}
+        ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
+        Wait Until Keyword Succeeds    ${timeout}    5s    Validate Device    ENABLED    DISCOVERED
+        ...    UNREACHABLE    ${src['onu']}    onu=false
+        #Verify that ping fails
+        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    60s    2s    Check Ping    False    ${dst['dp_iface_ip_qinq']}
+        ...    ${src['dp_iface_name']}    ${src['ip']}    ${src['user']}    ${src['pass']}   ${src['container_type']}    ${src['container_name']}
+    END
+    #Enable the OLT back and check ONU, OLT status are back to "ACTIVE"
+    Enable Device    ${olt_device_id}
+    Wait Until Keyword Succeeds    ${timeout}    5s    Validate OLT Device    ENABLED    ACTIVE    REACHABLE
+    ...    ${olt_serial_number}
+    FOR    ${I}    IN RANGE    0    ${num_onus}
+        ${src}=    Set Variable    ${hosts.src[${I}]}
+        ${dst}=    Set Variable    ${hosts.dst[${I}]}
+        ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
+        ${onu_port}=    Wait Until Keyword Succeeds    ${timeout}    2s    Get ONU Port in ONOS    ${src['onu']}
+        ...    ${of_id}
+        Wait Until Keyword Succeeds    ${timeout}    5s    Validate Device    ENABLED    ACTIVE
+        ...    REACHABLE    ${src['onu']}    onu=True    onu_reason=omci-flows-pushed
+        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
+        ...    Validate Subscriber DHCP Allocation    ${k8s_node_ip}    ${ONOS_SSH_PORT}    ${onu_port}
+        #Verify that ping workss fine again
+        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    60s    2s    Check Ping    True    ${dst['dp_iface_ip_qinq']}
+        ...    ${src['dp_iface_name']}    ${src['ip']}    ${src['user']}    ${src['pass']}   ${src['container_type']}    ${src['container_name']}
+        Run Keyword and Ignore Error   Collect Logs
+    END
+
+
 Test Disable and Enable ONU
     [Documentation]    Validates E2E Ping Connectivity and object states for the given scenario:
     ...    Assuming that test1 was executed where all the ONUs are authenticated/DHCP/pingable
