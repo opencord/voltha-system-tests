@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c0b10c44_df854e67",
+        "filename": "libraries/utils.robot",
+        "patchSetId": 4
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1000011
+      },
+      "writtenOn": "2020-01-30T23:48:32Z",
+      "side": 1,
+      "message": "I\u0027m not sure this is needed anymore -  in my testing`KUBECONFIG` and `VOLTCTL_CONFIG` are already set in the environment, rather than on every command line.",
+      "range": {
+        "startLine": 58,
+        "startChar": 2,
+        "endLine": 59,
+        "endChar": 87
+      },
+      "revId": "6e624369ee610f72b03683098576388470f2e4ab",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    }
+  ]
+}
