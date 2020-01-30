@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4a4e2725_d99fd327",
+        "filename": "libraries/voltha.robot",
+        "patchSetId": 5
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1000011
+      },
+      "writtenOn": "2020-01-30T23:28:35Z",
+      "side": 1,
+      "message": "tab?",
+      "range": {
+        "startLine": 46,
+        "startChar": 10,
+        "endLine": 46,
+        "endChar": 11
+      },
+      "revId": "62141704ab2e09cac26f2027b83d6c27d02caff7",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    }
+  ]
+}
