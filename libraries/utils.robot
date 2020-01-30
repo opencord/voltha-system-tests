@@ -55,7 +55,8 @@ Common Test Suite Setup
     ...    ${CURDIR}/../../cord-tester/src/test/cord-api/Framework/DHCP.robot
     Run Keyword If    ${external_libs}    Import Resource
     ...    ${CURDIR}/../../cord-tester/src/test/cord-api/Framework/Kubernetes.robot
-    Set Global Variable    ${KUBECTL_CONFIG}    export KUBECONFIG=%{KUBECONFIG}
+    #Set Global Variable    ${KUBECTL_CONFIG}    export KUBECONFIG=%{KUBECONFIG}
+    Set Global Variable    ${export_kubeconfig}    export KUBECONFIG=${KUBERNETES_CONF}
     Set Global Variable    ${VOLTCTL_CONFIG}    export VOLTCONFIG=%{VOLTCONFIG}
     ${k8s_node_ip}=    Evaluate    ${nodes}[0].get("ip")
     ${k8s_node_user}=    Evaluate    ${nodes}[0].get("user")
@@ -82,8 +83,8 @@ Common Test Suite Setup
     Set Suite Variable    ${k8s_node_ip}
     Set Suite Variable    ${k8s_node_user}
     Set Suite Variable    ${k8s_node_pass}
-    @{container_list}=    Create List    adapter-open-olt    adapter-open-onu    voltha-api-server
-    ...    voltha-ro-core    voltha-rw-core-11    voltha-rw-core-12    voltha-ofagent
+    @{container_list}=    Create List    adapter-open-olt    adapter-open-onu
+    ...    voltha-rw-core    onos    voltha-ofagent
     Set Suite Variable    ${container_list}
     ${datetime}=    Get Current Date
     Set Suite Variable    ${datetime}
@@ -198,6 +199,8 @@ Setup
     ...    Validate OLT Device    ENABLED    ACTIVE    REACHABLE    ${olt_serial_number}
     ${logical_id}=    Get Logical Device ID From SN    ${olt_serial_number}
     Set Suite Variable    ${logical_id}
+    ${datetime}=    Get Current Datetime On Kubernetes Node    ${k8s_node_ip}    ${k8s_node_user}    ${k8s_node_pass}
+    Set Suite Variable    ${datetime}
 
 Delete All Devices and Verify
     [Documentation]    Remove any devices from VOLTHA and ONOS
@@ -278,3 +281,15 @@ Collect Logs
     Run Keyword and Ignore Error    Get Device Output from Voltha    ${olt_device_id}
     Run Keyword and Ignore Error    Get Logical Device Output from Voltha    ${logical_id}
     Run Keyword If    ${external_libs}    Get ONOS Status    ${k8s_node_ip}
+
+Set DateTime
+    [Documentation]    Sets data and time for LogCollection keyword.  "datetime" is required to collect logs for each testcase
+    ${datetime}=    Get Current Datetime On Kubernetes Node    ${k8s_node_ip}    ${k8s_node_user}    ${k8s_node_pass}
+    Set Suite Variable    ${datetime}
+
+Log Collection
+    [Documentation]    Collect Kubernetes Logs from required containers based on the timestamp
+    ...    Also, collects outputs for voltha and cli for various commands
+    ...    Keywords are combined here for making it easier to call in the testcasese
+    Run Keyword and Ignore Error    Collect Logs
+    Log Kubernetes Containers Logs Since Time    ${datetime}    ${container_list}
