@@ -61,6 +61,9 @@ Verify restart ofagent container after VOLTHA is operational
     [Tags]    functional   VOL-2409   ofagentRestart   notready
     [Setup]    NONE
     [Teardown]    NONE
+    # Performing Sanity Test to make sure subscribers are all AUTH+DHCP and pingable
+    Run Keyword If    ${has_dataplane}    Clean Up Linux
+    Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test
     ${waitforRestart}    Set Variable    120s
     ${podStatusOutput}=    Run    ${KUBECTL_CONFIG};kubectl get pods -n ${NAMESPACE}
     Log    ${podStatusOutput}
