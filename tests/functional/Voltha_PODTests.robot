@@ -369,6 +369,7 @@ Test disable ONUs and OLT then delete ONUs and OLT
     Run Keyword If    ${has_dataplane}    sleep    180s
     setup
 
+
 Sanity E2E Test for OLT/ONU on POD With Core Fail and Restart
     [Documentation]    Deploys an device instance and waits for it to authenticate. After
     ...    authentication is successful the rw-core deployment is scaled to 0 instances to
