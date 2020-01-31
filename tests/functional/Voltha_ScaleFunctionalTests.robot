@@ -120,8 +120,6 @@ Teardown Suite
     ...    kills processes and cleans up interfaces on src+dst servers
     Run Keyword If    ${external_libs}    Get ONOS Status    ${k8s_node_ip}
     Run Keyword If    ${has_dataplane}    Clean Up Linux
-    Run Keyword If    ${external_libs}
-    ...    Log Kubernetes Containers Logs Since Time    ${datetime}    ${container_list}
     Run Keyword If    ${teardown_device}    Delete Device and Verify
     Run Keyword If    ${teardown_device}    Test Empty Device List
     Run Keyword If    ${teardown_device}    Execute ONOS CLI Command    ${k8s_node_ip}    ${ONOS_SSH_PORT}
