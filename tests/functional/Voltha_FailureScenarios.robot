@@ -76,8 +76,8 @@ Verify restart ofagent container after VOLTHA is operational
     Should Be Equal As Strings    ${countAfterRestart}    ${countBforRestart}
     Run Keyword and Ignore Error   Collect Logs
 
-Verify restart any container after VOLTHA is operational
-    [Documentation]    Restart any container after VOLTHA is operational.
+Verify restart openolt-adapter container after VOLTHA is operational
+    [Documentation]    Restart openolt-adapter container after VOLTHA is operational.
     ...    Prerequisite : ONUs are authenticated and pingable.
     [Tags]    functional   VOL-1958   RestartPods
     [Setup]    NONE
