@@ -51,13 +51,15 @@ ${has_dataplane}    True
 ${external_libs}    True
 ${teardown_device}    False
 ${scripts}        ../../scripts
+${container_log_path}    /tmp
 
 *** Test Cases ***
 Adding the same OLT before and after enabling the device
     [Documentation]    Create OLT, Create the same OLT again and Check for the Error message
     [Tags]    VOL-2405   VOL-2406   AddSameOLT   functional
     [Setup]    None
-    [Teardown]   None
+    [Teardown]   End Log Capture
+    Start Log Capture    AddSameOLT
     Run Keyword If    ${has_dataplane}    Delete Device and Verify
     ${olt_device_id}=    Create Device    ${olt_ip}    ${OLT_PORT}
     Set Suite Variable    ${olt_device_id}
@@ -83,7 +85,8 @@ Test Disable different device id which is not in the device list
     ...    command and ensure that error message is shown.
     [Tags]    functional    DisableInvalidDevice    VOL-2412
     [Setup]    None
-    [Teardown]    None
+    [Teardown]    End Log Capture
+    Start Log Capture    DisableInvalidDevice
     ${rc}  ${output}=    Run and Return Rc and Output    ${VOLTCTL_CONFIG}; voltctl device list -o json
     Should Be Equal As Integers    ${rc}    0
     ${jsondata}=    To Json    ${output}

@@ -56,6 +56,7 @@ Common Test Suite Setup
     Run Keyword If    ${external_libs}    Import Resource
     ...    ${CURDIR}/../../cord-tester/src/test/cord-api/Framework/Kubernetes.robot
     Set Global Variable    ${KUBECTL_CONFIG}    export KUBECONFIG=%{KUBECONFIG}
+    Set Global Variable    ${export_kubeconfig}    export KUBECONFIG=%{KUBECONFIG}
     Set Global Variable    ${VOLTCTL_CONFIG}    export VOLTCONFIG=%{VOLTCONFIG}
     ${k8s_node_ip}=    Evaluate    ${nodes}[0].get("ip")
     ${k8s_node_user}=    Evaluate    ${nodes}[0].get("user")
@@ -82,9 +83,6 @@ Common Test Suite Setup
     Set Suite Variable    ${k8s_node_ip}
     Set Suite Variable    ${k8s_node_user}
     Set Suite Variable    ${k8s_node_pass}
-    @{container_list}=    Create List    adapter-open-olt    adapter-open-onu    voltha-api-server
-    ...    voltha-ro-core    voltha-rw-core-11    voltha-rw-core-12    voltha-ofagent
-    Set Suite Variable    ${container_list}
     ${datetime}=    Get Current Date
     Set Suite Variable    ${datetime}
 
@@ -213,9 +211,6 @@ Delete All Devices and Verify
 Teardown
     [Documentation]    kills processes and cleans up interfaces on src+dst servers
     Run Keyword If    ${has_dataplane}    Clean Up Linux
-    Run Keyword If    ${external_libs}        Run Keyword and Ignore Error
-    ...    Log Kubernetes Containers Logs Since Time
-    ...    ${datetime}    ${container_list}
 
 Teardown Suite
     [Documentation]    Clean up device if desired
@@ -278,3 +273,15 @@ Collect Logs
     Run Keyword and Ignore Error    Get Device Output from Voltha    ${olt_device_id}
     Run Keyword and Ignore Error    Get Logical Device Output from Voltha    ${logical_id}
     Run Keyword If    ${external_libs}    Get ONOS Status    ${k8s_node_ip}
+
+Start Log Capture
+    [Arguments]    ${label}
+    [Documentation]    Start logging all containers
+    ${kail_process}=    Start Process    kail    -n    default    -n    voltha    stdout=${label}-combined.log
+    Set Test Variable    ${kail_process}
+
+End Log Capture
+    [Documentation]    End logging all containers
+    Run    sync
+    Collect Logs
+    Terminate Process    ${kail_process}

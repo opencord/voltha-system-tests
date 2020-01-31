@@ -51,16 +51,17 @@ ${has_dataplane}    True
 ${external_libs}    True
 ${teardown_device}    False
 ${scripts}        ../../scripts
+${container_log_path}    /tmp
 
 *** Test Cases ***
 Sanity E2E Test for OLT/ONU on POD
     [Documentation]    Validates E2E Ping Connectivity and object states for the given scenario:
     ...    Validate successful authentication/DHCP/E2E ping for the tech profile that is used
     [Tags]    sanity    test1
-    [Teardown]    NONE
+    [Teardown]    End Log Capture
+    Start Log Capture    SanityTest
     Run Keyword If    ${has_dataplane}    Clean Up Linux
     Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test
-    Run Keyword and Ignore Error    Collect Logs
 
 Test Disable and Enable ONU
     [Documentation]    Validates E2E Ping Connectivity and object states for the given scenario:
@@ -69,7 +70,8 @@ Test Disable and Enable ONU
     ...    Perform enable on the ONUs and validate that the pings are successful
     [Tags]    functional    DisableEnableONU    released
     [Setup]    None
-    [Teardown]    None
+    [Teardown]    End Log Capture
+    Start Log Capture    DisableEnableONU
     FOR    ${I}    IN RANGE    0    ${num_onus}
         ${src}=    Set Variable    ${hosts.src[${I}]}
         ${dst}=    Set Variable    ${hosts.dst[${I}]}
@@ -92,7 +94,6 @@ Test Disable and Enable ONU
         Run Keyword and Ignore Error    Get Device Output from Voltha    ${onu_device_id}
         Run Keyword and Ignore Error    Collect Logs
     END
-    Run Keyword and Ignore Error    Collect Logs
 
 Test Subscriber Delete and Add
     [Documentation]    Validates E2E Ping Connectivity and object states for the given scenario:
@@ -101,7 +102,8 @@ Test Subscriber Delete and Add
     ...    Re-add the subscriber and validate that the pings are successful
     [Tags]    functional    SubAddDelete    released
     [Setup]    None
-    [Teardown]    None
+    [Teardown]    End Log Capture
+    Start Log Capture    SubAddDelete
     FOR    ${I}    IN RANGE    0    ${num_onus}
         ${src}=    Set Variable    ${hosts.src[${I}]}
         ${dst}=    Set Variable    ${hosts.dst[${I}]}
@@ -127,7 +129,6 @@ Test Subscriber Delete and Add
         Run Keyword and Ignore Error    Get Device Output from Voltha    ${onu_device_id}
         Run Keyword and Ignore Error    Collect Logs
     END
-    Run Keyword and Ignore Error    Collect Logs
 
 Check OLT/ONU Authentication After Radius Pod Restart
     [Documentation]    After radius restart, triggers reassociation, checks status and
@@ -137,7 +138,8 @@ Check OLT/ONU Authentication After Radius Pod Restart
     ...    Assuming that test1 was executed where all the ONUs are authenticated/DHCP/pingable
     [Tags]    functional    RadiusRestart    released
     [Setup]    None
-    [Teardown]    None
+    [Teardown]    End Log Capture
+    Start Log Capture    RadiusRestart
     Wait Until Keyword Succeeds    ${timeout}    15s    Restart Pod    ${NAMESPACE}    ${RESTART_POD_NAME}
     FOR    ${I}    IN RANGE    0    ${num_onus}
         ${src}=    Set Variable    ${hosts.src[${I}]}
@@ -165,7 +167,6 @@ Check OLT/ONU Authentication After Radius Pod Restart
         Run Keyword and Ignore Error    Get Device Output from Voltha    ${onu_device_id}
         Run Keyword and Ignore Error    Collect Logs
     END
-    Run Keyword and Ignore Error    Collect Logs
 
 Check DHCP attempt fails when subscriber is not added
     [Documentation]    Validates when removed subscriber access, DHCP attempt, ping fails and
@@ -173,7 +174,8 @@ Check DHCP attempt fails when subscriber is not added
     ...    Assuming that test1 or sanity test was executed where all the ONUs are authenticated/DHCP/pingable
     [Tags]    functional    SubsRemoveDHCP    released
     [Setup]    None
-    [Teardown]    None
+    [Teardown]    End Log Capture
+    Start Log Capture    SubsRemoveDHCP
     FOR    ${I}    IN RANGE    0    ${num_onus}
         ${src}=    Set Variable    ${hosts.src[${I}]}
         ${dst}=    Set Variable    ${hosts.dst[${I}]}
@@ -209,7 +211,6 @@ Check DHCP attempt fails when subscriber is not added
         ...    ${dst['container_name']}
         Run Keyword and Ignore Error    Collect Logs
     END
-    Run Keyword and Ignore Error    Collect Logs
 
 Check ONU adapter crash not forcing authentication again
     [Documentation]    After ONU adapter restart, checks wpa log for 'authentication started'
@@ -217,7 +218,8 @@ Check ONU adapter crash not forcing authentication again
     ...    Assuming that test1 or sanity was executed where all the ONUs are authenticated/DHCP/pingable
     [Tags]    functional    ONUAdaptCrash    notready
     [Setup]    None
-    [Teardown]    None
+    [Teardown]    End Log Capture
+    Start Log Capture    ONUAdaptCrash
     @{before_list}=    Create List
     @{after_list}=    Create List
     FOR    ${I}    IN RANGE    0    ${num_onus}
@@ -256,7 +258,7 @@ Check ONU adapter crash not forcing authentication again
     Lists Should Be Equal    ${after_list}    ${before_list}
     Log    ${after_list}
     Log    ${before_list}
-    Run Keyword and Ignore Error    Collect Logs
+
 
 Test Disable and Enable ONU scenario for ATT workflow
     [Documentation]    Validates E2E Ping Connectivity and object states for the given scenario:
@@ -267,7 +269,8 @@ Test Disable and Enable ONU scenario for ATT workflow
     ...    VOL-2284
     [Tags]    functional    ATT_DisableEnableONU
     [Setup]    None
-    #[Teardown]    None
+    [Teardown]    End Log Capture
+    Start Log Capture    ATT_DisableEnableONU
     FOR    ${I}    IN RANGE    0    ${num_onus}
         ${src}=    Set Variable    ${hosts.src[${I}]}
         ${dst}=    Set Variable    ${hosts.dst[${I}]}
@@ -304,7 +307,6 @@ Test Disable and Enable ONU scenario for ATT workflow
         ...    Validate Subscriber DHCP Allocation    ${k8s_node_ip}    ${ONOS_SSH_PORT}    ${onu_port}
         Run Keyword and Ignore Error    Collect Logs
     END
-    Run Keyword and Ignore Error    Collect Logs
 
 Delete OLT, ReAdd OLT and Perform Sanity Test
     [Documentation]    Validates E2E Ping Connectivity and object states for the given scenario:
@@ -313,14 +315,14 @@ Delete OLT, ReAdd OLT and Perform Sanity Test
     ...    Validate authentication/DHCP/E2E pings succeed for all the ONUs connected to the OLT
     [Tags]    functional    DeleteOLT
     [Setup]    None
-    [Teardown]    NONE
+    [Teardown]    End Log Capture
+    Start Log Capture    DeleteOLT
     Run Keyword If    ${has_dataplane}    Clean Up Linux
     Run Keyword If    ${has_dataplane}    Delete Device and Verify
     Run Keyword and Ignore Error    Collect Logs
     # Recreate the OLT
     Run Keyword If    ${has_dataplane}    Setup
     Wait Until Keyword Succeeds    ${timeout}   2s    Perform Sanity Test
-    Run Keyword and Ignore Error    Collect Logs
 
 Test disable ONUs and OLT then delete ONUs and OLT
     [Documentation]    On deployed POD, disable the ONU, disable the OLT and then delete ONU and OLT.
@@ -328,8 +330,9 @@ Test disable ONUs and OLT then delete ONUs and OLT
     ...    Devices will be removed during the execution of this TC
     ...    so calling setup at the end to add the devices back to avoid the confusion.
     [Tags]    functional    VOL-2354    DisableDeleteONUandOLT
-    [Setup]    NONE
-    [Teardown]    None
+    [Setup]    None
+    [Teardown]    End Log Capture
+    Start Log Capture    DisableDeleteONUandOLT
     ${olt_device_id}=    Get Device ID From SN    ${olt_serial_number}
     FOR    ${I}    IN RANGE    0    ${num_onus}
         ${src}=    Set Variable    ${hosts.src[${I}]}
@@ -369,7 +372,6 @@ Test disable ONUs and OLT then delete ONUs and OLT
     Run Keyword If    ${has_dataplane}    sleep    180s
     setup
 
-
 Sanity E2E Test for OLT/ONU on POD With Core Fail and Restart
     [Documentation]    Deploys an device instance and waits for it to authenticate. After
     ...    authentication is successful the rw-core deployment is scaled to 0 instances to
@@ -378,6 +380,8 @@ Sanity E2E Test for OLT/ONU on POD With Core Fail and Restart
     ...    complete the DHCP sequence.
     [Tags]    bbsim    rwcore-restart
     [Setup]    Clear All Devices Then Create New Device
+    [Teardown]   End Log Capture
+    Start Log Capture    RwCoreFailAndRestart
     ${of_id}=    Wait Until Keyword Succeeds    ${timeout}    15s    Validate OLT Device in ONOS    ${olt_serial_number}
     Set Global Variable    ${of_id}
     FOR    ${I}    IN RANGE    0    ${num_onus}
@@ -464,4 +468,3 @@ Clean Up Linux
         ...    ${dst['dp_iface_name']}.${src['s_tag']}    ${dst['ip']}    ${dst['user']}    ${dst['pass']}
         ...    ${dst['container_type']}    ${dst['container_name']}
     END
-
