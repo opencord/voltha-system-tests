@@ -109,7 +109,7 @@ make sanity
 ```
 If you are running the tests in another environment, you can run `make sanity`
 with the arguments appropriate for your environment.  Look at
-[variables.robot](variables/variables.robot) for a list of variables that
+[variables.robot](https://github.com/opencord/voltha-system-tests/blob/master/variables/variables.robot) for a list of variables that
 you may need to override.
 
 # Running Tests on Physical POD
