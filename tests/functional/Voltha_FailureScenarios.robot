@@ -52,6 +52,7 @@ ${has_dataplane}    True
 ${external_libs}    True
 ${teardown_device}    False
 ${scripts}        ../../scripts
+${container_log_dir}    .
 
 *** Test Cases ***
 Verify restart ofagent container after VOLTHA is operational
@@ -59,44 +60,45 @@ Verify restart ofagent container after VOLTHA is operational
     ...    Please note this test case should be run before the restart of other containers.
     ...    Prerequisite : ONUs are authenticated and pingable.
     [Tags]    functional   VOL-2409   ofagentRestart   notready
-    [Setup]    NONE
-    [Teardown]    NONE
+    [Setup]    None
+    [Teardown]    End Log Capture
+    Start Log Capture    ofagentRestart    ${container_log_dir}
     # Performing Sanity Test to make sure subscribers are all AUTH+DHCP and pingable
     Run Keyword If    ${has_dataplane}    Clean Up Linux
     Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test
     ${waitforRestart}    Set Variable    120s
-    ${podStatusOutput}=    Run    ${KUBECTL_CONFIG};kubectl get pods -n ${NAMESPACE}
+    ${podStatusOutput}=    Run    kubectl get pods -n ${NAMESPACE}
     Log    ${podStatusOutput}
-    ${countBforRestart}=    Run    ${KUBECTL_CONFIG};kubectl get pods -n ${NAMESPACE} | grep Running | wc -l
+    ${countBforRestart}=    Run    kubectl get pods -n ${NAMESPACE} | grep Running | wc -l
     Restart Pod    ${NAMESPACE}    ofagent
     Sleep    60s
     Wait Until Keyword Succeeds    ${waitforRestart}    2s    Validate Pod Status    ofagent    ${NAMESPACE}
     ...    Running
     Repeat Sanity Test
-    ${podStatusOutput}=    Run    ${KUBECTL_CONFIG};kubectl get pods -n ${NAMESPACE}
+    ${podStatusOutput}=    Run    kubectl get pods -n ${NAMESPACE}
     Log    ${podStatusOutput}
-    ${countAfterRestart}=    Run    ${KUBECTL_CONFIG};kubectl get pods -n ${NAMESPACE} | grep Running | wc -l
+    ${countAfterRestart}=    Run    kubectl get pods -n ${NAMESPACE} | grep Running | wc -l
     Should Be Equal As Strings    ${countAfterRestart}    ${countBforRestart}
-    Run Keyword and Ignore Error   Collect Logs
 
 Verify restart openolt-adapter container after VOLTHA is operational
     [Documentation]    Restart openolt-adapter container after VOLTHA is operational.
     ...    Prerequisite : ONUs are authenticated and pingable.
     [Tags]    functional   VOL-1958   RestartPods
-    [Setup]    NONE
-    [Teardown]    NONE
+    [Setup]    None
+    [Teardown]    End Log Capture
+    Start Log Capture    RestartPods    ${container_log_dir}
     ${waitforRestart}    Set Variable    120s
-    ${podStatusOutput}=    Run    ${KUBECTL_CONFIG};kubectl get pods -n ${NAMESPACE}
+    ${podStatusOutput}=    Run    kubectl get pods -n ${NAMESPACE}
     Log    ${podStatusOutput}
-    ${countBforRestart}=    Run    ${KUBECTL_CONFIG};kubectl get pods -n ${NAMESPACE} | grep Running | wc -l
+    ${countBforRestart}=    Run    kubectl get pods -n ${NAMESPACE} | grep Running | wc -l
     ${podName}    Set Variable     adapter-open-olt
     Restart Pod    ${NAMESPACE}    ${podName}
     Wait Until Keyword Succeeds    ${waitforRestart}    2s    Validate Pod Status    ${podName}    ${NAMESPACE}
     ...    Running
     Repeat Sanity Test
-    ${podStatusOutput}=    Run    ${KUBECTL_CONFIG};kubectl get pods -n ${NAMESPACE}
+    ${podStatusOutput}=    Run    kubectl get pods -n ${NAMESPACE}
     Log    ${podStatusOutput}
-    ${countAfterRestart}=    Run    ${KUBECTL_CONFIG};kubectl get pods -n ${NAMESPACE} | grep Running | wc -l
+    ${countAfterRestart}=    Run    kubectl get pods -n ${NAMESPACE} | grep Running | wc -l
     Should Be Equal As Strings    ${countAfterRestart}    ${countBforRestart}
     Log to console    Pod ${podName} restarted and sanity checks passed successfully
 
@@ -104,8 +106,9 @@ Verify ONU after rebooting physically
     [Documentation]    Test the ONU funcaionality by physically turning on/off ONU.
     ...    Prerequisite : Subscriber are authenticated/DHCP/pingable state
     [Tags]    functional   VOL-2488    PowerSwitch    notready
-    [Setup]    NONE
-    [Teardown]    NONE
+    [Setup]    None
+    [Teardown]    End Log Capture
+    Start Log Capture    PowerSwitch    ${container_log_dir}
     Power Switch Connection Suite    ${web_power_switch.ip}    ${web_power_switch.user}    ${web_power_switch.password}
     FOR    ${I}    IN RANGE    0    ${num_onus}
         ${src}=    Set Variable    ${hosts.src[${I}]}
