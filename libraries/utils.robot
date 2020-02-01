@@ -246,6 +246,9 @@ Repeat Sanity Test
     FOR    ${I}    IN RANGE    0    ${num_onus}
         ${src}=    Set Variable    ${hosts.src[${I}]}
         ${dst}=    Set Variable    ${hosts.dst[${I}]}
+        Wait Until Keyword Succeeds    ${timeout}    5s    Validate Device
+        ...    ENABLED    ACTIVE    REACHABLE
+        ...    ${src['onu']}    onu=True    onu_reason=omci-flows-pushed
         ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
         ${onu_port}=    Wait Until Keyword Succeeds    ${timeout}    2s
         ...    Get ONU Port in ONOS    ${src['onu']}    ${of_id}
