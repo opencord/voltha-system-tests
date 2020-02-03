@@ -92,9 +92,7 @@ node ("${TestNodeName}") {
                         export KUBECONFIG=$WORKSPACE/${configBaseDir}/${configKubernetesDir}/${configFileName}.conf
                         #This uses the default route out, porperly configured is the management
                         mgmt_address=`ip route get 1 | awk '{print \$NF;exit}'`
-                        while true; do
-                            kubectl port-forward -n default service/onos-openflow --address=\$mgmt_address 6653:6653;
-                        done & > /dev/null 2>&1
+                        bash -c "while true; do kubectl port-forward -n default service/onos-openflow --address=\$mgmt_address 6653:6653; done" >> /dev/null 2>&1 &
                         """
                     }
                 }
