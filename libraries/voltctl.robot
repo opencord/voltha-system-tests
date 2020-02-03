@@ -384,6 +384,24 @@ Get SN From Device ID
     Log    ${sn}
     [Return]    ${sn}
 
+Get SN From Device ID
+    [Arguments]    ${device_id}
+    [Documentation]    Gets the device id by matching for ${device_id}
+    ${rc}    ${sn}=    Run and Return Rc and Output
+    ...    ${VOLTCTL_CONFIG}; voltctl device list --filter=Id=${device_id} --format='{{.SerialNumber}}'
+    Should Be Equal As Integers    ${rc}    0
+    Log    ${sn}
+    [Return]    ${sn}
+
+Get Parent ID From Device ID
+    [Arguments]    ${device_id}
+    [Documentation]    Gets the device id by matching for ${device_id}
+    ${rc}    ${pid}=    Run and Return Rc and Output
+    ...    ${VOLTCTL_CONFIG}; voltctl device list --filter=Id=${device_id} --format='{{.ParentId}}'
+    Should Be Equal As Integers    ${rc}    0
+    Log    ${pid}
+    [Return]    ${pid}
+
 Validate Device Removed
     [Arguments]    ${id}
     [Documentation]    Verifys that device, ${serial_number}, has been removed
