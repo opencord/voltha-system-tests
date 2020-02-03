@@ -103,3 +103,36 @@ Test Disable different device id which is not in the device list
     #Disable fake device id
     ${rc}  ${output}=    Run and Return Rc and Output    ${VOLTCTL_CONFIG}; voltctl device disable ${fakeDeviceId}
     Should Contain    ${output}     Error while disabling '${fakeDeviceId}': rpc error: code = NotFound desc
+
+Check deletion of OLT/ONU before disabling
+    [Documentation]    Try deleting OL/ONU before disabling and check error message
+    ...    Assuming devices are already created, up and running fine; test1 or sanity was
+    ...    executed where all the ONUs are authenticated/DHCP/pingable
+    [Tags]    VOL-2411    DeleteBeforeDisableCheck    notready
+    [Setup]   None
+    [Teardown]    None
+    #validate olt states
+    Wait Until Keyword Succeeds    ${timeout}    5s    Validate OLT Device    ENABLED    ACTIVE    REACHABLE
+    ...    ${olt_serial_number}
+    ${rc}    ${output}=    Run and Return Rc and Output    ${VOLTCTL_CONFIG}; voltctl device delete ${olt_device_id}
+    Log    ${output}
+    Should Contain     ${output}     expected-admin-state:DISABLED
+    Wait Until Keyword Succeeds    ${timeout}    5s
+    ...    Validate OLT Device    ENABLED    ACTIVE    REACHABLE    ${olt_serial_number}
+    ${of_id}=    Wait Until Keyword Succeeds    ${timeout}    15s    Validate OLT Device in ONOS    ${olt_serial_number}
+    Set Global Variable    ${of_id}
+    FOR    ${I}    IN RANGE    0    ${num_onus}
+	${src}=    Set Variable    ${hosts.src[${I}]}
+	${dst}=    Set Variable    ${hosts.dst[${I}]}
+	${onu_device_id}=    Get Device ID From SN    ${src['onu']}
+	Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s    Validate Device
+	...    ENABLED    ACTIVE    REACHABLE
+	...    ${src['onu']}    onu=True    onu_reason=omci-flows-pushed
+	${rc}    ${output}=    Run and Return Rc and Output    ${VOLTCTL_CONFIG}; voltctl device delete ${onu_device_id}
+	Log    ${output}
+	Should Contain     ${output}     expected-admin-state:DISABLED
+        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s    Validate Device
+        ...    ENABLED    ACTIVE    REACHABLE
+        ...    ${src['onu']}    onu=True    onu_reason=omci-flows-pushed
+    END
+    Run Keyword and Ignore Error   Collect Logs
