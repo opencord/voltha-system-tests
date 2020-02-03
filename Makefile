@@ -42,10 +42,6 @@ ROBOT_SCALE_MULT_PON_FILE       ?= $(ROOT_DIR)/tests/data/bbsim-kind-8x2.yaml
 ROBOT_DEBUG_LOG_OPT             ?=
 ROBOT_MISC_ARGS                 ?=
 
-ROBOT_SYSTEM_SETUP_MISC_ARGS    ?= -i scaledown -l systemup_log.html -r systemup_report.html -o systemup_output.xml
-ROBOT_SYSTEM_TEARDOWN_MISC_ARGS ?= -i scaleup -l systemdown_log.html -r systemdown_report.html -o sysstemdown_output.xml
-ROBOT_SYSTEM_FILE               ?= K8S_SystemTest.robot
-
 # for backwards compatibility
 sanity-kind: sanity-single-kind
 
@@ -82,10 +78,11 @@ bbsim-scale-kind: ROBOT_MISC_ARGS += -X $(ROBOT_DEBUG_LOG_OPT)
 bbsim-scale-kind: ROBOT_FILE := Voltha_ScaleFunctionalTests.robot
 bbsim-scale-kind: voltha-test
 
-system-scale-test: ROBOT_FILE := Voltha_PODTests.robot
-system-scale-test: ROBOT_MISC_ARGS += -X -i sanity $(ROBOT_DEBUG_LOG_OPT)
-system-scale-test: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_SINGLE_PON_FILE)
-system-scale-test: k8s-system-test
+#Only supported in full mode
+system-scale-test: ROBOT_FILE := K8S_SystemTest.robot
+system-scale-test: ROBOT_MISC_ARGS += -X -i SystemTest $(ROBOT_DEBUG_LOG_OPT) -v ONOS_REST_PORT:8281 -v ONOS_SSH_PORT:8201
+system-scale-test: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_MULT_PON_FILE)
+system-scale-test: voltha-test
 
 failure-test: ROBOT_MISC_ARGS += -X -i FailureTest $(ROBOT_DEBUG_LOG_OPT)
 failure-test: ROBOT_FILE := $(ROBOT_SYSTEM_FILE)
@@ -93,15 +90,6 @@ failure-test: ROBOT_CONFIG_FILE := $(ROBOT_FAIL_SINGLE_PON_FILE)
 failure-test: voltha-test
 
 voltha-test: ROBOT_MISC_ARGS += -e notready
-k8s-system-test: ROBOT_MISC_ARGS += -e notready
-
-#bbsim-only
-k8s-system-test: vst_venv
-	source ./$</bin/activate ; set -u ;\
-	cd tests/functional ;\
-	robot $(ROBOT_SYSTEM_SETUP_MISC_ARGS) $(ROBOT_MISC_ARGS) $(ROBOT_SYSTEM_FILE) && \
-	robot -V $(ROBOT_CONFIG_FILE) $(ROBOT_MISC_ARGS) $(ROBOT_FILE) && \
-	robot $(ROBOT_SYSTEM_TEARDOWN_MISC_ARGS) $(ROBOT_MISC_ARGS) $(ROBOT_SYSTEM_FILE)
 
 voltha-test: vst_venv
 	source ./$</bin/activate ; set -u ;\
