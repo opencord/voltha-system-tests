@@ -14,8 +14,16 @@
 
 *** Settings ***
 Documentation     Provide the function to perform system related test
-Library           OperatingSystem
+Suite Setup       Common Test Suite Setup
+Test Setup        Setup
+Test Teardown     Teardown
+Suite Teardown    Teardown Suite
+Resource          ../../libraries/onos.robot
+Resource          ../../libraries/voltctl.robot
+Resource          ../../libraries/voltha.robot
+Resource          ../../libraries/utils.robot
 Resource          ../../libraries/k8s.robot
+Resource          ../../variables/variables.robot
 
 *** Variables ***
 ${timeout}        120s
@@ -31,9 +39,9 @@ ${ofagent_pod_label_value}    ofagent
 ${adapter_openolt_pod_label_value}    adapter-open-olt
 
 *** Test Cases ***
-Scale Down ETCD Cluster
-    [Documentation]    Scale Down the ETCD cluster to minimal size, skip test if current cluster size < 3
-    [Tags]    scaledown    ETCDdown
+ECTD Scale Test
+    [Documentation]    Perform the sanity test if some ETCD endpoints crash
+    [Tags]    SystemTest
     ${current_size}=    Get ETCD Running Size    voltha
     Pass Execution If    '${current_size}' != '${desired_ETCD_cluster_size}'
     ...    'Skip the test if the cluster size smaller than minimal size 3'
@@ -45,15 +53,10 @@ Scale Down ETCD Cluster
     Wait Until Keyword Succeeds    ${timeout}    2s
     ...    Check Expected Running Pods Number By Label    ${namespace}
     ...    ${ETCD_pod_label_key}    ${ETCD_name}    2
-
-Scale Up ETCD Cluster
-    [Documentation]    Recover the ETCD cluster by scaling up its size
-    [Tags]    scaleup    ETCDup
-    ${current_size}=    Get ETCD Running Size    voltha
-    Pass Execution If    '${current_size}' != '${minimal_ETCD_cluster_size}'
-    ...    'Skip the test if the cluster size smaller than minimal size 3'
-    Scale ETCD    ${namespace}    ${desired_ETCD_cluster_size}
+    # Perform the sanity-test
+    Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test
     # We scale up the size to 3, the recommended size of ETCD cluster.
+    Scale ETCD    ${namespace}    ${desired_ETCD_cluster_size}
     Wait Until Keyword Succeeds    ${timeout}    2s
     ...    Validate ETCD Size    ${namespace}    ${desired_ETCD_cluster_size}
 
