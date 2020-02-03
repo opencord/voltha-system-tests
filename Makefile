@@ -94,6 +94,11 @@ failure-test: ROBOT_FILE := $(ROBOT_SYSTEM_FILE)
 failure-test: ROBOT_CONFIG_FILE := $(ROBOT_FAIL_SINGLE_PON_FILE)
 failure-test: voltha-test
 
+bbsim-alarms-kind: ROBOT_MISC_ARGS += -X -i active
+bbsim-alarms-kind: ROBOT_FILE := Voltha_AlarmTests.robot
+bbsim-alarms-kind: ROBOT_CONFIG_FILE := $(ROBOT_SCALE_SINGLE_PON_FILE)
+bbsim-alarms-kind: voltctl-docker-image-build voltctl-docker-image-install-kind voltha-test
+
 voltha-test: ROBOT_MISC_ARGS += -e notready
 
 voltha-test: vst_venv
@@ -174,3 +179,14 @@ clean:
 
 clean-all: clean
 	rm -rf vst_venv gendocs
+
+voltctl-docker-image-build:
+	@which voltctl > /dev/null || (echo "voltctl not found in PATH" && false)
+	@echo "Installing the following voltctl version"
+	voltctl version
+	cp `which voltctl` docker/
+	cd docker && docker build -t opencord/voltctl:local -f Dockerfile.voltctl .
+
+voltctl-docker-image-install-kind:
+	@if [ "`kind get clusters | grep voltha`" = '' ]; then echo "no voltha cluster found" && exit 1; fi
+	kind load docker-image --name `kind get clusters | grep voltha` opencord/voltctl:local
