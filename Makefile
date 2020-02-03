@@ -97,6 +97,11 @@ failure-test: ROBOT_FILE := $(ROBOT_SYSTEM_FILE)
 failure-test: ROBOT_CONFIG_FILE := $(ROBOT_FAIL_SINGLE_PON_FILE)
 failure-test: voltha-test
 
+bbsim-alarms-kind: ROBOT_MISC_ARGS += -X -i active
+bbsim-alarms-kind: ROBOT_FILE := Voltha_AlarmTests.robot
+bbsim-alarms-kind: ROBOT_CONFIG_FILE := $(ROBOT_SCALE_SINGLE_PON_FILE)
+bbsim-alarms-kind: voltha-test
+
 voltha-test: ROBOT_MISC_ARGS += -e notready
 k8s-system-test: ROBOT_MISC_ARGS += -e notready
 
