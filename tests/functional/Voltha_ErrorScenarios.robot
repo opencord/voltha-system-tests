@@ -203,3 +203,32 @@ Disable and Delete the logical device directly
     Should Be Equal As Integers    ${rc}    0
     Log    ${output1}
     Should Contain     '${output1}'     Unknown command
+
+Check logical device creation and deletion
+    [Documentation]    Deletes all devices, checks logical device, creates devices again and checks
+    ...    logical device, flows, ports
+    [Tags]    VOL-2416    VOL-2417    LogicalDeviceCheck    notready
+    [Setup]   None
+    [Teardown]    None
+    Delete Device and Verify
+    ${logical_id}=    Get Logical Device ID From SN    ${olt_serial_number}
+    Should Be Empty    ${logical_id}
+    Run Keyword If    ${has_dataplane}    Sleep    180s
+    ${olt_device_id}=    Create Device    ${olt_ip}    ${OLT_PORT}
+    Set Suite Variable    ${olt_device_id}
+    Wait Until Keyword Succeeds    ${timeout}    5s    Validate OLT Device    PREPROVISIONED    UNKNOWN    UNKNOWN
+    ...    ${EMPTY}    ${olt_device_id}
+    Enable Device    ${olt_device_id}
+    Wait Until Keyword Succeeds    ${timeout}    5s    Validate OLT Device    ENABLED    ACTIVE    REACHABLE
+    ...    ${olt_serial_number}
+    ${logical_id}=    Get Logical Device ID From SN    ${olt_serial_number}
+    Should Not Be Empty    ${logical_id}
+    ${rc}    ${output}=    Run and Return Rc and Output
+    ...    ${VOLTCTL_CONFIG}; voltctl logicaldevice list
+    Should Be Equal As Integers    ${rc}    0
+    Log    ${output}
+    Should Contain     ${output}    ${olt_device_id}
+    Set Suite Variable    ${logical_id}
+    Wait Until Keyword Succeeds    ${timeout}    5s    Validate Logical Device Ports    ${logical_id}
+    Wait Until Keyword Succeeds    ${timeout}    5s    Validate Logical Device Flows    ${logical_id}
+    Run Keyword and Ignore Error    Collect Logs
