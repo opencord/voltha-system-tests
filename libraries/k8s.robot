@@ -51,6 +51,41 @@ Restart Pod
     ...    kubectl delete pod ${restart_pod_name} -n ${namespace} --grace-period=0 --force
     Log    ${output}
 
+Exec Pod
+    [Arguments]    ${namespace}    ${name}    ${command}
+    [Documentation]    Uses kubectl to execute a command in the pod and return the output
+    ${rc}    ${exec_pod_name}=    Run and Return Rc and Output
+    ...    kubectl get pods -n ${namespace} | grep ${name} | awk 'NR==1{print $1}'
+    Log    ${exec_pod_name}
+    Should Not Be Empty    ${exec_pod_name}    Unable to parse pod name
+    ${rc}    ${output}=    Run and Return Rc and Output
+    ...    kubectl exec -i ${exec_pod_name} -n ${namespace} -- ${command}
+    Log    ${output}
+    [return]    ${output}
+
+Exec Pod Separate Stderr
+    [Arguments]    ${namespace}    ${name}    ${command}
+    [Documentation]    Uses kubectl to execute a command in the pod and return the stderr and stdout
+    ${rc}    ${exec_pod_name}=    Run and Return Rc and Output
+    ...    kubectl get pods -n ${namespace} | grep ${name} | awk 'NR==1{print $1}'
+    Log    ${exec_pod_name}
+    Should Not Be Empty    ${exec_pod_name}    Unable to parse pod name
+    @{args}=     Split String    ${command}
+    ${result}=    Run Process
+    ...    kubectl     exec     -i     ${exec_pod_name}     -n     ${namespace}     --     @{args}
+    ${stdout}=    Set Variable    ${result.stdout}
+    ${stderr}=    Set Variable    ${result.stderr}
+    Log    ${stdout}
+    Log    ${stderr}
+    [return]    ${stdout}    ${stderr}
+
+Apply Kubernetes Resources
+    [Arguments]    ${resource_yaml}    ${namespace}
+    [Documentation]    Use kubectl to create resources given a yaml file
+    ${rc}    Run and Return Rc
+    ...    kubectl apply -n ${namespace} -f ${resource_yaml}
+    Should Be Equal as Integers    ${rc}    0
+
 Validate Pod Status
     [Arguments]    ${pod_name}    ${namespace}   ${expectedStatus}
     [Documentation]    To run the kubectl command and check the status of the given pod matches the expected status
