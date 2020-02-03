@@ -103,3 +103,40 @@ Test Disable different device id which is not in the device list
     #Disable fake device id
     ${rc}  ${output}=    Run and Return Rc and Output    ${VOLTCTL_CONFIG}; voltctl device disable ${fakeDeviceId}
     Should Contain    ${output}     Error while disabling '${fakeDeviceId}': rpc error: code = NotFound desc
+
+
+Disable and Delete the logical device directly
+    [Documentation]    Disable and delete the logical device directly is not possible
+    ...    since it is allowed only through OLT device deletion.
+    [Tags]    VOL-2418     DisableDelete_LogicalDevice    notready
+    [Setup]   Delete Device and Verify
+    [Teardown]    None
+    Run Keyword If    ${has_dataplane}    Sleep    180s
+    #create/preprovision OLT device
+    ${olt_device_id}=    Create Device    ${olt_ip}    ${OLT_PORT}
+    Set Suite Variable    ${olt_device_id}
+    #validate olt states
+    Wait Until Keyword Succeeds    ${timeout}    5s    Validate OLT Device    PREPROVISIONED    UNKNOWN    UNKNOWN
+    ...    ${EMPTY}    ${olt_device_id}
+    #Enable the created OLT device
+    Enable Device    ${olt_device_id}
+    Wait Until Keyword Succeeds    ${timeout}    5s    Validate OLT Device    ENABLED    ACTIVE    REACHABLE
+    ...    ${olt_serial_number}
+    #Check whether logical devices are also created
+    ${rc}    ${output}=    Run and Return Rc and Output
+    ...    ${VOLTCTL_CONFIG}; voltctl logicaldevice list
+    Should Be Equal As Integers    ${rc}    0
+    Log    ${output}
+    ${logical_id}=    Get Logical Device ID From SN    ${olt_serial_number}
+    Should Not Be Empty    ${logical_id}
+    ${rc}    ${output}=    Run and Return Rc and Output
+    ...    ${VOLTCTL_CONFIG}; voltctl logicaldevice disable ${logical_id}
+    Should Be Equal As Integers    ${rc}    0
+    Log    ${output}
+    Should Contain     '${output}'     Unknown command
+    ${rc}    ${output1}=    Run and Return Rc and Output
+    ...    ${VOLTCTL_CONFIG}; voltctl logicaldevice delete ${logical_id}
+    Should Be Equal As Integers    ${rc}    0
+    Log    ${output1}
+    Should Contain     '${output1}'     Unknown command
+
