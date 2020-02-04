@@ -152,6 +152,12 @@ tidy-robot: vst_venv
 	source ./$</bin/activate ; set -u ;\
 	python -m robot.tidy --inplace $(ROBOT_FILES);
 
+# Install the 'kail' tool if needed: https://github.com/boz/kail
+KAIL_PATH ?= /usr/local/bin
+$(KAIL_PATH)/kail:
+	bash <( curl -sfL https://raw.githubusercontent.com/boz/kail/master/godownloader.sh) -b /tmp
+	mv /tmp/kail $(KAIL_PATH)
+
 ## Variables for gendocs
 TEST_SOURCE := $(wildcard tests/*/*.robot)
 TEST_BASENAME := $(basename $(TEST_SOURCE))
