@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "87900897_87bb51b2",
+        "filename": "Makefile",
+        "patchSetId": 3
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1000064
+      },
+      "writtenOn": "2020-02-04T19:43:27Z",
+      "side": 1,
+      "message": "How about this one? If the tag is used here, you might need it on the test case.. (instead of SystemTest, choose a testcase id)",
+      "range": {
+        "startLine": 83,
+        "startChar": 44,
+        "endLine": 83,
+        "endChar": 53
+      },
+      "revId": "7604ec583a5e5e1912cd30c48a832905ea0b846b",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    }
+  ]
+}
