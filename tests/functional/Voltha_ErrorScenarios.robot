@@ -56,8 +56,9 @@ ${scripts}        ../../scripts
 Adding the same OLT before and after enabling the device
     [Documentation]    Create OLT, Create the same OLT again and Check for the Error message
     [Tags]    VOL-2405   VOL-2406   AddSameOLT   functional
-    [Setup]    None
-    [Teardown]   None
+    [Setup]    Announce Message    START TEST AddSameOLT
+    [Teardown]   Run Keywords     Collect Logs
+    ...          AND              Announce Message    END TEST AddSameOLT
     Run Keyword If    ${has_dataplane}    Delete Device and Verify
     ${olt_device_id}=    Create Device    ${olt_ip}    ${OLT_PORT}
     Set Suite Variable    ${olt_device_id}
@@ -82,8 +83,9 @@ Test Disable different device id which is not in the device list
     [Documentation]    Disable a device id which is not listed in the voltctl device list
     ...    command and ensure that error message is shown.
     [Tags]    functional    DisableInvalidDevice    VOL-2412
-    [Setup]    None
-    [Teardown]    None
+    [Setup]    Announce Message    START TEST DisableInvalidDevice
+    [Teardown]    Run Keywords    Collect Logs
+    ...           AND             Announce Message    END TEST DisableInvalidDevice
     ${rc}  ${output}=    Run and Return Rc and Output    ${VOLTCTL_CONFIG}; voltctl device list -o json
     Should Be Equal As Integers    ${rc}    0
     ${jsondata}=    To Json    ${output}
@@ -109,8 +111,9 @@ Check deletion of OLT/ONU before disabling
     ...    Assuming devices are already created, up and running fine; test1 or sanity was
     ...    executed where all the ONUs are authenticated/DHCP/pingable
     [Tags]    VOL-2411    DeleteBeforeDisableCheck    notready
-    [Setup]   None
-    [Teardown]    None
+    [Setup]   Announce Message    START TEST DeleteBeforeDisableCheck
+    [Teardown]    Run Keywords    Collect Logs
+    ...           AND             Announce Message    END TEST DeleteBeforeDisableCheck
     #validate olt states
     Wait Until Keyword Succeeds    ${timeout}    5s    Validate OLT Device    ENABLED    ACTIVE    REACHABLE
     ...    ${olt_serial_number}
@@ -140,8 +143,10 @@ Check deletion of OLT/ONU before disabling
 Check disabling of pre-provisioned OLT before enabling
     [Documentation]    Create OLT, disable same OLT, check error message and validates ONU
     [Tags]    VOL-2414    DisablePreprovisionedOLTCheck    notready
-    [Setup]   Delete Device and Verify
-    [Teardown]    None
+    [Setup]   Run Keywords    Announce Message    START TEST DisablePreprovisionedOLTCheck
+    ...       AND             Delete Device and Verify
+    [Teardown]    Run Keywords    Collect Logs
+    ...           AND             Announce Message    END TEST DisablePreprovisionedOLTCheck
     Run Keyword If    ${has_dataplane}    Sleep    180s
     #create/preprovision device
     ${olt_device_id}=    Create Device    ${olt_ip}    ${OLT_PORT}
@@ -173,8 +178,10 @@ Disable and Delete the logical device directly
     [Documentation]    Disable and delete the logical device directly is not possible
     ...    since it is allowed only through OLT device deletion.
     [Tags]    VOL-2418     DisableDelete_LogicalDevice    notready
-    [Setup]   Delete Device and Verify
-    [Teardown]    None
+    [Setup]   Run Keywords    Announce Message    START TEST DisableDelete_LogicalDevice
+    ...       AND             Delete Device and Verify
+    [Teardown]    Run Keywords    Collect Logs
+    ...           AND             Announce Message    END TEST DisableDelete_LogicalDevice
     Run Keyword If    ${has_dataplane}    Sleep    180s
     #create/preprovision OLT device
     ${olt_device_id}=    Create Device    ${olt_ip}    ${OLT_PORT}
@@ -208,8 +215,9 @@ Check logical device creation and deletion
     [Documentation]    Deletes all devices, checks logical device, creates devices again and checks
     ...    logical device, flows, ports
     [Tags]    VOL-2416    VOL-2417    LogicalDeviceCheck    notready
-    [Setup]   None
-    [Teardown]    None
+    [Setup]   Announce Message    START TEST LogicalDeviceCheck
+    [Teardown]    Run Keywords    Collect Logs
+    ...           AND             Announce Message    END TEST LogicalDeviceCheck
     Delete Device and Verify
     ${logical_id}=    Get Logical Device ID From SN    ${olt_serial_number}
     Should Be Empty    ${logical_id}

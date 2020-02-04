@@ -295,3 +295,10 @@ Verify ping is succesful except for given device
         ...    Check Ping    ${pingStatus}    ${dst['dp_iface_ip_qinq']}    ${src['dp_iface_name']}
         ...    ${src['ip']}    ${src['user']}    ${src['pass']}   ${src['container_type']}    ${src['container_name']}
     END
+
+Announce Message
+    [Arguments]    ${message}
+    [Documentation]    Announce a message that will be picked up by the log aggregator
+    Run    kubectl delete pod announcer
+    Run    kubectl run announcer -ti --restart=Never --image=ubuntu bash
+    ...    -- -c "echo; sleep 1; echo ${message}; sleep 1; date --rfc-3339=n ; sleep 1; echo; sleep 1"
