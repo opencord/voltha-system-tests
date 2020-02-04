@@ -22,6 +22,29 @@
       "revId": "1cdb647a1f703b09ad46e4ae3a28324c42cefa59",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fa03407a_1310be9a",
+        "filename": "tests/functional/Voltha_AlarmTests.robot",
+        "patchSetId": 5
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 1000064
+      },
+      "writtenOn": "2020-02-04T00:47:15Z",
+      "side": 1,
+      "message": "This keyword exists in utils.robot.  Please change the test case ID and call \"Delete Device and Verify\" keyword from utils.robot",
+      "range": {
+        "startLine": 207,
+        "startChar": 0,
+        "endLine": 207,
+        "endChar": 24
+      },
+      "revId": "1cdb647a1f703b09ad46e4ae3a28324c42cefa59",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
     }
   ]
 }
