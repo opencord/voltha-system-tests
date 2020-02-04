@@ -551,21 +551,3 @@ Clear All Devices Then Create New Device
     # Execute normal test Setup Keyword
     Setup
 
-Clean Up Linux
-    [Documentation]    Kill processes and clean up interfaces on src+dst servers
-    FOR    ${I}    IN RANGE    0    ${num_onus}
-        ${src}=    Set Variable    ${hosts.src[${I}]}
-        ${dst}=    Set Variable    ${hosts.dst[${I}]}
-        Run Keyword And Ignore Error    Kill Linux Process    [w]pa_supplicant    ${src['ip']}
-        ...    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
-        Run Keyword And Ignore Error    Kill Linux Process    [d]hclient    ${src['ip']}
-        ...    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
-        Run Keyword If    '${dst['ip']}' != '${None}'    Run Keyword And Ignore Error
-        ...    Kill Linux Process    [d]hcpd    ${dst['ip']}    ${dst['user']}
-        ...    ${dst['pass']}    ${dst['container_type']}    ${dst['container_name']}
-        Delete IP Addresses from Interface on Remote Host    ${src['dp_iface_name']}    ${src['ip']}
-        ...    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
-        Run Keyword If    '${dst['ip']}' != '${None}'    Delete Interface on Remote Host
-        ...    ${dst['dp_iface_name']}.${src['s_tag']}    ${dst['ip']}    ${dst['user']}    ${dst['pass']}
-        ...    ${dst['container_type']}    ${dst['container_name']}
-    END
