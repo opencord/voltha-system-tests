@@ -102,7 +102,7 @@ Get Logical Device Output from Voltha
     ${rc1}    ${flows}=    Run and Return Rc and Output
     ...    ${VOLTCTL_CONFIG}; voltctl logicaldevice flows ${device_id}
     ${rc2}    ${ports}=    Run and Return Rc and Output
-    ...    ${VOLTCTL_CONFIG}; voltctl logicaldevice ports ${device_id}
+    ...    ${VOLTCTL_CONFIG}; voltctl logicaldevice port list ${device_id}
     Log    ${flows}
     Log    ${ports}
     Should Be Equal As Integers    ${rc1}    0
@@ -114,7 +114,7 @@ Get Device Output from Voltha
     ${rc1}    ${flows}=    Run and Return Rc and Output
     ...    ${VOLTCTL_CONFIG}; voltctl device flows ${device_id}
     ${rc2}    ${ports}=    Run and Return Rc and Output
-    ...    ${VOLTCTL_CONFIG}; voltctl device ports ${device_id}
+    ...    ${VOLTCTL_CONFIG}; voltctl device port list ${device_id}
     Log    ${flows}
     Log    ${ports}
     Should Be Equal As Integers    ${rc1}    0
@@ -175,10 +175,10 @@ Validate ONU Devices
 
 Validate Device Port Types
     [Documentation]
-    ...    Parses the output of voltctl device ports <device_id> and matches the port types listed
+    ...    Parses the output of voltctl device port list <device_id> and matches the port types listed
     [Arguments]    ${device_id}    ${pon_type}    ${ethernet_type}
     ${rc}    ${output}=    Run and Return Rc and Output
-    ...    ${VOLTCTL_CONFIG}; voltctl device ports ${device_id} -o json
+    ...    ${VOLTCTL_CONFIG}; voltctl device port list ${device_id} -o json
     Should Be Equal As Integers    ${rc}    0
     ${jsondata}=    To Json    ${output}
     Log    ${jsondata}
@@ -195,13 +195,13 @@ Validate Device Port Types
     END
 
 Validate OLT Port Types
-    [Documentation]    Parses the output of voltctl device ports ${olt_device_id} and matches the port types listed
+    [Documentation]    Parses the output of voltctl device port list ${olt_device_id} and matches the port types listed
     [Arguments]    ${pon_type}    ${ethernet_type}
     Validate Device Port Types    ${olt_device_id}    ${pon_type}    ${ethernet_type}
 
 Validate ONU Port Types
     [Arguments]    ${List_ONU_Serial}    ${pon_type}    ${ethernet_type}
-    [Documentation]    Parses the output of voltctl device ports for each ONU SN listed in ${List_ONU_Serial}
+    [Documentation]    Parses the output of voltctl device port list for each ONU SN listed in ${List_ONU_Serial}
     ...    and matches the port types listed
     FOR    ${serial_number}    IN    @{List_ONU_Serial}
         ${onu_dev_id}=    Get Device ID From SN    ${serial_number}
@@ -258,7 +258,7 @@ Validate Logical Device Ports
     [Arguments]    ${logical_device_id}
     [Documentation]    Validate Logical Device Ports are listed and are > 0
     ${rc}    ${output}=    Run and Return Rc and Output
-    ...    ${VOLTCTL_CONFIG}; voltctl logicaldevice ports ${logical_device_id} -o json
+    ...    ${VOLTCTL_CONFIG}; voltctl logicaldevice port list ${logical_device_id} -o json
     Should Be Equal As Integers    ${rc}    0
     ${jsondata}=    To Json    ${output}
     Log    ${jsondata}
@@ -280,7 +280,7 @@ Retrieve Peer List From OLT
     [Arguments]    ${olt_peer_list}
     [Documentation]    Retrieve the list of peer device id list from port list
     ${rc}    ${output}=    Run and Return Rc and Output
-    ...    ${VOLTCTL_CONFIG}; voltctl device ports ${olt_device_id} -o json
+    ...    ${VOLTCTL_CONFIG}; voltctl device port list ${olt_device_id} -o json
     Should Be Equal As Integers    ${rc}    0
     ${jsondata}=    To Json    ${output}
     Log    ${jsondata}
@@ -331,7 +331,7 @@ Validate ONU Peer Id
 Match ONU Peer Id
     [Arguments]    ${onu_dev_id}
     [Documentation]    Match an ONU peer to that of the OLT device id
-    ${rc}    ${output}=    Run and Return Rc and Output    ${VOLTCTL_CONFIG}; voltctl device ports ${onu_dev_id} -o json
+    ${rc}    ${output}=    Run and Return Rc and Output    ${VOLTCTL_CONFIG}; voltctl device port list ${onu_dev_id} -o json
     Should Be Equal As Integers    ${rc}    0
     ${jsondata}=    To Json    ${output}
     Log    ${jsondata}
