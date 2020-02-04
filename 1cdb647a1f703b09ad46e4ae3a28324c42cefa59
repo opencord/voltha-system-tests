@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5c7422ed_027138a5",
+        "filename": "tests/functional/Voltha_AlarmTests.robot",
+        "patchSetId": 5
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1000064
+      },
+      "writtenOn": "2020-02-04T00:42:36Z",
+      "side": 1,
+      "message": "We have \"setup\" keyword in utils.robot that does this.  Probably you could use it.  You can an example of how it is being used in Voltha_PODTests.robot",
+      "range": {
+        "startLine": 56,
+        "startChar": 3,
+        "endLine": 66,
+        "endChar": 96
+      },
+      "revId": "1cdb647a1f703b09ad46e4ae3a28324c42cefa59",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    }
+  ]
+}
