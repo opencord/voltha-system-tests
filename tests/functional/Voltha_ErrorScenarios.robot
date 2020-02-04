@@ -136,3 +136,36 @@ Check deletion of OLT/ONU before disabling
         ...    ${src['onu']}    onu=True    onu_reason=omci-flows-pushed
     END
     Run Keyword and Ignore Error   Collect Logs
+
+Check disabling of pre-provisioned OLT before enabling
+    [Documentation]    Create OLT, disable same OLT, check error message and validates ONU
+    [Tags]    VOL-2414    DisablePreprovisionedOLTCheck    notready
+    [Setup]   Delete Device and Verify 
+    [Teardown]    None
+    Run Keyword If    ${has_dataplane}    Sleep    180s
+    #create/preprovision device
+    ${olt_device_id}=    Create Device    ${olt_ip}    ${OLT_PORT}
+    Set Suite Variable    ${olt_device_id}
+    #validate olt states
+    Wait Until Keyword Succeeds    ${timeout}    5s    Validate OLT Device    PREPROVISIONED    UNKNOWN    UNKNOWN
+    ...    ${EMPTY}    ${olt_device_id}
+    #Try disabling pre-provisioned OLT
+    ${rc}    ${output}=    Run and Return Rc and Output    ${VOLTCTL_CONFIG}; voltctl device disable ${olt_device_id}
+    Should Be Equal As Integers    ${rc}    0
+    Log    ${output}
+    Should Contain     ${output}     invalid-admin-state:PREPROVISIONED
+    #Enable OLT
+    Enable Device    ${olt_device_id}
+    Wait Until Keyword Succeeds    ${timeout}    5s    Validate OLT Device    ENABLED    ACTIVE    REACHABLE
+    ...    ${olt_serial_number}
+    ${logical_id}=    Get Logical Device ID From SN    ${olt_serial_number}
+    Set Suite Variable    ${logical_id}
+    FOR    ${I}    IN RANGE    0    ${num_onus}
+	${src}=    Set Variable    ${hosts.src[${I}]}
+	${dst}=    Set Variable    ${hosts.dst[${I}]}
+	
+	Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s    Validate Device
+	...    ENABLED    ACTIVE    REACHABLE
+	...    ${src['onu']}    onu=True    onu_reason=omci-flows-pushed
+    END
+    Run Keyword and Ignore Error   Collect Logs
