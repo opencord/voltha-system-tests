@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "566120b3_a8e8763b",
+        "filename": "tests/functional/K8S_SystemTest.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1000064
+      },
+      "writtenOn": "2020-02-04T18:58:40Z",
+      "side": 1,
+      "message": "Please change the tags to functional, bbsim",
+      "range": {
+        "startLine": 44,
+        "startChar": 14,
+        "endLine": 44,
+        "endChar": 24
+      },
+      "revId": "2386cc51723b7a4a1bfe2f0683f544479cbe9934",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    }
+  ]
+}
