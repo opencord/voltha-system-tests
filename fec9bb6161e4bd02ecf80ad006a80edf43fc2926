@@ -1,0 +1,28 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e0ea0cbd_b659e235",
+        "filename": "Makefile",
+        "patchSetId": 13
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1000011
+      },
+      "writtenOn": "2020-02-05T23:32:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "aee54440_f513efd7",
+      "range": {
+        "startLine": 185,
+        "startChar": 1,
+        "endLine": 185,
+        "endChar": 27
+      },
+      "revId": "fec9bb6161e4bd02ecf80ad006a80edf43fc2926",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    }
+  ]
+}
