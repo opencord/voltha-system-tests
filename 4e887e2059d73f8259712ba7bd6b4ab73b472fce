@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "aee54440_f513efd7",
+        "filename": "Makefile",
+        "patchSetId": 11
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1000011
+      },
+      "writtenOn": "2020-02-05T22:36:19Z",
+      "side": 1,
+      "message": "Maybe run `voltctl --version` before the build so you know what version is being used inside the container.",
+      "range": {
+        "startLine": 185,
+        "startChar": 1,
+        "endLine": 185,
+        "endChar": 27
+      },
+      "revId": "4e887e2059d73f8259712ba7bd6b4ab73b472fce",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5c9ce015_65a57a36",
+        "filename": "docker/Dockerfile.voltctl",
+        "patchSetId": 11
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1000011
+      },
+      "writtenOn": "2020-02-05T22:36:19Z",
+      "side": 1,
+      "message": "A busybox image would probably work for this.",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 24
+      },
+      "revId": "4e887e2059d73f8259712ba7bd6b4ab73b472fce",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "355c475a_708de223",
+        "filename": "tests/functional/Voltha_AlarmTests.robot",
+        "patchSetId": 11
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1000011
+      },
+      "writtenOn": "2020-02-05T22:36:19Z",
+      "side": 1,
+      "message": "These may be useful in other scripts, so maybe put them in the utils.robot library?",
+      "range": {
+        "startLine": 122,
+        "startChar": 0,
+        "endLine": 133,
+        "endChar": 0
+      },
+      "revId": "4e887e2059d73f8259712ba7bd6b4ab73b472fce",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "454c9397_6e4d4e4a",
+        "filename": "tests/functional/Voltha_AlarmTests.robot",
+        "patchSetId": 11
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 1000011
+      },
+      "writtenOn": "2020-02-05T22:36:19Z",
+      "side": 1,
+      "message": "just `Run` might be simpler - I doubt `date` will fail. `--rfc-3339` is a GNU-ism and will fail on other date implementations - generally: `date -u +\"%F %T\"` is better, and outputs UTC time.\n\nAlso, might put in utils.robot",
+      "range": {
+        "startLine": 176,
+        "startChar": 2,
+        "endLine": 177,
+        "endChar": 44
+      },
+      "revId": "4e887e2059d73f8259712ba7bd6b4ab73b472fce",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    }
+  ]
+}
