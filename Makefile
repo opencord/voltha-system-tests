@@ -85,7 +85,7 @@ bbsim-scale-kind: voltha-test
 
 #Only supported in full mode
 system-scale-test: ROBOT_FILE := K8S_SystemTest.robot
-system-scale-test: ROBOT_MISC_ARGS += -X -i functional $(ROBOT_DEBUG_LOG_OPT) -v ONOS_REST_PORT:8281 -v ONOS_SSH_PORT:8201
+system-scale-test: ROBOT_MISC_ARGS += -X -i functional $(ROBOT_DEBUG_LOG_OPT)
 system-scale-test: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_MULT_PON_FILE)
 system-scale-test: voltha-test
 
