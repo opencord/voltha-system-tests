@@ -29,8 +29,12 @@ Execute ONOS CLI Command
     [Documentation]    Establishes an ssh connection to the onos contoller and executes a command
     ${conn_id}=    SSHLibrary.Open Connection    ${host}    port=${port}    timeout=300s
     SSHLibrary.Login    karaf    karaf
-    ${output}=    SSHLibrary.Execute Command    ${cmd}
+    @{result_values}    SSHLibrary.Execute Command    ${cmd}    return_rc=True
+    ...    return_stderr=True    return_stdout=True
+    ${output}    Set Variable    @{result_values}[0]
     Log    ${output}
+    Should Be Empty    @{result_values}[1]
+    Should Be Equal As Integers    @{result_values}[2]    0
     SSHLibrary.Close Connection
     [Return]    ${output}
 
