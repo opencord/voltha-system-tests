@@ -182,11 +182,6 @@ node ("${TestNodeName}") {
                         netcfg_out = sh returnStatus: true, script: """
                         curl -sSL --user karaf:karaf -X POST -H Content-Type:application/json http://${deployment_config.nodes[0].ip}:30120/onos/v1/network/configuration --data @$WORKSPACE/${configBaseDir}/${configToscaDir}/voltha/${configFileName}-onos-netcfg-switch.json
                         curl -sSL --user karaf:karaf -X POST http://${deployment_config.nodes[0].ip}:30120/onos/v1/applications/org.onosproject.segmentrouting/active
-                        if [[ ${onosVersion} == "1.13.10" ]]; then
-                            sshpass -p karaf ssh -p 30115 karaf@${deployment_config.nodes[0].ip} "cfg set org.opencord.olt.impl.OltFlowService enableDhcpOnProvisioning true"
-                            sshpass -p karaf ssh -p 30115 karaf@${deployment_config.nodes[0].ip} "cfg set org.opencord.olt.impl.OltFlowService enableDhcpV4 true"
-                            sshpass -p karaf ssh -p 30115 karaf@${deployment_config.nodes[0].ip} "cfg set org.opencord.olt.impl.OltFlowService enableEapol true"
-                        fi
 
                         """
                         return netcfg_out == 0
@@ -199,6 +194,11 @@ node ("${TestNodeName}") {
                             sshpass -p karaf ssh -p 30115 karaf@${deployment_config.nodes[0].ip} "log:set TRACE org.opencord.dhcpl2relay"
                             sshpass -p karaf ssh -p 30115 karaf@${deployment_config.nodes[0].ip} "log:set TRACE org.opencord.aaa"
                             sshpass -p karaf ssh -p 30115 karaf@${deployment_config.nodes[0].ip} "log:set TRACE org.opencord.olt"
+                            if [[ ${onosVersion} == "1.13.10" ]]; then
+                                sshpass -p karaf ssh -p 30115 karaf@${deployment_config.nodes[0].ip} "cfg set org.opencord.olt.impl.OltFlowService enableDhcpOnProvisioning true"
+                                sshpass -p karaf ssh -p 30115 karaf@${deployment_config.nodes[0].ip} "cfg set org.opencord.olt.impl.OltFlowService enableDhcpV4 true"
+                                sshpass -p karaf ssh -p 30115 karaf@${deployment_config.nodes[0].ip} "cfg set org.opencord.olt.impl.OltFlowService enableEapol true"
+                            fi
                             curl -sSL --user karaf:karaf -X GET http://${deployment_config.nodes[0].ip}:30120/onos/v1/applications/org.onosproject.segmentrouting | jq '.state' | grep ACTIVE
                             """
                             return sr_active_out == 0
