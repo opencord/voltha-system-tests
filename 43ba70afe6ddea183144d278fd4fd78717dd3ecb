@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0f0e8363_673a083c",
+        "filename": "Makefile",
+        "patchSetId": 18
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 1000010
+      },
+      "writtenOn": "2020-02-06T15:12:26Z",
+      "side": 1,
+      "message": "What\u0027s the rationale behind this?  The tests already assume that voltctl is locally installed.",
+      "range": {
+        "startLine": 183,
+        "startChar": 0,
+        "endLine": 188,
+        "endChar": 87
+      },
+      "revId": "43ba70afe6ddea183144d278fd4fd78717dd3ecb",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    }
+  ]
+}
