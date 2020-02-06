@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "86bd1c93_e72a6d2e",
+        "filename": "docker/Dockerfile.voltctl",
+        "patchSetId": 19
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1000011
+      },
+      "writtenOn": "2020-02-06T18:30:14Z",
+      "side": 1,
+      "message": "Would be good to parameterize this  with an environmental variable that can be set outside the Dockerfile",
+      "range": {
+        "startLine": 18,
+        "startChar": 67,
+        "endLine": 18,
+        "endChar": 88
+      },
+      "revId": "60e570d983f74ef6a39fa62cf34e1317f26a8579",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    }
+  ]
+}
