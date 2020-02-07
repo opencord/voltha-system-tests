@@ -22,7 +22,7 @@ ROOT_DIR  := $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
 VERSION   ?= $(shell cat ./VERSION)
 LINT_ARGS ?= --verbose --configure LineTooLong:120 -e LineTooLong \
              --configure TooManyTestSteps:30 -e TooManyTestSteps \
-             --configure TooManyTestCases:12 -e TooManyTestCases \
+             --configure TooManyTestCases:50 -e TooManyTestCases \
              --configure TooFewTestSteps:1 \
              --configure TooFewKeywordSteps:1 \
              --configure FileTooLong:600 -e FileTooLong \
