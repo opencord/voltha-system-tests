@@ -52,14 +52,19 @@ ${external_libs}    True
 ${teardown_device}    False
 ${scripts}        ../../scripts
 
+# Per-test logging on failure is turned off by default; set this variable to enable
+${container_log_dir}    ${None}
+
 *** Test Cases ***
 Sanity E2E Test for OLT/ONU on POD
     [Documentation]    Validates E2E Ping Connectivity and object states for the given scenario:
     ...    Validate successful authentication/DHCP/E2E ping for the tech profile that is used
     [Tags]    sanity    test1
     [Setup]    Run Keywords    Announce Message    START TEST SanityTest
+    ...        AND             Start Logging    SanityTest
     ...        AND             Setup
     [Teardown]    Run Keywords    Collect Logs
+    ...           AND             Stop Logging    SanityTest
     ...           AND             Announce Message    END TEST SanityTest
     Run Keyword If    ${has_dataplane}    Clean Up Linux
     Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test
@@ -70,8 +75,10 @@ Test Disable and Enable OLT
     ...    Perform disable on the OLT and validate that the pings do not succeed
     ...    Perform enable on the OLT and validate that the pings are successful
     [Tags]    VOL-2410    DisableEnableOLT    notready
-    [Setup]    Announce Message    START TEST DisableEnableOLT
+    [Setup]    Run Keywords    Announce Message    START TEST DisableEnableOLT
+    ...        AND             Start Logging    DisableEnableOLT
     [Teardown]    Run Keywords    Collect Logs
+    ...           AND             Stop Logging    DisableEnableOLT
     ...           AND             Announce Message    END TEST DisableEnableOLT
     #Disable the OLT and verify the OLT/ONUs are disabled properly
     ${rc}    ${output}=    Run and Return Rc and Output    ${VOLTCTL_CONFIG}; voltctl device disable ${olt_device_id}
@@ -117,8 +124,10 @@ Test Disable and Enable ONU
     ...    Perform disable on the ONUs and validate that the pings do not succeed
     ...    Perform enable on the ONUs and validate that the pings are successful
     [Tags]    functional    DisableEnableONU    released
-    [Setup]    Announce Message    START TEST DisableEnableONU
+    [Setup]    Run Keywords    Announce Message    START TEST DisableEnableONU
+    ...        AND             Start Logging    DisableEnableONU
     [Teardown]    Run Keywords    Collect Logs
+    ...           AND             Stop Logging    DisableEnableONU
     ...           AND             Announce Message    END TEST DisableEnableONU
     FOR    ${I}    IN RANGE    0    ${num_onus}
         ${src}=    Set Variable    ${hosts.src[${I}]}
@@ -149,8 +158,10 @@ Test Subscriber Delete and Add
     ...    Delete a subscriber and validate that the pings do not succeed
     ...    Re-add the subscriber and validate that the pings are successful
     [Tags]    functional    SubAddDelete    released
-    [Setup]    Announce Message    START TEST SubAddDelete
+    [Setup]    Run Keywords    Announce Message    START TEST SubAddDelete
+    ...        AND             Start Logging     SubAddDelete
     [Teardown]    Run Keywords    Collect Logs
+    ...           AND             Stop Logging    SubAddDelete
     ...           AND             Announce Message    END TEST SubAddDelete
     FOR    ${I}    IN RANGE    0    ${num_onus}
         ${src}=    Set Variable    ${hosts.src[${I}]}
@@ -185,8 +196,10 @@ Check OLT/ONU Authentication After Radius Pod Restart
     ...    teardown from previous test or uncomment 'Teardown    None'.
     ...    Assuming that test1 was executed where all the ONUs are authenticated/DHCP/pingable
     [Tags]    functional    RadiusRestart    released
-    [Setup]    Announce Message    START TEST RadiusRestart
+    [Setup]    Run Keywords    Announce Message    START TEST RadiusRestart
+    ...        AND             Start Logging    RadiusRestart
     [Teardown]    Run Keywords    Collect Logs
+    ...           AND             Stop Logging    RadiusRestart
     ...           AND             Announce Message    END TEST RadiusRestart
     Wait Until Keyword Succeeds    ${timeout}    15s    Restart Pod    ${NAMESPACE}    ${RESTART_POD_NAME}
     FOR    ${I}    IN RANGE    0    ${num_onus}
@@ -221,8 +234,10 @@ Check DHCP attempt fails when subscriber is not added
     ...    when again added subscriber access, DHCP attempt, ping succeeds
     ...    Assuming that test1 or sanity test was executed where all the ONUs are authenticated/DHCP/pingable
     [Tags]    functional    SubsRemoveDHCP    released
-    [Setup]    Announce Message    START TEST SubsRemoveDHCP
+    [Setup]    Run Keywords    Announce Message    START TEST SubsRemoveDHCP
+    ...        AND             Start Logging    SubsRemoveDHCP
     [Teardown]    Run Keywords    Collect Logs
+    ...           AND             Stop Logging    SubsRemoveDHCP
     ...           AND             Announce Message    END TEST SubsRemoveDHCP
     FOR    ${I}    IN RANGE    0    ${num_onus}
         ${src}=    Set Variable    ${hosts.src[${I}]}
@@ -268,8 +283,10 @@ Test Disable and Enable ONU scenario for ATT workflow
     ...    validate that the pings are successful
     ...    VOL-2284
     [Tags]    functional    ATT_DisableEnableONU
-    [Setup]    Announce Message    START TEST ATT_DisableEnableONU
+    [Setup]    Run Keywords    Announce Message    START TEST ATT_DisableEnableONU
+    ...        AND             Start Logging    ATT_DisableEnableONU
     [Teardown]    Run Keywords    Collect Logs
+    ...           AND             Stop Logging    ATT_DisableEnableONU
     ...           AND             Announce Message    END TEST ATT_DisableEnableONU
     FOR    ${I}    IN RANGE    0    ${num_onus}
         ${src}=    Set Variable    ${hosts.src[${I}]}
@@ -314,8 +331,10 @@ Delete OLT, ReAdd OLT and Perform Sanity Test
     ...    Create/Enable the same OLT again
     ...    Validate authentication/DHCP/E2E pings succeed for all the ONUs connected to the OLT
     [Tags]    functional    DeleteOLT
-    [Setup]    Announce Message    START TEST DeleteOLT
+    [Setup]    Run Keywords    Announce Message    START TEST DeleteOLT
+    ...        AND             Start Logging    DeleteOLT
     [Teardown]    Run Keywords    Collect Logs
+    ...           AND             Stop Logging    DeleteOLT
     ...           AND             Announce Message    END TEST DeleteOLT
     Run Keyword If    ${has_dataplane}    Clean Up Linux
     Run Keyword If    ${has_dataplane}    Delete Device and Verify
@@ -330,8 +349,10 @@ Test disable ONUs and OLT then delete ONUs and OLT
     ...    Devices will be removed during the execution of this TC
     ...    so calling setup at the end to add the devices back to avoid the confusion.
     [Tags]    functional    VOL-2354    DisableDeleteONUandOLT
-    [Setup]    Announce Message    START TEST DisableDeleteONUandOLT
+    [Setup]    Run Keywords    Announce Message    START TEST DisableDeleteONUandOLT
+    ...        AND             Start Logging    DisableDeleteONUandOLT
     [Teardown]    Run Keywords    Collect Logs
+    ...           AND             Stop Logging    DisableDeleteONUandOLT
     ...           AND             Announce Message    END TEST DisableDeleteONUandOLT
     ${olt_device_id}=    Get Device ID From SN    ${olt_serial_number}
     FOR    ${I}    IN RANGE    0    ${num_onus}
@@ -380,8 +401,10 @@ Sanity E2E Test for OLT/ONU on POD With Core Fail and Restart
     ...    complete the DHCP sequence.
     [Tags]    bbsim    rwcore-restart
     [Setup]    Run Keywords    Announce Message    START TEST RwCoreFailAndRestart
+    ...        AND             Start Logging    RwCoreFailAndRestart
     ...        AND             Clear All Devices Then Create New Device
     [Teardown]   Run Keywords    Collect Logs
+    ...          AND             Stop Logging    RwCoreFailAndRestart
     ...          AND             Announce Message    END TEST RwCoreFailAndRestart
     ${of_id}=    Wait Until Keyword Succeeds    ${timeout}    15s    Validate OLT Device in ONOS    ${olt_serial_number}
     Set Global Variable    ${of_id}
@@ -443,7 +466,12 @@ Sanity E2E Test for OLT/ONU on POD With OLT Adapters Fail and Restart
     ...    and configures ONOS for access. The test succeeds if the device is able to
     ...    complete the DHCP sequence.
     [Tags]    bbsim    olt-adapter-restart
-    [Setup]    Clear All Devices Then Create New Device
+    [Setup]    Run Keywords    Announce Message    START TEST OltAdapterRestart
+    ...        AND             Start Logging    OltAdapterRestart
+    ...        AND             Clear All Devices Then Create New Device
+    [Teardown]   Run Keywords    Collect Logs
+    ...          AND             Stop Logging    OltAdapterRestart
+    ...          AND             Announce Message    END TEST OltAdapterRestart
     ${of_id}=    Wait Until Keyword Succeeds    ${timeout}    15s    Validate OLT Device in ONOS    ${olt_serial_number}
     Set Global Variable    ${of_id}
 
