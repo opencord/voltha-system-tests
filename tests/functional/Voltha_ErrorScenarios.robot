@@ -82,7 +82,7 @@ Adding the same OLT before and after enabling the device
 Test Disable different device id which is not in the device list
     [Documentation]    Disable a device id which is not listed in the voltctl device list
     ...    command and ensure that error message is shown.
-    [Tags]    functional    DisableInvalidDevice    VOL-2412
+    [Tags]    functional    DisableEnableInvalidDevice    VOL-2412-2413
     [Setup]    Announce Message    START TEST DisableInvalidDevice
     [Teardown]    Run Keywords    Collect Logs
     ...           AND             Announce Message    END TEST DisableInvalidDevice
@@ -104,7 +104,12 @@ Test Disable different device id which is not in the device list
     List Should Not Contain Value    ${ids}    ${fakeDeviceId}
     #Disable fake device id
     ${rc}  ${output}=    Run and Return Rc and Output    ${VOLTCTL_CONFIG}; voltctl device disable ${fakeDeviceId}
-    Should Contain    ${output}     Error while disabling '${fakeDeviceId}': rpc error: code = NotFound desc
+    Should Contain    ${output}     Error while disabling '${fakeDeviceId}'
+    #Disable device for VOL-2413
+    Disable Device    ${device_id}
+    #Enable fake device id
+    ${rc}  ${output}=    Run and Return Rc and Output    ${VOLTCTL_CONFIG}; voltctl device enable ${fakeDeviceId}
+    Should Contain    ${output}     Error while enabling '${fakeDeviceId}'
 
 Check deletion of OLT/ONU before disabling
     [Documentation]    Try deleting OL/ONU before disabling and check error message
