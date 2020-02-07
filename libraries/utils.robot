@@ -192,7 +192,7 @@ Setup
     Test Empty Device List
     Run Keyword If    ${has_dataplane}    Wait Until Keyword Succeeds    120s    10s    Openolt is Up
     ...    ${olt_ip}    ${olt_user}    ${olt_pass}
-    Sleep    60s
+    #Sleep    60s
     #create/preprovision device
     ${olt_device_id}=    Create Device    ${olt_ip}    ${OLT_PORT}
     Set Suite Variable    ${olt_device_id}
@@ -312,6 +312,21 @@ Announce Message
     [Documentation]    Announce a message that will be picked up by the log aggregator
     Run Process    kubectl    run    announcer    -ti    --rm    --restart    Never    --image    ubuntu
     ...     bash    --    -c    echo; sleep 1; echo ${message}; sleep 1; date --rfc-3339\=n ; sleep 1; echo; sleep 1
+
+Start Logging
+    [Arguments]    ${label}
+    [Documentation]    Start logging for test ${label}
+    ${kail_process}=     Run Keyword If    "${container_log_dir}" != "${None}"   Start Process    kail    -n    default
+    ...    -n    voltha    cwd=${container_log_dir}   stdout=${label}-combined.log
+    Set Test Variable    ${kail_process}
+
+Stop Logging
+    [Arguments]    ${label}
+    [Documentation]    End logging for test; remove logfile if test passed
+    Run    sync
+    Run Keyword If    ${kail_process}    Terminate Process    ${kail_process}
+    ${logfile}=    Join Path    ${container_log_dir}    ${label}-combined.log
+    Run Keyword If Test Passed    Remove File    ${logfile}
 
 Clean Up Linux
     [Documentation]    Kill processes and clean up interfaces on src+dst servers

@@ -53,14 +53,19 @@ ${external_libs}    True
 ${teardown_device}    False
 ${scripts}        ../../scripts
 
+# Per-test logging on failure is turned off by default; set this variable to enable
+${container_log_dir}    ${None}
+
 *** Test Cases ***
 Verify restart ofagent container after VOLTHA is operational
     [Documentation]    Restart ofagent container after VOLTHA is operational.
     ...    Please note this test case should be run before the restart of other containers.
     ...    Prerequisite : ONUs are authenticated and pingable.
     [Tags]    functional   VOL-2409   ofagentRestart   notready
-    [Setup]    Announce Message    START TEST ofagentRestart
+    [Setup]    Run Keywords    Announce Message    START TEST ofagentRestart
+    ...        AND             Start Logging    ofagentRestart
     [Teardown]    Run Keywords    Collect Logs
+    ...           AND             Stop Logging    ofagentRestart
     ...           AND             Announce Message    END TEST ofagentRestart
     # Performing Sanity Test to make sure subscribers are all AUTH+DHCP and pingable
     Run Keyword If    ${has_dataplane}    Clean Up Linux
@@ -83,8 +88,10 @@ Verify restart openolt-adapter container after VOLTHA is operational
     [Documentation]    Restart openolt-adapter container after VOLTHA is operational.
     ...    Prerequisite : ONUs are authenticated and pingable.
     [Tags]    functional   VOL-1958   RestartPods
-    [Setup]    Announce Message    START TEST RestartPods
+    [Setup]    Run Keywords    Announce Message    START TEST RestartPods
+    ...        AND             Start Logging    RestartPods
     [Teardown]    Run Keywords    Collect Logs
+    ...           AND             Stop Logging    RestartPods
     ...           AND             Announce Message    END TEST RestartPods
     ${waitforRestart}    Set Variable    120s
     ${podStatusOutput}=    Run    kubectl get pods -n ${NAMESPACE}
@@ -106,8 +113,11 @@ Check ONU adapter crash not forcing authentication again
     ...    message count to make sure auth not started again and validates EAP status and ping.
     ...    Assuming that test1 or sanity was executed where all the ONUs are authenticated/DHCP/pingable
     [Tags]    functional    ONUAdaptCrash    notready
-    [Setup]    None
-    [Teardown]    None
+    [Setup]    Run Keywords    Announce Message    START TEST ONUAdaptCrash
+    ...        AND             Start Logging    ONUAdaptCrash
+    [Teardown]    Run Keywords    Collect Logs
+    ...           AND             Stop Logging    ONUAdaptCrash
+    ...           AND             Announce Message    END TEST ONUAdaptCrash
     @{before_list}=    Create List
     @{after_list}=    Create List
     FOR    ${I}    IN RANGE    0    ${num_onus}
@@ -152,8 +162,10 @@ Verify ONU after rebooting physically
     [Documentation]    Test the ONU funcaionality by physically turning on/off ONU.
     ...    Prerequisite : Subscriber are authenticated/DHCP/pingable state
     [Tags]    functional   VOL-2488    PowerSwitch    notready
-    [Setup]    Announce Message    START TEST PowerSwitch
+    [Setup]    Run Keywords    Announce Message    START TEST PowerSwitch
+    ...        AND             Start Logging    PowerSwitch
     [Teardown]    Run Keywords    Collect Logs
+    ...           AND             Stop Logging    PowerSwitch
     ...           AND             Announce Message    END TEST PowerSwitch
     Start Log Capture    PowerSwitch    ${container_log_dir}
     Power Switch Connection Suite    ${web_power_switch.ip}    ${web_power_switch.user}    ${web_power_switch.password}
@@ -178,8 +190,10 @@ Verify ONU after rebooting physically
 ONU Reboot
     [Documentation]    Reboot ONU and verify that ONU comes up properly
     [Tags]    VOL-1957    RebootONU   notready
-    [Setup]    Announce Message    START TEST RebootONU
+    [Setup]    Run Keywords    Announce Message    START TEST RebootONU
+    ...        AND             Start Logging    RebootONU
     [Teardown]    Run Keywords    Collect Logs
+    ...           AND             Stop Logging    RebootONU
     ...           AND             Announce Message    END TEST RebootONU
     FOR    ${I}    IN RANGE    0    ${num_onus}
         ${src}=    Set Variable    ${hosts.src[${I}]}
