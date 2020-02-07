@@ -99,6 +99,14 @@ Verify Eapol Flows Added For ONU
     ...    flows -s -f ADDED | grep eapol | grep IN_PORT:${onu_port}
     Should Not Be Empty    ${eapol_flows_added}
 
+Verify ONU Port Is Enabled
+    [Arguments]    ${ip}    ${port}    ${onu_port}
+    [Documentation]    Verifies if the ONU port is enabled in ONOS
+    ${onu_port_enabled}=    Execute ONOS CLI Command    ${ip}    ${port}
+    ...    ports -e | grep ${onu_port}
+    Log    ${onu_port_enabled}
+    Should Not Be Empty    ${onu_port_enabled}
+
 Verify ONU in AAA-Users
     [Arguments]    ${ip}    ${port}    ${onu_port}
     [Documentation]    Verifies that the specified onu_port exists in aaa-users output
