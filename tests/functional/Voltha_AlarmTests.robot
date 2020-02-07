@@ -65,6 +65,54 @@ ONU Discovery
     Set Suite Variable    ${onu_sn}
     ${onu_id}    Get Device ID From SN    ${onu_sn}
     Set Suite Variable    ${onu_id}
+    ${parent_id}    Get Parent ID From Device ID     ${onu_id}
+    Set Suite Variable    ${parent_id}
+
+Test RaiseActivationFailureAlarm
+    # Note: Can only be raised, not cleared
+    [Documentation]    Raise Activation Fail Alarm and verify event received
+    [Tags]    active
+    ${header}    ${deviceEvent}    Raise Alarm And Get Event    ActivationFailure     ${onu_sn}    ONU_ACTIVATION_FAIL_RAISE_EVENT
+    # Note: PON is the zero value of the subCategory field, and causes it to be not present
+    Verify Header   ${header}    Voltha.openolt.ONU_ACTIVATION_FAIL\.(\\d+)    ${EMPTY}
+    Should Be Equal    ${deviceEvent}[deviceEventName]    ONU_ACTIVATION_FAIL_RAISE_EVENT
+    Should Be Equal    ${deviceEvent}[resourceId]    ${parent_id}
+
+Test RaiseDriftOfWindowAlarm
+    [Documentation]    Raise Drift Of Window Alarm and verify event received
+    [Tags]    active
+    ${header}    ${deviceEvent}    Raise Alarm And Get Event    DriftOfWindow     ${onu_sn}    ONU_DRIFT_OF_WINDOW_RAISE_EVENT
+    # Note: PON is the zero value of the subCategory field, and causes it to be not present
+    Verify Header   ${header}    Voltha.openolt.ONU_DRIFT_OF_WINDOW\.(\\d+)    ${EMPTY}
+    Should Be Equal    ${deviceEvent}[deviceEventName]    ONU_DRIFT_OF_WINDOW_RAISE_EVENT
+    Should Be Equal    ${deviceEvent}[resourceId]    ${parent_id}
+
+Test ClearDriftOfWindowAlarm
+    [Documentation]    Clear Drift Of Window Alarm and verify event received
+    [Tags]    active
+    ${header}    ${deviceEvent}    Clear Alarm And Get Event    DriftOfWindow     ${onu_sn}    ONU_DRIFT_OF_WINDOW_CLEAR_EVENT
+    # Note: PON is the zero value of the subCategory field, and causes it to be not present
+    Verify Header   ${header}    Voltha.openolt.ONU_DRIFT_OF_WINDOW\.(\\d+)    ${EMPTY}
+    Should Be Equal    ${deviceEvent}[deviceEventName]    ONU_DRIFT_OF_WINDOW_CLEAR_EVENT
+    Should Be Equal    ${deviceEvent}[resourceId]    ${parent_id}    
+
+Test RaiseDyingGaspAlarm
+    [Documentation]    Raise Dying Gasp Alarm and verify event received
+    [Tags]    active
+    ${header}    ${deviceEvent}    Raise Alarm And Get Event    DyingGasp     ${onu_sn}    ONU_DYING_GASP_RAISE_EVENT
+    # Note: PON is the zero value of the subCategory field, and causes it to be not present
+    Verify Header   ${header}    Voltha.openolt.ONU_DYING_GASP\.(\\d+)    ${EMPTY}
+    Should Be Equal    ${deviceEvent}[deviceEventName]    ONU_DYING_GASP_RAISE_EVENT
+    Should Be Equal    ${deviceEvent}[resourceId]    ${parent_id}
+
+Test ClearDyingGaspAlarm
+    [Documentation]    Clear Dying Gasp Alarm and verify event received
+    [Tags]    active
+    ${header}    ${deviceEvent}    Clear Alarm And Get Event    DyingGasp     ${onu_sn}    ONU_DYING_GASP_CLEAR_EVENT
+    # Note: PON is the zero value of the subCategory field, and causes it to be not present
+    Verify Header   ${header}    Voltha.openolt.ONU_DYING_GASP\.(\\d+)    ${EMPTY}
+    Should Be Equal    ${deviceEvent}[deviceEventName]    ONU_DYING_GASP_CLEAR_EVENT
+    Should Be Equal    ${deviceEvent}[resourceId]    ${parent_id}
 
 Test StartupFailureAlarm
     [Documentation]    Raise StartupFailure Alarm and verify event received
@@ -76,25 +124,17 @@ Test StartupFailureAlarm
 Test RaiseLossOfBurstAlarm
     [Documentation]    Raise Loss Of Burst Alarm and verify event received
     [Tags]    active
-    ${since}    Get Current Time
-    Raise Alarm    LossOfBurst    ${onu_sn}
-    ${header}    ${deviceEvent}    Get Device Event    ONU_LOSS_OF_BURST_RAISE_EVENT    ${since}
-    Verify Header   ${header}    Voltha.openolt.ONU_LOSS_OF_BURST\.(\\d+)
+    ${header}    ${deviceEvent}    Raise Alarm And Get Event    LossOfBurst     ${onu_sn}    ONU_LOSS_OF_BURST_RAISE_EVENT
+    Verify Header   ${header}    Voltha.openolt.ONU_LOSS_OF_BURST\.(\\d+)    ONU
     Should Be Equal    ${deviceEvent}[deviceEventName]    ONU_LOSS_OF_BURST_RAISE_EVENT
-    # TODO: Why does the event have the OLT ID instead of the ONU ID ? Verify correctness.
-    ${parent_id}    Get Parent ID From Device ID     ${onu_id}
     Should Be Equal    ${deviceEvent}[resourceId]    ${parent_id}
 
 Test ClearLossOfBurstAlarm
     [Documentation]    Clear Loss Of Burst Alarm and verify event received
     [Tags]    active
-    ${since}    Get Current Time
-    Clear Alarm    LossOfBurst    ${onu_sn}
-    ${header}    ${deviceEvent}    Get Device Event    ONU_LOSS_OF_BURST_CLEAR_EVENT    ${since}
-    Verify Header   ${header}    Voltha.openolt.ONU_LOSS_OF_BURST\.(\\d+)
+    ${header}    ${deviceEvent}     Clear Alarm And Get Event     LossOfBurst    ${onu_sn}    ONU_LOSS_OF_BURST_CLEAR_EVENT
+    Verify Header   ${header}    Voltha.openolt.ONU_LOSS_OF_BURST\.(\\d+)    ONU
     Should Be Equal    ${deviceEvent}[deviceEventName]    ONU_LOSS_OF_BURST_CLEAR_EVENT
-    # TODO: Why does the event have the OLT ID instead of the ONU ID ? Verify correctness.
-    ${parent_id}    Get Parent ID From Device ID     ${onu_id}
     Should Be Equal    ${deviceEvent}[resourceId]    ${parent_id}
 
 *** Keywords ***
@@ -119,6 +159,22 @@ Teardown Suite
     Run Keyword If    ${teardown_device}    Test Empty Device List
     Run Keyword If    ${teardown_device}    Execute ONOS CLI Command    ${k8s_node_ip}    ${ONOS_SSH_PORT}
     ...    device-remove ${of_id}
+
+Raise Alarm And Get Event
+    [Documentation]    Raise an Alarm and return event
+    [Arguments]    ${name}    ${sn}    ${deviceEventName}
+    ${since}    Get Current Time
+    Raise Alarm    ${name}    ${sn}
+    ${header}    ${deviceEvent}    Get Device Event    ${deviceEventName}    ${since}
+    [return]    ${header}    ${deviceEvent}
+
+Clear Alarm And Get Event
+    [Documentation]    Clear an Alarm and return event
+    [Arguments]    ${name}    ${sn}    ${deviceEventName}
+    ${since}    Get Current Time
+    Clear Alarm    ${name}    ${sn}
+    ${header}    ${deviceEvent}    Get Device Event    ${deviceEventName}    ${since}
+    [return]    ${header}    ${deviceEvent}
 
 Raise Alarm
     [Documentation]    Raise an Alarm
@@ -152,8 +208,9 @@ Get Device Event
 
 Verify Header
     [Documentation]    Verify that a DeviceEvent's header is sane and the id matches regex
-    [Arguments]    ${header}    ${id}
-    Should Be Equal   ${header}[subCategory]    ONU
+    [Arguments]    ${header}    ${id}    ${subCategory}
+    ${headerSubCategory}    Evaluate    $header.get("subCategory", "")
+    Should Be Equal   ${headerSubCategory}    ${subCategory}
     Should Be Equal   ${header}[type]    DEVICE_EVENT
     Should Match Regexp    ${header}[id]    ${id}
     # TODO Revisit when timestamp format is changed from Float to Timestamp
