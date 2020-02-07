@@ -52,12 +52,17 @@ ${external_libs}    True
 ${teardown_device}    False
 ${scripts}        ../../scripts
 
+# Per-test logging on failure is turned off by default; set this variable to enable
+${container_log_dir}    ${None}
+
 *** Test Cases ***
 Adding the same OLT before and after enabling the device
     [Documentation]    Create OLT, Create the same OLT again and Check for the Error message
     [Tags]    VOL-2405   VOL-2406   AddSameOLT   functional
-    [Setup]    Announce Message    START TEST AddSameOLT
+    [Setup]    Run Keywords    Announce Message    START TEST AddSameOLT
+    ...        AND             Start Logging    AddSameOLT
     [Teardown]   Run Keywords     Collect Logs
+    ...          AND              Stop Logging    AddSameOLT
     ...          AND              Announce Message    END TEST AddSameOLT
     Run Keyword If    ${has_dataplane}    Delete Device and Verify
     ${olt_device_id}=    Create Device    ${olt_ip}    ${OLT_PORT}
@@ -83,8 +88,10 @@ Test Disable different device id which is not in the device list
     [Documentation]    Disable a device id which is not listed in the voltctl device list
     ...    command and ensure that error message is shown.
     [Tags]    functional    DisableInvalidDevice    VOL-2412
-    [Setup]    Announce Message    START TEST DisableInvalidDevice
+    [Setup]    Run Keywords    Announce Message    START TEST DisableInvalidDevice
+    ...        AND             Start Logging    DisableInvalidDevice
     [Teardown]    Run Keywords    Collect Logs
+    ...           AND             Stop Logging    DisableInvalidDevice
     ...           AND             Announce Message    END TEST DisableInvalidDevice
     ${rc}  ${output}=    Run and Return Rc and Output    ${VOLTCTL_CONFIG}; voltctl device list -o json
     Should Be Equal As Integers    ${rc}    0
@@ -111,8 +118,10 @@ Check deletion of OLT/ONU before disabling
     ...    Assuming devices are already created, up and running fine; test1 or sanity was
     ...    executed where all the ONUs are authenticated/DHCP/pingable
     [Tags]    VOL-2411    DeleteBeforeDisableCheck    notready
-    [Setup]   Announce Message    START TEST DeleteBeforeDisableCheck
+    [Setup]   Run Keywords    Announce Message    START TEST DeleteBeforeDisableCheck
+    ...       AND             Start Logging    DeleteBeforeDisableCheck
     [Teardown]    Run Keywords    Collect Logs
+    ...           AND             Stop Logging    DeleteBeforeDisableCheck
     ...           AND             Announce Message    END TEST DeleteBeforeDisableCheck
     #validate olt states
     Wait Until Keyword Succeeds    ${timeout}    5s    Validate OLT Device    ENABLED    ACTIVE    REACHABLE
@@ -144,8 +153,10 @@ Check disabling of pre-provisioned OLT before enabling
     [Documentation]    Create OLT, disable same OLT, check error message and validates ONU
     [Tags]    VOL-2414    DisablePreprovisionedOLTCheck    notready
     [Setup]   Run Keywords    Announce Message    START TEST DisablePreprovisionedOLTCheck
+    ...       AND             Start Logging    DisablePreprovisionedOLTCheck
     ...       AND             Delete Device and Verify
     [Teardown]    Run Keywords    Collect Logs
+    ...           AND             Stop Logging    DisablePreprovisionedOLTCheck
     ...           AND             Announce Message    END TEST DisablePreprovisionedOLTCheck
     Run Keyword If    ${has_dataplane}    Sleep    180s
     #create/preprovision device
@@ -179,8 +190,10 @@ Disable and Delete the logical device directly
     ...    since it is allowed only through OLT device deletion.
     [Tags]    VOL-2418     DisableDelete_LogicalDevice    notready
     [Setup]   Run Keywords    Announce Message    START TEST DisableDelete_LogicalDevice
+    ...       AND             Start Logging    DisableDelete_LogicalDevice
     ...       AND             Delete Device and Verify
     [Teardown]    Run Keywords    Collect Logs
+    ...           AND             Stop Logging    DisableDelete_LogicalDevice
     ...           AND             Announce Message    END TEST DisableDelete_LogicalDevice
     Run Keyword If    ${has_dataplane}    Sleep    180s
     #create/preprovision OLT device
@@ -215,8 +228,10 @@ Check logical device creation and deletion
     [Documentation]    Deletes all devices, checks logical device, creates devices again and checks
     ...    logical device, flows, ports
     [Tags]    VOL-2416    VOL-2417    LogicalDeviceCheck    notready
-    [Setup]   Announce Message    START TEST LogicalDeviceCheck
+    [Setup]   Run Keywords    Announce Message    START TEST LogicalDeviceCheck
+    ...       AND             Start Logging    LogicalDeviceCheck
     [Teardown]    Run Keywords    Collect Logs
+    ...           AND             Stop Logging    LogicalDeviceCheck
     ...           AND             Announce Message    END TEST LogicalDeviceCheck
     Delete Device and Verify
     ${logical_id}=    Get Logical Device ID From SN    ${olt_serial_number}
