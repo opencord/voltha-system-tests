@@ -392,6 +392,8 @@ Test disable ONUs and OLT then delete ONUs and OLT
     #Adding setup here to add the devices back since this TC removes the devices
     Run Keyword If    ${has_dataplane}    sleep    180s
     setup
+    # Remove the Sanity Check after enabling first failure test (OLT Adapter Test)
+    Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test
 
 Sanity E2E Test for OLT/ONU on POD With Core Fail and Restart
     [Documentation]    Deploys an device instance and waits for it to authenticate. After
