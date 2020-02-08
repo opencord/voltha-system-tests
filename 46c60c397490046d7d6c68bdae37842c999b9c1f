@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0a5140ff_781b1f2e",
+        "filename": "tests/functional/Voltha_ScaleFunctionalTests_Jira.robot",
+        "patchSetId": 3
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1000064
+      },
+      "writtenOn": "2020-02-08T01:55:19Z",
+      "side": 1,
+      "message": "General comment, can the new test cases for AAA and DHCP be added to the existing ScaleFunctionalTests?",
+      "range": {
+        "startLine": 42,
+        "startChar": 0,
+        "endLine": 42,
+        "endChar": 24
+      },
+      "revId": "46c60c397490046d7d6c68bdae37842c999b9c1f",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    }
+  ]
+}
