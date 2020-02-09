@@ -393,6 +393,7 @@ Test disable ONUs and OLT then delete ONUs and OLT
     Run Keyword If    ${has_dataplane}    sleep    180s
     setup
     # Remove the Sanity Check after enabling first failure test (OLT Adapter Test)
+    Run Keyword If    ${has_dataplane}    Clean Up Linux
     Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test
 
 Sanity E2E Test for OLT/ONU on POD With Core Fail and Restart
