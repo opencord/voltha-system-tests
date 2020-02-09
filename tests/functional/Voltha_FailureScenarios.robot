@@ -94,6 +94,9 @@ Verify restart openolt-adapter container after VOLTHA is operational
     ...           AND             Stop Logging    RestartPods
     ...           AND             Announce Message    END TEST RestartPods
     ${waitforRestart}    Set Variable    120s
+    # Remove the Sanity Check after enabling first failure test (OLT Adapter Test)
+    Run Keyword If    ${has_dataplane}    Clean Up Linux
+    Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test
     ${podStatusOutput}=    Run    kubectl get pods -n ${NAMESPACE}
     Log    ${podStatusOutput}
     ${countBforRestart}=    Run    kubectl get pods -n ${NAMESPACE} | grep Running | wc -l
