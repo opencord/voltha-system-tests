@@ -170,7 +170,6 @@ Verify ONU after rebooting physically
     [Teardown]    Run Keywords    Collect Logs
     ...           AND             Stop Logging    PowerSwitch
     ...           AND             Announce Message    END TEST PowerSwitch
-    Start Log Capture    PowerSwitch    ${container_log_dir}
     Power Switch Connection Suite    ${web_power_switch.ip}    ${web_power_switch.user}    ${web_power_switch.password}
     FOR    ${I}    IN RANGE    0    ${num_onus}
         ${src}=    Set Variable    ${hosts.src[${I}]}
