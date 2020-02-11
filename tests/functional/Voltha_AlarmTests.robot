@@ -103,20 +103,10 @@ Test RaiseDyingGaspAlarm
     [Documentation]    Raise Dying Gasp Alarm and verify event received
     [Tags]    active
     ${header}    ${deviceEvent}    Raise Alarm And Get Event    DyingGasp
-    ...     ${onu_sn}    ONU_DYING_GASP_RAISE_EVENT
+    ...     ${onu_sn}    ONU_DYING_GASP_EVENT
     # Note: PON is the zero value of the subCategory field, and causes it to be not present
-    Verify Header   ${header}    Voltha.openolt.ONU_DYING_GASP\.(\\d+)    ${EMPTY}
-    Should Be Equal    ${deviceEvent}[deviceEventName]    ONU_DYING_GASP_RAISE_EVENT
-    Should Be Equal    ${deviceEvent}[resourceId]    ${parent_id}
-
-Test ClearDyingGaspAlarm
-    [Documentation]    Clear Dying Gasp Alarm and verify event received
-    [Tags]    active
-    ${header}    ${deviceEvent}    Clear Alarm And Get Event    DyingGasp
-    ...     ${onu_sn}    ONU_DYING_GASP_CLEAR_EVENT
-    # Note: PON is the zero value of the subCategory field, and causes it to be not present
-    Verify Header   ${header}    Voltha.openolt.ONU_DYING_GASP\.(\\d+)    ${EMPTY}
-    Should Be Equal    ${deviceEvent}[deviceEventName]    ONU_DYING_GASP_CLEAR_EVENT
+    Verify Header   ${header}    Voltha.openolt.ONU_DYING\.(\\d+)    ${EMPTY}
+    Should Be Equal    ${deviceEvent}[deviceEventName]    ONU_DYING_GASP_EVENT
     Should Be Equal    ${deviceEvent}[resourceId]    ${parent_id}
 
 Test RaiseLopcMissAlarm
@@ -410,6 +400,8 @@ Raise Alarm And Get Event
     ${since}    Get Current Time
     Raise Alarm    ${name}    ${sn}
     ${header}    ${deviceEvent}    Get Device Event    ${deviceEventName}    ${since}
+    ${LastEventPostTimestamp}    Set Variable     ${since}
+    Set Suite Variable     ${LastEventPostTimestamp}
     [return]    ${header}    ${deviceEvent}
 
 Clear Alarm And Get Event
@@ -418,6 +410,8 @@ Clear Alarm And Get Event
     ${since}    Get Current Time
     Clear Alarm    ${name}    ${sn}
     ${header}    ${deviceEvent}    Get Device Event    ${deviceEventName}    ${since}
+    ${LastEventPostTimestamp}    Set Variable     ${since}
+    Set Suite Variable     ${LastEventPostTimestamp}
     [return]    ${header}    ${deviceEvent}
 
 Raise Alarm
@@ -457,7 +451,8 @@ Verify Header
     Should Be Equal   ${headerSubCategory}    ${subCategory}
     Should Be Equal   ${header}[type]    DEVICE_EVENT
     Should Match Regexp    ${header}[id]    ${id}
-    # TODO Revisit when timestamp format is changed from Float to Timestamp
-    Should Be Float   ${header}[raisedTs]
-    Should Be Float   ${header}[reportedTs]
-
+    # TODO Timestamps are now RFC3339 date strings. Add Verification
+    ${reportedTs}    Set Variable    ${header}[reportedTs]
+    ${raisedTs}    Set Variable    ${header}[raisedTs]
+    Should Be Newer Than Or Equal To    ${reportedTs}    ${LastEventPostTimestamp}
+    Should Be Newer Than Or Equal To    ${raisedTs}    ${LastEventPostTimestamp}
