@@ -457,7 +457,4 @@ Verify Header
     Should Be Equal   ${headerSubCategory}    ${subCategory}
     Should Be Equal   ${header}[type]    DEVICE_EVENT
     Should Match Regexp    ${header}[id]    ${id}
-    # TODO Revisit when timestamp format is changed from Float to Timestamp
-    Should Be Float   ${header}[raisedTs]
-    Should Be Float   ${header}[reportedTs]
-
+    # TODO Timestamps are now RFC3339 date strings. Add Verification
