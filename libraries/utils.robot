@@ -355,13 +355,34 @@ Should Be Larger Than
     Run Keyword If    ${value_1} <= ${value_2}
     ...    Fail    The value ${value_1} is not larger than ${value_2}
 
+Should Be Larger Than Or Equal To
+    [Documentation]    Verify that value_1 is >= value_2
+    [Arguments]    ${value_1}    ${value_2}
+    Run Keyword If    ${value_1} < ${value_2}
+    ...    Fail    The value ${value_1} is not larger than or equal to ${value_2}
+
 Should Be Float
     [Documentation]    Verify that value is a floating point number type
     [Arguments]    ${value}
     ${type}    Evaluate    type(${value}).__name__
     Should Be Equal    ${type}    float
 
+Should Be Newer Than Or Equal To
+    [Documentation]    Compare two RFC3339 dates
+    [Arguments]    ${value_1}    ${value_2}
+    ${unix_v1}    Parse RFC3339    ${value_1}
+    ${unix_v2}    Parse RFC3339    ${value_2}
+    Run Keyword If    ${unix_v1} < ${unix_v2}
+    ...    Fail    The value ${value_1} is not newer than or equal to ${value_2}    
+
 Get Current Time
     [Documentation]    Return the current time in RFC3339 format
     ${output}=    Run    date -u +"%FT%T%:z"
     [return]     ${output}
+
+Parse RFC3339
+    [Documentation]     Parse an RFC3339 timestamp
+    [Arguments]    ${dateStr}
+    ${rc}    ${output}=    Run and Return Rc and Output     date --date="${dateStr}" "+%s"
+    Should Be Equal As Numbers    ${rc}    0
+    [return]    ${output}

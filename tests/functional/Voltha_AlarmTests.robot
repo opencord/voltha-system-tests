@@ -410,6 +410,8 @@ Raise Alarm And Get Event
     ${since}    Get Current Time
     Raise Alarm    ${name}    ${sn}
     ${header}    ${deviceEvent}    Get Device Event    ${deviceEventName}    ${since}
+    ${LastEventPostTimestamp}    Set Variable     ${since}
+    Set Suite Variable     ${LastEventPostTimestamp}
     [return]    ${header}    ${deviceEvent}
 
 Clear Alarm And Get Event
@@ -418,6 +420,8 @@ Clear Alarm And Get Event
     ${since}    Get Current Time
     Clear Alarm    ${name}    ${sn}
     ${header}    ${deviceEvent}    Get Device Event    ${deviceEventName}    ${since}
+    ${LastEventPostTimestamp}    Set Variable     ${since}
+    Set Suite Variable     ${LastEventPostTimestamp}
     [return]    ${header}    ${deviceEvent}
 
 Raise Alarm
@@ -457,7 +461,8 @@ Verify Header
     Should Be Equal   ${headerSubCategory}    ${subCategory}
     Should Be Equal   ${header}[type]    DEVICE_EVENT
     Should Match Regexp    ${header}[id]    ${id}
-    # TODO Revisit when timestamp format is changed from Float to Timestamp
-    Should Be Float   ${header}[raisedTs]
-    Should Be Float   ${header}[reportedTs]
-
+    # TODO Timestamps are now RFC3339 date strings. Add Verification
+    ${reportedTs}    Set Variable    ${header}[reportedTs]
+    ${raisedTs}    Set Variable    ${header}[raisedTs]
+    Should Be Newer Than Or Equal To    ${reportedTs}    ${LastEventPostTimestamp}
+    Should Be Newer Than Or Equal To    ${raisedTs}    ${LastEventPostTimestamp}
