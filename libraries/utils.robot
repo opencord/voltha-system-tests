@@ -199,6 +199,7 @@ Setup
     #validate olt states
     Wait Until Keyword Succeeds    ${timeout}    5s
     ...    Validate OLT Device    PREPROVISIONED    UNKNOWN    UNKNOWN    ${EMPTY}    ${olt_device_id}
+    Sleep    5s
     Enable Device    ${olt_device_id}
     Wait Until Keyword Succeeds    ${timeout}    5s
     ...    Validate OLT Device    ENABLED    ACTIVE    REACHABLE    ${olt_serial_number}

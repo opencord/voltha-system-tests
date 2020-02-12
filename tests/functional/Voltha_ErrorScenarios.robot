@@ -111,7 +111,7 @@ Test Disable different device id which is not in the device list
     List Should Not Contain Value    ${ids}    ${fakeDeviceId}
     #Disable fake device id
     ${rc}  ${output}=    Run and Return Rc and Output    ${VOLTCTL_CONFIG}; voltctl device disable ${fakeDeviceId}
-    Should Contain    ${output}     Error while disabling '${fakeDeviceId}': rpc error: code = NotFound desc
+    Should Contain    ${output}     Error while disabling '${fakeDeviceId}'
 
 Check deletion of OLT/ONU before disabling
     [Documentation]    Try deleting OL/ONU before disabling and check error message
