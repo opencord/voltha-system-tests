@@ -1,0 +1,56 @@
+{
+  "org.opencord.sadis": {
+    "sadis": {
+      "integration": {
+        "cache": {
+          "enabled": false,
+          "maxsize": 50,
+          "ttl": "PT0m"
+        }
+      },
+      "entries": [
+        {
+          "id": "BBSIM_OLT_0",
+          "hardwareIdentifier": "0f:f1:ce:c0:ff:ee",
+          "nasId": "BBSIMOLT000",
+          "uplinkPort": 1048576
+        },
+        {
+          "id": "BBSM00000001-1",
+          "nasPortId": "BBSM00000001-1",
+          "circuitId": "BBSM00000001-1",
+          "remoteId": "BBSM00000001-1",
+          "uniTagList": [
+            {
+              "ponCTag": 900,
+              "ponSTag": 900,
+              "technologyProfileId": 64,
+              "downstreamBandwidthProfile": "Default",
+              "upstreamBandwidthProfile": "Default",
+              "isDhcpRequired": true
+            }
+          ]
+        }
+      ]
+    },
+    "bandwidthprofile": {
+      "integration": {
+        "cache": {
+          "enabled": true,
+          "maxsize": 40,
+          "ttl": "PT1m"
+        }
+      },
+      "entries": [
+        {
+          "id": "Default",
+          "cir": 1000000,
+          "cbs": 1001,
+          "eir": 1002,
+          "ebs": 1003,
+          "air": 1004
+        }
+      ]
+    }
+  }
+}
