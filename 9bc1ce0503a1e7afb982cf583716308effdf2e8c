@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8eab870c_6f7f6451",
+        "filename": "tests/functional/Voltha_ScaleFunctionalTests.robot",
+        "patchSetId": 8
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1000596
+      },
+      "writtenOn": "2020-02-12T21:46:13Z",
+      "side": 1,
+      "message": "I think those two arguments can be put in the same line.",
+      "range": {
+        "startLine": 55,
+        "startChar": 13,
+        "endLine": 55,
+        "endChar": 26
+      },
+      "revId": "9bc1ce0503a1e7afb982cf583716308effdf2e8c",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a0b1feee_a05cdb55",
+        "filename": "tests/functional/Voltha_ScaleFunctionalTests.robot",
+        "patchSetId": 8
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1000596
+      },
+      "writtenOn": "2020-02-12T21:46:13Z",
+      "side": 1,
+      "message": "4 spaces in [Docuementation] and [Tags] to make style consistent",
+      "revId": "9bc1ce0503a1e7afb982cf583716308effdf2e8c",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    }
+  ]
+}
