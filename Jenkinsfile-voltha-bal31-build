@@ -120,7 +120,7 @@ node ("${TestNodeName}") {
             stage('Push Sadis-config') {
                 timeout(1) {
                     sadis_out = sh returnStatus: true, script: """
-                    if [[ ${onosVersion} == "1.13.10" ]]; then
+                    if [[ "${onosVersion}" == "1.13.10" || "${onosVersion}" == "2.2" ]]; then
                         curl -sSL --user karaf:karaf -X POST -H Content-Type:application/json http://${deployment_config.nodes[0].ip}:30120/onos/v1/network/configuration --data @$WORKSPACE/voltha-system-tests/tests/data/${configFileName}-${onosVersion}-sadis.json
                     else
                         curl -sSL --user karaf:karaf -X POST -H Content-Type:application/json http://${deployment_config.nodes[0].ip}:30120/onos/v1/network/configuration --data @$WORKSPACE/voltha-system-tests/tests/data/${configFileName}-sadis.json
@@ -192,7 +192,7 @@ node ("${TestNodeName}") {
                             sshpass -p karaf ssh -p 30115 karaf@${deployment_config.nodes[0].ip} "log:set TRACE org.opencord.dhcpl2relay"
                             sshpass -p karaf ssh -p 30115 karaf@${deployment_config.nodes[0].ip} "log:set TRACE org.opencord.aaa"
                             sshpass -p karaf ssh -p 30115 karaf@${deployment_config.nodes[0].ip} "log:set TRACE org.opencord.olt"
-                            if [[ ${onosVersion} == "1.13.10" ]]; then
+                            if [[ "${onosVersion}" == "1.13.10" || "${onosVersion}" == "2.2" ]]; then
                                 sshpass -p karaf ssh -p 30115 karaf@${deployment_config.nodes[0].ip} "cfg set org.opencord.olt.impl.OltFlowService enableDhcpOnProvisioning true"
                                 sshpass -p karaf ssh -p 30115 karaf@${deployment_config.nodes[0].ip} "cfg set org.opencord.olt.impl.OltFlowService enableDhcpV4 true"
                                 sshpass -p karaf ssh -p 30115 karaf@${deployment_config.nodes[0].ip} "cfg set org.opencord.olt.impl.OltFlowService enableEapol true"
