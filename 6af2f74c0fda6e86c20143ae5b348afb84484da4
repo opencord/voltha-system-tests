@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "02beafb5_138d63e2",
+        "filename": "tests/functional/Voltha_AlarmTests.robot",
+        "patchSetId": 5
+      },
+      "lineNbr": 460,
+      "author": {
+        "id": 1000003
+      },
+      "writtenOn": "2020-02-13T23:59:10Z",
+      "side": 1,
+      "message": "but where is the verification",
+      "range": {
+        "startLine": 460,
+        "startChar": 2,
+        "endLine": 460,
+        "endChar": 68
+      },
+      "revId": "6af2f74c0fda6e86c20143ae5b348afb84484da4",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    }
+  ]
+}
