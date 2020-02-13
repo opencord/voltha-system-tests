@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "77738562_157505e4",
+        "filename": "tests/data/onos-sadis-bbsim.json",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000010
+      },
+      "writtenOn": "2020-02-13T22:19:52Z",
+      "side": 1,
+      "message": "Is this just temporary, until BBSim\u0027s SADIS server supports the new format?",
+      "range": {
+        "startLine": 10,
+        "startChar": 5,
+        "endLine": 10,
+        "endChar": 12
+      },
+      "revId": "6fb642f5ede58423c5b34aa428a94b1c9b963b10",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    }
+  ]
+}
