@@ -70,6 +70,13 @@ node ("${TestNodeName}") {
                     kubectl get pods --all-namespaces -o jsonpath="{range .items[*].status.containerStatuses[*]}{.image}{'\\t'}{.imageID}{'\\n'}" | sort | uniq -c
                     kubectl get nodes -o wide
                     kubectl get pods -n voltha -o wide
+
+                    #Install the latest voltctl
+                    echo "Previous version"
+                    voltctl version --clientonly || true
+                    cp -u bin/voltctl `which voltctl` || cp -u bin/voltctl /usr/local/bin/voltctl
+                    echo "Installed version"
+                    voltctl version --clientonly
                     """
                     }
             }
