@@ -1,6 +1,6 @@
 {
   "devices": {
-    "of:000000000ac014ce": {
+    "of:000000000a80645a": {
       "basic": {
         "driver": "voltha"
       }
@@ -18,52 +18,43 @@
         },
         "entries": [
           {
-            "id": "ALPHe3d1cfa7-1",
-            "nasPortId": "ALPHe3d1cfa7-1",
-            "circuitId": "ALPHe3d1cfa7-1",
-            "remoteId": "EC1838000853",
-            "uniTagList": [{
-              "ponCTag": 901,
-              "ponSTag": 111,
-              "technologyProfileId": 64,
-              "upstreamBandwidthProfile": "User_Bandwidth3",
-              "downstreamBandwidthProfile": "User_Bandwidth2",
-              "isDhcpRequired": true
-            }]
+            "id": "BRCM22222222-1",
+            "cTag": 11,
+            "sTag": 99,
+            "nasPortId": "BRCM22222222-1",
+            "circuitId": "",
+            "remoteId": "",
+            "technologyProfileId": 64,
+            "upstreamBandwidthProfile": "Default",
+            "downstreamBandwidthProfile": "Default"
           },
           {
-            "id": "ALPHe3d1cea3-1",
-            "nasPortId": "ALPHe3d1cea3-1",
-            "circuitId": "ALPHe3d1cea3-1",
-            "remoteId": "EC1838000853",
-            "uniTagList": [{
-              "ponCTag": 801,
-              "ponSTag": 111,
-              "technologyProfileId": 64,
-              "upstreamBandwidthProfile": "User_Bandwidth2",
-              "downstreamBandwidthProfile": "User_Bandwidth2",
-              "isDhcpRequired": true
-            }]
+            "id": "ALPHe3d1cf9d-1",
+            "cTag": 22,
+            "sTag": 99,
+            "nasPortId": "ALPHe3d1cf9d-1",
+            "circuitId": "",
+            "remoteId": "",
+            "technologyProfileId": 64,
+            "upstreamBandwidthProfile": "User_Bandwidth1",
+            "downstreamBandwidthProfile": "User_Bandwidth2"
           },
           {
-            "id": "ALPHe3d1ceb7-1",
-            "nasPortId": "ALPHe3d1ceb7-1",
-            "circuitId": "ALPHe3d1ceb7-1",
-            "remoteId": "EC1838000853",
-            "uniTagList": [{
-              "ponCTag": 101,
-              "ponSTag": 222,
-              "technologyProfileId": 64,
-              "upstreamBandwidthProfile": "Default",
-              "downstreamBandwidthProfile": "Default",
-              "isDhcpRequired": true
-            }]
+            "id": "ALPHe3d1ced5-1",
+            "cTag": 33,
+            "sTag": 99,
+            "nasPortId": "ALPHe3d1ced5-1",
+            "circuitId": "",
+            "remoteId": "",
+            "technologyProfileId": 64,
+            "upstreamBandwidthProfile": "User_Bandwidth3",
+            "downstreamBandwidthProfile": "User_Bandwidth3"
           },
           {
-            "id": "EC1838000853",
+            "id": "EC1904000654",
             "hardwareIdentifier": "aa:bb:cc:dd:ee:ff",
             "ipAddress": "10.192.20.206",
-            "nasId": "EC1838000853",
+            "nasId": "EC1904000654",
             "uplinkPort": 1048576
           }
         ]

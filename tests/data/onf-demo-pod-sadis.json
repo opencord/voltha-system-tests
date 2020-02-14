@@ -19,36 +19,45 @@
         "entries": [
           {
             "id": "BRCM22222222-1",
-            "cTag": 11,
-            "sTag": 99,
             "nasPortId": "BRCM22222222-1",
             "circuitId": "",
             "remoteId": "",
-            "technologyProfileId": 64,
-            "upstreamBandwidthProfile": "Default",
-            "downstreamBandwidthProfile": "Default"
+            "uniTagList": [{
+              "ponCTag": 11,
+              "ponSTag": 99,
+              "technologyProfileId": 64,
+              "downstreamBandwidthProfile": "Default",
+              "upstreamBandwidthProfile": "Default",
+              "isDhcpRequired": true
+            }]
           },
           {
             "id": "ALPHe3d1cf9d-1",
-            "cTag": 22,
-            "sTag": 99,
             "nasPortId": "ALPHe3d1cf9d-1",
             "circuitId": "",
             "remoteId": "",
-            "technologyProfileId": 64,
-            "upstreamBandwidthProfile": "User_Bandwidth1",
-            "downstreamBandwidthProfile": "User_Bandwidth2"
+            "uniTagList": [{
+              "ponCTag": 22,
+              "ponSTag": 99,
+              "technologyProfileId": 64,
+              "downstreamBandwidthProfile": "Default",
+              "upstreamBandwidthProfile": "Default",
+              "isDhcpRequired": true
+            }]
           },
           {
             "id": "ALPHe3d1ced5-1",
-            "cTag": 33,
-            "sTag": 99,
             "nasPortId": "ALPHe3d1ced5-1",
             "circuitId": "",
             "remoteId": "",
-            "technologyProfileId": 64,
-            "upstreamBandwidthProfile": "User_Bandwidth3",
-            "downstreamBandwidthProfile": "User_Bandwidth3"
+            "uniTagList": [{
+              "ponCTag": 33,
+              "ponSTag": 99,
+              "technologyProfileId": 64,
+              "downstreamBandwidthProfile": "Default",
+              "upstreamBandwidthProfile": "Default",
+              "isDhcpRequired": true
+            }]
           },
           {
             "id": "EC1904000654",

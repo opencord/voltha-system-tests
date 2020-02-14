@@ -19,124 +19,45 @@
         "entries": [
           {
             "id": "ALPHe3d1cfa7-1",
-            "cTag": 901,
-            "sTag": 111,
             "nasPortId": "ALPHe3d1cfa7-1",
             "circuitId": "ALPHe3d1cfa7-1",
             "remoteId": "EC1838000853",
-            "technologyProfileId": 64,
-            "upstreamBandwidthProfile": "User_Bandwidth3",
-            "downstreamBandwidthProfile": "User_Bandwidth2"
-          },
-          {
-            "id": "ALPHe3d1cfa7-2",
-            "cTag": 902,
-            "sTag": 111,
-            "nasPortId": "ALPHe3d1cfa7-2",
-            "circuitId": "ALPHe3d1cfa7-2",
-            "remoteId": "EC1838000853",
-            "technologyProfileId": 64,
-            "upstreamBandwidthProfile": "Default",
-            "downstreamBandwidthProfile": "Default"
-          },
-          {
-            "id": "ALPHe3d1cfa7-3",
-            "cTag": 903,
-            "sTag": 111,
-            "nasPortId": "ALPHe3d1cfa7-3",
-            "circuitId": "ALPHe3d1cfa7-3",
-            "remoteId": "EC1838000853",
-            "technologyProfileId": 64,
-            "upstreamBandwidthProfile": "Default",
-            "downstreamBandwidthProfile": "Default"
-          },
-          {
-            "id": "ALPHe3d1cfa7-4",
-            "cTag": 904,
-            "sTag": 111,
-            "nasPortId": "ALPHe3d1cfa7-4",
-            "circuitId": "ALPHe3d1cfa7-4",
-            "remoteId": "EC1838000853",
-            "technologyProfileId": 64,
-            "upstreamBandwidthProfile": "Default",
-            "downstreamBandwidthProfile": "Default"
-          },
-          {
-            "id": "ALPHe3d1cfa7-5",
-            "cTag": 905,
-            "sTag": 111,
-            "nasPortId": "ALPHe3d1cfa7-5",
-            "circuitId": "ALPHe3d1cfa7-5",
-            "remoteId": "EC1838000853",
-            "technologyProfileId": 64,
-            "upstreamBandwidthProfile": "Default",
-            "downstreamBandwidthProfile": "Default"
+            "uniTagList": [{
+              "ponCTag": 901,
+              "ponSTag": 111,
+              "technologyProfileId": 64,
+              "upstreamBandwidthProfile": "User_Bandwidth3",
+              "downstreamBandwidthProfile": "User_Bandwidth2",
+              "isDhcpRequired": true
+            }]
           },
           {
             "id": "ALPHe3d1cea3-1",
-            "cTag": 801,
-            "sTag": 111,
             "nasPortId": "ALPHe3d1cea3-1",
             "circuitId": "ALPHe3d1cea3-1",
             "remoteId": "EC1838000853",
-            "technologyProfileId": 64,
-            "upstreamBandwidthProfile": "User_Bandwidth2",
-            "downstreamBandwidthProfile": "User_Bandwidth2"
-          },
-          {
-            "id": "ALPHe3d1cea3-2",
-            "cTag": 802,
-            "sTag": 111,
-            "nasPortId": "ALPHe3d1cea3-2",
-            "circuitId": "ALPHe3d1cea3-2",
-            "remoteId": "EC1838000853",
-            "technologyProfileId": 64,
-            "upstreamBandwidthProfile": "Default",
-            "downstreamBandwidthProfile": "Default"
-          },
-          {
-            "id": "ALPHe3d1cea3-3",
-            "cTag": 803,
-            "sTag": 111,
-            "nasPortId": "ALPHe3d1cea3-3",
-            "circuitId": "ALPHe3d1cea3-3",
-            "remoteId": "EC1838000853",
-            "technologyProfileId": 64,
-            "upstreamBandwidthProfile": "Default",
-            "downstreamBandwidthProfile": "Default"
-          },
-          {
-            "id": "ALPHe3d1cea3-4",
-            "cTag": 804,
-            "sTag": 111,
-            "nasPortId": "ALPHe3d1cea3-4",
-            "circuitId": "ALPHe3d1cea3-4",
-            "remoteId": "EC1838000853",
-            "technologyProfileId": 64,
-            "upstreamBandwidthProfile": "Default",
-            "downstreamBandwidthProfile": "Default"
-          },
-          {
-            "id": "ALPHe3d1cea3-5",
-            "cTag": 805,
-            "sTag": 111,
-            "nasPortId": "ALPHe3d1cea3-5",
-            "circuitId": "ALPHe3d1cea3-5",
-            "remoteId": "EC1838000853",
-            "technologyProfileId": 64,
-            "upstreamBandwidthProfile": "Default",
-            "downstreamBandwidthProfile": "Default"
+            "uniTagList": [{
+              "ponCTag": 801,
+              "ponSTag": 111,
+              "technologyProfileId": 64,
+              "upstreamBandwidthProfile": "User_Bandwidth2",
+              "downstreamBandwidthProfile": "User_Bandwidth2",
+              "isDhcpRequired": true
+            }]
           },
           {
             "id": "ALPHe3d1ceb7-1",
-            "cTag": 101,
-            "sTag": 222,
             "nasPortId": "ALPHe3d1ceb7-1",
             "circuitId": "ALPHe3d1ceb7-1",
             "remoteId": "EC1838000853",
-            "technologyProfileId": 64,
-            "upstreamBandwidthProfile": "Default",
-            "downstreamBandwidthProfile": "Default"
+            "uniTagList": [{
+              "ponCTag": 101,
+              "ponSTag": 222,
+              "technologyProfileId": 64,
+              "upstreamBandwidthProfile": "Default",
+              "downstreamBandwidthProfile": "Default",
+              "isDhcpRequired": true
+            }]
           },
           {
             "id": "EC1838000853",
