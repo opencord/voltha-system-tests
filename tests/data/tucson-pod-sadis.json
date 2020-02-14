@@ -18,36 +18,45 @@
           },
           {
             "id": "ALPHe3d1ce7b-1",
-            "cTag": 11,
-            "sTag": 11,
             "nasPortId": "ALPHe3d1ce7b-1",
             "circuitId": "ALPHe3d1ce7b-1",
             "remoteId": "ALPHe3d1ce7b",
-            "technologyProfileId": 64,
-            "upstreamBandwidthProfile": "User_Bandwidth1",
-            "downstreamBandwidthProfile": "User_Bandwidth1"
+            "uniTagList": [{
+              "ponCTag": 11,
+              "ponSTag": 11,
+              "technologyProfileId": 64,
+              "upstreamBandwidthProfile": "User_Bandwidth1",
+              "downstreamBandwidthProfile": "User_Bandwidth1",
+              "isDhcpRequired": true
+            }]
           },
           {
             "id": "ISKT71e801a0-1",
-            "cTag": 12,
-            "sTag": 11,
             "nasPortId": "ISKT71e801a0-1",
             "circuitId": "ISKT71e801a0-1",
             "remoteId": "ISKT71e801a0",
-            "technologyProfileId": 64,
-            "upstreamBandwidthProfile": "User_Bandwidth2",
-            "downstreamBandwidthProfile": "User_Bandwidth2"
+            "uniTagList": [{
+              "ponCTag": 12,
+              "ponSTag": 11,
+              "technologyProfileId": 64,
+              "upstreamBandwidthProfile": "User_Bandwidth2",
+              "downstreamBandwidthProfile": "User_Bandwidth2",
+              "isDhcpRequired": true
+            }]
           },
           {
             "id": "ALPHe3d1cfac-1",
-            "cTag": 21,
-            "sTag": 21,
             "nasPortId": "ALPHe3d1cfac-1",
             "circuitId": "ALPHe3d1cfac-1",
             "remoteId": "ALPHe3d1cfac",
-            "technologyProfileId": 64,
-            "upstreamBandwidthProfile": "User_Bandwidth3",
-            "downstreamBandwidthProfile": "User_Bandwidth3"
+            "uniTagList": [{
+              "ponCTag": 21,
+              "ponSTag": 21,
+              "technologyProfileId": 64,
+              "upstreamBandwidthProfile": "User_Bandwidth3",
+              "downstreamBandwidthProfile": "User_Bandwidth3",
+              "isDhcpRequired": true
+            }]
           }
         ]
       },
