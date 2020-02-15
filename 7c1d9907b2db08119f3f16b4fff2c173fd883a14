@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cbf40d52_0d624590",
+        "filename": "docker/Dockerfile.voltctl",
+        "patchSetId": 7
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1000011
+      },
+      "writtenOn": "2020-02-15T01:40:56Z",
+      "side": 1,
+      "message": "v1.0.9 ?",
+      "range": {
+        "startLine": 18,
+        "startChar": 68,
+        "endLine": 18,
+        "endChar": 74
+      },
+      "revId": "7c1d9907b2db08119f3f16b4fff2c173fd883a14",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    }
+  ]
+}
