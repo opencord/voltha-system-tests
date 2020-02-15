@@ -22,6 +22,30 @@
       "revId": "7c1d9907b2db08119f3f16b4fff2c173fd883a14",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3ffdae2d_d12ff32b",
+        "filename": "docker/Dockerfile.voltctl",
+        "patchSetId": 7
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1000016
+      },
+      "writtenOn": "2020-02-15T04:24:44Z",
+      "side": 1,
+      "message": "Good catch!",
+      "parentUuid": "cbf40d52_0d624590",
+      "range": {
+        "startLine": 18,
+        "startChar": 68,
+        "endLine": 18,
+        "endChar": 74
+      },
+      "revId": "7c1d9907b2db08119f3f16b4fff2c173fd883a14",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
     }
   ]
 }
