@@ -77,6 +77,9 @@ The `defaults.image_tag` value above is used to specify which VOLTHA
 branch images to pull from Docker Hub.
 See all available versions in [Docker voltha](https://hub.docker.com/u/voltha/).
 
+### DT Workflow
+If you want to install voltha for the DT Workflow, add `WITH_RADIUS=n WITH_EAPOL=n WITH_DHCP=n WITH_IGMP=n CONFIG_SADIS=n` flags in the command.
+
 ### Debug the kind-voltha installation
 If you meet any issues when you set up the voltha testing environment by running `voltha up`.
 You can see the installation logs from the file `kind-voltha/install-$TYPE.log`.
@@ -91,6 +94,13 @@ to run the sanity tests:
 ```bash
 git clone https://github.com/opencord/voltha-system-tests
 make -C voltha-system-tests sanity-kind
+```
+
+### DT Workflow
+To run the sanity tests for the DT Workflow, use `sanity-kind-dt` as the make target.
+```bash
+git clone https://github.com/opencord/voltha-system-tests
+make -C voltha-system-tests sanity-kind-dt
 ```
 
 This test execution will generate three report files in
