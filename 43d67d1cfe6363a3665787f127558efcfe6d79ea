@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "be570721_07cee423",
+        "filename": "libraries/utils.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 1000514
+      },
+      "writtenOn": "2020-02-17T15:26:11Z",
+      "side": 1,
+      "message": "Sure. Will do.\nNote: The ONOS flows actual entries can only be verified on the standard/default setup only after VOL-2516 gets released into ONOS.",
+      "parentUuid": "5b928ada_a7f659f4",
+      "range": {
+        "startLine": 229,
+        "startChar": 4,
+        "endLine": 229,
+        "endChar": 29
+      },
+      "revId": "43d67d1cfe6363a3665787f127558efcfe6d79ea",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "85ddd734_93e735f4",
         "filename": "libraries/voltctl.robot",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2020-02-17T15:18:09Z",
       "side": 1,
       "message": "please rename to flows, across the whole file.",
+      "range": {
+        "startLine": 228,
+        "startChar": 51,
+        "endLine": 228,
+        "endChar": 55
+      },
+      "revId": "43d67d1cfe6363a3665787f127558efcfe6d79ea",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "db3e2f0e_0e6bb5dc",
+        "filename": "libraries/voltctl.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 1000514
+      },
+      "writtenOn": "2020-02-17T15:26:11Z",
+      "side": 1,
+      "message": "Kept this to remain consistent with the existing. Will update globally.",
+      "parentUuid": "85ddd734_93e735f4",
       "range": {
         "startLine": 228,
         "startChar": 51,
