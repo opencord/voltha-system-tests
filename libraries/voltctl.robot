@@ -223,13 +223,14 @@ Validate Device Flows
     ...    Number of flows for ${device_id} was not ${test}
 
 Validate OLT Flows
-    [Documentation]    Parses the output of voltctl device flows ${olt_device_id} and expects flow count > 0
-    Validate Device Flows    ${olt_device_id}
+    [Arguments]    ${test}
+    [Documentation]    Parses the output of voltctl device flows ${olt_device_id} and expects flow count > 0 and equal to ${test}
+    Validate Device Flows    ${olt_device_id}    ${test}
 
 Validate ONU Flows
     [Arguments]    ${List_ONU_Serial}    ${test}
     [Documentation]    Parses the output of voltctl device flows for each ONU SN listed in ${List_ONU_Serial}
-    ...    and expects flow count == 0
+    ...    and expects flow count == ${test}
     FOR    ${serial_number}    IN    @{List_ONU_Serial}
         ${onu_dev_id}=    Get Device ID From SN    ${serial_number}
         Validate Device Flows    ${onu_dev_id}    ${test}

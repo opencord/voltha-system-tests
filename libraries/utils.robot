@@ -186,6 +186,50 @@ Perform Sanity Test
         Run Keyword and Ignore Error    Collect Logs
     END
 
+Perform Sanity Test DT
+    [Documentation]    This keyword performs Sanity Test Procedure
+    ...    Sanity test performs dhcp and pings for all the ONUs given for the POD
+    ...    This keyword can be used to call in any other tests where sanity check is required
+    ...    and avoids duplication of code.
+    ${of_id}=    Wait Until Keyword Succeeds    ${timeout}    15s    Validate OLT Device in ONOS    ${olt_serial_number}
+    Set Global Variable    ${of_id}
+    FOR    ${I}    IN RANGE    0    ${num_onus}
+        ${src}=    Set Variable    ${hosts.src[${I}]}
+        ${dst}=    Set Variable    ${hosts.dst[${I}]}
+        ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
+        ${onu_port}=    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
+        ...    Get ONU Port in ONOS    ${src['onu']}    ${of_id}
+        # Check ONU port is Enabled in ONOS
+        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds   120s   2s
+        ...    Verify ONU Port Is Enabled   ${k8s_node_ip}    ${ONOS_SSH_PORT}    ${onu_port}
+        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2
+        ...    Execute ONOS CLI Command    ${k8s_node_ip}    ${ONOS_SSH_PORT}
+        ...    volt-add-subscriber-access ${of_id} ${onu_port}
+        # Verify ONU state in voltha
+        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s    Validate Device
+        ...    ENABLED    ACTIVE    REACHABLE
+        ...    ${src['onu']}    onu=True    onu_reason=omci-flows-pushed
+        # TODO: Yet to Verify on the Physical POD
+        Run Keyword If    ${has_dataplane}    Run Keyword And Continue On Failure    Validate DHCP and Ping    True
+        ...    True    ${src['dp_iface_name']}    ${src['s_tag']}    ${src['c_tag']}    ${dst['dp_iface_ip_qinq']}
+        ...    ${src['ip']}    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
+        ...    ${dst['dp_iface_name']}    ${dst['ip']}    ${dst['user']}    ${dst['pass']}    ${dst['container_type']}
+        ...    ${dst['container_name']}
+        Run Keyword and Ignore Error    Get Device Output from Voltha    ${onu_device_id}
+        Run Keyword and Ignore Error    Collect Logs
+    END
+    # Number of per OLT flows equals Twice the Number of Active ONUs (each for downstream and upstream) + 1 for LLDP
+    ${olt_flows}=    Evaluate    2 * ${num_onus} + 1
+    # Number of per ONU flows equals 2 (one each for downstream and upstream)
+    ${onu_flows}=    Set Variable    2
+    Run Keyword    Wait Until Keyword Succeeds    ${timeout}    5s    Validate OLT Flows    ${olt_flows}
+    ${List_ONU_Serial}    Create List
+    Set Suite Variable    ${List_ONU_Serial}
+    Build ONU SN List    ${List_ONU_Serial}
+    Log    ${List_ONU_Serial}
+    Run Keyword    Wait Until Keyword Succeeds    ${timeout}    5s    Validate ONU Flows
+    ...    ${List_ONU_Serial}    ${onu_flows}
+
 Setup
     [Documentation]    Pre-test Setup
     #test for empty device list
