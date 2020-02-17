@@ -35,6 +35,7 @@ JSON_FILES   := $(shell find ./tests -name *.json -print)
 
 # Robot config
 ROBOT_SANITY_SINGLE_PON_FILE    ?= $(ROOT_DIR)/tests/data/bbsim-kind.yaml
+ROBOT_SANITY_DT_SINGLE_PON_FILE    ?= $(ROOT_DIR)/tests/data/bbsim-kind-dt.yaml
 ROBOT_FAIL_SINGLE_PON_FILE      ?= $(ROOT_DIR)/tests/data/bbsim-kind.yaml
 ROBOT_SANITY_MULT_PON_FILE      ?= $(ROOT_DIR)/tests/data/bbsim-kind-2x2.yaml
 ROBOT_SCALE_SINGLE_PON_FILE     ?= $(ROOT_DIR)/tests/data/bbsim-kind-16.yaml
@@ -44,6 +45,12 @@ ROBOT_MISC_ARGS                 ?=
 
 # for backwards compatibility
 sanity-kind: sanity-single-kind
+
+# target to invoke DT Workflow Sanity
+sanity-kind-dt: ROBOT_MISC_ARGS += -i sanityDt $(ROBOT_DEBUG_LOG_OPT)
+sanity-kind-dt: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_DT_SINGLE_PON_FILE)
+sanity-kind-dt: ROBOT_FILE := Voltha_DT_PODTests.robot
+sanity-kind-dt: voltha-dt-test
 
 functional-single-kind: ROBOT_MISC_ARGS += -i sanity -i functional $(ROBOT_DEBUG_LOG_OPT)
 functional-single-kind: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_SINGLE_PON_FILE)
@@ -104,6 +111,11 @@ voltha-test: ROBOT_MISC_ARGS += -e notready
 voltha-test: vst_venv
 	source ./$</bin/activate ; set -u ;\
 	cd tests/functional ;\
+	robot -V $(ROBOT_CONFIG_FILE) $(ROBOT_MISC_ARGS) $(ROBOT_FILE)
+
+voltha-dt-test: vst_venv
+	source ./$</bin/activate ; set -u ;\
+	cd tests/dt-workflow ;\
 	robot -V $(ROBOT_CONFIG_FILE) $(ROBOT_MISC_ARGS) $(ROBOT_FILE)
 
 # self-test, lint, and setup targets
