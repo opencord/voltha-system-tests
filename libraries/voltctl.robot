@@ -209,7 +209,7 @@ Validate ONU Port Types
     END
 
 Validate Device Flows
-    [Arguments]    ${device_id}    ${test}=${EMPTY}
+    [Arguments]    ${device_id}    ${flow_count}=${EMPTY}
     [Documentation]    Parses the output of voltctl device flows <device_id> and expects flow count > 0
     ${rc}    ${output}=    Run and Return Rc and Output    ${VOLTCTL_CONFIG}; voltctl device flows ${device_id} -o json
     Should Be Equal As Integers    ${rc}    0
@@ -217,22 +217,24 @@ Validate Device Flows
     Log    ${jsondata}
     ${length}=    Get Length    ${jsondata}
     Log    'Number of flows = ' ${length}
-    Run Keyword If    '${test}' == '${EMPTY}'    Should Be True    ${length} > 0
+    Run Keyword If    '${flow_count}' == '${EMPTY}'    Should Be True    ${length} > 0
     ...    Number of flows for ${device_id} was 0
-    ...    ELSE    Should Be True    ${length} == ${test}
-    ...    Number of flows for ${device_id} was not ${test}
+    ...    ELSE    Should Be True    ${length} == ${flow_count}
+    ...    Number of flows for ${device_id} was not ${flow_count}
 
 Validate OLT Flows
-    [Documentation]    Parses the output of voltctl device flows ${olt_device_id} and expects flow count > 0
-    Validate Device Flows    ${olt_device_id}
+    [Arguments]    ${flow_count}=${EMPTY}
+    [Documentation]    Parses the output of voltctl device flows ${olt_device_id}
+    ...    and expects flow count == ${flow_count}
+    Validate Device Flows    ${olt_device_id}    ${flow_count}
 
 Validate ONU Flows
-    [Arguments]    ${List_ONU_Serial}    ${test}
+    [Arguments]    ${List_ONU_Serial}    ${flow_count}=${EMPTY}
     [Documentation]    Parses the output of voltctl device flows for each ONU SN listed in ${List_ONU_Serial}
-    ...    and expects flow count == 0
+    ...    and expects flow count == ${flow_count}
     FOR    ${serial_number}    IN    @{List_ONU_Serial}
         ${onu_dev_id}=    Get Device ID From SN    ${serial_number}
-        Validate Device Flows    ${onu_dev_id}    ${test}
+        Validate Device Flows    ${onu_dev_id}    ${flow_count}
     END
 
 Validate Logical Device
