@@ -2,6 +2,52 @@
   "comments": [
     {
       "key": {
+        "uuid": "abeef72a_f3fa452b",
+        "filename": "libraries/utils.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1000064
+      },
+      "writtenOn": "2020-02-18T08:04:49Z",
+      "side": 1,
+      "message": "Please update the description for DT accordingly",
+      "range": {
+        "startLine": 190,
+        "startChar": 23,
+        "endLine": 190,
+        "endChar": 43
+      },
+      "revId": "43d67d1cfe6363a3665787f127558efcfe6d79ea",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "177f8995_73513f02",
+        "filename": "libraries/utils.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 1000064
+      },
+      "writtenOn": "2020-02-18T08:04:49Z",
+      "side": 1,
+      "message": "Can we move these into Validate OLT Flows and Validate ONU Flows keywords accordingly? By doing so, we can call these keywords in any other tests independently",
+      "range": {
+        "startLine": 221,
+        "startChar": 1,
+        "endLine": 224,
+        "endChar": 38
+      },
+      "revId": "43d67d1cfe6363a3665787f127558efcfe6d79ea",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5b928ada_a7f659f4",
         "filename": "libraries/utils.robot",
         "patchSetId": 1
