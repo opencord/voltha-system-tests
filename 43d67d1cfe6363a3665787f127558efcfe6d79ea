@@ -162,6 +162,29 @@
       "revId": "43d67d1cfe6363a3665787f127558efcfe6d79ea",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ce441e2b_6a43e003",
+        "filename": "tests/dt-workflow/Voltha_DT_PODTests.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1000064
+      },
+      "writtenOn": "2020-02-18T08:22:15Z",
+      "side": 1,
+      "message": "Please note that for values in the tags, we also add \"bbsim\" if it\u0027s not ready to be executed on hardware yet.",
+      "range": {
+        "startLine": 62,
+        "startChar": 14,
+        "endLine": 62,
+        "endChar": 31
+      },
+      "revId": "43d67d1cfe6363a3665787f127558efcfe6d79ea",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
     }
   ]
 }
