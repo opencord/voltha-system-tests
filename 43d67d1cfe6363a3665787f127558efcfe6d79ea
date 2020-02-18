@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "a099fe89_e2759d55",
+        "filename": "libraries/utils.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 1000514
+      },
+      "writtenOn": "2020-02-18T14:11:01Z",
+      "side": 1,
+      "message": "This calculation is valid only for the DT flows (and only when the flows are actually pushed) and I feel it not okay to put this into more generic keywords like Validate OLT/ONU Flows. Your thoughts?",
+      "parentUuid": "177f8995_73513f02",
+      "range": {
+        "startLine": 221,
+        "startChar": 1,
+        "endLine": 224,
+        "endChar": 38
+      },
+      "revId": "43d67d1cfe6363a3665787f127558efcfe6d79ea",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5b928ada_a7f659f4",
         "filename": "libraries/utils.robot",
         "patchSetId": 1
@@ -176,6 +200,30 @@
       "writtenOn": "2020-02-18T08:22:15Z",
       "side": 1,
       "message": "Please note that for values in the tags, we also add \"bbsim\" if it\u0027s not ready to be executed on hardware yet.",
+      "range": {
+        "startLine": 62,
+        "startChar": 14,
+        "endLine": 62,
+        "endChar": 31
+      },
+      "revId": "43d67d1cfe6363a3665787f127558efcfe6d79ea",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a44d5664_e303f051",
+        "filename": "tests/dt-workflow/Voltha_DT_PODTests.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1000514
+      },
+      "writtenOn": "2020-02-18T14:11:01Z",
+      "side": 1,
+      "message": "Will add. Thanks.",
+      "parentUuid": "ce441e2b_6a43e003",
       "range": {
         "startLine": 62,
         "startChar": 14,
