@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e33daf22_24bba449",
+        "filename": "docker/Dockerfile.voltctl",
+        "patchSetId": 13
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1000011
+      },
+      "writtenOn": "2020-02-19T13:36:27Z",
+      "side": 1,
+      "message": "Would be preferable to checksum the download and make the version a parameter, but OK for the testing that this container is used for.",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 0
+      },
+      "revId": "40db015d7312a3aa3075487529145ca33a535226",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    }
+  ]
+}
