@@ -11,21 +11,24 @@
         },
         "entries": [
           {
-            "id": "ALPHe3d1cf5c-1",
-            "cTag": 11,
-            "sTag": 11,
-            "nasPortId": "ALPHe3d1cf5c-1",
-            "circuitId": "ALPHe3d1cf5c-1",
-            "remoteId": "EC1729003539",
-            "technologyProfileId": 64,
-            "upstreamBandwidthProfile": "User_Bandwidth3",
-            "downstreamBandwidthProfile": "User_Bandwidth2"
-          },
-          {
             "id": "EC1729003539",
             "hardwareIdentifier": "aa:bb:cc:dd:ee:ff",
             "nasId": "EC1729003539",
             "uplinkPort": 1048576
+          },
+          {
+            "id": "ALPHe3d1cf5c-1",
+            "nasPortId": "ALPHe3d1cf5c-1",
+            "circuitId": "ALPHe3d1cf5c-1",
+            "remoteId": "EC1729003539",
+            "uniTagList": [{
+              "ponCTag": 11,
+              "ponSTag": 11,
+              "technologyProfileId": 64,
+              "upstreamBandwidthProfile": "Default",
+              "downstreamBandwidthProfile": "Default",
+              "isDhcpRequired": true
+            }]
           }
         ]
       },
