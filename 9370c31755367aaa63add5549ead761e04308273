@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "c48168ba_7bfa3fa2",
+        "filename": "Jenkinsfile-voltha-bal31-build",
+        "patchSetId": 6
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1000596
+      },
+      "writtenOn": "2020-02-19T22:26:48Z",
+      "side": 1,
+      "message": "How about using the $HOME/bin/ as the binary location for Jenkins user?\nAlso change the $PATH env to put $HOME/bin as the first order .",
+      "parentUuid": "0dd57bb9_914727fc",
+      "range": {
+        "startLine": 89,
+        "startChar": 56,
+        "endLine": 89,
+        "endChar": 97
+      },
+      "revId": "9370c31755367aaa63add5549ead761e04308273",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "dfcb263c_2e5874df",
         "filename": "Jenkinsfile-voltha-bal31-build",
         "patchSetId": 6
