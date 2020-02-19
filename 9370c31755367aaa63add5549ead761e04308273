@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "0dd57bb9_914727fc",
+        "filename": "Jenkinsfile-voltha-bal31-build",
+        "patchSetId": 6
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1000596
+      },
+      "writtenOn": "2020-02-19T22:20:02Z",
+      "side": 1,
+      "message": "You\u0027re right.\nI\u0027m trying to solve the problem for the `first time` installation.\nIn this case, the voltctl command is not installed in the system .\n\nBased on the setting of our Testing Job.\nPATH\u003d\"/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:$WORKSPACE/bin\"\n\nAll the above paths require permission to operate and the last one is the workspace for testing job, should not be seen in the build job.",
+      "parentUuid": "b4b6d57e_a01b8ef6",
+      "range": {
+        "startLine": 89,
+        "startChar": 56,
+        "endLine": 89,
+        "endChar": 97
+      },
+      "revId": "9370c31755367aaa63add5549ead761e04308273",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "dfcb263c_2e5874df",
         "filename": "Jenkinsfile-voltha-bal31-build",
         "patchSetId": 6
@@ -36,6 +60,30 @@
       "writtenOn": "2020-02-19T22:09:52Z",
       "side": 1,
       "message": "Should this be `./bin/voltctl ...` ?",
+      "range": {
+        "startLine": 91,
+        "startChar": 19,
+        "endLine": 91,
+        "endChar": 48
+      },
+      "revId": "9370c31755367aaa63add5549ead761e04308273",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b46ae8cf_ec44c737",
+        "filename": "Jenkinsfile-voltha-bal31-build",
+        "patchSetId": 6
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1000596
+      },
+      "writtenOn": "2020-02-19T22:20:02Z",
+      "side": 1,
+      "message": "I\u0027d like to make sure the voltctl we will call in test job is what we installed in the build job. \n\nJust need to make sure both build and test jobs have the same environment $PATH.",
+      "parentUuid": "dfcb263c_2e5874df",
       "range": {
         "startLine": 91,
         "startChar": 19,
