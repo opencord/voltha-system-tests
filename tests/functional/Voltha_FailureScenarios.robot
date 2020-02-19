@@ -11,7 +11,6 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-# FIXME Can we use the same test against BBSim and Hardware?
 
 *** Settings ***
 Documentation     Test various failure scenarios
@@ -61,12 +60,14 @@ Verify restart ofagent container after VOLTHA is operational
     [Documentation]    Restart ofagent container after VOLTHA is operational.
     ...    Please note this test case should be run before the restart of other containers.
     ...    Prerequisite : ONUs are authenticated and pingable.
-    [Tags]    functional   VOL-2409   ofagentRestart   notready
+    [Tags]    functional   VOL-2409   ofagentRestart
     [Setup]    Run Keywords    Announce Message    START TEST ofagentRestart
     ...        AND             Start Logging    ofagentRestart
     [Teardown]    Run Keywords    Collect Logs
     ...           AND             Stop Logging    ofagentRestart
     ...           AND             Announce Message    END TEST ofagentRestart
+    # Add OLT device
+    setup
     # Performing Sanity Test to make sure subscribers are all AUTH+DHCP and pingable
     Run Keyword If    ${has_dataplane}    Clean Up Linux
     Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test
@@ -95,8 +96,8 @@ Verify restart openolt-adapter container after VOLTHA is operational
     ...           AND             Announce Message    END TEST RestartPods
     ${waitforRestart}    Set Variable    120s
     # Remove the Sanity Check after enabling first failure test (OLT Adapter Test)
-    Run Keyword If    ${has_dataplane}    Clean Up Linux
-    Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test
+    #Run Keyword If    ${has_dataplane}    Clean Up Linux
+    #Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test
     ${podStatusOutput}=    Run    kubectl get pods -n ${NAMESPACE}
     Log    ${podStatusOutput}
     ${countBforRestart}=    Run    kubectl get pods -n ${NAMESPACE} | grep Running | wc -l
@@ -201,9 +202,26 @@ ONU Reboot
         ${src}=    Set Variable    ${hosts.src[${I}]}
         ${dst}=    Set Variable    ${hosts.dst[${I}]}
         ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
+        ${onu_port}=    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
+        ...    Get ONU Port in ONOS    ${src['onu']}    ${of_id}
         Reboot ONU    ${onu_device_id}   ${src}   ${dst}
         Verify ping is succesful except for given device     ${num_onus}    ${onu_device_id}
-        Run Keyword If    ${has_dataplane}    Clean Up Linux
-        #Check after reboot that ONUs are active, authenticated/DHCP/pingable
-        Perform Sanity Test
+        # Check ONU port is Enabled in ONOS
+        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds   120s   2s
+        ...    Verify ONU Port Is Enabled   ${k8s_node_ip}    ${ONOS_SSH_PORT}    ${onu_port}
+        # Verify EAPOL flows are added for the ONU port
+        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
+        ...    Verify Eapol Flows Added For ONU    ${k8s_node_ip}    ${ONOS_SSH_PORT}    ${onu_port}
+        # Verify ONU state in voltha
+        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s    Validate Device
+        ...    ENABLED    ACTIVE    REACHABLE
+        ...    ${src['onu']}    onu=True    onu_reason=omci-flows-pushed
+        # Verify pings are successful after reboot on the current ONU
+        Run Keyword If    ${has_dataplane}    Run Keyword And Continue On Failure
+        ...    Wait Until Keyword Succeeds    60s    2s
+        ...    Check Ping    True    ${dst['dp_iface_ip_qinq']}    ${src['dp_iface_name']}
+        ...    ${src['ip']}    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
     END
+    #Run Keyword If    ${has_dataplane}    Clean Up Linux
+    #Check after reboot that ONUs are active, authenticated/DHCP/pingable
+    #Perform Sanity Test

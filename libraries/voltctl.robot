@@ -409,3 +409,13 @@ Validate Device Removed
         Append To List    ${ids}    ${device_id}
     END
     List Should Not Contain Value    ${ids}    ${id}
+
+Reboot ONU
+    [Arguments]    ${onu_id}    ${src}   ${dst}
+    [Documentation]   Using voltctl command reboot ONU and verify that ONU comes up to running state
+    ${rc}    ${devices}=    Run and Return Rc and Output    ${VOLTCTL_CONFIG}; voltctl device reboot ${onu_id}
+    Should Be Equal As Integers    ${rc}    0
+    Run Keyword and Ignore Error    Wait Until Keyword Succeeds    60s   1s    Validate Device
+    ...    ENABLED    DISCOVERED    UNREACHABLE   ${onu_id}    onu=True
+
+
