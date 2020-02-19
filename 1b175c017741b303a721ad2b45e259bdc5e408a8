@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "321f3e95_3635f4f6",
+        "filename": "libraries/utils.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 1000064
+      },
+      "writtenOn": "2020-02-19T07:10:50Z",
+      "side": 1,
+      "message": "If these are valid only for DT, then we can create new keywords because we could r that we could use them in other DT related tests.  I am fine to leave it as is now, and when we see a need, please pull them separately",
+      "range": {
+        "startLine": 226,
+        "startChar": 70,
+        "endLine": 226,
+        "endChar": 88
+      },
+      "revId": "1b175c017741b303a721ad2b45e259bdc5e408a8",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    }
+  ]
+}
