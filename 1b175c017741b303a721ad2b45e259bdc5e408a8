@@ -22,6 +22,29 @@
       "revId": "1b175c017741b303a721ad2b45e259bdc5e408a8",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1c506995_2be3ab35",
+        "filename": "tests/dt-workflow/Voltha_DT_PODTests.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1000064
+      },
+      "writtenOn": "2020-02-19T07:15:46Z",
+      "side": 1,
+      "message": "These tags are usually based on the test case so that when a test fails, logs generated have unique file names",
+      "range": {
+        "startLine": 66,
+        "startChar": 62,
+        "endLine": 66,
+        "endChar": 72
+      },
+      "revId": "1b175c017741b303a721ad2b45e259bdc5e408a8",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
     }
   ]
 }
