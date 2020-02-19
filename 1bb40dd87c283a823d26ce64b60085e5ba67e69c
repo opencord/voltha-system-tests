@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c6f2f66e_6b480e3f",
+        "filename": "Jenkinsfile-voltha-bal31-build",
+        "patchSetId": 4
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1000011
+      },
+      "writtenOn": "2020-02-19T20:00:22Z",
+      "side": 1,
+      "message": "If you\u0027re copying it from somewhere in $PATH, is it guaranteed to be the latest? \n\nHow about running `voltctl version --clientonly` after the copy to print out the versioning information for the binary which may assist in debugging.",
+      "range": {
+        "startLine": 86,
+        "startChar": 33,
+        "endLine": 86,
+        "endChar": 39
+      },
+      "revId": "1bb40dd87c283a823d26ce64b60085e5ba67e69c",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    }
+  ]
+}
