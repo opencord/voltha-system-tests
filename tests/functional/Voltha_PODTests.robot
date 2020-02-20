@@ -287,7 +287,7 @@ Test Disable and Enable ONU scenario for ATT workflow
     ...    Perform enable on the ONUs, authentication check, volt-add-subscriber-access and
     ...    validate that the pings are successful
     ...    VOL-2284
-    [Tags]    functional    ATT_DisableEnableONU
+    [Tags]    functional    ATT_DisableEnableONU    released
     [Setup]    Run Keywords    Announce Message    START TEST ATT_DisableEnableONU
     ...        AND             Start Logging    ATT_DisableEnableONU
     [Teardown]    Run Keywords    Collect Logs
@@ -337,7 +337,7 @@ Delete OLT, ReAdd OLT and Perform Sanity Test
     ...    Disable and Delete the OLT
     ...    Create/Enable the same OLT again
     ...    Validate authentication/DHCP/E2E pings succeed for all the ONUs connected to the OLT
-    [Tags]    functional    DeleteOLT
+    [Tags]    functional    DeleteOLT    released
     [Setup]    Run Keywords    Announce Message    START TEST DeleteOLT
     ...        AND             Start Logging    DeleteOLT
     [Teardown]    Run Keywords    Collect Logs
@@ -355,7 +355,7 @@ Test disable ONUs and OLT then delete ONUs and OLT
     ...    This TC is to confirm that ONU removal is not impacting OLT
     ...    Devices will be removed during the execution of this TC
     ...    so calling setup at the end to add the devices back to avoid the confusion.
-    [Tags]    functional    VOL-2354    DisableDeleteONUandOLT
+    [Tags]    functional    VOL-2354    DisableDeleteONUandOLT    released
     [Setup]    Run Keywords    Announce Message    START TEST DisableDeleteONUandOLT
     ...        AND             Start Logging    DisableDeleteONUandOLT
     [Teardown]    Run Keywords    Collect Logs

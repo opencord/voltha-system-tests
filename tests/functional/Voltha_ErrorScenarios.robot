@@ -58,7 +58,7 @@ ${container_log_dir}    ${None}
 *** Test Cases ***
 Adding the same OLT before and after enabling the device
     [Documentation]    Create OLT, Create the same OLT again and Check for the Error message
-    [Tags]    VOL-2405   VOL-2406   AddSameOLT   functional
+    [Tags]    VOL-2405   VOL-2406   AddSameOLT   functional    released
     [Setup]    Run Keywords    Announce Message    START TEST AddSameOLT
     ...        AND             Start Logging    AddSameOLT
     [Teardown]   Run Keywords     Collect Logs
@@ -88,7 +88,8 @@ Adding the same OLT before and after enabling the device
 Test Disable or Enable different device id which is not in the device list
     [Documentation]    Disable or Enable  a device id which is not listed in the voltctl device list
     ...    command and ensure that error message is shown.
-    [Tags]    functional    DisableEnableInvalidDevice    VOL-2412-2413
+    ...    VOL-2412-2413
+    [Tags]    functional    DisableEnableInvalidDevice    released
     [Setup]    Run Keywords    Announce Message    START TEST DisableInvalidDevice
     ...        AND             Start Logging    DisableInvalidDevice
     [Teardown]    Run Keywords    Collect Logs

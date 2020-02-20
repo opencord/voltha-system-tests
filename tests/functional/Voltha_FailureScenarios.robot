@@ -104,6 +104,37 @@ Verify ONU after rebooting physically
         ...    ${src['ip']}    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
         Run Keyword And Ignore Error    Collect Logs
     END
+    # Deleting OLT run tests independently (as this test doesn't not run on each POD)
+    Run Keyword If    ${has_dataplane}    Delete Device and Verify
+
+Verify restart openolt-adapter container after VOLTHA is operational
+    [Documentation]    Restart openolt-adapter container after VOLTHA is operational.
+    ...    Prerequisite : ONUs are authenticated and pingable.
+    [Tags]    functional   VOL-1958   RestartPods   released
+    [Setup]    Run Keywords    Announce Message    START TEST RestartPods
+    ...        AND             Start Logging    RestartPods
+    [Teardown]    Run Keywords    Collect Logs
+    ...           AND             Stop Logging    RestartPods
+    ...           AND             Announce Message    END TEST RestartPods
+    # Add OLT device
+    setup
+    # Performing Sanity Test to make sure subscribers are all AUTH+DHCP and pingable
+    Run Keyword If    ${has_dataplane}    Clean Up Linux
+    Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test
+    ${waitforRestart}    Set Variable    120s
+    ${podStatusOutput}=    Run    kubectl get pods -n ${NAMESPACE}
+    Log    ${podStatusOutput}
+    ${countBforRestart}=    Run    kubectl get pods -n ${NAMESPACE} | grep Running | wc -l
+    ${podName}    Set Variable     adapter-open-olt
+    Restart Pod    ${NAMESPACE}    ${podName}
+    Wait Until Keyword Succeeds    ${waitforRestart}    2s    Validate Pod Status    ${podName}    ${NAMESPACE}
+    ...    Running
+    Repeat Sanity Test
+    ${podStatusOutput}=    Run    kubectl get pods -n ${NAMESPACE}
+    Log    ${podStatusOutput}
+    ${countAfterRestart}=    Run    kubectl get pods -n ${NAMESPACE} | grep Running | wc -l
+    Should Be Equal As Strings    ${countAfterRestart}    ${countBforRestart}
+    Log to console    Pod ${podName} restarted and sanity checks passed successfully
 
 Verify restart ofagent container after VOLTHA is operational
     [Documentation]    Restart ofagent container after VOLTHA is operational.
@@ -128,33 +159,6 @@ Verify restart ofagent container after VOLTHA is operational
     Log    ${podStatusOutput}
     ${countAfterRestart}=    Run    kubectl get pods -n ${NAMESPACE} | grep Running | wc -l
     Should Be Equal As Strings    ${countAfterRestart}    ${countBforRestart}
-
-Verify restart openolt-adapter container after VOLTHA is operational
-    [Documentation]    Restart openolt-adapter container after VOLTHA is operational.
-    ...    Prerequisite : ONUs are authenticated and pingable.
-    [Tags]    functional   VOL-1958   RestartPods
-    [Setup]    Run Keywords    Announce Message    START TEST RestartPods
-    ...        AND             Start Logging    RestartPods
-    [Teardown]    Run Keywords    Collect Logs
-    ...           AND             Stop Logging    RestartPods
-    ...           AND             Announce Message    END TEST RestartPods
-    ${waitforRestart}    Set Variable    120s
-    # Remove the Sanity Check after enabling first failure test (OLT Adapter Test)
-    #Run Keyword If    ${has_dataplane}    Clean Up Linux
-    #Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test
-    ${podStatusOutput}=    Run    kubectl get pods -n ${NAMESPACE}
-    Log    ${podStatusOutput}
-    ${countBforRestart}=    Run    kubectl get pods -n ${NAMESPACE} | grep Running | wc -l
-    ${podName}    Set Variable     adapter-open-olt
-    Restart Pod    ${NAMESPACE}    ${podName}
-    Wait Until Keyword Succeeds    ${waitforRestart}    2s    Validate Pod Status    ${podName}    ${NAMESPACE}
-    ...    Running
-    Repeat Sanity Test
-    ${podStatusOutput}=    Run    kubectl get pods -n ${NAMESPACE}
-    Log    ${podStatusOutput}
-    ${countAfterRestart}=    Run    kubectl get pods -n ${NAMESPACE} | grep Running | wc -l
-    Should Be Equal As Strings    ${countAfterRestart}    ${countBforRestart}
-    Log to console    Pod ${podName} restarted and sanity checks passed successfully
 
 Check ONU adapter crash not forcing authentication again
     [Documentation]    After ONU adapter restart, checks wpa log for 'authentication started'
