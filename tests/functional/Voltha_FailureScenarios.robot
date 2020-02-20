@@ -56,6 +56,55 @@ ${scripts}        ../../scripts
 ${container_log_dir}    ${None}
 
 *** Test Cases ***
+Verify ONU after rebooting physically
+    [Documentation]    Test the ONU functionality by physically turning on/off ONU.
+    ...    Prerequisite : Subscriber are authenticated/DHCP/pingable state
+    ...    Test case runs only on the PODs that are configured with PowerSwitch that
+    ...    controls the power off/on ONUs/OLT remotely (simulating a physical reboot)
+    ...    VOL-2634
+    [Tags]    functional   PowerSwitch
+    [Setup]    Run Keywords    Announce Message    START TEST PowerSwitch
+    ...        AND             Start Logging    PowerSwitch
+    [Teardown]    Run Keywords    Collect Logs
+    ...           AND             Stop Logging    PowerSwitch
+    ...           AND             Announce Message    END TEST PowerSwitch
+    # Add OLT device
+    setup
+    # Performing Sanity Test to make sure subscribers are all AUTH+DHCP and pingable
+    Run Keyword If    ${has_dataplane}    Clean Up Linux
+    Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test
+    Power Switch Connection Suite    ${web_power_switch.ip}    ${web_power_switch.user}    ${web_power_switch.password}
+    FOR    ${I}    IN RANGE    0    ${num_onus}
+        ${src}=    Set Variable    ${hosts.src[${I}]}
+        ${dst}=    Set Variable    ${hosts.dst[${I}]}
+        ${onu_port}=    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
+        ...    Get ONU Port in ONOS    ${src['onu']}    ${of_id}
+        Disable Switch Outlet    ${src['power_switch_port']}
+        Run Keyword If    ${has_dataplane}    Run Keyword And Continue On Failure
+        ...    Wait Until Keyword Succeeds    60s    2s
+        ...    Check Ping    False    ${dst['dp_iface_ip_qinq']}    ${src['dp_iface_name']}
+        ...    ${src['ip']}    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
+
+        Enable Switch Outlet    ${src['power_switch_port']}
+        # Check ONU port is Enabled in ONOS
+        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds   120s   2s
+        ...    Verify ONU Port Is Enabled   ${k8s_node_ip}    ${ONOS_SSH_PORT}    ${onu_port}
+        # Verify EAPOL flows are added for the ONU port
+        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
+        ...    Verify Eapol Flows Added For ONU    ${k8s_node_ip}    ${ONOS_SSH_PORT}    ${onu_port}
+        # Verify ONU state in voltha
+        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s    Validate Device
+        ...    ENABLED    ACTIVE    REACHABLE
+        ...    ${src['onu']}    onu=True    onu_reason=omci-flows-pushed
+        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s    Validate Device
+        ...    ENABLED    ACTIVE    REACHABLE    ${src['onu']}
+        Run Keyword If    ${has_dataplane}    Run Keyword And Continue On Failure
+        ...    Wait Until Keyword Succeeds    60s    2s
+        ...    Check Ping    True    ${dst['dp_iface_ip_qinq']}    ${src['dp_iface_name']}
+        ...    ${src['ip']}    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
+        Run Keyword And Ignore Error    Collect Logs
+    END
+
 Verify restart ofagent container after VOLTHA is operational
     [Documentation]    Restart ofagent container after VOLTHA is operational.
     ...    Please note this test case should be run before the restart of other containers.
@@ -66,11 +115,6 @@ Verify restart ofagent container after VOLTHA is operational
     [Teardown]    Run Keywords    Collect Logs
     ...           AND             Stop Logging    ofagentRestart
     ...           AND             Announce Message    END TEST ofagentRestart
-    # Add OLT device
-    setup
-    # Performing Sanity Test to make sure subscribers are all AUTH+DHCP and pingable
-    Run Keyword If    ${has_dataplane}    Clean Up Linux
-    Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test
     ${waitforRestart}    Set Variable    120s
     ${podStatusOutput}=    Run    kubectl get pods -n ${NAMESPACE}
     Log    ${podStatusOutput}
@@ -161,34 +205,6 @@ Check ONU adapter crash not forcing authentication again
     Log    ${after_list}
     Log    ${before_list}
     Run Keyword and Ignore Error    Collect Logs
-
-Verify ONU after rebooting physically
-    [Documentation]    Test the ONU funcaionality by physically turning on/off ONU.
-    ...    Prerequisite : Subscriber are authenticated/DHCP/pingable state
-    [Tags]    functional   VOL-2488    PowerSwitch    notready
-    [Setup]    Run Keywords    Announce Message    START TEST PowerSwitch
-    ...        AND             Start Logging    PowerSwitch
-    [Teardown]    Run Keywords    Collect Logs
-    ...           AND             Stop Logging    PowerSwitch
-    ...           AND             Announce Message    END TEST PowerSwitch
-    Power Switch Connection Suite    ${web_power_switch.ip}    ${web_power_switch.user}    ${web_power_switch.password}
-    FOR    ${I}    IN RANGE    0    ${num_onus}
-        ${src}=    Set Variable    ${hosts.src[${I}]}
-        ${dst}=    Set Variable    ${hosts.dst[${I}]}
-        Disable Switch Outlet    ${src['power_switch_port']}
-        Run Keyword If    ${has_dataplane}    Run Keyword And Continue On Failure
-        ...    Wait Until Keyword Succeeds    60s    2s
-        ...    Check Ping    False    ${dst['dp_iface_ip_qinq']}    ${src['dp_iface_name']}
-        ...    ${src['ip']}    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
-
-        Enable Switch Outlet    ${src['power_switch_port']}
-        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s    Validate Device
-        ...    ENABLED    ACTIVE    REACHABLE    ${src['onu']}
-        Run Keyword If    ${has_dataplane}    Run Keyword And Continue On Failure
-        ...    Wait Until Keyword Succeeds    60s    2s
-        ...    Check Ping    True    ${dst['dp_iface_ip_qinq']}    ${src['dp_iface_name']}
-        ...    ${src['ip']}    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
-    END
 
 ONU Reboot
     [Documentation]    Reboot ONU and verify that ONU comes up properly
