@@ -1,0 +1,107 @@
+---
+
+# Copyright 2017-present Open Networking Foundation
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+# http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+# Automated deployment configuration for kind-voltha running BBSim
+
+# Change default values in tests
+has_dataplane: false
+external_libs: false
+teardown_device: true
+ONOS_REST_PORT: 8181
+ONOS_SSH_PORT: 8101
+OLT_PORT: 50060
+
+nodes:
+  -
+    ip: '127.0.0.1'
+
+olts:
+  -
+    ip: bbsim.voltha.svc
+    serial: BBSIM_OLT_0
+  -
+    ip: bbsim1.voltha.svc
+    serial: BBSIM_OLT_1
+  -
+    ip: bbsim2.voltha.svc
+    serial: BBSIM_OLT_2
+  -
+    ip: bbsim3.voltha.svc
+    serial: BBSIM_OLT_3
+  -
+    ip: bbsim4.voltha.svc
+    serial: BBSIM_OLT_4
+  -
+    ip: bbsim5.voltha.svc
+    serial: BBSIM_OLT_5
+  -
+    ip: bbsim6.voltha.svc
+    serial: BBSIM_OLT_6
+  -
+    ip: bbsim7.voltha.svc
+    serial: BBSIM_OLT_7
+  -
+    ip: bbsim8.voltha.svc
+    serial: BBSIM_OLT_8
+  -
+    ip: bbsim9.voltha.svc
+    serial: BBSIM_OLT_9
+
+hosts:
+  src:
+    - onu: 'BBSM00000001'
+  src1:
+    - onu: 'BBSM01000001'
+  src1:
+    - onu: 'BBSM02000001'
+  src3:
+    - onu: 'BBSM03000001'
+  src4:
+    - onu: 'BBSM04000001'
+  src5:
+    - onu: 'BBSM05000001'
+  src6:
+    - onu: 'BBSM06000001'
+  src7:
+    - onu: 'BBSM07000001'
+  src8:
+    - onu: 'BBSM08000001'
+  src9:
+    - onu: 'BBSM09000001'
+
+  dst:
+    - ip: null
+  dst1:
+    - ip: null
+  dst2:
+    - ip: null
+  dst3:
+    - ip: null
+  dst4:
+    - ip: null
+  dst5:
+    - ip: null
+  dst6:
+    - ip: null
+  dst7:
+    - ip: null
+  dst8:
+    - ip: null
+  dst9:
+    - ip: null
+
+sadis:
+  file: ${CURDIR}/../../data/onos-sadis-multiple-bbsim.json
