@@ -48,7 +48,6 @@ ${timeout}        90s
 ${of_id}          0
 ${logical_id}     0
 ${has_dataplane}    True
-${external_libs}    True
 ${teardown_device}    False
 ${scripts}        ../../scripts
 

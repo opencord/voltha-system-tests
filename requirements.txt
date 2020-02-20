@@ -1,3 +1,4 @@
+--extra-index-url https://test.pypi.org/simple/
 flake8
 pexpect
 pylint
@@ -8,3 +9,7 @@ robotframework-lint
 robotframework-requests
 robotframework-sshlibrary
 yamllint
+# replace when we can use upstream (needs python 3.6)
+git+https://github.com/zdw/robotframework-importresource@b81b87aabaee0594e966687b41e3674b866f28ee
+# Temporary, get from test.pypi.org until we publish for real
+cord-robot==2.1.0.dev1
