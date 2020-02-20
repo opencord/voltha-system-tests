@@ -19,20 +19,23 @@
         "entries": [
           {
             "id": "ISKT71e82118-1",
-            "cTag": 222,
-            "sTag": 111,
             "nasPortId": "ISKT71e82118-1",
             "circuitId": "ISKT71e82118-1",
             "remoteId": "EC1917000121",
-            "technologyProfileId": 64,
-            "upstreamBandwidthProfile": "User_Bandwidth3",
-            "downstreamBandwidthProfile": "User_Bandwidth2"
+            "uniTagList": [{
+              "ponCTag": 222,
+              "ponSTag": 111,
+              "technologyProfileId": 64,
+              "upstreamBandwidthProfile": "User_Bandwidth3",
+              "downstreamBandwidthProfile": "User_Bandwidth2",
+              "isDhcpRequired": true
+            }]
           },
           {
             "id": "EC1917000121",
             "hardwareIdentifier": "aa:bb:cc:dd:ee:ff",
             "ipAddress": "192.168.10.29",
-            "nasId": "3",
+            "nasId": "EC1917000121",
             "uplinkPort": 1048576
           }
         ]
