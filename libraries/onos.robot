@@ -137,9 +137,10 @@ Device Is Available In ONOS
 Remove All Devices From ONOS
     [Arguments]    ${url}
     [Documentation]    Executes the device-remove command on each device in ONOS
-    ${rc}    @{dpids}    Run And Return Rc And Output
+    ${rc}    ${output}    Run And Return Rc And Output
     ...    curl --fail -sSL ${url}/onos/v1/devices | jq -r '.devices[].id'
     Should Be Equal As Integers    ${rc}    0
+	@{dpids}    Split String    ${output}
     ${count}=    Get length    ${dpids}
     FOR    ${dpid}    IN    @{dpids}
         ${rc}=    Run Keyword If    '${dpid}' != ''
