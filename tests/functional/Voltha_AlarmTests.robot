@@ -34,7 +34,6 @@ ${long_timeout}    420s
 ${of_id}          0
 ${logical_id}     0
 ${has_dataplane}    True
-${external_libs}    True
 ${setup_device}    True
 ${teardown_device}    True
 ${VOLTCTL_NAMESPACE}      default
@@ -385,10 +384,8 @@ Setup Suite
 Teardown Suite
     [Documentation]    Clean up devices if desired
     ...    kills processes and cleans up interfaces on src+dst servers
-    Run Keyword If    ${external_libs}    Get ONOS Status    ${k8s_node_ip}
+    Get ONOS Status    ${k8s_node_ip}    ${ONOS_SSH_PORT}
     Run Keyword If    ${has_dataplane}    Clean Up Linux
-    Run Keyword If    ${external_libs}
-    ...    Log Kubernetes Containers Logs Since Time    ${datetime}    ${container_list}
     Run Keyword If    ${teardown_device}    Delete Device and Verify
     Run Keyword If    ${teardown_device}    Test Empty Device List
     Run Keyword If    ${teardown_device}    Execute ONOS CLI Command    ${k8s_node_ip}    ${ONOS_SSH_PORT}
