@@ -36,6 +36,7 @@ JSON_FILES   := $(shell find ./tests -name *.json -print)
 # Robot config
 ROBOT_SANITY_SINGLE_PON_FILE    ?= $(ROOT_DIR)/tests/data/bbsim-kind.yaml
 ROBOT_SANITY_DT_SINGLE_PON_FILE    ?= $(ROOT_DIR)/tests/data/bbsim-kind-dt.yaml
+ROBOT_SANITY_MULTIPLE_OLT_FILE    ?= $(ROOT_DIR)/tests/data/multiple-bbsim-kind.yaml
 ROBOT_FAIL_SINGLE_PON_FILE      ?= $(ROOT_DIR)/tests/data/bbsim-kind.yaml
 ROBOT_SANITY_MULT_PON_FILE      ?= $(ROOT_DIR)/tests/data/bbsim-kind-2x2.yaml
 ROBOT_SCALE_SINGLE_PON_FILE     ?= $(ROOT_DIR)/tests/data/bbsim-kind-16.yaml
@@ -65,6 +66,12 @@ functional-single-kind-dt: ROBOT_MISC_ARGS += -i sanityDtORfunctionalDt $(ROBOT_
 functional-single-kind-dt: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_DT_SINGLE_PON_FILE)
 functional-single-kind-dt: ROBOT_FILE := Voltha_DT_PODTests.robot
 functional-single-kind-dt: voltha-dt-test
+
+# target to invoke multiple OLTs Functional scenarios
+functional-multi-olt: ROBOT_MISC_ARGS += -i sanity $(ROBOT_DEBUG_LOG_OPT)
+functional-multi-olt: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_MULTIPLE_OLT_FILE)
+functional-multi-olt: ROBOT_FILE := Voltha_multipleOLTTests.robot
+functional-multi-olt: voltha-test
 
 # target to invoke openonu go adapter
 openonu-go-adapter-test: ROBOT_MISC_ARGS += -v state2test:4 -v testmode:SingleState -v timeout:120s
