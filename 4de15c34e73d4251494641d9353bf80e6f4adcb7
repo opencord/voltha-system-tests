@@ -22,6 +22,30 @@
       "revId": "4de15c34e73d4251494641d9353bf80e6f4adcb7",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ae3c659c_60bd4f78",
+        "filename": "tests/data/multiple-bbsim-kind.yaml",
+        "patchSetId": 4
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1000011
+      },
+      "writtenOn": "2020-02-20T17:25:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "712250b7_a5f5defa",
+      "range": {
+        "startLine": 68,
+        "startChar": 1,
+        "endLine": 68,
+        "endChar": 7
+      },
+      "revId": "4de15c34e73d4251494641d9353bf80e6f4adcb7",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
     }
   ]
 }
