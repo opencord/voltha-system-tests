@@ -267,9 +267,10 @@ Device Is Available In ONOS
 Remove All Devices From ONOS
     [Arguments]    ${url}
     [Documentation]    Executes the device-remove command on each device in ONOS
-    ${rc}    @{dpids}    Run And Return Rc And Output
+    ${rc}    ${output}    Run And Return Rc And Output
     ...    curl --fail -sSL ${url}/onos/v1/devices | jq -r '.devices[].id'
     Should Be Equal As Integers    ${rc}    0
+    @{dpids}    Split String    ${output}
     ${count}=    Get length    ${dpids}
     FOR    ${dpid}    IN    @{dpids}
         ${rc}=    Run Keyword If    '${dpid}' != ''
@@ -314,9 +315,9 @@ List Enabled UNI Ports
     ${result}=      Create List
     ${out}=    Execute ONOS CLI Command    ${onos_ip}    ${onos_port}
     ...    ports -e ${of_id} | grep -v SWITCH | grep -v nni
-    @{unis}=	Split To Lines	${out}
+    @{unis}=    Split To Lines    ${out}
     FOR    ${uni}    IN    @{unis}
-        ${matches} =	Get Regexp Matches	${uni}  .*port=([0-9]+),.*  1
+        ${matches} =    Get Regexp Matches    ${uni}  .*port=([0-9]+),.*  1
         &{portDict}    Create Dictionary    of_id=${of_id}    port=${matches[0]}
         Append To List  ${result}    ${portDict}
     END
@@ -338,10 +339,10 @@ List OLTs
     ${result}=      Create List
     ${out}=    Execute ONOS CLI Command    ${onos_ip}    ${onos_port}
     ...     volt-olts
-    @{olts}=    Split To Lines	${out}
+    @{olts}=    Split To Lines    ${out}
     FOR    ${olt}    IN    @{olts}
         Log     ${olt}
-        ${matches} =	Get Regexp Matches	${olt}  ^OLT (.+)$  1
+        ${matches} =    Get Regexp Matches    ${olt}  ^OLT (.+)$  1
         # there may be some logs mixed with the output so only append if we have a match
         ${matches_length}=      Get Length  ${matches}
         Run Keyword If  ${matches_length}==1
