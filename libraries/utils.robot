@@ -22,6 +22,8 @@ Library           Process
 Library           Collections
 Library           RequestsLibrary
 Library           OperatingSystem
+Library           CORDRobot
+Library           ImportResource    resources=CORDRobot
 
 *** Keywords ***
 Check CLI Tools Configured
@@ -46,15 +48,6 @@ Send File To Onos
 
 Common Test Suite Setup
     [Documentation]    Setup the test suite
-    # BBSim sanity test doesn't need these imports from other repositories
-    Run Keyword If    ${external_libs}    Import Resource
-    ...    ${CURDIR}/../../cord-tester/src/test/cord-api/Framework/Subscriber.robot
-    Run Keyword If    ${external_libs}    Import Resource
-    ...    ${CURDIR}/../../cord-tester/src/test/cord-api/Framework/OLT.robot
-    Run Keyword If    ${external_libs}    Import Resource
-    ...    ${CURDIR}/../../cord-tester/src/test/cord-api/Framework/DHCP.robot
-    Run Keyword If    ${external_libs}    Import Resource
-    ...    ${CURDIR}/../../cord-tester/src/test/cord-api/Framework/Kubernetes.robot
     Set Global Variable    ${KUBECTL_CONFIG}    export KUBECONFIG=%{KUBECONFIG}
     Set Global Variable    ${VOLTCTL_CONFIG}    export VOLTCONFIG=%{VOLTCONFIG}
     ${k8s_node_ip}=    Evaluate    ${nodes}[0].get("ip")
@@ -265,9 +258,6 @@ Delete All Devices and Verify
 Teardown
     [Documentation]    kills processes and cleans up interfaces on src+dst servers
     Run Keyword If    ${has_dataplane}    Clean Up Linux
-    Run Keyword If    ${external_libs}        Run Keyword and Ignore Error
-    ...    Log Kubernetes Containers Logs Since Time
-    ...    ${datetime}    ${container_list}
 
 Teardown Suite
     [Documentation]    Clean up device if desired
@@ -337,7 +327,7 @@ Collect Logs
     Run Keyword and Ignore Error    Get Device List from Voltha
     Run Keyword and Ignore Error    Get Device Output from Voltha    ${olt_device_id}
     Run Keyword and Ignore Error    Get Logical Device Output from Voltha    ${logical_id}
-    Run Keyword If    ${external_libs}    Get ONOS Status    ${k8s_node_ip}
+    Get ONOS Status    ${k8s_node_ip}    ${ONOS_SSH_PORT}
 
 Verify ping is succesful except for given device
     [Arguments]    ${num_onus}    ${exceptional_onu_id}
