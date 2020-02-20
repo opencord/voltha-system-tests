@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "46136af9_3f453d02",
+        "filename": "tests/dt-workflow/Voltha_DT_PODTests.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2020-02-20T10:36:12Z",
+      "side": 1,
+      "message": "and state is purged",
+      "range": {
+        "startLine": 78,
+        "startChar": 66,
+        "endLine": 78,
+        "endChar": 73
+      },
+      "revId": "7a2a715a8d034cb928486d7c09aee6befc101bf8",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "58ae7774_e3dd441b",
+        "filename": "tests/dt-workflow/Voltha_DT_PODTests.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2020-02-20T10:36:12Z",
+      "side": 1,
+      "message": "... flows are present and ...",
+      "revId": "7a2a715a8d034cb928486d7c09aee6befc101bf8",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    }
+  ]
+}
