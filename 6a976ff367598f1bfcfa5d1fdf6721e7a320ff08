@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "820470f7_07a86ba2",
+        "filename": "tests/functional/Voltha_multiplePODTests.robot",
+        "patchSetId": 6
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2020-02-21T12:41:33Z",
+      "side": 1,
+      "message": "please extend this with description of multiple OLT/ONUs",
+      "range": {
+        "startLine": 43,
+        "startChar": 0,
+        "endLine": 43,
+        "endChar": 34
+      },
+      "revId": "6a976ff367598f1bfcfa5d1fdf6721e7a320ff08",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    }
+  ]
+}
