@@ -95,15 +95,13 @@ Verify ONU after rebooting physically
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s    Validate Device
         ...    ENABLED    ACTIVE    REACHABLE
         ...    ${src['onu']}    onu=True    onu_reason=omci-flows-pushed
-        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s    Validate Device
-        ...    ENABLED    ACTIVE    REACHABLE    ${src['onu']}
         Run Keyword If    ${has_dataplane}    Run Keyword And Continue On Failure
         ...    Wait Until Keyword Succeeds    60s    2s
         ...    Check Ping    True    ${dst['dp_iface_ip_qinq']}    ${src['dp_iface_name']}
         ...    ${src['ip']}    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
         Run Keyword And Ignore Error    Collect Logs
     END
-    # Deleting OLT run tests independently (as this test doesn't not run on each POD)
+    # Deleting OLT after tests completes independently (as this test doesn't not run on each POD)
     Run Keyword If    ${has_dataplane}    Delete Device and Verify
 
 Verify restart openolt-adapter container after VOLTHA is operational
@@ -129,6 +127,7 @@ Verify restart openolt-adapter container after VOLTHA is operational
     Wait Until Keyword Succeeds    ${waitforRestart}    2s    Validate Pod Status    ${podName}    ${NAMESPACE}
     ...    Running
     Repeat Sanity Test
+    Run Keyword and Ignore Error    Collect Logs
     ${podStatusOutput}=    Run    kubectl get pods -n ${NAMESPACE}
     Log    ${podStatusOutput}
     ${countAfterRestart}=    Run    kubectl get pods -n ${NAMESPACE} | grep Running | wc -l
@@ -139,7 +138,7 @@ Verify restart ofagent container after VOLTHA is operational
     [Documentation]    Restart ofagent container after VOLTHA is operational.
     ...    Please note this test case should be run before the restart of other containers.
     ...    Prerequisite : ONUs are authenticated and pingable.
-    [Tags]    functional   VOL-2409   ofagentRestart
+    [Tags]    functional   VOL-2409   ofagentRestart   notready
     [Setup]    Run Keywords    Announce Message    START TEST ofagentRestart
     ...        AND             Start Logging    ofagentRestart
     [Teardown]    Run Keywords    Collect Logs
