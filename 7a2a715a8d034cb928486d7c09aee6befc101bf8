@@ -62,6 +62,29 @@
       "revId": "7a2a715a8d034cb928486d7c09aee6befc101bf8",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "13b299db_1a5cf1b4",
+        "filename": "tests/dt-workflow/Voltha_DT_PODTests.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1000064
+      },
+      "writtenOn": "2020-02-21T04:01:20Z",
+      "side": 1,
+      "message": "Is disable/enable required in the current test before adding a subscriber?",
+      "range": {
+        "startLine": 108,
+        "startChar": 10,
+        "endLine": 108,
+        "endChar": 39
+      },
+      "revId": "7a2a715a8d034cb928486d7c09aee6befc101bf8",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
     }
   ]
 }
