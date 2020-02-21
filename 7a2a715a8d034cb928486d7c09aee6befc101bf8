@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "3b1eb08b_3c364fb5",
+        "filename": "tests/dt-workflow/Voltha_DT_PODTests.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1000514
+      },
+      "writtenOn": "2020-02-21T08:41:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "46136af9_3f453d02",
+      "range": {
+        "startLine": 78,
+        "startChar": 66,
+        "endLine": 78,
+        "endChar": 73
+      },
+      "revId": "7a2a715a8d034cb928486d7c09aee6befc101bf8",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "58ae7774_e3dd441b",
         "filename": "tests/dt-workflow/Voltha_DT_PODTests.robot",
         "patchSetId": 1
@@ -36,6 +60,24 @@
       "writtenOn": "2020-02-20T10:36:12Z",
       "side": 1,
       "message": "... flows are present and ...",
+      "revId": "7a2a715a8d034cb928486d7c09aee6befc101bf8",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8e51c910_0def2521",
+        "filename": "tests/dt-workflow/Voltha_DT_PODTests.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1000514
+      },
+      "writtenOn": "2020-02-21T08:41:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "58ae7774_e3dd441b",
       "revId": "7a2a715a8d034cb928486d7c09aee6befc101bf8",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
       "unresolved": false
@@ -65,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "7b610212_e07df2d5",
+        "filename": "tests/dt-workflow/Voltha_DT_PODTests.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1000514
+      },
+      "writtenOn": "2020-02-21T08:41:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "58599503_47193317",
+      "range": {
+        "startLine": 81,
+        "startChar": 30,
+        "endLine": 81,
+        "endChar": 42
+      },
+      "revId": "7a2a715a8d034cb928486d7c09aee6befc101bf8",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "13b299db_1a5cf1b4",
         "filename": "tests/dt-workflow/Voltha_DT_PODTests.robot",
         "patchSetId": 1
@@ -76,6 +142,30 @@
       "writtenOn": "2020-02-21T04:01:20Z",
       "side": 1,
       "message": "Is disable/enable required in the current test before adding a subscriber?",
+      "range": {
+        "startLine": 108,
+        "startChar": 10,
+        "endLine": 108,
+        "endChar": 39
+      },
+      "revId": "7a2a715a8d034cb928486d7c09aee6befc101bf8",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5efdcf96_2649871a",
+        "filename": "tests/dt-workflow/Voltha_DT_PODTests.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1000514
+      },
+      "writtenOn": "2020-02-21T08:41:28Z",
+      "side": 1,
+      "message": "This is done to replicate what DT people are doing in their workflow. To delete the subscriber, they remove it and then disable and delete the ONU as well.",
+      "parentUuid": "13b299db_1a5cf1b4",
       "range": {
         "startLine": 108,
         "startChar": 10,
