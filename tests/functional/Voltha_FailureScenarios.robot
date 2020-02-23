@@ -138,7 +138,7 @@ Verify restart ofagent container after VOLTHA is operational
     [Documentation]    Restart ofagent container after VOLTHA is operational.
     ...    Please note this test case should be run before the restart of other containers.
     ...    Prerequisite : ONUs are authenticated and pingable.
-    [Tags]    functional   VOL-2409   ofagentRestart   notready
+    [Tags]    functional   VOL-2409   ofagentRestart
     [Setup]    Run Keywords    Announce Message    START TEST ofagentRestart
     ...        AND             Start Logging    ofagentRestart
     [Teardown]    Run Keywords    Collect Logs
