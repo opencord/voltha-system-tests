@@ -198,15 +198,23 @@ node ("${TestNodeName}") {
                         }
                     }
                     timeout(1) {
-                        // FIXME support multiple OLTs
                         for(int i=0; i < deployment_config.hosts.src.size(); i++) {
                             xconnect_out = sh returnStatus: true, script: """
+                            def aggPort = -1
+                            for(int i=0; i < deployment_config.olts.size(); i++) {
+                                if(deployment_config.olts[i].serial == deployment_config.hosts.src[i]){
+                                    aggPort = deployment_config.olts[i].aggPort
+                                }
+                            }
+                            if(aggPort == -1){
+                                throw new Exception("Upstream port for the olt is not configured, field aggPort is empty")
+                            }
                             version=\$(sshpass -p karaf ssh -p 30115 karaf@${deployment_config.nodes[0].ip} "summary" | grep version)
                             sleep 10
                             if [[ \$version == *"version=2.2"* ]]; then
-                                curl -X POST --user karaf:karaf --header 'Content-Type: application/json' --header 'Accept: application/json' -d '{"deviceId": "${deployment_config.fabric_switches[0].device_id}", "vlanId": "${deployment_config.hosts.src[i].s_tag}", "endpoints": [${deployment_config.fabric_switches[0].bngPort},${deployment_config.fabric_switches[0].oltPort}]}' 'http://${deployment_config.nodes[0].ip}:30120/onos/segmentrouting/xconnect'
+                                curl -X POST --user karaf:karaf --header 'Content-Type: application/json' --header 'Accept: application/json' -d '{"deviceId": "${deployment_config.fabric_switches[0].device_id}", "vlanId": "${deployment_config.hosts.src[i].s_tag}", "endpoints": [${deployment_config.fabric_switches[0].bngPort},${aggPort}]}' 'http://${deployment_config.nodes[0].ip}:30120/onos/segmentrouting/xconnect'
                             else
-                                curl -X POST --user karaf:karaf --header 'Content-Type: application/json' --header 'Accept: application/json' -d '{"deviceId": "${deployment_config.fabric_switches[0].device_id}", "vlanId": "${deployment_config.hosts.src[i].s_tag}", "ports": [${deployment_config.fabric_switches[0].bngPort},${deployment_config.fabric_switches[0].oltPort}]}' 'http://${deployment_config.nodes[0].ip}:30120/onos/segmentrouting/xconnect'
+                                curl -X POST --user karaf:karaf --header 'Content-Type: application/json' --header 'Accept: application/json' -d '{"deviceId": "${deployment_config.fabric_switches[0].device_id}", "vlanId": "${deployment_config.hosts.src[i].s_tag}", "ports": [${deployment_config.fabric_switches[0].bngPort},${aggPort}]}' 'http://${deployment_config.nodes[0].ip}:30120/onos/segmentrouting/xconnect'
                             fi
                             """
                         }

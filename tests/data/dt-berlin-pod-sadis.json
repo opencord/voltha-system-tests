@@ -29,6 +29,26 @@
               "downstreamBandwidthProfile": "Default",
               "isDhcpRequired": true
             }]
+          },
+          {
+            "id": "ASGvOLT640000000",
+            "hardwareIdentifier": "80:a2:35:4d:24:c0",
+            "nasId": "ASGvOLT640000000",
+            "uplinkPort": 1048576
+          },
+          {
+            "id": "SCOM00001c82-1",
+            "nasPortId": "SCOM00001c82-1",
+            "circuitId": "SCOM00001c82-1",
+            "remoteId": "ASGvOLT640000000",
+            "uniTagList": [{
+              "ponCTag": 22,
+              "ponSTag": 22,
+              "technologyProfileId": 64,
+              "upstreamBandwidthProfile": "Default",
+              "downstreamBandwidthProfile": "Default",
+              "isDhcpRequired": true
+            }]
           }
         ]
       },
