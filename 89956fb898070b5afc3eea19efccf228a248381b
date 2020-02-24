@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1452dcab_f0da4aba",
+        "filename": "Jenkinsfile-voltha-bal31-build",
+        "patchSetId": 1
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 1000007
+      },
+      "writtenOn": "2020-02-24T18:51:47Z",
+      "side": 1,
+      "message": "this is a little convoluted, can we always move the port to be part of the OLT definition?",
+      "range": {
+        "startLine": 209,
+        "startChar": 28,
+        "endLine": 211,
+        "endChar": 29
+      },
+      "revId": "89956fb898070b5afc3eea19efccf228a248381b",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9de1100d_b267a9ad",
+        "filename": "Jenkinsfile-voltha-bal31-build",
+        "patchSetId": 1
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 1000007
+      },
+      "writtenOn": "2020-02-24T18:51:47Z",
+      "side": 1,
+      "message": "I\u0027m not sure we should assume that the OLT is on Port 1, we should probably throw an error in case something is missing in the config",
+      "range": {
+        "startLine": 212,
+        "startChar": 28,
+        "endLine": 214,
+        "endChar": 29
+      },
+      "revId": "89956fb898070b5afc3eea19efccf228a248381b",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    }
+  ]
+}
