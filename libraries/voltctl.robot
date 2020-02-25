@@ -419,5 +419,3 @@ Reboot ONU
     Should Be Equal As Integers    ${rc}    0
     Run Keyword and Ignore Error    Wait Until Keyword Succeeds    60s   1s    Validate Device
     ...    ENABLED    DISCOVERED    UNREACHABLE   ${onu_id}    onu=True
-
-
