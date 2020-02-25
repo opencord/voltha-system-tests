@@ -107,16 +107,17 @@ Validate Authentication After Reassociate
     [Documentation]
     ...    Executes a particular reassociate request on the RG using wpa_cli.
     ...    auth_pass determines if authentication should pass
-    ${output}=    Login And Run Command On Remote System    truncate -s 0 /tmp/wpa.log; cat /tmp/wpa.log
+    ${wpa_log}=    Catenate    SEPARATOR=    "/tmp/wpa-"    ${iface}    ".log"
+    ${output}=    Login And Run Command On Remote System    truncate -s 0 ${wpa_log}; cat ${wpa_log}
     ...    ${ip}    ${user}    ${pass}    ${container_type}    ${container_name}
     Log    ${output}
     Should Not Contain    ${output}    authentication completed successfully
     WPA Reassociate    ${iface}    ${ip}    ${user}    ${pass}    ${container_type}    ${container_name}
     Run Keyword If    '${auth_pass}' == 'True'    Wait Until Keyword Succeeds    ${timeout}    2s
-    ...    Check Remote File Contents    True    /tmp/wpa.log    authentication completed successfully
+    ...    Check Remote File Contents    True    ${wpa_log}    authentication completed successfully
     ...    ${ip}    ${user}    ${pass}    ${container_type}    ${container_name}
     Run Keyword If    '${auth_pass}' == 'False'    Sleep    20s
-    Run Keyword If    '${auth_pass}' == 'False'    Check Remote File Contents    True    /tmp/wpa.log
+    Run Keyword If    '${auth_pass}' == 'False'    Check Remote File Contents    True    ${wpa_log}
     ...    authentication failed    ${ip}    ${user}    ${pass}
     ...    ${container_type}    ${container_name}
 
@@ -165,9 +166,10 @@ Perform Sanity Test
         ...    ENABLED    ACTIVE    REACHABLE
         ...    ${src['onu']}    onu=True    onu_reason=omci-flows-pushed
         # Perform Authentication
+        ${wpa_log}=    Run Keyword If    ${has_dataplane}    Catenate    SEPARATOR=    "/tmp/wpa-"    ${src['dp_iface_name']}    ".log"
         Run Keyword If    ${has_dataplane}    Run Keyword And Continue On Failure    Validate Authentication    True
         ...    ${src['dp_iface_name']}    wpa_supplicant.conf    ${src['ip']}    ${src['user']}    ${src['pass']}
-        ...    ${src['container_type']}    ${src['container_name']}
+        ...    ${src['container_type']}    ${src['container_name']}    ${wpa_log}
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2
         ...    Verify ONU in AAA-Users    ${k8s_node_ip}    ${ONOS_SSH_PORT}    ${onu_port}
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2
