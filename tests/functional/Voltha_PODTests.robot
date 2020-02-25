@@ -432,9 +432,11 @@ Sanity E2E Test for OLT/ONU on POD With Core Fail and Restart
         ...    ${onu_device_id}    onu=True    onu_reason=omci-flows-pushed
         Wait Until Keyword Succeeds    ${timeout}    2s    Verify Eapol Flows Added For ONU    ${k8s_node_ip}
         ...    ${ONOS_SSH_PORT}    ${onu_port}
+        ${wpa_log}=    Run Keyword If    ${has_dataplane}    Catenate    SEPARATOR=
+        ...   "/tmp/wpa-"    ${src['dp_iface_name']}    ".log"
         Run Keyword If    ${has_dataplane}    Run Keyword And Continue On Failure    Validate Authentication    True
         ...    ${src['dp_iface_name']}    wpa_supplicant.conf    ${src['ip']}    ${src['user']}    ${src['pass']}
-        ...    ${src['container_type']}    ${src['container_name']}
+        ...    ${src['container_type']}    ${src['container_name']}    ${wpa_log}
         Wait Until Keyword Succeeds    ${timeout}    2s    Verify ONU in AAA-Users    ${k8s_node_ip}
         ...    ${ONOS_SSH_PORT}     ${onu_port}
     END
@@ -500,9 +502,11 @@ Sanity E2E Test for OLT/ONU on POD With OLT Adapters Fail and Restart
         ...    ${onu_device_id}    onu=True    onu_reason=omci-flows-pushed
         Wait Until Keyword Succeeds    ${timeout}    2s    Verify Eapol Flows Added For ONU    ${k8s_node_ip}
         ...    ${ONOS_SSH_PORT}    ${onu_port}
+        ${wpa_log}=    Run Keyword If    ${has_dataplane}    Catenate    SEPARATOR=
+        ...    "/tmp/wpa-"    ${src['dp_iface_name']}    ".log"
         Run Keyword If    ${has_dataplane}    Run Keyword And Continue On Failure    Validate Authentication    True
         ...    ${src['dp_iface_name']}    wpa_supplicant.conf    ${src['ip']}    ${src['user']}    ${src['pass']}
-        ...    ${src['container_type']}    ${src['container_name']}
+        ...    ${src['container_type']}    ${src['container_name']}    ${wpa_log}
         Wait Until Keyword Succeeds    ${timeout}    2s    Verify ONU in AAA-Users    ${k8s_node_ip}
         ...    ${ONOS_SSH_PORT}     ${onu_port}
     END
