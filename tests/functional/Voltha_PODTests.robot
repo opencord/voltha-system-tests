@@ -387,9 +387,11 @@ Test Disable and Enable ONU and check authentication
         Disable Device    ${onu_device_id}
         Wait Until Keyword Succeeds    ${timeout}    5s    Validate Device    DISABLED    UNKNOWN
         ...    REACHABLE    ${src['onu']}    onu=false
+        ${wpa_log}=    Run Keyword If    ${has_dataplane}    Catenate    SEPARATOR=.
+        ...    /tmp/wpa    ${src['dp_iface_name']}    log
         Run Keyword If    ${has_dataplane}    Run Keyword And Continue On Failure    Validate Authentication    False
         ...    ${src['dp_iface_name']}    wpa_supplicant.conf    ${src['ip']}    ${src['user']}    ${src['pass']}
-        ...    ${src['container_type']}    ${src['container_name']}
+        ...    ${src['container_type']}    ${src['container_name']}    ${wpa_log}
         Enable Device    ${onu_device_id}
         Run Keyword And Ignore Error    Kill Linux Process    [w]pa_supplicant    ${src['ip']}
         ...    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
@@ -398,7 +400,7 @@ Test Disable and Enable ONU and check authentication
         ...    ENABLED    ACTIVE    REACHABLE    ${src['onu']}    onu=True    onu_reason=omci-flows-pushed
         Run Keyword If    ${has_dataplane}    Run Keyword And Continue On Failure    Validate Authentication    True
         ...    ${src['dp_iface_name']}    wpa_supplicant.conf    ${src['ip']}    ${src['user']}    ${src['pass']}
-        ...    ${src['container_type']}    ${src['container_name']}
+        ...    ${src['container_type']}    ${src['container_name']}    ${wpa_log}
         Run Keyword and Ignore Error    Get Device Output from Voltha    ${onu_device_id}
     END
     Run Keyword and Ignore Error    Collect Logs
