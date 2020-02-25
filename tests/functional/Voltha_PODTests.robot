@@ -532,6 +532,37 @@ Sanity E2E Test for OLT/ONU on POD With OLT Adapters Fail and Restart
         ...    Validate Subscriber DHCP Allocation    ${k8s_node_ip}    ${ONOS_SSH_PORT}    ${onu_port}
     END
 
+Test Disable and Enable ONU and check authentication
+    [Documentation]    Assuming that test1 was executed where all the ONUs are authenticated/DHCP/pingable
+    ...    Perform disable on the ONUs and validate that the authentication do not succeed
+    ...    Perform enable on the ONUs and validate that authentication successful
+    [Tags]    functional    DisableEnableONU_AuthCheck    notready
+    [Setup]    None
+    [Teardown]    None
+    FOR    ${I}    IN RANGE    0    ${num_onus}
+        ${src}=    Set Variable    ${hosts.src[${I}]}
+        ${dst}=    Set Variable    ${hosts.dst[${I}]}
+        ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
+        ${onu_port}=    Wait Until Keyword Succeeds    ${timeout}    2s    Get ONU Port in ONOS    ${src['onu']}
+        ...    ${of_id}
+        Disable Device    ${onu_device_id}
+        Wait Until Keyword Succeeds    ${timeout}    5s    Validate Device    DISABLED    UNKNOWN
+        ...    REACHABLE    ${src['onu']}    onu=false
+        Run Keyword If    ${has_dataplane}    Wait Until Keyword Succeeds    ${timeout}    2s
+        ...    Validate Authentication After Reassociate    False    ${src['dp_iface_name']}
+        ...    ${src['ip']}    ${src['user']}    ${src['pass']}
+        ...    ${src['container_type']}    ${src['container_name']}
+	Enable Device    ${onu_device_id}
+	Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s    Validate Device
+	...    ENABLED    ACTIVE    REACHABLE    ${src['onu']}    onu=True    onu_reason=omci-flows-pushed
+        Run Keyword If    ${has_dataplane}    Wait Until Keyword Succeeds    ${timeout}    2s
+        ...    Validate Authentication After Reassociate    True    ${src['dp_iface_name']}
+        ...    ${src['ip']}    ${src['user']}    ${src['pass']}
+        ...    ${src['container_type']}    ${src['container_name']}
+        Run Keyword and Ignore Error    Get Device Output from Voltha    ${onu_device_id}
+    END
+    Run Keyword and Ignore Error    Collect Logs
+
 *** Keywords ***
 Setup Suite
     [Documentation]    Set up the test suite
