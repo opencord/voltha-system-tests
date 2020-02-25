@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "acae3fa5_1ea25b5d",
+        "filename": "tests/functional/Voltha_multiplePODTests.robot",
+        "patchSetId": 6
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1000064
+      },
+      "writtenOn": "2020-02-25T00:29:51Z",
+      "side": 1,
+      "message": "Great Start on the Test !! \nDoes this apply to only BBSim? Hope this can be applied to hardware as well. Also please change the file name as `Voltha_multipleOLTTests.robot` instead, it\u0027s more clear that way.",
+      "range": {
+        "startLine": 2,
+        "startChar": 57,
+        "endLine": 2,
+        "endChar": 72
+      },
+      "revId": "6a976ff367598f1bfcfa5d1fdf6721e7a320ff08",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "820470f7_07a86ba2",
         "filename": "tests/functional/Voltha_multiplePODTests.robot",
         "patchSetId": 6
@@ -18,6 +41,52 @@
         "startChar": 0,
         "endLine": 43,
         "endChar": 34
+      },
+      "revId": "6a976ff367598f1bfcfa5d1fdf6721e7a320ff08",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3f8f0474_2916df0e",
+        "filename": "tests/functional/Voltha_multiplePODTests.robot",
+        "patchSetId": 6
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1000064
+      },
+      "writtenOn": "2020-02-25T00:29:51Z",
+      "side": 1,
+      "message": "Currently \"Perform Sanity Test\" keyword executes auth+dhcp+pings on only one OLT, this keyword needs to be enhanced as well.",
+      "range": {
+        "startLine": 51,
+        "startChar": 55,
+        "endLine": 51,
+        "endChar": 74
+      },
+      "revId": "6a976ff367598f1bfcfa5d1fdf6721e7a320ff08",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4c47af92_3a9917d1",
+        "filename": "tests/functional/Voltha_multiplePODTests.robot",
+        "patchSetId": 6
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1000064
+      },
+      "writtenOn": "2020-02-25T00:29:51Z",
+      "side": 1,
+      "message": "Can you please explain why \"setup\" is required here? Please note that setup keyword creates only one OLT.  I am thinking it\u0027s good to separate `deletion` and `creation` of devices into different keywords.  If there is a plan to use this keyword in a different way, please let us know.",
+      "range": {
+        "startLine": 145,
+        "startChar": 4,
+        "endLine": 145,
+        "endChar": 9
       },
       "revId": "6a976ff367598f1bfcfa5d1fdf6721e7a320ff08",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
