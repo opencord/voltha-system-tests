@@ -29,8 +29,22 @@
               "downstreamBandwidthProfile": "Default",
               "isDhcpRequired": true
             }]
-          }
-        ]
+          },
+          {
+            "id": "ALPHe3a69d03-1",
+            "nasPortId": "ALPHe3a69d03-1",
+            "circuitId": "ALPHe3a69d03-1",
+            "remoteId": "EC1729003539",
+            "uniTagList": [
+              {
+                "ponCTag": 7,
+                "ponSTag": 11,
+                "technologyProfileId": 64,
+                "upstreamBandwidthProfile": "Default",
+                "downstreamBandwidthProfile": "Default",
+                "isDhcpRequired": true
+              }]
+          }]
       },
       "bandwidthprofile":{
           "integration":{
