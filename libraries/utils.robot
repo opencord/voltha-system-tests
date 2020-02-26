@@ -107,9 +107,13 @@ Validate Authentication After Reassociate
     [Documentation]
     ...    Executes a particular reassociate request on the RG using wpa_cli.
     ...    auth_pass determines if authentication should pass
+    ${output}=    Login And Run Command On Remote System    truncate -s 0 /tmp/wpa.log; cat /tmp/wpa.log
+    ...    ${ip}    ${user}    ${pass}    ${container_type}    ${container_name}
+    Log    ${output}
+    Should Not Contain    ${output}    authentication completed successfully
     WPA Reassociate    ${iface}    ${ip}    ${user}    ${pass}    ${container_type}    ${container_name}
     Run Keyword If    '${auth_pass}' == 'True'    Wait Until Keyword Succeeds    ${timeout}    2s
-    ...    Check Remote File Contents    True    /tmp/wpa.log    authentication completed successfully
+    ...    Check Remote File Contents    True    /tmp/wpa.log    ${iface}.*authentication completed successfully
     ...    ${ip}    ${user}    ${pass}    ${container_type}    ${container_name}
     Run Keyword If    '${auth_pass}' == 'False'    Sleep    20s
     Run Keyword If    '${auth_pass}' == 'False'    Check Remote File Contents    False    /tmp/wpa.log
