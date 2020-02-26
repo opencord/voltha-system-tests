@@ -95,7 +95,7 @@ WPA Reassociate
     END
     FOR    ${i}    IN RANGE    70
         ${output}=    Login And Run Command On Remote System
-        ...    wpa_cli status | grep SUCCESS    ${ip}    ${user}
+        ...    wpa_cli -i ${iface} status | grep SUCCESS    ${ip}    ${user}
         ...    ${pass}    ${container_type}    ${container_name}
         ${passed}=    Run Keyword And Return Status    Should Contain    ${output}    SUCCESS
         Run Keyword If    ${passed}    Exit For Loop
@@ -109,7 +109,7 @@ Validate Authentication After Reassociate
     ...    auth_pass determines if authentication should pass
     WPA Reassociate    ${iface}    ${ip}    ${user}    ${pass}    ${container_type}    ${container_name}
     Run Keyword If    '${auth_pass}' == 'True'    Wait Until Keyword Succeeds    ${timeout}    2s
-    ...    Check Remote File Contents    True    /tmp/wpa.log    authentication completed successfully
+    ...    Check Remote File Contents    True    /tmp/wpa.log    ${iface}.*authentication completed successfully
     ...    ${ip}    ${user}    ${pass}    ${container_type}    ${container_name}
     Run Keyword If    '${auth_pass}' == 'False'    Sleep    20s
     Run Keyword If    '${auth_pass}' == 'False'    Check Remote File Contents    False    /tmp/wpa.log
