@@ -72,6 +72,17 @@ node ("${TestNodeName}") {
                     cd kind-voltha/
                     if ( ${released} ); then
                         export EXTRA_HELM_FLAGS="--set defaults.image_tag=null,images.onos.tag=4.0.0,images.onos.repository=voltha/voltha-onos"
+                        git clone -b '2.3.0rc1' --single-branch --depth 1 https://gerrit.opencord.org/voltha-helm-charts.git
+                        cd voltha-helm-charts
+                        helm dep update voltha-adapter-openolt
+                        helm dep update voltha-adapter-openonu
+                        helm dep update voltha-adapter-simulated
+                        helm dep update voltha
+                        export VOLTHA_ADAPTER_OPEN_OLT_CHART=voltha-helm-charts/voltha-adapter-openolt
+                        export VOLTHA_ADAPTER_OPEN_ONU_CHART=voltha-helm-charts/voltha-adapter-openonu
+                        export VOLTHA_ADAPTER_SIM_CHART=voltha-helm-charts/voltha-adapter-simulated
+                        export VOLTHA_CHART=voltha-helm-charts/voltha
+                        cd $WORKSPACE/kind-voltha
                     else
                         export EXTRA_HELM_FLAGS='-f $WORKSPACE/${configBaseDir}/${configKubernetesDir}/voltha/${configFileName}.yml'
                     fi
