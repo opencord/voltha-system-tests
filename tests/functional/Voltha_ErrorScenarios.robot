@@ -64,8 +64,7 @@ Adding the same OLT before and after enabling the device
     ...          AND              Stop Logging    AddSameOLT
     ...          AND              Announce Message    END TEST AddSameOLT
     # Add OLT device
-    setup
-    # Performing Sanity Test to make sure subscribers are all AUTH+DHCP and pingable
+    #setup
     Run Keyword If    ${has_dataplane}    Delete Device and Verify
     ${olt_device_id}=    Create Device    ${olt_ip}    ${OLT_PORT}
     Set Suite Variable    ${olt_device_id}
@@ -264,3 +263,9 @@ Check logical device creation and deletion
     Wait Until Keyword Succeeds    ${timeout}    5s    Validate Logical Device Ports    ${logical_id}
     Wait Until Keyword Succeeds    ${timeout}    5s    Validate Logical Device Flows    ${logical_id}
     Run Keyword and Ignore Error    Collect Logs
+
+*** Keywords ***
+Setup Suite
+    [Documentation]    Set up the test suite
+    Common Test Suite Setup
+
