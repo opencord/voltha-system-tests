@@ -22,7 +22,8 @@
           "remoteId": "BBSM00000001-1",
           "uniTagList": [
             {
-              "ponCTag": 4095,
+              "uniTagMatch": 4096,
+              "ponCTag": 4096,
               "ponSTag": 900,
               "technologyProfileId": 64,
               "downstreamBandwidthProfile": "Default",
@@ -38,7 +39,8 @@
           "remoteId": "BBSM00000002-1",
           "uniTagList": [
             {
-              "ponCTag": 4095,
+              "uniTagMatch": 4096,
+              "ponCTag": 4096,
               "ponSTag": 901,
               "technologyProfileId": 64,
               "downstreamBandwidthProfile": "Default",
