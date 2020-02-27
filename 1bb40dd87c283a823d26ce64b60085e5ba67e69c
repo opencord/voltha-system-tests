@@ -22,6 +22,30 @@
       "revId": "1bb40dd87c283a823d26ce64b60085e5ba67e69c",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ee64f33d_4cbfdd82",
+        "filename": "Jenkinsfile-voltha-bal31-build",
+        "patchSetId": 4
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1000003
+      },
+      "writtenOn": "2020-02-27T22:54:46Z",
+      "side": 1,
+      "message": "if you use \n\ncurl -sSL https://api.github.com/repos/opencord/voltctl/releases/latest | jq -r .tag_name | sed -e \u0027s/^v//g\u0027\n\nto get the latest released version number for voltctl you can then use\n\ncurl -o $GOPATH/bin/voltctl -sSL https://github.com/opencord/voltctl/releases/download/v$VC_VERSION/voltctl-$VC_VERSION-$HOSTOS-$HOSTARCH\n\nto download the latest released binary.\n\nif `voltha up` is used to install voltha then it should be installing the latest `voltctl` version if you have `VOLTCTL_VERSION` defined as `latest`",
+      "parentUuid": "c6f2f66e_6b480e3f",
+      "range": {
+        "startLine": 86,
+        "startChar": 33,
+        "endLine": 86,
+        "endChar": 39
+      },
+      "revId": "1bb40dd87c283a823d26ce64b60085e5ba67e69c",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
     }
   ]
 }
