@@ -44,7 +44,7 @@ ${NAMESPACE}      voltha
 # For below variable value, using deployment name as using grep for
 # parsing radius pod name, we can also use full radius pod name
 ${RESTART_POD_NAME}    radius
-${timeout}        90s
+${timeout}        120s
 ${of_id}          0
 ${logical_id}     0
 ${has_dataplane}    True
@@ -63,6 +63,9 @@ Adding the same OLT before and after enabling the device
     [Teardown]   Run Keywords     Collect Logs
     ...          AND              Stop Logging    AddSameOLT
     ...          AND              Announce Message    END TEST AddSameOLT
+    # Add OLT device
+    setup
+    # Performing Sanity Test to make sure subscribers are all AUTH+DHCP and pingable
     Run Keyword If    ${has_dataplane}    Delete Device and Verify
     ${olt_device_id}=    Create Device    ${olt_ip}    ${OLT_PORT}
     Set Suite Variable    ${olt_device_id}

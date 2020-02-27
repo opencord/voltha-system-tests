@@ -240,7 +240,7 @@ Setup
     ...    Validate OLT Device    PREPROVISIONED    UNKNOWN    UNKNOWN    ${EMPTY}    ${olt_device_id}
     Sleep    5s
     Enable Device    ${olt_device_id}
-    Wait Until Keyword Succeeds    ${timeout}    5s
+    Wait Until Keyword Succeeds    180s    5s
     ...    Validate OLT Device    ENABLED    ACTIVE    REACHABLE    ${olt_serial_number}
     ${logical_id}=    Get Logical Device ID From SN    ${olt_serial_number}
     Set Suite Variable    ${logical_id}
@@ -253,8 +253,8 @@ Delete All Devices and Verify
     Delete Devices In Voltha    Root=true
     Wait Until Keyword Succeeds    ${timeout}    2s    Test Empty Device List
     # Clear devices from ONOS
-    Remove All Devices From ONOS
-    ...    http://karaf:karaf@${k8s_node_ip}:${ONOS_REST_PORT}
+    #Remove All Devices From ONOS
+    #...    http://karaf:karaf@${k8s_node_ip}:${ONOS_REST_PORT}
 
 Teardown
     [Documentation]    kills processes and cleans up interfaces on src+dst servers
@@ -384,6 +384,15 @@ Clean Up Linux
         Run Keyword If    '${dst['ip']}' != '${None}'    Delete Interface on Remote Host
         ...    ${dst['dp_iface_name']}.${src['s_tag']}    ${dst['ip']}    ${dst['user']}    ${dst['pass']}
         ...    ${dst['container_type']}    ${dst['container_name']}
+    END
+
+Clean WPA Process
+    [Documentation]    Kills wpa_supplicant processes only for all RGs
+    FOR    ${I}    IN RANGE    0    ${num_onus}
+        ${src}=    Set Variable    ${hosts.src[${I}]}
+        ${dst}=    Set Variable    ${hosts.dst[${I}]}
+        Run Keyword And Ignore Error    Kill Linux Process    [w]pa_supplicant    ${src['ip']}
+        ...    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
     END
 
 Should Be Larger Than
