@@ -41,28 +41,23 @@ Directory is structured as follows:
 
 An easy way to bring up VOLTHA + BBSim for testing is by using
 [kind-voltha](https://github.com/ciena/kind-voltha).  To set
-up a minimal environment, first install [Docker](https://docs.docker.com/install/)
-and [the Go programming language](https://golang.org/doc/install).
-Then run the following commands:
+up a minimal environment, first install [Docker](https://docs.docker.com/install/).
 
 > NOTE: Please make sure you are able to run the docker command (your user is
 > in the `docker` group)
 
-The testing environment will be setup in the kubernetes cluster and you can use
-your own one or use the one provided by
-[kind-voltha](https://github.com/ciena/kind-voltha).
-
-If you doesn't have a kubernetes cluster, please use the following command to
-set up the kubernetes cluster and install required packages.
+If you don't have a Kubernetes cluster, please use the following command to
+set up the cluster provided by [kind-voltha](https://github.com/ciena/kind-voltha)
+and install required tools.
 
 ```bash
 git clone https://github.com/ciena/kind-voltha
 cd kind-voltha
-EXTRA_HELM_FLAGS="--set defaults.image_tag=master" TYPE=minimal WITH_RADIUS=y WITH_BBSIM=y INSTALL_ONOS_APPS=y CONFIG_SADIS=y ./voltha up
+TYPE=minimal WITH_RADIUS=y WITH_BBSIM=y CONFIG_SADIS=y WITH_SIM_ADAPTERS=n ./voltha up
 source minimal-env.sh
 ```
 
-If you prefer to use your own kubernetes cluster, please read the document
+If you prefer to use your own Kubernetes cluster, please read the document
 [kind-voltha configuration
 options](https://github.com/ciena/kind-voltha#voltha-up-configuration-options)
 first to see how to configure the `kind-voltha` installation behavior.
@@ -70,50 +65,48 @@ first to see how to configure the `kind-voltha` installation behavior.
 * Recommended software versions
 
 Helm: v2.14.3
-Kubernetes: v1.15.0
-KIND: v0.4.0
+Kubernetes: v1.15.5
+KIND: v0.5.1
 
-You can skip the installation of kubernetes cluster and helm server/client by
-setting environment variables.
-
-For example, using the following command to install VOLTHA required packages
-only.
+You can skip the installation of Kubernetes cluster and Helm by setting
+environment variables.  For example, run the following command to install
+VOLTHA only on an existing cluster.
 
 ```bash
 git clone https://github.com/ciena/kind-voltha
 cd kind-voltha
-EXTRA_HELM_FLAGS="--set defaults.image_tag=master" TYPE=minimal WITH_RADIUS=y WITH_BBSIM=y INSTALL_ONOS_APPS=y CONFIG_SADIS=y DEPLOY_K8S=no INSTALL_KUBECTL=no INSTALL_HELM=no ./voltha up
+TYPE=minimal WITH_RADIUS=y WITH_BBSIM=y CONFIG_SADIS=y WITH_SIM_ADAPTERS=n DEPLOY_K8S=n INSTALL_KUBECTL=n INSTALL_HELM=n ./voltha up
 source minimal-env.sh
 ```
 
-The `defaults.image_tag` value above is used to specify which VOLTHA branch
-images to pull from Docker Hub.
-
-See all available versions in [Docker
-voltha](https://hub.docker.com/u/voltha/).
+The Helm values file `kind-voltha/minimal-values.yaml` determines which images will be deployed on the
+Kubernetes cluster.   The default is `master` images from [VOLTHA's Docker
+Hub repository](https://hub.docker.com/u/voltha/).  You can modify this file as needed, for
+example to deploy released images or private test images.
 
 ### DT Workflow
-If you want to install voltha for the DT Workflow, add `WITH_RADIUS=n WITH_EAPOL=n WITH_DHCP=n WITH_IGMP=n CONFIG_SADIS=n` flags in the command.
+If you want to install voltha for the DT Workflow, add `WITH_RADIUS=n WITH_EAPOL=n WITH_DHCP=n WITH_IGMP=n CONFIG_SADIS=n` flags in the `./voltha up` command above.
 
 ### Debug the kind-voltha installation
 
 If you meet any issues when you set up the VOLTHA testing environment by
-running `voltha up`.
-
-You can see the installation logs from the file `kind-voltha/install-$TYPE.log`.
-
-The $TYPE should be `full` or `minimal`, depending on the variable you used in
-`voltah up`, e.g, install-minimal.
+running `./voltha up`, you can see the installation logs from the file `kind-voltha/install-minimal.log`.
 
 ## Running the sanity tests
 
-Assuming that you have brought up VOLTHA as described above, to run the sanity
-tests run:
+Assuming that you have brought up VOLTHA as described above, you can run a simple E2E "sanity"
+test as follows:
 
 ```bash
 git clone https://github.com/opencord/voltha-system-tests
-make -C voltha-system-tests sanity-kind
+make -C voltha-system-tests sanity-single-kind
 ```
+
+The tests generate three report files in
+`voltha-system-tests/tests/functional` (`output.xml`, `report.html`, `log.html`).
+View the `report.html` page in a browser to analyze the results.
+If you're running on a remote system, you can start a web server with `python3
+-m http.server`.
 
 ### DT Workflow
 To run the sanity tests for the DT Workflow, use `sanity-kind-dt` as the make target.
@@ -122,28 +115,21 @@ git clone https://github.com/opencord/voltha-system-tests
 make -C voltha-system-tests sanity-kind-dt
 ```
 
-This test execution will generate three report files in
-`voltha-system-tests/tests/sanity` (`output.xml`, `report.html`, `log.html`).
-View the `report.html` page in a browser to analyze the results.
-
-If you're running on a remote system, you can start a web server with `python3
--m http.server`.
-
 ## Test variables
 
-The `make sanity-kind` target is equivalent to the following:
+The `make sanity-single-kind` target is a shortcut that specifies a number of variables
+used by the tests:
 
-```bash
-ROBOT_PORT_ARGS="-v ONOS_REST_PORT:8181 -v ONOS_SSH_PORT:8101" \
-ROBOT_TEST_ARGS="--exclude notready --critical sanity" \
-ROBOT_MISC_ARGS="-v num_onus:1" \
-make sanity
-```
+* ROBOT_FILE: The test suite file in `tests/functional` that will be invoked by `robot`.
 
-If you are running the tests in another environment, you can run `make sanity`
-with the arguments appropriate for your environment.  Look at
-[variables.robot](https://github.com/opencord/voltha-system-tests/blob/master/variables/variables.robot)
-for a list of variables that you may need to override.
+* ROBOT_MISC_ARGS: Robot arguments passed directly to `robot`, for example to specify which test
+cases to run.  If you are running in a non-standard environment (e.g., not created by `kind-voltha`)
+you may need to override some default variable settings for your environment.
+See [variables.robot](https://github.com/opencord/voltha-system-tests/blob/master/variables/variables.robot)
+for the list of defaults.
+
+* ROBOT_CONFIG_FILE: The YAML pod deployment file used to drive the test.  Examples are in the
+`tests/data` directory.
 
 ## Running Tests on Physical POD
 
@@ -154,13 +140,12 @@ below.
 ### Deploying POD
 
 Deploying POD can be either manual or automated using Jenkins job.
-
 You can install it manually by following these steps below.
 
 ```bash
 git clone https://github.com/ciena/kind-voltha.git
 cd kind-voltha/
-EXTRA_HELM_FLAGS='-f <PATH_TO_YOUR_K8S_CONFIG_FILE>' WITH_RADIUS=yes WITH_TP=yes DEPLOY_K8S=no INSTALL_KUBECTL=no INSTALL_HELM=no ONOS_TAG=voltha-2.1 ./voltha up
+EXTRA_HELM_FLAGS='-f <PATH_TO_YOUR_K8S_CONFIG_FILE>' WITH_RADIUS=yes WITH_TP=yes DEPLOY_K8S=no INSTALL_KUBECTL=no INSTALL_HELM=no ./voltha up
 ```
 
 Note: replace `PATH_TO_YOUR_K8S_CONFIG_FILE` with your Kubernetes configuration
@@ -196,10 +181,8 @@ To trigger tests on the physical POD
 
 ```bash
 git clone https://github.com/opencord/voltha-system-tests
-git clone https://github.com/opencord/cord-tester
-git clone https://github.com/opencord/voltha
-cd voltha-system-tests/tests/functional
-robot -V <PATH_TO_YOUR_POD_CONFIGURATION_FILE> Voltha_PODTests.robot
+cd voltha-system-tests
+make voltha-test ROBOT_FILE=Voltha_PODTests.robot ROBOT_CONFIG_FILE=<PATH_TO_YOUR_POD_CONFIGURATION_FILE>
 ```
 
 Note: `PATH_TO_YOUR_POD_CONFIGURATION_FILE` should point to the YAML file that
@@ -207,28 +190,27 @@ describes your POD setup.
 
 Scenarios in each test suite can be associated with a `Tag`, using which a
 particular scenario can be invoked during test execution.  As an example to
-execute only one testcase from the test suite you can do something like here:
+execute only one testcase with tag `test1` from the test suite you can run:
 
 ```bash
-cd voltha-system-tests/tests/functional
-robot -i test1 -V <PATH_TO_YOUR_POD_CONFIGURATION_FILE> Voltha_PODTests.robot
+make voltha-test ROBOT_MISC_ARGS="-i test1" ROBOT_FILE="Voltha_PODTests.robot" ROBOT_CONFIG_FILE="<PATH_TO_YOUR_POD_CONFIGURATION_FILE>"
 ```
 
 ## Adding to the tests
 
+
+Tests should be written in RobotFramework as they need to be integrated with
+Jenkins test jobs.  Libraries can be written in python or RobotFramework.
 Most additions should be done by adding keywords to the libraries, then calling
 these keywords from the tests.  Consult a [guide on how to write good Robot
 framework
 tests](https://github.com/robotframework/HowToWriteGoodTestCases/blob/master/HowToWriteGoodTestCases.rst).
 
-When writing new functions, make sure there is proper documentation for it.
-Also, follow a good naming convention for any new functions.  There are also
-many keywords/functions available as part of the SEBA test framework which can
-be found
-[here](https://github.com/opencord/cord-tester/tree/master/src/test/cord-api/Framework)
-
-Tests should be written in RobotFramework as they need to be integrated with
-Jenkins test jobs.  Libraries can be written in python or RobotFramework.
+The [cord-robot](https://pypi.org/project/cord-robot/) package provides a number of useful
+keywords for writing VOLTHA tests.  See [this link](https://github.com/opencord/cord-tester/tree/master/cord-robot)
+for information on how to import the library into a Robot test suite.  The `cord-robot`
+package version is specified in the `requirements.txt` file.  The package is automatically
+installed into the Python virtualenv set up by the Makefile.
 
 Make sure that `make lint` check passes, which runs
 [robotframework-lint](https://github.com/boakley/robotframework-lint) on any
@@ -252,5 +234,5 @@ If you have trouble with the line length check, try the following:
 
 * If you absolutely must use a long shell command, it can be stored in a string
   that is split over multiple lines with the
-  [Catenate](https://robotframework.org/robotframework/latest/libraries/BuiltIn.html#Catenate)
+  [Catenate](https://robotframework.org/robotframework/latest/libraries/BuiltIn.html)
   Keyword before it's run.
