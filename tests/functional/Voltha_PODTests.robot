@@ -212,7 +212,7 @@ Check DHCP attempt fails when subscriber is not added
         ...    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
         Wait Until Keyword Succeeds    ${timeout}    2s    Execute ONOS CLI Command    ${k8s_node_ip}
         ...    ${ONOS_SSH_PORT}    volt-remove-subscriber-access ${of_id} ${onu_port}
-        Sleep    5s
+        Sleep    15s
         Run Keyword And Ignore Error    Login And Run Command On Remote System    ps -ef | grep dhclient    ${src['ip']}
         ...    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
         Run Keyword If    ${has_dataplane}    Wait Until Keyword Succeeds    ${timeout}    2s
