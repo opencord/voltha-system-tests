@@ -62,11 +62,11 @@ Verify ONU after rebooting physically
     ...    controls the power off/on ONUs/OLT remotely (simulating a physical reboot)
     ...    VOL-2634
     [Tags]    functional   PowerSwitch
-    [Setup]    Run Keywords    Announce Message    START TEST PowerSwitch
-    ...        AND             Start Logging    PowerSwitch
+    [Setup]    Run Keywords    Announce Message    START TEST ONUreboot_PowerSwitch
+    ...        AND             Start Logging    ONUreboot_PowerSwitch
     [Teardown]    Run Keywords    Collect Logs
-    ...           AND             Stop Logging    PowerSwitch
-    ...           AND             Announce Message    END TEST PowerSwitch
+    ...           AND             Stop Logging    ONUreboot_PowerSwitch
+    ...           AND             Announce Message    END TEST ONUreboot_PowerSwitch
     # Add OLT device
     setup
     # Performing Sanity Test to make sure subscribers are all AUTH+DHCP and pingable

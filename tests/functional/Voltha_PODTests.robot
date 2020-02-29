@@ -360,7 +360,7 @@ Test disable ONUs and OLT then delete ONUs and OLT
     Should Be Equal As Integers    ${rc}    0
     Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s    Test Empty Device List
 
-Test Disable and Enable ONU and check authentication
+Validate authentication on a disabled ONU
     [Documentation]    Assuming that test1 was executed where all the ONUs are authenticated/DHCP/pingable
     ...    Perform disable on the ONUs and validate that the authentication do not succeed
     ...    Perform enable on the ONUs and validate that authentication successful
