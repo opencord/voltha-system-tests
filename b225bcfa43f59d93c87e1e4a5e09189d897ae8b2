@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8e144a4d_05c692ce",
+        "filename": "Jenkinsfile-voltha-bal31-build",
+        "patchSetId": 7
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1000003
+      },
+      "writtenOn": "2020-03-02T23:16:47Z",
+      "side": 1,
+      "message": "not exactly sure what is going on here. If you want to install the latest voltctl, just download the latest from the release page. If you only want to download if you are not running the latest then you can use `voltctl version -o json --clientonly | jq -r .version` to get the version and compare it to `curl -sSL https://api.github.com/repos/opencord/voltctl/releases/latest | jq -r .tag_name | sed -e \u0027s/^v//g\u0027`. that second command will get the latest release from the release page.",
+      "range": {
+        "startLine": 100,
+        "startChar": 0,
+        "endLine": 100,
+        "endChar": 97
+      },
+      "revId": "b225bcfa43f59d93c87e1e4a5e09189d897ae8b2",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9d73697e_6b31bf31",
+        "filename": "Jenkinsfile-voltha-build",
+        "patchSetId": 7
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1000003
+      },
+      "writtenOn": "2020-03-02T23:16:47Z",
+      "side": 1,
+      "message": "not exactly sure what is going on here. If you want to install the latest voltctl, just download the latest from the release page. If you only want to download if you are not running the latest then you can use `voltctl version -o json --clientonly | jq -r .version` to get the version and compare it to `curl -sSL https://api.github.com/repos/opencord/voltctl/releases/latest | jq -r .tag_name | sed -e \u0027s/^v//g\u0027`. that second command will get the latest release from the release page.",
+      "range": {
+        "startLine": 73,
+        "startChar": 0,
+        "endLine": 79,
+        "endChar": 48
+      },
+      "revId": "b225bcfa43f59d93c87e1e4a5e09189d897ae8b2",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    }
+  ]
+}
