@@ -87,10 +87,10 @@ Verify ONU after rebooting physically
         Enable Switch Outlet    ${src['power_switch_port']}
         # Check ONU port is Enabled in ONOS
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds   120s   2s
-        ...    Verify ONU Port Is Enabled   ${k8s_node_ip}    ${ONOS_SSH_PORT}    ${onu_port}
+        ...    Verify ONU Port Is Enabled   ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${onu_port}
         # Verify EAPOL flows are added for the ONU port
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
-        ...    Verify Eapol Flows Added For ONU    ${k8s_node_ip}    ${ONOS_SSH_PORT}    ${onu_port}
+        ...    Verify Eapol Flows Added For ONU    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${onu_port}
         # Verify ONU state in voltha
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s    Validate Device
         ...    ENABLED    ACTIVE    REACHABLE
@@ -157,12 +157,12 @@ Check OLT/ONU Authentication After Radius Pod Restart
         ${onu_port}=    Wait Until Keyword Succeeds    ${timeout}    2s
         ...    Get ONU Port in ONOS    ${src['onu']}    ${of_id}
         Wait Until Keyword Succeeds    ${timeout}    2s
-        ...    Verify Eapol Flows Added For ONU    ${k8s_node_ip}    ${ONOS_SSH_PORT}    ${onu_port}
+        ...    Verify Eapol Flows Added For ONU    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${onu_port}
         Run Keyword If    ${has_dataplane}    Run Keyword And Continue On Failure
         ...    Validate Authentication After Reassociate    True    ${src['dp_iface_name']}
         ...    ${src['ip']}    ${src['user']}    ${src['pass']}
         ...    ${src['container_type']}    ${src['container_name']}
-        Wait Until Keyword Succeeds    ${timeout}    2s    Verify ONU in AAA-Users    ${k8s_node_ip}
+        Wait Until Keyword Succeeds    ${timeout}    2s    Verify ONU in AAA-Users    ${ONOS_SSH_IP}
         ...    ${ONOS_SSH_PORT}    ${onu_port}
         Run Keyword If    ${has_dataplane}    Run Keyword And Continue On Failure
         ...    Validate DHCP and Ping    True    True    ${src['dp_iface_name']}
@@ -172,7 +172,7 @@ Check OLT/ONU Authentication After Radius Pod Restart
         ...    ${dst['dp_iface_name']}    ${dst['ip']}    ${dst['user']}
         ...    ${dst['pass']}    ${dst['container_type']}    ${dst['container_name']}
         Wait Until Keyword Succeeds    ${timeout}    2s    Run Keyword And Continue On Failure
-        ...    Validate Subscriber DHCP Allocation    ${k8s_node_ip}    ${ONOS_SSH_PORT}    ${onu_port}
+        ...    Validate Subscriber DHCP Allocation    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${onu_port}
         Run Keyword and Ignore Error    Get Device Output from Voltha    ${onu_device_id}
         Run Keyword and Ignore Error    Collect Logs
     END
@@ -183,7 +183,7 @@ Sanity E2E Test for OLT/ONU on POD With Core Fail and Restart
     ...    simulate a POD crash. The test then scales the rw-core back to a single instance
     ...    and configures ONOS for access. The test succeeds if the device is able to
     ...    complete the DHCP sequence.
-    [Tags]    functional    rwcore-restart    notready
+    [Tags]    bbsim    rwcore-restart
     [Setup]    Run Keywords    Announce Message    START TEST RwCoreFailAndRestart
     ...        AND             Start Logging    RwCoreFailAndRestart
     ...        AND             Clear All Devices Then Create New Device
@@ -204,14 +204,14 @@ Sanity E2E Test for OLT/ONU on POD With Core Fail and Restart
         # Bring up the device and verify it authenticates
         Wait Until Keyword Succeeds    ${timeout}    5s    Validate Device    ENABLED    ACTIVE    REACHABLE
         ...    ${onu_device_id}    onu=True    onu_reason=omci-flows-pushed
-        Wait Until Keyword Succeeds    ${timeout}    2s    Verify Eapol Flows Added For ONU    ${k8s_node_ip}
+        Wait Until Keyword Succeeds    ${timeout}    2s    Verify Eapol Flows Added For ONU    ${ONOS_SSH_IP}
         ...    ${ONOS_SSH_PORT}    ${onu_port}
         ${wpa_log}=    Run Keyword If    ${has_dataplane}    Catenate    SEPARATOR=.
         ...    /tmp/wpa    ${src['dp_iface_name']}    log
         Run Keyword If    ${has_dataplane}    Run Keyword And Continue On Failure    Validate Authentication    True
         ...    ${src['dp_iface_name']}    wpa_supplicant.conf    ${src['ip']}    ${src['user']}    ${src['pass']}
         ...    ${src['container_type']}    ${src['container_name']}    ${wpa_log}
-        Wait Until Keyword Succeeds    ${timeout}    2s    Verify ONU in AAA-Users    ${k8s_node_ip}
+        Wait Until Keyword Succeeds    ${timeout}    2s    Verify ONU in AAA-Users    ${ONOS_SSH_IP}
         ...    ${ONOS_SSH_PORT}     ${onu_port}
     END
 
@@ -233,11 +233,11 @@ Sanity E2E Test for OLT/ONU on POD With Core Fail and Restart
     # Ensure that the ofagent pod is up and ready and the device is available in ONOS, this
     # represents system connectivity being restored
     Wait Until Keyword Succeeds    ${timeout}    2s    Device Is Available In ONOS
-    ...    http://karaf:karaf@${k8s_node_ip}:${ONOS_REST_PORT}    ${of_id}
+    ...    http://karaf:karaf@${ONOS_REST_IP}:${ONOS_REST_PORT}    ${of_id}
 
     FOR    ${I}    IN RANGE    0    ${num_onus}
         # Add subscriber access and verify that DHCP completes to ensure system is still functioning properly
-        Wait Until Keyword Succeeds    ${timeout}    2s    Execute ONOS CLI Command    ${k8s_node_ip}
+        Wait Until Keyword Succeeds    ${timeout}    2s    Execute ONOS CLI Command    ${ONOS_SSH_IP}
         ...    ${ONOS_SSH_PORT}    volt-add-subscriber-access ${of_id} ${onu_port}
         Run Keyword If    ${has_dataplane}    Run Keyword And Continue On Failure    Validate DHCP and Ping    True
         ...    True    ${src['dp_iface_name']}    ${src['s_tag']}    ${src['c_tag']}    ${dst['dp_iface_ip_qinq']}
@@ -245,7 +245,7 @@ Sanity E2E Test for OLT/ONU on POD With Core Fail and Restart
         ...    ${dst['dp_iface_name']}    ${dst['ip']}    ${dst['user']}    ${dst['pass']}    ${dst['container_type']}
         ...    ${dst['container_name']}
         Wait Until Keyword Succeeds    ${timeout}    2s    Run Keyword And Continue On Failure
-        ...    Validate Subscriber DHCP Allocation    ${k8s_node_ip}    ${ONOS_SSH_PORT}    ${onu_port}
+        ...    Validate Subscriber DHCP Allocation    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${onu_port}
     END
 
 Sanity E2E Test for OLT/ONU on POD With OLT Adapters Fail and Restart
@@ -275,14 +275,14 @@ Sanity E2E Test for OLT/ONU on POD With OLT Adapters Fail and Restart
         # Bring up the device and verify it authenticates
         Wait Until Keyword Succeeds    ${timeout}    5s    Validate Device        ENABLED    ACTIVE    REACHABLE
         ...    ${onu_device_id}    onu=True    onu_reason=omci-flows-pushed
-        Wait Until Keyword Succeeds    ${timeout}    2s    Verify Eapol Flows Added For ONU    ${k8s_node_ip}
+        Wait Until Keyword Succeeds    ${timeout}    2s    Verify Eapol Flows Added For ONU    ${ONOS_SSH_IP}
         ...    ${ONOS_SSH_PORT}    ${onu_port}
         ${wpa_log}=    Run Keyword If    ${has_dataplane}    Catenate    SEPARATOR=.
         ...    /tmp/wpa    ${src['dp_iface_name']}    log
         Run Keyword If    ${has_dataplane}    Run Keyword And Continue On Failure    Validate Authentication    True
         ...    ${src['dp_iface_name']}    wpa_supplicant.conf    ${src['ip']}    ${src['user']}    ${src['pass']}
         ...    ${src['container_type']}    ${src['container_name']}    ${wpa_log}
-        Wait Until Keyword Succeeds    ${timeout}    2s    Verify ONU in AAA-Users    ${k8s_node_ip}
+        Wait Until Keyword Succeeds    ${timeout}    2s    Verify ONU in AAA-Users    ${ONOS_SSH_IP}
         ...    ${ONOS_SSH_PORT}     ${onu_port}
     END
     # Scale down the open OLT adapter deployment to 0 PODs and once confirmed, scale it back to 1
@@ -295,11 +295,11 @@ Sanity E2E Test for OLT/ONU on POD With OLT Adapters Fail and Restart
 
     # Ensure the device is available in ONOS, this represents system connectivity being restored
     Wait Until Keyword Succeeds    ${timeout}    2s    Device Is Available In ONOS
-    ...    http://karaf:karaf@${k8s_node_ip}:${ONOS_REST_PORT}    ${of_id}
+    ...    http://karaf:karaf@${ONOS_REST_IP}:${ONOS_REST_PORT}    ${of_id}
 
     FOR    ${I}    IN RANGE    0    ${num_onus}
         # Add subscriber access and verify that DHCP completes to ensure system is still functioning properly
-        Wait Until Keyword Succeeds    ${timeout}    2s    Execute ONOS CLI Command    ${k8s_node_ip}
+        Wait Until Keyword Succeeds    ${timeout}    2s    Execute ONOS CLI Command    ${ONOS_SSH_IP}
         ...    ${ONOS_SSH_PORT}    volt-add-subscriber-access ${of_id} ${onu_port}
         Run Keyword If    ${has_dataplane}    Run Keyword And Continue On Failure    Validate DHCP and Ping    True
         ...    True    ${src['dp_iface_name']}    ${src['s_tag']}    ${src['c_tag']}    ${dst['dp_iface_ip_qinq']}
@@ -307,7 +307,7 @@ Sanity E2E Test for OLT/ONU on POD With OLT Adapters Fail and Restart
         ...    ${dst['dp_iface_name']}    ${dst['ip']}    ${dst['user']}    ${dst['pass']}    ${dst['container_type']}
         ...    ${dst['container_name']}
         Wait Until Keyword Succeeds    ${timeout}    2s    Run Keyword And Continue On Failure
-        ...    Validate Subscriber DHCP Allocation    ${k8s_node_ip}    ${ONOS_SSH_PORT}    ${onu_port}
+        ...    Validate Subscriber DHCP Allocation    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${onu_port}
     END
 
 Verify restart ofagent container after VOLTHA is operational
@@ -402,10 +402,10 @@ ONU Reboot
         Verify ping is succesful except for given device     ${num_onus}    ${onu_device_id}
         # Check ONU port is Enabled in ONOS
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds   120s   2s
-        ...    Verify ONU Port Is Enabled   ${k8s_node_ip}    ${ONOS_SSH_PORT}    ${onu_port}
+        ...    Verify ONU Port Is Enabled   ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${onu_port}
         # Verify EAPOL flows are added for the ONU port
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
-        ...    Verify Eapol Flows Added For ONU    ${k8s_node_ip}    ${ONOS_SSH_PORT}    ${onu_port}
+        ...    Verify Eapol Flows Added For ONU    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${onu_port}
         # Verify ONU state in voltha
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s    Validate Device
         ...    ENABLED    ACTIVE    REACHABLE

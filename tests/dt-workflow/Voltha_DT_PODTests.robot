@@ -90,7 +90,7 @@ Test Subscriber Delete and Add for DT
         ${onu_port}=    Wait Until Keyword Succeeds    ${timeout}    2s    Get ONU Port in ONOS    ${src['onu']}
         ...    ${of_id}
         # Remove Subscriber Access
-        Wait Until Keyword Succeeds    ${timeout}    2s    Execute ONOS CLI Command    ${k8s_node_ip}
+        Wait Until Keyword Succeeds    ${timeout}    2s    Execute ONOS CLI Command    ${ONOS_SSH_IP}
         ...    ${ONOS_SSH_PORT}    volt-remove-subscriber-access ${of_id} ${onu_port}
         Sleep    10s
         # TODO: Yet to Verify on the Physical POD
@@ -115,7 +115,7 @@ Test Subscriber Delete and Add for DT
         ...    Validate Device    ENABLED    ACTIVE
         ...    REACHABLE    ${src['onu']}
         # Add Subscriber Access
-        Wait Until Keyword Succeeds    ${timeout}    2s    Execute ONOS CLI Command    ${k8s_node_ip}
+        Wait Until Keyword Succeeds    ${timeout}    2s    Execute ONOS CLI Command    ${ONOS_SSH_IP}
         ...    ${ONOS_SSH_PORT}    volt-add-subscriber-access ${of_id} ${onu_port}
         Sleep    10s
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
