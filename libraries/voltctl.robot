@@ -128,14 +128,16 @@ Get Device List from Voltha
 
 Validate Device
     [Documentation]
-    ...    Parses the output of "voltctl device list" and inspects device ${serial_number} and ${device_id}
-    ...    Arguments are matched for device states of: "admin_state", "oper_status", and "connect_status"
-    [Arguments]    ${admin_state}    ${oper_status}    ${connect_status}    ${serial_number}=${EMPTY}
-    ...    ${device_id}=${EMPTY}    ${onu_reason}=${EMPTY}    ${onu}=False
+    ...    Parses the output of "voltctl device list" and inspects a device ${id}, specified as either
+    ...    the serial number or device ID. Arguments are matched for device states of: "admin_state",
+    ...    "oper_status", and "connect_status"
+    [Arguments]    ${admin_state}    ${oper_status}    ${connect_status}
+    ...    ${id}=${EMPTY}    ${onu_reason}=${EMPTY}    ${onu}=False
     ${rc}    ${output}=    Run and Return Rc and Output    ${VOLTCTL_CONFIG}; voltctl device list -o json
     Should Be Equal As Integers    ${rc}    0
     ${jsondata}=    To Json    ${output}
     ${length}=    Get Length    ${jsondata}
+    ${matched}=    Set Variable    False
     FOR    ${INDEX}    IN RANGE    0    ${length}
         ${value}=    Get From List    ${jsondata}    ${INDEX}
         ${astate}=    Get From Dictionary    ${value}    adminstate
@@ -144,24 +146,26 @@ Validate Device
         ${sn}=    Get From Dictionary    ${value}    serialnumber
         ${devId}=    Get From Dictionary    ${value}    id
         ${mib_state}=    Get From Dictionary    ${value}    reason
-        Run Keyword If    '${sn}' == '${serial_number}' or '${devId}' == '${device_id}'    Exit For Loop
+        ${matched}=    Set Variable If    '${sn}' == '${id}' or '${devId}' == '${id}'    True    False
+        Run Keyword If    ${matched}    Exit For Loop
     END
+    Should Be True    ${matched}
+    ...    No match found for ${id} to validate device
     Log    ${value}
-    Should Be Equal    '${astate}'    '${admin_state}'    Device ${serial_number} admin_state != ${admin_state}
+    Should Be Equal    '${astate}'    '${admin_state}'    Device ${sn} admin_state != ${admin_state}
     ...    values=False
-    Should Be Equal    '${opstatus}'    '${oper_status}'    Device ${serial_number} oper_status != ${oper_status}
+    Should Be Equal    '${opstatus}'    '${oper_status}'    Device ${sn} oper_status != ${oper_status}
     ...    values=False
-    Should Be Equal    '${cstatus}'    '${connect_status}'    Device ${serial_number} conn_status != ${connect_status}
+    Should Be Equal    '${cstatus}'    '${connect_status}'    Device ${sn} conn_status != ${connect_status}
     ...    values=False
     Run Keyword If    '${onu}' == 'True'    Should Be Equal    '${mib_state}'    '${onu_reason}'
-    ...    Device ${serial_number} mib_state incorrect (${mib_state}) values=False
+    ...    Device ${sn} mib_state incorrect (${mib_state}) values=False
 
 Validate OLT Device
-    [Arguments]    ${admin_state}    ${oper_status}    ${connect_status}    ${serial_number}=${EMPTY}
-    ...    ${device_id}=${EMPTY}
-    [Documentation]    Parses the output of "voltctl device list" and inspects device ${serial_number} and/or
-    ...    ${device_id}    Match on OLT Serial number or Device Id and inspect states
-    Validate Device    ${admin_state}    ${oper_status}    ${connect_status}    ${serial_number}    ${device_id}
+    [Arguments]    ${admin_state}    ${oper_status}    ${connect_status}    ${id}=${EMPTY}
+    [Documentation]    Parses the output of "voltctl device list" and inspects device ${id}, specified
+    ...    as either its serial numbner or device ID. Match on OLT Serial number or Device Id and inspect states
+    Validate Device    ${admin_state}    ${oper_status}    ${connect_status}    ${id}
 
 Validate ONU Devices
     [Arguments]    ${admin_state}    ${oper_status}    ${connect_status}    ${List_ONU_Serial}
