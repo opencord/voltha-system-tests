@@ -70,7 +70,7 @@ Adding the same OLT before and after enabling the device
     Set Suite Variable    ${olt_device_id}
     ${timeout}    Set Variable    180s
     Wait Until Keyword Succeeds    ${timeout}    5s    Validate OLT Device    PREPROVISIONED    UNKNOWN    UNKNOWN
-    ...    ${EMPTY}    ${olt_device_id}
+    ...    ${olt_device_id}
     ${rc}    ${output}=    Run and Return Rc and Output
     ...    ${VOLTCTL_CONFIG}; voltctl device create -t openolt -H ${olt_ip}:${OLT_PORT}
     Should Not Be Equal As Integers    ${rc}    0
@@ -172,7 +172,7 @@ Check disabling of pre-provisioned OLT before enabling
     Set Suite Variable    ${olt_device_id}
     #validate olt states
     Wait Until Keyword Succeeds    ${timeout}    5s    Validate OLT Device    PREPROVISIONED    UNKNOWN    UNKNOWN
-    ...    ${EMPTY}    ${olt_device_id}
+    ...    ${olt_device_id}
     #Try disabling pre-provisioned OLT
     ${rc}    ${output}=    Run and Return Rc and Output    ${VOLTCTL_CONFIG}; voltctl device disable ${olt_device_id}
     Should Be Equal As Integers    ${rc}    0
@@ -209,7 +209,7 @@ Disable and Delete the logical device directly
     Set Suite Variable    ${olt_device_id}
     #validate olt states
     Wait Until Keyword Succeeds    ${timeout}    5s    Validate OLT Device    PREPROVISIONED    UNKNOWN    UNKNOWN
-    ...    ${EMPTY}    ${olt_device_id}
+    ...    ${olt_device_id}
     #Enable the created OLT device
     Enable Device    ${olt_device_id}
     Wait Until Keyword Succeeds    ${timeout}    5s    Validate OLT Device    ENABLED    ACTIVE    REACHABLE
@@ -248,7 +248,7 @@ Check logical device creation and deletion
     ${olt_device_id}=    Create Device    ${olt_ip}    ${OLT_PORT}
     Set Suite Variable    ${olt_device_id}
     Wait Until Keyword Succeeds    ${timeout}    5s    Validate OLT Device    PREPROVISIONED    UNKNOWN    UNKNOWN
-    ...    ${EMPTY}    ${olt_device_id}
+    ...    ${olt_device_id}
     Enable Device    ${olt_device_id}
     Wait Until Keyword Succeeds    ${timeout}    5s    Validate OLT Device    ENABLED    ACTIVE    REACHABLE
     ...    ${olt_serial_number}

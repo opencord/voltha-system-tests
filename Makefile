@@ -68,7 +68,7 @@ sanity-single-kind: bbsim-kind
 
 rwcore-restart-single-kind: ROBOT_MISC_ARGS += -X -i bbsimANDrwcore-restart $(ROBOT_DEBUG_LOG_OPT)
 rwcore-restart-single-kind: ROBOT_CONFIG_FILE := $(ROBOT_FAIL_SINGLE_PON_FILE)
-rwcore-restart-single-kind: ROBOT_FILE := Voltha_PODTests.robot
+rwcore-restart-single-kind: ROBOT_FILE := Voltha_FailureScenarios.robot
 rwcore-restart-single-kind: voltha-test
 
 single-kind: ROBOT_MISC_ARGS += -X -i $(TEST_TAGS) $(ROBOT_DEBUG_LOG_OPT)

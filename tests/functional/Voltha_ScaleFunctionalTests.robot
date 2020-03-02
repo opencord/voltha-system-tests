@@ -75,7 +75,7 @@ Verify AAA-Users Authentication
     ${List_ONU_Serial}    Create List
     Set Suite Variable    ${List_ONU_Serial}
     Build ONU SN List    ${List_ONU_Serial}
-    Wait Until Keyword Succeeds    ${long_timeout}    60s	Verify Number of AAA-Users	${k8s_node_ip}	${ONOS_SSH_PORT}	16
+    Wait Until Keyword Succeeds    ${long_timeout}    60s	Verify Number of AAA-Users	${ONOS_SSH_IP}	${ONOS_SSH_PORT}	16
 
 Validate Device's Ports and Flows
     [Documentation]    Verify Ports and Flows listed for OLT and ONUs
@@ -97,7 +97,7 @@ Verify Total Number Of Eapol Flows
     ...    For 16 ONUs we validate the number of flows to be 16 eapol flows
     [Tags]    VOL-1823    active
     #verify eapol flows added
-    Wait Until Keyword Succeeds    ${long_timeout}    5s    Verify Eapol Flows Added	${k8s_node_ip}	${ONOS_SSH_PORT}	16
+    Wait Until Keyword Succeeds    ${long_timeout}    5s    Verify Eapol Flows Added	${kONOS_SSH_IP}	${ONOS_SSH_PORT}	16
 
 Allocate DHCP To All ONU Devices
     [Documentation]    DHCP Allocation for all ONUs
@@ -111,14 +111,14 @@ Allocate DHCP To All ONU Devices
         ${onu_port}=    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds	${timeout}    2s
         ...	Get ONU Port in ONOS    ${src['onu']}    ${of_id}
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2
-        ...	Execute ONOS CLI Command	${k8s_node_ip}    ${ONOS_SSH_PORT}	volt-add-subscriber-access ${of_id} ${onu_port}
+        ...	Execute ONOS CLI Command	${ONOS_SSH_IP}    ${ONOS_SSH_PORT}	volt-add-subscriber-access ${of_id} ${onu_port}
     END
 
 Validate Total Number Of DHCP Allocations
     [Documentation]    Verify dhcp allocation for multiple ONU user
     [Tags]    VOL-1824    active
     #validate total number of DHCP allocations
-    Wait Until Keyword Succeeds  ${long_timeout}  20s  Validate DHCP Allocations  ${k8s_node_ip}
+    Wait Until Keyword Succeeds  ${long_timeout}  20s  Validate DHCP Allocations  ${ONOS_SSH_IP}
     ...	${ONOS_SSH_PORT}        16
     #validate DHCP allocation for each port
     FOR    ${I}    IN RANGE    0    ${num_onus}
@@ -127,7 +127,7 @@ Validate Total Number Of DHCP Allocations
         ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
         ${onu_port}=    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds	${timeout}    2s
 	...	Get ONU Port in ONOS    ${src['onu']}    ${of_id}
-	Wait Until Keyword Succeeds  ${long_timeout}  20s  Validate Subscriber DHCP Allocation	${k8s_node_ip}
+	Wait Until Keyword Succeeds  ${long_timeout}  20s  Validate Subscriber DHCP Allocation	${ONOS_SSH_IP}
 	...	${ONOS_SSH_PORT}	${onu_port}
     END
 
@@ -162,11 +162,11 @@ Setup Suite
 Teardown Suite
     [Documentation]    Clean up devices if desired
     ...    kills processes and cleans up interfaces on src+dst servers
-    Get ONOS Status    ${k8s_node_ip}    ${ONOS_SSH_PORT}
+    Get ONOS Status    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}
     Run Keyword If    ${has_dataplane}    Clean Up Linux
     Run Keyword If    ${teardown_device}    Delete Device and Verify
     Run Keyword If    ${teardown_device}    Test Empty Device List
-    Run Keyword If    ${teardown_device}    Execute ONOS CLI Command    ${k8s_node_ip}    ${ONOS_SSH_PORT}
+    Run Keyword If    ${teardown_device}    Execute ONOS CLI Command    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}
     ...    device-remove ${of_id}
 
 Clean Up Linux

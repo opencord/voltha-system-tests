@@ -384,11 +384,11 @@ Setup Suite
 Teardown Suite
     [Documentation]    Clean up devices if desired
     ...    kills processes and cleans up interfaces on src+dst servers
-    Get ONOS Status    ${k8s_node_ip}    ${ONOS_SSH_PORT}
+    Get ONOS Status    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}
     Run Keyword If    ${has_dataplane}    Clean Up Linux
     Run Keyword If    ${teardown_device}    Delete Device and Verify
     Run Keyword If    ${teardown_device}    Test Empty Device List
-    Run Keyword If    ${teardown_device}    Execute ONOS CLI Command    ${k8s_node_ip}    ${ONOS_SSH_PORT}
+    Run Keyword If    ${teardown_device}    Execute ONOS CLI Command    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}
     ...    device-remove ${of_id}
 
 Raise Alarm And Get Event

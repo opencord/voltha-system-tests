@@ -20,6 +20,8 @@
 has_dataplane: false
 teardown_device: true
 ONOS_REST_PORT: 8181
+ONOS_REST_IP: '10.233.6.204'
+ONOS_SSH_IP: '10.233.21.11'
 ONOS_SSH_PORT: 8101
 OLT_PORT: 50060
 
