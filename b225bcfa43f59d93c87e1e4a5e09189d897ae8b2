@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "cf68fe7a_84804781",
+        "filename": "Jenkinsfile-voltha-bal31-build",
+        "patchSetId": 7
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1000596
+      },
+      "writtenOn": "2020-03-02T23:40:49Z",
+      "side": 1,
+      "message": "We already downloaded the latest version by kind-voltha in this build job and it will be installed in kind-voltha/bin/.\n\nAccording to the previous discussion with Suchitra, we will always use the latest version of voltctl.\n\nThe problem we want to solve is how we pass the downloaded voltctl binary to another Jenkins job if there are belongs two different workspaces.\n\nFor example, one Jenkins Job will be triggered to run test if the build job success but how the robot command inside the prior Jenkins Job can call and access the voltctl command we downloaded in this Jenkins job.\n\nOne approach is downloaded the voltctl command in Jenkins Job which used to run tests. so we don\u0027t need to install it in this build pipeline. (by this approach, we can follow the way you provided in the test pipeline to download the latest version).\n\nThe second approach is what I did, let the kind-voltha to download the latest version and we copy to a place which can be accessed from other Jenkins pipeline.\n\nBoth ideas works for me.",
+      "parentUuid": "8e144a4d_05c692ce",
+      "range": {
+        "startLine": 100,
+        "startChar": 0,
+        "endLine": 100,
+        "endChar": 97
+      },
+      "revId": "b225bcfa43f59d93c87e1e4a5e09189d897ae8b2",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9d73697e_6b31bf31",
         "filename": "Jenkinsfile-voltha-build",
         "patchSetId": 7
