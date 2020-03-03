@@ -202,7 +202,8 @@ Check disabling of pre-provisioned OLT before enabling
 Disable and Delete the logical device directly
     [Documentation]    Disable and delete the logical device directly is not possible
     ...    since it is allowed only through OLT device deletion.
-    [Tags]    VOL-2418     DisableDelete_LogicalDevice    notready
+    ...    VOL-2418
+    [Tags]    functional     DisableDelete_LogicalDevice
     [Setup]   Run Keywords    Announce Message    START TEST DisableDelete_LogicalDevice
     ...       AND             Start Logging    DisableDelete_LogicalDevice
     ...       AND             Delete Device and Verify
@@ -241,7 +242,8 @@ Disable and Delete the logical device directly
 Check logical device creation and deletion
     [Documentation]    Deletes all devices, checks logical device, creates devices again and checks
     ...    logical device, flows, ports
-    [Tags]    VOL-2416    VOL-2417    LogicalDeviceCheck    notready
+    ...    VOL-2416 VOL-2417
+    [Tags]    functional    LogicalDeviceCheck
     [Setup]   Run Keywords    Announce Message    START TEST LogicalDeviceCheck
     ...       AND             Start Logging    LogicalDeviceCheck
     [Teardown]    Run Keywords    Collect Logs
