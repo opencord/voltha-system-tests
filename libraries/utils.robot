@@ -177,6 +177,9 @@ Perform Sanity Test
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2
         ...    Execute ONOS CLI Command    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}
         ...    volt-add-subscriber-access ${of_id} ${onu_port}
+        # Verify that no pending flows exist for the ONU port
+        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
+        ...    Verify No Pending Flows For ONU    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${onu_port}
         Run Keyword If    ${has_dataplane}    Run Keyword And Continue On Failure    Validate DHCP and Ping    True
         ...    True    ${src['dp_iface_name']}    ${src['s_tag']}    ${src['c_tag']}    ${dst['dp_iface_ip_qinq']}
         ...    ${src['ip']}    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
