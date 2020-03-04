@@ -82,6 +82,13 @@ Verify Eapol Flows Added
     ...    flows -s -f ADDED | grep eapol | grep IN_PORT | wc -l
     Should Contain    ${eapol_flows_added}    ${expected_flows}
 
+Verify No Pending Flows Added For ONU
+    [Arguments]    ${ip}    ${port}    ${onu_port}
+    [Documentation]    Verifies that there are no flows in "PENDING" state for the ONU
+    ${pending_flows_added}=    Execute ONOS CLI Command    ${ip}    ${port}
+    ...    flows -s | grep IN_PORT:${onu_port} | grep PENDING
+    Should Not Be Empty    ${pending_flows_added}
+
 Verify Eapol Flows Added For ONU
     [Arguments]    ${ip}    ${port}    ${onu_port}
     [Documentation]    Verifies if the Eapol Flows are added in ONOS for the ONU
