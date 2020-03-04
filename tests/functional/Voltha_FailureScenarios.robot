@@ -14,7 +14,7 @@
 
 *** Settings ***
 Documentation     Test various failure scenarios
-Suite Setup       Common Test Suite Setup
+Suite Setup       Setup Suite
 Test Setup        Setup
 Test Teardown     Teardown
 #Suite Teardown    Teardown Suite
@@ -424,6 +424,8 @@ ONU Reboot
 Setup Suite
     [Documentation]    Set up the test suite
     Common Test Suite Setup
+    #power_switch.robot needs it to support different vendor's power switch
+    Set Global Variable    ${powerswitch_type}    ${web_power_switch.type}
 
 Clear All Devices Then Create New Device
     [Documentation]    Remove any devices from VOLTHA and ONOS
