@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6f3ded26_804fffe6",
+        "filename": "Jenkinsfile-voltha-bal31-build",
+        "patchSetId": 2
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1000011
+      },
+      "writtenOn": "2020-03-05T20:37:26Z",
+      "side": 1,
+      "message": "should this be `-ofagent-go` to match: https://gerrit.opencord.org/c/17938/  ?",
+      "range": {
+        "startLine": 87,
+        "startChar": 127,
+        "endLine": 87,
+        "endChar": 141
+      },
+      "revId": "0f5744da46d2eb8a638f2c9d4471b708d4ed593f",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    }
+  ]
+}
