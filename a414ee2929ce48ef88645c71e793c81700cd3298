@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0d533ee2_b503a470",
+        "filename": "libraries/onos.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1000010
+      },
+      "writtenOn": "2020-03-05T22:53:42Z",
+      "side": 1,
+      "message": "Should Be Empty?",
+      "range": {
+        "startLine": 90,
+        "startChar": 4,
+        "endLine": 90,
+        "endChar": 23
+      },
+      "revId": "a414ee2929ce48ef88645c71e793c81700cd3298",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    }
+  ]
+}
