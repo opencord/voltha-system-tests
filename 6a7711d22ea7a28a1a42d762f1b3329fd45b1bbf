@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ea2bdb38_6a37284c",
+        "filename": "libraries/voltctl.robot",
+        "patchSetId": 5
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1000010
+      },
+      "writtenOn": "2020-03-05T15:50:09Z",
+      "side": 1,
+      "message": "We exit the for loop if we find a match or hit the end of the list without a match.  We should distinguish between these two cases.",
+      "range": {
+        "startLine": 148,
+        "startChar": 0,
+        "endLine": 148,
+        "endChar": 86
+      },
+      "revId": "6a7711d22ea7a28a1a42d762f1b3329fd45b1bbf",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "374e0330_2b33a4bb",
+        "filename": "tests/data/bbsim-kind.yaml",
+        "patchSetId": 5
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1000010
+      },
+      "writtenOn": "2020-03-05T15:50:09Z",
+      "side": 1,
+      "message": "Should these be hardcoded?  Won\u0027t they be different for each kind-voltha installation?",
+      "range": {
+        "startLine": 23,
+        "startChar": 0,
+        "endLine": 24,
+        "endChar": 27
+      },
+      "revId": "6a7711d22ea7a28a1a42d762f1b3329fd45b1bbf",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    }
+  ]
+}
