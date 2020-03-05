@@ -46,6 +46,30 @@
       "revId": "0f5744da46d2eb8a638f2c9d4471b708d4ed593f",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a725b7bd_14d6450e",
+        "filename": "Jenkinsfile-voltha-bal31-build",
+        "patchSetId": 2
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1000107
+      },
+      "writtenOn": "2020-03-05T20:49:49Z",
+      "side": 1,
+      "message": "Most of voltha uses go already, with go being the only option.",
+      "parentUuid": "45095afd_30f0466b",
+      "range": {
+        "startLine": 87,
+        "startChar": 127,
+        "endLine": 87,
+        "endChar": 141
+      },
+      "revId": "0f5744da46d2eb8a638f2c9d4471b708d4ed593f",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
     }
   ]
 }
