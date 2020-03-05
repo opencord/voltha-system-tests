@@ -83,6 +83,8 @@ node ("${TestNodeName}") {
                         export VOLTHA_ADAPTER_SIM_CHART=voltha-helm-charts/voltha-adapter-simulated
                         export VOLTHA_CHART=voltha-helm-charts/voltha
                         cd $WORKSPACE/kind-voltha
+                    elif ( ${ofagentGo} ); then
+                        export EXTRA_HELM_FLAGS='-f $WORKSPACE/${configBaseDir}/${configKubernetesDir}/voltha/${configFileName}-ofagent-go.yml'
                     else
                         export EXTRA_HELM_FLAGS='-f $WORKSPACE/${configBaseDir}/${configKubernetesDir}/voltha/${configFileName}.yml'
                     fi
@@ -108,7 +110,7 @@ node ("${TestNodeName}") {
                     }
                 }
             }
-            if ( params.configurePod && params.profile != "Default") {
+            if ( params.configurePod && params.profile != "Default" ) {
                 stage('Push Tech-Profile') {
                     timeout(1) {
                         out_push_tp = sh returnStatus: true, script: """
