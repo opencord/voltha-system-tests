@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "77770c99_df1957eb",
+        "filename": "libraries/utils.robot",
+        "patchSetId": 5
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1000010
+      },
+      "writtenOn": "2020-03-05T16:05:59Z",
+      "side": 1,
+      "message": "I think we could get rid of these now.",
+      "range": {
+        "startLine": 79,
+        "startChar": 0,
+        "endLine": 81,
+        "endChar": 42
+      },
+      "revId": "6a7711d22ea7a28a1a42d762f1b3329fd45b1bbf",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ea2bdb38_6a37284c",
         "filename": "libraries/voltctl.robot",
         "patchSetId": 5
@@ -36,6 +59,30 @@
       "writtenOn": "2020-03-05T15:50:09Z",
       "side": 1,
       "message": "Should these be hardcoded?  Won\u0027t they be different for each kind-voltha installation?",
+      "range": {
+        "startLine": 23,
+        "startChar": 0,
+        "endLine": 24,
+        "endChar": 27
+      },
+      "revId": "6a7711d22ea7a28a1a42d762f1b3329fd45b1bbf",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9e8a8026_52fe7cb7",
+        "filename": "tests/data/bbsim-kind.yaml",
+        "patchSetId": 5
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1000010
+      },
+      "writtenOn": "2020-03-05T16:05:59Z",
+      "side": 1,
+      "message": "OK I think these are unnecessary since the value of these variables is derived from the environment with default of k8s_node_ip",
+      "parentUuid": "374e0330_2b33a4bb",
       "range": {
         "startLine": 23,
         "startChar": 0,
