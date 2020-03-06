@@ -22,6 +22,30 @@
       "revId": "225a2c8e8e3e00fc482ae98bbe8f12a5e15215f2",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bdfdbd83_fa8f6d61",
+        "filename": "libraries/utils.robot",
+        "patchSetId": 7
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1000010
+      },
+      "writtenOn": "2020-03-06T00:56:17Z",
+      "side": 0,
+      "message": "Removing them was my suggestion.  I thought they were not needed.  Where are these used?",
+      "parentUuid": "700b4bc1_753ed873",
+      "range": {
+        "startLine": 76,
+        "startChar": 4,
+        "endLine": 77,
+        "endChar": 42
+      },
+      "revId": "225a2c8e8e3e00fc482ae98bbe8f12a5e15215f2",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
     }
   ]
 }
