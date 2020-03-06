@@ -31,7 +31,7 @@ Resource          ../../variables/variables.robot
 
 *** Variables ***
 ${timeout}         60s
-${long_timeout}	420
+${long_timeout}    420
 ${of_id}           0
 ${logical_id}      0
 ${has_dataplane}    True
@@ -50,11 +50,11 @@ Activate Devices OLT/ONU
     Set Global Variable    ${olt_device_id}
     #validate olt states
     Wait Until Keyword Succeeds    ${timeout}    5s    Validate OLT Device   PREPROVISIONED    UNKNOWN    UNKNOWN
-    ...	${EMPTY}	${olt_device_id}
+    ...    ${olt_device_id}
     #enable device
     Enable Device    ${olt_device_id}
     #validate olt states
-    Wait Until Keyword Succeeds    ${timeout}    5s    Validate OLT Device   ENABLED    ACTIVE    REACHABLE    ${EMPTY}
+    Wait Until Keyword Succeeds    ${timeout}    5s    Validate OLT Device   ENABLED    ACTIVE    REACHABLE
     ...    ${olt_device_id}
 
 ONU Discovery
@@ -75,7 +75,8 @@ Verify AAA-Users Authentication
     ${List_ONU_Serial}    Create List
     Set Suite Variable    ${List_ONU_Serial}
     Build ONU SN List    ${List_ONU_Serial}
-    Wait Until Keyword Succeeds    ${long_timeout}    60s	Verify Number of AAA-Users	${ONOS_SSH_IP}	${ONOS_SSH_PORT}	16
+    Wait Until Keyword Succeeds    ${long_timeout}    60s   Verify Number of AAA-Users    ${ONOS_SSH_IP}
+    ...    ${ONOS_SSH_PORT}    16
 
 Validate Device's Ports and Flows
     [Documentation]    Verify Ports and Flows listed for OLT and ONUs
@@ -97,7 +98,8 @@ Verify Total Number Of Eapol Flows
     ...    For 16 ONUs we validate the number of flows to be 16 eapol flows
     [Tags]    VOL-1823    active
     #verify eapol flows added
-    Wait Until Keyword Succeeds    ${long_timeout}    5s    Verify Eapol Flows Added	${kONOS_SSH_IP}	${ONOS_SSH_PORT}	16
+    Wait Until Keyword Succeeds    ${long_timeout}    5s    Verify Eapol Flows Added    ${ONOS_SSH_IP}
+    ...    ${ONOS_SSH_PORT}    16
 
 Allocate DHCP To All ONU Devices
     [Documentation]    DHCP Allocation for all ONUs
@@ -107,11 +109,12 @@ Allocate DHCP To All ONU Devices
     FOR    ${I}    IN RANGE    0    ${num_onus}
         ${src}=    Set Variable    ${hosts.src[${I}]}
         ${dst}=    Set Variable    ${hosts.dst[${I}]}
-	${onu_device_id}=    Get Device ID From SN    ${src['onu']}
-        ${onu_port}=    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds	${timeout}    2s
-        ...	Get ONU Port in ONOS    ${src['onu']}    ${of_id}
+        ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
+        ${onu_port}=    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
+        ...    Get ONU Port in ONOS    ${src['onu']}    ${of_id}
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2
-        ...	Execute ONOS CLI Command	${ONOS_SSH_IP}    ${ONOS_SSH_PORT}	volt-add-subscriber-access ${of_id} ${onu_port}
+        ...    Execute ONOS CLI Command    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}
+        ...    volt-add-subscriber-access ${of_id} ${onu_port}
     END
 
 Validate Total Number Of DHCP Allocations
@@ -119,16 +122,16 @@ Validate Total Number Of DHCP Allocations
     [Tags]    VOL-1824    active
     #validate total number of DHCP allocations
     Wait Until Keyword Succeeds  ${long_timeout}  20s  Validate DHCP Allocations  ${ONOS_SSH_IP}
-    ...	${ONOS_SSH_PORT}        16
+    ...    ${ONOS_SSH_PORT}        16
     #validate DHCP allocation for each port
     FOR    ${I}    IN RANGE    0    ${num_onus}
         ${src}=    Set Variable    ${hosts.src[${I}]}
         ${dst}=    Set Variable    ${hosts.dst[${I}]}
         ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
-        ${onu_port}=    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds	${timeout}    2s
-	...	Get ONU Port in ONOS    ${src['onu']}    ${of_id}
-	Wait Until Keyword Succeeds  ${long_timeout}  20s  Validate Subscriber DHCP Allocation	${ONOS_SSH_IP}
-	...	${ONOS_SSH_PORT}	${onu_port}
+        ${onu_port}=    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds  ${timeout}    2s
+        ...    Get ONU Port in ONOS    ${src['onu']}    ${of_id}
+        Wait Until Keyword Succeeds  ${long_timeout}  20s  Validate Subscriber DHCP Allocation  ${ONOS_SSH_IP}
+        ...    ${ONOS_SSH_PORT}    ${onu_port}
     END
 
 Validate Logical Device
