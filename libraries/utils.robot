@@ -302,10 +302,10 @@ Repeat Sanity Test
         ...    Get ONU Port in ONOS    ${src['onu']}    ${of_id}
         # Check ONU port is Enabled in ONOD
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds   120s   2s
-        ...    Verify ONU Port Is Enabled   ${ONOS_SSH_PORT}    ${ONOS_SSH_PORT}    ${onu_port}
+        ...    Verify ONU Port Is Enabled   ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${onu_port}
         # Verify EAPOL flows are added for the ONU port
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
-        ...    Verify Eapol Flows Added For ONU    ${ONOS_SSH_PORT}    ${ONOS_SSH_PORT}    ${onu_port}
+        ...    Verify Eapol Flows Added For ONU    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${onu_port}
         # Verify ONU state in voltha
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s    Validate Device
         ...    ENABLED    ACTIVE    REACHABLE
@@ -316,9 +316,9 @@ Repeat Sanity Test
         ...    True    ${src['dp_iface_name']}    ${src['ip']}    ${src['user']}    ${src['pass']}
         ...    ${src['container_type']}    ${src['container_name']}
         Wait Until Keyword Succeeds    ${timeout}    2s
-        ...    Verify ONU in AAA-Users    ${ONOS_SSH_PORT}    ${ONOS_SSH_PORT}     ${onu_port}
+        ...    Verify ONU in AAA-Users    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}     ${onu_port}
         Wait Until Keyword Succeeds    ${timeout}    2s
-        ...    Execute ONOS CLI Command    ${ONOS_SSH_PORT}    ${ONOS_SSH_PORT}
+        ...    Execute ONOS CLI Command    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}
         ...    volt-add-subscriber-access ${of_id} ${onu_port}
         Run Keyword If    ${has_dataplane}    Run Keyword And Continue On Failure
         ...    Validate DHCP and Ping    True    True
@@ -327,7 +327,7 @@ Repeat Sanity Test
         ...    ${dst['dp_iface_name']}    ${dst['ip']}    ${dst['user']}    ${dst['pass']}    ${dst['container_type']}
         ...    ${dst['container_name']}
         Wait Until Keyword Succeeds    ${timeout}    2s    Run Keyword And Continue On Failure
-        ...    Validate Subscriber DHCP Allocation    ${ONOS_SSH_PORT}    ${ONOS_SSH_PORT}    ${onu_port}
+        ...    Validate Subscriber DHCP Allocation    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${onu_port}
         Run Keyword and Ignore Error   Get Device Output from Voltha    ${onu_device_id}
         Run Keyword and Ignore Error   Collect Logs
     END
