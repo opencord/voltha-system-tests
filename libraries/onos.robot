@@ -104,6 +104,14 @@ Verify ONU Port Is Enabled
     Log    ${onu_port_enabled}
     Should Not Be Empty    ${onu_port_enabled}
 
+Verify ONU Port Is Disabled
+    [Arguments]    ${ip}    ${port}    ${onu_port}
+    [Documentation]    Verifies if the ONU port is disabled in ONOS
+    ${onu_port_disabled}=    Execute ONOS CLI Command    ${ip}    ${port}
+    ...    ports -e | grep port=${onu_port}
+    Log    ${onu_port_disabled}
+    Should Be Empty    ${onu_port_disabled}
+
 Verify ONU in AAA-Users
     [Arguments]    ${ip}    ${port}    ${onu_port}
     [Documentation]    Verifies that the specified onu_port exists in aaa-users output

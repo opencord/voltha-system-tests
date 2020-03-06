@@ -61,7 +61,7 @@ Sanity E2E Test for OLT/ONU on POD for DT
     ...    Traffic sent with same vlan from different RGs,
     ...    should reach the NNI port on the OLT with the expected double tagged vlan ids
     ...    Inner vlans from the RG should not change
-    [Tags]    sanityDt    bbsim    test1
+    [Tags]    sanityDt    bbsim
     [Setup]    Run Keywords    Announce Message    START TEST SanityTestDt
     ...        AND             Start Logging    SanityTestDt
     ...        AND             Setup
@@ -73,7 +73,7 @@ Sanity E2E Test for OLT/ONU on POD for DT
 
 Test Subscriber Delete and Add for DT
     [Documentation]    Validates E2E Ping Connectivity and object states for the given scenario:
-    ...    Assuming that all the ONUs are DHCP/pingable (i.e. assuming test1 was executed)
+    ...    Assuming that all the ONUs are DHCP/pingable (i.e. assuming sanityDt test was executed)
     ...    Delete a subscriber and validate that the pings do not succeed and state is purged
     ...    Disable and Enable the ONU (This is to replicate the existing DT behaviour)
     ...    Re-add the subscriber, and validate that the flows are present and pings are successful
@@ -141,6 +141,50 @@ Test Subscriber Delete and Add for DT
     Log    ${List_ONU_Serial}
     Run Keyword    Wait Until Keyword Succeeds    ${timeout}    5s    Validate ONU Flows
     ...    ${List_ONU_Serial}    ${onu_flows}
+
+Test Disable and Enable ONU for DT
+    [Documentation]    Validates E2E Ping Connectivity and object states for the given scenario:
+    ...    Assuming that all the ONUs are DHCP/pingable (i.e. assuming sanityDt test was executed)
+    ...    Perform disable on the ONUs and validate that the pings do not succeed
+    ...    Perform enable on the ONUs and validate that the pings are successful
+    [Tags]    functionalDt    DisableEnableONUDt    bbsim    released
+    [Setup]    Run Keywords    Announce Message    START TEST DisableEnableONUDt
+    ...        AND             Start Logging    DisableEnableONUDt
+    [Teardown]    Run Keywords    Collect Logs
+    ...           AND             Stop Logging    DisableEnableONUDt
+    ...           AND             Announce Message    END TEST DisableEnableONUDt
+    FOR    ${I}    IN RANGE    0    ${num_onus}
+        ${src}=    Set Variable    ${hosts.src[${I}]}
+        ${dst}=    Set Variable    ${hosts.dst[${I}]}
+        ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
+        ${onu_port}=    Wait Until Keyword Succeeds    ${timeout}    2s    Get ONU Port in ONOS    ${src['onu']}
+        ...    ${of_id}
+        Disable Device    ${onu_device_id}
+        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
+        ...    Validate Device    DISABLED    UNKNOWN
+        ...    REACHABLE    ${src['onu']}    onu=True    onu_reason=omci-admin-lock
+        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds   ${timeout}    2s
+        ...    Verify ONU Port Is Disabled   ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${onu_port}
+        # TODO: Yet to Verify on the Physical POD
+        Run Keyword If    ${has_dataplane}    Run Keyword And Continue On Failure
+        ...    Wait Until Keyword Succeeds    60s    2s
+        ...    Check Ping    False    ${dst['dp_iface_ip_qinq']}    ${src['dp_iface_name']}
+        ...    ${src['ip']}    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
+        Sleep    5s
+        Enable Device    ${onu_device_id}
+        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
+        ...    Validate Device    ENABLED    ACTIVE
+        ...    REACHABLE    ${src['onu']}    onu=True    onu_reason=onu-reenabled
+        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds   ${timeout}    2s
+        ...    Verify ONU Port Is Enabled   ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${onu_port}
+        # TODO: Yet to Verify on the Physical POD
+        Run Keyword If    ${has_dataplane}    Run Keyword And Continue On Failure
+        ...    Wait Until Keyword Succeeds    60s    2s
+        ...    Check Ping    True    ${dst['dp_iface_ip_qinq']}    ${src['dp_iface_name']}
+        ...    ${src['ip']}    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
+        Run Keyword and Ignore Error    Get Device Output from Voltha    ${onu_device_id}
+        Run Keyword and Ignore Error    Collect Logs
+    END
 
 *** Keywords ***
 Setup Suite
