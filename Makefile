@@ -131,7 +131,7 @@ voltha-dt-test: vst_venv
 vst_venv:
 	virtualenv -p python3 $@ ;\
 	source ./$@/bin/activate ;\
-	python3 ./$@/bin/pip install -r requirements.txt
+	python -m pip install -r requirements.txt
 
 test: lint
 
