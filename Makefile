@@ -127,10 +127,11 @@ voltha-dt-test: vst_venv
 # self-test, lint, and setup targets
 
 # virtualenv for the robot tools
+# VOL-2724 Invoke pip via python3 to avoid pathname too long on QA jobs
 vst_venv:
 	virtualenv -p python3 $@ ;\
 	source ./$@/bin/activate ;\
-	pip install -r requirements.txt
+	python3 ./$@/bin/pip install -r requirements.txt
 
 test: lint
 
