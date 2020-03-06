@@ -2,6 +2,98 @@
   "comments": [
     {
       "key": {
+        "uuid": "cd517159_83a1ea66",
+        "filename": "libraries/onos.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2020-03-06T09:18:42Z",
+      "side": 1,
+      "message": "Pending Add",
+      "range": {
+        "startLine": 85,
+        "startChar": 10,
+        "endLine": 85,
+        "endChar": 17
+      },
+      "revId": "a414ee2929ce48ef88645c71e793c81700cd3298",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "114e9a43_63977fbb",
+        "filename": "libraries/onos.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2020-03-06T09:18:42Z",
+      "side": 1,
+      "message": "remove added",
+      "range": {
+        "startLine": 85,
+        "startChar": 24,
+        "endLine": 85,
+        "endChar": 29
+      },
+      "revId": "a414ee2929ce48ef88645c71e793c81700cd3298",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f3510b6d_4f2854ea",
+        "filename": "libraries/onos.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2020-03-06T09:18:42Z",
+      "side": 1,
+      "message": "just for consistency I\u0027d call this onos_pending_add_flows. pending and added in the same name threw me off a bit",
+      "range": {
+        "startLine": 88,
+        "startChar": 6,
+        "endLine": 88,
+        "endChar": 25
+      },
+      "revId": "a414ee2929ce48ef88645c71e793c81700cd3298",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "70c1f804_11ff5e0f",
+        "filename": "libraries/onos.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2020-03-06T09:18:42Z",
+      "side": 1,
+      "message": "PENDING_ADD is the exact state",
+      "range": {
+        "startLine": 89,
+        "startChar": 54,
+        "endLine": 89,
+        "endChar": 61
+      },
+      "revId": "a414ee2929ce48ef88645c71e793c81700cd3298",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0d533ee2_b503a470",
         "filename": "libraries/onos.robot",
         "patchSetId": 1
