@@ -71,6 +71,30 @@
     },
     {
       "key": {
+        "uuid": "e0eccb96_926d8d8c",
+        "filename": "libraries/onos.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1000068
+      },
+      "writtenOn": "2020-03-06T21:14:01Z",
+      "side": 1,
+      "message": "I agree",
+      "parentUuid": "f3510b6d_4f2854ea",
+      "range": {
+        "startLine": 88,
+        "startChar": 6,
+        "endLine": 88,
+        "endChar": 25
+      },
+      "revId": "a414ee2929ce48ef88645c71e793c81700cd3298",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "70c1f804_11ff5e0f",
         "filename": "libraries/onos.robot",
         "patchSetId": 1
@@ -82,6 +106,30 @@
       "writtenOn": "2020-03-06T09:18:42Z",
       "side": 1,
       "message": "PENDING_ADD is the exact state",
+      "range": {
+        "startLine": 89,
+        "startChar": 54,
+        "endLine": 89,
+        "endChar": 61
+      },
+      "revId": "a414ee2929ce48ef88645c71e793c81700cd3298",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "68a0c2aa_e200ab89",
+        "filename": "libraries/onos.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1000068
+      },
+      "writtenOn": "2020-03-06T21:14:01Z",
+      "side": 1,
+      "message": "What about PENDING_REMOVE?",
+      "parentUuid": "70c1f804_11ff5e0f",
       "range": {
         "startLine": 89,
         "startChar": 54,
