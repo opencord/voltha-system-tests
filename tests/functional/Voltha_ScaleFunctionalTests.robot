@@ -50,11 +50,11 @@ Activate Devices OLT/ONU
     Set Global Variable    ${olt_device_id}
     #validate olt states
     Wait Until Keyword Succeeds    ${timeout}    5s    Validate OLT Device   PREPROVISIONED    UNKNOWN    UNKNOWN
-    ...	${EMPTY}	${olt_device_id}
+    ...	${olt_device_id}
     #enable device
     Enable Device    ${olt_device_id}
     #validate olt states
-    Wait Until Keyword Succeeds    ${timeout}    5s    Validate OLT Device   ENABLED    ACTIVE    REACHABLE    ${EMPTY}
+    Wait Until Keyword Succeeds    ${timeout}    5s    Validate OLT Device   ENABLED    ACTIVE    REACHABLE
     ...    ${olt_device_id}
 
 ONU Discovery
@@ -97,7 +97,7 @@ Verify Total Number Of Eapol Flows
     ...    For 16 ONUs we validate the number of flows to be 16 eapol flows
     [Tags]    VOL-1823    active
     #verify eapol flows added
-    Wait Until Keyword Succeeds    ${long_timeout}    5s    Verify Eapol Flows Added	${kONOS_SSH_IP}	${ONOS_SSH_PORT}	16
+    Wait Until Keyword Succeeds    ${long_timeout}    5s    Verify Eapol Flows Added	${ONOS_SSH_IP}	${ONOS_SSH_PORT}	16
 
 Allocate DHCP To All ONU Devices
     [Documentation]    DHCP Allocation for all ONUs

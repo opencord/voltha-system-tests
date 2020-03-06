@@ -109,7 +109,7 @@ failure-test: voltha-test
 
 bbsim-alarms-kind: ROBOT_MISC_ARGS += -X -i active
 bbsim-alarms-kind: ROBOT_FILE := Voltha_AlarmTests.robot
-bbsim-alarms-kind: ROBOT_CONFIG_FILE := $(ROBOT_SCALE_SINGLE_PON_FILE)
+bbsim-alarms-kind: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_SINGLE_PON_FILE)
 bbsim-alarms-kind: voltctl-docker-image-build voltctl-docker-image-install-kind voltha-test
 
 voltha-test: ROBOT_MISC_ARGS += -e notready
@@ -131,7 +131,7 @@ voltha-dt-test: vst_venv
 vst_venv:
 	virtualenv -p python3 $@ ;\
 	source ./$@/bin/activate ;\
-	python3 ./$@/bin/pip install -r requirements.txt
+	python -m pip install -r requirements.txt
 
 test: lint
 
