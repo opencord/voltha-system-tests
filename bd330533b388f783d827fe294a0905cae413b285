@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cd7284a4_234a3102",
+        "filename": "tests/dt-workflow/Voltha_DT_PODTests.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1000064
+      },
+      "writtenOn": "2020-03-06T23:01:52Z",
+      "side": 1,
+      "message": "I would suggest to remove \"test1\" from this suite and just use \"SanityTestDt\" for the scenario. Please remove the tag from the first test case.",
+      "range": {
+        "startLine": 147,
+        "startChar": 71,
+        "endLine": 147,
+        "endChar": 76
+      },
+      "revId": "bd330533b388f783d827fe294a0905cae413b285",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    }
+  ]
+}
