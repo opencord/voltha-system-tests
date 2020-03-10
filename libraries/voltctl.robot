@@ -51,9 +51,16 @@ Enable Device
 
 Disable Device
     [Arguments]    ${device_id}
-    [Documentation]    Enables a device in VOLTHA
+    [Documentation]    Disables a device in VOLTHA
     ${rc}    ${output}=    Run and Return Rc and Output
     ...    ${VOLTCTL_CONFIG}; voltctl device disable ${device_id}
+    Should Be Equal As Integers    ${rc}    0
+
+Delete Device
+    [Arguments]    ${device_id}
+    [Documentation]    Deletes a device in VOLTHA
+    ${rc}    ${output}=    Run and Return Rc and Output
+    ...    ${VOLTCTL_CONFIG}; voltctl device delete ${device_id}
     Should Be Equal As Integers    ${rc}    0
 
 Disable Devices In Voltha
