@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "46d4a065_063c95e0",
+        "filename": "tests/dt-workflow/Voltha_DT_PODTests.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 1000064
+      },
+      "writtenOn": "2020-03-10T19:30:55Z",
+      "side": 1,
+      "message": "I like the validations performed in the test.  I feel that other tests could utilize these checks.  Can we add this to another keyword (something like \"Validate ONUs after OLT disable\") ?",
+      "range": {
+        "startLine": 205,
+        "startChar": 3,
+        "endLine": 224,
+        "endChar": 7
+      },
+      "revId": "943302f66cf93a2c126c6f74ee1b338e001bb7f3",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    }
+  ]
+}
