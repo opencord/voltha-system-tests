@@ -425,7 +425,8 @@ Setup Suite
     [Documentation]    Set up the test suite
     Common Test Suite Setup
     #power_switch.robot needs it to support different vendor's power switch
-    Set Global Variable    ${powerswitch_type}    ${web_power_switch.type}
+    ${switch_type}=    Get Variable Value    ${web_power_switch.type}
+    Run Keyword If  "${switch_type}"!=""    Set Global Variable    ${powerswitch_type}    ${switch_type}
 
 Clear All Devices Then Create New Device
     [Documentation]    Remove any devices from VOLTHA and ONOS
