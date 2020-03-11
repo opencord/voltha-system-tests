@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2513779b_75d4e2a0",
+        "filename": "tests/data/multiple-bbsim-kind.yaml",
+        "patchSetId": 7
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1000514
+      },
+      "writtenOn": "2020-03-11T10:58:55Z",
+      "side": 1,
+      "message": "I guess the onu serial number should come up in the format as: BBSM00010001, BBSM00020001 etc. Can you please confirm?",
+      "revId": "8c9acc45bfbb91494e5612c4682ddc99f2779338",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    }
+  ]
+}
