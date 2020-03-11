@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "a67deff4_6f37c3f3",
+        "filename": "libraries/voltctl.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1000514
+      },
+      "writtenOn": "2020-03-11T09:31:35Z",
+      "side": 1,
+      "message": "Hi Suchitra, \nI observed that in various TCs we are doing delete of a device but by directly calling voltctl command. With this in, I am planning to create another JIRA ticket to generalize those all to use this keyword. Please let me know your thoughts.",
+      "revId": "943302f66cf93a2c126c6f74ee1b338e001bb7f3",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "46d4a065_063c95e0",
         "filename": "tests/dt-workflow/Voltha_DT_PODTests.robot",
         "patchSetId": 1
