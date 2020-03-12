@@ -92,15 +92,17 @@ WPA Reassociate
         ...    wpa_cli -i ${iface} reassociate    ${ip}    ${user}
         ...    ${pass}    ${container_type}    ${container_name}
         ${passed}=    Run Keyword And Return Status    Should Contain    ${output}    OK
-        Run Keyword If    ${passed}    Exit For Loop
+        Exit For Loop If    ${passed}
     END
+    Should Be True    ${passed}    Status does not contain 'SUCCESS'
     FOR    ${i}    IN RANGE    70
         ${output}=    Login And Run Command On Remote System
         ...    wpa_cli -i ${iface} status | grep SUCCESS    ${ip}    ${user}
         ...    ${pass}    ${container_type}    ${container_name}
         ${passed}=    Run Keyword And Return Status    Should Contain    ${output}    SUCCESS
-        Run Keyword If    ${passed}    Exit For Loop
+        Exit For Loop If    ${passed}
     END
+    Should Be True    ${passed}    Status does not contain 'SUCCESS'
 
 Validate Authentication After Reassociate
     [Arguments]    ${auth_pass}    ${iface}    ${ip}    ${user}    ${pass}=${None}

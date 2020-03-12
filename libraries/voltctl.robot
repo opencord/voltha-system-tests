@@ -154,10 +154,9 @@ Validate Device
         ${devId}=    Get From Dictionary    ${value}    id
         ${mib_state}=    Get From Dictionary    ${value}    reason
         ${matched}=    Set Variable If    '${sn}' == '${id}' or '${devId}' == '${id}'    True    False
-        Run Keyword If    ${matched}    Exit For Loop
+        Exit For Loop If    ${matched}
     END
-    Should Be True    ${matched}
-    ...    No match found for ${id} to validate device
+    Should Be True    ${matched}    No match found for ${id} to validate device
     Log    ${value}
     Should Be Equal    '${astate}'    '${admin_state}'    Device ${sn} admin_state != ${admin_state}
     ...    values=False
@@ -298,12 +297,15 @@ Retrieve Peer List From OLT
     ${jsondata}=    To Json    ${output}
     Log    ${jsondata}
     ${length}=    Get Length    ${jsondata}
+    ${matched}=    Set Variable    False
     FOR    ${INDEX}    IN RANGE    0    ${length}
         ${value}=    Get From List    ${jsondata}    ${INDEX}
         ${type}=    Get From Dictionary    ${value}    type
         ${peers}=    Get From Dictionary    ${value}    peers
-        Run Keyword If    '${type}' == 'PON_OLT'    Exit For Loop
+        ${matched}=    Set Variable If    '${type}' == 'PON_OLT'    True    False
+        Exit For Loop If    ${matched}
     END
+    Should Be True    ${matched}    No PON port found for OLT ${olt_device_id}
     ${length}=    Get Length    ${peers}
     FOR    ${INDEX}    IN RANGE    0    ${length}
         ${value}=    Get From List    ${peers}    ${INDEX}
@@ -326,12 +328,14 @@ Match OLT Peer Id
     ${jsondata}=    To Json    ${output}
     Log    ${jsondata}
     ${length}=    Get Length    ${jsondata}
+    ${matched}=    Set Variable    False
     FOR    ${INDEX}    IN RANGE    0    ${length}
         ${value}=    Get From List    ${jsondata}    ${INDEX}
         ${devid}=    Get From Dictionary    ${value}    id
-        Run Keyword If    '${devid}' == '${olt_peer_id}'    Exit For Loop
-        Run Keyword If    '${INDEX}' == '${length}'    Fail    Peer id ${olt_peer_id} does not match any ONU device id;
+        ${matched}=    Set Variable If    '${devid}' == '${olt_peer_id}'    True    False
+        Exit For Loop If    ${matched}
     END
+    Should Be True    ${matched}    Peer id ${olt_peer_id} does not match any ONU device id
 
 Validate ONU Peer Id
     [Arguments]    ${olt_device_id}    ${List_ONU_Serial}
@@ -350,12 +354,15 @@ Match ONU Peer Id
     ${jsondata}=    To Json    ${output}
     Log    ${jsondata}
     ${length}=    Get Length    ${jsondata}
+    ${matched}=    Set Variable    False
     FOR    ${INDEX}    IN RANGE    0    ${length}
         ${value}=    Get From List    ${jsondata}    ${INDEX}
         ${type}=    Get From Dictionary    ${value}    type
         ${peers}=    Get From Dictionary    ${value}    peers
-        Run Keyword If    '${type}' == 'PON_ONU'    Exit For Loop
+        ${matched}=    Set Variable If    '${type}' == 'PON_ONU'    True    False
+        Exit For Loop If    ${matched}
     END
+    Should Be True    ${matched}    No PON port found for ONU ${onu_dev_id}
     ${length}=    Get Length    ${peers}
     FOR    ${INDEX}    IN RANGE    0    ${length}
         ${value}=    Get From List    ${peers}    ${INDEX}

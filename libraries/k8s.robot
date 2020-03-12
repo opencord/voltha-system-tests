@@ -89,14 +89,17 @@ Apply Kubernetes Resources
 Validate Pod Status
     [Arguments]    ${pod_name}    ${namespace}   ${expectedStatus}
     [Documentation]    To run the kubectl command and check the status of the given pod matches the expected status
-    ${length}=    Run    kubectl get pod -n ${namespace} | wc -l
-    FOR    ${index}    IN RANGE    ${length}-1
+    ${length}=    Run    kubectl get pod -n ${namespace} -o name | wc -l
+    ${matched}=    Set Variable    False
+    FOR    ${index}    IN RANGE    ${length}
         ${currentPodName}=    Run
         ...    kubectl get pod -n ${namespace} -o=jsonpath="{.items[${index}].status.containerStatuses[0].name}"
         Log    Required Pod : ${pod_name}
         Log    Current Pod: ${currentPodName}
-        Run Keyword and Ignore Error    Run Keyword If    '${currentPodName}'=='${pod_name}'    Exit For Loop
+        ${matched}=    Set Variable If    '${currentPodName}'=='${pod_name}'    True    False
+        Exit For Loop If    ${matched}
     END
+    Should Be True    ${matched}    No pod ${podname} found
     ${currentStatusofPod}=    Run
     ...    kubectl get pod -n ${namespace} -o=jsonpath="{.items[${index}].status.phase}"
     Log    ${currentStatusofPod}
@@ -268,7 +271,7 @@ Pod Exists
     [Documentation]    Succeeds it the named POD exists
     ${rc}    ${count}    Run and Return Rc
     ...    kubectl get -n ${namespace} pod -o json | jq -r ".items[].metadata.name" | grep ${name}
-    Should Be True    ${count}>0
+    Should Be True    ${count}>0    Pod ${name} not found
 
 Pod Does Not Exist
     [Arguments]    ${namespace}    ${name}
@@ -276,7 +279,7 @@ Pod Does Not Exist
     ${rc}    ${count}    Run and Return Rc And Output
     ...    kubectl get -n ${namespace} pod -o json | jq -r ".items[].metadata.name" | grep -c ${name}
     Should Be Equal As Integers    ${count}    0
-    Should Be True    ${count}==0
+    Should Be True    ${count}==0    Pod ${name} exists but should not
 
 Pods Do Not Exist By Label
     [Arguments]    ${namespace}    ${key}    ${value}
@@ -284,7 +287,7 @@ Pods Do Not Exist By Label
     ${rc}    ${count}    Run and Return Rc And Output
     ...    kubectl get -n ${namespace} pod -l${key}=${value} -o json | jq -r ".items[].metadata.name" | wc -l
     Should Be Equal As Integers    ${count}    0
-    Should Be True    ${count}==0
+    Should Be True    ${count}==0    Pod with label ${key}=${value} exists but should not
 
 Get Available Deployment Replicas
     [Arguments]    ${namespace}    ${name}
