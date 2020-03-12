@@ -223,6 +223,7 @@ Test Disable and Delete OLT for DT
     # Re-do Setup (Recreate the OLT) and Perform Sanity Test DT
     Run Keyword    Setup
     Wait Until Keyword Succeeds    ${timeout}   2s    Perform Sanity Test DT
+    Run Keyword If    ${has_dataplane}    Clean Up Linux
 
 *** Keywords ***
 Setup Suite
