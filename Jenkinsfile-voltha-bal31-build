@@ -90,7 +90,11 @@ node ("${TestNodeName}") {
                     fi
 
                     # VOL-2194 ONOS SSH and REST ports hardcoded to 30115/30120 in tests
-                    ONOS_SSH_PORT=30115 ONOS_API_PORT=30120 VOLTHA_LOG_LEVEL=DEBUG WITH_SIM_ADAPTERS=n WITH_RADIUS=y WITH_TP=yes DEPLOY_K8S=no INSTALL_KUBECTL=no INSTALL_HELM=no FANCY=0 ./voltha up
+                    if [[ "${workFlow}" == "DT" ]]; then
+                       ONOS_SSH_PORT=30115 ONOS_API_PORT=30120 VOLTHA_LOG_LEVEL=DEBUG WITH_SIM_ADAPTERS=n WITH_RADIUS=y WITH_TP=yes DEPLOY_K8S=no INSTALL_KUBECTL=no INSTALL_HELM=no WITH_EAPOL=no WITH_DHCP=no WITH_IGMP=no FANCY=0 ./voltha up
+                    else
+                       ONOS_SSH_PORT=30115 ONOS_API_PORT=30120 VOLTHA_LOG_LEVEL=DEBUG WITH_SIM_ADAPTERS=n WITH_RADIUS=y WITH_TP=yes DEPLOY_K8S=no INSTALL_KUBECTL=no INSTALL_HELM=no FANCY=0 ./voltha up
+                    fi
 
                     kubectl get pods --all-namespaces -o jsonpath="{range .items[*].status.containerStatuses[*]}{.image}{'\\t'}{.imageID}{'\\n'}" | sort | uniq -c
                     kubectl get nodes -o wide
@@ -135,12 +139,13 @@ node ("${TestNodeName}") {
                     sadis_out = sh returnStatus: true, script: """
                     if [[ "${onosVersion}" == "1.13.9" ]]; then
                         curl -sSL --user karaf:karaf -X POST -H Content-Type:application/json http://${deployment_config.nodes[0].ip}:30120/onos/v1/network/configuration --data @$WORKSPACE/voltha-system-tests/tests/data/${configFileName}-${onosVersion}-sadis.json
+                    elif [[ "${workFlow}" == "DT" ]]; then
+                        curl -sSL --user karaf:karaf -X POST -H Content-Type:application/json http://${deployment_config.nodes[0].ip}:30120/onos/v1/network/configuration --data @$WORKSPACE/voltha-system-tests/tests/data/${configFileName}-sadis-DT.json
                     else
                         curl -sSL --user karaf:karaf -X POST -H Content-Type:application/json http://${deployment_config.nodes[0].ip}:30120/onos/v1/network/configuration --data @$WORKSPACE/voltha-system-tests/tests/data/${configFileName}-sadis.json
                     fi
-
-                        """
-                        return sadis_out == 0
+                    """
+                    return sadis_out == 0
                 }
             }
             if ( params.reinstallOlt ) {
