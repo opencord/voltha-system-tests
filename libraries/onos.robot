@@ -33,13 +33,15 @@ Validate OLT Device in ONOS
     Should Not Be Empty    ${jsondata['devices']}
     ${length}=    Get Length    ${jsondata['devices']}
     @{serial_numbers}=    Create List
-    FOR    ${INDEX}    IN RANGE    0    ${length}
+    ${matched}=    Set Variable    False
+    FOR    ${INDEX}    IN RANGE    ${length}
         ${value}=    Get From List    ${jsondata['devices']}    ${INDEX}
         ${of_id}=    Get From Dictionary    ${value}    id
         ${sn}=    Get From Dictionary    ${value}    serial
-        Run Keyword If    '${sn}' == '${serial_number}'    Exit For Loop
+        ${matched}=    Set Variable If    '${sn}' == '${serial_number}'    True    False
+        Exit For Loop If    ${matched}
     END
-    Should Be Equal As Strings    ${sn}    ${serial_number}
+    Should Be True    ${matched}    No match for ${serial_number} found
     [Return]    ${of_id}
 
 Get ONU Port in ONOS
@@ -51,14 +53,16 @@ Get ONU Port in ONOS
     Should Not Be Empty    ${jsondata['ports']}
     ${length}=    Get Length    ${jsondata['ports']}
     @{ports}=    Create List
+    ${matched}=    Set Variable    False
     FOR    ${INDEX}    IN RANGE    0    ${length}
         ${value}=    Get From List    ${jsondata['ports']}    ${INDEX}
         ${annotations}=    Get From Dictionary    ${value}    annotations
         ${onu_port}=    Get From Dictionary    ${value}    port
         ${portName}=    Get From Dictionary    ${annotations}    portName
-        Run Keyword If    '${portName}' == '${onu_serial_number}'    Exit For Loop
+        ${matched}=    Set Variable If    '${portName}' == '${onu_serial_number}'    True    False
+        Exit For Loop If    ${matched}
     END
-    Should Be Equal As Strings    ${portName}    ${onu_serial_number}
+    Should Be True    ${matched}    No match for ${onu_serial_number} found
     [Return]    ${onu_port}
 
 Get FabricSwitch in ONOS
@@ -67,12 +71,15 @@ Get FabricSwitch in ONOS
     ${jsondata}=    To Json    ${resp.content}
     Should Not Be Empty    ${jsondata['devices']}
     ${length}=    Get Length    ${jsondata['devices']}
+    ${matched}=    Set Variable    False
     FOR    ${INDEX}    IN RANGE    0    ${length}
         ${value}=    Get From List    ${jsondata['devices']}    ${INDEX}
         ${of_id}=    Get From Dictionary    ${value}    id
         ${type}=    Get From Dictionary    ${value}    type
-        Run Keyword If    '${type}' == "SWITCH"    Exit For Loop
+        ${matched}=    Set Variable If    '${type}' == "SWITCH"    True    False
+        Exit For Loop If    ${matched}
     END
+    Should Be True    ${matched}    No fabric switch found
     [Return]    ${of_id}
 
 Verify Eapol Flows Added
