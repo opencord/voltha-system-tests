@@ -416,13 +416,15 @@ Clear Onu Alarm And Get Event
 Raise Onu Alarm
     [Documentation]    Raise an Alarm
     [Arguments]    ${name}    ${sn}
-    ${raiseOutput}    Exec Pod    ${BBSIMCTL_NAMESPACE}     ${BBSIMCTL_POD_NAME}    bbsimctl onu alarms raise ${name} ${sn}
+    ${raiseOutput}    Exec Pod    ${BBSIMCTL_NAMESPACE}     ${BBSIMCTL_POD_NAME}
+    ...    bbsimctl onu alarms raise ${name} ${sn}
     Should Contain    ${raiseOutput}    Alarm Indication Sent
 
 Clear Onu Alarm
     [Documentation]    Raise an Alarm
     [Arguments]    ${name}    ${sn}
-    ${raiseOutput}    Exec Pod    ${BBSIMCTL_NAMESPACE}     ${BBSIMCTL_POD_NAME}    bbsimctl onu alarms clear ${name} ${sn}
+    ${raiseOutput}    Exec Pod    ${BBSIMCTL_NAMESPACE}     ${BBSIMCTL_POD_NAME}
+    ...    bbsimctl onu alarms clear ${name} ${sn}
     Should Contain    ${raiseOutput}    Alarm Indication Sent
 
 # Olt Alarms
@@ -450,13 +452,15 @@ Clear Olt Alarm And Get Event
 Raise Olt Alarm
     [Documentation]    Raise an Alarm
     [Arguments]    ${name}    ${intf_id}
-    ${raiseOutput}    Exec Pod    ${BBSIMCTL_NAMESPACE}     ${BBSIMCTL_POD_NAME}    bbsimctl olt alarms raise ${name} ${intf_id}
+    ${raiseOutput}    Exec Pod    ${BBSIMCTL_NAMESPACE}     ${BBSIMCTL_POD_NAME}
+    ...    bbsimctl olt alarms raise ${name} ${intf_id}
     Should Contain    ${raiseOutput}    Alarm Indication Sent
 
 Clear Olt Alarm
     [Documentation]    Raise an Alarm
     [Arguments]    ${name}    ${intf_id}
-    ${raiseOutput}    Exec Pod    ${BBSIMCTL_NAMESPACE}     ${BBSIMCTL_POD_NAME}    bbsimctl olt alarms clear ${name} ${intf_id}
+    ${raiseOutput}    Exec Pod    ${BBSIMCTL_NAMESPACE}     ${BBSIMCTL_POD_NAME}
+    ...    bbsimctl olt alarms clear ${name} ${intf_id}
     Should Contain    ${raiseOutput}    Alarm Indication Sent
 
 Get Device Event
