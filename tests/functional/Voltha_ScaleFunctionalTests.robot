@@ -197,6 +197,5 @@ Delete Device and Verify
     Should Be Equal As Integers    ${rc}    0
     Wait Until Keyword Succeeds    ${timeout}    5s    Validate OLT Device    DISABLED    UNKNOWN    REACHABLE
     ...    ${olt_serial_number}
-    ${rc}    ${output}=    Run and Return Rc and Output    ${VOLTCTL_CONFIG}; voltctl device delete ${olt_device_id}
-    Should Be Equal As Integers    ${rc}    0
+    Delete Device    ${olt_device_id}
     Wait Until Keyword Succeeds    ${timeout}    5s    Validate Device Removed    ${olt_device_id}
