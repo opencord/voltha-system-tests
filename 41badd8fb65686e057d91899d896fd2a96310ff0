@@ -51,6 +51,24 @@
       "revId": "41badd8fb65686e057d91899d896fd2a96310ff0",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "25b7be0c_8e6d14fd",
+        "filename": "tests/data/onf-demo-pod-sadis-DT.json",
+        "patchSetId": 4
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1000064
+      },
+      "writtenOn": "2020-03-13T23:38:42Z",
+      "side": 1,
+      "message": "Done, changed the setup and it works",
+      "parentUuid": "9c7e959d_286aa40b",
+      "revId": "41badd8fb65686e057d91899d896fd2a96310ff0",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
     }
   ]
 }
