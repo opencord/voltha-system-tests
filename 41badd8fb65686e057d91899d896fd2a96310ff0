@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3287dba8_9490be10",
+        "filename": "tests/data/onf-demo-pod-sadis-DT.json",
+        "patchSetId": 4
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1000097
+      },
+      "writtenOn": "2020-03-13T12:16:46Z",
+      "side": 1,
+      "message": "isDhcpRequired should be false",
+      "revId": "41badd8fb65686e057d91899d896fd2a96310ff0",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2ef87f00_bccf03c9",
+        "filename": "tests/data/onf-demo-pod-sadis-DT.json",
+        "patchSetId": 4
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1000097
+      },
+      "writtenOn": "2020-03-13T12:16:46Z",
+      "side": 1,
+      "message": "All the 3 subscribers are using the same Stag( and they all have the same Ctag), this is fine as long as only a single subscriber is activated. It would be better if the Stags for the different subscribers are made unique, that is what DT uses.",
+      "revId": "41badd8fb65686e057d91899d896fd2a96310ff0",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    }
+  ]
+}
