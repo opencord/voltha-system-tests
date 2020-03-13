@@ -356,14 +356,12 @@ Test disable ONUs and OLT then delete ONUs and OLT
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
         ...    Validate Device    DISABLED    DISCOVERED
         ...    UNREACHABLE    ${src['onu']}    onu=false
-        ${rc}    ${output}=    Run and Return Rc and Output    ${VOLTCTL_CONFIG}; voltctl device delete ${onu_device_id}
-        Should Be Equal As Integers    ${rc}    0
+        Delete Device    ${onu_device_id}
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
         ...    Validate OLT Device    DISABLED    UNKNOWN
         ...    REACHABLE    ${olt_serial_number}
     END
-    ${rc}    ${output}=    Run and Return Rc and Output    ${VOLTCTL_CONFIG}; voltctl device delete ${olt_device_id}
-    Should Be Equal As Integers    ${rc}    0
+    Delete Device    ${olt_device_id}
     Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s    Test Empty Device List
 
 Validate authentication on a disabled ONU
