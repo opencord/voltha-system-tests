@@ -33,6 +33,24 @@
       "revId": "41badd8fb65686e057d91899d896fd2a96310ff0",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9c7e959d_286aa40b",
+        "filename": "tests/data/onf-demo-pod-sadis-DT.json",
+        "patchSetId": 4
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2020-03-13T12:45:22Z",
+      "side": 1,
+      "message": "see how the sTag is different here https://gerrit.opencord.org/#/c/17835/2/tests/data/onos-sadis-bbsim-dt.json\nin DT case the sTag is not the OLT.",
+      "parentUuid": "2ef87f00_bccf03c9",
+      "revId": "41badd8fb65686e057d91899d896fd2a96310ff0",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
     }
   ]
 }
