@@ -22,6 +22,29 @@
       "revId": "e483bca103ed77dca73ada61209888012e25d040",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "09e721b6_d11840de",
+        "filename": "Jenkinsfile-voltha-bal31-build",
+        "patchSetId": 2
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1000514
+      },
+      "writtenOn": "2020-03-13T08:17:44Z",
+      "side": 1,
+      "message": "WITH_RADIUS is also not required. Should be NO.",
+      "range": {
+        "startLine": 94,
+        "startChar": 106,
+        "endLine": 94,
+        "endChar": 119
+      },
+      "revId": "e483bca103ed77dca73ada61209888012e25d040",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
     }
   ]
 }
