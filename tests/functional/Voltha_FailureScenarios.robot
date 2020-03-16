@@ -312,9 +312,8 @@ Sanity E2E Test for OLT/ONU on POD With OLT Adapters Fail and Restart
 
 Verify restart ofagent container after VOLTHA is operational
     [Documentation]    Restart ofagent container after VOLTHA is operational.
-    ...    Please note this test case should be run before the restart of other containers.
     ...    Prerequisite : ONUs are authenticated and pingable.
-    [Tags]    functional   VOL-2409   ofagentRestart   notready
+    [Tags]    functional   VOL-2409   ofagentRestart
     [Setup]    Run Keywords    Announce Message    START TEST ofagentRestart
     ...        AND             Start Logging    ofagentRestart
     [Teardown]    Run Keywords    Collect Logs
@@ -324,7 +323,8 @@ Verify restart ofagent container after VOLTHA is operational
     ${podStatusOutput}=    Run    kubectl get pods -n ${NAMESPACE}
     Log    ${podStatusOutput}
     ${countBforRestart}=    Run    kubectl get pods -n ${NAMESPACE} | grep Running | wc -l
-    Restart Pod    ${NAMESPACE}    ofagent
+    ${podName}    Set Variable     ofagent
+    Restart Pod    ${NAMESPACE}    ${podName}
     Sleep    60s
     Wait Until Keyword Succeeds    ${waitforRestart}    2s    Validate Pod Status    ofagent    ${NAMESPACE}
     ...    Running
@@ -333,6 +333,45 @@ Verify restart ofagent container after VOLTHA is operational
     Log    ${podStatusOutput}
     ${countAfterRestart}=    Run    kubectl get pods -n ${NAMESPACE} | grep Running | wc -l
     Should Be Equal As Strings    ${countAfterRestart}    ${countBforRestart}
+    # Scale Down the Of-Agent Deployment
+    Scale K8s Deployment    ${NAMESPACE}    voltha-ofagent    0
+    Sleep    60s
+    FOR    ${I}    IN RANGE    0    ${num_onus}
+        ${src}=    Set Variable    ${hosts.src[${I}]}
+        ${dst}=    Set Variable    ${hosts.dst[${I}]}
+        Run Keyword and Ignore Error    Collect Logs
+        ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
+        ${onu_port}=    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
+        ...    Get ONU Port in ONOS    ${src['onu']}    ${of_id}
+        # Verify ONU state in voltha
+        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s    Validate Device
+        ...    ENABLED    ACTIVE    REACHABLE
+        ...    ${src['onu']}    onu=True    onu_reason=omci-flows-pushed
+        # Check ONU port is Disabled in ONOS
+        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds   120s   2s
+        ...    Verify ONU Port Is Disabled   ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${onu_port}
+        # Verify EAPOL flows are present for the ONU port
+        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
+        ...    Verify Eapol Flows Added For ONU    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${onu_port}
+        # Verify ONU in AAA-Users
+        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2
+        ...    Verify ONU in AAA-Users    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${onu_port}
+        # Verify DHCP-Allocations
+        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
+        ...    Validate Subscriber DHCP Allocation    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${onu_port}
+        # Verify Ping
+        Run Keyword If    ${has_dataplane}    Run Keyword And Continue On Failure    Check Ping    True
+        ...    ${dst['dp_iface_ip_qinq']}    ${src['dp_iface_name']}    ${src['ip']}
+        ...    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
+        Run Keyword and Ignore Error    Get Device Output from Voltha    ${onu_device_id}
+        Run Keyword and Ignore Error    Collect Logs
+    END
+    # Scale Up the Of-Agent Deployment
+    Scale K8s Deployment    ${NAMESPACE}    voltha-ofagent    1
+    Wait Until Keyword Succeeds    ${waitforRestart}    2s    Validate Pod Status    ofagent    ${NAMESPACE}
+    ...    Running
+    Repeat Sanity Test
+    Log to console    Pod ${podName} restarted and sanity checks passed successfully
 
 Check ONU adapter crash not forcing authentication again
     [Documentation]    After ONU adapter restart, checks wpa log for 'authentication started'
