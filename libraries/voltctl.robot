@@ -183,6 +183,15 @@ Validate ONU Devices
         ...    onu_reason=omci-flows-pushed    onu=True
     END
 
+Validate ONU Devices DisableEnable
+    [Arguments]    ${admin_state}    ${oper_status}    ${connect_status}    ${List_ONU_Serial}
+    [Documentation]    Parses the output of "voltctl device list" and inspects device    ${List_ONU_Serial}
+    ...    Iteratively match on each Serial number contained in ${List_ONU_Serial} and inspects ONU states
+    FOR    ${serial_number}    IN    @{List_ONU_Serial}
+        Validate Device    ${admin_state}    ${oper_status}    ${connect_status}    ${serial_number}
+        ...    onu_reason=omci-flows-pushed    onu=False
+    END
+
 Validate Device Port Types
     [Documentation]
     ...    Parses the output of voltctl device port list <device_id> and matches the port types listed
