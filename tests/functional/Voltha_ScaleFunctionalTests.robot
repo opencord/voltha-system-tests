@@ -157,6 +157,26 @@ Validate Peer Devices
     #Validate ONU peer ids
     Validate ONU Peer Id    ${olt_device_id}    ${List_ONU_Serial}
 
+Test Disable and Enable ONU
+    [Documentation]     Perform disable/enable on the ONUs and validate test assertions
+    [Tags]      active  VOL-2732
+    FOR    ${I}    IN RANGE    0    ${num_onus}
+        ${src}=    Set Variable    ${hosts.src[${I}]}
+        ${dst}=    Set Variable    ${hosts.dst[${I}]}
+        ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
+        Disable Device    ${onu_device_id}
+    END
+    Wait Until Keyword Succeeds ${long_timeout}  20s    Validate ONU Devices DisableEnable
+    ... DISABLED        UNKNOWN REACHABLE       ${List_ONU_Serial}
+    FOR    ${I}    IN RANGE    0    ${num_onus}
+        ${src}=    Set Variable    ${hosts.src[${I}]}
+        ${dst}=    Set Variable    ${hosts.dst[${I}]}
+        ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
+        Enable Device    ${onu_device_id}
+    END
+    Wait Until Keyword Succeeds ${long_timeout} 20s     Validate ONU Devices DisableEnable
+    ... ENABLED ACTIVE  REACHABLE       ${List_ONU_Serial}
+
 *** Keywords ***
 Setup Suite
     [Documentation]    Set up the test suite
