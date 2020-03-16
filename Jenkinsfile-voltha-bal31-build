@@ -25,7 +25,13 @@ node ("${TestNodeName}") {
                 sh returnStdout: true, script: "git clone -b master ${cordRepoUrl}/${configBaseDir}"
                 sh returnStdout: true, script: "git clone -b master ${cordRepoUrl}/voltha-system-tests"
                 sh returnStdout: true, script: "git clone https://github.com/ciena/kind-voltha.git"
-                deployment_config = readYaml file: "${configBaseDir}/${configDeploymentDir}/${configFileName}.yaml"
+                if ( params.workFlow == "DT" ) {
+                    deployment_config = readYaml file: "${configBaseDir}/${configDeploymentDir}/${configFileName}-DT.yaml"
+                }
+                else
+                {
+                    deployment_config = readYaml file: "${configBaseDir}/${configDeploymentDir}/${configFileName}.yaml"
+                }
             }
             stage('Clean up') {
                 timeout(10) {
