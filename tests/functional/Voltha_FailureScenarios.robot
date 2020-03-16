@@ -126,6 +126,8 @@ Verify restart openolt-adapter container after VOLTHA is operational
     Restart Pod    ${NAMESPACE}    ${podName}
     Wait Until Keyword Succeeds    ${waitforRestart}    2s    Validate Pod Status    ${podName}    ${NAMESPACE}
     ...    Running
+    # Wait for 1min after openolt adapter is restarted
+    Sleep    60s
     Repeat Sanity Test
     Run Keyword and Ignore Error    Collect Logs
     ${podStatusOutput}=    Run    kubectl get pods -n ${NAMESPACE}
