@@ -104,6 +104,42 @@ Verify ONU after rebooting physically
     # Deleting OLT after tests completes independently (as this test doesn't not run on each POD)
     Run Keyword If    ${has_dataplane}    Delete Device and Verify
 
+Verify OLT after rebooting physically
+    [Documentation]    Test the physical reboot of the OLT
+    ...    Prerequisite : Subscriber are authenticated/DHCP/pingable state
+    ...    Test performs a physical reboot, performs "reboot" from the OLT CLI
+    ...    VOL-1956
+    [Tags]    functional   PhysicalOLTReboot
+    [Setup]    Run Keywords    Announce Message    START TEST PhysicalOLTReboot
+    ...        AND             Start Logging    PhysicalOLTReboot
+    [Teardown]    Run Keywords    Collect Logs
+    ...           AND             Stop Logging    PhysicalOLTReboot
+    ...           AND             Announce Message    END TEST PhysicalOLTReboot
+    # Add OLT device
+    setup
+    # Performing Sanity Test to make sure subscribers are all AUTH+DHCP and pingable
+    Run Keyword If    ${has_dataplane}    Clean Up Linux
+    Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test
+    # Reboot the OLT from the OLT CLI
+    Run Keyword If    ${has_dataplane}    Login And Run Command On Remote System
+    ...    sudo reboot    ${olt_ip}    ${olt_user}    ${olt_pass}   prompt=#
+    Run Keyword And Ignore Error    Collect Logs
+    FOR    ${I}    IN RANGE    0    ${num_onus}
+        ${src}=    Set Variable    ${hosts.src[${I}]}
+        ${dst}=    Set Variable    ${hosts.dst[${I}]}
+        Run Keyword If    ${has_dataplane}    Run Keyword And Continue On Failure
+        ...    Wait Until Keyword Succeeds    60s    2s
+        ...    Check Ping    False    ${dst['dp_iface_ip_qinq']}    ${src['dp_iface_name']}
+        ...    ${src['ip']}    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
+    END
+    # Wait for the OLT to come back up
+    Wait Until Keyword Succeeds    120s    10s    Check Remote System Reachability    True    ${olt_ip}
+    Run Keyword And Ignore Error    Collect Logs
+    Run Keyword If    ${has_dataplane}    Clean Up Linux
+    Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test
+    # Deleting OLT after test completes
+    Run Keyword If    ${has_dataplane}    Delete Device and Verify
+
 Verify restart openolt-adapter container after VOLTHA is operational
     [Documentation]    Restart openolt-adapter container after VOLTHA is operational.
     ...    Prerequisite : ONUs are authenticated and pingable.
