@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a0c132c3_467c3b47",
+        "filename": "tests/functional/Voltha_multipleOLTTests.robot",
+        "patchSetId": 12
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2020-03-17T13:10:14Z",
+      "side": 1,
+      "message": "this is only on the first OLT, I think you are doing the same thing in line 88-89",
+      "range": {
+        "startLine": 96,
+        "startChar": 0,
+        "endLine": 99,
+        "endChar": 65
+      },
+      "revId": "82e71a744357b0d1b497608ced2e3b0013f87f2e",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "09c6dcb8_fe97bcaa",
+        "filename": "tests/functional/Voltha_multipleOLTTests.robot",
+        "patchSetId": 12
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2020-03-17T13:10:14Z",
+      "side": 1,
+      "message": "this needs to be done in the for loop",
+      "range": {
+        "startLine": 100,
+        "startChar": 0,
+        "endLine": 102,
+        "endChar": 52
+      },
+      "revId": "82e71a744357b0d1b497608ced2e3b0013f87f2e",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    }
+  ]
+}
