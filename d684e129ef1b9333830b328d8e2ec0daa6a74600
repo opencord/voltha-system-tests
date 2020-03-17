@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7055ac4f_8ce8be07",
+        "filename": "tests/functional/Voltha_FailureScenarios.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 375,
+      "author": {
+        "id": 1000064
+      },
+      "writtenOn": "2020-03-17T03:17:44Z",
+      "side": 1,
+      "message": "We are trying to eliminate `Repeat Sanity Test` keyword, hence newer tests/changes to include `Clean Up Linux` followed by `Perform Sanity`, please change here as well.",
+      "range": {
+        "startLine": 375,
+        "startChar": 5,
+        "endLine": 375,
+        "endChar": 22
+      },
+      "revId": "d684e129ef1b9333830b328d8e2ec0daa6a74600",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    }
+  ]
+}
