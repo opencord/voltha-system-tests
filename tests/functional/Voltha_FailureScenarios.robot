@@ -104,6 +104,46 @@ Verify ONU after rebooting physically
     # Deleting OLT after tests completes independently (as this test doesn't not run on each POD)
     Run Keyword If    ${has_dataplane}    Delete Device and Verify
 
+Verify OLT after rebooting physically
+    [Documentation]    Test the physical reboot of the OLT
+    ...    Prerequisite : Subscriber are authenticated/DHCP/pingable state
+    ...    Test case runs only on the PODs that are configured with PowerSwitch that
+    ...    controls the power off/on ONUs/OLT remotely (simulating a physical reboot)
+    ...    VOL-1956
+    [Tags]    functional   PowerSwitch   PhysicalOLTReboot
+    [Setup]    Run Keywords    Announce Message    START TEST OLTreboot_PowerSwitch
+    ...        AND             Start Logging    OLTreboot_PowerSwitch
+    [Teardown]    Run Keywords    Collect Logs
+    ...           AND             Stop Logging    OLTreboot_PowerSwitch
+    ...           AND             Announce Message    END TEST OLTreboot_PowerSwitch
+    # Add OLT device
+    setup
+    # Performing Sanity Test to make sure subscribers are all AUTH+DHCP and pingable
+    Run Keyword If    ${has_dataplane}    Clean Up Linux
+    Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test
+    Power Switch Connection Suite    ${web_power_switch.ip}    ${web_power_switch.user}    ${web_power_switch.password}
+    ${olt_switch_port}=    Evaluate    ${olts}[0].get("power_switch_port")
+    Log    ${olt_switch_port}
+    # Power the OLT port using the Power Switch
+    Disable Switch Outlet    ${olt_switch_port}
+    Sleep    40s
+    Run Keyword And Ignore Error    Collect Logs
+    FOR    ${I}    IN RANGE    0    ${num_onus}
+        ${src}=    Set Variable    ${hosts.src[${I}]}
+        ${dst}=    Set Variable    ${hosts.dst[${I}]}
+        Run Keyword If    ${has_dataplane}    Run Keyword And Continue On Failure
+        ...    Wait Until Keyword Succeeds    60s    2s
+        ...    Check Ping    False    ${dst['dp_iface_ip_qinq']}    ${src['dp_iface_name']}
+        ...    ${src['ip']}    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
+    END
+    Enable Switch Outlet    ${olt_switch_port}
+    Sleep    40s
+    Run Keyword And Ignore Error    Collect Logs
+    Run Keyword If    ${has_dataplane}    Clean Up Linux
+    Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test
+    # Deleting OLT after tests completes independently (as this test doesn't not run on each POD)
+    Run Keyword If    ${has_dataplane}    Delete Device and Verify
+
 Verify restart openolt-adapter container after VOLTHA is operational
     [Documentation]    Restart openolt-adapter container after VOLTHA is operational.
     ...    Prerequisite : ONUs are authenticated and pingable.
