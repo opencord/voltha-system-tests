@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "10abe7d7_592a2879",
+        "filename": "tests/functional/Voltha_FailureScenarios.robot",
+        "patchSetId": 4
+      },
+      "lineNbr": 343,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2020-03-17T08:56:14Z",
+      "side": 1,
+      "message": "I think 60 is a bit overkill here. I think 30 is probably enough",
+      "range": {
+        "startLine": 343,
+        "startChar": 4,
+        "endLine": 343,
+        "endChar": 16
+      },
+      "revId": "db5609a139e082576be8a7ec96c0710f1f2fc61b",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    }
+  ]
+}
