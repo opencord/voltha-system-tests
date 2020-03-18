@@ -306,7 +306,7 @@ Delete OLT, ReAdd OLT and Perform Sanity Test
     ...           AND             Stop Logging    DeleteOLT
     ...           AND             Announce Message    END TEST DeleteOLT
     Run Keyword If    ${has_dataplane}    Clean Up Linux
-    Run Keyword If    ${has_dataplane}    Delete Device and Verify
+    Run Keyword If    ${has_dataplane}    Delete All Devices and Verify
     Run Keyword and Ignore Error    Collect Logs
     # Recreate the OLT
     Run Keyword If    ${has_dataplane}    Setup
@@ -362,7 +362,10 @@ Test disable ONUs and OLT then delete ONUs and OLT
         ...    REACHABLE    ${olt_serial_number}
     END
     Delete Device    ${olt_device_id}
-    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s    Test Empty Device List
+    Wait Until Keyword Succeeds    ${timeout}    5s    Test Empty Device List
+    Wait Until Keyword Succeeds    ${timeout}    2s
+    ...    Verify No Flows In ONOS    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${logical_id}
+
 
 Validate authentication on a disabled ONU
     [Documentation]    Assuming that test1 was executed where all the ONUs are authenticated/DHCP/pingable
@@ -376,7 +379,7 @@ Validate authentication on a disabled ONU
     [Teardown]    Run Keywords    Collect Logs
     ...           AND             Stop Logging    DisableONU_AuthCheck
     ...           AND             Announce Message    END TEST DisableONU_AuthCheck
-    ...           AND             Delete Device and Verify
+    ...           AND             Delete All Devices and Verify
     Run Keyword and Ignore Error    Collect Logs
     Run Keyword If    ${has_dataplane}    Clean Up Linux
     Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test

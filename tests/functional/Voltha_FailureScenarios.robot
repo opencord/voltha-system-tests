@@ -102,7 +102,7 @@ Verify ONU after rebooting physically
         Run Keyword And Ignore Error    Collect Logs
     END
     # Deleting OLT after tests completes independently (as this test doesn't not run on each POD)
-    Run Keyword If    ${has_dataplane}    Delete Device and Verify
+    Run Keyword If    ${has_dataplane}    Delete All Devices and Verify
 
 Verify restart openolt-adapter container after VOLTHA is operational
     [Documentation]    Restart openolt-adapter container after VOLTHA is operational.
@@ -192,7 +192,7 @@ Sanity E2E Test for OLT/ONU on POD With Core Fail and Restart
     [Teardown]   Run Keywords    Collect Logs
     ...          AND             Stop Logging    RwCoreFailAndRestart
     ...          AND             Announce Message    END TEST RwCoreFailAndRestart
-    ...          AND             Delete Device and Verify
+    ...          AND             Delete All Devices and Verify
     Run Keyword and Ignore Error    Collect Logs
     Run Keyword If    ${has_dataplane}    Clean Up Linux
     ${of_id}=    Wait Until Keyword Succeeds    ${timeout}    15s    Validate OLT Device in ONOS    ${olt_serial_number}

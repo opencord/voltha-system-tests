@@ -244,7 +244,6 @@ Setup
     Test Empty Device List
     Run Keyword If    ${has_dataplane}    Wait Until Keyword Succeeds    120s    10s    Openolt is Up
     ...    ${olt_ip}    ${olt_user}    ${olt_pass}
-    Sleep    60s
     #create/preprovision device
     ${olt_device_id}=    Create Device    ${olt_ip}    ${OLT_PORT}
     Set Suite Variable    ${olt_device_id}
@@ -287,9 +286,8 @@ Delete All Devices and Verify
     Wait Until Keyword Succeeds    ${timeout}    2s    Test Devices Disabled In Voltha    Root=true
     Delete Devices In Voltha    Root=true
     Wait Until Keyword Succeeds    ${timeout}    2s    Test Empty Device List
-    # Clear devices from ONOS
-    #Remove All Devices From ONOS
-    #...    http://karaf:karaf@${ONOS_REST_IP}:${ONOS_REST_PORT}
+    Wait Until Keyword Succeeds    ${timeout}    2s
+    ...    Verify No Flows In ONOS    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${logical_id}
 
 Teardown
     [Documentation]    kills processes and cleans up interfaces on src+dst servers
@@ -298,21 +296,6 @@ Teardown
 Teardown Suite
     [Documentation]    Clean up device if desired
     Run Keyword If    ${teardown_device}    Delete All Devices and Verify
-
-Delete Device and Verify
-    [Documentation]    Disable -> Delete devices via voltctl and verify its removed
-    ${olt_device_id}=    Get Device ID From SN    ${olt_serial_number}
-    ${rc}    ${output}=    Run and Return Rc and Output
-    ...    ${VOLTCTL_CONFIG}; voltctl device disable ${olt_device_id}
-    Should Be Equal As Integers    ${rc}    0
-    Sleep    5s
-    Wait Until Keyword Succeeds    ${timeout}    5s
-    ...    Validate OLT Device    DISABLED    UNKNOWN    REACHABLE    ${olt_serial_number}
-    ${rc}    ${output}=    Run and Return Rc and Output
-    ...    ${VOLTCTL_CONFIG}; voltctl device delete ${olt_device_id}
-    Sleep    50s
-    Should Be Equal As Integers    ${rc}    0
-    Wait Until Keyword Succeeds    ${timeout}    5s    Validate Device Removed    ${olt_device_id}
 
 Repeat Sanity Test
     [Documentation]    This keyword performs Sanity Test Procedure
@@ -382,9 +365,11 @@ Verify ping is succesful except for given device
 
 Announce Message
     [Arguments]    ${message}
-    [Documentation]    Announce a message that will be picked up by the log aggregator
-    Run Process    kubectl    run    announcer    -ti    --rm    --restart    Never    --image    ubuntu
-    ...     bash    --    -c    echo; sleep 1; echo ${message}; sleep 1; date --rfc-3339\=n ; sleep 1; echo; sleep 1
+    [Documentation]    Currently does nothing
+    # [Documentation]    Announce a message that will be picked up by the log aggregator
+    # Run Process    kubectl    run    announcer    -ti    --rm    --restart    Never    --image    ubuntu
+    # ...     bash    --    -c    echo; sleep 1; echo ${message}; sleep 1; date --rfc-3339\=n ; sleep 1; echo; sleep 1
+    No Operation
 
 Start Logging
     [Arguments]    ${label}

@@ -66,7 +66,7 @@ Adding the same OLT before and after enabling the device
     ...          AND              Announce Message    END TEST AddSameOLT
     # Add OLT device
     #setup
-    Run Keyword If    ${has_dataplane}    Delete Device and Verify
+    Run Keyword If    ${has_dataplane}    Delete All Devices and Verify
     Run Keyword and Ignore Error   Collect Logs
     ${olt_device_id}=    Create Device    ${olt_ip}    ${OLT_PORT}
     Set Suite Variable    ${olt_device_id}
@@ -168,7 +168,7 @@ Check disabling of pre-provisioned OLT before enabling
     [Tags]    functional    DisablePreprovisionedOLTCheck
     [Setup]   Run Keywords    Announce Message    START TEST DisablePreprovisionedOLTCheck
     ...       AND             Start Logging    DisablePreprovisionedOLTCheck
-    ...       AND             Delete Device and Verify
+    ...       AND             Delete All Devices and Verify
     [Teardown]    Run Keywords    Collect Logs
     ...           AND             Stop Logging    DisablePreprovisionedOLTCheck
     ...           AND             Announce Message    END TEST DisablePreprovisionedOLTCheck
@@ -206,7 +206,7 @@ Disable and Delete the logical device directly
     [Tags]    functional     DisableDelete_LogicalDevice
     [Setup]   Run Keywords    Announce Message    START TEST DisableDelete_LogicalDevice
     ...       AND             Start Logging    DisableDelete_LogicalDevice
-    ...       AND             Delete Device and Verify
+    ...       AND             Delete All Devices and Verify
     [Teardown]    Run Keywords    Collect Logs
     ...           AND             Stop Logging    DisableDelete_LogicalDevice
     ...           AND             Announce Message    END TEST DisableDelete_LogicalDevice
@@ -249,7 +249,7 @@ Check logical device creation and deletion
     [Teardown]    Run Keywords    Collect Logs
     ...           AND             Stop Logging    LogicalDeviceCheck
     ...           AND             Announce Message    END TEST LogicalDeviceCheck
-    Delete Device and Verify
+    Delete All Devices and Verify
     ${logical_id}=    Get Logical Device ID From SN    ${olt_serial_number}
     Should Be Empty    ${logical_id}
     Run Keyword If    ${has_dataplane}    Sleep    180s
