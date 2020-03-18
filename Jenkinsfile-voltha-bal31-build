@@ -24,7 +24,12 @@ node ("${TestNodeName}") {
                 sh returnStdout: true, script: "git clone -b master ${cordRepoUrl}/helm-repo-tools"
                 sh returnStdout: true, script: "git clone -b master ${cordRepoUrl}/${configBaseDir}"
                 sh returnStdout: true, script: "git clone -b master ${cordRepoUrl}/voltha-system-tests"
-                sh returnStdout: true, script: "git clone https://github.com/ciena/kind-voltha.git"
+                if ( params.released ) {
+                    sh returnStdout: true, script: "git clone https://github.com/ciena/kind-voltha.git -b v2.2"   
+                }
+                else {
+                    sh returnStdout: true, script: "git clone https://github.com/ciena/kind-voltha.git"
+                }
                 if ( params.workFlow == "DT" ) {
                     deployment_config = readYaml file: "${configBaseDir}/${configDeploymentDir}/${configFileName}-DT.yaml"
                 }
@@ -88,6 +93,8 @@ node ("${TestNodeName}") {
                         export VOLTHA_ADAPTER_OPEN_ONU_CHART=voltha-helm-charts/voltha-adapter-openonu
                         export VOLTHA_ADAPTER_SIM_CHART=voltha-helm-charts/voltha-adapter-simulated
                         export VOLTHA_CHART=voltha-helm-charts/voltha
+                        cd $WORKSPACE/kind-voltha
+                        source releases/voltha-2.2
                         cd $WORKSPACE/kind-voltha
                     elif ( ${ofagentGo} ); then
                         export EXTRA_HELM_FLAGS='-f $WORKSPACE/${configBaseDir}/${configKubernetesDir}/voltha/${configFileName}-ofagent-go.yml'
