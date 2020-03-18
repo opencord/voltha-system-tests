@@ -166,16 +166,16 @@ Test Disable and Enable ONU
         ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
         Disable Device    ${onu_device_id}
     END
-    Wait Until Keyword Succeeds ${long_timeout}  20s    Validate ONU Devices DisableEnable
-    ... DISABLED        UNKNOWN REACHABLE       ${List_ONU_Serial}
+    Wait Until Keyword Succeeds    ${long_timeout}     20s    Validate ONU Devices
+    ...    DISABLED    UNKNOWN    REACHABLE    ${List_ONU_Serial}    omci-admin-lock
     FOR    ${I}    IN RANGE    0    ${num_onus}
         ${src}=    Set Variable    ${hosts.src[${I}]}
         ${dst}=    Set Variable    ${hosts.dst[${I}]}
         ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
         Enable Device    ${onu_device_id}
     END
-    Wait Until Keyword Succeeds ${long_timeout} 20s     Validate ONU Devices DisableEnable
-    ... ENABLED ACTIVE  REACHABLE       ${List_ONU_Serial}
+    Wait Until Keyword Succeeds    ${long_timeout}    20s     Validate ONU Devices
+    ...    ENABLED    ACTIVE    REACHABLE    ${List_ONU_Serial}
 
 *** Keywords ***
 Setup Suite
