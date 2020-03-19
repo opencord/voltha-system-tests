@@ -1,18 +1,3 @@
-# Copyright 2017-present Open Networking Foundation
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-# http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-# onos common functions
-
 *** Settings ***
 Documentation     Library for various utilities
 Library           SSHLibrary
@@ -25,9 +10,9 @@ Library           OperatingSystem
 
 *** Keywords ***
 Validate OLT Device in ONOS
-    #    FIXME use volt-olts to check that the OLT is ONOS
     [Arguments]    ${serial_number}
     [Documentation]    Checks if olt has been connected to ONOS
+    #    FIXME use volt-olts to check that the OLT is ONOS
     ${resp}=    Get Request    ONOS    onos/v1/devices
     ${jsondata}=    To Json    ${resp.content}
     Should Not Be Empty    ${jsondata['devices']}
@@ -85,37 +70,32 @@ Get FabricSwitch in ONOS
 Verify Eapol Flows Added
     [Arguments]    ${ip}    ${port}    ${expected_flows}
     [Documentation]    Matches for number of eapol flows based on number of onus
-    ${eapol_flows_added}=    Execute ONOS CLI Command    ${ip}    ${port}
-    ...    flows -s -f ADDED | grep eapol | grep IN_PORT | wc -l
+    ${eapol_flows_added}=    Execute ONOS CLI Command    ${ip}    ${port}    flows -s -f ADDED | grep eapol | grep IN_PORT | wc -l
     Should Contain    ${eapol_flows_added}    ${expected_flows}
 
 Verify No Pending Flows For ONU
     [Arguments]    ${ip}    ${port}    ${onu_port}
     [Documentation]    Verifies that there are no flows "PENDING" state for the ONU in ONOS
-    ${pending_flows}=    Execute ONOS CLI Command    ${ip}    ${port}
-    ...    flows -s | grep IN_PORT:${onu_port} | grep PENDING
+    ${pending_flows}=    Execute ONOS CLI Command    ${ip}    ${port}    flows -s | grep IN_PORT:${onu_port} | grep PENDING
     Should Be Empty    ${pending_flows}
 
 Verify Eapol Flows Added For ONU
     [Arguments]    ${ip}    ${port}    ${onu_port}
     [Documentation]    Verifies if the Eapol Flows are added in ONOS for the ONU
-    ${eapol_flows_added}=    Execute ONOS CLI Command    ${ip}    ${port}
-    ...    flows -s -f ADDED | grep eapol | grep IN_PORT:${onu_port}
+    ${eapol_flows_added}=    Execute ONOS CLI Command    ${ip}    ${port}    flows -s -f ADDED | grep eapol | grep IN_PORT:${onu_port}
     Should Not Be Empty    ${eapol_flows_added}
 
 Verify ONU Port Is Enabled
     [Arguments]    ${ip}    ${port}    ${onu_port}
     [Documentation]    Verifies if the ONU port is enabled in ONOS
-    ${onu_port_enabled}=    Execute ONOS CLI Command    ${ip}    ${port}
-    ...    ports -e | grep port=${onu_port}
+    ${onu_port_enabled}=    Execute ONOS CLI Command    ${ip}    ${port}    ports -e | grep port=${onu_port}
     Log    ${onu_port_enabled}
     Should Not Be Empty    ${onu_port_enabled}
 
 Verify ONU Port Is Disabled
     [Arguments]    ${ip}    ${port}    ${onu_port}
     [Documentation]    Verifies if the ONU port is disabled in ONOS
-    ${onu_port_disabled}=    Execute ONOS CLI Command    ${ip}    ${port}
-    ...    ports -e | grep port=${onu_port}
+    ${onu_port_disabled}=    Execute ONOS CLI Command    ${ip}    ${port}    ports -e | grep port=${onu_port}
     Log    ${onu_port_disabled}
     Should Be Empty    ${onu_port_disabled}
 
@@ -143,8 +123,7 @@ Validate Subscriber DHCP Allocation
     [Arguments]    ${ip}    ${port}    ${onu_port}
     [Documentation]    Verifies that the specified subscriber is found in DHCP allocations
     ##TODO: Enhance the keyword to include DHCP allocated address is not 0.0.0.0
-    ${allocations}=    Execute ONOS CLI Command    ${ip}    ${port}
-    ...    dhcpl2relay-allocations | grep DHCPACK | grep ${onu_port}
+    ${allocations}=    Execute ONOS CLI Command    ${ip}    ${port}    dhcpl2relay-allocations | grep DHCPACK | grep ${onu_port}
     Should Not Be Empty    ${allocations}    ONU port ${onu_port} not found in dhcpl2relay-allocations
 
 Device Is Available In ONOS
@@ -159,13 +138,34 @@ Device Is Available In ONOS
 Remove All Devices From ONOS
     [Arguments]    ${url}
     [Documentation]    Executes the device-remove command on each device in ONOS
-    ${rc}    @{dpids}    Run And Return Rc And Output
-    ...    curl --fail -sSL ${url}/onos/v1/devices | jq -r '.devices[].id'
+    ${rc}    @{dpids}    Run And Return Rc And Output    curl --fail -sSL ${url}/onos/v1/devices | jq -r '.devices[].id'
     Should Be Equal As Integers    ${rc}    0
     ${count}=    Get length    ${dpids}
     FOR    ${dpid}    IN    @{dpids}
-        ${rc}=    Run Keyword If    '${dpid}' != ''
-        ...    Run And Return Rc    curl -XDELETE --fail -sSL ${url}/onos/v1/devices/${dpid}
-        Run Keyword If    '${dpid}' != ''
-        ...    Should Be Equal As Integers    ${rc}    0
+        ${rc}=    Run Keyword If    '${dpid}' != ''    Run And Return Rc    curl -XDELETE --fail -sSL ${url}/onos/v1/devices/${dpid}
+        Run Keyword If    '${dpid}' != ''    Should Be Equal As Integers    ${rc}    0
     END
+
+Get Bandwidth Details
+    [Arguments]    ${bandwidth_profile_name}
+    [Documentation]    Collects the bandwidth profile details for the given bandwidth profile and returns the limiting bandwidth
+    ${banwidth_profile_values}=    Execute ONOS CLI Command    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    bandwidthprofile ${bandwidth_profile_name}
+    @{banwidth_profile_array}=    Split String    ${banwidth_profile_values}    ,
+    @{parameter_value_pair}=    Split String    ${banwidth_profile_array[1]}    =
+    ${bandwidthparameter}=    Set Variable    ${parameter_value_pair[0]}
+    ${value}=    Set Variable    ${parameter_value_pair[1]}
+    ${cir_value}    Run Keyword If    '${bandwidthparameter}' == ' committedInformationRate'    Set Variable    ${value}
+    @{parameter_value_pair}=    Split String    ${banwidth_profile_array[2]}    =
+    ${bandwidthparameter}=    Set Variable    ${parameter_value_pair[0]}
+    ${value}=    Set Variable    ${parameter_value_pair[1]}
+    ${cbs_value}    Run Keyword If    '${bandwidthparameter}' == ' committedBurstSize'    Set Variable    ${value}
+    @{parameter_value_pair}=    Split String    ${banwidth_profile_array[3]}    =
+    ${bandwidthparameter}=    Set Variable    ${parameter_value_pair[0]}
+    ${value}=    Set Variable    ${parameter_value_pair[1]}
+    ${eir_value}    Run Keyword If    '${bandwidthparameter}' == ' exceededInformationRate'    Set Variable    ${value}
+    @{parameter_value_pair}=    Split String    ${banwidth_profile_array[4]}    =
+    ${bandwidthparameter}=    Set Variable    ${parameter_value_pair[0]}
+    ${value}=    Set Variable    ${parameter_value_pair[1]}
+    ${ebs_value}    Run Keyword If    '${bandwidthparameter}' == ' exceededBurstSize'    Set Variable    ${value}
+    ${limiting_BW}=    Evaluate    ${cir_value}+${cbs_value}+${eir_value}+${ebs_value}
+    [Return]    ${limiting_BW}
