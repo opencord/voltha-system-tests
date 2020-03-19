@@ -54,6 +54,10 @@ ${scripts}        ../../scripts
 # Per-test logging on failure is turned off by default; set this variable to enable
 ${container_log_dir}    ${None}
 
+${DHCP_SRVR_IP}    192.168.10.24
+${DHCP_USERNAME}    volthadhcp
+${DHCP_SSH_PWD}    volthadhcp
+
 *** Test Cases ***
 Sanity E2E Test for OLT/ONU on POD
     [Documentation]    Validates E2E Ping Connectivity and object states for the given scenario:
@@ -408,6 +412,76 @@ Validate authentication on a disabled ONU
         Run Keyword and Ignore Error    Get Device Output from Voltha    ${onu_device_id}
     END
     Run Keyword and Ignore Error    Collect Logs
+
+Data plane verification with user defined bandwidth profiles
+    [Documentation]    Pre-requisite: The setup should be brought up with the required 
+    ...    bandwidth profile sadis file with 2 subscribers wher one subscriber with default bw
+    ...    iperf3 installed
+    [Tags]    BW-profile    VOL-2052
+    [Setup]    None
+    #Run Keyword If    ${has_dataplane}    Clean Up Linux
+    #Run Keyword If    ${has_dataplane}    Delete Device and Verify
+    #Run Keyword and Ignore Error    Collect Logs
+    # Recreate the OLT
+    #Run Keyword If    ${has_dataplane}    Setup
+    #Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test
+    #######Verify bandwidth profile for first subsciber(with Default Bandwith Profile)
+    ${src}=    Set Variable    ${hosts.src[${0}]}
+    ${dst}=    Set Variable    ${hosts.dst[${0}]}
+    ${onu_port}=    Wait Until Keyword Succeeds    ${timeout}    2s    Get ONU Port in ONOS    ${src['onu']}
+    ${subcriber_id}=    Set Variable    ${of_id}/${onu_port}
+    ${bandwidth_profile_name}    Get Bandwidth Profile Name For Given Subscriber    ${subcriber_id}
+    ${limiting_bw_value}    Get Bandwidth Details    ${bandwidth_profile_name}
+    ${iperf_bng_output}=    Login and Run Command On Remote System
+    ...    cd /home/volthadhcp/iperf-3.7;./src/iperf3 -s -J --logfile auto_output1 -D
+    ...    ${DHCP_SRVR_IP}    ${DHCP_USERNAME}    ${DHCP_SSH_PWD}    None    None
+    ${iperf_rg_output}=    Login And Run Command On Remote System
+    ...    cd /home/voltharg/iperf-3.7;./src/iperf3 -c ${dst['dp_iface_ip_qinq']} -J --logfile auto_out_rg1 & sleep 10
+    ...    ${src['ip']}    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
+    Sleep    10s
+    ${actual_bw_used_in_bits}=    Login And Run Command On Remote System
+    ...    cat /home/voltharg/iperf-3.7/auto_out_rg1 | grep "sum_sent" -A 7 | grep "bits_per_second" | grep -o '[0-9.]*'
+    ...    ${src['ip']}    ${src['user']}    ${src['pass']}    ${src['container_type']}
+    ...    ${src['container_name']}
+    ${actual_bw_used}=    ${actual_bw_used_in_bits}/1000
+    Login And Run Command On Remote System    pkill iperf
+    ...    ${src['ip']}    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
+    Login And Run Command On Remote System    pkill iperf
+    ...    ${DHCP_SRVR_IP}    ${DHCP_USERNAME}    ${DHCP_SSH_PWD}    None    None
+    Run Keyword if    ${limiting_bw_value} > ${actual_bw_used}    The upstream traffic doesnt exceed the limit
+    ####Authenticate Subscriber B and get the bandwidth details##########
+    ${src}=    Set Variable    ${hosts.src[${1}]}
+    ${dst}=    Set Variable    ${hosts.dst[${1}]}
+    ${onu_port}=    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds
+    ...    ${timeout}    2s    Get ONU Port in ONOS    ${src['onu']}
+    ...    ${of_id}
+    Run Keyword If    ${has_dataplane}    Run Keyword And Continue On Failure
+    ...    Validate DHCP and Ping    True    True    ${src['dp_iface_name']}
+    ...    ${src['s_tag']}    ${src['c_tag']}    ${dst['dp_iface_ip_qinq']}    ${src['ip']}    ${src['user']}
+    ...    ${src['pass']}    ${src['container_type']}    ${src['container_name']}    ${dst['dp_iface_name']}
+    ...    ${dst['ip']}    ${dst['user']}    ${dst['pass']}    ${dst['container_type']}    ${dst['container_name']}
+    Wait Until Keyword Succeeds    ${timeout}    2s    Validate Subscriber DHCP Allocation
+    ...    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${onu_port}
+    ${subcriber_id}=    Set Variable    ${of_id}/${onu_port}
+    ${bandwidth_profile_name}    Get Bandwidth Profile Name For Given Subscriber    ${subcriber_id}
+    ${limiting_bw_value}    Get Bandwidth Details    ${bandwidth_profile_name}
+    ${iperf_bng_output}=    Login and Run Command On Remote System
+    ...   cd /home/volthadhcp/iperf-3.7;./src/iperf3 -s -J --logfile auto_output2 -D    ${DHCP_SRVR_IP}
+    ...   ${DHCP_USERNAME}    ${DHCP_SSH_PWD}    None    None
+    ${iperf_rg_output}=    Login And Run Command On Remote System
+    ...   cd /home/voltharg/iperf-3.7;./src/iperf3 -c ${dst['dp_iface_ip_qinq']} -J --logfile auto_out_rg2 & sleep 10
+    ...   ${src['ip']}    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
+    Sleep    10s
+    ${actual_bw_used_in_bits}=    Login And Run Command On Remote System
+    ...    cat /home/voltharg/iperf-3.7/auto_out_rg2 | grep "sum_sent" -A 7 | grep "bits_per_sec" | grep -o '[0-9.]*'
+    ...    ${src['ip']}    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
+    ${actual_bw_used}=    ${actual_bw_used_in_bits}/1000
+    Login And Run Command On Remote System    pkill iperf    ${src['ip']}    ${src['user']}    ${src['pass']}
+    ...    ${src['container_type']}    ${src['container_name']}
+    Login And Run Command On Remote System    pkill iperf    ${DHCP_SRVR_IP}    ${DHCP_USERNAME}
+    ...    ${DHCP_SSH_PWD}    None    None
+    Run Keyword if    ${limiting_bw_value} > ${actual_bw_used}
+    ...    The upstream traffic doesnt exceed the limit for the second subscriber as well
 
 
 *** Keywords ***
