@@ -25,8 +25,8 @@
               "ponCTag": 11,
               "ponSTag": 11,
               "technologyProfileId": 64,
-              "upstreamBandwidthProfile": "User_Bandwidth1",
-              "downstreamBandwidthProfile": "User_Bandwidth1",
+              "upstreamBandwidthProfile": "Default",
+              "downstreamBandwidthProfile": "Default",
               "isDhcpRequired": true
             }]
           },
@@ -39,7 +39,7 @@
               "ponCTag": 12,
               "ponSTag": 11,
               "technologyProfileId": 64,
-              "upstreamBandwidthProfile": "User_Bandwidth2",
+              "upstreamBandwidthProfile": "User_Bandwidth1",
               "downstreamBandwidthProfile": "User_Bandwidth2",
               "isDhcpRequired": true
             }]
@@ -80,7 +80,7 @@
               {
                   "id": "User_Bandwidth1",
                   "air": 100000,
-                  "cbs": 10000,
+                  "cbs": 1000,
                   "cir": 30000,
                   "ebs": 1000,
                   "eir": 20000
