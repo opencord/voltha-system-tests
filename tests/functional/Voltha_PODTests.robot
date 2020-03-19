@@ -456,6 +456,50 @@ Validate authentication on a disabled ONU
     END
     Run Keyword and Ignore Error    Collect Logs
 
+Data plane verification with user defined bandwidth profiles
+    [Documentation]    Pre-requisite: The setup should be brought up with the required
+    ...    bandwidth profile sadis file with 2 subscribers where one subscriber with default bw
+    ...    Assumes iperf3 and jq installed on client and iperf -s running on DHCP server
+    [Tags]    sanity    BW-profile    VOL-2052
+    [Setup]    None
+    Pass Execution If   '${has_dataplane}'=='False'    Bandwidth profile validation can be done only in
+    ...    physical pod.Hence skipping this test in BBSIM
+    #Run Keyword If    ${has_dataplane}    Setup
+    #Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test
+    FOR    ${I}    IN RANGE    0    ${num_onus}
+        ${src}=    Set Variable    ${hosts.src[${I}]}
+        ${dst}=    Set Variable    ${hosts.dst[${I}]}
+        ${onu_port}=    Wait Until Keyword Succeeds    ${timeout}    2s    Get ONU Port in ONOS    ${src['onu']}
+        ...    ${of_id}
+        ${subscriber_id}=    Set Variable    ${of_id}/${onu_port}
+        ${bandwidth_profile_name}    Get Bandwidth Profile Name For Given Subscriber    ${subscriber_id}
+        ...    upstreamBandwidthProfile
+        ${limiting_bw_value_upstream}    Get Bandwidth Details    ${bandwidth_profile_name}
+        ${bandwidth_profile_name}    Get Bandwidth Profile Name For Given Subscriber    ${subscriber_id}
+        ...    downstreamBandwidthProfile
+        ${limiting_bw_value_dnstream}    Get Bandwidth Details    ${bandwidth_profile_name}
+        ${iperf_rg_output}=    Login And Run Command On Remote System
+        ...    iperf3 -c ${dst['dp_iface_ip_qinq']} -J > auto_out_rg1 & sleep 10
+        ...    ${src['ip']}    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
+        Sleep    10s
+        ${actual_bw_used_in_bits_up}=    Login And Run Command On Remote System
+        ...    jq -r '.end.sum_sent.bits_per_second' auto_out_rg1
+        ...    ${src['ip']}    ${src['user']}    ${src['pass']}    ${src['container_type']}
+        ...    ${src['container_name']}
+        ${actual_bw_used_in_bits_up}=    convert to integer    ${actual_bw_used_in_bits_up}
+        ${actual_upstream_bw_used}=    Evaluate   ${actual_bw_used_in_bits_up}/1000
+        ${actual_bw_used_in_bits_down}=    Login And Run Command On Remote System
+        ...    jq -r '.end.sum_received.bits_per_second' auto_out_rg1
+        ...    ${src['ip']}    ${src['user']}    ${src['pass']}    ${src['container_type']}
+        ...    ${src['container_name']}
+        ${actual_dnstream_bw_used}=   Evaluate     ${actual_bw_used_in_bits_down}/1000
+        Login And Run Command On Remote System    pkill iperf
+        ...    ${src['ip']}    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
+        Run Keyword if    ${limiting_bw_value_upstream} > ${actual_upstream_bw_used}
+        ...    The upstream traffic exceed the limit
+        Run Keyword if    ${limiting_bw_value_dnstream} > ${actual_dnstream_bw_used}
+        ...    The downstream traffic exceed the limit
+    END
 
 *** Keywords ***
 Setup Suite
