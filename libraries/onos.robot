@@ -169,3 +169,30 @@ Remove All Devices From ONOS
         Run Keyword If    '${dpid}' != ''
         ...    Should Be Equal As Integers    ${rc}    0
     END
+
+Get Bandwidth Details
+    [Arguments]    ${bandwidth_profile_name}
+    [Documentation]    Collects the bandwidth profile details for the given bandwidth profile and
+    ...    returns the limiting bandwidth
+    ${banwidth_profile_values}=    Execute ONOS CLI Command    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}
+    ...    bandwidthprofile ${bandwidth_profile_name}
+    @{banwidth_profile_array}=    Split String    ${banwidth_profile_values}    ,
+    @{parameter_value_pair}=    Split String    ${banwidth_profile_array[1]}    =
+    ${bandwidthparameter}=    Set Variable    ${parameter_value_pair[0]}
+    ${value}=    Set Variable    ${parameter_value_pair[1]}
+    ${cir_value}    Run Keyword If    '${bandwidthparameter}' == ' committedInformationRate'
+    ...    Set Variable    ${value}
+    @{parameter_value_pair}=    Split String    ${banwidth_profile_array[2]}    =
+    ${bandwidthparameter}=    Set Variable    ${parameter_value_pair[0]}
+    ${value}=    Set Variable    ${parameter_value_pair[1]}
+    ${cbs_value}    Run Keyword If    '${bandwidthparameter}' == ' committedBurstSize'    Set Variable    ${value}
+    @{parameter_value_pair}=    Split String    ${banwidth_profile_array[3]}    =
+    ${bandwidthparameter}=    Set Variable    ${parameter_value_pair[0]}
+    ${value}=    Set Variable    ${parameter_value_pair[1]}
+    ${eir_value}    Run Keyword If    '${bandwidthparameter}' == ' exceededInformationRate'   Set Variable    ${value}
+    @{parameter_value_pair}=    Split String    ${banwidth_profile_array[4]}    =
+    ${bandwidthparameter}=    Set Variable    ${parameter_value_pair[0]}
+    ${value}=    Set Variable    ${parameter_value_pair[1]}
+    ${ebs_value}    Run Keyword If    '${bandwidthparameter}' == ' exceededBurstSize'    Set Variable    ${value}
+    ${limiting_BW}=    Evaluate    ${cir_value}+${cbs_value}+${eir_value}+${ebs_value}
+    [Return]    ${limiting_BW}
