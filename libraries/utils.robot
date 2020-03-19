@@ -483,3 +483,33 @@ Parse RFC3339
     ${rc}    ${output}=    Run and Return Rc and Output     date --date="${dateStr}" "+%s"
     Should Be Equal As Numbers    ${rc}    0
     [return]    ${output}
+
+Get Bandwidth Profile Name For Given Subscriber
+    [Arguments]    ${subscriber_id}   ${stream_type}=upstreamBandwidthProfile
+    [Documentation]    Keyword to get the bandwidth details of the given subscriber
+    ${bandwidth_profile_output}=    Execute ONOS CLI Command    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}
+    ...    volt-programmed-subscribers | grep ${subscriber_id}
+    @{bandwidth_profile_array}=    Split String    ${bandwidth_profile_output}    ,
+    Log    ${bandwidth_profile_array}
+    FOR    ${value}    IN    @{bandwidth_profile_array}
+        @{row_value}=    Split String    ${value}    =
+        ${bandwidth_profile_name}=    Set Variable If    '${row_value[0]}' == ' ${stream_type}'
+        ...    ${row_value[1]}
+        ${bandwidth_profile_name}=    Convert To String    ${bandwidth_profile_name}
+        Run Keyword If    "${bandwidth_profile_name}" != "None"    Exit For Loop
+    END
+    Log    ${bandwidth_profile_name}
+    [Return]    ${bandwidth_profile_name}
+
+Run Iperf3 Test Client
+    [Arguments]    ${src}    ${server}    ${args}
+    [Documentation]    Login to ${src} and run the iperf3 client against ${server} using ${args}.
+    ...    Return a Dictionary containing the results of the test.
+    ${iperf_rg_output}=    Login And Run Command On Remote System
+    ...    iperf3 -J -c ${server} ${args}
+    ...    ${src['ip']}    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
+    # Strip off last line, which is the shell prompt
+    @{lines}=    Split To Lines    ${iperf_rg_output}    0    -1
+    ${json_output}=    Catenate    @{lines}
+    ${object}=    Evaluate    json.loads('''${json_output}''')    json
+    [Return]    ${object}
