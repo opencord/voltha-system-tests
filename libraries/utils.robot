@@ -483,3 +483,20 @@ Parse RFC3339
     ${rc}    ${output}=    Run and Return Rc and Output     date --date="${dateStr}" "+%s"
     Should Be Equal As Numbers    ${rc}    0
     [return]    ${output}
+
+Get Bandwidth Profile Name For Given Subscriber
+    [Arguments]    ${subscriber_id}   ${stream_type}=upstreamBandwidthProfile
+    [Documentation]    Keyword to get the bandwidth details of the given subscriber
+    ${bandwidth_profile_output}=    Execute ONOS CLI Command    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}
+    ...    volt-programmed-subscribers | grep ${subscriber_id}
+    @{bandwidth_profile_array}=    Split String    ${bandwidth_profile_output}    ,
+    Log    ${bandwidth_profile_array}
+    FOR    ${value}    IN    @{bandwidth_profile_array}
+        @{row_value}=    Split String    ${value}    =
+        ${bandwidth_profile_name}=    Set Variable If    '${row_value[0]}' == ' ${stream_type}'
+        ...    ${row_value[1]}
+        ${bandwidth_profile_name}=    Convert To String    ${bandwidth_profile_name}
+        Run Keyword If    "${bandwidth_profile_name}" != "None"    Exit For Loop
+    END
+    Log    ${bandwidth_profile_name}
+    [Return]    ${bandwidth_profile_name}
