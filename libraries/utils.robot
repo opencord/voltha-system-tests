@@ -483,3 +483,46 @@ Parse RFC3339
     ${rc}    ${output}=    Run and Return Rc and Output     date --date="${dateStr}" "+%s"
     Should Be Equal As Numbers    ${rc}    0
     [return]    ${output}
+
+Get Bandwidth Profile Name For Given Subscriber
+    [Arguments]    ${subscriber_id}   ${stream_type}=upstreamBandwidthProfile
+    [Documentation]    Keyword to get the bandwidth details of the given subscriber
+    ${bandwidth_profile_output}=    Execute ONOS CLI Command    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}
+    ...    volt-programmed-subscribers | grep ${subscriber_id}
+    @{bandwidth_profile_array}=    Split String    ${bandwidth_profile_output}    ,
+    Log    ${bandwidth_profile_array}
+    FOR    ${value}    IN    @{bandwidth_profile_array}
+        @{row_value}=    Split String    ${value}    =
+        ${bandwidth_profile_name}=    Set Variable If    '${row_value[0]}' == ' ${stream_type}'
+        ...    ${row_value[1]}
+        ${bandwidth_profile_name}=    Convert To String    ${bandwidth_profile_name}
+        Run Keyword If    "${bandwidth_profile_name}" != "None"    Exit For Loop
+    END
+    Log    ${bandwidth_profile_name}
+    [Return]    ${bandwidth_profile_name}
+
+Execute Remote Command
+    [Documentation]    SSH into a remote host and execute a command on the bare host or in a container.
+    ...    This attempts to remove some issues with the Login And Run Command On Remote System keyword.
+    [Arguments]    ${cmd}    ${ip}    ${user}    ${pass}=${None}
+    ...    ${container_type}=${None}    ${container_name}=${None}
+    ${conn_id}=    Login To Remote System    ${ip}    ${user}    ${pass}
+    ${namespace}=    Run Keyword If    '${container_type}' == 'K8S'    Execute Command
+    ...    kubectl get pods --all-namespaces | grep ${container_name} | awk '{print $1}'
+    ${output}=    Run Keyword If    '${container_type}' == 'LXC'
+    ...    Execute Command    lxc exec ${container_name} ${cmd}
+    ...    ELSE IF    '${container_type}' == 'K8S'
+    ...    Execute Command    kubectl -n ${namespace} exec ${container_name} ${cmd}
+    ...    ELSE    Execute Command    ${cmd}
+    Log    ${output}
+    Logout From Remote System    ${conn_id}
+    [Return]    ${output}
+
+Run Iperf3 Test Client
+    [Arguments]    ${src}    ${server}    ${args}
+    [Documentation]    Login to ${src} and run the iperf3 client against ${server} using ${args}.
+    ...    Return a Dictionary containing the results of the test.
+    ${output}=    Execute Remote Command    iperf3 -J -c ${server} ${args}
+    ...    ${src['ip']}    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
+    ${object}=    Evaluate    json.loads('''${output}''')    json
+    [Return]    ${object}
