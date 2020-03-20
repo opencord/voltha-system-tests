@@ -112,6 +112,12 @@ bbsim-alarms-kind: ROBOT_FILE := Voltha_AlarmTests.robot
 bbsim-alarms-kind: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_SINGLE_PON_FILE)
 bbsim-alarms-kind: voltctl-docker-image-build voltctl-docker-image-install-kind voltha-test
 
+bbsim-errorscenarios: ROBOT_MISC_ARGS += -X $(ROBOT_DEBUG_LOG_OPT)
+bbsim-errorscenarios: ROBOT_FILE := Voltha_ErrorScenarios.robot
+bbsim-errorscenarios: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_SINGLE_PON_FILE)
+bbsim-errorscenarios: voltha-test
+
+
 voltha-test: ROBOT_MISC_ARGS += -e notready
 
 voltha-test: vst_venv
