@@ -66,7 +66,7 @@ Adding the same OLT before and after enabling the device
     ...          AND              Announce Message    END TEST AddSameOLT
     # Add OLT device
     #setup
-    Run Keyword If    ${has_dataplane}    Delete Device and Verify
+    Delete All Devices and Verify
     Run Keyword and Ignore Error   Collect Logs
     ${olt_device_id}=    Create Device    ${olt_ip}    ${OLT_PORT}
     Set Suite Variable    ${olt_device_id}
