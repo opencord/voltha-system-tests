@@ -80,8 +80,6 @@ node ("${TestNodeName}") {
                         export  EXTRA_HELM_FLAGS="--set defaults.image_tag=null,images.onos.tag=4.0.0,images.onos.repository=voltha/voltha-onos,use_ofagent_go=false,images.ofagent.repository=voltha/voltha-ofagent,images.ofagent.tag=2.2.4"
                         cd $WORKSPACE/kind-voltha
                         source releases/voltha-2.3.0-rc1
-                    elif ( ${ofagentGo} ); then
-                        export EXTRA_HELM_FLAGS='-f $WORKSPACE/${configBaseDir}/${configKubernetesDir}/voltha/${configFileName}-ofagent-go.yml'
                     else
                         export EXTRA_HELM_FLAGS='-f $WORKSPACE/${configBaseDir}/${configKubernetesDir}/voltha/${configFileName}.yml'
                     fi
