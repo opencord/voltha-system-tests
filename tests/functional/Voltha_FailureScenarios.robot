@@ -115,6 +115,7 @@ Verify OLT after rebooting physically
     [Teardown]    Run Keywords    Collect Logs
     ...           AND             Stop Logging    PhysicalOLTReboot
     ...           AND             Announce Message    END TEST PhysicalOLTReboot
+    ...           AND             Delete Device and Verify
     # Add OLT device
     setup
     # Performing Sanity Test to make sure subscribers are all AUTH+DHCP and pingable
@@ -138,7 +139,7 @@ Verify OLT after rebooting physically
     Run Keyword If    ${has_dataplane}    Clean Up Linux
     Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test
     # Deleting OLT after test completes
-    Run Keyword If    ${has_dataplane}    Delete Device and Verify
+    #Run Keyword If    ${has_dataplane}    Delete Device and Verify
 
 Verify restart openolt-adapter container after VOLTHA is operational
     [Documentation]    Restart openolt-adapter container after VOLTHA is operational.
