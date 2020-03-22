@@ -67,6 +67,7 @@ Verify ONU after rebooting physically
     [Teardown]    Run Keywords    Collect Logs
     ...           AND             Stop Logging    ONUreboot_PowerSwitch
     ...           AND             Announce Message    END TEST ONUreboot_PowerSwitch
+    ...           AND             Delete Device and Verify
     # Add OLT device
     setup
     # Performing Sanity Test to make sure subscribers are all AUTH+DHCP and pingable
@@ -102,7 +103,7 @@ Verify ONU after rebooting physically
         Run Keyword And Ignore Error    Collect Logs
     END
     # Deleting OLT after tests completes independently (as this test doesn't not run on each POD)
-    Run Keyword If    ${has_dataplane}    Delete Device and Verify
+    #Run Keyword If    ${has_dataplane}    Delete Device and Verify
 
 Verify OLT after rebooting physically
     [Documentation]    Test the physical reboot of the OLT
