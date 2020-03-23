@@ -136,6 +136,8 @@ Verify OLT after rebooting physically
     END
     # Wait for the OLT to come back up
     Wait Until Keyword Succeeds    120s    10s    Check Remote System Reachability    True    ${olt_ip}
+    # Waiting extra time for the ONUs to come up
+    Sleep    60s
     Run Keyword And Ignore Error    Collect Logs
     Run Keyword If    ${has_dataplane}    Clean Up Linux
     Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test
