@@ -85,6 +85,8 @@ Setup EPC Power Switch
 Enable DLI Switch Outlet
     [Arguments]    ${outlet_number}
     [Documentation]    Enable specific outlet of DLI power switch
+    # Port number starts from 0 in DLI API
+    ${outlet_number}=   Evaluate    ${outlet_number}-1
     ${resp}=    Put Request    alias=${alias_name}    uri==${outlet_number}/state/    data=value=true
     Should Be Equal As Strings  ${resp.status_code}  207
     Wait Until Keyword Succeeds    ${timeout}    2s
@@ -100,6 +102,8 @@ Enable EPC Switch Outlet
 Disable DLI Switch Outlet
     [Arguments]    ${outlet_number}
     [Documentation]    Disable specific outlet of DLI Power Switch
+    # Port number starts from 0 in DLI API
+    ${outlet_number}=   Evaluate    ${outlet_number}-1
     ${resp}=    Put Request    alias=${alias_name}    uri==${outlet_number}/state/    data=value=false
     Should Be Equal As Strings  ${resp.status_code}  207
     Wait Until Keyword Succeeds    ${timeout}    2s
@@ -115,6 +119,8 @@ Disable EPC Switch Outlet
 Check Expected DLI Switch Outlet Status
     [Arguments]    ${outlet_number}    ${status}
     [Documentation]    Succeeds if the status of the desired DLI switch outlet is expected
+    # Port number starts from 0 in DLI API
+    ${outlet_number}=   Evaluate    ${outlet_number}-1
     ${resp}=    Get Request    alias=${alias_name}    uri==${outlet_number}/state/
     Should Be Equal As Strings  ${resp.text}  [${status}]
 
