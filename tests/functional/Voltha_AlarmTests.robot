@@ -71,7 +71,7 @@ Test RaiseActivationFailureAlarm
     # Note: Can only be raised, not cleared
     [Documentation]    Raise Activation Fail Alarm and verify event received
     [Tags]    active
-    ${header}    ${deviceEvent}    Raise Onu Alarm And Get Event    ActivationFailure
+    ${header}    ${deviceEvent}    Raise Onu Alarm And Get Event    ONU_ACTIVATION_FAILURE
     ...     ${onu_sn}    ONU_ACTIVATION_FAIL_RAISE_EVENT
     # Note: PON is the zero value of the subCategory field, and causes it to be not present
     Verify Header   ${header}    Voltha.openolt.ONU_ACTIVATION_FAIL\.(\\d+)    ${EMPTY}
@@ -81,7 +81,7 @@ Test RaiseActivationFailureAlarm
 Test RaiseDriftOfWindowAlarm
     [Documentation]    Raise Drift Of Window Alarm and verify event received
     [Tags]    active
-    ${header}    ${deviceEvent}    Raise Onu Alarm And Get Event    DriftOfWindow
+    ${header}    ${deviceEvent}    Raise Onu Alarm And Get Event    ONU_DRIFT_OF_WINDOW
     ...     ${onu_sn}    ONU_DRIFT_OF_WINDOW_RAISE_EVENT
     # Note: PON is the zero value of the subCategory field, and causes it to be not present
     Verify Header   ${header}    Voltha.openolt.ONU_DRIFT_OF_WINDOW\.(\\d+)    ${EMPTY}
@@ -91,7 +91,7 @@ Test RaiseDriftOfWindowAlarm
 Test ClearDriftOfWindowAlarm
     [Documentation]    Clear Drift Of Window Alarm and verify event received
     [Tags]    active
-    ${header}    ${deviceEvent}    Clear Onu Alarm And Get Event    DriftOfWindow
+    ${header}    ${deviceEvent}    Clear Onu Alarm And Get Event    ONU_DRIFT_OF_WINDOW
     ...     ${onu_sn}    ONU_DRIFT_OF_WINDOW_CLEAR_EVENT
     # Note: PON is the zero value of the subCategory field, and causes it to be not present
     Verify Header   ${header}    Voltha.openolt.ONU_DRIFT_OF_WINDOW\.(\\d+)    ${EMPTY}
@@ -101,7 +101,7 @@ Test ClearDriftOfWindowAlarm
 Test RaiseDyingGaspAlarm
     [Documentation]    Raise Dying Gasp Alarm and verify event received
     [Tags]    active
-    ${header}    ${deviceEvent}    Raise Onu Alarm And Get Event    DyingGasp
+    ${header}    ${deviceEvent}    Raise Onu Alarm And Get Event    DYING_GASP
     ...     ${onu_sn}    ONU_DYING_GASP_EVENT
     # Note: PON is the zero value of the subCategory field, and causes it to be not present
     Verify Header   ${header}    Voltha.openolt.ONU_DYING\.(\\d+)    ${EMPTY}
@@ -111,7 +111,7 @@ Test RaiseDyingGaspAlarm
 Test RaiseLopcMissAlarm
     [Documentation]    Raise LOPC_MISS Alarm and verify event received
     [Tags]    active
-    ${header}    ${deviceEvent}    Raise Onu Alarm And Get Event    LOPC_MISS
+    ${header}    ${deviceEvent}    Raise Onu Alarm And Get Event    ONU_ALARM_LOPC_MISS
     ...     ${onu_sn}    ONU_LOPC_MISS_RAISE_EVENT
     # Note: PON is the zero value of the subCategory field, and causes it to be not present
     Verify Header   ${header}    Voltha.openolt.ONU_LOPC_MISS\.(\\d+)    ONU
@@ -121,7 +121,7 @@ Test RaiseLopcMissAlarm
 Test ClearLopcMissAlarm
     [Documentation]    Clear LOPC_MISS Alarm and verify event received
     [Tags]    active
-    ${header}    ${deviceEvent}    Clear Onu Alarm And Get Event    LOPC_MISS
+    ${header}    ${deviceEvent}    Clear Onu Alarm And Get Event    ONU_ALARM_LOPC_MISS
     ...     ${onu_sn}    ONU_LOPC_MISS_CLEAR_EVENT
     # Note: PON is the zero value of the subCategory field, and causes it to be not present
     Verify Header   ${header}    Voltha.openolt.ONU_LOPC_MISS\.(\\d+)    ONU
@@ -131,7 +131,7 @@ Test ClearLopcMissAlarm
 Test RaiseLopcMicErrorAlarm
     [Documentation]    Raise LOPC_MISS Alarm and verify event received
     [Tags]    active
-    ${header}    ${deviceEvent}    Raise Onu Alarm And Get Event    LOPC_MIC_ERROR
+    ${header}    ${deviceEvent}    Raise Onu Alarm And Get Event    ONU_ALARM_LOPC_MIC_ERROR
     ...     ${onu_sn}    ONU_LOPC_MIC_ERROR_RAISE_EVENT
     # Note: PON is the zero value of the subCategory field, and causes it to be not present
     Verify Header   ${header}    Voltha.openolt.ONU_LOPC_MIC_ERROR\.(\\d+)    ONU
@@ -141,7 +141,7 @@ Test RaiseLopcMicErrorAlarm
 Test ClearLopcMicErrorAlarm
     [Documentation]    Clear LOPC_MISS Alarm and verify event received
     [Tags]    active
-    ${header}    ${deviceEvent}    Clear Onu Alarm And Get Event    LOPC_MIC_ERROR
+    ${header}    ${deviceEvent}    Clear Onu Alarm And Get Event    ONU_ALARM_LOPC_MIC_ERROR
     ...     ${onu_sn}    ONU_LOPC_MIC_ERROR_CLEAR_EVENT
     # Note: PON is the zero value of the subCategory field, and causes it to be not present
     Verify Header   ${header}    Voltha.openolt.ONU_LOPC_MIC_ERROR\.(\\d+)    ONU
@@ -151,7 +151,7 @@ Test ClearLopcMicErrorAlarm
 Test RaiseLossOfBurstAlarm
     [Documentation]    Raise Loss Of Burst Alarm and verify event received
     [Tags]    active
-    ${header}    ${deviceEvent}    Raise Onu Alarm And Get Event    LossOfBurst
+    ${header}    ${deviceEvent}    Raise Onu Alarm And Get Event    ONU_ALARM_LOB
     ...     ${onu_sn}    ONU_LOSS_OF_BURST_RAISE_EVENT
     Verify Header   ${header}    Voltha.openolt.ONU_LOSS_OF_BURST\.(\\d+)    ONU
     Should Be Equal    ${deviceEvent}[deviceEventName]    ONU_LOSS_OF_BURST_RAISE_EVENT
@@ -160,7 +160,7 @@ Test RaiseLossOfBurstAlarm
 Test ClearLossOfBurstAlarm
     [Documentation]    Clear Loss Of Burst Alarm and verify event received
     [Tags]    active
-    ${header}    ${deviceEvent}     Clear Onu Alarm And Get Event     LossOfBurst
+    ${header}    ${deviceEvent}     Clear Onu Alarm And Get Event     ONU_ALARM_LOB
     ...    ${onu_sn}    ONU_LOSS_OF_BURST_CLEAR_EVENT
     Verify Header   ${header}    Voltha.openolt.ONU_LOSS_OF_BURST\.(\\d+)    ONU
     Should Be Equal    ${deviceEvent}[deviceEventName]    ONU_LOSS_OF_BURST_CLEAR_EVENT
@@ -169,7 +169,7 @@ Test ClearLossOfBurstAlarm
 Test RaiseLossOfFrameAlarm
     [Documentation]    Raise Loss Of Frame Alarm and verify event received
     [Tags]    active
-    ${header}    ${deviceEvent}    Raise Onu Alarm And Get Event    LossOfFrame
+    ${header}    ${deviceEvent}    Raise Onu Alarm And Get Event     ONU_ALARM_LOFI
     ...     ${onu_sn}    ONU_LOSS_OF_FRAME_RAISE_EVENT
     Verify Header   ${header}    Voltha.openolt.ONU_LOSS_OF_FRAME\.(\\d+)    ONU
     Should Be Equal    ${deviceEvent}[deviceEventName]    ONU_LOSS_OF_FRAME_RAISE_EVENT
@@ -178,7 +178,7 @@ Test RaiseLossOfFrameAlarm
 Test ClearLossOfFrameAlarm
     [Documentation]    Clear Loss Of Frame Alarm and verify event received
     [Tags]    active
-    ${header}    ${deviceEvent}     Clear Onu Alarm And Get Event     LossOfFrame
+    ${header}    ${deviceEvent}     Clear Onu Alarm And Get Event      ONU_ALARM_LOFI
     ...    ${onu_sn}    ONU_LOSS_OF_FRAME_CLEAR_EVENT
     Verify Header   ${header}    Voltha.openolt.ONU_LOSS_OF_FRAME\.(\\d+)    ONU
     Should Be Equal    ${deviceEvent}[deviceEventName]    ONU_LOSS_OF_FRAME_CLEAR_EVENT
@@ -187,7 +187,7 @@ Test ClearLossOfFrameAlarm
 Test RaiseLossOfKeySyncFailureAlarm
     [Documentation]    Raise Loss Of Key Sync Alarm and verify event received
     [Tags]    active
-    ${header}    ${deviceEvent}    Raise Onu Alarm And Get Event    LossOfKeySyncFailure
+    ${header}    ${deviceEvent}    Raise Onu Alarm And Get Event    ONU_LOSS_OF_KEY_SYNC_FAILURE
     ...     ${onu_sn}    ONU_LOSS_OF_KEY_SYNC_RAISE_EVENT
     Verify Header   ${header}    Voltha.openolt.ONU_LOSS_OF_KEY_SYNC\.(\\d+)    ONU
     Should Be Equal    ${deviceEvent}[deviceEventName]    ONU_LOSS_OF_KEY_SYNC_RAISE_EVENT
@@ -196,7 +196,7 @@ Test RaiseLossOfKeySyncFailureAlarm
 Test ClearLossOfKeySyncFailureAlarm
     [Documentation]    Clear Loss Of Key Sync Alarm and verify event received
     [Tags]    active
-    ${header}    ${deviceEvent}    Clear Onu Alarm And Get Event    LossOfKeySyncFailure
+    ${header}    ${deviceEvent}    Clear Onu Alarm And Get Event    ONU_LOSS_OF_KEY_SYNC_FAILURE
     ...     ${onu_sn}    ONU_LOSS_OF_KEY_SYNC_CLEAR_EVENT
     Verify Header   ${header}    Voltha.openolt.ONU_LOSS_OF_KEY_SYNC\.(\\d+)    ONU
     Should Be Equal    ${deviceEvent}[deviceEventName]    ONU_LOSS_OF_KEY_SYNC_CLEAR_EVENT
@@ -205,7 +205,7 @@ Test ClearLossOfKeySyncFailureAlarm
 Test RaiseLossOfOmciChannelAlarm
     [Documentation]    Raise Loss Of Omci Channel Alarm and verify event received
     [Tags]    active
-    ${header}    ${deviceEvent}    Raise Onu Alarm And Get Event    LossOfOmciChannel
+    ${header}    ${deviceEvent}    Raise Onu Alarm And Get Event    ONU_LOSS_OF_OMCI_CHANNEL
     ...     ${onu_sn}    ONU_LOSS_OF_OMCI_CHANNEL_RAISE_EVENT
     Verify Header   ${header}    Voltha.openolt.ONU_LOSS_OF_OMCI_CHANNEL\.(\\d+)    ${EMPTY}
     Should Be Equal    ${deviceEvent}[deviceEventName]    ONU_LOSS_OF_OMCI_CHANNEL_RAISE_EVENT
@@ -214,7 +214,7 @@ Test RaiseLossOfOmciChannelAlarm
 Test ClearLossOfOmciChannelAlarm
     [Documentation]    Clear Loss Of Omci Channel Alarm and verify event received
     [Tags]    active
-    ${header}    ${deviceEvent}    Clear Onu Alarm And Get Event    LossOfOmciChannel
+    ${header}    ${deviceEvent}    Clear Onu Alarm And Get Event    ONU_LOSS_OF_OMCI_CHANNEL
     ...     ${onu_sn}    ONU_LOSS_OF_OMCI_CHANNEL_CLEAR_EVENT
     Verify Header   ${header}    Voltha.openolt.ONU_LOSS_OF_OMCI_CHANNEL\.(\\d+)    ${EMPTY}
     Should Be Equal    ${deviceEvent}[deviceEventName]    ONU_LOSS_OF_OMCI_CHANNEL_CLEAR_EVENT
@@ -223,7 +223,7 @@ Test ClearLossOfOmciChannelAlarm
 Test RaiseLossOfPloamAlarm
     [Documentation]    Raise Loss Of Ploam Alarm and verify event received
     [Tags]    active
-    ${header}    ${deviceEvent}    Raise Onu Alarm And Get Event    LossOfPloam
+    ${header}    ${deviceEvent}    Raise Onu Alarm And Get Event    ONU_ALARM_LOAMI
     ...     ${onu_sn}    ONU_LOSS_OF_PLOAM_RAISE_EVENT
     Verify Header   ${header}    Voltha.openolt.ONU_LOSS_OF_PLOAM\.(\\d+)    ONU
     Should Be Equal    ${deviceEvent}[deviceEventName]    ONU_LOSS_OF_PLOAM_RAISE_EVENT
@@ -232,16 +232,22 @@ Test RaiseLossOfPloamAlarm
 Test ClearLossOfPloamAlarm
     [Documentation]    Clear Loss Of Ploam Alarm and verify event received
     [Tags]    active
-    ${header}    ${deviceEvent}    Clear Onu Alarm And Get Event    LossOfPloam
+    ${header}    ${deviceEvent}    Clear Onu Alarm And Get Event    ONU_ALARM_LOAMI
     ...     ${onu_sn}    ONU_LOSS_OF_PLOAM_CLEAR_EVENT
     Verify Header   ${header}    Voltha.openolt.ONU_LOSS_OF_PLOAM\.(\\d+)    ONU
     Should Be Equal    ${deviceEvent}[deviceEventName]    ONU_LOSS_OF_PLOAM_CLEAR_EVENT
     Should Be Equal    ${deviceEvent}[resourceId]    ${parent_id}
 
+# NOTE: ONU_ALARM_LOS a bit touchy as it seems to be automatically suppressed if
+#   multiples are sent in a row. It seems like the bbsim state machine is interacting
+#   with alarms, sometimes causing an ONU_ALARM_LOS to be sent, which then causes
+#   this test to be a duplicate, which in turn is suppressed and fails. So what we
+#   do is issue a CLEAR right before the RAISE.
 Test RaiseLossOfSignalAlarm
     [Documentation]    Raise Loss Of Signal Alarm and verify event received
     [Tags]    active
-    ${header}    ${deviceEvent}    Raise Onu Alarm And Get Event    LossOfSignal
+    Clear Onu Alarm    ONU_ALARM_LOS    ${onu_sn}
+    ${header}    ${deviceEvent}    Raise Onu Alarm And Get Event    ONU_ALARM_LOS
     ...     ${onu_sn}    ONU_LOSS_OF_SIGNAL_RAISE_EVENT
     Verify Header   ${header}    Voltha.openolt.ONU_LOSS_OF_SIGNAL\.(\\d+)    ONU
     Should Be Equal    ${deviceEvent}[deviceEventName]    ONU_LOSS_OF_SIGNAL_RAISE_EVENT
@@ -250,7 +256,7 @@ Test RaiseLossOfSignalAlarm
 Test ClearLossOfSignalAlarm
     [Documentation]    Clear Loss Of Signal Alarm and verify event received
     [Tags]    active
-    ${header}    ${deviceEvent}    Clear Onu Alarm And Get Event    LossOfSignal
+    ${header}    ${deviceEvent}    Clear Onu Alarm And Get Event    ONU_ALARM_LOS
     ...     ${onu_sn}    ONU_LOSS_OF_SIGNAL_CLEAR_EVENT
     Verify Header   ${header}    Voltha.openolt.ONU_LOSS_OF_SIGNAL\.(\\d+)    ONU
     Should Be Equal    ${deviceEvent}[deviceEventName]    ONU_LOSS_OF_SIGNAL_CLEAR_EVENT
@@ -259,7 +265,7 @@ Test ClearLossOfSignalAlarm
 Test RaisePonLossOfSignalAlarm
     [Documentation]    Raise Loss Of Signal Alarm and verify event received
     [Tags]    active
-    ${header}    ${deviceEvent}    Raise Olt Alarm And Get Event    PonLossOfSignal
+    ${header}    ${deviceEvent}    Raise Olt Alarm And Get Event    OLT_PON_LOS
     ...     0    OLT_LOSS_OF_SIGNAL_RAISE_EVENT
     Verify Header   ${header}    Voltha.openolt.OLT_LOSS_OF_SIGNAL\.(\\d+)    OLT
     Should Be Equal    ${deviceEvent}[deviceEventName]    OLT_LOSS_OF_SIGNAL_RAISE_EVENT
@@ -268,7 +274,7 @@ Test RaisePonLossOfSignalAlarm
 Test ClearPonLossOfSignalAlarm
     [Documentation]    Clear Loss Of Signal Alarm and verify event received
     [Tags]    active
-    ${header}    ${deviceEvent}    Clear Olt Alarm And Get Event    PonLossOfSignal
+    ${header}    ${deviceEvent}    Clear Olt Alarm And Get Event    OLT_PON_LOS
     ...     0    OLT_LOSS_OF_SIGNAL_CLEAR_EVENT
     Verify Header   ${header}    Voltha.openolt.OLT_LOSS_OF_SIGNAL\.(\\d+)    OLT
     Should Be Equal    ${deviceEvent}[deviceEventName]    OLT_LOSS_OF_SIGNAL_CLEAR_EVENT
@@ -278,7 +284,7 @@ Test RaiseProcessingErrorAlarm
     # Not Implemented
     [Documentation]    Raise Processing Error Alarm and verify event received
     [Tags]    not-active
-    ${header}    ${deviceEvent}    Raise Onu Alarm And Get Event    ProcessingError
+    ${header}    ${deviceEvent}    Raise Onu Alarm And Get Event    ONU_PROCESSING_ERROR
     ...     ${onu_sn}    ONU_PROCESSING_ERROR_RAISE_EVENT
     Verify Header   ${header}    Voltha.openolt.ONU_PROCESSING_ERROR\.(\\d+)    ONU
     Should Be Equal    ${deviceEvent}[deviceEventName]    ONU_PROCESSING_ERROR_RAISE_EVENT
@@ -288,7 +294,7 @@ Test ClearProcessingErrorAlarm
     # Not Implemented
     [Documentation]    Clear Processing Error Alarm and verify event received
     [Tags]    not-active
-    ${header}    ${deviceEvent}    Clear Onu Alarm And Get Event    ProcessingError
+    ${header}    ${deviceEvent}    Clear Onu Alarm And Get Event    ONU_PROCESSING_ERROR
     ...     ${onu_sn}    ONU_PROCESSING_ERROR_CLEAR_EVENT
     Verify Header   ${header}    Voltha.openolt.ONU_PROCESSING_ERROR\.(\\d+)    ONU
     Should Be Equal    ${deviceEvent}[deviceEventName]    ONU_PROCESSING_ERROR_CLEAR_EVENT
@@ -297,7 +303,7 @@ Test ClearProcessingErrorAlarm
 Test RaiseSignalDegradeAlarm
     [Documentation]    Raise Signal Degrade Alarm and verify event received
     [Tags]    active
-    ${header}    ${deviceEvent}    Raise Onu Alarm And Get Event    SignalDegrade
+    ${header}    ${deviceEvent}    Raise Onu Alarm And Get Event    ONU_SIGNAL_DEGRADE
     ...     ${onu_sn}    ONU_SIGNAL_DEGRADE_RAISE_EVENT
     Verify Header   ${header}    Voltha.openolt.ONU_SIGNAL_DEGRADE\.(\\d+)    ${EMPTY}
     Should Be Equal    ${deviceEvent}[deviceEventName]    ONU_SIGNAL_DEGRADE_RAISE_EVENT
@@ -306,7 +312,7 @@ Test RaiseSignalDegradeAlarm
 Test ClearSignalDegradeAlarm
     [Documentation]    Clear Signal Degrade Alarm and verify event received
     [Tags]    active
-    ${header}    ${deviceEvent}    Clear Onu Alarm And Get Event    SignalDegrade
+    ${header}    ${deviceEvent}    Clear Onu Alarm And Get Event    ONU_SIGNAL_DEGRADE
     ...     ${onu_sn}    ONU_SIGNAL_DEGRADE_CLEAR_EVENT
     Verify Header   ${header}    Voltha.openolt.ONU_SIGNAL_DEGRADE\.(\\d+)    ${EMPTY}
     Should Be Equal    ${deviceEvent}[deviceEventName]    ONU_SIGNAL_DEGRADE_CLEAR_EVENT
@@ -315,7 +321,7 @@ Test ClearSignalDegradeAlarm
 Test RaiseSignalsFailureAlarm
     [Documentation]    Raise Signals Fail Alarm and verify event received
     [Tags]    active
-    ${header}    ${deviceEvent}    Raise Onu Alarm And Get Event    SignalsFailure
+    ${header}    ${deviceEvent}    Raise Onu Alarm And Get Event    ONU_SIGNALS_FAILURE
     ...     ${onu_sn}    ONU_SIGNALS_FAIL_RAISE_EVENT
     Verify Header   ${header}    Voltha.openolt.ONU_SIGNALS_FAIL\.(\\d+)    ${EMPTY}
     Should Be Equal    ${deviceEvent}[deviceEventName]    ONU_SIGNALS_FAIL_RAISE_EVENT
@@ -324,7 +330,7 @@ Test RaiseSignalsFailureAlarm
 Test ClearSignalsFailureAlarm
     [Documentation]    Clear Signals Fail Alarm and verify event received
     [Tags]    active
-    ${header}    ${deviceEvent}    Clear Onu Alarm And Get Event    SignalsFailure
+    ${header}    ${deviceEvent}    Clear Onu Alarm And Get Event    ONU_SIGNALS_FAILURE
     ...     ${onu_sn}    ONU_SIGNALS_FAIL_CLEAR_EVENT
     Verify Header   ${header}    Voltha.openolt.ONU_SIGNALS_FAIL\.(\\d+)    ${EMPTY}
     Should Be Equal    ${deviceEvent}[deviceEventName]    ONU_SIGNALS_FAIL_CLEAR_EVENT
@@ -334,7 +340,7 @@ Test RaiseStartupFailureAlarm
     # Not Implemented
     [Documentation]    Raise Startup Failure Alarm and verify event received
     [Tags]    not-active
-    ${header}    ${deviceEvent}    Raise Onu Alarm And Get Event    StartupFailure
+    ${header}    ${deviceEvent}    Raise Onu Alarm And Get Event    ONU_STARTUP_FAILURE
     ...     ${onu_sn}    ONU_STARTUP_FAILURE_RAISE_EVENT
     Verify Header   ${header}    Voltha.openolt.ONU_STARTUP_FAILURE\.(\\d+)    ONU
     Should Be Equal    ${deviceEvent}[deviceEventName]    ONU_STARTUP_FAILURE_RAISE_EVENT
@@ -344,7 +350,7 @@ Test ClearStartupFailureAlarm
     # Not Implemented
     [Documentation]    Clear Startup Failure Alarm and verify event received
     [Tags]    not-active
-    ${header}    ${deviceEvent}    Clear Onu Alarm And Get Event    StartupFailure
+    ${header}    ${deviceEvent}    Clear Onu Alarm And Get Event    ONU_STARTUP_FAILURE
     ...     ${onu_sn}    ONU_STARTUP_FAILURE_CLEAR_EVENT
     Verify Header   ${header}    Voltha.openolt.ONU_STARTUP_FAILURE\.(\\d+)    ONU
     Should Be Equal    ${deviceEvent}[deviceEventName]    ONU_STARTUP_FAILURE_CLEAR_EVENT
@@ -354,7 +360,7 @@ Test RaiseTransmissionInterferenceAlarm
     # Not Implemented
     [Documentation]    Raise Transmission Interference Alarm and verify event received
     [Tags]    not-active
-    ${header}    ${deviceEvent}    Raise Onu Alarm And Get Event    TransmissionInterference
+    ${header}    ${deviceEvent}    Raise Onu Alarm And Get Event    ONU_TRANSMISSION_INTERFERENCE_WARNING
     ...     ${onu_sn}    ONU_TRANSMISSION_INTERFERENCE_RAISE_EVENT
     Verify Header   ${header}    Voltha.openolt.ONU_TRANSMISSION_INTERFERENCE\.(\\d+)    ONU
     Should Be Equal    ${deviceEvent}[deviceEventName]    ONU_TRANSMISSION_INTERFERENCE_RAISE_EVENT
@@ -364,7 +370,7 @@ Test ClearTransmissionInterferenceAlarm
     # Not Implemented
     [Documentation]    Clear Transmission Interference Alarm and verify event received
     [Tags]    not-active
-    ${header}    ${deviceEvent}    Clear Onu Alarm And Get Event    TransmissionInterference
+    ${header}    ${deviceEvent}    Clear Onu Alarm And Get Event    ONU_TRANSMISSION_INTERFERENCE_WARNING
     ...     ${onu_sn}    ONU_TRANSMISSION_INTERFERENCE_CLEAR_EVENT
     Verify Header   ${header}    Voltha.openolt.ONU_TRANSMISSION_INTERFERENCE\.(\\d+)    ONU
     Should Be Equal    ${deviceEvent}[deviceEventName]    ONU_TRANSMISSION_INTERFERENCE_CLEAR_EVENT
