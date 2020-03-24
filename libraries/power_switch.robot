@@ -86,8 +86,9 @@ Enable DLI Switch Outlet
     [Arguments]    ${outlet_number}
     [Documentation]    Enable specific outlet of DLI power switch
     # Port number starts from 0 in DLI API
-    ${outlet_number}=   Evaluate    ${outlet_number}-1
-    ${resp}=    Put Request    alias=${alias_name}    uri==${outlet_number}/state/    data=value=true
+    # Pass the original outlet number to Check function to avoid duplicated calculation
+    ${new_outlet_number}=   Evaluate    ${outlet_number}-1
+    ${resp}=    Put Request    alias=${alias_name}    uri==${new_outlet_number}/state/    data=value=true
     Should Be Equal As Strings  ${resp.status_code}  207
     Wait Until Keyword Succeeds    ${timeout}    2s
     ...    Check Expected DLI Switch Outlet Status    ${outlet_number}    true
@@ -103,8 +104,9 @@ Disable DLI Switch Outlet
     [Arguments]    ${outlet_number}
     [Documentation]    Disable specific outlet of DLI Power Switch
     # Port number starts from 0 in DLI API
-    ${outlet_number}=   Evaluate    ${outlet_number}-1
-    ${resp}=    Put Request    alias=${alias_name}    uri==${outlet_number}/state/    data=value=false
+    # Pass the original outlet number to Check function to avoid duplicated calculation
+    ${new_outlet_number}=   Evaluate    ${outlet_number}-1
+    ${resp}=    Put Request    alias=${alias_name}    uri==${new_outlet_number}/state/    data=value=false
     Should Be Equal As Strings  ${resp.status_code}  207
     Wait Until Keyword Succeeds    ${timeout}    2s
     ...    Check Expected DLI Switch Outlet Status    ${outlet_number}    false
