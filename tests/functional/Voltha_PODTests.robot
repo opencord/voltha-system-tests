@@ -100,6 +100,8 @@ Test Disable and Enable OLT
     Enable Device    ${olt_device_id}
     Wait Until Keyword Succeeds    ${timeout}    5s    Validate OLT Device    ENABLED    ACTIVE    REACHABLE
     ...    ${olt_serial_number}
+    Wait Until Keyword Succeeds    ${timeout}    5s    Validate OLT Port Types
+    ...    PON_OLT    ETHERNET_NNI
     FOR    ${I}    IN RANGE    0    ${num_onus}
         ${src}=    Set Variable    ${hosts.src[${I}]}
         ${dst}=    Set Variable    ${hosts.dst[${I}]}
