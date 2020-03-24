@@ -312,6 +312,49 @@ Delete OLT, ReAdd OLT and Perform Sanity Test
     Run Keyword If    ${has_dataplane}    Setup
     Wait Until Keyword Succeeds    ${timeout}   2s    Perform Sanity Test
 
+Check Mib State on OLT recreation after ONU, OLT deletion
+    [Documentation]    Assuming that test1 was executed where all the ONUs are authenticated/DHCP/pingable,
+    ...    Disable and Delete the ONU, Disable and Delete the OLT
+    ...    Create/Enable the OLT again and Check for the Mib State of the ONUs
+    [Tags]    functional    CheckMibState    notready
+    [Setup]    Run Keywords    Announce Message    START TEST CheckMibState
+    ...        AND             Start Logging    CheckMibState
+    [Teardown]    Run Keywords    Collect Logs
+    ...           AND             Stop Logging    CheckMibState
+    ...           AND             Announce Message    END TEST CheckMibState
+    #Disable and Delete the ONU
+    FOR    ${I}    IN RANGE    0    ${num_onus}
+        ${src}=    Set Variable    ${hosts.src[${I}]}
+        ${dst}=    Set Variable    ${hosts.dst[${I}]}
+        ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
+        ${onu_port}=    Wait Until Keyword Succeeds    ${timeout}    2s    Get ONU Port in ONOS    ${src['onu']}
+        ...    ${of_id}
+        Disable Device    ${onu_device_id}
+        Wait Until Keyword Succeeds    20s    2s    Test Devices Disabled in VOLTHA    Id=${onu_device_id}
+        Delete Device     ${onu_device_id}
+    END
+    #Disable and Delete the OLT
+    Run Keyword If    ${has_dataplane}    Delete Device and Verify
+    #Recreate the OLT back
+    Run Keyword If    ${has_dataplane}    Sleep    180s
+    ${olt_device_id}=    Create Device    ${olt_ip}    ${OLT_PORT}
+    Set Suite Variable    ${olt_device_id}
+    Wait Until Keyword Succeeds    ${timeout}    5s    Validate OLT Device    PREPROVISIONED
+    ...    UNKNOWN    UNKNOWN    ${olt_device_id}
+    Enable Device    ${olt_device_id}
+    Wait Until Keyword Succeeds    ${timeout}    5s    Validate OLT Device    ENABLED    ACTIVE    REACHABLE
+    ...    ${olt_serial_number}
+    #Check for the ONU status and ONU Mib State should be "omci-flows-pushed"
+    FOR    ${I}    IN RANGE    0    ${num_onus}
+        ${src}=    Set Variable    ${hosts.src[${I}]}
+        ${dst}=    Set Variable    ${hosts.dst[${I}]}
+        ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
+        ${onu_port}=    Wait Until Keyword Succeeds    ${timeout}    2s    Get ONU Port in ONOS    ${src['onu']}
+        ...    ${of_id}
+        Wait Until Keyword Succeeds    ${timeout}    5s    Validate Device    ENABLED    ACTIVE
+        ...    REACHABLE    ${src['onu']}    onu=True    onu_reason=omci-flows-pushed
+    END
+
 Test disable ONUs and OLT then delete ONUs and OLT
     [Documentation]    On deployed POD, disable the ONU, disable the OLT and then delete ONU and OLT.
     ...    This TC is to confirm that ONU removal is not impacting OLT
