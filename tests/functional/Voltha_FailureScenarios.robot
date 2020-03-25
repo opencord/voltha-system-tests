@@ -67,7 +67,6 @@ Verify ONU after rebooting physically
     [Teardown]    Run Keywords    Collect Logs
     ...           AND             Stop Logging    ONUreboot_PowerSwitch
     ...           AND             Announce Message    END TEST ONUreboot_PowerSwitch
-    ...           AND             Delete Device and Verify
     # Add OLT device
     setup
     # Performing Sanity Test to make sure subscribers are all AUTH+DHCP and pingable
@@ -103,7 +102,7 @@ Verify ONU after rebooting physically
         Run Keyword And Ignore Error    Collect Logs
     END
     # Deleting OLT after tests completes independently (as this test doesn't not run on each POD)
-    #Run Keyword If    ${has_dataplane}    Delete Device and Verify
+    Run Keyword If    ${has_dataplane}    Delete Device and Verify
 
 Verify OLT after rebooting physically
     [Documentation]    Test the physical reboot of the OLT
@@ -116,7 +115,6 @@ Verify OLT after rebooting physically
     [Teardown]    Run Keywords    Collect Logs
     ...           AND             Stop Logging    PhysicalOLTReboot
     ...           AND             Announce Message    END TEST PhysicalOLTReboot
-    ...           AND             Delete Device and Verify
     # Add OLT device
     setup
     # Performing Sanity Test to make sure subscribers are all AUTH+DHCP and pingable
@@ -136,13 +134,11 @@ Verify OLT after rebooting physically
     END
     # Wait for the OLT to come back up
     Wait Until Keyword Succeeds    120s    10s    Check Remote System Reachability    True    ${olt_ip}
-    # Waiting extra time for the ONUs to come up
-    Sleep    60s
     Run Keyword And Ignore Error    Collect Logs
     Run Keyword If    ${has_dataplane}    Clean Up Linux
     Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test
     # Deleting OLT after test completes
-    #Run Keyword If    ${has_dataplane}    Delete Device and Verify
+    Run Keyword If    ${has_dataplane}    Delete Device and Verify
 
 Verify restart openolt-adapter container after VOLTHA is operational
     [Documentation]    Restart openolt-adapter container after VOLTHA is operational.
@@ -219,13 +215,14 @@ Check OLT/ONU Authentication After Radius Pod Restart
         Run Keyword and Ignore Error    Collect Logs
     END
 
+
 Sanity E2E Test for OLT/ONU on POD With Core Fail and Restart
     [Documentation]    Deploys an device instance and waits for it to authenticate. After
     ...    authentication is successful the rw-core deployment is scaled to 0 instances to
     ...    simulate a POD crash. The test then scales the rw-core back to a single instance
     ...    and configures ONOS for access. The test succeeds if the device is able to
     ...    complete the DHCP sequence.
-    [Tags]    bbsim    rwcore-restart
+    [Tags]    rwcore-restart
     [Setup]    Run Keywords    Announce Message    START TEST RwCoreFailAndRestart
     ...        AND             Start Logging    RwCoreFailAndRestart
     ...        AND             Clear All Devices Then Create New Device
@@ -356,13 +353,18 @@ Verify restart ofagent container after VOLTHA is operational
     [Documentation]    Restart ofagent container after VOLTHA is operational.
     ...    Prerequisite : ONUs are authenticated and pingable.
     #TODO: remove "notready" tag once olt reboot and ofagent restart work items are done
-    [Tags]    functional   VOL-2409   ofagentRestart
+    [Tags]    functional   VOL-2409   ofagentRestart    notready
     [Setup]    Run Keywords    Announce Message    START TEST ofagentRestart
     ...        AND             Start Logging    ofagentRestart
     [Teardown]    Run Keywords    Collect Logs
     ...           AND             Stop Logging    ofagentRestart
     ...           AND             Announce Message    END TEST ofagentRestart
     ...           AND             Scale K8s Deployment    ${NAMESPACE}    voltha-ofagent    1
+    # Add OLT and Perform Sanity Test
+    setup
+    Run Keyword If    ${has_dataplane}    Clean Up Linux
+    Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test
+    # set timeout value
     ${waitforRestart}    Set Variable    120s
     ${podStatusOutput}=    Run    kubectl get pods -n ${NAMESPACE}
     Log    ${podStatusOutput}
