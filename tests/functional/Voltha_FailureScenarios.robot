@@ -363,6 +363,11 @@ Verify restart ofagent container after VOLTHA is operational
     ...           AND             Stop Logging    ofagentRestart
     ...           AND             Announce Message    END TEST ofagentRestart
     ...           AND             Scale K8s Deployment    ${NAMESPACE}    voltha-ofagent    1
+    # Add OLT and perform sanity test
+    setup
+    Run Keyword If    ${has_dataplane}    Clean Up Linux
+    Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test
+    # set timeout value
     ${waitforRestart}    Set Variable    120s
     ${podStatusOutput}=    Run    kubectl get pods -n ${NAMESPACE}
     Log    ${podStatusOutput}
