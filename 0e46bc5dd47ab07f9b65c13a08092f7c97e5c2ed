@@ -1,0 +1,188 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9046240a_1d177e37",
+        "filename": "libraries/onos.robot",
+        "patchSetId": 4
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 1000010
+      },
+      "writtenOn": "2020-03-25T00:03:42Z",
+      "side": 1,
+      "message": "bandwidth",
+      "range": {
+        "startLine": 177,
+        "startChar": 6,
+        "endLine": 177,
+        "endChar": 13
+      },
+      "revId": "0e46bc5dd47ab07f9b65c13a08092f7c97e5c2ed",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "418eb6b8_63d2f819",
+        "filename": "libraries/onos.robot",
+        "patchSetId": 4
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 1000010
+      },
+      "writtenOn": "2020-03-25T00:03:42Z",
+      "side": 1,
+      "message": "Is this the correct calculation?",
+      "range": {
+        "startLine": 197,
+        "startChar": 35,
+        "endLine": 197,
+        "endChar": 86
+      },
+      "revId": "0e46bc5dd47ab07f9b65c13a08092f7c97e5c2ed",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0f5e969f_a42b3450",
+        "filename": "libraries/utils.robot",
+        "patchSetId": 4
+      },
+      "lineNbr": 474,
+      "author": {
+        "id": 1000010
+      },
+      "writtenOn": "2020-03-25T00:03:42Z",
+      "side": 1,
+      "message": "bandwidth",
+      "range": {
+        "startLine": 474,
+        "startChar": 6,
+        "endLine": 474,
+        "endChar": 14
+      },
+      "revId": "0e46bc5dd47ab07f9b65c13a08092f7c97e5c2ed",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9df9ad08_c3c0d003",
+        "filename": "tests/functional/Voltha_PODTests.robot",
+        "patchSetId": 4
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1000010
+      },
+      "writtenOn": "2020-03-25T00:03:42Z",
+      "side": 1,
+      "message": "This information should already be present in the hosts.dst list in pod-config file",
+      "range": {
+        "startLine": 57,
+        "startChar": 0,
+        "endLine": 59,
+        "endChar": 29
+      },
+      "revId": "0e46bc5dd47ab07f9b65c13a08092f7c97e5c2ed",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a16afaf_969cb58d",
+        "filename": "tests/functional/Voltha_PODTests.robot",
+        "patchSetId": 4
+      },
+      "lineNbr": 418,
+      "author": {
+        "id": 1000010
+      },
+      "writtenOn": "2020-03-25T00:03:42Z",
+      "side": 1,
+      "message": "Why not loop through all RGs, as the other tests do, and test the bandwidth profile for all subscribers?",
+      "range": {
+        "startLine": 418,
+        "startChar": 45,
+        "endLine": 418,
+        "endChar": 58
+      },
+      "revId": "0e46bc5dd47ab07f9b65c13a08092f7c97e5c2ed",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "01d1251d_884ad0d4",
+        "filename": "tests/functional/Voltha_PODTests.robot",
+        "patchSetId": 4
+      },
+      "lineNbr": 431,
+      "author": {
+        "id": 1000010
+      },
+      "writtenOn": "2020-03-25T00:03:42Z",
+      "side": 1,
+      "message": "The test should be modified so that it can also be run against BBSim (even though it won\u0027t actually be able to test the bandwidth).  That would at least make it easy to catch errors like the one here.\n\nFor statements that can\u0027t be run against BBSim, use \"Run Keyword If    ${has_dataplane}    \"",
+      "range": {
+        "startLine": 431,
+        "startChar": 71,
+        "endLine": 431,
+        "endChar": 108
+      },
+      "revId": "0e46bc5dd47ab07f9b65c13a08092f7c97e5c2ed",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a094e7e2_50cdb234",
+        "filename": "tests/functional/Voltha_PODTests.robot",
+        "patchSetId": 4
+      },
+      "lineNbr": 432,
+      "author": {
+        "id": 1000010
+      },
+      "writtenOn": "2020-03-25T00:03:42Z",
+      "side": 1,
+      "message": "subscriber_id",
+      "range": {
+        "startLine": 432,
+        "startChar": 6,
+        "endLine": 432,
+        "endChar": 18
+      },
+      "revId": "0e46bc5dd47ab07f9b65c13a08092f7c97e5c2ed",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "364f27d9_7e94986b",
+        "filename": "tests/functional/Voltha_PODTests.robot",
+        "patchSetId": 4
+      },
+      "lineNbr": 436,
+      "author": {
+        "id": 1000010
+      },
+      "writtenOn": "2020-03-25T00:03:42Z",
+      "side": 1,
+      "message": "Don\u0027t hardcode paths, just assume iperf3 is in the system path",
+      "range": {
+        "startLine": 436,
+        "startChar": 14,
+        "endLine": 436,
+        "endChar": 53
+      },
+      "revId": "0e46bc5dd47ab07f9b65c13a08092f7c97e5c2ed",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    }
+  ]
+}
