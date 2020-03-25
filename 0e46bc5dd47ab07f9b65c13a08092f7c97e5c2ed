@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "4851b41b_a7a19353",
+        "filename": "libraries/onos.robot",
+        "patchSetId": 4
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 1000630
+      },
+      "writtenOn": "2020-03-25T13:40:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9046240a_1d177e37",
+      "range": {
+        "startLine": 177,
+        "startChar": 6,
+        "endLine": 177,
+        "endChar": 13
+      },
+      "revId": "0e46bc5dd47ab07f9b65c13a08092f7c97e5c2ed",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "418eb6b8_63d2f819",
         "filename": "libraries/onos.robot",
         "patchSetId": 4
@@ -36,6 +60,30 @@
       "writtenOn": "2020-03-25T00:03:42Z",
       "side": 1,
       "message": "Is this the correct calculation?",
+      "range": {
+        "startLine": 197,
+        "startChar": 35,
+        "endLine": 197,
+        "endChar": 86
+      },
+      "revId": "0e46bc5dd47ab07f9b65c13a08092f7c97e5c2ed",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "48dce63a_483f42ac",
+        "filename": "libraries/onos.robot",
+        "patchSetId": 4
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 1000630
+      },
+      "writtenOn": "2020-03-25T13:40:34Z",
+      "side": 1,
+      "message": "Yes",
+      "parentUuid": "418eb6b8_63d2f819",
       "range": {
         "startLine": 197,
         "startChar": 35,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "1c2c7bf6_bb0fbe1f",
+        "filename": "libraries/utils.robot",
+        "patchSetId": 4
+      },
+      "lineNbr": 474,
+      "author": {
+        "id": 1000630
+      },
+      "writtenOn": "2020-03-25T13:40:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0f5e969f_a42b3450",
+      "range": {
+        "startLine": 474,
+        "startChar": 6,
+        "endLine": 474,
+        "endChar": 14
+      },
+      "revId": "0e46bc5dd47ab07f9b65c13a08092f7c97e5c2ed",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9df9ad08_c3c0d003",
         "filename": "tests/functional/Voltha_PODTests.robot",
         "patchSetId": 4
@@ -82,6 +154,30 @@
       "writtenOn": "2020-03-25T00:03:42Z",
       "side": 1,
       "message": "This information should already be present in the hosts.dst list in pod-config file",
+      "range": {
+        "startLine": 57,
+        "startChar": 0,
+        "endLine": 59,
+        "endChar": 29
+      },
+      "revId": "0e46bc5dd47ab07f9b65c13a08092f7c97e5c2ed",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "89f5ae60_6ac1f294",
+        "filename": "tests/functional/Voltha_PODTests.robot",
+        "patchSetId": 4
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1000630
+      },
+      "writtenOn": "2020-03-25T13:40:34Z",
+      "side": 1,
+      "message": "hosts.dst in the pod-config file does not contain the details of DHCP server",
+      "parentUuid": "9df9ad08_c3c0d003",
       "range": {
         "startLine": 57,
         "startChar": 0,
@@ -117,6 +213,30 @@
     },
     {
       "key": {
+        "uuid": "0861bece_6d0e0f0d",
+        "filename": "tests/functional/Voltha_PODTests.robot",
+        "patchSetId": 4
+      },
+      "lineNbr": 418,
+      "author": {
+        "id": 1000630
+      },
+      "writtenOn": "2020-03-25T13:40:34Z",
+      "side": 1,
+      "message": "We need to verify the bandwidth used when subscribers are authenticated one by one. Hence used this approach.",
+      "parentUuid": "9a16afaf_969cb58d",
+      "range": {
+        "startLine": 418,
+        "startChar": 45,
+        "endLine": 418,
+        "endChar": 58
+      },
+      "revId": "0e46bc5dd47ab07f9b65c13a08092f7c97e5c2ed",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "01d1251d_884ad0d4",
         "filename": "tests/functional/Voltha_PODTests.robot",
         "patchSetId": 4
@@ -128,6 +248,30 @@
       "writtenOn": "2020-03-25T00:03:42Z",
       "side": 1,
       "message": "The test should be modified so that it can also be run against BBSim (even though it won\u0027t actually be able to test the bandwidth).  That would at least make it easy to catch errors like the one here.\n\nFor statements that can\u0027t be run against BBSim, use \"Run Keyword If    ${has_dataplane}    \"",
+      "range": {
+        "startLine": 431,
+        "startChar": 71,
+        "endLine": 431,
+        "endChar": 108
+      },
+      "revId": "0e46bc5dd47ab07f9b65c13a08092f7c97e5c2ed",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f7a3c292_4b1f307b",
+        "filename": "tests/functional/Voltha_PODTests.robot",
+        "patchSetId": 4
+      },
+      "lineNbr": 431,
+      "author": {
+        "id": 1000630
+      },
+      "writtenOn": "2020-03-25T13:40:34Z",
+      "side": 1,
+      "message": "Since all the steps requires to be run on dataplane only, added a step in the beginning of this test case to pass the execution in case ${has_dataplane} is False. Please let me know if this is fine",
+      "parentUuid": "01d1251d_884ad0d4",
       "range": {
         "startLine": 431,
         "startChar": 71,
@@ -163,6 +307,30 @@
     },
     {
       "key": {
+        "uuid": "f17617b6_bc76e5db",
+        "filename": "tests/functional/Voltha_PODTests.robot",
+        "patchSetId": 4
+      },
+      "lineNbr": 432,
+      "author": {
+        "id": 1000630
+      },
+      "writtenOn": "2020-03-25T13:40:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a094e7e2_50cdb234",
+      "range": {
+        "startLine": 432,
+        "startChar": 6,
+        "endLine": 432,
+        "endChar": 18
+      },
+      "revId": "0e46bc5dd47ab07f9b65c13a08092f7c97e5c2ed",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "364f27d9_7e94986b",
         "filename": "tests/functional/Voltha_PODTests.robot",
         "patchSetId": 4
@@ -174,6 +342,30 @@
       "writtenOn": "2020-03-25T00:03:42Z",
       "side": 1,
       "message": "Don\u0027t hardcode paths, just assume iperf3 is in the system path",
+      "range": {
+        "startLine": 436,
+        "startChar": 14,
+        "endLine": 436,
+        "endChar": 53
+      },
+      "revId": "0e46bc5dd47ab07f9b65c13a08092f7c97e5c2ed",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "02b5b03f_34fd9aa9",
+        "filename": "tests/functional/Voltha_PODTests.robot",
+        "patchSetId": 4
+      },
+      "lineNbr": 436,
+      "author": {
+        "id": 1000630
+      },
+      "writtenOn": "2020-03-25T13:40:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "364f27d9_7e94986b",
       "range": {
         "startLine": 436,
         "startChar": 14,
