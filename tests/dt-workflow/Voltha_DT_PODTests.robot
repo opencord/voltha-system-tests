@@ -93,11 +93,16 @@ Test Subscriber Delete and Add for DT
         Wait Until Keyword Succeeds    ${timeout}    2s    Execute ONOS CLI Command    ${ONOS_SSH_IP}
         ...    ${ONOS_SSH_PORT}    volt-remove-subscriber-access ${of_id} ${onu_port}
         Sleep    10s
-        # TODO: Yet to Verify on the Physical POD
+        # TODO: Yet to Verify on the GPON based Physical POD (VOL-2652)
         Run Keyword If    ${has_dataplane}    Run Keyword And Continue On Failure
         ...    Wait Until Keyword Succeeds    60s    2s
         ...    Check Ping    False    ${dst['dp_iface_ip_qinq']}    ${src['dp_iface_name']}
         ...    ${src['ip']}    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
+        # Number of Access Flows on ONOS equals 4 * the Number of Active ONUs (2 for each downstream and upstream)
+        ${onos_flows_count}=    Evaluate    4 * ( ${num_onus} - 1 )
+        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
+        ...    Verify Subscriber Access Flows Added Count DT    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}
+        ...    ${onos_flows_count}
         # Verify VOLTHA flows for OLT equals twice the number of ONUS (minus ONU under test) + 1 for LLDP
         ${olt_flows}=    Evaluate    2 * ( ${num_onus} - 1 ) + 1
         Run Keyword    Wait Until Keyword Succeeds    ${timeout}    5s    Validate OLT Flows    ${olt_flows}
@@ -118,10 +123,14 @@ Test Subscriber Delete and Add for DT
         Wait Until Keyword Succeeds    ${timeout}    2s    Execute ONOS CLI Command    ${ONOS_SSH_IP}
         ...    ${ONOS_SSH_PORT}    volt-add-subscriber-access ${of_id} ${onu_port}
         Sleep    10s
+        # Verify subscriber access flows are added for the ONU port
+        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
+        ...    Verify Subscriber Access Flows Added For ONU DT    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${onu_port}
+        ...    ${nni_port}    ${src['s_tag']}
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
         ...    Validate Device    ENABLED    ACTIVE
         ...    REACHABLE    ${src['onu']}    onu=True    onu_reason=omci-flows-pushed
-        # TODO: Yet to Verify on the Physical POD
+        # TODO: Yet to Verify on the GPON based Physical POD (VOL-2652)
         Run Keyword If    ${has_dataplane}    Run Keyword And Continue On Failure
         ...    Wait Until Keyword Succeeds    60s    2s
         ...    Check Ping    True    ${dst['dp_iface_ip_qinq']}    ${src['dp_iface_name']}
@@ -129,7 +138,12 @@ Test Subscriber Delete and Add for DT
         Run Keyword and Ignore Error    Get Device Output from Voltha    ${onu_device_id}
         Run Keyword and Ignore Error    Collect Logs
     END
-    # Verify VOLTHA Flows (TODO: Add verification for ONOS Flows)
+    # Verify ONOS Flows
+    # Number of Access Flows on ONOS equals 4 * the Number of Active ONUs (2 for each downstream and upstream)
+    ${onos_flows_count}=    Evaluate    4 * ${num_onus}
+    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
+    ...    Verify Subscriber Access Flows Added Count DT    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${onos_flows_count}
+    # Verify VOLTHA Flows
     # Number of per OLT Flows equals Twice the Number of Active ONUs (each for downstream and upstream) + 1 for LLDP
     ${olt_flows}=    Evaluate    2 * ${num_onus} + 1
     # Number of per ONU Flows equals 2 (one each for downstream and upstream)
@@ -165,7 +179,7 @@ Test Disable and Enable ONU for DT
         ...    REACHABLE    ${src['onu']}    onu=True    onu_reason=omci-admin-lock
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds   ${timeout}    2s
         ...    Verify ONU Port Is Disabled   ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${onu_port}
-        # TODO: Yet to Verify on the Physical POD
+        # TODO: Yet to Verify on the GPON based Physical POD (VOL-2652)
         Run Keyword If    ${has_dataplane}    Run Keyword And Continue On Failure
         ...    Wait Until Keyword Succeeds    60s    2s
         ...    Check Ping    False    ${dst['dp_iface_ip_qinq']}    ${src['dp_iface_name']}
@@ -177,7 +191,7 @@ Test Disable and Enable ONU for DT
         ...    REACHABLE    ${src['onu']}    onu=True    onu_reason=onu-reenabled
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds   ${timeout}    2s
         ...    Verify ONU Port Is Enabled   ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${onu_port}
-        # TODO: Yet to Verify on the Physical POD
+        # TODO: Yet to Verify on the GPON based Physical POD (VOL-2652)
         Run Keyword If    ${has_dataplane}    Run Keyword And Continue On Failure
         ...    Wait Until Keyword Succeeds    60s    2s
         ...    Check Ping    True    ${dst['dp_iface_ip_qinq']}    ${src['dp_iface_name']}
@@ -204,7 +218,12 @@ Test Disable and Delete OLT for DT
     ...    ${olt_serial_number}
     # Validate ONUs
     Run Keyword    Wait Until Keyword Succeeds    ${timeout}    5s    Validate ONUs After OLT Disable
-    # Verify VOLTHA Flows (TODO: Add verification for ONOS Flows)
+    # Verify ONOS Flows
+    # Number of Access Flows on ONOS equals 4 * the Number of Active ONUs (2 for each downstream and upstream)
+    ${onos_flows_count}=    Evaluate    4 * ${num_onus}
+    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
+    ...    Verify Subscriber Access Flows Added Count DT    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${onos_flows_count}
+    # Verify VOLTHA Flows
     # Number of per OLT Flows equals Twice the Number of Active ONUs (each for downstream and upstream) + 1 for LLDP
     ${olt_flows}=    Evaluate    2 * ${num_onus} + 1
     # Number of per ONU Flows equals 2 (one each for downstream and upstream)
