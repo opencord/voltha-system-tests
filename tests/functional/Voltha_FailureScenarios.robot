@@ -296,7 +296,7 @@ Sanity E2E Test for OLT/ONU on POD With OLT Adapters Fail and Restart
     ...    simulate a POD crash. The test then scales the rw-core back to a single instance
     ...    and configures ONOS for access. The test succeeds if the device is able to
     ...    complete the DHCP sequence.
-    [Tags]    bbsim    olt-adapter-restart
+    [Tags]    functional    olt-adapter-restart
     [Setup]    Run Keywords    Announce Message    START TEST OltAdapterRestart
     ...        AND             Start Logging    OltAdapterRestart
     ...        AND             Clear All Devices Then Create New Device
