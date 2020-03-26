@@ -34,7 +34,10 @@ olts:
 
 hosts:
   src:
-    - onu: 'BBSM00000001'
+    -
+      onu: 'BBSM00000001'
+      c_tag: '4096'
+      s_tag: '900'
 
   dst:
     - ip: null
