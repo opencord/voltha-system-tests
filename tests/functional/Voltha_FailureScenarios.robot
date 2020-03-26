@@ -296,15 +296,17 @@ Sanity E2E Test for OLT/ONU on POD With OLT Adapters Fail and Restart
     ...    simulate a POD crash. The test then scales the rw-core back to a single instance
     ...    and configures ONOS for access. The test succeeds if the device is able to
     ...    complete the DHCP sequence.
-    [Tags]    bbsim    olt-adapter-restart
+    [Tags]    functional    olt-adapter-restart
     [Setup]    Run Keywords    Announce Message    START TEST OltAdapterRestart
     ...        AND             Start Logging    OltAdapterRestart
     ...        AND             Clear All Devices Then Create New Device
     [Teardown]   Run Keywords    Collect Logs
     ...          AND             Stop Logging    OltAdapterRestart
     ...          AND             Announce Message    END TEST OltAdapterRestart
+    # Add OLT and perform sanity test
+    setup
     Run Keyword If    ${has_dataplane}    Clean Up Linux
-    ${of_id}=    Wait Until Keyword Succeeds    ${timeout}    15s    Validate OLT Device in ONOS    ${olt_serial_number}
+    Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test
     Set Global Variable    ${of_id}
 
     FOR    ${I}    IN RANGE    0    ${num_onus}
@@ -363,10 +365,6 @@ Verify restart ofagent container after VOLTHA is operational
     ...           AND             Stop Logging    ofagentRestart
     ...           AND             Announce Message    END TEST ofagentRestart
     ...           AND             Scale K8s Deployment    ${NAMESPACE}    voltha-ofagent    1
-    # Add OLT and perform sanity test
-    setup
-    Run Keyword If    ${has_dataplane}    Clean Up Linux
-    Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test
     # set timeout value
     ${waitforRestart}    Set Variable    120s
     ${podStatusOutput}=    Run    kubectl get pods -n ${NAMESPACE}
