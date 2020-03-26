@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b53f426d_0b94f5ea",
+        "filename": "tests/functional/Voltha_FailureScenarios.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 369,
+      "author": {
+        "id": 1000064
+      },
+      "writtenOn": "2020-03-26T02:54:57Z",
+      "side": 1,
+      "message": "We might need to move this to the above test case \"open-olt-adapter\" crash because the \"rwcore-restart\" test is finally deleting the OLT.",
+      "range": {
+        "startLine": 366,
+        "startChar": 3,
+        "endLine": 369,
+        "endChar": 74
+      },
+      "revId": "7b9d1e5fc6f3d2b411ddb256206861c5e14f4cdc",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    }
+  ]
+}
