@@ -187,7 +187,7 @@ Validate ONU Devices
 Validate Device Port Types
     [Documentation]
     ...    Parses the output of voltctl device port list <device_id> and matches the port types listed
-    [Arguments]    ${device_id}    ${pon_type}    ${ethernet_type}
+    [Arguments]    ${device_id}    ${pon_type}    ${ethernet_type}   ${all_active}=True
     ${rc}    ${output}=    Run and Return Rc and Output
     ...    ${VOLTCTL_CONFIG}; voltctl device port list ${device_id} -o json
     Should Be Equal As Integers    ${rc}    0
@@ -200,7 +200,8 @@ Validate Device Port Types
         ${opstatus}=    Get From Dictionary    ${value}    operstatus
         ${type}=    Get From Dictionary    ${value}    type
         Should Be Equal    '${astate}'    'ENABLED'    Device ${device_id} port admin_state != ENABLED    values=False
-        Should Be Equal    '${opstatus}'    'ACTIVE'    Device ${device_id} port oper_status != ACTIVE    values=False
+        Run Keyword If    ${all_active}    Should Be Equal    '${opstatus}'    'ACTIVE'
+        ...    Device ${device_id} port oper_status != ACTIVE    values=False
         Should Be True    '${type}' == '${pon_type}' or '${type}' == '${ethernet_type}'
         ...    Device ${device_id} port type is neither ${pon_type} or ${ethernet_type}
     END
@@ -216,7 +217,8 @@ Validate ONU Port Types
     ...    and matches the port types listed
     FOR    ${serial_number}    IN    @{List_ONU_Serial}
         ${onu_dev_id}=    Get Device ID From SN    ${serial_number}
-        Validate Device Port Types    ${onu_dev_id}    ${pon_type}    ${ethernet_type}
+        # Only first UNI port is ACTIVE; the rest are in DISCOVERED operstatus
+        Validate Device Port Types    ${onu_dev_id}    ${pon_type}    ${ethernet_type}   all_active=False
     END
 
 Validate Device Flows
