@@ -144,7 +144,7 @@ Verify OLT after rebooting physically
     # Deleting OLT after test completes
     #Run Keyword If    ${has_dataplane}    Delete Device and Verify
 
-Verify restart openolt-adapter container after VOLTHA is operational
+Verify restart openolt-adapter container after subscriber provisioning
     [Documentation]    Restart openolt-adapter container after VOLTHA is operational.
     ...    Prerequisite : ONUs are authenticated and pingable.
     [Tags]    functional   VOL-1958   Restart-OpenOlt   released
@@ -225,7 +225,7 @@ Sanity E2E Test for OLT/ONU on POD With Core Fail and Restart
     ...    simulate a POD crash. The test then scales the rw-core back to a single instance
     ...    and configures ONOS for access. The test succeeds if the device is able to
     ...    complete the DHCP sequence.
-    [Tags]    functional    rwcore-restart
+    [Tags]    functional    rwcore-restart    notready
     [Setup]    Run Keywords    Announce Message    START TEST RwCoreFailAndRestart
     ...        AND             Start Logging    RwCoreFailAndRestart
     ...        AND             Clear All Devices Then Create New Device
@@ -290,7 +290,7 @@ Sanity E2E Test for OLT/ONU on POD With Core Fail and Restart
         ...    Validate Subscriber DHCP Allocation    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${onu_port}
     END
 
-Sanity E2E Test for OLT/ONU on POD With OLT Adapters Fail and Restart
+Verify openolt adapter restart before subscriber provisioning
     [Documentation]    Deploys an device instance and waits for it to authenticate. After
     ...    authentication is successful the rw-core deployment is scaled to 0 instances to
     ...    simulate a POD crash. The test then scales the rw-core back to a single instance
