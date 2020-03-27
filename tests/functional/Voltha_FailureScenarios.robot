@@ -428,12 +428,18 @@ Check ONU adapter crash not forcing authentication again
     [Documentation]    After ONU adapter restart, checks wpa log for 'authentication started'
     ...    message count to make sure auth not started again and validates EAP status and ping.
     ...    Assuming that test1 or sanity was executed where all the ONUs are authenticated/DHCP/pingable
-    [Tags]    functional    ONUAdaptCrash    notready
+    [Tags]    functional    ONUAdaptCrash
     [Setup]    Run Keywords    Announce Message    START TEST ONUAdaptCrash
     ...        AND             Start Logging    ONUAdaptCrash
     [Teardown]    Run Keywords    Collect Logs
     ...           AND             Stop Logging    ONUAdaptCrash
     ...           AND             Announce Message    END TEST ONUAdaptCrash
+    ...           AND             Delete Device and Verify
+    # Add OLT device
+    setup
+    # Performing Sanity Test to make sure subscribers are all AUTH+DHCP and pingable
+    Run Keyword If    ${has_dataplane}    Clean Up Linux
+    Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test
     @{before_list}=    Create List
     @{after_list}=    Create List
     FOR    ${I}    IN RANGE    0    ${num_onus}
@@ -447,9 +453,11 @@ Check ONU adapter crash not forcing authentication again
         ...    ${src['container_type']}    ${src['container_name']}
         Append To List    ${before_list}    ${before}
     END
-    Wait Until Keyword Succeeds    ${timeout}    15s    Restart Pod    ${NAMESPACE}    adapter-open-onu
+    ${podName}    Set Variable     adapter-open-onu
+    Wait Until Keyword Succeeds    ${timeout}    15s    Restart Pod    ${NAMESPACE}    ${podName}
     Wait Until Keyword Succeeds    ${timeout}    2s    Validate Pod Status    ${podName}    ${NAMESPACE}
     ...    Running
+    Sleep    120s
     FOR    ${I}    IN RANGE    0    ${num_onus}
         ${src}=    Set Variable    ${hosts.src[${I}]}
         ${dst}=    Set Variable    ${hosts.dst[${I}]}
@@ -472,6 +480,7 @@ Check ONU adapter crash not forcing authentication again
     Lists Should Be Equal    ${after_list}    ${before_list}
     Log    ${after_list}
     Log    ${before_list}
+    Repeat Sanity Test
     Run Keyword and Ignore Error    Collect Logs
 
 ONU Reboot
