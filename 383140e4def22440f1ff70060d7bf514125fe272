@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "a2170917_391cef71",
+        "filename": "tests/functional/Voltha_FailureScenarios.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 437,
+      "author": {
+        "id": 1000064
+      },
+      "writtenOn": "2020-03-27T04:28:23Z",
+      "side": 1,
+      "message": "Please remove this line",
+      "range": {
+        "startLine": 437,
+        "startChar": 34,
+        "endLine": 437,
+        "endChar": 58
+      },
+      "revId": "383140e4def22440f1ff70060d7bf514125fe272",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fedd5397_7c286266",
         "filename": "tests/functional/Voltha_FailureScenarios.robot",
         "patchSetId": 2
