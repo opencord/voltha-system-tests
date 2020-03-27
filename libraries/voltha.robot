@@ -43,6 +43,8 @@ Lookup Deployment That Owns Device
 Restart VOLTHA Port Foward
     [Arguments]    ${name}
     [Documentation]    Uses a script to restart a kubectl port-forward
+    ${rc}    ${output}    Run And Return Rc and Output    ps e -ww -A | grep port-forward
+    Log    ${output}
     ${cmd}	Catenate
     ...    ps e -ww -A |
     ...    grep _TAG=${name} |
