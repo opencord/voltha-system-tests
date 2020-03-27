@@ -13,15 +13,24 @@
 // limitations under the License.
 
 node ("${TestNodeName}") {
+    def withKind = false
+    if (params.withKind != null){
+        withKind = params.withKind
+    }
     timeout (100) {
         try {
             stage ("Parse deployment configuration file") {
-                sh returnStdout: true, script: "rm -rf helm-repo-tools ${configBaseDir} voltha-system-tests kind-voltha"
-                sh returnStdout: true, script: "git clone -b master ${cordRepoUrl}/helm-repo-tools"
+                sh returnStdout: true, script: "rm -rf ${configBaseDir} voltha-system-tests kind-voltha"
                 sh returnStdout: true, script: "git clone -b master ${cordRepoUrl}/${configBaseDir}"
-                sh returnStdout: true, script: "git clone -b master ${cordRepoUrl}/voltha-system-tests"
+                sh returnStdout: true, script: "git clone -b ${branch} ${cordRepoUrl}/voltha-system-tests"
                 sh returnStdout: true, script: "git clone https://github.com/ciena/kind-voltha.git"
-                deployment_config = readYaml file: "${configBaseDir}/${configDeploymentDir}/${configFileName}.yaml"
+                if ( params.workFlow == "DT" ) {
+                    deployment_config = readYaml file: "${configBaseDir}/${configDeploymentDir}/${configFileName}-DT.yaml"
+                }
+                else
+                {
+                    deployment_config = readYaml file: "${configBaseDir}/${configDeploymentDir}/${configFileName}.yaml"
+                }
             }
             stage('Clean up') {
                 timeout(10) {
@@ -51,6 +60,14 @@ node ("${TestNodeName}") {
                             return kubectl_deleted.toInteger() == 0
                         }
                     }
+                    timeout(1) {
+                        sh returnStdout: true, script: """
+                        port_fwd_pid=`ps -ax | grep "port-forward -n default service/onos-openflow" | grep -v "grep" | awk '{print \$1}'`
+                        if [[ "" !=  "\$port_fwd_pid" ]]; then
+                            kill -9 \$port_fwd_pid > /dev/null 2>&1
+                        fi
+                        """
+                    }
                 }
             }
             stage('Install Voltha')  {
@@ -58,14 +75,19 @@ node ("${TestNodeName}") {
                     sh returnStdout: true, script: """
                     export KUBECONFIG=$WORKSPACE/${configBaseDir}/${configKubernetesDir}/${configFileName}.conf
                     cd kind-voltha/
-                    if ( ${released} ); then
-                        export EXTRA_HELM_FLAGS="--set defaults.image_tag=null,images.onos.tag=2.2.0"
+                    if [ "${branch}" != "master" ]; then
+                        cd $WORKSPACE/kind-voltha
+                        source releases/${branch}
                     else
                         export EXTRA_HELM_FLAGS='-f $WORKSPACE/${configBaseDir}/${configKubernetesDir}/voltha/${configFileName}.yml'
                     fi
 
                     # VOL-2194 ONOS SSH and REST ports hardcoded to 30115/30120 in tests
-                    ONOS_SSH_PORT=30115 ONOS_API_PORT=30120 VOLTHA_LOG_LEVEL=DEBUG WITH_SIM_ADAPTERS=n WITH_RADIUS=y WITH_TP=yes DEPLOY_K8S=no INSTALL_KUBECTL=no INSTALL_HELM=no FANCY=0 ./voltha up
+                    if [[ "${workFlow}" == "DT" ]]; then
+                       ONOS_SSH_PORT=30115 ONOS_API_PORT=30120 VOLTHA_LOG_LEVEL=DEBUG WITH_SIM_ADAPTERS=n WITH_TP=yes DEPLOY_K8S=no INSTALL_KUBECTL=no INSTALL_HELM=no WITH_EAPOL=no WITH_DHCP=no WITH_IGMP=no WITH_RADIUS=no FANCY=0 ./voltha up
+                    else
+                       ONOS_SSH_PORT=30115 ONOS_API_PORT=30120 VOLTHA_LOG_LEVEL=DEBUG WITH_SIM_ADAPTERS=n WITH_RADIUS=y WITH_TP=yes DEPLOY_K8S=no INSTALL_KUBECTL=no INSTALL_HELM=no FANCY=0 ./voltha up
+                    fi
 
                     kubectl get pods --all-namespaces -o jsonpath="{range .items[*].status.containerStatuses[*]}{.image}{'\\t'}{.imageID}{'\\n'}" | sort | uniq -c
                     kubectl get nodes -o wide
@@ -73,21 +95,33 @@ node ("${TestNodeName}") {
                     """
                     }
             }
-            if ( params.configurePod && params.profile != "Default") {
+            if ( withKind && deployment_config.fabric_switches.size() > 0 ) {
+                stage('OpenFlow port forward for aggregation switch') {
+                    timeout(1) {
+                        sh returnStdout: true, script: """
+                        export KUBECONFIG=$WORKSPACE/${configBaseDir}/${configKubernetesDir}/${configFileName}.conf
+                        #This uses the default route out, porperly configured is the management
+                        mgmt_address=`ip route get 1 | awk '{print \$NF;exit}'`
+                        JENKINS_NODE_COOKIE=dontkill kubectl port-forward -n default service/onos-openflow --address=\$mgmt_address 6653:6653 >> /dev/null 2>&1 &
+                        """
+                    }
+                }
+            }
+            if ( params.configurePod && params.profile != "Default" ) {
                 stage('Push Tech-Profile') {
                     timeout(1) {
                         out_push_tp = sh returnStatus: true, script: """
                         export KUBECONFIG=$WORKSPACE/${configBaseDir}/${configKubernetesDir}/${configFileName}.conf
                         etcd_container=\$(kubectl get pods -n voltha | grep voltha-etcd-cluster | awk 'NR==1{print \$1}')
                         kubectl cp $WORKSPACE/voltha-system-tests/tests/data/TechProfile-${profile}.json voltha/\$etcd_container:/tmp/flexpod.json
-                        put_result=\$(kubectl exec -it \$etcd_container -n voltha -- /bin/sh -c 'cat /tmp/flexpod.json | ETCDCTL_API=3 etcdctl put service/voltha/technology_profiles/xgspon/64')
+                        put_result=\$(kubectl exec -it \$etcd_container -n voltha -- /bin/sh -c 'cat /tmp/flexpod.json | ETCDCTL_API=3 etcdctl put service/voltha/technology_profiles/XGS-PON/64')
                         """
                         return out_push_tp == 0
                     }
                     timeout(1) {
                         out_get_tp = sh returnStatus: true, script: """
                         etcd_container=\$(kubectl get pods -n voltha | grep voltha-etcd-cluster | awk 'NR==1{print \$1}')
-                        get_result=\$(kubectl exec -it \$etcd_container -n voltha -- /bin/sh -c 'ETCDCTL_API=3 etcdctl get --prefix service/voltha/technology_profiles/xgspon/64')
+                        get_result=\$(kubectl exec -it \$etcd_container -n voltha -- /bin/sh -c 'ETCDCTL_API=3 etcdctl get --prefix service/voltha/technology_profiles/XGS-PON/64')
                         """
                         return out_get_tp == 0
                     }
@@ -96,64 +130,54 @@ node ("${TestNodeName}") {
             stage('Push Sadis-config') {
                 timeout(1) {
                     sadis_out = sh returnStatus: true, script: """
+                    if [[ "${workFlow}" == "DT" ]]; then
+                        curl -sSL --user karaf:karaf -X POST -H Content-Type:application/json http://${deployment_config.nodes[0].ip}:30120/onos/v1/network/configuration --data @$WORKSPACE/voltha-system-tests/tests/data/${configFileName}-sadis-DT.json
+                    else
                         curl -sSL --user karaf:karaf -X POST -H Content-Type:application/json http://${deployment_config.nodes[0].ip}:30120/onos/v1/network/configuration --data @$WORKSPACE/voltha-system-tests/tests/data/${configFileName}-sadis.json
-                        """
-                        return sadis_out == 0
+                    fi
+                    """
+                    return sadis_out == 0
                 }
             }
-
             if ( params.reinstallOlt ) {
                 stage('Reinstall OLT software') {
                     for(int i=0; i < deployment_config.olts.size(); i++) {
                         sh returnStdout: true, script: """
-                        sshpass -p ${deployment_config.olts[i].pass} ssh -l ${deployment_config.olts[i].user} ${deployment_config.olts[i].ip} 'dpkg --remove asfvolt16 && dpkg --purge asfvolt16'
-                        """
-                        timeout(5) {
-                            waitUntil {
-                                olt_sw_present = sh returnStdout: true, script: """
-                                sshpass -p ${deployment_config.olts[i].pass} ssh -l ${deployment_config.olts[i].user} ${deployment_config.olts[i].ip} 'dpkg --list | grep asfvolt16 | wc -l'
-                                """
-                                return olt_sw_present.toInteger() == 0
-                            }
-                        }
-                        sh returnStdout: true, script: """
                         sshpass -p ${deployment_config.olts[i].pass} ssh -l ${deployment_config.olts[i].user} ${deployment_config.olts[i].ip} "dpkg --install ${oltDebVersion}"
+                        sleep 10
                         """
                         timeout(5) {
                             waitUntil {
                                 olt_sw_present = sh returnStdout: true, script: """
                                 sshpass -p ${deployment_config.olts[i].pass} ssh -l ${deployment_config.olts[i].user} ${deployment_config.olts[i].ip} 'dpkg --list | grep asfvolt16 | wc -l'
+                                if ( ${deployment_config.olts[i].fortygig} ); then
+                                    sshpass -p ${deployment_config.olts[i].pass} ssh -l ${deployment_config.olts[i].user} ${deployment_config.olts[i].ip} 'echo "port ce128 sp=40000" >> /broadcom/qax.soc'
+                                fi
                                 """
                                 return olt_sw_present.toInteger() == 1
                             }
                         }
-                        // If the OLT is connected to a 40G switch interface, set the NNI port to be downgraded
-                        if ("${deployment_config.olts[i].fortygig}" != null && "${deployment_config.olts[i].fortygig}" == 'true') {
-                            sh returnStdout: true, script: """
-                            sshpass -p ${deployment_config.olts[i].pass} ssh -l ${deployment_config.olts[i].user} ${deployment_config.olts[i].ip} 'echo "port ce128 sp=40000" >> /broadcom/qax.soc'
-                            sshpass -p ${deployment_config.olts[i].pass} ssh -l ${deployment_config.olts[i].user} ${deployment_config.olts[i].ip} '/opt/bcm68620/svk_init.sh'
-                            """
-                        }
                     }
                 }
-                stage('Restart OLT processes') {
+               stage('Restart OLT processes') {
                     for(int i=0; i < deployment_config.olts.size(); i++) {
                         timeout(5) {
                             sh returnStdout: true, script: """
                             ssh-keyscan -H ${deployment_config.olts[i].ip} >> ~/.ssh/known_hosts
-                            sshpass -p ${deployment_config.olts[i].pass} ssh -l ${deployment_config.olts[i].user} ${deployment_config.olts[i].ip} 'service bal_core_dist stop' || true
-                            sshpass -p ${deployment_config.olts[i].pass} ssh -l ${deployment_config.olts[i].user} ${deployment_config.olts[i].ip} 'service openolt stop' || true
-                            sshpass -p ${deployment_config.olts[i].pass} ssh -l ${deployment_config.olts[i].user} ${deployment_config.olts[i].ip} '> /var/log/bal_core_dist.log'
-                            sshpass -p ${deployment_config.olts[i].pass} ssh -l ${deployment_config.olts[i].user} ${deployment_config.olts[i].ip} '> /var/log/openolt.log'
-                            sshpass -p ${deployment_config.olts[i].pass} ssh -l ${deployment_config.olts[i].user} ${deployment_config.olts[i].ip} 'service bal_core_dist start &'
-                            sleep 5
-                            sshpass -p ${deployment_config.olts[i].pass} ssh -l ${deployment_config.olts[i].user} ${deployment_config.olts[i].ip} 'service openolt start &'
+                            sshpass -p ${deployment_config.olts[i].pass} ssh -l ${deployment_config.olts[i].user} ${deployment_config.olts[i].ip} 'reboot' || true
+                            sleep 120
                             """
                         }
                         timeout(15) {
                             waitUntil {
-                                onu_discovered = sh returnStdout: true, script: "sshpass -p ${deployment_config.olts[i].pass} ssh -l ${deployment_config.olts[i].user} ${deployment_config.olts[i].ip} 'cat /var/log/openolt.log | grep \"oper_state: up\" | wc -l'"
-                                return onu_discovered.toInteger() > 0
+                                devprocess = sh returnStdout: true, script: "sshpass -p ${deployment_config.olts[i].pass} ssh -l ${deployment_config.olts[i].user} ${deployment_config.olts[i].ip} 'ps -ef | grep dev_mgmt_daemon | wc -l'"
+                                return devprocess.toInteger() > 0
+                            }
+                        }
+                        timeout(15) {
+                            waitUntil {
+                                openoltprocess = sh returnStdout: true, script: "sshpass -p ${deployment_config.olts[i].pass} ssh -l ${deployment_config.olts[i].user} ${deployment_config.olts[i].ip} 'ps -ef | grep openolt | wc -l'"
+                                return openoltprocess.toInteger() > 0
                             }
                         }
                     }
@@ -165,6 +189,7 @@ node ("${TestNodeName}") {
                         netcfg_out = sh returnStatus: true, script: """
                         curl -sSL --user karaf:karaf -X POST -H Content-Type:application/json http://${deployment_config.nodes[0].ip}:30120/onos/v1/network/configuration --data @$WORKSPACE/${configBaseDir}/${configToscaDir}/voltha/${configFileName}-onos-netcfg-switch.json
                         curl -sSL --user karaf:karaf -X POST http://${deployment_config.nodes[0].ip}:30120/onos/v1/applications/org.onosproject.segmentrouting/active
+
                         """
                         return netcfg_out == 0
                     }
@@ -176,8 +201,8 @@ node ("${TestNodeName}") {
                             sshpass -p karaf ssh -p 30115 karaf@${deployment_config.nodes[0].ip} "log:set TRACE org.opencord.dhcpl2relay"
                             sshpass -p karaf ssh -p 30115 karaf@${deployment_config.nodes[0].ip} "log:set TRACE org.opencord.aaa"
                             sshpass -p karaf ssh -p 30115 karaf@${deployment_config.nodes[0].ip} "log:set TRACE org.opencord.olt"
-
                             curl -sSL --user karaf:karaf -X GET http://${deployment_config.nodes[0].ip}:30120/onos/v1/applications/org.onosproject.segmentrouting | jq '.state' | grep ACTIVE
+                            sshpass -p karaf ssh -p 30115 karaf@${deployment_config.nodes[0].ip} "cfg set org.onosproject.net.flow.impl.FlowRuleManager purgeOnDisconnection false"
                             """
                             return sr_active_out == 0
                         }
@@ -187,6 +212,7 @@ node ("${TestNodeName}") {
                         for(int i=0; i < deployment_config.hosts.src.size(); i++) {
                             xconnect_out = sh returnStatus: true, script: """
                             version=\$(sshpass -p karaf ssh -p 30115 karaf@${deployment_config.nodes[0].ip} "summary" | grep version)
+                            sleep 10
                             if [[ \$version == *"version=2.2"* ]]; then
                                 curl -X POST --user karaf:karaf --header 'Content-Type: application/json' --header 'Accept: application/json' -d '{"deviceId": "${deployment_config.fabric_switches[0].device_id}", "vlanId": "${deployment_config.hosts.src[i].s_tag}", "endpoints": [${deployment_config.fabric_switches[0].bngPort},${deployment_config.fabric_switches[0].oltPort}]}' 'http://${deployment_config.nodes[0].ip}:30120/onos/segmentrouting/xconnect'
                             else
