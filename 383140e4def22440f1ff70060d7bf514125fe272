@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fedd5397_7c286266",
+        "filename": "tests/functional/Voltha_FailureScenarios.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 483,
+      "author": {
+        "id": 1000064
+      },
+      "writtenOn": "2020-03-27T04:21:43Z",
+      "side": 1,
+      "message": "Perform \"sanity test\" here instead of `Repeat Sanity Test` \n\"Clean up Linux\" and then \"Perform Sanity Test\"",
+      "range": {
+        "startLine": 483,
+        "startChar": 4,
+        "endLine": 483,
+        "endChar": 22
+      },
+      "revId": "383140e4def22440f1ff70060d7bf514125fe272",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    }
+  ]
+}
