@@ -304,9 +304,9 @@ Verify openolt adapter restart before subscriber provisioning
     ...          AND             Stop Logging    OltAdapterRestart
     ...          AND             Announce Message    END TEST OltAdapterRestart
     # Add OLT and perform sanity test
-    setup
-    Run Keyword If    ${has_dataplane}    Clean Up Linux
-    Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test
+    #setup
+    #Run Keyword If    ${has_dataplane}    Clean Up Linux
+    #Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test
     Set Global Variable    ${of_id}
 
     FOR    ${I}    IN RANGE    0    ${num_onus}
