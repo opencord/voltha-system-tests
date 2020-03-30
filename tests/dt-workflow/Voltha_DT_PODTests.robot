@@ -102,7 +102,7 @@ Test Subscriber Delete and Add for DT
         ${onos_flows_count}=    Evaluate    4 * ( ${num_onus} - 1 )
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
         ...    Verify Subscriber Access Flows Added Count DT    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}
-        ...    ${onos_flows_count}
+        ...    ${of_id}    ${onos_flows_count}
         # Verify VOLTHA flows for OLT equals twice the number of ONUS (minus ONU under test) + 1 for LLDP
         ${olt_flows}=    Evaluate    2 * ( ${num_onus} - 1 ) + 1
         Run Keyword    Wait Until Keyword Succeeds    ${timeout}    5s    Validate OLT Flows    ${olt_flows}
@@ -125,8 +125,8 @@ Test Subscriber Delete and Add for DT
         Sleep    10s
         # Verify subscriber access flows are added for the ONU port
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
-        ...    Verify Subscriber Access Flows Added For ONU DT    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${onu_port}
-        ...    ${nni_port}    ${src['s_tag']}
+        ...    Verify Subscriber Access Flows Added For ONU DT    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${of_id}
+        ...    ${onu_port}    ${nni_port}    ${src['s_tag']}
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
         ...    Validate Device    ENABLED    ACTIVE
         ...    REACHABLE    ${src['onu']}    onu=True    onu_reason=omci-flows-pushed
@@ -142,7 +142,8 @@ Test Subscriber Delete and Add for DT
     # Number of Access Flows on ONOS equals 4 * the Number of Active ONUs (2 for each downstream and upstream)
     ${onos_flows_count}=    Evaluate    4 * ${num_onus}
     Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
-    ...    Verify Subscriber Access Flows Added Count DT    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${onos_flows_count}
+    ...    Verify Subscriber Access Flows Added Count DT    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}
+    ...    ${of_id}    ${onos_flows_count}
     # Verify VOLTHA Flows
     # Number of per OLT Flows equals Twice the Number of Active ONUs (each for downstream and upstream) + 1 for LLDP
     ${olt_flows}=    Evaluate    2 * ${num_onus} + 1
@@ -222,7 +223,8 @@ Test Disable and Delete OLT for DT
     # Number of Access Flows on ONOS equals 4 * the Number of Active ONUs (2 for each downstream and upstream)
     ${onos_flows_count}=    Evaluate    4 * ${num_onus}
     Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
-    ...    Verify Subscriber Access Flows Added Count DT    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${onos_flows_count}
+    ...    Verify Subscriber Access Flows Added Count DT    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}
+    ...    ${of_id}    ${onos_flows_count}
     # Verify VOLTHA Flows
     # Number of per OLT Flows equals Twice the Number of Active ONUs (each for downstream and upstream) + 1 for LLDP
     ${olt_flows}=    Evaluate    2 * ${num_onus} + 1

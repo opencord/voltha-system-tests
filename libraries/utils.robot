@@ -217,8 +217,8 @@ Perform Sanity Test DT
         ...    volt-add-subscriber-access ${of_id} ${onu_port}
         # Verify subscriber access flows are added for the ONU port
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
-        ...    Verify Subscriber Access Flows Added For ONU DT    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${onu_port}
-        ...    ${nni_port}    ${src['s_tag']}
+        ...    Verify Subscriber Access Flows Added For ONU DT    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${of_id}
+        ...    ${onu_port}    ${nni_port}    ${src['s_tag']}
         # Verify ONU state in voltha
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s    Validate Device
         ...    ENABLED    ACTIVE    REACHABLE
@@ -236,7 +236,8 @@ Perform Sanity Test DT
     # Number of Access Flows on ONOS equals 4 * the Number of Active ONUs (2 for each downstream and upstream)
     ${onos_flows_count}=    Evaluate    4 * ${num_onus}
     Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
-    ...    Verify Subscriber Access Flows Added Count DT    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${onos_flows_count}
+    ...    Verify Subscriber Access Flows Added Count DT    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${of_id}
+    ...    ${onos_flows_count}
     # Verify VOLTHA Flows
     # Number of per OLT Flows equals Twice the Number of Active ONUs (each for downstream and upstream) + 1 for LLDP
     ${olt_flows}=    Evaluate    2 * ${num_onus} + 1
