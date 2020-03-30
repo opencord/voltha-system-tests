@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0584c23b_5cd8a7be",
+        "filename": "libraries/onos.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2020-03-30T14:43:10Z",
+      "side": 1,
+      "message": "you don\u0027t need the two -f here. a simpler flows -s added of:00000a0a0a0a0a00 is enough, valid for every command",
+      "range": {
+        "startLine": 111,
+        "startChar": 11,
+        "endLine": 111,
+        "endChar": 44
+      },
+      "revId": "a96271e4c21d8bd2e1e8e1c17886136eaa7d1455",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    }
+  ]
+}
