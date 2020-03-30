@@ -299,7 +299,7 @@ Verify openolt adapter restart before subscriber provisioning
     [Tags]    functional    olt-adapter-restart
     [Setup]    Run Keywords    Announce Message    START TEST OltAdapterRestart
     ...        AND             Start Logging    OltAdapterRestart
-    ...        AND             Clear All Devices Then Create New Device
+    #...        AND             Clear All Devices Then Create New Device
     [Teardown]   Run Keywords    Collect Logs
     ...          AND             Stop Logging    OltAdapterRestart
     ...          AND             Announce Message    END TEST OltAdapterRestart
