@@ -284,8 +284,10 @@ Delete All Devices and Verify
     [Documentation]    Remove any devices from VOLTHA and ONOS
     # Clear devices from VOLTHA
     Disable Devices In Voltha    Root=true
+    Sleep    5s
     Wait Until Keyword Succeeds    ${timeout}    2s    Test Devices Disabled In Voltha    Root=true
     Delete Devices In Voltha    Root=true
+    Sleep    30s
     Wait Until Keyword Succeeds    ${timeout}    2s    Test Empty Device List
     # Clear devices from ONOS
     #Remove All Devices From ONOS
