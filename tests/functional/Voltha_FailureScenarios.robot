@@ -110,7 +110,7 @@ Verify OLT after rebooting physically
     ...    Prerequisite : Subscriber are authenticated/DHCP/pingable state
     ...    Test performs a physical reboot, performs "reboot" from the OLT CLI
     ...    VOL-1956
-    [Tags]    functional   PhysicalOLTReboot   notready
+    [Tags]    functional   PhysicalOLTReboot
     [Setup]    Run Keywords    Announce Message    START TEST PhysicalOLTReboot
     ...        AND             Start Logging    PhysicalOLTReboot
     [Teardown]    Run Keywords    Collect Logs
@@ -358,7 +358,7 @@ Verify restart ofagent container after VOLTHA is operational
     [Documentation]    Restart ofagent container after VOLTHA is operational.
     ...    Prerequisite : ONUs are authenticated and pingable.
     #TODO: remove "notready" tag once olt reboot and ofagent restart work items are done
-    [Tags]    functional   VOL-2409   ofagentRestart    notready
+    [Tags]    functional   VOL-2409   ofagentRestart
     [Setup]    Run Keywords    Announce Message    START TEST ofagentRestart
     ...        AND             Start Logging    ofagentRestart
     [Teardown]    Run Keywords    Collect Logs
