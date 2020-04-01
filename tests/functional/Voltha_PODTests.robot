@@ -308,7 +308,7 @@ Delete OLT, ReAdd OLT and Perform Sanity Test
     ...           AND             Stop Logging    DeleteOLT
     ...           AND             Announce Message    END TEST DeleteOLT
     Run Keyword If    ${has_dataplane}    Clean Up Linux
-    Run Keyword If    ${has_dataplane}    Delete Device and Verify
+    Run Keyword If    ${has_dataplane}    Delete All Devices and Verify
     Run Keyword and Ignore Error    Collect Logs
     # Recreate the OLT
     Run Keyword If    ${has_dataplane}    Setup
