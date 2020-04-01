@@ -270,6 +270,8 @@ Setup
     ...    Validate OLT Device    ENABLED    ACTIVE    REACHABLE    ${olt_serial_number}
     ${logical_id}=    Get Logical Device ID From SN    ${olt_serial_number}
     Set Suite Variable    ${logical_id}
+    ${logical_datapathid}=    Get Logical Datapath Id    ${logical_id}
+    Set Suite Variable    ${logical_datapathid}
 
 Validate ONUs After OLT Disable
     [Documentation]    Validates the ONUs state in Voltha, ONUs port state in ONOS
@@ -302,9 +304,8 @@ Delete All Devices and Verify
     Delete Devices In Voltha    Root=true
     Sleep    30s
     Wait Until Keyword Succeeds    ${timeout}    2s    Test Empty Device List
-    # Clear devices from ONOS
-    #Remove All Devices From ONOS
-    #...    http://karaf:karaf@${ONOS_REST_IP}:${ONOS_REST_PORT}
+    Wait Until Keyword Succeeds    ${timeout}    2s
+    ...    Verify No Flows in ONOS    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${logical_datapathid}
 
 Teardown
     [Documentation]    kills processes and cleans up interfaces on src+dst servers
@@ -397,9 +398,11 @@ Verify ping is succesful except for given device
 
 Announce Message
     [Arguments]    ${message}
-    [Documentation]    Announce a message that will be picked up by the log aggregator
-    Run Process    kubectl    run    announcer    -ti    --rm    --restart    Never    --image    ubuntu
-    ...     bash    --    -c    echo; sleep 1; echo ${message}; sleep 1; date --rfc-3339\=n ; sleep 1; echo; sleep 1
+    [Documentation]    Currently does nothing
+    # [Documentation]    Announce a message that will be picked up by the log aggregator
+    # Run Process    kubectl    run    announcer    -ti    --rm    --restart    Never    --image    ubuntu
+    # ...     bash    --    -c    echo; sleep 1; echo ${message}; sleep 1; date --rfc-3339\=n ; sleep 1; echo; sleep 1
+    No Operation
 
 Start Logging
     [Arguments]    ${label}

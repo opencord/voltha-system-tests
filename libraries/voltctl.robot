@@ -392,6 +392,15 @@ Get Logical Device ID From SN
     Log    ${id}
     [Return]    ${id}
 
+Get Logical Datapath ID
+    [Arguments]    ${device_id}
+    [Documentation]    Gets the logical device's datapathid
+    ${rc}    ${id}=    Run and Return Rc and Output
+    ...    ${VOLTCTL_CONFIG}; voltctl logicaldevice list --filter=Id=${device_id} --format='{{.DatapathId}}'
+    Should Be Equal As Integers    ${rc}    0
+    Log    ${id}
+    [Return]    ${id}
+
 Build ONU SN List
     [Arguments]    ${serial_numbers}
     [Documentation]    Appends all ONU SNs to the ${serial_numbers} list
