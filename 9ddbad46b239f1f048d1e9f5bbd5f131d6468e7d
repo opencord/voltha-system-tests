@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1316a27d_9beae3d3",
+        "filename": "tests/functional/Voltha_FailureScenarios.robot",
+        "patchSetId": 7
+      },
+      "lineNbr": 454,
+      "author": {
+        "id": 1000064
+      },
+      "writtenOn": "2020-04-01T23:54:20Z",
+      "side": 1,
+      "message": "Setup is not required here, as we will move this tests after `of agent restart` test.  Also, ${before_list} ${after_list} is not required too.. so the logic of collecting into these variables is not required",
+      "range": {
+        "startLine": 437,
+        "startChar": 2,
+        "endLine": 454,
+        "endChar": 7
+      },
+      "revId": "9ddbad46b239f1f048d1e9f5bbd5f131d6468e7d",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "caa5e3d2_6321e60e",
+        "filename": "tests/functional/Voltha_FailureScenarios.robot",
+        "patchSetId": 7
+      },
+      "lineNbr": 460,
+      "author": {
+        "id": 1000064
+      },
+      "writtenOn": "2020-04-01T23:54:20Z",
+      "side": 1,
+      "message": "This procedure needs to be moved to right after \"Restart Pod\" is performed.  We are making sure that the ONUs are still enabled in ONOS after a restart is triggered",
+      "range": {
+        "startLine": 460,
+        "startChar": 4,
+        "endLine": 460,
+        "endChar": 24
+      },
+      "revId": "9ddbad46b239f1f048d1e9f5bbd5f131d6468e7d",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dc04817a_1e378eae",
+        "filename": "tests/functional/Voltha_FailureScenarios.robot",
+        "patchSetId": 7
+      },
+      "lineNbr": 470,
+      "author": {
+        "id": 1000064
+      },
+      "writtenOn": "2020-04-01T23:54:20Z",
+      "side": 1,
+      "message": "Remove this step and just add checks if the ONU is Enabled.  use this keyword \"Verify ONU Port Is Enabled\" from ONOS.robot file",
+      "range": {
+        "startLine": 467,
+        "startChar": 8,
+        "endLine": 470,
+        "endChar": 51
+      },
+      "revId": "9ddbad46b239f1f048d1e9f5bbd5f131d6468e7d",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ba0d3253_8523fe6b",
+        "filename": "tests/functional/Voltha_FailureScenarios.robot",
+        "patchSetId": 7
+      },
+      "lineNbr": 478,
+      "author": {
+        "id": 1000064
+      },
+      "writtenOn": "2020-04-01T23:54:20Z",
+      "side": 1,
+      "message": "please remove",
+      "range": {
+        "startLine": 476,
+        "startChar": 4,
+        "endLine": 478,
+        "endChar": 25
+      },
+      "revId": "9ddbad46b239f1f048d1e9f5bbd5f131d6468e7d",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    }
+  ]
+}
