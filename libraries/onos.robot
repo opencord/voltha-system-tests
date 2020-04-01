@@ -150,6 +150,12 @@ Verify No Pending Flows For ONU
     ...    flows -s | grep IN_PORT:${onu_port} | grep PENDING
     Should Be Empty    ${pending_flows}
 
+Verify No Flows in ONOS
+    [Arguments]    ${ip}    ${port}    ${device_id}
+    [Documentation]    Verifies that there are no flows in ONOS for the device
+    ${nullcount}=    Execute ONOS CLI Command    ${ip}    ${port}    flows -c | grep ${device_id} | grep flowRuleCount=0
+    Should Not Be Empty    ${nullcount}
+
 Verify Eapol Flows Added For ONU
     [Arguments]    ${ip}    ${port}    ${onu_port}
     [Documentation]    Verifies if the Eapol Flows are added in ONOS for the ONU
