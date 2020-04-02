@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d627dcef_37cc9c50",
+        "filename": "tests/functional/Voltha_FailureScenarios.robot",
+        "patchSetId": 11
+      },
+      "lineNbr": 449,
+      "author": {
+        "id": 1000064
+      },
+      "writtenOn": "2020-04-02T00:48:58Z",
+      "side": 1,
+      "message": "I think we should remove this because otherwise may be ONU might go down and we are waiting for it to come up and we may not catch the issue",
+      "range": {
+        "startLine": 449,
+        "startChar": 46,
+        "endLine": 449,
+        "endChar": 86
+      },
+      "revId": "3e6e8c0459d49079021a8cb42e4363ec74745a69",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    }
+  ]
+}
