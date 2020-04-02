@@ -72,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "bc660046_992b054c",
+        "filename": "tests/functional/Voltha_FailureScenarios.robot",
+        "patchSetId": 7
+      },
+      "lineNbr": 460,
+      "author": {
+        "id": 1000064
+      },
+      "writtenOn": "2020-04-02T00:18:33Z",
+      "side": 1,
+      "message": "Yes, but we are performing that check in the second FOR Loop after the `onu adapter` comes back up completely.  But the step is needed when the `adapter` is down or trying to come up state",
+      "parentUuid": "65d744b2_18976acc",
+      "range": {
+        "startLine": 460,
+        "startChar": 4,
+        "endLine": 460,
+        "endChar": 24
+      },
+      "revId": "9ddbad46b239f1f048d1e9f5bbd5f131d6468e7d",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dc04817a_1e378eae",
         "filename": "tests/functional/Voltha_FailureScenarios.robot",
         "patchSetId": 7
