@@ -308,10 +308,13 @@ Delete OLT, ReAdd OLT and Perform Sanity Test
     ...           AND             Stop Logging    DeleteOLT
     ...           AND             Announce Message    END TEST DeleteOLT
     Run Keyword If    ${has_dataplane}    Clean Up Linux
-    Run Keyword If    ${has_dataplane}    Delete Device and Verify
+    Delete Device and Verify
+    Sleep    20s
+    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
+    ...    Verify Device Flows Removed    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${of_id}
     Run Keyword and Ignore Error    Collect Logs
     # Recreate the OLT
-    Run Keyword If    ${has_dataplane}    Setup
+    Setup
     Wait Until Keyword Succeeds    ${timeout}   2s    Perform Sanity Test
 
 Check Mib State on OLT recreation after ONU, OLT deletion
@@ -336,8 +339,10 @@ Check Mib State on OLT recreation after ONU, OLT deletion
         Delete Device     ${onu_device_id}
     END
     #Disable and Delete the OLT
-    Run Keyword If    ${has_dataplane}    Delete Device and Verify
-    #Recreate the OLT back
+    Delete Device and Verify
+    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
+    ...    Verify Device Flows Removed    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${of_id}
+    # Recreate the OLT
     Run Keyword If    ${has_dataplane}    Sleep    180s
     ${olt_device_id}=    Create Device    ${olt_ip}    ${OLT_PORT}
     Set Suite Variable    ${olt_device_id}
@@ -407,7 +412,10 @@ Test disable ONUs and OLT then delete ONUs and OLT
         ...    REACHABLE    ${olt_serial_number}
     END
     Delete Device    ${olt_device_id}
+    Sleep    60s
     Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s    Test Empty Device List
+    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
+    ...    Verify Device Flows Removed    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${of_id}
 
 Validate authentication on a disabled ONU
     [Documentation]    Assuming that test1 was executed where all the ONUs are authenticated/DHCP/pingable
