@@ -82,6 +82,46 @@ Get FabricSwitch in ONOS
     Should Be True    ${matched}    No fabric switch found
     [Return]    ${of_id}
 
+Verify Subscriber Access Flows Added for ONU DT
+    [Arguments]    ${ip}    ${port}    ${olt_of_id}    ${onu_port}    ${nni_port}    ${s_tag}
+    [Documentation]    Verifies if the Subscriber Access Flows are added in ONOS for the ONU
+    # Verify upstream table=0 flow
+    ${upstream_flow_0_added}=    Execute ONOS CLI Command    ${ip}    ${port}
+    ...    flows -s ADDED ${olt_of_id} | grep IN_PORT:${onu_port} | grep VLAN_VID:Any | grep transition=TABLE:1
+    Should Not Be Empty    ${upstream_flow_0_added}
+    # Verify upstream table=1 flow
+    ${flow_vlan_push_cmd}=    Catenate    SEPARATOR=
+    ...    flows -s ADDED ${olt_of_id} | grep IN_PORT:${onu_port} | grep VLAN_VID:Any |
+    ...     grep VLAN_PUSH | grep VLAN_ID:${s_tag} | grep OUTPUT:${nni_port}
+    ${upstream_flow_1_added}=    Execute ONOS CLI Command    ${ip}    ${port}
+    ...    ${flow_vlan_push_cmd}
+    Should Not Be Empty    ${upstream_flow_1_added}
+    # Verify downstream table=0 flow
+    ${flow_vlan_pop_cmd}=    Catenate    SEPARATOR=
+    ...    flows -s ADDED ${olt_of_id} | grep IN_PORT:${nni_port} | grep VLAN_VID:${s_tag} |
+    ...     grep VLAN_POP | grep transition=TABLE:1
+    ${downstream_flow_0_added}=    Execute ONOS CLI Command    ${ip}    ${port}
+    ...    ${flow_vlan_pop_cmd}
+    Should Not Be Empty    ${downstream_flow_0_added}
+    # Verify downstream table=1 flow
+    ${downstream_flow_1_added}=    Execute ONOS CLI Command    ${ip}    ${port}
+    ...    flows -s ADDED ${olt_of_id} | grep IN_PORT:${nni_port} | grep VLAN_VID:Any | grep OUTPUT:${onu_port}
+    Should Not Be Empty    ${downstream_flow_1_added}
+
+Verify Subscriber Access Flows Added Count DT
+    [Arguments]    ${ip}    ${port}    ${olt_of_id}    ${expected_flows}
+    [Documentation]    Matches for total number of subscriber access flows added for all onus
+    ${access_flows_added}=    Execute ONOS CLI Command    ${ip}    ${port}
+    ...    flows -s ADDED ${olt_of_id} | grep -v deviceId | grep -v ETH_TYPE:lldp | wc -l
+    Should Be Equal As Integers    ${access_flows_added}    ${expected_flows}
+
+Verify Device Flows Removed
+    [Arguments]    ${ip}    ${port}    ${olt_of_id}
+    [Documentation]    Verifies all flows are removed from the device
+    ${device_flows}=    Execute ONOS CLI Command    ${ip}    ${port}
+    ...    flows -s -f ${olt_of_id} | grep -v deviceId | wc -l
+    Should Be Equal As Integers    ${device_flows}    0
+
 Verify Eapol Flows Added
     [Arguments]    ${ip}    ${port}    ${expected_flows}
     [Documentation]    Matches for number of eapol flows based on number of onus
