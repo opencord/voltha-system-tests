@@ -240,6 +240,8 @@ Test Disable and Delete OLT for DT
     # Delete OLT and Validate Empty Device List
     Delete Device    ${olt_device_id}
     Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s    Test Empty Device List
+    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
+    ...    Verify Device Flows Removed    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${of_id}
     Run Keyword and Ignore Error    Collect Logs
     # Re-do Setup (Recreate the OLT) and Perform Sanity Test DT
     Run Keyword    Setup
