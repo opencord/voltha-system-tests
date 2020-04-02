@@ -136,6 +136,13 @@ Verify Subscriber Access Flows Added Count DT
     ...    flows -s ADDED ${olt_of_id} | grep -v deviceId | grep -v ETH_TYPE:lldp | wc -l
     Should Be Equal As Integers    ${access_flows_added}    ${expected_flows}
 
+Verify Device Flows Removed
+    [Arguments]    ${ip}    ${port}    ${olt_of_id}
+    [Documentation]    Verifies all flows are removed from the device
+    ${device_flows}=    Execute ONOS CLI Command    ${ip}    ${port}
+    ...    flows -s -f ${olt_of_id} | grep -v deviceId | wc -l
+    Should Be Equal As Integers    ${device_flows}    0
+
 Verify Eapol Flows Added
     [Arguments]    ${ip}    ${port}    ${expected_flows}
     [Documentation]    Matches for number of eapol flows based on number of onus
