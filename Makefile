@@ -66,6 +66,14 @@ functional-single-kind-dt: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_DT_SINGLE_PON_FIL
 functional-single-kind-dt: ROBOT_FILE := Voltha_DT_PODTests.robot
 functional-single-kind-dt: voltha-dt-test
 
+# target to invoke openonu go adapter
+openonu-go-adapter-test: ROBOT_MISC_ARGS += -v state2test:4 -v testmode:SingleState -v timeout:120s
+openonu-go-adapter-test: ROBOT_MISC_ARGS += -i statetest $(ROBOT_DEBUG_LOG_OPT)
+openonu-go-adapter-test: ROBOT_MISC_ARGS += -X
+openonu-go-adapter-test: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_SINGLE_PON_FILE)
+openonu-go-adapter-test: ROBOT_FILE := Voltha_ONUStateTests.robot
+openonu-go-adapter-test: openonu-go-adapter-statetest
+
 sanity-single-kind: ROBOT_MISC_ARGS += -i sanity $(ROBOT_DEBUG_LOG_OPT)
 sanity-single-kind: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_SINGLE_PON_FILE)
 sanity-single-kind: bbsim-kind
@@ -156,6 +164,12 @@ voltha-scale-test: vst_venv
 	source ./$</bin/activate ; set -u ;\
 	cd tests/scale ;\
 	robot $(ROBOT_MISC_ARGS) Voltha_Scale_Tests.robot
+
+openonu-go-adapter-statetest: vst_venv
+	source ./$</bin/activate ; set -u ;\
+	cd tests/openonu-go-adapter ;\
+	robot -V $(ROBOT_CONFIG_FILE) $(ROBOT_MISC_ARGS) $(ROBOT_FILE)
+
 
 # self-test, lint, and setup targets
 
