@@ -444,7 +444,7 @@ Sanity E2E Test for OLT/ONU on POD With Core Fail and Restart
     [Teardown]   Run Keywords    Collect Logs
     ...          AND             Stop Logging    RwCoreFailAndRestart
     ...          AND             Announce Message    END TEST RwCoreFailAndRestart
-    ...          AND             Delete Device and Verify
+    #...          AND             Delete Device and Verify
     Run Keyword and Ignore Error    Collect Logs
     Run Keyword If    ${has_dataplane}    Clean Up Linux
     ${of_id}=    Wait Until Keyword Succeeds    ${timeout}    15s    Validate OLT Device in ONOS    ${olt_serial_number}
