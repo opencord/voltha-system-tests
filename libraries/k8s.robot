@@ -338,3 +338,10 @@ Check Expected Running Pods Number By Label
     ...    kubectl -n ${namespace} get pods -l ${key}=${value} -o json | jq -r ".items[].status.phase" | wc -l
     Should Be Equal as Integers    ${count}    ${number}
 
+Add Portforward Rule
+    [Arguments]    ${namespace}    ${name}    ${from_port}    ${to_port}    ${tag}
+    [Documentation]    Uses kubectl to create a port-forward
+    Start Process    nohup    kubectl    port-forward    -n    ${namespace}    service/${name}
+    ...    ${from_port}:${to_port}    env:_TAG=${tag}
+    #Sleep to wait the process up
+    Sleep    1s

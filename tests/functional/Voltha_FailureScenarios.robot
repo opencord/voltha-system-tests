@@ -483,7 +483,10 @@ Sanity E2E Test for OLT/ONU on POD With Core Fail and Restart
     ...    Check Expected Available Deployment Replicas    voltha    voltha-ofagent    1
     # For some reason scaling down and up the POD behind a service causes the port forward to stop working,
     # so restart the port forwarding for the API service
+    # If will only kill the current process, need another watchdog process to spawn a new forward process
     Restart VOLTHA Port Foward    voltha-api-minimal
+    # Add the port forwarding rule for API service.
+    Add Portforward Rule    voltha    voltha-api    55555    55555    voltha-api-minimal
     # Ensure that the ofagent pod is up and ready and the device is available in ONOS, this
     # represents system connectivity being restored
     Wait Until Keyword Succeeds    ${timeout}    2s    Device Is Available In ONOS
