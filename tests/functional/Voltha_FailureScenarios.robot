@@ -437,14 +437,14 @@ Sanity E2E Test for OLT/ONU on POD With Core Fail and Restart
     ...    simulate a POD crash. The test then scales the rw-core back to a single instance
     ...    and configures ONOS for access. The test succeeds if the device is able to
     ...    complete the DHCP sequence.
-    [Tags]    functional    rwcore-restart
+    [Tags]    functional    rwcore-restart    notready
     [Setup]    Run Keywords    Announce Message    START TEST RwCoreFailAndRestart
     ...        AND             Start Logging    RwCoreFailAndRestart
     ...        AND             Clear All Devices Then Create New Device
     [Teardown]   Run Keywords    Collect Logs
     ...          AND             Stop Logging    RwCoreFailAndRestart
+    ...          AND             Delete Device and Verify
     ...          AND             Announce Message    END TEST RwCoreFailAndRestart
-    #...          AND             Delete Device and Verify
     Run Keyword and Ignore Error    Collect Logs
     Run Keyword If    ${has_dataplane}    Clean Up Linux
     ${of_id}=    Wait Until Keyword Succeeds    ${timeout}    15s    Validate OLT Device in ONOS    ${olt_serial_number}
