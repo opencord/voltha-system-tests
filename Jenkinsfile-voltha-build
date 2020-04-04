@@ -83,10 +83,11 @@ node ("${TestNodeName}") {
                     fi
 
                     # VOL-2194 ONOS SSH and REST ports hardcoded to 30115/30120 in tests
+                    # JENKINS_NODE_COOKIE=dontKillMe ask Jenkins doesn't kill the proces after this job. we want the `while true; do kubectl port-forward` keep alive
                     if [[ "${workFlow}" == "DT" ]]; then
-                       ONOS_SSH_PORT=30115 ONOS_API_PORT=30120 VOLTHA_LOG_LEVEL=DEBUG WITH_SIM_ADAPTERS=n WITH_TP=yes DEPLOY_K8S=no INSTALL_KUBECTL=no INSTALL_HELM=no WITH_EAPOL=no WITH_DHCP=no WITH_IGMP=no WITH_RADIUS=no FANCY=0 ./voltha up
+                       JENKINS_NODE_COOKIE=dontKillMe ONOS_SSH_PORT=30115 ONOS_API_PORT=30120 VOLTHA_LOG_LEVEL=DEBUG WITH_SIM_ADAPTERS=n WITH_TP=yes DEPLOY_K8S=no INSTALL_KUBECTL=no INSTALL_HELM=no WITH_EAPOL=no WITH_DHCP=no WITH_IGMP=no WITH_RADIUS=no FANCY=0 ./voltha up
                     else
-                       ONOS_SSH_PORT=30115 ONOS_API_PORT=30120 VOLTHA_LOG_LEVEL=DEBUG WITH_SIM_ADAPTERS=n WITH_RADIUS=y WITH_TP=yes DEPLOY_K8S=no INSTALL_KUBECTL=no INSTALL_HELM=no FANCY=0 ./voltha up
+                       JENKINS_NODE_COOKIE=dontKillMe ONOS_SSH_PORT=30115 ONOS_API_PORT=30120 VOLTHA_LOG_LEVEL=DEBUG WITH_SIM_ADAPTERS=n WITH_RADIUS=y WITH_TP=yes DEPLOY_K8S=no INSTALL_KUBECTL=no INSTALL_HELM=no FANCY=0 ./voltha up
                     fi
 
                     kubectl get pods --all-namespaces -o jsonpath="{range .items[*].status.containerStatuses[*]}{.image}{'\\t'}{.imageID}{'\\n'}" | sort | uniq -c
