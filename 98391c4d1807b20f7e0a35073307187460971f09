@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "81f43b75_a23a80a5",
+        "filename": "tests/openonu-go-adapter/Voltha_ONUStateTests.robot",
+        "patchSetId": 4
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1000064
+      },
+      "writtenOn": "2020-04-07T19:02:51Z",
+      "side": 1,
+      "message": "We can utilize the existing keyword for the multiple OLTs as well. For example \"Common Test Suite Setup\" in the \"libraries/utils.robot\" can be modified to include additional changes.  That way we can start using this keyword for other tests where multiple OLTs are included.  Please check the existing keyword",
+      "range": {
+        "startLine": 73,
+        "startChar": 0,
+        "endLine": 73,
+        "endChar": 11
+      },
+      "revId": "98391c4d1807b20f7e0a35073307187460971f09",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "34c204df_a1fa22e8",
+        "filename": "tests/openonu-go-adapter/Voltha_ONUStateTests.robot",
+        "patchSetId": 4
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1000064
+      },
+      "writtenOn": "2020-04-07T19:02:51Z",
+      "side": 1,
+      "message": "Same as the above suggestion.  We have \"Setup\" keyword in \"utils.robot\" which is currently used with one OLT, please update the existing keyword. We could use the keywords for other test cases as well.  Mostly, all the keywords in the existing libraries are used for both BBSim and Hardware.",
+      "range": {
+        "startLine": 127,
+        "startChar": 0,
+        "endLine": 127,
+        "endChar": 10
+      },
+      "revId": "98391c4d1807b20f7e0a35073307187460971f09",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    }
+  ]
+}
