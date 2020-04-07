@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "36efaa5c_35b32efd",
+        "filename": "tests/data/multiple-bbsim-kind.yaml",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2020-04-07T14:05:10Z",
+      "side": 1,
+      "message": "I think this file is not useful here, since we will use a 1 olt 1 one scenario with bbsim",
+      "revId": "886172c9d2f3865395632b6ffc5521d34605af77",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f7ac076c_2210f4c8",
+        "filename": "tests/data/onos-sadis-multiple-bbsim.json",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2020-04-07T14:05:10Z",
+      "side": 1,
+      "message": "same here",
+      "revId": "886172c9d2f3865395632b6ffc5521d34605af77",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    }
+  ]
+}
