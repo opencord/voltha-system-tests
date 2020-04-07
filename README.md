@@ -22,7 +22,7 @@ Brigade](https://drive.google.com/drive/u/1/folders/1BzyBoEURG2pVfyYBXnWUI30uy0F
   [voltctl](https://github.com/opencord/voltctl)
 
 * `kubectl` - a command line tool to access your Kubernetes Clusters.
-  Reference: [kubectl](https://kubernetes.io/docs/reference/kubectl/kubectl/)
+  Reference - [kubectl](https://kubernetes.io/docs/reference/kubectl/kubectl/)
 
 * `voltctl` and `kubectl` must be properly configured on your system
   prior to any test executions.  The `kind-voltha` environment will install
@@ -62,15 +62,14 @@ If you prefer to use your own Kubernetes cluster, please read the document
 options](https://github.com/ciena/kind-voltha#voltha-up-configuration-options)
 first to see how to configure the `kind-voltha` installation behavior.
 
-* Recommended software versions
-
-Helm: v2.14.3
-Kubernetes: v1.15.5
-KIND: v0.5.1
+> Recommended software versions
+- Helm: v2.14.3
+- Kubernetes: v1.15.5
+- KIND: v0.5.1
 
 You can skip the installation of Kubernetes cluster and Helm by setting
 environment variables.  For example, run the following command to install
-VOLTHA only on an existing cluster.
+VOLTHA only in an existing cluster.
 
 ```bash
 git clone https://github.com/ciena/kind-voltha
@@ -114,6 +113,13 @@ To run the sanity tests for the DT Workflow, use `sanity-kind-dt` as the make ta
 git clone https://github.com/opencord/voltha-system-tests
 make -C voltha-system-tests sanity-kind-dt
 ```
+
+The tests generate three report files in
+`voltha-system-tests/tests/dt-workflow/` (`output.xml`, `report.html`, `log.html`).
+View the `report.html` page in a browser to analyze the results.
+If you're running on a remote system, you can start a web server with `python3
+-m http.server`.
+
 
 ## Test variables
 

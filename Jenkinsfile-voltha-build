@@ -65,11 +65,20 @@ node ("${TestNodeName}") {
                         }
                     }
                     timeout(1) {
-                        sh returnStdout: true, script: """
-                        port_fwd_pid=`ps -ax | grep "port-forward -n default service/onos-openflow" | grep -v "grep" | awk '{print \$1}'`
-                        if [[ "" !=  "\$port_fwd_pid" ]]; then
-                            kill -9 \$port_fwd_pid > /dev/null 2>&1
-                        fi
+                        sh returnStdout: false, script: """
+                        #Remove all while true; do kubectl port-forward ...done; rules
+                        for port_fwd_id in `ps -ax | grep "port-forward" | grep -E "onos|voltha" | grep "while true"| awk '{print \$1}'`;
+                        do
+                            cat /proc/\$port_fwd_id/cmdline
+                            kill -9 \$port_fwd_id
+                        done
+
+                        #Remove all kubectl port-forward rules
+                        for port_fwd_id in `ps -ax | grep "port-forward" | grep -E "onos|voltha" | awk '{print \$1}'`;
+                        do
+                            cat /proc/\$port_fwd_id/cmdline
+                            kill -9 \$port_fwd_id
+                        done
                         """
                     }
                 }
