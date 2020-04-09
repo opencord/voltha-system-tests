@@ -26,7 +26,7 @@ node ("${TestNodeName}") {
                 if (params.branch == "voltha-2.3") {
                     sh returnStdout: true, script: "git clone -b 3.0.3 https://github.com/ciena/kind-voltha.git"
                 } else {
-                    sh returnStdout: true, script: "git clone https://github.com/ciena/kind-voltha.git"
+                    sh returnStdout: true, script: "git clone -b ${branch} ${cordRepoUrl}/kind-voltha"
                 }
                 if ( params.workFlow == "DT" ) {
                     deployment_config = readYaml file: "${configBaseDir}/${configDeploymentDir}/${configFileName}-DT.yaml"
