@@ -123,19 +123,26 @@ node ("${TestNodeName}") {
             }
             if ( params.configurePod && params.profile != "Default" ) {
                 stage('Push Tech-Profile') {
+                    script {
+                        if (oltDebVersion.contains("asfvolt16")){
+                            directory = "XGS-PON"
+                        } else {
+                            directory = "GPON"
+                        }
+                    }
                     timeout(1) {
                         out_push_tp = sh returnStatus: true, script: """
                         export KUBECONFIG=$WORKSPACE/${configBaseDir}/${configKubernetesDir}/${configFileName}.conf
                         etcd_container=\$(kubectl get pods -n voltha | grep voltha-etcd-cluster | awk 'NR==1{print \$1}')
                         kubectl cp $WORKSPACE/voltha-system-tests/tests/data/TechProfile-${profile}.json voltha/\$etcd_container:/tmp/flexpod.json
-                        put_result=\$(kubectl exec -it \$etcd_container -n voltha -- /bin/sh -c 'cat /tmp/flexpod.json | ETCDCTL_API=3 etcdctl put service/voltha/technology_profiles/XGS-PON/64')
+                        put_result=\$(kubectl exec -it \$etcd_container -n voltha -- /bin/sh -c 'cat /tmp/flexpod.json | ETCDCTL_API=3 etcdctl put service/voltha/technology_profiles/${directory}/64')
                         """
                         return out_push_tp == 0
                     }
                     timeout(1) {
                         out_get_tp = sh returnStatus: true, script: """
                         etcd_container=\$(kubectl get pods -n voltha | grep voltha-etcd-cluster | awk 'NR==1{print \$1}')
-                        get_result=\$(kubectl exec -it \$etcd_container -n voltha -- /bin/sh -c 'ETCDCTL_API=3 etcdctl get --prefix service/voltha/technology_profiles/XGS-PON/64')
+                        get_result=\$(kubectl exec -it \$etcd_container -n voltha -- /bin/sh -c 'ETCDCTL_API=3 etcdctl get --prefix service/voltha/technology_profiles/${directory}/64')
                         """
                         return out_get_tp == 0
                     }
