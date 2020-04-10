@@ -41,6 +41,7 @@ ${KUBERNETES_YAML}    ${KUBERNETES_CONFIGS_DIR}/${POD_NAME}.yml
 ${HELM_CHARTS_DIR}    ~/helm-charts
 ${VOLTHA_POD_NUM}    8
 ${NAMESPACE}      voltha
+${DEFAULTSPACE}      default
 # For below variable value, using deployment name as using grep for
 # parsing radius pod name, we can also use full radius pod name
 ${RESTART_POD_NAME}    radius
@@ -189,9 +190,9 @@ Check OLT/ONU Authentication After Radius Pod Restart
     ...           AND             Stop Logging    RadiusRestart
     ...           AND             Announce Message    END TEST RadiusRestart
     ${waitforRestart}    Set Variable    120s
-    Wait Until Keyword Succeeds    ${timeout}    15s    Restart Pod    ${NAMESPACE}    ${RESTART_POD_NAME}
-    Wait Until Keyword Succeeds    ${waitforRestart}    2s    Validate Pod Status    ${RESTART_POD_NAME}   ${NAMESPACE}
-    ...    Running
+    Wait Until Keyword Succeeds    ${timeout}    15s    Restart Pod    ${DEFAULTSPACE}    ${RESTART_POD_NAME}
+    Wait Until Keyword Succeeds    ${waitforRestart}    2s    Validate Pod Status    ${RESTART_POD_NAME}
+    ...    ${DEFAULTSPACE}    Running
     FOR    ${I}    IN RANGE    0    ${num_onus}
         ${src}=    Set Variable    ${hosts.src[${I}]}
         ${dst}=    Set Variable    ${hosts.dst[${I}]}
