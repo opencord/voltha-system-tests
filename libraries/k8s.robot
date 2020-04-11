@@ -79,12 +79,31 @@ Exec Pod Separate Stderr
     Log    ${stderr}
     [return]    ${stdout}    ${stderr}
 
+Copy File To Pod
+    [Arguments]    ${namespace}    ${name}    ${src}    ${dest}
+    [Documentation]    Uses kubectl to copy a file to a pod
+    ${rc}    ${exec_pod_name}=    Run and Return Rc and Output
+    ...    kubectl get pods -n ${namespace} | grep ${name} | awk 'NR==1{print $1}'
+    Log    ${exec_pod_name}
+    Should Not Be Empty    ${exec_pod_name}    Unable to parse pod name
+    ${rc}    ${output}=    Run and Return Rc and Output
+    ...    kubectl cp -n ${namespace} ${src} ${exec_pod_name}:${dest}
+    Log    ${output}
+    [return]    ${output}
+
 Apply Kubernetes Resources
     [Arguments]    ${resource_yaml}    ${namespace}
     [Documentation]    Use kubectl to create resources given a yaml file
     ${rc}    Run and Return Rc
     ...    kubectl apply -n ${namespace} -f ${resource_yaml}
     Should Be Equal as Integers    ${rc}    0
+
+Delete Kubernetes Resources
+    [Arguments]    ${resource_yaml}    ${namespace}
+    [Documentation]    Use kubectl to delete resources given a yaml file
+    ${rc}    Run and Return Rc
+    ...    kubectl delete -n ${namespace} -f ${resource_yaml}
+    Should Be Equal as Integers    ${rc}    0   
 
 Validate Pod Status
     [Arguments]    ${pod_name}    ${namespace}   ${expectedStatus}
