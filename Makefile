@@ -80,6 +80,10 @@ sanity-multi-kind: ROBOT_MISC_ARGS += -i sanity $(ROBOT_DEBUG_LOG_OPT)
 sanity-multi-kind: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_MULT_PON_FILE)
 sanity-multi-kind: bbsim-kind
 
+functional-multi-kind: ROBOT_MISC_ARGS += -i sanity -i functional $(ROBOT_DEBUG_LOG_OPT)
+functional-multi-kind: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_MULT_PON_FILE)
+functional-multi-kind: bbsim-kind
+
 bbsim-kind: ROBOT_MISC_ARGS += -X
 bbsim-kind: ROBOT_FILE := Voltha_PODTests.robot
 bbsim-kind: voltha-test
@@ -117,6 +121,10 @@ bbsim-errorscenarios: ROBOT_FILE := Voltha_ErrorScenarios.robot
 bbsim-errorscenarios: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_SINGLE_PON_FILE)
 bbsim-errorscenarios: voltha-test
 
+bbsim-failurescenarios: ROBOT_MISC_ARGS += -X $(ROBOT_DEBUG_LOG_OPT) -e PowerSwitchORPhysicalOLTReboot
+bbsim-failurescenarios: ROBOT_FILE := Voltha_FailureScenarios.robot
+bbsim-failurescenarios: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_SINGLE_PON_FILE)
+bbsim-failurescenarios: voltha-test
 
 voltha-test: ROBOT_MISC_ARGS += -e notready
 
