@@ -66,7 +66,7 @@ sanity-single-kind: ROBOT_MISC_ARGS += -i sanity $(ROBOT_DEBUG_LOG_OPT)
 sanity-single-kind: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_SINGLE_PON_FILE)
 sanity-single-kind: bbsim-kind
 
-rwcore-restart-single-kind: ROBOT_MISC_ARGS += -X -i bbsimANDrwcore-restart $(ROBOT_DEBUG_LOG_OPT)
+rwcore-restart-single-kind: ROBOT_MISC_ARGS += -X -i functionalANDrwcore-restart $(ROBOT_DEBUG_LOG_OPT)
 rwcore-restart-single-kind: ROBOT_CONFIG_FILE := $(ROBOT_FAIL_SINGLE_PON_FILE)
 rwcore-restart-single-kind: ROBOT_FILE := Voltha_FailureScenarios.robot
 rwcore-restart-single-kind: voltha-test
@@ -116,7 +116,6 @@ bbsim-errorscenarios: ROBOT_MISC_ARGS += -X $(ROBOT_DEBUG_LOG_OPT)
 bbsim-errorscenarios: ROBOT_FILE := Voltha_ErrorScenarios.robot
 bbsim-errorscenarios: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_SINGLE_PON_FILE)
 bbsim-errorscenarios: voltha-test
-
 
 voltha-test: ROBOT_MISC_ARGS += -e notready
 
