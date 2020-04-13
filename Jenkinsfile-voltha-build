@@ -17,7 +17,7 @@ node ("${TestNodeName}") {
     if (params.withKind != null){
         withKind = params.withKind
     }
-    def tech_prof_directory = "XGS_PON"
+    def tech_prof_directory = "XGS-PON"
     if (params.oltDebVersion.contains("asgvolt64")){
         tech_prof_directory = "GPON"
     }
