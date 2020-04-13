@@ -66,10 +66,10 @@ sanity-single-kind: ROBOT_MISC_ARGS += -i sanity $(ROBOT_DEBUG_LOG_OPT)
 sanity-single-kind: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_SINGLE_PON_FILE)
 sanity-single-kind: bbsim-kind
 
-rwcore-restart-single-kind: ROBOT_MISC_ARGS += -X -i bbsimANDrwcore-restart $(ROBOT_DEBUG_LOG_OPT)
+rwcore-restart-single-kind: ROBOT_MISC_ARGS += -X -i functionalANDrwcore-restart $(ROBOT_DEBUG_LOG_OPT)
 rwcore-restart-single-kind: ROBOT_CONFIG_FILE := $(ROBOT_FAIL_SINGLE_PON_FILE)
 rwcore-restart-single-kind: ROBOT_FILE := Voltha_FailureScenarios.robot
-rwcore-restart-single-kind: voltha-test
+rwcore-restart-single-kind: ready-voltha-test
 
 single-kind: ROBOT_MISC_ARGS += -X -i $(TEST_TAGS) $(ROBOT_DEBUG_LOG_OPT)
 single-kind: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_SINGLE_PON_FILE)
@@ -117,10 +117,14 @@ bbsim-errorscenarios: ROBOT_FILE := Voltha_ErrorScenarios.robot
 bbsim-errorscenarios: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_SINGLE_PON_FILE)
 bbsim-errorscenarios: voltha-test
 
-
 voltha-test: ROBOT_MISC_ARGS += -e notready
 
 voltha-test: vst_venv
+	source ./$</bin/activate ; set -u ;\
+	cd tests/functional ;\
+	robot -V $(ROBOT_CONFIG_FILE) $(ROBOT_MISC_ARGS) $(ROBOT_FILE)
+
+ready-voltha-test: vst_venv
 	source ./$</bin/activate ; set -u ;\
 	cd tests/functional ;\
 	robot -V $(ROBOT_CONFIG_FILE) $(ROBOT_MISC_ARGS) $(ROBOT_FILE)
