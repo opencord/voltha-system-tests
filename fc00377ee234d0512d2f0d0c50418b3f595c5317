@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "db660608_065d8e98",
+        "filename": "Makefile",
+        "patchSetId": 2
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1000010
+      },
+      "writtenOn": "2020-04-13T18:04:14Z",
+      "side": 1,
+      "message": "For me this target works if I just make the change above and depend on the \u0027voltha-test\u0027 target here.  So I think the \u0027ready-voltha-test\u0027 target is not necessary.",
+      "range": {
+        "startLine": 72,
+        "startChar": 28,
+        "endLine": 72,
+        "endChar": 45
+      },
+      "revId": "fc00377ee234d0512d2f0d0c50418b3f595c5317",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    }
+  ]
+}
