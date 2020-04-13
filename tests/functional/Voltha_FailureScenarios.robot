@@ -136,7 +136,7 @@ Verify OLT after rebooting physically
         ...    ${src['ip']}    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
     END
     # Wait for the OLT to come back up
-    Wait Until Keyword Succeeds    120s    10s    Check Remote System Reachability    True    ${olt_ip}
+    Run Keyword If    ${has_dataplane}    Wait Until Keyword Succeeds    120s    10s    Check Remote System Reachability    True    ${olt_ip}
     # Waiting extra time for the ONUs to come up
     Sleep    60s
     Run Keyword And Ignore Error    Collect Logs
@@ -387,7 +387,7 @@ Check ONU adapter crash not forcing authentication again
     ...    Running
     # Wait for adapter to resync
     Sleep    60s
-    Clean Up Linux
+    Run Keyword If    ${has_dataplane}    Clean Up Linux
     # Perform all steps in Sanity Test except the subscriber addition
     ${of_id}=    Wait Until Keyword Succeeds    ${timeout}    15s    Validate OLT Device in ONOS    ${olt_serial_number}
     Set Global Variable    ${of_id}
