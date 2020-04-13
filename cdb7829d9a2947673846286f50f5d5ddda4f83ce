@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e873a9ee_c32b4ab6",
+        "filename": "Makefile",
+        "patchSetId": 1
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1000010
+      },
+      "writtenOn": "2020-04-13T17:09:03Z",
+      "side": 1,
+      "message": "So this target does the same thing as `voltha-test` except it also runs the tests marked \u0027notready\u0027?  If that\u0027s the intended use, can we maybe choose a more descriptive name?",
+      "range": {
+        "startLine": 127,
+        "startChar": 0,
+        "endLine": 127,
+        "endChar": 27
+      },
+      "revId": "cdb7829d9a2947673846286f50f5d5ddda4f83ce",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    }
+  ]
+}
