@@ -103,6 +103,51 @@ Get FabricSwitch in ONOS
     Should Be True    ${matched}    No fabric switch found
     [Return]    ${of_id}
 
+Verify Subscriber Access Flows Added for ONU
+    [Arguments]    ${ip}    ${port}    ${olt_of_id}    ${onu_port}    ${nni_port}    ${c_tag}    ${s_tag}
+    [Documentation]    Verifies if the Subscriber Access Flows are added in ONOS for the ONU
+    # Verify upstream table=0 flow
+    ${upstream_flow_0_cmd}=    Catenate    SEPARATOR=
+    ...    flows -s ADDED ${olt_of_id} | grep IN_PORT:${onu_port} | grep VLAN_VID:0 |
+    ...     grep VLAN_ID:${c_tag} | grep transition=TABLE:1
+    ${upstream_flow_0_added}=    Execute ONOS CLI Command    ${ip}    ${port}
+    ...    ${upstream_flow_0_cmd}
+    Should Not Be Empty    ${upstream_flow_0_added}
+    # Verify upstream table=1 flow
+    ${flow_vlan_push_cmd}=    Catenate    SEPARATOR=
+    ...    flows -s ADDED ${olt_of_id} | grep IN_PORT:${onu_port} | grep VLAN_VID:${c_tag} |
+    ...     grep VLAN_PUSH | grep VLAN_ID:${s_tag} | grep OUTPUT:${nni_port}
+    ${upstream_flow_1_added}=    Execute ONOS CLI Command    ${ip}    ${port}
+    ...    ${flow_vlan_push_cmd}
+    Should Not Be Empty    ${upstream_flow_1_added}
+    # Verify downstream table=0 flow
+    ${flow_vlan_pop_cmd}=    Catenate    SEPARATOR=
+    ...    flows -s ADDED ${olt_of_id} | grep IN_PORT:${nni_port} | grep VLAN_VID:${s_tag} |
+    ...     grep VLAN_POP | grep transition=TABLE:1
+    ${downstream_flow_0_added}=    Execute ONOS CLI Command    ${ip}    ${port}
+    ...    ${flow_vlan_pop_cmd}
+    Should Not Be Empty    ${downstream_flow_0_added}
+    # Verify downstream table=1 flow
+    ${downstream_flow_1_cmd}=    Catenate    SEPARATOR=
+    ...    flows -s ADDED ${olt_of_id} | grep IN_PORT:${nni_port} | grep VLAN_VID:${c_tag} |
+    ...     grep VLAN_ID:0 | grep OUTPUT:${onu_port}
+    ${downstream_flow_1_added}=    Execute ONOS CLI Command    ${ip}    ${port}
+    ...    ${downstream_flow_1_cmd}
+    Should Not Be Empty    ${downstream_flow_1_added}
+    # Verify ipv4 dhcp upstream flow
+    ${upstream_flow_ipv4_cmd}=    Catenate    SEPARATOR=
+    ...    flows -s ADDED ${olt_of_id} | grep IN_PORT:${onu_port} | grep ETH_TYPE=ipv4 |
+    ...     grep VLAN_VID:${c_tag} | grep OUTPUT:CONTROLLER
+    ${upstream_flow_ipv4_added}=    Execute ONOS CLI Command    ${ip}    ${port}
+    ...    ${upstream_flow_ipv4_cmd}
+    # Verify ipv4 dhcp downstream flow
+    # Note: This flow will be one per nni per olt
+    ${downstream_flow_ipv4_cmd}=    Catenate    SEPARATOR=
+    ...    flows -s ADDED ${olt_of_id} | grep IN_PORT:${nni_port} | grep ETH_TYPE=ipv4 |
+    ...     grep OUTPUT:CONTROLLER
+    ${downstream_flow_ipv4_added}=    Execute ONOS CLI Command    ${ip}    ${port}
+    ...    ${downstream_flow_ipv4_cmd}
+
 Verify Subscriber Access Flows Added for ONU DT
     [Arguments]    ${ip}    ${port}    ${olt_of_id}    ${onu_port}    ${nni_port}    ${s_tag}
     [Documentation]    Verifies if the Subscriber Access Flows are added in ONOS for the ONU
