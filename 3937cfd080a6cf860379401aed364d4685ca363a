@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4b831346_3cf8e57d",
+        "filename": "libraries/onos.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2020-04-14T12:14:57Z",
+      "side": 1,
+      "message": "we shoudl make that a parameter ${uni_tag_match} or something and if possibile, read it from sadis if it’s 4096 put any for DT workflow and pass it down, if it’s not present put 0 for ATT workflow. otherwise based on test pass down `any` or `0` from the calling function in the .robot file.",
+      "range": {
+        "startLine": 111,
+        "startChar": 68,
+        "endLine": 111,
+        "endChar": 83
+      },
+      "revId": "3937cfd080a6cf860379401aed364d4685ca363a",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    }
+  ]
+}
