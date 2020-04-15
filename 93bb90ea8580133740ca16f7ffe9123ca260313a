@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9e5c6f6c_2d0d25ee",
+        "filename": "libraries/onos.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2020-04-15T14:45:09Z",
+      "side": 1,
+      "message": "Maybe ad for ATT workflow to the title",
+      "range": {
+        "startLine": 106,
+        "startChar": 0,
+        "endLine": 106,
+        "endChar": 44
+      },
+      "revId": "93bb90ea8580133740ca16f7ffe9123ca260313a",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    }
+  ]
+}
