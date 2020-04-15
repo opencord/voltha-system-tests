@@ -22,6 +22,30 @@
       "revId": "3937cfd080a6cf860379401aed364d4685ca363a",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f86a113e_3c362397",
+        "filename": "libraries/onos.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1000514
+      },
+      "writtenOn": "2020-04-15T09:32:05Z",
+      "side": 1,
+      "message": "As discussed the \"if\" check will make the keyword a little clumsy, so going ahead with the current approach of \"keyword\" and \"keyword DT\".",
+      "parentUuid": "4b831346_3cf8e57d",
+      "range": {
+        "startLine": 111,
+        "startChar": 68,
+        "endLine": 111,
+        "endChar": 83
+      },
+      "revId": "3937cfd080a6cf860379401aed364d4685ca363a",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
     }
   ]
 }
