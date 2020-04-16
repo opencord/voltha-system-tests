@@ -22,6 +22,30 @@
       "revId": "93bb90ea8580133740ca16f7ffe9123ca260313a",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bce36c27_6013be55",
+        "filename": "libraries/onos.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1000064
+      },
+      "writtenOn": "2020-04-16T04:48:21Z",
+      "side": 1,
+      "message": "I am thinking we don\u0027t need to add ATT for the keyword title, because by default all keywords work with ATT and other workflows. And anything specific to other workflows we are already adding \"workflow\" to the keyword titles.",
+      "parentUuid": "9e5c6f6c_2d0d25ee",
+      "range": {
+        "startLine": 106,
+        "startChar": 0,
+        "endLine": 106,
+        "endChar": 44
+      },
+      "revId": "93bb90ea8580133740ca16f7ffe9123ca260313a",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
     }
   ]
 }
