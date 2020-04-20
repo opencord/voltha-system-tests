@@ -50,6 +50,7 @@ ${logical_id}     0
 ${has_dataplane}    True
 ${teardown_device}    False
 ${scripts}        ../../scripts
+${workflow}    ATT
 
 # Per-test logging on failure is turned off by default; set this variable to enable
 ${container_log_dir}    ${None}
@@ -191,12 +192,13 @@ Check disabling of pre-provisioned OLT before enabling
     ...    ${olt_serial_number}
     ${logical_id}=    Get Logical Device ID From SN    ${olt_serial_number}
     Set Suite Variable    ${logical_id}
+    ${onu_reason}=    Set Variable If    '${workflow}' == 'DT'    initial-mib-downloaded    omci-flows-pushed
     FOR    ${I}    IN RANGE    0    ${num_onus}
 	${src}=    Set Variable    ${hosts.src[${I}]}
 	${dst}=    Set Variable    ${hosts.dst[${I}]}
 	Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s    Validate Device
 	...    ENABLED    ACTIVE    REACHABLE
-	...    ${src['onu']}    onu=True    onu_reason=omci-flows-pushed
+	...    ${src['onu']}    onu=True    onu_reason=${onu_reason}
     END
 
 Disable and Delete the logical device directly
