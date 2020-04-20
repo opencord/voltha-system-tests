@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fbe8b4e3_744401c0",
+        "filename": "libraries/utils.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 284,
+      "author": {
+        "id": 1000514
+      },
+      "writtenOn": "2020-04-20T18:13:54Z",
+      "side": 1,
+      "message": "Since the \"Setup\" keyword is common for all workflows. This change will break the DT workflow which expects \"onu_reason\" to be \"initial-mib-downloaded\" after device enable.",
+      "range": {
+        "startLine": 284,
+        "startChar": 68,
+        "endLine": 284,
+        "endChar": 85
+      },
+      "revId": "dba26c3ad2360da5c47d4e5e7ac7861041065daf",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    }
+  ]
+}
