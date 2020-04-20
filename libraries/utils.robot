@@ -264,7 +264,7 @@ Setup
     Test Empty Device List
     Run Keyword If    ${has_dataplane}    Wait Until Keyword Succeeds    120s    10s    Openolt is Up
     ...    ${olt_ip}    ${olt_user}    ${olt_pass}
-    Sleep    60s
+    Run Keyword If    ${has_dataplane}    Sleep    60s
     #create/preprovision device
     ${olt_device_id}=    Create Device    ${olt_ip}    ${OLT_PORT}
     Set Suite Variable    ${olt_device_id}
@@ -307,7 +307,7 @@ Delete All Devices and Verify
     Sleep    5s
     Wait Until Keyword Succeeds    ${timeout}    2s    Test Devices Disabled In Voltha    Root=true
     Delete Devices In Voltha    Root=true
-    Sleep    30s
+    Run Keyword If    ${has_dataplane}    Sleep    30s
     Wait Until Keyword Succeeds    ${timeout}    2s    Test Empty Device List
     # Clear devices from ONOS
     #Remove All Devices From ONOS
@@ -332,7 +332,7 @@ Delete Device and Verify
     ...    Validate OLT Device    DISABLED    UNKNOWN    REACHABLE    ${olt_serial_number}
     ${rc}    ${output}=    Run and Return Rc and Output
     ...    ${VOLTCTL_CONFIG}; voltctl device delete ${olt_device_id}
-    Sleep    50s
+    Run Keyword If    ${has_dataplane}    Sleep    50s
     Should Be Equal As Integers    ${rc}    0
     Wait Until Keyword Succeeds    ${timeout}    5s    Validate Device Removed    ${olt_device_id}
 
