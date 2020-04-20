@@ -29,7 +29,7 @@ nodes:
 
 olts:
   -
-    ip: bbsim.voltha.svc
+    ip: bbsim
     serial: BBSIM_OLT_0
 
 hosts:
