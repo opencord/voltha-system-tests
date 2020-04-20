@@ -17,6 +17,7 @@
 # Automated deployment configuration for kind-voltha running BBSim
 
 # Change default values in tests
+workflow: DT
 has_dataplane: false
 teardown_device: true
 ONOS_REST_PORT: 8181
