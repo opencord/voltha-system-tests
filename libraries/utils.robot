@@ -402,12 +402,6 @@ Verify ping is succesful except for given device
         ...    ${src['ip']}    ${src['user']}    ${src['pass']}   ${src['container_type']}    ${src['container_name']}
     END
 
-Announce Message
-    [Arguments]    ${message}
-    [Documentation]    Announce a message that will be picked up by the log aggregator
-    Run Process    kubectl    run    announcer    -ti    --rm    --restart    Never    --image    ubuntu
-    ...     bash    --    -c    echo; sleep 1; echo ${message}; sleep 1; date --rfc-3339\=n ; sleep 1; echo; sleep 1
-
 Start Logging
     [Arguments]    ${label}
     [Documentation]    Start logging for test ${label}

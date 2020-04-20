@@ -63,11 +63,9 @@ Verify ONU after rebooting physically
     ...    controls the power off/on ONUs/OLT remotely (simulating a physical reboot)
     ...    VOL-2634
     [Tags]    functional   PowerSwitch
-    [Setup]    Run Keywords    Announce Message    START TEST ONUreboot_PowerSwitch
-    ...        AND             Start Logging    ONUreboot_PowerSwitch
+    [Setup]    Start Logging    ONUreboot_PowerSwitch
     [Teardown]    Run Keywords    Collect Logs
     ...           AND             Stop Logging    ONUreboot_PowerSwitch
-    ...           AND             Announce Message    END TEST ONUreboot_PowerSwitch
     ...           AND             Delete Device and Verify
     # Add OLT device
     setup
@@ -116,11 +114,9 @@ Verify OLT after rebooting physically
     ...    Test performs a physical reboot, performs "reboot" from the OLT CLI
     ...    VOL-1956
     [Tags]    functional   PhysicalOLTReboot
-    [Setup]    Run Keywords    Announce Message    START TEST PhysicalOLTReboot
-    ...        AND             Start Logging    PhysicalOLTReboot
+    [Setup]    Start Logging    PhysicalOLTReboot
     [Teardown]    Run Keywords    Collect Logs
     ...           AND             Stop Logging    PhysicalOLTReboot
-    ...           AND             Announce Message    END TEST PhysicalOLTReboot
     ...           AND             Delete Device and Verify
     # Add OLT device
     setup
@@ -154,11 +150,9 @@ Verify restart openolt-adapter container after subscriber provisioning
     [Documentation]    Restart openolt-adapter container after VOLTHA is operational.
     ...    Prerequisite : ONUs are authenticated and pingable.
     [Tags]    functional   VOL-1958   Restart-OpenOlt   released
-    [Setup]    Run Keywords    Announce Message    START TEST Restart-OpenOlt
-    ...        AND             Start Logging    Restart-OpenOlt
+    [Setup]    Start Logging    Restart-OpenOlt
     [Teardown]    Run Keywords    Collect Logs
     ...           AND             Stop Logging    Restart-OpenOlt
-    ...           AND             Announce Message    END TEST Restart-OpenOlt
     # Add OLT device
     setup
     # Performing Sanity Test to make sure subscribers are all AUTH+DHCP and pingable
@@ -189,11 +183,9 @@ Check OLT/ONU Authentication After Radius Pod Restart
     ...    teardown from previous test or uncomment 'Teardown    None'.
     ...    Assuming that test1 was executed where all the ONUs are authenticated/DHCP/pingable
     [Tags]    functional    RadiusRestart    released
-    [Setup]    Run Keywords    Announce Message    START TEST RadiusRestart
-    ...        AND             Start Logging    RadiusRestart
+    [Setup]    Start Logging    RadiusRestart
     [Teardown]    Run Keywords    Collect Logs
     ...           AND             Stop Logging    RadiusRestart
-    ...           AND             Announce Message    END TEST RadiusRestart
     ${waitforRestart}    Set Variable    120s
     Wait Until Keyword Succeeds    ${timeout}    15s    Restart Pod    ${DEFAULTSPACE}    ${RESTART_POD_NAME}
     Wait Until Keyword Succeeds    ${waitforRestart}    2s    Validate Pod Status    ${RESTART_POD_NAME}
@@ -232,12 +224,10 @@ Verify openolt adapter restart before subscriber provisioning
     ...    and configures ONOS for access. The test succeeds if the device is able to
     ...    complete the DHCP sequence.
     [Tags]    functional    olt-adapter-restart
-    [Setup]    Run Keywords    Announce Message    START TEST OltAdapterRestart
-    ...        AND             Start Logging    OltAdapterRestart
+    [Setup]    Start Logging    OltAdapterRestart
     #...        AND             Clear All Devices Then Create New Device
     [Teardown]   Run Keywords    Collect Logs
     ...          AND             Stop Logging    OltAdapterRestart
-    ...          AND             Announce Message    END TEST OltAdapterRestart
     # Add OLT and perform sanity test
     #setup
     Run Keyword If    ${has_dataplane}    Clean Up Linux
@@ -297,11 +287,9 @@ Verify restart ofagent container after subscriber is provisioned
     [Documentation]    Restart ofagent container after VOLTHA is operational.
     ...    Prerequisite : ONUs are authenticated and pingable.
     [Tags]    functional   VOL-2409   ofagentRestart
-    [Setup]    Run Keywords    Announce Message    START TEST ofagentRestart
-    ...        AND             Start Logging    ofagentRestart
+    [Setup]    Start Logging    ofagentRestart
     [Teardown]    Run Keywords    Collect Logs
     ...           AND             Stop Logging    ofagentRestart
-    ...           AND             Announce Message    END TEST ofagentRestart
     ...           AND             Scale K8s Deployment    ${NAMESPACE}    voltha-ofagent    1
     # set timeout value
     ${waitforRestart}    Set Variable    120s
@@ -371,11 +359,9 @@ Check ONU adapter crash not forcing authentication again
     ...    message count to make sure auth not started again and validates EAP status and ping.
     ...    Assuming that test1 or sanity was executed where all the ONUs are authenticated/DHCP/pingable
     [Tags]    functional    ONUAdaptCrash
-    [Setup]    Run Keywords    Announce Message    START TEST ONUAdaptCrash
-    ...        AND             Start Logging    ONUAdaptCrash
+    [Setup]    Start Logging    ONUAdaptCrash
     [Teardown]    Run Keywords    Collect Logs
     ...           AND             Stop Logging    ONUAdaptCrash
-    ...           AND             Announce Message    END TEST ONUAdaptCrash
     # Wait for adapter to resync
     Sleep    60s
     # Restart the onu
@@ -455,12 +441,10 @@ Sanity E2E Test for OLT/ONU on POD With Core Fail and Restart
     ...    and configures ONOS for access. The test succeeds if the device is able to
     ...    complete the DHCP sequence.
     [Tags]    functional    rwcore-restart
-    [Setup]    Run Keywords    Announce Message    START TEST RwCoreFailAndRestart
-    ...        AND             Start Logging    RwCoreFailAndRestart
+    [Setup]    Run Keywords    Start Logging    RwCoreFailAndRestart
     ...        AND             Clear All Devices Then Create New Device
     [Teardown]   Run Keywords    Collect Logs
     ...          AND             Stop Logging    RwCoreFailAndRestart
-    ...          AND             Announce Message    END TEST RwCoreFailAndRestart
     #...          AND             Delete Device and Verify
     Run Keyword and Ignore Error    Collect Logs
     Run Keyword If    ${has_dataplane}    Clean Up Linux
@@ -526,11 +510,9 @@ Sanity E2E Test for OLT/ONU on POD With Core Fail and Restart
 ONU Reboot
     [Documentation]    Reboot ONU and verify that ONU comes up properly
     [Tags]    VOL-1957    RebootONU   notready
-    [Setup]    Run Keywords    Announce Message    START TEST RebootONU
-    ...        AND             Start Logging    RebootONU
+    [Setup]    Start Logging    RebootONU
     [Teardown]    Run Keywords    Collect Logs
     ...           AND             Stop Logging    RebootONU
-    ...           AND             Announce Message    END TEST RebootONU
     FOR    ${I}    IN RANGE    0    ${num_onus}
         ${src}=    Set Variable    ${hosts.src[${I}]}
         ${dst}=    Set Variable    ${hosts.dst[${I}]}

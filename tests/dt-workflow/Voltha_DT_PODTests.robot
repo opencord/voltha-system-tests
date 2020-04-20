@@ -62,12 +62,10 @@ Sanity E2E Test for OLT/ONU on POD for DT
     ...    should reach the NNI port on the OLT with the expected double tagged vlan ids
     ...    Inner vlans from the RG should not change
     [Tags]    sanityDt
-    [Setup]    Run Keywords    Announce Message    START TEST SanityTestDt
-    ...        AND             Start Logging    SanityTestDt
+    [Setup]    Run Keywords    Start Logging    SanityTestDt
     ...        AND             Setup
     [Teardown]    Run Keywords    Collect Logs
     ...           AND             Stop Logging    SanityTestDt
-    ...           AND             Announce Message    END TEST SanityTestDt
     Run Keyword If    ${has_dataplane}    Clean Up Linux
     Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test DT
 
@@ -78,11 +76,9 @@ Test Subscriber Delete and Add for DT
     ...    Disable and Enable the ONU (This is to replicate the existing DT behaviour)
     ...    Re-add the subscriber, and validate that the flows are present and pings are successful
     [Tags]    functionalDt    SubAddDeleteDt
-    [Setup]    Run Keywords    Announce Message    START TEST SubAddDeleteDt
-    ...        AND             Start Logging     SubAddDeleteDt
+    [Setup]    Start Logging     SubAddDeleteDt
     [Teardown]    Run Keywords    Collect Logs
     ...           AND             Stop Logging    SubAddDeleteDt
-    ...           AND             Announce Message    END TEST SubAddDeleteDt
     FOR    ${I}    IN RANGE    0    ${num_onus}
         ${src}=    Set Variable    ${hosts.src[${I}]}
         ${dst}=    Set Variable    ${hosts.dst[${I}]}
@@ -163,11 +159,9 @@ Test Disable and Enable ONU for DT
     ...    Perform disable on the ONUs and validate that the pings do not succeed
     ...    Perform enable on the ONUs and validate that the pings are successful
     [Tags]    functionalDt    DisableEnableONUDt
-    [Setup]    Run Keywords    Announce Message    START TEST DisableEnableONUDt
-    ...        AND             Start Logging    DisableEnableONUDt
+    [Setup]    Start Logging    DisableEnableONUDt
     [Teardown]    Run Keywords    Collect Logs
     ...           AND             Stop Logging    DisableEnableONUDt
-    ...           AND             Announce Message    END TEST DisableEnableONUDt
     FOR    ${I}    IN RANGE    0    ${num_onus}
         ${src}=    Set Variable    ${hosts.src[${I}]}
         ${dst}=    Set Variable    ${hosts.dst[${I}]}
@@ -207,11 +201,9 @@ Test Disable and Delete OLT for DT
     ...    Perform disable on the OLT and validate ONUs state and that the pings do not succeed
     ...    Perform delete on the OLT, Re-do Setup (Recreate the OLT) and Perform Sanity Test DT
     [Tags]    functionalDt    DisableDeleteOLTDt
-    [Setup]    Run Keywords    Announce Message    START TEST DisableDeleteOLTDt
-    ...        AND             Start Logging    DisableDeleteOLTDt
+    [Setup]    Start Logging    DisableDeleteOLTDt
     [Teardown]    Run Keywords    Collect Logs
     ...           AND             Stop Logging    DisableDeleteOLTDt
-    ...           AND             Announce Message    END TEST DisableDeleteOLTDt
     # Disable and Validate OLT Device
     Disable Device    ${olt_device_id}
     Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s

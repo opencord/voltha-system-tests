@@ -59,12 +59,10 @@ Sanity E2E Test for OLT/ONU on POD
     [Documentation]    Validates E2E Ping Connectivity and object states for the given scenario:
     ...    Validate successful authentication/DHCP/E2E ping for the tech profile that is used
     [Tags]    sanity    test1
-    [Setup]    Run Keywords    Announce Message    START TEST SanityTest
-    ...        AND             Start Logging    SanityTest
+    [Setup]    Run Keywords    Start Logging    SanityTest
     ...        AND             Setup
     [Teardown]    Run Keywords    Collect Logs
     ...           AND             Stop Logging    SanityTest
-    ...           AND             Announce Message    END TEST SanityTest
     Run Keyword If    ${has_dataplane}    Clean Up Linux
     Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test
 
@@ -74,11 +72,9 @@ Test Disable and Enable OLT
     ...    Perform disable on the OLT and validate that the pings do not succeed
     ...    Perform enable on the OLT and validate that the pings are successful
     [Tags]    VOL-2410    DisableEnableOLT    notready
-    [Setup]    Run Keywords    Announce Message    START TEST DisableEnableOLT
-    ...        AND             Start Logging    DisableEnableOLT
+    [Setup]    Start Logging    DisableEnableOLT
     [Teardown]    Run Keywords    Collect Logs
     ...           AND             Stop Logging    DisableEnableOLT
-    ...           AND             Announce Message    END TEST DisableEnableOLT
     #Disable the OLT and verify the OLT/ONUs are disabled properly
     ${rc}    ${output}=    Run and Return Rc and Output    ${VOLTCTL_CONFIG}; voltctl device disable ${olt_device_id}
     Should Be Equal As Integers    ${rc}    0
@@ -127,11 +123,9 @@ Test Disable and Enable ONU
     ...    Perform disable on the ONUs and validate that the pings do not succeed
     ...    Perform enable on the ONUs and validate that the pings are successful
     [Tags]    functional    DisableEnableONU    released
-    [Setup]    Run Keywords    Announce Message    START TEST DisableEnableONU
-    ...        AND             Start Logging    DisableEnableONU
+    [Setup]    Start Logging    DisableEnableONU
     [Teardown]    Run Keywords    Collect Logs
     ...           AND             Stop Logging    DisableEnableONU
-    ...           AND             Announce Message    END TEST DisableEnableONU
     FOR    ${I}    IN RANGE    0    ${num_onus}
         ${src}=    Set Variable    ${hosts.src[${I}]}
         ${dst}=    Set Variable    ${hosts.dst[${I}]}
@@ -165,11 +159,9 @@ Test Subscriber Delete and Add
     ...    Delete a subscriber and validate that the pings do not succeed
     ...    Re-add the subscriber and validate that the pings are successful
     [Tags]    functional    SubAddDelete    released
-    [Setup]    Run Keywords    Announce Message    START TEST SubAddDelete
-    ...        AND             Start Logging     SubAddDelete
+    [Setup]    Start Logging     SubAddDelete
     [Teardown]    Run Keywords    Collect Logs
     ...           AND             Stop Logging    SubAddDelete
-    ...           AND             Announce Message    END TEST SubAddDelete
     FOR    ${I}    IN RANGE    0    ${num_onus}
         ${src}=    Set Variable    ${hosts.src[${I}]}
         ${dst}=    Set Variable    ${hosts.dst[${I}]}
@@ -209,11 +201,9 @@ Check DHCP attempt fails when subscriber is not added
     ...    when again added subscriber access, DHCP attempt, ping succeeds
     ...    Assuming that test1 or sanity test was executed where all the ONUs are authenticated/DHCP/pingable
     [Tags]    functional    SubsRemoveDHCP    released
-    [Setup]    Run Keywords    Announce Message    START TEST SubsRemoveDHCP
-    ...        AND             Start Logging    SubsRemoveDHCP
+    [Setup]    Start Logging    SubsRemoveDHCP
     [Teardown]    Run Keywords    Collect Logs
     ...           AND             Stop Logging    SubsRemoveDHCP
-    ...           AND             Announce Message    END TEST SubsRemoveDHCP
     FOR    ${I}    IN RANGE    0    ${num_onus}
         ${src}=    Set Variable    ${hosts.src[${I}]}
         ${dst}=    Set Variable    ${hosts.dst[${I}]}
@@ -264,11 +254,9 @@ Test Disable and Enable ONU scenario for ATT workflow
     ...    validate that the pings are successful
     ...    VOL-2284
     [Tags]    functional    ATT_DisableEnableONU    released
-    [Setup]    Run Keywords    Announce Message    START TEST ATT_DisableEnableONU
-    ...        AND             Start Logging    ATT_DisableEnableONU
+    [Setup]    Start Logging    ATT_DisableEnableONU
     [Teardown]    Run Keywords    Collect Logs
     ...           AND             Stop Logging    ATT_DisableEnableONU
-    ...           AND             Announce Message    END TEST ATT_DisableEnableONU
     FOR    ${I}    IN RANGE    0    ${num_onus}
         ${src}=    Set Variable    ${hosts.src[${I}]}
         ${dst}=    Set Variable    ${hosts.dst[${I}]}
@@ -318,11 +306,9 @@ Delete OLT, ReAdd OLT and Perform Sanity Test
     ...    Create/Enable the same OLT again
     ...    Validate authentication/DHCP/E2E pings succeed for all the ONUs connected to the OLT
     [Tags]    functional    DeleteOLT    released
-    [Setup]    Run Keywords    Announce Message    START TEST DeleteOLT
-    ...        AND             Start Logging    DeleteOLT
+    [Setup]    Start Logging    DeleteOLT
     [Teardown]    Run Keywords    Collect Logs
     ...           AND             Stop Logging    DeleteOLT
-    ...           AND             Announce Message    END TEST DeleteOLT
     Run Keyword If    ${has_dataplane}    Clean Up Linux
     Delete Device and Verify
     Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
@@ -337,11 +323,9 @@ Check Mib State on OLT recreation after ONU, OLT deletion
     ...    Disable and Delete the ONU, Disable and Delete the OLT
     ...    Create/Enable the OLT again and Check for the Mib State of the ONUs
     [Tags]    functional    CheckMibState    notready
-    [Setup]    Run Keywords    Announce Message    START TEST CheckMibState
-    ...        AND             Start Logging    CheckMibState
+    [Setup]    Start Logging    CheckMibState
     [Teardown]    Run Keywords    Collect Logs
     ...           AND             Stop Logging    CheckMibState
-    ...           AND             Announce Message    END TEST CheckMibState
     #Disable and Delete the ONU
     FOR    ${I}    IN RANGE    0    ${num_onus}
         ${src}=    Set Variable    ${hosts.src[${I}]}
@@ -383,11 +367,9 @@ Test disable ONUs and OLT then delete ONUs and OLT
     ...    Devices will be removed during the execution of this TC
     ...    so calling setup at the end to add the devices back to avoid the confusion.
     [Tags]    functional    VOL-2354    DisableDeleteONUandOLT    released
-    [Setup]    Run Keywords    Announce Message    START TEST DisableDeleteONUandOLT
-    ...        AND             Start Logging    DisableDeleteONUandOLT
+    [Setup]    Start Logging    DisableDeleteONUandOLT
     [Teardown]    Run Keywords    Collect Logs
     ...           AND             Stop Logging    DisableDeleteONUandOLT
-    ...           AND             Announce Message    END TEST DisableDeleteONUandOLT
     ${olt_device_id}=    Get Device ID From SN    ${olt_serial_number}
     FOR    ${I}    IN RANGE    0    ${num_onus}
         ${src}=    Set Variable    ${hosts.src[${I}]}
@@ -437,12 +419,10 @@ Validate authentication on a disabled ONU
     ...    Perform enable on the ONUs and validate that authentication successful
     [Tags]    functional    DisableONU_AuthCheck
     # Creates Devices in the Setup
-    [Setup]    Run Keywords    Announce Message    START TEST DisableDeleteONUandOLT
-    ...        AND             Start Logging    DisableONU_AuthCheck
+    [Setup]    Run Keywords    Start Logging    DisableONU_AuthCheck
     ...        AND    Setup
     [Teardown]    Run Keywords    Collect Logs
     ...           AND             Stop Logging    DisableONU_AuthCheck
-    ...           AND             Announce Message    END TEST DisableONU_AuthCheck
     ...           AND             Delete Device and Verify
     Run Keyword and Ignore Error    Collect Logs
     Run Keyword If    ${has_dataplane}    Clean Up Linux

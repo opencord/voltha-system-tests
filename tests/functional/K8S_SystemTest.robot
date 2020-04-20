@@ -41,10 +41,8 @@ ${adapter_openolt_pod_label_value}    adapter-open-olt
 ECTD Scale Test
     [Documentation]    Perform the sanity test if some ETCD endpoints crash
     [Tags]    functional    bbsim
-    [Setup]    Run Keywords    Announce Message    START TEST SanityTest
-    ...        AND             Setup
+    [Setup]    Setup
     [Teardown]    Run Keywords    Collect Logs
-    ...           AND             Announce Message    END TEST SanityTest
     ...           AND    Teardown Suite
     ${current_size}=    Get ETCD Running Size    voltha
     Pass Execution If    '${current_size}' != '${desired_ETCD_cluster_size}'
