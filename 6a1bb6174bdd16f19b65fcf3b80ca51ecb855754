@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e9a0e5c6_14ecad4e",
+        "filename": "tests/functional/Voltha_FailureScenarios.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1000064
+      },
+      "writtenOn": "2020-04-21T20:40:38Z",
+      "side": 1,
+      "message": "I strongly recommend to create another file for DT workflow with the FailureScenarios and not use the same ones like ATT. Common tests like ErrorScenarios are fine, but FailureScenarios have assertion checks that are different for ATT and DT.  Also, in future these scenarios may require to add more assertions  for verifications on different workflows, so keeping them separate makes sense and easier maintenance.",
+      "range": {
+        "startLine": 54,
+        "startChar": 0,
+        "endLine": 54,
+        "endChar": 18
+      },
+      "revId": "6a1bb6174bdd16f19b65fcf3b80ca51ecb855754",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    }
+  ]
+}
