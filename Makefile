@@ -25,7 +25,7 @@ LINT_ARGS ?= --verbose --configure LineTooLong:120 -e LineTooLong \
              --configure TooManyTestCases:50 -e TooManyTestCases \
              --configure TooFewTestSteps:1 \
              --configure TooFewKeywordSteps:1 \
-             --configure FileTooLong:600 -e FileTooLong \
+             --configure FileTooLong:750 -e FileTooLong \
              -e TrailingWhitespace
 
 PYTHON_FILES := $(wildcard libraries/*.py)
@@ -126,10 +126,15 @@ bbsim-errorscenarios-dt: ROBOT_FILE := Voltha_ErrorScenarios.robot
 bbsim-errorscenarios-dt: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_DT_SINGLE_PON_FILE)
 bbsim-errorscenarios-dt: voltha-test
 
-bbsim-failurescenarios: ROBOT_MISC_ARGS += -X $(ROBOT_DEBUG_LOG_OPT) -e PowerSwitch
+bbsim-failurescenarios: ROBOT_MISC_ARGS += -X $(ROBOT_DEBUG_LOG_OPT) -e PowerSwitch -e PhysicalOLTReboot
 bbsim-failurescenarios: ROBOT_FILE := Voltha_FailureScenarios.robot
 bbsim-failurescenarios: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_SINGLE_PON_FILE)
 bbsim-failurescenarios: voltha-test
+
+bbsim-failurescenarios-dt: ROBOT_MISC_ARGS += -X $(ROBOT_DEBUG_LOG_OPT) -e PowerSwitch -e PhysicalOLTReboot -e nonDt
+bbsim-failurescenarios-dt: ROBOT_FILE := Voltha_FailureScenarios.robot
+bbsim-failurescenarios-dt: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_DT_SINGLE_PON_FILE)
+bbsim-failurescenarios-dt: voltha-test
 
 voltha-test: ROBOT_MISC_ARGS += -e notready
 

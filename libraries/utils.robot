@@ -224,8 +224,8 @@ Perform Sanity Test DT
         ...    volt-add-subscriber-access ${of_id} ${onu_port}
         # Verify subscriber access flows are added for the ONU port
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
-        ...    Verify Subscriber Access Flows Added For ONU DT    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${of_id}
-        ...    ${onu_port}    ${nni_port}    ${src['s_tag']}
+        ...    Verify Subscriber Access Flows Added For ONU    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${of_id}
+        ...    ${onu_port}    ${nni_port}    ${src['c_tag']}    ${src['s_tag']}    'DT'
         # Verify ONU state in voltha
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s    Validate Device
         ...    ENABLED    ACTIVE    REACHABLE
