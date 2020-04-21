@@ -51,6 +51,7 @@ ${logical_id}     0
 ${has_dataplane}    True
 ${teardown_device}    False
 ${scripts}        ../../scripts
+${workflow}    ATT
 
 # Per-test logging on failure is turned off by default; set this variable to enable
 ${container_log_dir}    ${None}
@@ -71,7 +72,10 @@ Verify ONU after rebooting physically
     setup
     # Performing Sanity Test to make sure subscribers are all AUTH+DHCP and pingable
     Run Keyword If    ${has_dataplane}    Clean Up Linux
-    Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test
+    Run Keyword If    '${workflow}' == 'DT'
+    ...    Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test DT
+    ...    ELSE
+    ...    Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test
     Power Switch Connection Suite    ${web_power_switch.ip}    ${web_power_switch.user}    ${web_power_switch.password}
     FOR    ${I}    IN RANGE    0    ${num_onus}
         ${src}=    Set Variable    ${hosts.src[${I}]}
@@ -89,14 +93,20 @@ Verify ONU after rebooting physically
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds   120s   2s
         ...    Verify ONU Port Is Enabled   ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${onu_port}
         # Verify EAPOL flows are added for the ONU port
-        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
+        Run Keyword If    '${workflow}' == 'ATT'
+        ...    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
         ...    Verify Eapol Flows Added For ONU    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${onu_port}
         # Verify ONU state in voltha
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s    Validate Device
         ...    ENABLED    ACTIVE    REACHABLE
         ...    ${src['onu']}    onu=True    onu_reason=omci-flows-pushed
         # Verify subscriber access flows are added for the ONU port
-        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
+        Run Keyword If    '${workflow}' == 'DT'
+        ...    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
+        ...    Verify Subscriber Access Flows Added For ONU DT   ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${of_id}
+        ...    ${onu_port}    ${nni_port}    ${src['s_tag']}
+        ...    ELSE
+        ...    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
         ...    Verify Subscriber Access Flows Added For ONU    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${of_id}
         ...    ${onu_port}    ${nni_port}    ${src['c_tag']}    ${src['s_tag']}
         Run Keyword If    ${has_dataplane}    Run Keyword And Continue On Failure
@@ -122,7 +132,10 @@ Verify OLT after rebooting physically
     setup
     # Performing Sanity Test to make sure subscribers are all AUTH+DHCP and pingable
     Run Keyword If    ${has_dataplane}    Clean Up Linux
-    Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test
+    Run Keyword If    '${workflow}' == 'DT'
+    ...    Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test DT
+    ...    ELSE
+    ...    Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test
     # Reboot the OLT from the OLT CLI
     Run Keyword If    ${has_dataplane}    Login And Run Command On Remote System
     ...    sudo reboot    ${olt_ip}    ${olt_user}    ${olt_pass}   prompt=#
@@ -142,7 +155,10 @@ Verify OLT after rebooting physically
     Sleep    60s
     Run Keyword And Ignore Error    Collect Logs
     Run Keyword If    ${has_dataplane}    Clean Up Linux
-    Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test
+    Run Keyword If    '${workflow}' == 'DT'
+    ...    Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test DT
+    ...    ELSE
+    ...    Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test
     # Deleting OLT after test completes
     #Run Keyword If    ${has_dataplane}    Delete Device and Verify
 
@@ -157,7 +173,10 @@ Verify restart openolt-adapter container after subscriber provisioning
     setup
     # Performing Sanity Test to make sure subscribers are all AUTH+DHCP and pingable
     Run Keyword If    ${has_dataplane}    Clean Up Linux
-    Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test
+    Run Keyword If    '${workflow}' == 'DT'
+    ...    Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test DT
+    ...    ELSE
+    ...    Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test
     ${waitforRestart}    Set Variable    120s
     ${podStatusOutput}=    Run    kubectl get pods -n ${NAMESPACE}
     Log    ${podStatusOutput}
@@ -168,7 +187,11 @@ Verify restart openolt-adapter container after subscriber provisioning
     ...    Running
     # Wait for 1min after openolt adapter is restarted
     Sleep    60s
-    Repeat Sanity Test
+    Run Keyword If    ${has_dataplane}    Clean Up Linux
+    Run Keyword If    '${workflow}' == 'DT'
+    ...    Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test DT
+    ...    ELSE
+    ...    Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test
     Run Keyword and Ignore Error    Collect Logs
     ${podStatusOutput}=    Run    kubectl get pods -n ${NAMESPACE}
     Log    ${podStatusOutput}
@@ -182,7 +205,7 @@ Check OLT/ONU Authentication After Radius Pod Restart
     ...    wpa supplicant is running in background hence it is recommended to remove
     ...    teardown from previous test or uncomment 'Teardown    None'.
     ...    Assuming that test1 was executed where all the ONUs are authenticated/DHCP/pingable
-    [Tags]    functional    RadiusRestart    released
+    [Tags]    functional    RadiusRestart    released    nonDt
     [Setup]    Start Logging    RadiusRestart
     [Teardown]    Run Keywords    Collect Logs
     ...           AND             Stop Logging    RadiusRestart
@@ -240,18 +263,20 @@ Verify openolt adapter restart before subscriber provisioning
         ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
         ${onu_port}=    Wait Until Keyword Succeeds    ${timeout}    2s    Get ONU Port in ONOS    ${src['onu']}
         ...    ${of_id}
-
         # Bring up the device and verify it authenticates
         Wait Until Keyword Succeeds    ${timeout}    5s    Validate Device        ENABLED    ACTIVE    REACHABLE
         ...    ${onu_device_id}    onu=True    onu_reason=omci-flows-pushed
-        Wait Until Keyword Succeeds    ${timeout}    2s    Verify Eapol Flows Added For ONU    ${ONOS_SSH_IP}
-        ...    ${ONOS_SSH_PORT}    ${onu_port}
-        ${wpa_log}=    Run Keyword If    ${has_dataplane}    Catenate    SEPARATOR=.
+        ${wpa_log}=    Run Keyword If    ${has_dataplane} and '${workflow}' == 'ATT'    Catenate    SEPARATOR=.
         ...    /tmp/wpa    ${src['dp_iface_name']}    log
-        Run Keyword If    ${has_dataplane}    Run Keyword And Continue On Failure    Validate Authentication    True
+        Run Keyword If    '${workflow}' == 'ATT'
+        ...    Run Keywords
+        ...    Wait Until Keyword Succeeds    ${timeout}    2s    Verify Eapol Flows Added For ONU    ${ONOS_SSH_IP}
+        ...    ${ONOS_SSH_PORT}    ${onu_port}
+        ...    AND    Run Keyword If    ${has_dataplane}
+        ...    Run Keyword And Continue On Failure    Validate Authentication    True
         ...    ${src['dp_iface_name']}    wpa_supplicant.conf    ${src['ip']}    ${src['user']}    ${src['pass']}
         ...    ${src['container_type']}    ${src['container_name']}    ${wpa_log}
-        Wait Until Keyword Succeeds    ${timeout}    2s    Verify ONU in AAA-Users    ${ONOS_SSH_IP}
+        ...    AND    Wait Until Keyword Succeeds    ${timeout}    2s    Verify ONU in AAA-Users    ${ONOS_SSH_IP}
         ...    ${ONOS_SSH_PORT}     ${onu_port}
     END
     # Scale down the open OLT adapter deployment to 0 PODs and once confirmed, scale it back to 1
@@ -271,7 +296,12 @@ Verify openolt adapter restart before subscriber provisioning
         Wait Until Keyword Succeeds    ${timeout}    2s    Execute ONOS CLI Command    ${ONOS_SSH_IP}
         ...    ${ONOS_SSH_PORT}    volt-add-subscriber-access ${of_id} ${onu_port}
         # Verify subscriber access flows are added for the ONU port
-        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
+        Run Keyword If    '${workflow}' == 'DT'
+        ...    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
+        ...    Verify Subscriber Access Flows Added For ONU DT    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${of_id}
+        ...    ${onu_port}    ${nni_port}    ${src['s_tag']}
+        ...    ELSE
+        ...    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
         ...    Verify Subscriber Access Flows Added For ONU    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${of_id}
         ...    ${onu_port}    ${nni_port}    ${src['c_tag']}    ${src['s_tag']}
         Run Keyword If    ${has_dataplane}    Run Keyword And Continue On Failure    Validate DHCP and Ping    True
@@ -279,7 +309,8 @@ Verify openolt adapter restart before subscriber provisioning
         ...    ${src['ip']}    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
         ...    ${dst['dp_iface_name']}    ${dst['ip']}    ${dst['user']}    ${dst['pass']}    ${dst['container_type']}
         ...    ${dst['container_name']}
-        Wait Until Keyword Succeeds    ${timeout}    2s    Run Keyword And Continue On Failure
+        Run Keyword If    '${workflow}' == 'ATT'
+        ...    Wait Until Keyword Succeeds    ${timeout}    2s    Run Keyword And Continue On Failure
         ...    Validate Subscriber DHCP Allocation    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${onu_port}
     END
 
@@ -303,7 +334,10 @@ Verify restart ofagent container after subscriber is provisioned
     ...    Running
     # Performing Sanity Test to make sure subscribers are all AUTH+DHCP and pingable
     Run Keyword If    ${has_dataplane}    Clean Up Linux
-    Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test
+    Run Keyword If    '${workflow}' == 'DT'
+    ...    Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test DT
+    ...    ELSE
+    ...    Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test
     ${podStatusOutput}=    Run    kubectl get pods -n ${NAMESPACE}
     Log    ${podStatusOutput}
     ${countAfterRestart}=    Run    kubectl get pods -n ${NAMESPACE} | grep Running | wc -l
@@ -325,17 +359,24 @@ Verify restart ofagent container after subscriber is provisioned
         # Check ONU port is Disabled in ONOS
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds   120s   2s
         ...    Verify ONU Port Is Disabled   ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${onu_port}
+        Run Keyword If    '${workflow}' == 'ATT'
+        ...    Run Keywords
         # Verify EAPOL flows are present for the ONU port
-        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
+        ...    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
         ...    Verify Eapol Flows Added For ONU    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${onu_port}
         # Verify ONU in AAA-Users
-        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2
+        ...    AND    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2
         ...    Verify ONU in AAA-Users    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${onu_port}
         # Verify DHCP-Allocations
-        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
+        ...    AND    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
         ...    Validate Subscriber DHCP Allocation    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${onu_port}
         # Verify subscriber access flows are added for the ONU port
-        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
+        Run Keyword If    '${workflow}' == 'DT'
+        ...    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
+        ...    Verify Subscriber Access Flows Added For ONU DT    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${of_id}
+        ...    ${onu_port}    ${nni_port}    ${src['s_tag']}
+        ...    ELSE
+        ...    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
         ...    Verify Subscriber Access Flows Added For ONU    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${of_id}
         ...    ${onu_port}    ${nni_port}    ${src['c_tag']}    ${src['s_tag']}
         # Verify Ping
@@ -351,14 +392,17 @@ Verify restart ofagent container after subscriber is provisioned
     ...    Running
     # Performing Sanity Test to make sure subscribers are all AUTH+DHCP and pingable
     Run Keyword If    ${has_dataplane}    Clean Up Linux
-    Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test
+    Run Keyword If    '${workflow}' == 'DT'
+    ...    Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test DT
+    ...    ELSE
+    ...    Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test
     Log to console    Pod ${podName} restarted and sanity checks passed successfully
 
 Check ONU adapter crash not forcing authentication again
     [Documentation]    After ONU adapter restart, checks wpa log for 'authentication started'
     ...    message count to make sure auth not started again and validates EAP status and ping.
     ...    Assuming that test1 or sanity was executed where all the ONUs are authenticated/DHCP/pingable
-    [Tags]    functional    ONUAdaptCrash
+    [Tags]    functional    ONUAdaptCrash    nonDt
     [Setup]    Start Logging    ONUAdaptCrash
     [Teardown]    Run Keywords    Collect Logs
     ...           AND             Stop Logging    ONUAdaptCrash
@@ -450,6 +494,9 @@ Sanity E2E Test for OLT/ONU on POD With Core Fail and Restart
     Run Keyword If    ${has_dataplane}    Clean Up Linux
     ${of_id}=    Wait Until Keyword Succeeds    ${timeout}    15s    Validate OLT Device in ONOS    ${olt_serial_number}
     Set Global Variable    ${of_id}
+    ${nni_port}=    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
+    ...    Get NNI Port in ONOS    ${of_id}
+    Set Global Variable    ${nni_port}
     FOR    ${I}    IN RANGE    0    ${num_onus}
         ${src}=    Set Variable    ${hosts.src[${I}]}
         ${dst}=    Set Variable    ${hosts.dst[${I}]}
@@ -457,16 +504,20 @@ Sanity E2E Test for OLT/ONU on POD With Core Fail and Restart
         ${onu_port}=    Wait Until Keyword Succeeds    ${timeout}    2s    Get ONU Port in ONOS    ${src['onu']}
         ...    ${of_id}
         # Bring up the device and verify it authenticates
+        ${onu_reason}=    Set Variable If    '${workflow}' == 'DT'    initial-mib-downloaded    omci-flows-pushed
         Wait Until Keyword Succeeds    ${timeout}    5s    Validate Device    ENABLED    ACTIVE    REACHABLE
-        ...    ${onu_device_id}    onu=True    onu_reason=omci-flows-pushed
-        Wait Until Keyword Succeeds    ${timeout}    2s    Verify Eapol Flows Added For ONU    ${ONOS_SSH_IP}
-        ...    ${ONOS_SSH_PORT}    ${onu_port}
-        ${wpa_log}=    Run Keyword If    ${has_dataplane}    Catenate    SEPARATOR=.
+        ...    ${onu_device_id}    onu=True    onu_reason=${onu_reason}
+        ${wpa_log}=    Run Keyword If    ${has_dataplane} and '${workflow}' == 'ATT'    Catenate    SEPARATOR=.
         ...    /tmp/wpa    ${src['dp_iface_name']}    log
-        Run Keyword If    ${has_dataplane}    Run Keyword And Continue On Failure    Validate Authentication    True
+        Run Keyword If    '${workflow}' == 'ATT'
+        ...    Run Keywords
+        ...    Wait Until Keyword Succeeds    ${timeout}    2s    Verify Eapol Flows Added For ONU    ${ONOS_SSH_IP}
+        ...    ${ONOS_SSH_PORT}    ${onu_port}
+        ...    AND    Run Keyword If    ${has_dataplane}
+        ...    Run Keyword And Continue On Failure    Validate Authentication    True
         ...    ${src['dp_iface_name']}    wpa_supplicant.conf    ${src['ip']}    ${src['user']}    ${src['pass']}
         ...    ${src['container_type']}    ${src['container_name']}    ${wpa_log}
-        Wait Until Keyword Succeeds    ${timeout}    2s    Verify ONU in AAA-Users    ${ONOS_SSH_IP}
+        ...    AND    Wait Until Keyword Succeeds    ${timeout}    2s    Verify ONU in AAA-Users    ${ONOS_SSH_IP}
         ...    ${ONOS_SSH_PORT}     ${onu_port}
     END
 
@@ -495,7 +546,12 @@ Sanity E2E Test for OLT/ONU on POD With Core Fail and Restart
         Wait Until Keyword Succeeds    ${timeout}    2s    Execute ONOS CLI Command    ${ONOS_SSH_IP}
         ...    ${ONOS_SSH_PORT}    volt-add-subscriber-access ${of_id} ${onu_port}
         # Verify subscriber access flows are added for the ONU port
-        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
+        Run Keyword If    '${workflow}' == 'DT'
+        ...    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
+        ...    Verify Subscriber Access Flows Added For ONU DT    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${of_id}
+        ...    ${onu_port}    ${nni_port}    ${src['s_tag']}
+        ...    ELSE
+        ...    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
         ...    Verify Subscriber Access Flows Added For ONU    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${of_id}
         ...    ${onu_port}    ${nni_port}    ${src['c_tag']}    ${src['s_tag']}
         Run Keyword If    ${has_dataplane}    Run Keyword And Continue On Failure    Validate DHCP and Ping    True
@@ -503,12 +559,14 @@ Sanity E2E Test for OLT/ONU on POD With Core Fail and Restart
         ...    ${src['ip']}    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
         ...    ${dst['dp_iface_name']}    ${dst['ip']}    ${dst['user']}    ${dst['pass']}    ${dst['container_type']}
         ...    ${dst['container_name']}
-        Wait Until Keyword Succeeds    ${timeout}    2s    Run Keyword And Continue On Failure
+        Run Keyword If    '${workflow}' == 'ATT'
+        ...    Wait Until Keyword Succeeds    ${timeout}    2s    Run Keyword And Continue On Failure
         ...    Validate Subscriber DHCP Allocation    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${onu_port}
     END
 
 ONU Reboot
     [Documentation]    Reboot ONU and verify that ONU comes up properly
+    #TODO: If this TC gets updated in future, To add support for DT workflow as well (refer JIRA: VOL-2951)
     [Tags]    VOL-1957    RebootONU   notready
     [Setup]    Start Logging    RebootONU
     [Teardown]    Run Keywords    Collect Logs
