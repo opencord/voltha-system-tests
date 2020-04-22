@@ -22,6 +22,30 @@
       "revId": "dba26c3ad2360da5c47d4e5e7ac7861041065daf",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dc856846_6526dd35",
+        "filename": "libraries/utils.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 284,
+      "author": {
+        "id": 1000064
+      },
+      "writtenOn": "2020-04-22T05:36:47Z",
+      "side": 1,
+      "message": "\"onu_reason\" field is updated to \"omci-flows-pushed\" after the eapol flows are added in ONOS.  These checks are performed in the \"sanity test\" now",
+      "parentUuid": "fbe8b4e3_744401c0",
+      "range": {
+        "startLine": 284,
+        "startChar": 68,
+        "endLine": 284,
+        "endChar": 85
+      },
+      "revId": "dba26c3ad2360da5c47d4e5e7ac7861041065daf",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
     }
   ]
 }
