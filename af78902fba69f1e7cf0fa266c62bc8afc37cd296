@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "24a193da_d76c49a1",
+        "filename": "tests/functional/Voltha_FailureScenarios.robot",
+        "patchSetId": 3
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1000064
+      },
+      "writtenOn": "2020-04-24T05:32:30Z",
+      "side": 1,
+      "message": "Finally, plan is to keep the Failure Scenarios separate for both ATT and DT workflows",
+      "range": {
+        "startLine": 54,
+        "startChar": 0,
+        "endLine": 54,
+        "endChar": 18
+      },
+      "revId": "af78902fba69f1e7cf0fa266c62bc8afc37cd296",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    }
+  ]
+}
