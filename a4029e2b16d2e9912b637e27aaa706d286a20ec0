@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "255b10ae_79545926",
+        "filename": "tests/dt-workflow/Voltha_DT_FailureScenarios.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1000514
+      },
+      "writtenOn": "2020-04-24T06:28:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "44902751_7c9c7647",
+      "range": {
+        "startLine": 63,
+        "startChar": 56,
+        "endLine": 63,
+        "endChar": 64
+      },
+      "revId": "a4029e2b16d2e9912b637e27aaa706d286a20ec0",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d8060828_54dfe30e",
         "filename": "tests/dt-workflow/Voltha_DT_FailureScenarios.robot",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2020-04-17T13:15:48Z",
       "side": 1,
       "message": "to remove this for DT workflow",
+      "range": {
+        "startLine": 72,
+        "startChar": 62,
+        "endLine": 72,
+        "endChar": 67
+      },
+      "revId": "a4029e2b16d2e9912b637e27aaa706d286a20ec0",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9112a1cc_2241acef",
+        "filename": "tests/dt-workflow/Voltha_DT_FailureScenarios.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1000514
+      },
+      "writtenOn": "2020-04-24T06:28:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d8060828_54dfe30e",
       "range": {
         "startLine": 72,
         "startChar": 62,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "62e3e27d_9de8a401",
+        "filename": "tests/dt-workflow/Voltha_DT_FailureScenarios.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1000514
+      },
+      "writtenOn": "2020-04-24T06:28:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8f7da9a8_b80a90f0",
+      "range": {
+        "startLine": 99,
+        "startChar": 0,
+        "endLine": 99,
+        "endChar": 71
+      },
+      "revId": "a4029e2b16d2e9912b637e27aaa706d286a20ec0",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ac1e32f0_be4c2ccf",
         "filename": "tests/dt-workflow/Voltha_DT_FailureScenarios.robot",
         "patchSetId": 1
@@ -94,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "c3a7cf87_5987c49b",
+        "filename": "tests/dt-workflow/Voltha_DT_FailureScenarios.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1000514
+      },
+      "writtenOn": "2020-04-24T06:28:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ac1e32f0_be4c2ccf",
+      "range": {
+        "startLine": 138,
+        "startChar": 62,
+        "endLine": 138,
+        "endChar": 67
+      },
+      "revId": "a4029e2b16d2e9912b637e27aaa706d286a20ec0",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "93c84776_ad81b0f6",
         "filename": "tests/dt-workflow/Voltha_DT_FailureScenarios.robot",
         "patchSetId": 1
@@ -105,6 +201,30 @@
       "writtenOn": "2020-04-17T13:19:21Z",
       "side": 1,
       "message": "same",
+      "range": {
+        "startLine": 148,
+        "startChar": 8,
+        "endLine": 148,
+        "endChar": 71
+      },
+      "revId": "a4029e2b16d2e9912b637e27aaa706d286a20ec0",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "43a5fdb2_d63fe926",
+        "filename": "tests/dt-workflow/Voltha_DT_FailureScenarios.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1000514
+      },
+      "writtenOn": "2020-04-24T06:28:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "93c84776_ad81b0f6",
       "range": {
         "startLine": 148,
         "startChar": 8,
