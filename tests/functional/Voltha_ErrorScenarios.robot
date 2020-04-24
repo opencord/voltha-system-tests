@@ -75,7 +75,7 @@ Adding the same OLT before and after enabling the device
     ${rc}    ${output}=    Run and Return Rc and Output
     ...    ${VOLTCTL_CONFIG}; voltctl device create -t openolt -H ${olt_ip}:${OLT_PORT}
     Should Not Be Equal As Integers    ${rc}    0
-    Should Contain     ${output}     Device is already pre-provisioned
+    Should Contain     ${output}     device is already pre-provisioned
     #Enable the created OLT device
     Enable Device    ${olt_device_id}
     Wait Until Keyword Succeeds    ${timeout}    5s    Validate OLT Device    ENABLED    ACTIVE    REACHABLE
@@ -84,7 +84,7 @@ Adding the same OLT before and after enabling the device
     ...    ${VOLTCTL_CONFIG}; voltctl device create -t openolt -H ${olt_ip}:${OLT_PORT}
     Should Not Be Equal As Integers    ${rc}    0
     Log    ${output}
-    Should Contain     ${output}    Device is already pre-provisioned
+    Should Contain     ${output}    device is already pre-provisioned
     Log    "This OLT is added already and enabled"
 
 Test Disable or Enable different device id which is not in the device list
