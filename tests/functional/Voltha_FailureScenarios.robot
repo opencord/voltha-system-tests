@@ -366,7 +366,7 @@ Check ONU adapter crash not forcing authentication again
     Sleep    60s
     # Restart the onu
     ${podName}    Set Variable     adapter-open-onu
-    Wait Until Keyword Succeeds    ${timeout}    15s    Restart Pod    ${NAMESPACE}    ${podName}
+    Wait Until Keyword Succeeds    ${timeout}    15s    Delete K8s Pods By Label    ${NAMESPACE}    app    ${podName}
     # Validate ONU Ports
     FOR    ${I}    IN RANGE    0    ${num_onus}
         ${src}=    Set Variable    ${hosts.src[${I}]}
@@ -381,8 +381,8 @@ Check ONU adapter crash not forcing authentication again
         ...    ${src['container_type']}    ${src['container_name']}
         Run Keyword If    ${has_dataplane}    Should Contain    ${output}    SUCCESS
     END
-    Wait Until Keyword Succeeds    ${timeout}    2s    Validate Pod Status    ${podName}    ${NAMESPACE}
-    ...    Running
+    Wait Until Keyword Succeeds    ${timeout}    2s    Validate Pods Status By Label    ${NAMESPACE}
+    ...    app    ${podName}    Running
     # Wait for adapter to resync
     Sleep    60s
     Run Keyword If    ${has_dataplane}    Clean Up Linux

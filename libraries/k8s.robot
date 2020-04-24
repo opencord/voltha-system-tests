@@ -124,6 +124,16 @@ Validate Pod Status
     Log    ${currentStatusofPod}
     Should Contain    ${currentStatusofPod}    ${expectedStatus}
 
+Validate Pods Status By Label
+    [Arguments]    ${namespace}    ${label_key}   ${label_value}    ${expectedStatus}
+    [Documentation]    To run the kubectl command and check the status of all pods filter
+    ...    by label matche the expected status
+    ${command}=    Catenate
+    ...    kubectl -n ${namespace} get pods -l ${label_key}=${label_value}
+    ...    -o=jsonpath="{.items[?(.status.phase=='${expectedStatus}')].status.phase}"
+    ${pods_status}=    Run    ${command}
+    Should Not Be Equal    ${pods_status}    ${EMPTY}    Can't filter out Pods with exptected status ${expectedStatus}
+
 Verify All Voltha Pods For Any Error Logs
     [Arguments]    ${datetime}
     [Documentation]    This keyword checks for the error occurence in the voltha pods
