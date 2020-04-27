@@ -245,8 +245,7 @@ Test Disable and Enable OLT for DT
     ...    Assuming that all the ONUs are DHCP/pingable (i.e. assuming sanityDt test was executed)
     ...    Perform disable on the OLT and validate that the pings do not succeed
     ...    Perform enable on the OLT and validate that the pings are successful
-    # TODO: TBD: Verification: "onu_reason" value: omci-flows-pushed OR discovery-mibsync-complete on OLT ReEnable
-    [Tags]    functionalDt    DisableEnableOLTDt    notready
+    [Tags]    functionalDt    DisableEnableOLTDt
     [Setup]    Start Logging    DisableEnableOLTDt
     [Teardown]    Run Keywords    Collect Logs
     ...           AND             Stop Logging    DisableEnableOLTDt
@@ -287,12 +286,8 @@ Test Disable and Enable OLT for DT
         ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
         ${onu_port}=    Wait Until Keyword Succeeds    ${timeout}    2s    Get ONU Port in ONOS    ${src['onu']}
         ...    ${of_id}
-
-        ## ******** ##
         Wait Until Keyword Succeeds    ${timeout}    10s    Validate Device    ENABLED    ACTIVE
-        ...    REACHABLE    ${src['onu']}    onu=True    onu_reason=omci-flows-pushed
-        ## ******** ##
-
+        ...    REACHABLE    ${src['onu']}    onu=True    onu_reason=discovery-mibsync-complete
         # Verify that ping works fine again
         Run Keyword If    ${has_dataplane}
         ...    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    60s    2s
