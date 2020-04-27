@@ -2,7 +2,7 @@ flake8
 pexpect
 pylint
 pyyaml
-robotframework
+robotframework==3.1.2
 robotframework-kafkalibrary
 robotframework-lint
 robotframework-requests
