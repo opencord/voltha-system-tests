@@ -154,6 +154,43 @@ Verify OLT after Rebooting Physically for DT
     Run Keyword If    ${has_dataplane}    Clean Up Linux
     Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test DT
 
+Verify OLT Soft Reboot for DT
+    [Documentation]    Test soft reboot of the OLT using voltctl command
+    [Tags]    VOL-2818   OLTSoftRebootDt    notready
+    [Setup]    Run Keywords    Start Logging    OLTSoftRebootDt
+    ...        AND             Setup
+    [Teardown]    Run Keywords    Collect Logs
+    ...           AND             Stop Logging    OLTSoftRebootDt
+    ...           AND             Delete Device and Verify
+    # Performing Sanity Test to make sure subscribers are all DHCP and pingable
+    Run Keyword If    ${has_dataplane}    Clean Up Linux
+    Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test DT
+    # Reboot the OLT using "voltctl device reboot" command
+    Reboot Device    ${olt_device_id}
+    Run Keyword And Ignore Error    Collect Logs
+    #Verify that ping fails
+    FOR    ${I}    IN RANGE    0    ${num_onus}
+        ${src}=    Set Variable    ${hosts.src[${I}]}
+        ${dst}=    Set Variable    ${hosts.dst[${I}]}
+        Run Keyword If    ${has_dataplane}    Run Keyword And Continue On Failure
+        ...    Wait Until Keyword Succeeds    60s    2s
+        ...    Check Ping    False    ${dst['dp_iface_ip_qinq']}    ${src['dp_iface_name']}
+        ...    ${src['ip']}    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
+    END
+    # Wait for the OLT to come back up
+    Run Keyword If    ${has_dataplane}    Wait Until Keyword Succeeds    120s    10s
+    ...    Check Remote System Reachability    True    ${olt_ip}
+    # Waiting extra time for the ONUs to come up
+    Sleep    60s
+    # Check OLT states
+    Wait Until Keyword Succeeds    ${timeout}    5s    Validate OLT Device    ENABLED    ACTIVE    REACHABLE
+    ...    ${olt_serial_number}
+    Run Keyword And Ignore Error    Collect Logs
+    #Check after reboot that ONUs are active, DHCP and pingable
+    Run Keyword If    ${has_dataplane}    Clean Up Linux
+    Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test DT
+
+
 Verify restart openolt-adapter container after subscriber provisioning for DT
     [Documentation]    Restart openolt-adapter container after VOLTHA is operational.
     ...    Prerequisite : ONUs are authenticated and pingable.
