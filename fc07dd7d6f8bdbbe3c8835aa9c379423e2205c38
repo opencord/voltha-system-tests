@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5b61e9e0_92a27b15",
+        "filename": "tests/dt-workflow/Voltha_DT_FailureScenarios.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1000514
+      },
+      "writtenOn": "2020-04-28T18:16:17Z",
+      "side": 1,
+      "message": "TODO: Verify the patch, and remove this tag and add \"functionalDt\"",
+      "range": {
+        "startLine": 159,
+        "startChar": 44,
+        "endLine": 159,
+        "endChar": 52
+      },
+      "revId": "fc07dd7d6f8bdbbe3c8835aa9c379423e2205c38",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eb91e561_7a784637",
+        "filename": "tests/functional/Voltha_FailureScenarios.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1000514
+      },
+      "writtenOn": "2020-04-28T18:16:17Z",
+      "side": 1,
+      "message": "TODO: Verify the patch and, remove notready and add functional tag",
+      "range": {
+        "startLine": 151,
+        "startChar": 42,
+        "endLine": 151,
+        "endChar": 50
+      },
+      "revId": "fc07dd7d6f8bdbbe3c8835aa9c379423e2205c38",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    }
+  ]
+}
