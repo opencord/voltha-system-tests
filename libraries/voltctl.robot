@@ -63,6 +63,13 @@ Delete Device
     ...    ${VOLTCTL_CONFIG}; voltctl device delete ${device_id}
     Should Be Equal As Integers    ${rc}    0
 
+Reboot Device
+    [Arguments]    ${device_id}
+    [Documentation]    Using voltctl command reboot the OLT
+    ${rc}    ${output}=    Run and Return Rc and Output
+    ...    ${VOLTCTL_CONFIG}; voltctl device reboot ${device_id}
+    Should Be Equal As Integers    ${rc}    0
+
 Disable Devices In Voltha
     [Documentation]    Disables all the known devices in voltha
     [Arguments]    ${filter}
