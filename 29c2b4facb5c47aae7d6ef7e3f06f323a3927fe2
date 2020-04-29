@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "38bef137_f540abdc",
+        "filename": "Jenkinsfile-voltha-build",
+        "patchSetId": 5
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1000064
+      },
+      "writtenOn": "2020-04-29T02:18:51Z",
+      "side": 1,
+      "message": "Currently in the jenkins jobs we have only one parameter for specifying \"OLT Debian\" version.  We need to create multiple parameters in \"ci-management\" template.",
+      "range": {
+        "startLine": 125,
+        "startChar": 54,
+        "endLine": 125,
+        "endChar": 67
+      },
+      "revId": "29c2b4facb5c47aae7d6ef7e3f06f323a3927fe2",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    }
+  ]
+}
