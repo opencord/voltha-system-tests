@@ -433,6 +433,88 @@ Validate Logical Device Flows
     ${length}=    Get Length    ${jsondata}
     Should Be True    ${length} > 0    Number of flows for ${logical_device_id} was 0
 
+Retrieve OLT PON Ports
+    [Arguments]    ${olt_device_id}
+    [Documentation]    Retrieves the list of PON ports from the OLT device
+    ${rc}    ${output}=    Run and Return Rc and Output
+    ...    ${VOLTCTL_CONFIG}; voltctl device port list ${olt_device_id} -o json
+    Should Be Equal As Integers    ${rc}    0
+    ${jsondata}=    To Json    ${output}
+    Log    ${jsondata}
+    ${length}=    Get Length    ${jsondata}
+    ${olt_pon_list}=    Create List
+    FOR    ${INDEX}    IN RANGE    0    ${length}
+        ${value}=    Get From List    ${jsondata}    ${INDEX}
+        ${type}=    Get From Dictionary    ${value}    type
+        ${portno}=    Get From Dictionary    ${value}    portNo
+        ${peers}=    Get From Dictionary    ${value}    peers
+        ${len_peers}=    Get Length    ${peers}
+        Run Keyword If    '${type}' == 'PON_OLT' and ${len_peers} > 0
+        ...    Append To List    ${olt_pon_list}    ${portno}
+    END
+    [Return]    ${olt_pon_list}
+
+Retrieve Peer List From OLT PON Port
+    [Arguments]    ${olt_device_id}    ${pon_port}
+    [Documentation]    Retrieves the list of peer device ids list from the OLT PON port
+    ${rc}    ${output}=    Run and Return Rc and Output
+    ...    ${VOLTCTL_CONFIG}; voltctl device port list ${olt_device_id} -o json
+    Should Be Equal As Integers    ${rc}    0
+    ${jsondata}=    To Json    ${output}
+    Log    ${jsondata}
+    ${length}=    Get Length    ${jsondata}
+    ${matched}=    Set Variable    False
+    FOR    ${INDEX}    IN RANGE    0    ${length}
+        ${value}=    Get From List    ${jsondata}    ${INDEX}
+        ${type}=    Get From Dictionary    ${value}    type
+        ${portno}=    Get From Dictionary    ${value}    portNo
+        ${peers}=    Get From Dictionary    ${value}    peers
+        ${matched}=    Set Variable If    '${type}' == 'PON_OLT' and '${portno}' == '${pon_port}'    True    False
+        Exit For Loop If    ${matched}
+    END
+    Should Be True    ${matched}    No PON port found for OLT ${olt_device_id}
+    ${length}=    Get Length    ${peers}
+    ${olt_peer_list}=    Create List
+    FOR    ${INDEX}    IN RANGE    0    ${length}
+        ${value}=    Get From List    ${peers}    ${INDEX}
+        ${peer_id}=    Get From Dictionary    ${value}    deviceId
+        Append To List    ${olt_peer_list}    ${peer_id}
+    END
+    [Return]    ${olt_peer_list}
+
+Validate OLT PON Port Status
+    [Arguments]    ${olt_device_id}    ${pon_port}    ${admin_state}    ${oper_status}
+    [Documentation]    Verifies the state of the PON port of the OLT
+    ${rc}    ${output}=    Run and Return Rc and Output
+    ...    ${VOLTCTL_CONFIG}; voltctl device port list ${olt_device_id} -o json
+    Should Be Equal As Integers    ${rc}    0
+    ${jsondata}=    To Json    ${output}
+    Log    ${jsondata}
+    ${length}=    Get Length    ${jsondata}
+    ${matched}=    Set Variable    False
+    FOR    ${INDEX}    IN RANGE    0    ${length}
+        ${value}=    Get From List    ${jsondata}    ${INDEX}
+        ${type}=    Get From Dictionary    ${value}    type
+        ${portno}=    Get From Dictionary    ${value}    portNo
+        ${astate}=    Get From Dictionary    ${value}    adminState
+        ${opstatus}=    Get From Dictionary    ${value}    operStatus
+        ${matched}=    Set Variable If    '${type}' == 'PON_OLT' and '${portno}' == '${pon_port}'    True    False
+        Exit For Loop If    ${matched}
+    END
+    Should Be True    ${matched}    No PON port found for OLT ${olt_device_id} ${pon_port}
+    Log    ${value}
+    Should Be Equal    '${astate}'    '${admin_state}'    OLT PON Port admin_state != ${admin_state}
+    ...    values=False
+    Should Be Equal    '${opstatus}'    '${oper_status}'    OLT PON Port oper_status != ${oper_status}
+    ...    values=False
+
+DisableOrEnable OLT PON Port
+    [Arguments]    ${operation}    ${olt_device_id}    ${portno}
+    [Documentation]    Disables or Enables the PON port of the OLT
+    ${rc}    ${output}=    Run and Return Rc and Output
+    ...    ${VOLTCTL_CONFIG}; voltctl device port ${operation} ${olt_device_id} ${portno}
+    Should Be Equal As Integers    ${rc}    0
+
 Retrieve Peer List From OLT
     [Arguments]    ${olt_peer_list}
     [Documentation]    Retrieve the list of peer device id list from port list
@@ -454,7 +536,7 @@ Retrieve Peer List From OLT
     ${length}=    Get Length    ${peers}
     FOR    ${INDEX}    IN RANGE    0    ${length}
         ${value}=    Get From List    ${peers}    ${INDEX}
-        ${peer_id}=    Get From Dictionary    ${value}    deviceid
+        ${peer_id}=    Get From Dictionary    ${value}    deviceId
         Append To List    ${olt_peer_list}    ${peer_id}
     END
 
@@ -511,7 +593,7 @@ Match ONU Peer Id
     ${length}=    Get Length    ${peers}
     FOR    ${INDEX}    IN RANGE    0    ${length}
         ${value}=    Get From List    ${peers}    ${INDEX}
-        ${peer_id}=    Get From Dictionary    ${value}    deviceid
+        ${peer_id}=    Get From Dictionary    ${value}    deviceId
     END
     Should Be Equal    '${peer_id}'    '${olt_device_id}'
     ...    Mismatch between ONU peer ${peer_id} and OLT device id ${olt_device_id}    values=False
