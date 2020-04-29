@@ -126,7 +126,7 @@ bbsim-errorscenarios-dt: ROBOT_FILE := Voltha_ErrorScenarios.robot
 bbsim-errorscenarios-dt: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_DT_SINGLE_PON_FILE)
 bbsim-errorscenarios-dt: voltha-test
 
-bbsim-failurescenarios: ROBOT_MISC_ARGS += -X $(ROBOT_DEBUG_LOG_OPT) -e PowerSwitch
+bbsim-failurescenarios: ROBOT_MISC_ARGS += -X $(ROBOT_DEBUG_LOG_OPT) -e PowerSwitch -e PhysicalOLTReboot
 bbsim-failurescenarios: ROBOT_FILE := Voltha_FailureScenarios.robot
 bbsim-failurescenarios: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_SINGLE_PON_FILE)
 bbsim-failurescenarios: voltha-test
