@@ -25,7 +25,7 @@ LINT_ARGS ?= --verbose --configure LineTooLong:120 -e LineTooLong \
              --configure TooManyTestCases:50 -e TooManyTestCases \
              --configure TooFewTestSteps:1 \
              --configure TooFewKeywordSteps:1 \
-             --configure FileTooLong:1000 -e FileTooLong \
+             --configure FileTooLong:1100 -e FileTooLong \
              -e TrailingWhitespace
 
 PYTHON_FILES := $(wildcard libraries/*.py)
