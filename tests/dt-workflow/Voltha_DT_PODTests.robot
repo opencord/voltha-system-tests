@@ -386,6 +386,89 @@ Test Disable ONUs and OLT Then Delete ONUs and OLT for DT
     Wait Until Keyword Succeeds    ${timeout}   2s    Perform Sanity Test DT
     Run Keyword If    ${has_dataplane}    Clean Up Linux
 
+Test Disable and Enable OLT PON Port for DT
+    [Documentation]    Validates E2E Ping Connectivity and object states for the given scenario:
+    ...    Assuming that all the ONUs are DHCP/pingable (i.e. assuming sanityDt test was executed)
+    ...    Perform disable on the OLT PON Port and validate that the pings do not succeed
+    ...    Perform enable on the OLT PON Port and validate that the pings are successful
+    ...    Note: This TC assumes all ONUs connected to a single OLT PON Port
+    [Tags]    functionalDt    DisableEnableOltPonPortDt
+    [Setup]    Start Logging    DisableEnableOltPonPortDt    notready
+    [Teardown]    Run Keywords    Collect Logs
+    ...           AND             Stop Logging    DisableEnableOltPonPortDt
+    # Disable the OLT PON Port and Validate OLT Device
+    DisableOrEnable OLT PON Port    disable
+    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
+    ...    Validate OLT PON Port Status    DISABLED    DISCOVERED
+    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
+    ...    Validate OLT Device    ENABLED    ACTIVE    REACHABLE
+    ...    ${olt_serial_number}
+    # Validate ONUs
+    ${olt_peer_list}    Create List
+    Retrieve Peer List From OLT    ${olt_peer_list}
+    Log    ${olt_peer_list}
+    FOR    ${I}    IN RANGE    0    ${num_onus}
+        ${src}=    Set Variable    ${hosts.src[${I}]}
+        ${dst}=    Set Variable    ${hosts.dst[${I}]}
+        ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
+        ${onu_port}=    Wait Until Keyword Succeeds    ${timeout}    2s    Get ONU Port in ONOS    ${src['onu']}
+        ...    ${of_id}
+        List Should Contain Value    ${olt_peer_list}    ${onu_device_id}
+        ...    '${onu_device_id}' is not present in OLT Peers List
+        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
+        ...    Validate Device    ENABLED    DISCOVERED
+        ...    UNREACHABLE    ${src['onu']}    onu=True    onu_reason=stopping-openomci
+        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds   ${timeout}    2s
+        ...    Verify ONU Port Is Disabled    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${onu_port}
+        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
+        ...    Verify Subscriber Access Flows Added For ONU DT    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${of_id}
+        ...    ${onu_port}    ${nni_port}    ${src['s_tag']}
+        Run Keyword If    ${has_dataplane}    Run Keyword And Continue On Failure
+        ...    Wait Until Keyword Succeeds    60s    2s
+        ...    Check Ping    False    ${dst['dp_iface_ip_qinq']}    ${src['dp_iface_name']}
+        ...    ${src['ip']}    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
+        Run Keyword and Ignore Error    Collect Logs
+    END
+    # Verify ONOS Flows
+    # Number of Access Flows on ONOS equals 4 * the Number of Active ONUs (2 for each downstream and upstream)
+    ${onos_flows_count}=    Evaluate    4 * ${num_onus}
+    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
+    ...    Verify Subscriber Access Flows Added Count DT    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}
+    ...    ${of_id}    ${onos_flows_count}
+    # Verify VOLTHA Flows
+    # Number of per OLT Flows equals Twice the Number of Active ONUs (each for downstream and upstream) + 1 for LLDP
+    ${olt_flows}=    Evaluate    2 * ${num_onus} + 1
+    # Number of per ONU Flows equals 2 (one each for downstream and upstream)
+    ${onu_flows}=    Set Variable    2
+    Run Keyword    Wait Until Keyword Succeeds    ${timeout}    5s    Validate OLT Flows    ${olt_flows}
+    ${List_ONU_Serial}    Create List
+    Set Suite Variable    ${List_ONU_Serial}
+    Build ONU SN List    ${List_ONU_Serial}
+    Log    ${List_ONU_Serial}
+    Run Keyword    Wait Until Keyword Succeeds    ${timeout}    5s    Validate ONU Flows
+    ...    ${List_ONU_Serial}    ${onu_flows}
+    # Enable the OLT PON Port back, and check ONU status are back to "ACTIVE" and Ping works again
+    DisableOrEnable OLT PON Port    enable
+    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
+    ...    Validate OLT PON Port Status    ENABLED    ACTIVE
+    FOR    ${I}    IN RANGE    0    ${num_onus}
+        ${src}=    Set Variable    ${hosts.src[${I}]}
+        ${dst}=    Set Variable    ${hosts.dst[${I}]}
+        ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
+        ${onu_port}=    Wait Until Keyword Succeeds    ${timeout}    2s    Get ONU Port in ONOS    ${src['onu']}
+        ...    ${of_id}
+        Wait Until Keyword Succeeds    ${timeout}    10s    Validate Device    ENABLED    ACTIVE
+        ...    REACHABLE    ${src['onu']}    onu=True    onu_reason=discovery-mibsync-complete
+        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds   ${timeout}    2s
+        ...    Verify ONU Port Is Enabled    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${onu_port}
+        # Verify that ping works fine again
+        Run Keyword If    ${has_dataplane}
+        ...    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    60s    2s
+        ...    Check Ping    True    ${dst['dp_iface_ip_qinq']}    ${src['dp_iface_name']}
+        ...    ${src['ip']}    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}}
+        Run Keyword and Ignore Error   Collect Logs
+    END
+
 *** Keywords ***
 Setup Suite
     [Documentation]    Set up the test suite
