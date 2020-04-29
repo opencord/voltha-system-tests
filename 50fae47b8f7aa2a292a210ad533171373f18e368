@@ -25,6 +25,29 @@
     },
     {
       "key": {
+        "uuid": "fe1d68f5_1f057e3a",
+        "filename": "tests/dt-workflow/Voltha_DT_FailureScenarios.robot",
+        "patchSetId": 5
+      },
+      "lineNbr": 379,
+      "author": {
+        "id": 1000535
+      },
+      "writtenOn": "2020-04-29T08:27:48Z",
+      "side": 1,
+      "message": "Previous TC doesn\u0027t have \"Delete Device and Verify\" in Teardown and it checks the ping in last step, so didn\u0027t include setup and ping checks here.",
+      "range": {
+        "startLine": 378,
+        "startChar": 0,
+        "endLine": 379,
+        "endChar": 78
+      },
+      "revId": "50fae47b8f7aa2a292a210ad533171373f18e368",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dac6f735_1affe060",
         "filename": "tests/functional/Voltha_FailureScenarios.robot",
         "patchSetId": 5
