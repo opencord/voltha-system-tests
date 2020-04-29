@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "aef0bd2b_0d3eff2d",
+        "filename": "tests/dt-workflow/Voltha_DT_FailureScenarios.robot",
+        "patchSetId": 5
+      },
+      "lineNbr": 379,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2020-04-29T08:16:46Z",
+      "side": 1,
+      "message": "why is this commented out ?",
+      "range": {
+        "startLine": 378,
+        "startChar": 0,
+        "endLine": 379,
+        "endChar": 78
+      },
+      "revId": "50fae47b8f7aa2a292a210ad533171373f18e368",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dac6f735_1affe060",
+        "filename": "tests/functional/Voltha_FailureScenarios.robot",
+        "patchSetId": 5
+      },
+      "lineNbr": 558,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2020-04-29T08:16:46Z",
+      "side": 1,
+      "message": "same",
+      "range": {
+        "startLine": 557,
+        "startChar": 0,
+        "endLine": 558,
+        "endChar": 75
+      },
+      "revId": "50fae47b8f7aa2a292a210ad533171373f18e368",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    }
+  ]
+}
