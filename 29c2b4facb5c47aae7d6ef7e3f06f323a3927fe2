@@ -22,6 +22,30 @@
       "revId": "29c2b4facb5c47aae7d6ef7e3f06f323a3927fe2",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6c104b1a_c9cbff71",
+        "filename": "Jenkinsfile-voltha-build",
+        "patchSetId": 5
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2020-04-29T08:06:59Z",
+      "side": 1,
+      "message": "No, that is not. needed, I moved the deb version as a parameter defined in the pod config .yaml file for each of the OLTS (see line 53 https://gerrit.opencord.org/#/c/17769/6/deployment-configs/onf-demo-pod.yaml) so I will take out the parameter in the `ci-management`. \nThe difference is params.oltDebVersion is the old ci-management based parameter that can be only one, while deployment_config.olts[i].oltDebVersion is the new per OLT parameter in the yaml file.",
+      "parentUuid": "38bef137_f540abdc",
+      "range": {
+        "startLine": 125,
+        "startChar": 54,
+        "endLine": 125,
+        "endChar": 67
+      },
+      "revId": "29c2b4facb5c47aae7d6ef7e3f06f323a3927fe2",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
     }
   ]
 }
