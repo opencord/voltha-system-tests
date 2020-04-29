@@ -534,6 +534,200 @@ Repeat Sanity Test
         Run Keyword and Ignore Error   Collect Logs
     END
 
+Validate ONUs for PON OLT Disable
+    [Arguments]    ${olt_peer_list}
+    [Documentation]     This keyword validates that Ping fails for ONUs connected to Disabled OLT PON port
+    ...    And Pings succeed for other Active OLT PON port ONUs
+    ...    Also it removes subscriber for Disabled OLT PON port ONUs to replicate ATT workflow
+    FOR    ${I}    IN RANGE    0    ${num_onus}
+        ${src}=    Set Variable    ${hosts.src[${I}]}
+        ${dst}=    Set Variable    ${hosts.dst[${I}]}
+        ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
+        ${onu_port}=    Wait Until Keyword Succeeds    ${timeout}    2s    Get ONU Port in ONOS    ${src['onu']}
+        ...    ${of_id}
+        ${matched}=    Match ONU in PON OLT Peer List    ${olt_peer_list}    ${onu_device_id}
+        Run Keyword If    ${matched}
+        ...    Run Keywords
+        ...    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
+        ...    Validate Device    ENABLED    DISCOVERED
+        ...    UNREACHABLE    ${src['onu']}    onu=True    onu_reason=stopping-openomci
+        ...    AND    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds   ${timeout}    2s
+        ...    Verify ONU Port Is Disabled   ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${src['onu']}
+        ...    AND    Run Keyword If    ${has_dataplane}    Run Keyword And Continue On Failure
+        ...    Wait Until Keyword Succeeds    60s    2s
+        ...    Check Ping    False    ${dst['dp_iface_ip_qinq']}    ${src['dp_iface_name']}
+        ...    ${src['ip']}    ${src['user']}    ${src['pass']}    ${src['container_type']}
+        ...    ${src['container_name']}
+        # Remove Subscriber Access (To replicate ATT workflow)
+        ...    AND    Wait Until Keyword Succeeds    ${timeout}    2s    Execute ONOS CLI Command    ${ONOS_SSH_IP}
+        ...    ${ONOS_SSH_PORT}    volt-remove-subscriber-access ${of_id} ${onu_port}
+        ...    ELSE
+        ...    Run Keyword If    ${has_dataplane}    Run Keyword And Continue On Failure
+        ...    Wait Until Keyword Succeeds    60s    2s
+        ...    Check Ping    True    ${dst['dp_iface_ip_qinq']}    ${src['dp_iface_name']}
+        ...    ${src['ip']}    ${src['user']}    ${src['pass']}    ${src['container_type']}
+        ...    ${src['container_name']}
+        Run Keyword and Ignore Error    Collect Logs
+    END
+
+Validate ONUs for PON OLT Enable
+    [Arguments]    ${olt_peer_list}
+    [Documentation]    This keyword validates Ping succeeds for all Enabled/Acitve OLT PON ports
+    ...    Also performs Auth/subscriberAdd/DHCP/Ping for the ONUs on Re-Enabled OLT PON port
+    FOR    ${I}    IN RANGE    0    ${num_onus}
+        ${src}=    Set Variable    ${hosts.src[${I}]}
+        ${dst}=    Set Variable    ${hosts.dst[${I}]}
+        ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
+        ${onu_port}=    Wait Until Keyword Succeeds    ${timeout}    2s    Get ONU Port in ONOS    ${src['onu']}
+        ...    ${of_id}
+        ${matched}=    Match ONU in PON OLT Peer List    ${olt_peer_list}    ${onu_device_id}
+        ${wpa_log}=    Run Keyword If    ${has_dataplane} and ${matched}    Catenate    SEPARATOR=.
+        ...    /tmp/wpa    ${src['dp_iface_name']}    log
+        Run Keyword If    ${matched}
+        ...    Run Keywords
+        # Perform Cleanup
+        ...    Run Keyword If    ${has_dataplane}    Clean Up Linux    ${onu_device_id}    onu${src}    ${dst}
+        # Verify ONU port status
+        ...    AND    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds   120s   2s
+        ...    Verify ONU Port Is Enabled   ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${src['onu']}
+        # Verify EAPOL flows are added for the ONU port
+        ...    AND    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
+        ...    Verify Eapol Flows Added For ONU    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${onu_port}
+        # Verify ONU state in voltha
+        ...    AND    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
+        ...    Validate Device    ENABLED    ACTIVE    REACHABLE
+        ...    ${src['onu']}    onu=True    onu_reason=omci-flows-pushed
+        # Perform Authentication
+        ...    AND    Run Keyword If    ${has_dataplane}
+        ...    Run Keyword And Continue On Failure    Validate Authentication    True
+        ...    ${src['dp_iface_name']}    wpa_supplicant.conf    ${src['ip']}    ${src['user']}    ${src['pass']}
+        ...    ${src['container_type']}    ${src['container_name']}    ${wpa_log}
+        ...    AND    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2
+        ...    Verify ONU in AAA-Users    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${onu_port}
+        ...    AND    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2
+        ...    Execute ONOS CLI Command    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}
+        ...    volt-add-subscriber-access ${of_id} ${onu_port}
+        # Verify that no pending flows exist for the ONU port
+        ...    AND    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
+        ...    Verify No Pending Flows For ONU    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${onu_port}
+        # Verify subscriber access flows are added for the ONU port
+        ...    AND    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
+        ...    Verify Subscriber Access Flows Added For ONU    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${of_id}
+        ...    ${onu_port}    ${nni_port}    ${src['c_tag']}    ${src['s_tag']}
+        ...    AND    Run Keyword If    ${has_dataplane}
+        ...    Run Keyword And Continue On Failure    Validate DHCP and Ping    True
+        ...    True    ${src['dp_iface_name']}    ${src['s_tag']}    ${src['c_tag']}    ${dst['dp_iface_ip_qinq']}
+        ...    ${src['ip']}    ${src['user']}    ${src['pass']}
+        ...    ${src['container_type']}    ${src['container_name']}
+        ...    ${dst['dp_iface_name']}    ${dst['ip']}    ${dst['user']}    ${dst['pass']}
+        ...    ${dst['container_type']}    ${dst['container_name']}
+        ...    AND    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
+        ...    Validate Subscriber DHCP Allocation    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${onu_port}
+        ...    AND    Run Keyword and Ignore Error    Get Device Output from Voltha    ${onu_device_id}
+        ...    ELSE
+        ...    Run Keyword If    ${has_dataplane}    Run Keyword And Continue On Failure
+        ...    Wait Until Keyword Succeeds    60s    2s
+        ...    Check Ping    True    ${dst['dp_iface_ip_qinq']}    ${src['dp_iface_name']}
+        ...    ${src['ip']}    ${src['user']}    ${src['pass']}    ${src['container_type']}
+        ...    ${src['container_name']}
+        Run Keyword and Ignore Error    Collect Logs
+    END
+
+Validate ONUs for PON OLT Disable DT
+    [Arguments]    ${olt_peer_list}
+    [Documentation]     This keyword validates that Ping fails for ONUs connected to Disabled OLT PON port
+    ...    And Pings succeed for other Active OLT PON port ONUs
+    ...    Also it removes subscriber and deletes ONUs for Disabled OLT PON port to replicate DT workflow
+    FOR    ${I}    IN RANGE    0    ${num_onus}
+        ${src}=    Set Variable    ${hosts.src[${I}]}
+        ${dst}=    Set Variable    ${hosts.dst[${I}]}
+        ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
+        ${onu_port}=    Wait Until Keyword Succeeds    ${timeout}    2s    Get ONU Port in ONOS    ${src['onu']}
+        ...    ${of_id}
+        ${matched}=    Match ONU in PON OLT Peer List    ${olt_peer_list}    ${onu_device_id}
+        Run Keyword If    ${matched}
+        ...    Run Keywords
+        ...    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
+        ...    Validate Device    ENABLED    DISCOVERED
+        ...    UNREACHABLE    ${src['onu']}    onu=True    onu_reason=stopping-openomci
+        ...    AND    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds   ${timeout}    2s
+        ...    Verify ONU Port Is Disabled   ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${src['onu']}
+        ...    AND    Run Keyword If    ${has_dataplane}    Run Keyword And Continue On Failure
+        ...    Wait Until Keyword Succeeds    60s    2s
+        ...    Check Ping    False    ${dst['dp_iface_ip_qinq']}    ${src['dp_iface_name']}
+        ...    ${src['ip']}    ${src['user']}    ${src['pass']}    ${src['container_type']}
+        ...    ${src['container_name']}
+        # Remove Subscriber Access (To replicate DT workflow)
+        ...    AND    Wait Until Keyword Succeeds    ${timeout}    2s    Execute ONOS CLI Command    ${ONOS_SSH_IP}
+        ...    ${ONOS_SSH_PORT}    volt-remove-subscriber-access ${of_id} ${onu_port}
+        ...    AND    Sleep    10s
+        # Delete ONU Device (To replicate DT workflow)
+        ...    AND    Delete Device    ${onu_device_id}
+        ...    AND    Sleep    5s
+        ...    ELSE
+        ...    Run Keyword If    ${has_dataplane}    Run Keyword And Continue On Failure
+        ...    Wait Until Keyword Succeeds    60s    2s
+        ...    Check Ping    True    ${dst['dp_iface_ip_qinq']}    ${src['dp_iface_name']}
+        ...    ${src['ip']}    ${src['user']}    ${src['pass']}    ${src['container_type']}
+        ...    ${src['container_name']}
+        Run Keyword and Ignore Error    Collect Logs
+    END
+
+Validate ONUs for PON OLT Enable DT
+    [Arguments]    ${olt_peer_list}
+    [Documentation]    This keyword validates Ping succeeds for all Enabled/Acitve OLT PON ports
+    ...    Also performs subscriberAdd/DHCP/Ping for the ONUs on Re-Enabled OLT PON port
+    FOR    ${I}    IN RANGE    0    ${num_onus}
+        ${src}=    Set Variable    ${hosts.src[${I}]}
+        ${dst}=    Set Variable    ${hosts.dst[${I}]}
+        ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
+        ${onu_port}=    Wait Until Keyword Succeeds    ${timeout}    2s    Get ONU Port in ONOS    ${src['onu']}
+        ...    ${of_id}
+        ${matched}=    Match ONU in PON OLT Peer List    ${olt_peer_list}    ${onu_device_id}
+        Run Keyword If    ${matched}
+        ...    Run Keywords
+        # Perform Cleanup
+        ...    Run Keyword If    ${has_dataplane}    Clean Up Linux    ${onu_device_id}    ${src}    ${dst}
+        # Verify ONU port status
+        ...    AND    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds   120s   2s
+        ...    Verify ONU Port Is Enabled   ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${src['onu']}
+        ...    AND    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2
+        ...    Execute ONOS CLI Command    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}
+        ...    volt-add-subscriber-access ${of_id} ${onu_port}
+        # Verify ONU state in voltha
+        ...    AND    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
+        ...    Validate Device    ENABLED    ACTIVE    REACHABLE
+        ...    ${src['onu']}    onu=True    onu_reason=omci-flows-pushed
+        # Verify subscriber access flows are added for the ONU port
+        ...    AND    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
+        ...    Verify Subscriber Access Flows Added For ONU DT    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${of_id}
+        ...    ${onu_port}    ${nni_port}    ${src['s_tag']}
+        ...    AND    Run Keyword If    ${has_dataplane}
+        ...    Run Keyword And Continue On Failure    Validate DHCP and Ping    True
+        ...    True    ${src['dp_iface_name']}    ${src['s_tag']}    ${src['c_tag']}    ${dst['dp_iface_ip_qinq']}
+        ...    ${src['ip']}    ${src['user']}    ${src['pass']}
+        ...    ${src['container_type']}    ${src['container_name']}
+        ...    ${dst['dp_iface_name']}    ${dst['ip']}    ${dst['user']}    ${dst['pass']}
+        ...    ${dst['container_type']}    ${dst['container_name']}
+        ...    ELSE
+        ...    Run Keyword If    ${has_dataplane}    Run Keyword And Continue On Failure
+        ...    Wait Until Keyword Succeeds    60s    2s
+        ...    Check Ping    True    ${dst['dp_iface_ip_qinq']}    ${src['dp_iface_name']}
+        ...    ${src['ip']}    ${src['user']}    ${src['pass']}    ${src['container_type']}
+        ...    ${src['container_name']}
+        Run Keyword and Ignore Error    Collect Logs
+    END
+
+Match ONU in PON OLT Peer List
+    [Arguments]    ${olt_peer_list}    ${onu_device_id}
+    [Documentation]     This keyword matches if ONU device is present in OLT PON port peer list
+    ${matched}=    Set Variable    False
+    FOR    ${olt_peer}    IN    @{olt_peer_list}
+        ${matched}=    Set Variable If    '${onu_device_id}' == '${olt_peer}'    True    False
+        Exit For Loop If    ${matched}
+    END
+    [Return]    ${matched}
+
 Collect Logs
     [Documentation]    Collect Logs from voltha and onos cli for various commands
     Run Keyword and Ignore Error    Get Device List from Voltha
@@ -588,9 +782,12 @@ Stop Logging
 
 Clean Up Linux
     [Documentation]    Kill processes and clean up interfaces on src+dst servers
+    [Arguments]    ${onu_id}=${EMPTY}    ${onu_src}=${EMPTY}    ${onu_dst}=${EMPTY}
     FOR    ${I}    IN RANGE    0    ${num_onus}
         ${src}=    Set Variable    ${hosts.src[${I}]}
         ${dst}=    Set Variable    ${hosts.dst[${I}]}
+        ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
+        Continue For Loop If    '${onu_id}' != '${EMPTY}' and '${onu_id}' != '${onu_device_id}'
         Execute Remote Command    sudo pkill wpa_supplicant    ${src['ip']}
         ...    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
         Execute Remote Command    sudo pkill dhclient    ${src['ip']}
