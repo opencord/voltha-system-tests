@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8cc106a3_36cef088",
+        "filename": "tests/dt-workflow/Voltha_DT_PODTests.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 248,
+      "author": {
+        "id": 1000064
+      },
+      "writtenOn": "2020-04-30T18:26:23Z",
+      "side": 1,
+      "message": "not sure if one space is enough here, usually Robot needs 4spaces",
+      "range": {
+        "startLine": 248,
+        "startChar": 48,
+        "endLine": 248,
+        "endChar": 57
+      },
+      "revId": "2e9d53529336affe240d6d5289b1f7d8c6a2c44c",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    }
+  ]
+}
