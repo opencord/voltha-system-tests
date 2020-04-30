@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4d805e6e_00061c80",
+        "filename": "libraries/onos.robot",
+        "patchSetId": 3
+      },
+      "lineNbr": 289,
+      "author": {
+        "id": 1000064
+      },
+      "writtenOn": "2020-04-30T23:04:54Z",
+      "side": 1,
+      "message": "What is this filter variable? What values does it take? Please add it in the documentation.",
+      "range": {
+        "startLine": 289,
+        "startChar": 53,
+        "endLine": 289,
+        "endChar": 62
+      },
+      "revId": "631c7eca85f91f29317ff23f6bb70f403311d820",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f0e641b9_eb229fff",
+        "filename": "tests/scale/Voltha_Scale_Tests.robot",
+        "patchSetId": 3
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1000064
+      },
+      "writtenOn": "2020-04-30T23:04:54Z",
+      "side": 1,
+      "message": "Is this correct?",
+      "range": {
+        "startLine": 84,
+        "startChar": 84,
+        "endLine": 84,
+        "endChar": 88
+      },
+      "revId": "631c7eca85f91f29317ff23f6bb70f403311d820",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    }
+  ]
+}
