@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4c34970c_4641ef23",
+        "filename": "libraries/onos.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1000514
+      },
+      "writtenOn": "2020-04-30T13:04:04Z",
+      "side": 1,
+      "message": "Same as below.. 4 spaces to be consistent..",
+      "range": {
+        "startLine": 144,
+        "startChar": 23,
+        "endLine": 144,
+        "endChar": 25
+      },
+      "revId": "5680afd2eea5ef3a9af3a744fab059522d2b7d1f",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d54a80f7_281aedf5",
+        "filename": "libraries/onos.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1000514
+      },
+      "writtenOn": "2020-04-30T13:04:04Z",
+      "side": 1,
+      "message": "Should be 4 spaces to be consistent (more than 1 at least) otherwise will be considered as single keyword and will fail..",
+      "range": {
+        "startLine": 152,
+        "startChar": 23,
+        "endLine": 152,
+        "endChar": 24
+      },
+      "revId": "5680afd2eea5ef3a9af3a744fab059522d2b7d1f",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    }
+  ]
+}
