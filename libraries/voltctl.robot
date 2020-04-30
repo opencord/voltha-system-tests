@@ -22,6 +22,7 @@ Library           Process
 Library           Collections
 Library           RequestsLibrary
 Library           OperatingSystem
+Resource          ./utils.robot
 
 *** Keywords ***
 Test Empty Device List
@@ -34,11 +35,11 @@ Test Empty Device List
     Should Be Equal As Integers    ${length}    0
 
 Create Device
-    [Arguments]    ${ip}    ${port}
+    [Arguments]    ${ip}    ${port}     ${type}=openolt
     [Documentation]    Creates a device in VOLTHA
     #create/preprovision device
     ${rc}    ${device_id}=    Run and Return Rc and Output
-    ...    ${VOLTCTL_CONFIG}; voltctl device create -t openolt -H ${ip}:${port}
+    ...    ${VOLTCTL_CONFIG}; voltctl device create -t ${type} -H ${ip}:${port}
     Should Be Equal As Integers    ${rc}    0
     [Return]    ${device_id}
 
@@ -139,6 +140,13 @@ Get Device List from Voltha
     ${rc1}    ${devices}=    Run and Return Rc and Output    ${VOLTCTL_CONFIG}; voltctl device list
     Log    ${devices}
     Should Be Equal As Integers    ${rc1}    0
+
+Get Logical Device List from Voltha
+    [Documentation]    Gets Logical Device List Output from Voltha (in json format)
+    ${rc1}    ${devices}=    Run and Return Rc and Output    ${VOLTCTL_CONFIG}; voltctl logicaldevice list -o json
+    Log    ${devices}
+    Should Be Equal As Integers    ${rc1}    0
+    Return From Keyword     ${devices}
 
 Validate Device
     [Documentation]
@@ -447,3 +455,39 @@ Reboot ONU
     Should Be Equal As Integers    ${rc}    0
     Run Keyword and Ignore Error    Wait Until Keyword Succeeds    60s   1s    Validate Device
     ...    ENABLED    DISCOVERED    UNREACHABLE   ${onu_id}    onu=True
+
+Assert ONUs in Voltha
+    [Arguments]    ${count}
+    [Documentation]    Check that a certain number of devices reached the ACTIVE/ENABLE state
+    ${rc1}    ${devices}=    Run and Return Rc and Output
+    ...     ${VOLTCTL_CONFIG}; voltctl device list | grep -v OLT | grep ACTIVE | wc -l
+    Should Be Equal As Integers    ${rc1}    0
+    Should Be Equal As Integers    ${devices}    ${count}
+
+Wait for ONUs in VOLTHA
+    [Arguments]    ${count}
+    [Documentation]    Waits until a certain number of devices reached the ACTIVE/ENABLE state
+    Wait Until Keyword Succeeds     10m     5s      Assert ONUs In Voltha   ${count}
+
+Count Logical Devices flows
+    [Documentation]  Count the flows across logical devices in VOLTHA
+    [Arguments]  ${targetFlows}
+    ${output}=     Get Logical Device List From Voltha
+    ${logical_devices}=    To Json    ${output}
+    ${total_flows}=     Set Variable    0
+    FOR     ${device}   IN  @{logical_devices}
+        ${rc}    ${flows}=    Run and Return Rc and Output
+        ...    ${VOLTCTL_CONFIG}; voltctl logicaldevice flows ${device['id']} | grep -v ID | wc -l
+        Should Be Equal As Integers    ${rc}    0
+        ${total_flows}=     Evaluate    ${total_flows} + ${flows}
+    END
+    Should Be Equal As Integers    ${targetFlows}    ${total_flows}
+
+Wait for Logical Devices flows
+    [Documentation]  Waits until the flows have been provisioned in the logical device
+    [Arguments]  ${workflow}    ${uni_count}    ${olt_count}    ${provisioned}
+    ${targetFlows}=     Calculate flows by workflow     ${workflow}    ${uni_count}    ${olt_count}     ${provisioned}
+    Log     ${targetFlows}
+    # TODO extend Validate Logical Device Flows to check the correct number of flows
+    Wait Until Keyword Succeeds     10m     5s  Count Logical Devices flows     ${targetFlows}
+
