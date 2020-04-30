@@ -7,6 +7,7 @@ robotframework-kafkalibrary
 robotframework-lint
 robotframework-requests
 robotframework-sshlibrary
+robotframework-timer==0.0.5
 yamllint
 # replace when we can use upstream (needs python 3.6)
 git+https://github.com/zdw/robotframework-importresource@b81b87aabaee0594e966687b41e3674b866f28ee
