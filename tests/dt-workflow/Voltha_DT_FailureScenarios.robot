@@ -31,6 +31,7 @@ Resource          ../../libraries/voltha.robot
 Resource          ../../libraries/utils.robot
 Resource          ../../libraries/k8s.robot
 Resource          ../../variables/variables.robot
+Resource          ../../libraries/power_switch.robot
 
 *** Variables ***
 ${POD_NAME}       flex-ocp-cord
@@ -370,6 +371,9 @@ Sanity E2E Test for OLT/ONU on POD With Core Fail and Restart for DT
 Setup Suite
     [Documentation]    Set up the test suite
     Common Test Suite Setup
+    #power_switch.robot needs it to support different vendor's power switch
+    ${switch_type}=    Get Variable Value    ${web_power_switch.type}
+    Run Keyword If  "${switch_type}"!=""    Set Global Variable    ${powerswitch_type}    ${switch_type}
 
 Clear All Devices Then Create New Device
     [Documentation]    Remove any devices from VOLTHA and ONOS
