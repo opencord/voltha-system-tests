@@ -90,7 +90,7 @@ Verify ONU after Rebooting Physically for DT
         # Verify ONU state in voltha
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s    Validate Device
         ...    ENABLED    ACTIVE    REACHABLE
-        ...    ${src['onu']}    onu=True    onu_reason=omci-flows-pushed
+        ...    ${src['onu']}    onu=True    onu_reason=discovery-mibsync-complete
         # Verify subscriber access flows are added for the ONU port
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
         ...    Verify Subscriber Access Flows Added For ONU DT    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${of_id}
