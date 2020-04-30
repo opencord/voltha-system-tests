@@ -234,19 +234,17 @@ Verify ONU in AAA-Users
     ${aaa_users}=    Execute ONOS CLI Command    ${ip}    ${port}    aaa-users | grep AUTHORIZED | grep ${onu_port}
     Should Not Be Empty    ${aaa_users}    ONU port ${onu_port} not found in aaa-users
 
-Verify Number of AAA-Users
+Assert Number of AAA-Users
     [Arguments]    ${ip}    ${port}    ${expected_onus}
     [Documentation]    Matches for number of aaa-users authorized based on number of onus
-    ##TODO: filter by onu serial number instead of count
     ${aaa_users}=    Execute ONOS CLI Command    ${ip}    ${port}    aaa-users | grep AUTHORIZED | wc -l
-    Should Contain    ${aaa_users}    ${expected_onus}
+    Should Be Equal As Integers    ${aaa_users}    ${expected_onus}
 
 Validate DHCP Allocations
     [Arguments]    ${ip}    ${port}    ${expected_onus}
     [Documentation]    Matches for number of dhcpacks based on number of onus
-    ##TODO: filter by onu serial number instead of count
     ${allocations}=    Execute ONOS CLI Command    ${ip}    ${port}    dhcpl2relay-allocations | grep DHCPACK | wc -l
-    Should Contain    ${allocations}    ${expected_onus}
+    Should Be Equal As Integers    ${allocations}    ${expected_onus}
 
 Validate Subscriber DHCP Allocation
     [Arguments]    ${ip}    ${port}    ${onu_port}
@@ -278,3 +276,88 @@ Remove All Devices From ONOS
         Run Keyword If    '${dpid}' != ''
         ...    Should Be Equal As Integers    ${rc}    0
     END
+
+Assert Ports in ONOS
+    [Arguments]    ${ip}    ${port}     ${count}     ${filter}
+    [Documentation]    Check that a certain number of ports are enabled in ONOS
+    ${ports}=    Execute ONOS CLI Command    ${ip}    ${port}
+        ...    ports -e | grep ${filter} | wc -l
+    Should Be Equal As Integers    ${ports}    ${count}
+
+Wait for Ports in ONOS
+    [Arguments]    ${ip}    ${port}     ${count}     ${filter}
+    [Documentation]    Waits untill a certain number of ports are enabled in ONOS
+    Wait Until Keyword Succeeds     10m     5s      Assert Ports in ONOS   ${ip}    ${port}     ${count}     ${filter}
+
+Wait for AAA Authentication
+    [Arguments]    ${ip}    ${port}     ${count}
+    [Documentation]    Waits untill a certain number of subscribers are authenticated in ONOS
+    Wait Until Keyword Succeeds     10m     5s      Assert Number of AAA-Users      ${ip}    ${port}     ${count}
+
+Wait for DHCP Ack
+    [Arguments]    ${ip}    ${port}     ${count}
+    [Documentation]    Waits untill a certain number of subscribers have received a DHCP_ACK
+    Wait Until Keyword Succeeds     10m     5s      Validate DHCP Allocations      ${ip}    ${port}     ${count}
+
+Provision subscriber
+    [Documentation]  Calls volt-add-subscriber-access in ONOS
+    [Arguments]    ${onos_ip}    ${onos_port}   ${of_id}    ${onu_port}
+    Execute ONOS CLI Command    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}
+            ...    volt-add-subscriber-access ${of_id} ${onu_port}
+
+List Enabled UNI Ports
+    [Documentation]  List all the UNI Ports, the only way we have is to filter out the one called NNI
+    ...     Creates a list of dictionaries
+    [Arguments]     ${onos_ip}    ${onos_port}   ${of_id}
+    [Return]  [{'port': '16', 'of_id': 'of:00000a0a0a0a0a00'}, {'port': '32', 'of_id': 'of:00000a0a0a0a0a00'}]
+    ${result}=      Create List
+    ${out}=    Execute ONOS CLI Command    ${onos_ip}    ${onos_port}
+    ...    ports -e ${of_id} | grep -v SWITCH | grep -v nni
+    @{unis}=	Split To Lines	${out}
+    FOR    ${uni}    IN    @{unis}
+        ${matches} =	Get Regexp Matches	${uni}  .*port=([0-9]+),.*  1
+        &{portDict}    Create Dictionary    of_id=${of_id}    port=${matches[0]}
+        Append To List  ${result}    ${portDict}
+    END
+    Log     ${result}
+    Return From Keyword     ${result}
+
+Provision all subscribers on device
+    [Documentation]  Calls volt-add-subscriber-access in ONOS for all the enabled UNI ports on a partivular device
+    [Arguments]     ${onos_ip}    ${onos_port}   ${of_id}
+    ${unis}=    List Enabled UNI Ports  ${onos_ip}  ${onos_port}   ${of_id}
+    FOR     ${uni}  IN      @{unis}
+        Provision subscriber   ${onos_ip}  ${onos_port}   ${uni['of_id']}   ${uni['port']}
+    END
+
+List OLTs
+    [Documentation]  Returns a list of OLTs known to ONOS
+    [Arguments]  ${onos_ip}    ${onos_port}
+    [Return]  ['of:00000a0a0a0a0a00', 'of:00000a0a0a0a0a01']
+    ${result}=      Create List
+    ${out}=    Execute ONOS CLI Command    ${onos_ip}    ${onos_port}
+    ...     volt-olts
+    @{olts}=    Split To Lines	${out}
+    FOR    ${olt}    IN    @{olts}
+        Log     ${olt}
+        ${matches} =	Get Regexp Matches	${olt}  ^OLT (.+)$  1
+        # there may be some logs mixed with the output so only append if we have a match
+        ${matches_length}=      Get Length  ${matches}
+        Run Keyword If  ${matches_length}==1
+        ...     Append To List  ${result}    ${matches[0]}
+    END
+    Return From Keyword     ${result}
+
+Count ADDED flows
+    [Documentation]  Count the flows in ADDED state in ONOS
+    [Arguments]  ${onos_ip}     ${onos_port}    ${targetFlows}
+    ${flows}=    Execute ONOS CLI Command    ${onos_ip}    ${onos_port}
+    ...     flows -s | grep ADDED | wc -l
+    Should Be Equal As Integers    ${targetFlows}    ${flows}
+
+Wait for all flows to in ADDED state
+    [Documentation]  Waits until the flows have been provisioned
+    [Arguments]  ${onos_ip}    ${onos_port}     ${workflow}    ${uni_count}    ${olt_count}    ${provisioned}
+    ${targetFlows}=     Calculate flows by workflow     ${workflow}    ${uni_count}    ${olt_count}     ${provisioned}
+    Wait Until Keyword Succeeds     10m     5s      Count ADDED flows
+    ...     ${onos_ip}    ${onos_port}  ${targetFlows}
