@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "01975485_8d258826",
+        "filename": "tests/scale/Voltha_Scale_Tests.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1000064
+      },
+      "writtenOn": "2020-04-30T23:04:54Z",
+      "side": 1,
+      "message": "Is this correct?",
+      "range": {
+        "startLine": 61,
+        "startChar": 84,
+        "endLine": 61,
+        "endChar": 88
+      },
+      "revId": "e63c6f22426b84ae9bd2706e0046898079bafd10",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    }
+  ]
+}
