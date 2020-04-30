@@ -46,6 +46,10 @@ ROBOT_MISC_ARGS                 ?=
 # for backwards compatibility
 sanity-kind: sanity-single-kind
 
+# for scale pipeline
+voltha-scale: ROBOT_MISC_ARGS += -i activation $(ROBOT_DEBUG_LOG_OPT)
+voltha-scale: voltha-scale-test
+
 # target to invoke DT Workflow Sanity
 sanity-kind-dt: ROBOT_MISC_ARGS += -i sanityDt $(ROBOT_DEBUG_LOG_OPT)
 sanity-kind-dt: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_DT_SINGLE_PON_FILE)
@@ -147,6 +151,11 @@ voltha-dt-test: vst_venv
 	source ./$</bin/activate ; set -u ;\
 	cd tests/dt-workflow ;\
 	robot -V $(ROBOT_CONFIG_FILE) $(ROBOT_MISC_ARGS) $(ROBOT_FILE)
+
+voltha-scale-test: vst_venv
+	source ./$</bin/activate ; set -u ;\
+	cd tests/scale ;\
+	robot $(ROBOT_MISC_ARGS) Voltha_Scale_Tests.robot
 
 # self-test, lint, and setup targets
 
