@@ -275,3 +275,15 @@ Remove All Devices From ONOS
         Run Keyword If    '${dpid}' != ''
         ...    Should Be Equal As Integers    ${rc}    0
     END
+
+Assert Ports in ONOS
+    [Arguments]    ${ip}    ${port}     ${count}     ${filter}
+    [Documentation]    Check that a certain number of ports are enabled in ONOS
+    ${ports}=    Execute ONOS CLI Command    ${ip}    ${port}
+        ...    ports -e | grep ${filter} | wc -l
+    Should Be Equal As Integers    ${ports}    ${count}
+
+Wait for Ports in ONOS
+    [Arguments]    ${ip}    ${port}     ${count}     ${filter}
+    [Documentation]    Waits untill a certain number of ports are enabled in ONOS
+    Wait Until Keyword Succeeds     10m     5s      Assert Ports in ONOS   ${ip}    ${port}     ${count}     ${filter}
