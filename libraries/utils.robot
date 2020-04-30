@@ -483,3 +483,31 @@ Parse RFC3339
     ${rc}    ${output}=    Run and Return Rc and Output     date --date="${dateStr}" "+%s"
     Should Be Equal As Numbers    ${rc}    0
     [return]    ${output}
+
+Calculate flows by workflow
+    [Documentation]  Calculate how many flows should be created based on the workflow, the number of UNIs
+    ...     and whether the subscribers have been provisioned
+    [Arguments]  ${workflow}    ${uni_count}    ${olt_count}    ${provisioned}
+    ${supportedWorkflows}=  Create List     att     dt      tt
+    Run Keyword If  $workflow not in @{supportedWorkflows}
+    ...     Fail    Workflow ${workflow} should be one of 'att', 'dt', 'tt'
+    ${expectedFlows}=   Run Keyword If  $workflow=="att"  Calculate Att flows   ${uni_count}    ${olt_count}    ${provisioned}
+    Return From Keyword     ${expectedFlows}
+
+Calculate Att flows
+    [Documentation]  Calculate the flow for the ATT workflow
+    [Arguments]  ${uni_count}    ${olt_count}   ${provisioned}
+    # (1 EAPOL) * (1 LLDP + 1 DHCP * OLTS)
+    ${flow_count}=  Run Keyword If  $provisioned=='false'
+    ...     Evaluate    (${uni_count} * 1) + (${olt_count} * 2)
+    ...     ELSE
+    ...     Evaluate    (${uni_count} * 6) + (${olt_count} * 2)
+    Return From Keyword     ${flow_count}
+
+Calculate Dt flows
+    [Documentation]  Calculate the flow for the DT workflow
+    Return From Keyword     1
+
+Calculate Tt flows
+    [Documentation]  Calculate the flow for the TT workflow
+    Return From Keyword     1
