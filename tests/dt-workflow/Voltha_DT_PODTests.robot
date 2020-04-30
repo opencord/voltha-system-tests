@@ -245,7 +245,7 @@ Test Disable and Enable OLT for DT
     ...    Assuming that all the ONUs are DHCP/pingable (i.e. assuming sanityDt test was executed)
     ...    Perform disable on the OLT and validate that the pings do not succeed
     ...    Perform enable on the OLT and validate that the pings are successful
-    [Tags]    functionalDt    DisableEnableOLTDt
+    [Tags]    functionalDt    DisableEnableOLTDt notready
     [Setup]    Start Logging    DisableEnableOLTDt
     [Teardown]    Run Keywords    Collect Logs
     ...           AND             Stop Logging    DisableEnableOLTDt
