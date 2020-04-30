@@ -6,3 +6,6 @@ vst_venv
 *.xml
 *.pyc
 *.swp
+
+# IDEs
+.idea

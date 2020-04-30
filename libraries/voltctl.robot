@@ -33,6 +33,7 @@ Test Empty Device List
     ${length}=    Get Length    ${jsondata}
     Should Be Equal As Integers    ${length}    0
 
+# FIXME accept the type and the MacAddress too
 Create Device
     [Arguments]    ${ip}    ${port}
     [Documentation]    Creates a device in VOLTHA
@@ -440,3 +441,15 @@ Reboot ONU
     Should Be Equal As Integers    ${rc}    0
     Run Keyword and Ignore Error    Wait Until Keyword Succeeds    60s   1s    Validate Device
     ...    ENABLED    DISCOVERED    UNREACHABLE   ${onu_id}    onu=True
+
+Assert ONUs in Voltha
+    [Arguments]    ${count}
+    [Documentation]    Check that a certain number of devices reached the ACTIVE/ENABLE state
+    ${rc1}    ${devices}=    Run and Return Rc and Output    ${VOLTCTL_CONFIG}; voltctl device list | grep -v OLT | grep ACTIVE | wc -l
+    Should Be Equal As Integers    ${rc1}    0
+    Should Be Equal As Integers    ${devices}    ${count}
+
+Wait for ONUs in VOLTHA
+    [Arguments]    ${count}
+    [Documentation]    Waits untill a certain number of devices reached the ACTIVE/ENABLE state
+    Wait Until Keyword Succeeds     10m     5s      Assert ONUs In Voltha   ${count}

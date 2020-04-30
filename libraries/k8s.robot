@@ -128,7 +128,7 @@ Verify All Voltha Pods For Any Error Logs
     [Arguments]    ${datetime}
     [Documentation]    This keyword checks for the error occurence in the voltha pods
     &{errorPodDict}    Create Dictionary
-    &{containerDict}    Get Container Dictionary
+    &{containerDict}    Get Container Dictionary    voltha
     FOR    ${podName}    IN    @{PODLIST1}
         ${containerName}    Get From Dictionary    ${containerDict}    ${podName}
         ${rc}    ${logOutput}    Run And Return Rc And Output
@@ -208,16 +208,17 @@ Check For Error Logs in Pod Type2 Given the Log Output
     [Return]    ${errorDict}
 
 Get Container Dictionary
+    [Arguments]    ${namespace}
     [Documentation]    Creates a mapping for pod name and container name and returns the same
     &{containerDict}    Create Dictionary
     ${containerName}    Set Variable    ${EMPTY}
-    ${podName}    Run    kubectl get deployment -n voltha | awk 'NR>1 {print $1}'
+    ${podName}    Run    kubectl get deployment -n ${namespace} | awk 'NR>1 {print $1}'
     @{podNameList}=    Split To Lines    ${podName}
     Append To List    ${podNameList}    voltha-etcd-cluster    voltha-kafka    voltha-ro-core    voltha-zookeeper
     Log    ${podNameList}
     #Creatiing dictionary to correspond pod name and container name
     FOR    ${pod}    IN    @{podNameList}
-        ${containerName}    Run    kubectl get pod -n voltha | grep ${pod} | awk '{print $1}'
+        ${containerName}    Run    kubectl get pod -n ${namespace} | grep ${pod} | awk '{print $1}'
         &{containerDict}    Set To Dictionary    ${containerDict}    ${pod}    ${containerName}
     END
     Log    ${containerDict}
