@@ -136,17 +136,20 @@ Verify Subscriber Access Flows Added for ONU
     Should Not Be Empty    ${downstream_flow_1_added}
     # Verify ipv4 dhcp upstream flow
     ${upstream_flow_ipv4_cmd}=    Catenate    SEPARATOR=
-    ...    flows -s ADDED ${olt_of_id} | grep IN_PORT:${onu_port} | grep ETH_TYPE=ipv4 |
-    ...     grep VLAN_VID:${c_tag} | grep OUTPUT:CONTROLLER
+    ...    flows -s ADDED ${olt_of_id} | grep IN_PORT:${onu_port} | grep ETH_TYPE:ipv4 |
+    ...     grep IP_PROTO:17 | grep UDP_SRC:68 | grep UDP_DST:67 | grep VLAN_VID:${c_tag} |
+    ...     grep OUTPUT:CONTROLLER
     ${upstream_flow_ipv4_added}=    Execute ONOS CLI Command    ${ip}    ${port}
     ...    ${upstream_flow_ipv4_cmd}
+    Should Not Be Empty    ${upstream_flow_ipv4_added}
     # Verify ipv4 dhcp downstream flow
     # Note: This flow will be one per nni per olt
     ${downstream_flow_ipv4_cmd}=    Catenate    SEPARATOR=
-    ...    flows -s ADDED ${olt_of_id} | grep IN_PORT:${nni_port} | grep ETH_TYPE=ipv4 |
-    ...     grep OUTPUT:CONTROLLER
+    ...    flows -s ADDED ${olt_of_id} | grep IN_PORT:${nni_port} | grep ETH_TYPE:ipv4 |
+    ...     grep IP_PROTO:17 | grep UDP_SRC:67 | grep UDP_DST:68 | grep OUTPUT:CONTROLLER
     ${downstream_flow_ipv4_added}=    Execute ONOS CLI Command    ${ip}    ${port}
     ...    ${downstream_flow_ipv4_cmd}
+    Should Not Be Empty    ${downstream_flow_ipv4_added}
 
 Verify Subscriber Access Flows Added for ONU DT
     [Arguments]    ${ip}    ${port}    ${olt_of_id}    ${onu_port}    ${nni_port}    ${s_tag}
