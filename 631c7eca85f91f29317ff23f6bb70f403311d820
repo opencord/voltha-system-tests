@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "4dfc16c8_50583149",
+        "filename": "libraries/onos.robot",
+        "patchSetId": 3
+      },
+      "lineNbr": 289,
+      "author": {
+        "id": 1000007
+      },
+      "writtenOn": "2020-05-01T01:51:39Z",
+      "side": 1,
+      "message": "That is used to filter only some ports (eg: the UNI ports)\n\nIt\u0027s useful when we want to check that only a subset of them is active even though it may only be useful in the scale test case where all the UNI has the format BBSM00000000000*",
+      "parentUuid": "4d805e6e_00061c80",
+      "range": {
+        "startLine": 289,
+        "startChar": 53,
+        "endLine": 289,
+        "endChar": 62
+      },
+      "revId": "631c7eca85f91f29317ff23f6bb70f403311d820",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f0e641b9_eb229fff",
         "filename": "tests/scale/Voltha_Scale_Tests.robot",
         "patchSetId": 3
@@ -36,6 +60,30 @@
       "writtenOn": "2020-04-30T23:04:54Z",
       "side": 1,
       "message": "Is this correct?",
+      "range": {
+        "startLine": 84,
+        "startChar": 84,
+        "endLine": 84,
+        "endChar": 88
+      },
+      "revId": "631c7eca85f91f29317ff23f6bb70f403311d820",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ffdf9224_f7470ead",
+        "filename": "tests/scale/Voltha_Scale_Tests.robot",
+        "patchSetId": 3
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1000007
+      },
+      "writtenOn": "2020-05-01T01:51:39Z",
+      "side": 1,
+      "message": "yes, that the serial number of the ONUs",
+      "parentUuid": "f0e641b9_eb229fff",
       "range": {
         "startLine": 84,
         "startChar": 84,
