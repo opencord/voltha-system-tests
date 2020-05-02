@@ -30,7 +30,7 @@ nodes:
 
 olts:
   -
-    ip: bbsim0
+    ip: bbsim
     serial: BBSIM_OLT_0
 
 hosts:
