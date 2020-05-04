@@ -50,6 +50,14 @@ ${logical_id}     0
 ${has_dataplane}    True
 ${teardown_device}    False
 ${scripts}        ../../scripts
+${tech_profile_name}        TechProfile-1T4GEM-bal31
+${tech_profile_path}    ../../tests/data/${tech_profile_name}.json
+${dhcp_mac}     52:54:00:a8:fa:45
+${rg_mac}    52:54:00:6e:c1:ae
+${dhcp_ip}    localhost
+${dhcp_user}    cord
+${dhcp_password}    cord
+${dhcp_server_iface}    enp2s0f1
 
 # For dataplane bandwidth testing
 ${upper_margin_pct}      105     # Allow 5% over the limit
@@ -560,6 +568,66 @@ Data plane verification using UDP
         ...    The downstream bandwidth guarantee was not met (${pct_limit_dn}% of resv)
     END
 
+Validate parsing of data traffic through voltha using tech profile
+    [Documentation]    Assuming that test1 was executed where all the ONUs are authenticated/DHCP/pingable
+    ...    Prerequisite tools : Tcpdump and Mausezahn traffic generator on both RG and DHCP/BNG VMs
+    ...    Install jq tool to read json file, where test suite is being running
+    ...    Make sure 9999 port is enabled or forwarded for both upsteam and downstream direction
+    ...    This test deletes existing tech profile, deletes devices, uploads given profile, create devices
+    ...    performs sanity, validates parsing of upstream, downstream traffic at DHCP and RG respectively
+    ...    deletes tech profile, deletes devices, recreate devices and performs sanity again
+    [Tags]    functional    TechProfile    sanity    VOL-2054
+    [Setup]    None
+    [Teardown]    None
+    ${rc}    ${output}=    Run and Return Rc and Output
+    ...    kubectl get pods | grep etcd | awk 'NR==1{print $1}'
+    Should Be Equal As Integers    ${rc}    0
+    ${etcd_cluster_pod}=    Set Variable    ${output}
+    ${rc}    ${output}=    Run and Return Rc and Output
+    ...    kubectl exec -i '${etcd_cluster_pod}' -- etcdctl del --prefix service/voltha/technology_profiles
+    Should Be Equal As Integers    ${rc}    0
+    Log    ${output}
+    Delete Device and Verify
+    ${cmd_copy_techprofile}=    Set Variable    cp ${tech_profile_path} .
+    ${rc}    ${output}=    Run and Return Rc and Output    ${cmd_copy_techprofile}
+    Should Be Equal As Integers    ${rc}    0
+    ${var1}=    Set Variable    jq -c . ${tech_profile_name}.json | kubectl exec -i ${etcd_cluster_pod}
+    ${var2}=    Set Variable    -- etcdctl put service/voltha/technology_profiles/XGS-PON/64
+    #{cmd}=    Set Variable    ${var1} ${var2}
+    ${rc}    ${output}=    Run and Return Rc and Output    ${cmd}
+    Should Be Equal As Integers    ${rc}    0
+    Log    ${output}
+    Should Contain    ${output}    OK
+    Setup
+    Run Keyword If    ${has_dataplane}    Clean Up Linux
+    Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test
+    FOR    ${I}    IN RANGE    0    ${num_onus}
+        ${src}=    Set Variable    ${hosts.src[${I}]}
+        ${dst}=    Set Variable    ${hosts.dst[${I}]}
+        ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
+        ${matches}=    Get Regexp Matches    ${output}    ([0-9]{1,3}[\.]){3}[0-9]{1,3}
+        Log    ${matches}
+        ${rg_ip}=    Get From List    ${matches}    0
+        Run Keyword If    ${has_dataplane}    Wait Until Keyword Succeeds    ${timeout}    2s
+        ...    Create upstream traffic with each pbit and capture at other end
+        ...    ${dst['dp_iface_ip_qinq']}    ${src['dp_iface_name']}
+        ...    ${rg_mac}    ${dhcp_mac}    0    udp    dp=9999    0    ${src['ip']}    ${src['user']}    ${src['pass']}
+        ...    ${src['container_type']}    ${src['container_name']}
+        Run Keyword If    ${has_dataplane}    Wait Until Keyword Succeeds    ${timeout}    2s
+        ...    Create downstream traffic with each pbit and capture at other end
+        ...    ${rg_ip}    ${src['dp_iface_name']}
+        ...    ${rg_mac}    ${dhcp_mac}    0    udp    dp=9999    0    ${src['ip']}    ${src['user']}    ${src['pass']}
+        ...    ${src['container_type']}    ${src['container_name']}
+    END
+    ${rc}    ${output}=    Run and Return Rc and Output
+    ...    kubectl exec -i '${etcd_cluster_pod}' -- etcdctl del --prefix service/voltha/technology_profiles
+    Should Be Equal As Integers    ${rc}    0
+    Delete Device and Verify
+    Setup
+    Run Keyword If    ${has_dataplane}    Clean Up Linux
+    Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test
+    Run Keyword and Ignore Error    Collect Logs
+
 *** Keywords ***
 Setup Suite
     [Documentation]    Set up the test suite
@@ -573,4 +641,3 @@ Clear All Devices Then Create New Device
     Delete All Devices and Verify
     # Execute normal test Setup Keyword
     Setup
-
