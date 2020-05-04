@@ -50,6 +50,14 @@ ${logical_id}     0
 ${has_dataplane}    True
 ${teardown_device}    False
 ${scripts}        ../../scripts
+${tech_profile_name}        TechProfile-1T4GEM-bal31
+${tech_profile_path}    ../../tests/data/${tech_profile_name}.json
+${dhcp_mac}     3c:fd:fe:d0:2b:21
+${rg_mac}    52:54:00:6e:c1:ae
+${dhcp_ip}    localhost
+${dhcp_user}    cord
+${dhcp_password}    cord
+${dhcp_server_iface}    enp2s0f1
 
 # For dataplane bandwidth testing
 ${upper_margin_pct}      105     # Allow 5% over the limit
@@ -560,6 +568,50 @@ Data plane verification using UDP
         ...    The downstream bandwidth guarantee was not met (${pct_limit_dn}% of resv)
     END
 
+Validate parsing of data traffic through voltha using tech profile
+    [Documentation]    Assuming that test1 was executed where all the ONUs are authenticated/DHCP/pingable
+    ...    Prerequisite tools : Tcpdump and Mausezahn traffic generator on both RG and DHCP/BNG VMs
+    ...    Install jq tool to read json file, where test suite is being running
+    ...    Make sure 9999 port is enabled or forwarded for both upsteam and downstream direction
+    ...    This test sends UDP packets on port 9999 with pbits between 0 and 7 and validates that
+    ...    the pbits are preserved by the PON.
+    [Tags]    functional    TechProfile    sanity    VOL-2054
+    [Setup]    Setup
+    [Teardown]    Collect Logs
+    Pass Execution If   '${has_dataplane}'=='False'    Technology profile validation can be done only in
+    ...    physical pod.  Skipping this test in BBSIM.
+    # Check that tools are installed on the BNG
+    ${stdout}    ${stderr}    ${rc}=    Execute Remote Command    which mausezahn tcpdump
+    ...    ${dhcp_ip}    ${dhcp_user}    ${dhcp_password}
+    Pass Execution If    ${rc} != 0    Skipping test: mausezahn / tcpdump not found on the BNG
+
+    Run Keyword If    ${has_dataplane}    Clean Up Linux
+    Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test
+    FOR    ${I}    IN RANGE    0    ${num_onus}
+        ${src}=    Set Variable    ${hosts.src[${I}]}
+        ${dst}=    Set Variable    ${hosts.dst[${I}]}
+
+        # Check that tools are installed on the RG
+        ${stdout}    ${stderr}    ${rc}=    Execute Remote Command    which mausezahn tcpdump
+        ...    ${src['ip']}    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
+        Pass Execution If    ${rc} != 0    Skipping test: mausezahn / tcpdump not found on the RG
+
+        ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
+        ${matches}=    Get Regexp Matches    ${output}    ([0-9]{1,3}[\.]){3}[0-9]{1,3}
+        Log    ${matches}
+        ${rg_ip}=    Get From List    ${matches}    0
+        Run Keyword If    ${has_dataplane}    Wait Until Keyword Succeeds    ${timeout}    2s
+        ...    Create upstream traffic with each pbit and capture at other end
+        ...    ${dst['dp_iface_ip_qinq']}    ${dhcp_server_iface}.${src['s_tag']}.${src['c_tag']}    ${src['dp_iface_name']}
+        ...    ${rg_mac}    ${dhcp_mac}    0    udp    dp=9999    0    ${src['ip']}    ${src['user']}    ${src['pass']}
+        ...    ${src['container_type']}    ${src['container_name']}
+        Run Keyword If    ${has_dataplane}    Wait Until Keyword Succeeds    ${timeout}    2s
+        ...    Create downstream traffic with each pbit and capture at other end
+        ...    ${rg_ip}    ${src['dp_iface_name']}
+        ...    ${rg_mac}    ${dhcp_mac}    0    udp    dp=9999    0    ${src['ip']}    ${src['user']}    ${src['pass']}
+        ...    ${src['container_type']}    ${src['container_name']}
+    END
+
 *** Keywords ***
 Setup Suite
     [Documentation]    Set up the test suite
@@ -573,4 +625,3 @@ Clear All Devices Then Create New Device
     Delete All Devices and Verify
     # Execute normal test Setup Keyword
     Setup
-
