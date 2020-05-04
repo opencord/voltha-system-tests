@@ -61,7 +61,7 @@ Verify ONU after Rebooting Physically for DT
     ...    Assuming that all the ONUs are DHCP/pingable (i.e. assuming sanityDt test was executed)
     ...    Test case runs only on the PODs that are configured with PowerSwitch that
     ...    controls the power off/on ONUs/OLT remotely (simulating a physical reboot)
-    [Tags]    functionalDt    PowerSwitchOnuRebootDt    VOL-2819    PowerSwitch
+    [Tags]    functionalDt    PowerSwitchOnuRebootDt    VOL-2819    PowerSwitch    notready
     [Setup]    Start Logging    RebootOnu_PowerSwitch_Dt
     [Teardown]    Run Keywords    Collect Logs
     ...           AND             Stop Logging    RebootOnu_PowerSwitch_Dt
@@ -77,20 +77,31 @@ Verify ONU after Rebooting Physically for DT
         ${dst}=    Set Variable    ${hosts.dst[${I}]}
         ${onu_port}=    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
         ...    Get ONU Port in ONOS    ${src['onu']}    ${of_id}
+        # Disable Power Switch
         Disable Switch Outlet    ${src['power_switch_port']}
         Run Keyword If    ${has_dataplane}    Run Keyword And Continue On Failure
         ...    Wait Until Keyword Succeeds    60s    2s
         ...    Check Ping    False    ${dst['dp_iface_ip_qinq']}    ${src['dp_iface_name']}
         ...    ${src['ip']}    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
-
+        # Remove Subscriber Access (To replicate DT workflow)
+        Wait Until Keyword Succeeds    ${timeout}    2s    Execute ONOS CLI Command    ${ONOS_SSH_IP}
+        ...    ${ONOS_SSH_PORT}    volt-remove-subscriber-access ${of_id} ${onu_port}
+        # Delete ONU Device (To replicate DT workflow)
+        Delete Device    ${onu_device_id}
+        Sleep    5s
+        # Enable Power Switch
         Enable Switch Outlet    ${src['power_switch_port']}
+        ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
         # Check ONU port is Enabled in ONOS
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds   120s   2s
         ...    Verify ONU Port Is Enabled   ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${onu_port}
+        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2
+        ...    Execute ONOS CLI Command    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}
+        ...    volt-add-subscriber-access ${of_id} ${onu_port}
         # Verify ONU state in voltha
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s    Validate Device
         ...    ENABLED    ACTIVE    REACHABLE
-        ...    ${src['onu']}    onu=True    onu_reason=discovery-mibsync-complete
+        ...    ${src['onu']}    onu=True    onu_reason=omci-flows-pushed
         # Verify subscriber access flows are added for the ONU port
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
         ...    Verify Subscriber Access Flows Added For ONU DT    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${of_id}
