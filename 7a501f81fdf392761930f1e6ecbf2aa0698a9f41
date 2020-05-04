@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1b761df5_889296ba",
+        "filename": "tests/functional/Voltha_FailureScenarios.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1000514
+      },
+      "writtenOn": "2020-05-04T15:55:49Z",
+      "side": 1,
+      "message": "To add keyword: \"Validate Subscriber DHCP Allocation\"",
+      "revId": "7a501f81fdf392761930f1e6ecbf2aa0698a9f41",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    }
+  ]
+}
