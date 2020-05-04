@@ -83,6 +83,9 @@ Verify ONU after rebooting physically
         ...    Wait Until Keyword Succeeds    60s    2s
         ...    Check Ping    False    ${dst['dp_iface_ip_qinq']}    ${src['dp_iface_name']}
         ...    ${src['ip']}    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
+        # Remove Subscriber Access (To replicate ATT workflow)
+        Wait Until Keyword Succeeds    ${timeout}    2s    Execute ONOS CLI Command    ${ONOS_SSH_IP}
+        ...    ${ONOS_SSH_PORT}    volt-remove-subscriber-access ${of_id} ${onu_port}
 
         Enable Switch Outlet    ${src['power_switch_port']}
         # Check ONU port is Enabled in ONOS
@@ -95,14 +98,32 @@ Verify ONU after rebooting physically
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s    Validate Device
         ...    ENABLED    ACTIVE    REACHABLE
         ...    ${src['onu']}    onu=True    onu_reason=omci-flows-pushed
+        # Perform Authentication
+        ${wpa_log}=    Run Keyword If    ${has_dataplane}    Catenate    SEPARATOR=.
+        ...    /tmp/wpa    ${src['dp_iface_name']}    log
+        Run Keyword If    ${has_dataplane}    Run Keyword And Continue On Failure    Validate Authentication    True
+        ...    ${src['dp_iface_name']}    wpa_supplicant.conf    ${src['ip']}    ${src['user']}    ${src['pass']}
+        ...    ${src['container_type']}    ${src['container_name']}    ${wpa_log}
+        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2
+        ...    Verify ONU in AAA-Users    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${onu_port}
+        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2
+        ...    Execute ONOS CLI Command    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}
+        ...    volt-add-subscriber-access ${of_id} ${onu_port}
+        # Verify that no pending flows exist for the ONU port
+        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
+        ...    Verify No Pending Flows For ONU    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${onu_port}
         # Verify subscriber access flows are added for the ONU port
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
         ...    Verify Subscriber Access Flows Added For ONU    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${of_id}
         ...    ${onu_port}    ${nni_port}    ${src['c_tag']}    ${src['s_tag']}
-        Run Keyword If    ${has_dataplane}    Run Keyword And Continue On Failure
-        ...    Wait Until Keyword Succeeds    60s    2s
-        ...    Check Ping    True    ${dst['dp_iface_ip_qinq']}    ${src['dp_iface_name']}
+        Run Keyword If    ${has_dataplane}    Run Keyword And Continue On Failure    Validate DHCP and Ping    True
+        ...    True    ${src['dp_iface_name']}    ${src['s_tag']}    ${src['c_tag']}    ${dst['dp_iface_ip_qinq']}
         ...    ${src['ip']}    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
+        ...    ${dst['dp_iface_name']}    ${dst['ip']}    ${dst['user']}    ${dst['pass']}    ${dst['container_type']}
+        ...    ${dst['container_name']}
+        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
+        ...    Validate Subscriber DHCP Allocation    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${onu_port}
+        Run Keyword and Ignore Error    Get Device Output from Voltha    ${onu_device_id}
         Run Keyword And Ignore Error    Collect Logs
     END
     # Deleting OLT after tests completes independently (as this test doesn't not run on each POD)
