@@ -292,7 +292,7 @@ Test Disable and Enable OLT for DT
         Run Keyword If    ${has_dataplane}
         ...    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    60s    2s
         ...    Check Ping    True    ${dst['dp_iface_ip_qinq']}    ${src['dp_iface_name']}
-        ...    ${src['ip']}    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}}
+        ...    ${src['ip']}    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
         Run Keyword and Ignore Error   Collect Logs
     END
     # Verify ONOS Flows
