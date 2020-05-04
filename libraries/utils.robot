@@ -540,6 +540,26 @@ Execute Remote Command
     SSHLibrary.Close Connection
     [Return]    ${stdout}    ${stderr}    ${rc}
 
+Start Remote Command
+    [Documentation]    SSH into a remote host and execute a command on the bare host or in a container.
+    ...    This replaces and simplifies the Login And Run Command On Remote System keyword in CORDRobot.
+    [Arguments]    ${cmd}    ${ip}    ${user}    ${pass}=${None}
+    ...    ${container_type}=${None}    ${container_name}=${None}
+    ${conn_id}=    SSHLibrary.Open Connection    ${ip}
+    Run Keyword If    '${pass}' != '${None}'
+    ...    SSHLibrary.Login    ${user}    ${pass}
+    ...    ELSE
+    ...    SSHLibrary.Login With Public Key    ${user}    %{HOME}/.ssh/id_rsa
+    ${namespace}=    Run Keyword If    '${container_type}' == 'K8S'    SSHLibrary.Execute Command
+    ...    kubectl get pods --all-namespaces | grep ${container_name} | awk '{print $1}'
+    Run Keyword If    '${container_type}' == 'LXC'
+    ...        SSHLibrary.Start Command    lxc exec ${container_name} -- ${cmd}
+    ...    ELSE IF    '${container_type}' == 'K8S'
+    ...        SSHLibrary.Start Command    kubectl -n ${namespace} exec ${container_name} -- ${cmd}
+    ...    ELSE
+    ...        SSHLibrary.Start Command    ${cmd}
+    SSHLibrary.Close Connection
+
 Run Iperf3 Test Client
     [Arguments]    ${src}    ${server}    ${args}
     [Documentation]    Login to ${src} and run the iperf3 client against ${server} using ${args}.
@@ -549,7 +569,6 @@ Run Iperf3 Test Client
     Should Be Equal As Integers    ${rc}    0
     ${object}=    Evaluate    json.loads(r'''${output}''')    json
     [Return]    ${object}
-
 
 RestoreONUs
     [Documentation]    Restore all connected ONUs
@@ -581,3 +600,30 @@ AlphaONURestoreDefault
     Log To Console    ${output}
     ${output}=    Login And Run Command On Remote System    sudo ifconfig ${onu_ifname} 0
     ...    ${rg_ip}    ${rg_user}    ${rg_pass}    ${container_type}    ${container_name}
+
+Create traffic with each pbit and capture at other end
+    [Documentation]    Generates upstream traffic using Mausezahn tool
+    ...    with each pbit and validates reception at other end using tcpdump
+    [Arguments]    ${target_ip}    ${target_iface}    ${src_iface}
+    ...    ${packet_count}    ${packet_type}    ${target_port}    ${vlan}    ${tcpdump_filter}
+    ...    ${dst_ip}    ${dst_user}    ${dst_pass}    ${dst_container_type}    ${dst_container_name}
+    ...    ${src_ip}    ${src_user}    ${src_pass}    ${src_container_type}    ${src_container_name}
+    FOR    ${pbit}    IN RANGE    8
+        Execute Remote Command    sudo pkill -2 mausezahn
+        ...    ${src_ip}    ${src_user}    ${src_pass}    ${src_container_type}    ${src_container_name}
+        ${var1}=    Set Variable    sudo mausezahn ${src_iface} -B ${target_ip} -c ${packet_count}
+        ${var2}=    Set Variable    -t ${packet_type} "dp=${target_port}" -p 1472 -Q ${pbit}:${vlan}
+        ${cmd}=    Set Variable    ${var1} ${var2}
+        Start Remote Command    ${cmd}    ${src_ip}    ${src_user}    ${src_pass}
+        ...    ${src_container_type}    ${src_container_name}
+        ${output}    ${stderr}    ${rc}=    Execute Remote Command
+        ...    timeout 30 sudo tcpdump -l -U -c 30 -i ${target_iface} -e ${tcpdump_filter}
+        ...    ${dst_ip}    ${dst_user}    ${dst_pass}    ${dst_container_type}    ${dst_container_name}
+        Execute Remote Command    sudo pkill -2 mausezahn
+        ...    ${src_ip}    ${src_user}    ${src_pass}    ${src_container_type}    ${src_container_name}
+        # VOL-3262:  I'm seeing untagged downstream traffic at RG for pbit 0.  According to Girish this is
+        # incorrect behavior.  Simplify the following check when VOL-3262 is resolved.
+        Run Keyword If    ${pbit}==0 and "${tcpdump_filter}"=="udp"
+        ...    Should Match Regexp    ${output}    \\.${target_port}: UDP,
+        ...    ELSE    Should Match Regexp    ${output}    , p ${pbit},.*\\.${target_port}: UDP,
+    END
