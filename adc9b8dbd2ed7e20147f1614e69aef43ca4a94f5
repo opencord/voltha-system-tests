@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bb1e04cb_b35d4ccf",
+        "filename": "tests/functional/Voltha_PODTests.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1000514
+      },
+      "writtenOn": "2020-05-04T12:38:26Z",
+      "side": 1,
+      "message": "Remove from here as well..",
+      "range": {
+        "startLine": 115,
+        "startChar": 119,
+        "endLine": 115,
+        "endChar": 120
+      },
+      "revId": "adc9b8dbd2ed7e20147f1614e69aef43ca4a94f5",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    }
+  ]
+}
