@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "15ed0e31_1b090ac9",
+        "filename": "libraries/onos.robot",
+        "patchSetId": 5
+      },
+      "lineNbr": 306,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2020-05-04T07:45:52Z",
+      "side": 1,
+      "message": "there are a few places where Execute ONOS CLI Command    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}\n        ...    volt-add-subscriber-access ${of_id} ${onu_port}\nis run.\nEspecially Perform Sanity Test and Perform Sanity Test DT. I\u0027d say we reuse this keyword there.",
+      "range": {
+        "startLine": 302,
+        "startChar": 0,
+        "endLine": 306,
+        "endChar": 66
+      },
+      "revId": "4ea818ada10e123d186676f90b062b2f96d3dfeb",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "252c2345_b747ca79",
+        "filename": "libraries/onos.robot",
+        "patchSetId": 5
+      },
+      "lineNbr": 323,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2020-05-04T07:45:52Z",
+      "side": 1,
+      "message": "can this maybe be combined with `Get ONU Port in ONOS` ?",
+      "range": {
+        "startLine": 308,
+        "startChar": 0,
+        "endLine": 323,
+        "endChar": 37
+      },
+      "revId": "4ea818ada10e123d186676f90b062b2f96d3dfeb",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8916eb56_15a8460d",
+        "filename": "libraries/onos.robot",
+        "patchSetId": 5
+      },
+      "lineNbr": 341,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2020-05-04T07:45:52Z",
+      "side": 1,
+      "message": "id\u0027 substitute with 4 spaces",
+      "range": {
+        "startLine": 341,
+        "startChar": 12,
+        "endLine": 341,
+        "endChar": 13
+      },
+      "revId": "4ea818ada10e123d186676f90b062b2f96d3dfeb",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6b39a26c_aabd09dd",
+        "filename": "tests/scale/Voltha_Scale_Tests.robot",
+        "patchSetId": 5
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2020-05-04T07:45:52Z",
+      "side": 1,
+      "message": "as per comment in the document I\u0027d add the workflow parameter here",
+      "range": {
+        "startLine": 62,
+        "startChar": 0,
+        "endLine": 62,
+        "endChar": 9
+      },
+      "revId": "4ea818ada10e123d186676f90b062b2f96d3dfeb",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "711969c5_43ecbd28",
+        "filename": "tests/scale/extract-times.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2020-05-04T07:45:52Z",
+      "side": 1,
+      "message": "after this I\u0027d add a \"s\" string to clarify that we are operating in seconds.",
+      "range": {
+        "startLine": 41,
+        "startChar": 100,
+        "endLine": 41,
+        "endChar": 112
+      },
+      "revId": "4ea818ada10e123d186676f90b062b2f96d3dfeb",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    }
+  ]
+}
