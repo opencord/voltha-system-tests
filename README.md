@@ -161,6 +161,29 @@ For more information on various environment variables with `./voltha up` please
 check the link
 [here](https://github.com/ciena/kind-voltha/blob/master/README.md)
 
+### Dataplane test prerequisites
+
+The dataplane tests evaluate whether bandwidth and tech profiles are working as expected.
+These tests will only run on a physical pod.  In order to run them it is required to manually install
+some additional software on the POD hosts that emulate the RG and BNG.
+
+On the RG hosts:
+* Install `iperf3` version 3.7, available here: https://software.es.net/iperf/
+* Install `jq`: `sudo apt install jq`
+* Install `mausezahn`: `sudo apt install netsniff-ng`
+* Ensure that the following commands can be run as `sudo` with no password: `tcpdump`, `mausezahn`, `pkill`
+
+On the BNG host:
+* Install `iperf3` version 3.7, available here: https://software.es.net/iperf/
+* Run `iperf3` in server mode in the background: `iperf3 --server -D`
+* Install `jq`: `sudo apt install jq`
+* Install `mausezahn`: `sudo apt install netsniff-ng`
+* Ensure that the following commands can be run as `sudo` with no password: `tcpdump`, `mausezahn`, `pkill`
+
+In the POD's deployment config file, specify login information for the BNG host using the `noroot_ip`, `noroot_user`,
+and `noroot_pass` options.  See the [Tucson pod's config](https://github.com/opencord/pod-configs/blob/master/deployment-configs/tucson-pod.yaml)
+for an example.
+
 ## Functional Testcases
 
 All functional test cases are placed under `functional` folder.
