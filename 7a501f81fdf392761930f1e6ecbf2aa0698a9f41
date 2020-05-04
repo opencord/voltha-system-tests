@@ -2,6 +2,98 @@
   "comments": [
     {
       "key": {
+        "uuid": "3db1de51_0b794107",
+        "filename": "tests/dt-workflow/Voltha_DT_FailureScenarios.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2020-05-04T15:56:40Z",
+      "side": 1,
+      "message": "I think this can be left as ready",
+      "range": {
+        "startLine": 64,
+        "startChar": 83,
+        "endLine": 64,
+        "endChar": 91
+      },
+      "revId": "7a501f81fdf392761930f1e6ecbf2aa0698a9f41",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7e35527b_cc1d54cc",
+        "filename": "tests/functional/Voltha_FailureScenarios.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2020-05-04T15:56:40Z",
+      "side": 1,
+      "message": "again, leave as ready",
+      "range": {
+        "startLine": 65,
+        "startChar": 42,
+        "endLine": 65,
+        "endChar": 50
+      },
+      "revId": "7a501f81fdf392761930f1e6ecbf2aa0698a9f41",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1741f95e_0fd3774d",
+        "filename": "tests/functional/Voltha_FailureScenarios.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2020-05-04T15:56:40Z",
+      "side": 1,
+      "message": "I think before this you have to clean the data plane with that specific keyword",
+      "range": {
+        "startLine": 101,
+        "startChar": 8,
+        "endLine": 101,
+        "endChar": 32
+      },
+      "revId": "7a501f81fdf392761930f1e6ecbf2aa0698a9f41",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f753beea_27d2a64b",
+        "filename": "tests/functional/Voltha_FailureScenarios.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2020-05-04T15:56:40Z",
+      "side": 1,
+      "message": "before this I think you need to add DHCP check",
+      "range": {
+        "startLine": 112,
+        "startChar": 8,
+        "endLine": 112,
+        "endChar": 61
+      },
+      "revId": "7a501f81fdf392761930f1e6ecbf2aa0698a9f41",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1b761df5_889296ba",
         "filename": "tests/functional/Voltha_FailureScenarios.robot",
         "patchSetId": 2
