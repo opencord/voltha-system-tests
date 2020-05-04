@@ -521,7 +521,6 @@ Execute Remote Command
     ...        return_stderr=True    return_rc=True
     ...    ELSE
     ...        SSHLibrary.Execute Command    ${cmd}    return_stderr=True    return_rc=True
-
     Log    ${stdout}
     Log    ${stderr}
     Log    ${rc}
@@ -537,7 +536,6 @@ Run Iperf3 Test Client
     Should Be Equal As Integers    ${rc}    0
     ${object}=    Evaluate    json.loads(r'''${output}''')    json
     [Return]    ${object}
-
 
 RestoreONUs
     [Documentation]    Restore all connected ONUs
@@ -569,3 +567,61 @@ AlphaONURestoreDefault
     Log To Console    ${output}
     ${output}=    Login And Run Command On Remote System    sudo ifconfig ${onu_ifname} 0
     ...    ${rg_ip}    ${rg_user}    ${rg_pass}    ${container_type}    ${container_name}
+
+Create traffic with each pbit and capture at other end
+    [Documentation]    Generates upstream traffic using Mausezahn tool
+    ...    with each pbit and validates reception at other end using tcpdump
+    [Arguments]    ${target_ip}    ${target_iface}    ${src_iface}
+    ...    ${packet_count}    ${packet_type}    ${target_port}    ${vlan}    ${tcpdump_filter}
+    ...    ${dst_ip}    ${dst_user}    ${dst_pass}    ${dst_container_type}    ${dst_container_name}
+    ...    ${src_ip}    ${src_user}    ${src_pass}    ${src_container_type}    ${src_container_name}
+    FOR    ${pbit}    IN RANGE    8
+        Execute Remote Command    pkill -2 mausezahn
+        ...    ${src_ip}    ${src_user}    ${src_pass}    ${src_container_type}    ${src_container_name}
+        Sleep    10s
+        ${var1}=    Set Variable    mausezahn ${src_iface} -B ${target_ip}
+        ${var2}=    Set Variable    -c ${packet_count} -t ${packet_type} "${target_port}" -p 1472 -Q ${pbit}:${vlan} &
+        ${cmd}=    Set Variable    ${var1} ${var2}
+        ${output}    ${stderr}    ${rc}=    Execute Remote Command
+        ...    ${cmd}    ${src_ip}    ${src_user}    ${src_pass}    ${src_container_type}    ${src_container_name}
+        ${output}    ${stderr}    ${rc}=    Execute Remote Command
+        ...    timeout 30 sudo tcpdump -l -U -c 30 -i ${target_iface} -e ${tcpdump_filter}
+        ...    ${dst_ip}    ${dst_user}    ${dst_pass}    ${dst_container_type}    ${dst_container_name}
+        Execute Remote Command    pkill -2 mausezahn
+        ...    ${src_ip}    ${src_user}    ${src_pass}    ${src_container_type}    ${src_container_name}
+        # With pbit 0, dowstream traffic may have VLAN header stripped by ONU.  Other pbits have VLAN 0 header.
+        Run Keyword If    ${pbit}==0 and ${tcpdump_filter}=="udp"
+        ...    Should Match Regexp    ${output}    \\.${target_port}: UDP,
+        ...    ELSE    Should Match Regexp    ${output}    , p ${pbit},.*\\.${target_port}: UDP,
+    END
+
+Create downstream traffic with each pbit and capture at other end
+    [Documentation]    Generates downstream traffic (DHCP to RG) using Mausezahn tool
+    ...    with each pbit and validates reception at other end (RG) using tcpdump in a loop
+    [Arguments]    ${dst_ip}    ${iface}    ${src_mac}    ${dst_mac}    ${packet_count}    ${packet_type}
+    ...    ${dst_port}    ${vlan}    ${ip}    ${user}
+    ...    ${pass}=${None}    ${container_type}=${None}    ${container_name}=${None}
+    FOR    ${j}    IN RANGE    8
+        ${output}=    Login And Run Command On Remote System    pid=$(ps -e | pgrep tcpdump);echo $pid;kill -2 $pid
+        ...    ${ip}    ${user}    ${pass}    ${container_type}    ${container_name}
+        Sleep    180s
+        ${output}=    Login And Run Command On Remote System    pid=$(ps -e | pgrep mausezahn);echo $pid;kill -2 $pid
+        ...    ${dhcp_ip}    ${dhcp_user}    ${dhcp_password}    ${None}    ${None}
+        Sleep    180s
+        ${var1}=    Set Variable    mausezahn ${dhcp_server_iface} -B ${dst_ip} -a ${dst_mac} -b ${src_mac}
+        ${var2}=    Set Variable    -c ${packet_count} -t ${packet_type} "${dst_port}" -p 1472 -Q ${j}:${vlan} &
+        ${cmd}=    ${var1} ${var2}
+        ${output}=    Login And Run Command On Remote System
+        ...    ${cmd}    ${dhcp_ip}    ${dhcp_user}    ${dhcp_password}    ${None}    ${None}
+        Sleep    45s
+        ${output}=    Login And Run Command On Remote System
+        ...    rm -rf /tmp/capture.pcap;tcpdump -l -U -c 30 -w /tmp/capture.pcap -i ${iface} -e vlan &sleep 10
+        ...    ${ip}    ${user}    ${pass}    ${container_type}    ${container_name}
+        Sleep    60s
+        ${output}=    Login And Run Command On Remote System    tcpdump -r /tmp/capture.pcap
+        ...    ${ip}    ${user}    ${pass}    ${container_type}    ${container_name}
+        Should Contain    ${output}    .9999
+        ${output}=    Login And Run Command On Remote System    pid=$(ps -e | pgrep mausezahn);echo $pid;kill -2 $pid
+        ...    ${dhcp_ip}    ${dhcp_user}    ${dhcp_password}    ${None}    ${None}
+        Sleep    20s
+    END
