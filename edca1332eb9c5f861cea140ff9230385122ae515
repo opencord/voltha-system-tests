@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2a170041_5dfbac8c",
+        "filename": "tests/functional/Voltha_FailureScenarios.robot",
+        "patchSetId": 3
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2020-05-05T13:05:48Z",
+      "side": 1,
+      "message": "you might want to run\nRun Keyword If    ${has_dataplane}    Clean Up Linux before this",
+      "revId": "edca1332eb9c5f861cea140ff9230385122ae515",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    }
+  ]
+}
