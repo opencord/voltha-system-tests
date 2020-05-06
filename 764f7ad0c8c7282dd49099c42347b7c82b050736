@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "68f4610b_980b2f79",
+        "filename": "tests/functional/Voltha_multipleOLTTests.robot",
+        "patchSetId": 16
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1000064
+      },
+      "writtenOn": "2020-05-06T23:51:37Z",
+      "side": 1,
+      "message": "It\u0027s best to update the existing \"Common Test Suite Setup\" keyword in \"libraries/utils.robot\" file incorporate for multiple OLTs.",
+      "range": {
+        "startLine": 67,
+        "startChar": 0,
+        "endLine": 67,
+        "endChar": 11
+      },
+      "revId": "764f7ad0c8c7282dd49099c42347b7c82b050736",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    }
+  ]
+}
