@@ -71,7 +71,7 @@ Test Disable and Enable OLT
     ...    Assuming that test1 was executed where all the ONUs are authenticated/DHCP/pingable
     ...    Perform disable on the OLT and validate that the pings do not succeed
     ...    Perform enable on the OLT and validate that the pings are successful
-    [Tags]    functional    VOL-2410    DisableEnableOLT    notready
+    [Tags]    functional    VOL-2410    DisableEnableOLT
     [Setup]    Start Logging    DisableEnableOLT
     [Teardown]    Run Keywords    Collect Logs
     ...           AND             Stop Logging    DisableEnableOLT
