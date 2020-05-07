@@ -96,6 +96,7 @@ node ("${TestNodeName}") {
                     if [[ "${workFlow}" == "DT" ]]; then
                        JENKINS_NODE_COOKIE=dontKillMe NUM_OF_OPENONU=${NumOfOpenOnu} NUM_OF_ONOS=${NumOfOnos} NUM_OF_ATOMIX=${NumOfAtomix} ONOS_SSH_PORT=30115 ONOS_API_PORT=30120 VOLTHA_LOG_LEVEL=DEBUG WITH_SIM_ADAPTERS=n WITH_TP=yes DEPLOY_K8S=no INSTALL_KUBECTL=no INSTALL_HELM=no WITH_EAPOL=no WITH_DHCP=no WITH_IGMP=no WITH_RADIUS=no FANCY=0 ./voltha up
                     else
+                       helm upgrade --install hostpath-provisioner --namespace kube-system rimusz/hostpath-provisioner
                        JENKINS_NODE_COOKIE=dontKillMe NUM_OF_OPENONU=${NumOfOpenOnu} NUM_OF_ONOS=${NumOfOnos} NUM_OF_ATOMIX=${NumOfAtomix} ONOS_SSH_PORT=30115 ONOS_API_PORT=30120 VOLTHA_LOG_LEVEL=DEBUG WITH_SIM_ADAPTERS=n WITH_RADIUS=y WITH_TP=yes DEPLOY_K8S=no INSTALL_KUBECTL=no INSTALL_HELM=no FANCY=0 ./voltha up
                     fi
 
