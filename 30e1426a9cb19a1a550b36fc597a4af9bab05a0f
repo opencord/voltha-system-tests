@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "78730559_0fcc0661",
+        "filename": "tests/openonu-go-adapter/Voltha_ONUStateTests.robot",
+        "patchSetId": 12
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1000514
+      },
+      "writtenOn": "2020-05-07T17:10:10Z",
+      "side": 1,
+      "message": "Suggestion: Make this \"True\" to cleanup (Teardown) the system at the end of the suite run..",
+      "range": {
+        "startLine": 37,
+        "startChar": 22,
+        "endLine": 37,
+        "endChar": 27
+      },
+      "revId": "30e1426a9cb19a1a550b36fc597a4af9bab05a0f",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a953afc4_974c858d",
+        "filename": "tests/openonu-go-adapter/Voltha_ONUStateTests.robot",
+        "patchSetId": 12
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1000514
+      },
+      "writtenOn": "2020-05-07T17:10:10Z",
+      "side": 1,
+      "message": "Suggestion: How about making this a new TC?",
+      "range": {
+        "startLine": 57,
+        "startChar": 37,
+        "endLine": 57,
+        "endChar": 54
+      },
+      "revId": "30e1426a9cb19a1a550b36fc597a4af9bab05a0f",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "49ce2e89_56a1d45b",
+        "filename": "tests/openonu-go-adapter/Voltha_ONUStateTests.robot",
+        "patchSetId": 12
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1000514
+      },
+      "writtenOn": "2020-05-07T17:10:10Z",
+      "side": 1,
+      "message": "I don\u0027t see this keyword getting used anywhere here..",
+      "range": {
+        "startLine": 82,
+        "startChar": 0,
+        "endLine": 82,
+        "endChar": 40
+      },
+      "revId": "30e1426a9cb19a1a550b36fc597a4af9bab05a0f",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    }
+  ]
+}
