@@ -2,6 +2,52 @@
   "comments": [
     {
       "key": {
+        "uuid": "e843034f_ad17234e",
+        "filename": "libraries/onos.robot",
+        "patchSetId": 16
+      },
+      "lineNbr": 271,
+      "author": {
+        "id": 1000514
+      },
+      "writtenOn": "2020-05-07T17:14:58Z",
+      "side": 1,
+      "message": "Indentation..",
+      "range": {
+        "startLine": 271,
+        "startChar": 0,
+        "endLine": 271,
+        "endChar": 1
+      },
+      "revId": "764f7ad0c8c7282dd49099c42347b7c82b050736",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0e0feab6_c607f3c6",
+        "filename": "tests/functional/Voltha_multipleOLTTests.robot",
+        "patchSetId": 16
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1000514
+      },
+      "writtenOn": "2020-05-07T17:14:58Z",
+      "side": 1,
+      "message": "Global comment: Indentation needs a fix at most of the places in the file..",
+      "range": {
+        "startLine": 51,
+        "startChar": 0,
+        "endLine": 51,
+        "endChar": 2
+      },
+      "revId": "764f7ad0c8c7282dd49099c42347b7c82b050736",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "68f4610b_980b2f79",
         "filename": "tests/functional/Voltha_multipleOLTTests.robot",
         "patchSetId": 16
