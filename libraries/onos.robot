@@ -22,6 +22,7 @@ Library           Process
 Library           Collections
 Library           RequestsLibrary
 Library           OperatingSystem
+Resource          ./flows.robot
 
 *** Keywords ***
 Validate OLT Device in ONOS
@@ -358,7 +359,9 @@ Count ADDED flows
 Wait for all flows to in ADDED state
     [Documentation]  Waits until the flows have been provisioned
     [Arguments]  ${onos_ip}    ${onos_port}     ${workflow}    ${uni_count}    ${olt_count}    ${provisioned}
+    ...     ${withEapol}    ${withDhcp}     ${withIgmp}
     ${targetFlows}=     Calculate flows by workflow     ${workflow}    ${uni_count}    ${olt_count}     ${provisioned}
+    ...     ${withEapol}    ${withDhcp}     ${withIgmp}
     Wait Until Keyword Succeeds     10m     5s      Count ADDED flows
     ...     ${onos_ip}    ${onos_port}  ${targetFlows}
 

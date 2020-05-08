@@ -49,7 +49,7 @@ Library           ../../libraries/DependencyLibrary.py
 Resource          ../../libraries/onos.robot
 Resource          ../../libraries/voltctl.robot
 Resource          ../../libraries/voltha.robot
-Resource          ../../libraries/utils.robot
+Resource          ../../libraries/flows.robot
 Resource          ../../libraries/k8s.robot
 Resource          ../../variables/variables.robot
 
@@ -67,8 +67,9 @@ ${enableFlowProvisioning}   true
 ${enableSubscriberProvisioning}     true
 
 ${workflow}     att
-#${flowsBeforeProvisioning}  1
-#${flowsAfterProvisioning}  1
+${withEapol}    false
+${withDhcp}    false
+${withIgmp}    false
 
 # Per-test logging on failure is turned off by default; set this variable to enable
 ${container_log_dir}    ${None}
@@ -80,7 +81,7 @@ Create and Enable devices
     [Tags]      setup
     ${olt_device_ids}=      Create List
     FOR    ${INDEX}    IN RANGE    0    ${olt}
-        ${olt_device_id}=    Create Device  bbsim${INDEX}     50060     openolt     0f:f1:ce:c${INDEX}:ff:ee
+        ${olt_device_id}=    Create Device  bbsim${INDEX}     50060     openolt
         Enable Device    ${olt_device_id}
         Append To List  ${olt_device_ids}    ${olt_device_id}
     END
@@ -98,19 +99,20 @@ Port Discovery in ONOS
     Wait for Ports in ONOS      ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}  ${total_onus}   BBSM
 
 Flows validation in VOLTHA before subscriber provisioning
-    [Documentation]    Check that all the flows has been acknowledged
+    [Documentation]    Check that all the flows has been stored in the logical device
     [Tags]      non-critical    flow-before   plot-voltha-flows-before
     # NOTE fail the test immediately if we're trying to check flows without provisioning them
     Should Be Equal   ${enableFlowProvisioning}     true
     Wait for Logical Devices flows   ${workflow}    ${total_onus}    ${olt}    false
+    ...     ${withEapol}    ${withDhcp}     ${withIgmp}
 
 Flows validation in ONOS before subscriber provisioning
-    [Documentation]    Check that all the flows has been stored in the logical device
+    [Documentation]    Check that all the flows has been acknowledged
     [Tags]      non-critical    flow-before   plot-onos-flows-before
     # NOTE fail the test immediately if we're trying to check flows without provisioning them
     Should Be Equal   ${enableFlowProvisioning}     true
     Wait for all flows to in ADDED state    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}
-    ...     ${workflow}    ${total_onus}    ${olt}    false
+    ...     ${workflow}    ${total_onus}    ${olt}    false     ${withEapol}    ${withDhcp}     ${withIgmp}
 
 Wait for subscribers to be Authenticated
     [Documentation]    Check that all subscribers have successfully authenticated
@@ -132,6 +134,7 @@ Flows validation in VOLTHA after subscriber provisioning
     # NOTE fail the test immediately if we're trying to check flows without provisioning them
     Should Be Equal   ${enableFlowProvisioning}     true
     Wait for Logical Devices flows   ${workflow}    ${total_onus}    ${olt}    true
+    ...     ${withEapol}    ${withDhcp}     ${withIgmp}
 
 Flows validation in ONOS after subscriber provisioning
     [Documentation]    Check that all the flows has been acknowledged
@@ -139,7 +142,7 @@ Flows validation in ONOS after subscriber provisioning
     # NOTE fail the test immediately if we're trying to check flows without provisioning them
     Should Be Equal   ${enableFlowProvisioning}     true
     Wait for all flows to in ADDED state    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}
-    ...     ${workflow}    ${total_onus}    ${olt}    true
+    ...     ${workflow}    ${total_onus}    ${olt}    true      ${withEapol}    ${withDhcp}     ${withIgmp}
 
 Wait for subscribers to have an IP
     [Documentation]    Check that all subscribers have received a DHCP_ACK
