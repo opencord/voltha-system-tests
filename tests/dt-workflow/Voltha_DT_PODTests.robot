@@ -51,6 +51,12 @@ ${has_dataplane}    True
 ${teardown_device}    True
 ${scripts}        ../../scripts
 
+# For dataplane bandwidth testing
+${upper_margin_pct}      105     # Allow 5% over the limit
+${lower_margin_pct}      93      # Allow 7% under the limit
+${udp_rate_multiplier}   1.10    # Send UDP at bw profile limit * rate_multiplier
+${udp_packet_bytes}      1400    # UDP payload in bytes
+
 # Per-test logging on failure is turned off by default; set this variable to enable
 ${container_log_dir}    ${None}
 
@@ -355,6 +361,104 @@ Test Disable ONUs and OLT Then Delete ONUs and OLT for DT
     Run Keyword    Setup
     Wait Until Keyword Succeeds    ${timeout}   2s    Perform Sanity Test DT
     Run Keyword If    ${has_dataplane}    Clean Up Linux
+
+Data plane verification using TCP for DT
+    [Documentation]    Test bandwidth profile is met and not exceeded for each subscriber.
+    ...    Assumes iperf3 and jq installed on client and iperf -s running on DHCP server
+    [Tags]    dataplaneDt    BW-profile-TCP-Dt    VOL-3061
+    [Setup]    None
+    [Teardown]    None
+    Pass Execution If   '${has_dataplane}'=='False'    Bandwidth profile validation can be done only in
+    ...    physical pod.  Skipping this test in BBSIM.
+    FOR    ${I}    IN RANGE    0    ${num_onus}
+        ${src}=    Set Variable    ${hosts.src[${I}]}
+        ${dst}=    Set Variable    ${hosts.dst[${I}]}
+        ${onu_port}=    Wait Until Keyword Succeeds    ${timeout}    2s    Get ONU Port in ONOS    ${src['onu']}
+        ...    ${of_id}
+        ${subscriber_id}=    Set Variable    ${of_id}/${onu_port}
+        ${bandwidth_profile_name}    Get Bandwidth Profile Name For Given Subscriber    ${subscriber_id}
+        ...    upstreamBandwidthProfile
+        ${limiting_bw_value_upstream}    Get Bandwidth Details    ${bandwidth_profile_name}
+        ${bandwidth_profile_name}    Get Bandwidth Profile Name For Given Subscriber    ${subscriber_id}
+        ...    downstreamBandwidthProfile
+        ${limiting_bw_value_dnstream}    Get Bandwidth Details    ${bandwidth_profile_name}
+
+        # Stream TCP packets from RG to server
+        ${updict}=    Run Iperf3 Test Client    ${src}    server=${dst['dp_iface_ip_qinq']}
+        ...    args=-t 30
+        ${actual_upstream_bw_used}=    Evaluate    ${updict['end']['sum_received']['bits_per_second']}/1000
+
+        # Stream TCP packets from server to RG
+        ${dndict}=    Run Iperf3 Test Client    ${src}    server=${dst['dp_iface_ip_qinq']}
+        ...    args=-R -t 30
+        ${actual_dnstream_bw_used}=    Evaluate    ${dndict['end']['sum_received']['bits_per_second']}/1000
+
+        ${pct_limit_up}=    Evaluate    100*${actual_upstream_bw_used}/${limiting_bw_value_upstream}
+        ${pct_limit_dn}=    Evaluate    100*${actual_dnstream_bw_used}/${limiting_bw_value_dnstream}
+        Log    Up: bwprof ${limiting_bw_value_upstream}Kbps, got ${actual_upstream_bw_used}Kbps (${pct_limit_up}%)
+        Log    Down: bwprof ${limiting_bw_value_dnstream}Kbps, got ${actual_dnstream_bw_used}Kbps (${pct_limit_dn}%)
+
+        Should Be True    ${pct_limit_up} <= ${upper_margin_pct}
+        ...    The upstream bandwidth exceeded the limit (${pct_limit_up}% of limit)
+        Should Be True    ${pct_limit_dn} <= ${upper_margin_pct}
+        ...    The downstream bandwidth exceeded the limit (${pct_limit_dn}% of limit)
+        Should Be True    ${pct_limit_up} >= ${lower_margin_pct}
+        ...    The upstream bandwidth guarantee was not met (${pct_limit_up}% of resv)
+        Should Be True    ${pct_limit_dn} >= ${lower_margin_pct}
+        ...    The downstream bandwidth guarantee was not met (${pct_limit_dn}% of resv)
+    END
+
+Data plane verification using UDP for DT
+    [Documentation]    Test bandwidth profile is met and not exceeded for each subscriber.
+    ...    Assumes iperf3 and jq installed on client and iperf -s running on DHCP server
+    [Tags]    dataplaneDt    BW-profile-UDP-Dt    VOL-3061
+    [Setup]    None
+    [Teardown]    None
+    Pass Execution If   '${has_dataplane}'=='False'    Bandwidth profile validation can be done only in
+    ...    physical pod.  Skipping this test in BBSIM.
+    FOR    ${I}    IN RANGE    0    ${num_onus}
+        ${src}=    Set Variable    ${hosts.src[${I}]}
+        ${dst}=    Set Variable    ${hosts.dst[${I}]}
+        ${onu_port}=    Wait Until Keyword Succeeds    ${timeout}    2s    Get ONU Port in ONOS    ${src['onu']}
+        ...    ${of_id}
+        ${subscriber_id}=    Set Variable    ${of_id}/${onu_port}
+        ${bandwidth_profile_name}    Get Bandwidth Profile Name For Given Subscriber    ${subscriber_id}
+        ...    upstreamBandwidthProfile
+        ${limiting_bw_value_upstream}    Get Bandwidth Details    ${bandwidth_profile_name}
+        ${bandwidth_profile_name}    Get Bandwidth Profile Name For Given Subscriber    ${subscriber_id}
+        ...    downstreamBandwidthProfile
+        ${limiting_bw_value_dnstream}    Get Bandwidth Details    ${bandwidth_profile_name}
+
+        # Stream UDP packets from RG to server
+        ${uprate}=    Evaluate    ${limiting_bw_value_upstream}*${udp_rate_multiplier}
+        ${updict}=    Run Iperf3 Test Client    ${src}    server=${dst['dp_iface_ip_qinq']}
+        ...    args=-u -b ${uprate}K -t 30 -l ${udp_packet_bytes}
+        # With UDP test, bits per second is the sending rate.  Multiply by the loss rate to get the throughput.
+        ${actual_upstream_bw_used}=    Evaluate
+        ...    (100 - ${updict['end']['sum']['lost_percent']})*${updict['end']['sum']['bits_per_second']}/100000
+
+        # Stream UDP packets from server to RG
+        ${dnrate}=    Evaluate    ${limiting_bw_value_dnstream}*${udp_rate_multiplier}
+        ${dndict}=    Run Iperf3 Test Client    ${src}    server=${dst['dp_iface_ip_qinq']}
+        ...    args=-u -b ${dnrate}K -R -t 30 -l ${udp_packet_bytes}
+        # With UDP test, bits per second is the sending rate.  Multiply by the loss rate to get the throughput.
+        ${actual_dnstream_bw_used}=    Evaluate
+        ...    (100 - ${dndict['end']['sum']['lost_percent']})*${dndict['end']['sum']['bits_per_second']}/100000
+
+        ${pct_limit_up}=    Evaluate    100*${actual_upstream_bw_used}/${limiting_bw_value_upstream}
+        ${pct_limit_dn}=    Evaluate    100*${actual_dnstream_bw_used}/${limiting_bw_value_dnstream}
+        Log    Up: bwprof ${limiting_bw_value_upstream}Kbps, got ${actual_upstream_bw_used}Kbps (${pct_limit_up}%)
+        Log    Down: bwprof ${limiting_bw_value_dnstream}Kbps, got ${actual_dnstream_bw_used}Kbps (${pct_limit_dn}%)
+
+        Should Be True    ${pct_limit_up} <= ${upper_margin_pct}
+        ...    The upstream bandwidth exceeded the limit (${pct_limit_up}% of limit)
+        Should Be True    ${pct_limit_dn} <= ${upper_margin_pct}
+        ...    The downstream bandwidth exceeded the limit (${pct_limit_dn}% of limit)
+        Should Be True    ${pct_limit_up} >= ${lower_margin_pct}
+        ...    The upstream bandwidth guarantee was not met (${pct_limit_up}% of resv)
+        Should Be True    ${pct_limit_dn} >= ${lower_margin_pct}
+        ...    The downstream bandwidth guarantee was not met (${pct_limit_dn}% of resv)
+    END
 
 *** Keywords ***
 Setup Suite
