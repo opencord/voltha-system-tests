@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "12819eec_793833f9",
+        "filename": "libraries/flows.robot",
+        "patchSetId": 6
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1000064
+      },
+      "writtenOn": "2020-05-08T22:01:37Z",
+      "side": 1,
+      "message": "Is this after subscriber provision?",
+      "range": {
+        "startLine": 46,
+        "startChar": 72,
+        "endLine": 46,
+        "endChar": 78
+      },
+      "revId": "46f4db3fc0d73d6918f83e7fe8f6969e00fa0bf1",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    }
+  ]
+}
