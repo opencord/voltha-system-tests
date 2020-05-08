@@ -487,26 +487,39 @@ Parse RFC3339
 Calculate flows by workflow
     [Documentation]  Calculate how many flows should be created based on the workflow, the number of UNIs
     ...     and whether the subscribers have been provisioned
-    [Arguments]  ${workflow}    ${uni_count}    ${olt_count}    ${provisioned}
+    [Arguments]  ${workflow}    ${uni_count}    ${olt_count}    ${provisioned}      ${withEapol}    ${withDhcp}     ${withIgmp}
     ${expectedFlows}=   Run Keyword If  $workflow=="att"  Calculate Att flows
-    ...     ${uni_count}    ${olt_count}    ${provisioned}
+    ...     ${uni_count}    ${olt_count}    ${provisioned}  ${withEapol}    ${withDhcp}     ${withIgmp}
     ...     ELSE IF     $workflow=="dt"     Calculate Dt Flows
     ...     ${uni_count}    ${olt_count}    ${provisioned}
     ...     ELSE IF     $workflow=="tt"     Calculate Tt Flows
-    ...     ${uni_count}    ${olt_count}    ${provisioned}
+    ...     ${uni_count}    ${olt_count}    ${provisioned}  ${withDhcp}     ${withIgmp}
     ...     ELSE    Fail    Workflow ${workflow} should be one of 'att', 'dt', 'tt'
     Return From Keyword     ${expectedFlows}
 
 Calculate Att flows
     [Documentation]  Calculate the flow for the ATT workflow
     ...     NOTE we may need to add support for IGMP enabled/disabled
-    [Arguments]  ${uni_count}    ${olt_count}   ${provisioned}
+    [Arguments]  ${uni_count}    ${olt_count}   ${provisioned}      ${withEapol}    ${withDhcp}     ${withIgmp}
     # (1 EAPOL * ONUs) * (1 LLDP + 1 DHCP * OLTS) before provisioning
     # (1 EAPOL, 1 DHCP, 1 IGMP, 4 DP * ONUs) * (1 LLDP + 1 DHCP * OLTS) before provisioning
-    ${flow_count}=  Run Keyword If  $provisioned=='false'
-    ...     Evaluate    (${uni_count} * 1) + (${olt_count} * 2)
+    ${eapFlowsCount}=   Run Keyword If   $withEapol=='true'
+    ...     Evaluate     1
     ...     ELSE
-    ...     Evaluate    (${uni_count} * 7) + (${olt_count} * 2)
+    ...     Evaluate     0
+    ${dhcpFlowsCount}=   Run Keyword If   $withDhcp=='true'
+    ...     Evaluate     1
+    ...     ELSE
+    ...     Evaluate     0
+    ${igmpFlowsCount}=   Run Keyword If   $withIgmp=='true'
+    ...     Evaluate     2
+    ...     ELSE
+    ...     Evaluate     0
+    ${flow_count}=  Run Keyword If  $provisioned=='false'
+    ...     Evaluate    (${uni_count} * ${eapFlowsCount}) + (${olt_count} * 2)
+    ...     ELSE
+    ...     Evaluate    (${uni_count} * ${eapFlowsCount}) + (${uni_count} * ${dhcpFlowsCount})
+    ...    + (${uni_count} * ${igmpFlowsCount}) + (${uni_count} * 4) + (${olt_count} * 2)
     Return From Keyword     ${flow_count}
 
 Calculate Dt flows
@@ -522,7 +535,8 @@ Calculate Dt flows
 
 Calculate Tt flows
     [Documentation]  Calculate the flow for the TT workflow
-    [Arguments]  ${uni_count}    ${olt_count}   ${provisioned}
+    [Arguments]  ${uni_count}    ${olt_count}   ${provisioned}  ${withDhcp}     ${withIgmp}
+    # TODO account for withDhcp, withIgmp, see Calculate Att flows for examples
     # (1 LLDP + 1 DHCP * OLTS) before provisioning
     # (1 DHCP, 1 IGMP, 4 DP * ONUs) * (1 LLDP + 1 DHCP * OLTS) before provisioning
     ${flow_count}=  Run Keyword If  $provisioned=='false'

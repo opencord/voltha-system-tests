@@ -485,8 +485,9 @@ Count Logical Devices flows
 
 Wait for Logical Devices flows
     [Documentation]  Waits until the flows have been provisioned in the logical device
-    [Arguments]  ${workflow}    ${uni_count}    ${olt_count}    ${provisioned}
+    [Arguments]  ${workflow}    ${uni_count}    ${olt_count}    ${provisioned}      ${withEapol}    ${withDhcp}     ${withIgmp}
     ${targetFlows}=     Calculate flows by workflow     ${workflow}    ${uni_count}    ${olt_count}     ${provisioned}
+    ...     ${withEapol}    ${withDhcp}     ${withIgmp}
     Log     ${targetFlows}
     # TODO extend Validate Logical Device Flows to check the correct number of flows
     Wait Until Keyword Succeeds     10m     5s  Count Logical Devices flows     ${targetFlows}
