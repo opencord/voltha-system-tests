@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "6e969885_1b5196e8",
+        "filename": "libraries/voltctl.robot",
+        "patchSetId": 15
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1000007
+      },
+      "writtenOn": "2020-05-08T00:26:33Z",
+      "side": 1,
+      "message": "Actually not anymore. I think it was a \"voltctl\" requirement for a little while (only if you were creating multiple devices)",
+      "parentUuid": "7f8c6fa4_d017a9b9",
+      "range": {
+        "startLine": 43,
+        "startChar": 30,
+        "endLine": 43,
+        "endChar": 97
+      },
+      "revId": "eb172c9bfdeeec64827a3049474433aa3457c35e",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "81cfa743_1fe45c6e",
         "filename": "tests/scale/Voltha_Scale_Tests.robot",
         "patchSetId": 15
