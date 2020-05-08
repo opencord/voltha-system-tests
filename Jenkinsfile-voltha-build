@@ -33,7 +33,7 @@ node ("${TestNodeName}") {
                 }
             }
             stage('Clean up') {
-                timeout(10) {
+                timeout(15) {
                     sh returnStdout: true, script: """
                     export KUBECONFIG=$WORKSPACE/${configBaseDir}/${configKubernetesDir}/${configFileName}.conf
                     for hchart in \$(helm list -q | grep -E -v 'docker-registry|mavenrepo|ponnet');
@@ -80,7 +80,7 @@ node ("${TestNodeName}") {
                 }
             }
             stage('Install Voltha')  {
-                timeout(10) {
+                timeout(20) {
                     sh returnStdout: true, script: """
                     export KUBECONFIG=$WORKSPACE/${configBaseDir}/${configKubernetesDir}/${configFileName}.conf
                     cd kind-voltha/
