@@ -22,6 +22,30 @@
       "revId": "eb172c9bfdeeec64827a3049474433aa3457c35e",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "10a69d93_5e7d259a",
+        "filename": "tests/scale/Voltha_Scale_Tests.robot",
+        "patchSetId": 15
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1000007
+      },
+      "writtenOn": "2020-05-08T00:11:00Z",
+      "side": 1,
+      "message": "The Create and enable part now happens in a TestCase (so that it can be skipped for easy debugging) I updated the Documentation.\n\nThe \"Common Test Suite Setup\" seems to do way more than we need in the scale test, but once it supports multiple OLTs we could use it here too.",
+      "parentUuid": "81cfa743_1fe45c6e",
+      "range": {
+        "startLine": 161,
+        "startChar": 23,
+        "endLine": 161,
+        "endChar": 52
+      },
+      "revId": "eb172c9bfdeeec64827a3049474433aa3457c35e",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
     }
   ]
 }
