@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "7f8c6fa4_d017a9b9",
+        "filename": "libraries/voltctl.robot",
+        "patchSetId": 15
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1000064
+      },
+      "writtenOn": "2020-05-08T00:20:46Z",
+      "side": 1,
+      "message": "Do we need the `mac_address` to be sent ?",
+      "range": {
+        "startLine": 43,
+        "startChar": 30,
+        "endLine": 43,
+        "endChar": 97
+      },
+      "revId": "eb172c9bfdeeec64827a3049474433aa3457c35e",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "81cfa743_1fe45c6e",
         "filename": "tests/scale/Voltha_Scale_Tests.robot",
         "patchSetId": 15
