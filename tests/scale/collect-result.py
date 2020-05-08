@@ -36,6 +36,8 @@ def read_file(file, plot_folder):
 
     results = {}
 
+
+    startTimer = 0
     print(double_dash)
     print("{:<50}{:>10}{:>15}".format("Test Name", "Status", "Duration (s)"))
     print(double_dash)
@@ -47,14 +49,16 @@ def read_file(file, plot_folder):
         s = datetime.strptime(start[:-4], "%Y%m%d %H:%M:%S")
         e = datetime.strptime(end[:-4], "%Y%m%d %H:%M:%S")
         diff = e - s
-        print("{:<50}{:>10}{:>15}".format(cut_string(name), status.attrib["status"], diff.seconds))
+        time = startTimer + diff.seconds
+        print("{:<50}{:>10}{:>15}".format(cut_string(name), status.attrib["status"], time))
         print(dash)
 
         # check if the test has a tag that starts with "plot-",
         # if so store the result to create plot files for Jenkins
         for tag in test.findall("./tags/tag"):
             if "plot-" in tag.text:
-                results[tag.text] = diff.seconds
+                results[tag.text] = time
+        startTimer = time
 
     if not os.path.isdir(plot_folder):
         os.mkdir(plot_folder)

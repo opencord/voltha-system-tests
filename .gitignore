@@ -9,3 +9,6 @@ vst_venv
 
 # IDEs
 .idea
+
+# other outputs
+tests/scale/plots
