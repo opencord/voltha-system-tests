@@ -454,7 +454,7 @@ Validate authentication on a disabled ONU
 Data plane verification using TCP
     [Documentation]    Test bandwidth profile is met and not exceeded for each subscriber.
     ...    Assumes iperf3 and jq installed on client and iperf -s running on DHCP server
-    [Tags]    dataplane    BW-profile-TCP    VOL-2052
+    [Tags]    dataplane    BW-profile-TCP    VOL-2052    notready
     [Setup]    None
     [Teardown]    None
     Pass Execution If   '${has_dataplane}'=='False'    Bandwidth profile validation can be done only in
@@ -500,7 +500,7 @@ Data plane verification using TCP
 Data plane verification using UDP
     [Documentation]    Test bandwidth profile is met and not exceeded for each subscriber.
     ...    Assumes iperf3 and jq installed on client and iperf -s running on DHCP server
-    [Tags]    dataplane    BW-profile-UDP    VOL-2052
+    [Tags]    dataplane    BW-profile-UDP    VOL-2052    notready
     [Setup]    None
     [Teardown]    None
     Pass Execution If   '${has_dataplane}'=='False'    Bandwidth profile validation can be done only in
