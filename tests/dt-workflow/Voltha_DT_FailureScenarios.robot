@@ -92,6 +92,8 @@ Verify ONU after Rebooting Physically for DT
         Sleep    5s
         # Enable Power Switch
         Enable Switch Outlet    ${src['power_switch_port']}
+        # Waiting extra time for the ONU to come up
+        Sleep    60s
         # Check ONU port is Enabled in ONOS
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds   120s   2s
         ...    Verify ONU Port Is Enabled   ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${onu_port}
