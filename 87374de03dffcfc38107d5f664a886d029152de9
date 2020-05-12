@@ -25,6 +25,29 @@
     },
     {
       "key": {
+        "uuid": "f2e39a3e_accb32c6",
+        "filename": "tests/functional/Voltha_multipleOLTTests.robot",
+        "patchSetId": 18
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1000064
+      },
+      "writtenOn": "2020-05-12T20:56:24Z",
+      "side": 1,
+      "message": "Does this test apply to run on BBSim only?",
+      "range": {
+        "startLine": 43,
+        "startChar": 20,
+        "endLine": 43,
+        "endChar": 36
+      },
+      "revId": "87374de03dffcfc38107d5f664a886d029152de9",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "17c1d95a_1ae36439",
         "filename": "tests/functional/Voltha_multipleOLTTests.robot",
         "patchSetId": 18
@@ -36,6 +59,30 @@
       "writtenOn": "2020-05-12T11:58:03Z",
       "side": 1,
       "message": "I prefer something like \"sanityMultiOLT\" as we have done for DT (sanityDt) to keep it differentiated from the existing standard sanity run. @Suchitra can guide better..",
+      "range": {
+        "startLine": 46,
+        "startChar": 14,
+        "endLine": 46,
+        "endChar": 20
+      },
+      "revId": "87374de03dffcfc38107d5f664a886d029152de9",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ccab8ef4_d8884332",
+        "filename": "tests/functional/Voltha_multipleOLTTests.robot",
+        "patchSetId": 18
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1000064
+      },
+      "writtenOn": "2020-05-12T20:56:24Z",
+      "side": 1,
+      "message": "we should use different tags to identify accordingly",
+      "parentUuid": "17c1d95a_1ae36439",
       "range": {
         "startLine": 46,
         "startChar": 14,
