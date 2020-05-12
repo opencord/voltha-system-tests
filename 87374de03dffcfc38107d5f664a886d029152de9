@@ -1,0 +1,113 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cdbcd39e_1ed31f2a",
+        "filename": "tests/functional/Voltha_multipleOLTTests.robot",
+        "patchSetId": 18
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1000514
+      },
+      "writtenOn": "2020-05-12T11:58:03Z",
+      "side": 1,
+      "message": "Suggestion: Entire suite teardown is required at the end of the the suite run. Please make this to \"True\" and verify if the already available \"Teardown Suite\" keyword in utils.robot works else introduce a new one like the suite setup.",
+      "range": {
+        "startLine": 37,
+        "startChar": 22,
+        "endLine": 37,
+        "endChar": 27
+      },
+      "revId": "87374de03dffcfc38107d5f664a886d029152de9",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "17c1d95a_1ae36439",
+        "filename": "tests/functional/Voltha_multipleOLTTests.robot",
+        "patchSetId": 18
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1000514
+      },
+      "writtenOn": "2020-05-12T11:58:03Z",
+      "side": 1,
+      "message": "I prefer something like \"sanityMultiOLT\" as we have done for DT (sanityDt) to keep it differentiated from the existing standard sanity run. @Suchitra can guide better..",
+      "range": {
+        "startLine": 46,
+        "startChar": 14,
+        "endLine": 46,
+        "endChar": 20
+      },
+      "revId": "87374de03dffcfc38107d5f664a886d029152de9",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f4ddb3e7_f228c997",
+        "filename": "tests/functional/Voltha_multipleOLTTests.robot",
+        "patchSetId": 18
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1000514
+      },
+      "writtenOn": "2020-05-12T11:58:03Z",
+      "side": 1,
+      "message": "Same as above..",
+      "range": {
+        "startLine": 47,
+        "startChar": 48,
+        "endLine": 47,
+        "endChar": 58
+      },
+      "revId": "87374de03dffcfc38107d5f664a886d029152de9",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "def647c1_2c6b5592",
+        "filename": "tests/functional/Voltha_multipleOLTTests.robot",
+        "patchSetId": 18
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1000514
+      },
+      "writtenOn": "2020-05-12T11:58:03Z",
+      "side": 1,
+      "message": "I don\u0027t see this getting called anywhere..",
+      "range": {
+        "startLine": 147,
+        "startChar": 0,
+        "endLine": 147,
+        "endChar": 40
+      },
+      "revId": "87374de03dffcfc38107d5f664a886d029152de9",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fa479b37_e175f2b6",
+        "filename": "tests/functional/Voltha_multipleOLTTests.robot",
+        "patchSetId": 18
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 1000514
+      },
+      "writtenOn": "2020-05-12T11:58:03Z",
+      "side": 1,
+      "message": "Another validation keyword \"Verify Subscriber Access Flows Added For ONU\" can be added here..",
+      "revId": "87374de03dffcfc38107d5f664a886d029152de9",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    }
+  ]
+}
