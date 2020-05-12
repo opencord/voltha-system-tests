@@ -459,6 +459,7 @@ Data plane verification using TCP
     [Teardown]    None
     Pass Execution If   '${has_dataplane}'=='False'    Bandwidth profile validation can be done only in
     ...    physical pod.  Skipping this test in BBSIM.
+    ${of_id}=    Wait Until Keyword Succeeds    ${timeout}    15s    Validate OLT Device in ONOS    ${olt_serial_number}
     FOR    ${I}    IN RANGE    0    ${num_onus}
         ${src}=    Set Variable    ${hosts.src[${I}]}
         ${dst}=    Set Variable    ${hosts.dst[${I}]}
@@ -505,6 +506,7 @@ Data plane verification using UDP
     [Teardown]    None
     Pass Execution If   '${has_dataplane}'=='False'    Bandwidth profile validation can be done only in
     ...    physical pod.  Skipping this test in BBSIM.
+    ${of_id}=    Wait Until Keyword Succeeds    ${timeout}    15s    Validate OLT Device in ONOS    ${olt_serial_number}
     FOR    ${I}    IN RANGE    0    ${num_onus}
         ${src}=    Set Variable    ${hosts.src[${I}]}
         ${dst}=    Set Variable    ${hosts.dst[${I}]}
