@@ -54,8 +54,8 @@
               "ponCTag": 33,
               "ponSTag": 99,
               "technologyProfileId": 64,
-              "downstreamBandwidthProfile": "Default",
-              "upstreamBandwidthProfile": "Default",
+              "downstreamBandwidthProfile": "User_Bandwidth2",
+              "upstreamBandwidthProfile": "User_Bandwidth1",
               "isDhcpRequired": true
             }]
           },
@@ -105,9 +105,9 @@
                   "id": "User_Bandwidth3",
                   "air": 100000,
                   "cbs": 5000,
-                  "cir": 1000000,
+                  "cir": 500000,
                   "ebs": 5000,
-                  "eir": 1000000
+                  "eir": 500000
               }
 
           ]
