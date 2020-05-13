@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2a4ecaf1_8cde75cd",
+        "filename": "libraries/voltctl.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 531,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2020-05-13T19:07:01Z",
+      "side": 1,
+      "message": "remove",
+      "range": {
+        "startLine": 531,
+        "startChar": 86,
+        "endLine": 531,
+        "endChar": 90
+      },
+      "revId": "5910870fd59ed1d5be5fe3001203ca36096b7aae",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    }
+  ]
+}
