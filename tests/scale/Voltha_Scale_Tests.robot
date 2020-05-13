@@ -106,6 +106,13 @@ Flows validation in VOLTHA before subscriber provisioning
     Wait for Logical Devices flows   ${workflow}    ${total_onus}    ${olt}    false
     ...     ${withEapol}    ${withDhcp}     ${withIgmp}
 
+Flows validation in VOLTHA Adapters before subscriber provisioning
+    [Documentation]  Check that all flows has been store in devices of type openolt
+    [Tags]      non-critical    flow-before   plot-voltha-openolt-flows-before
+    Should Be Equal   ${enableFlowProvisioning}     true
+    Wait for OpenOLT Devices flows   ${workflow}    ${total_onus}    ${olt}    false
+    ...     ${withEapol}    ${withDhcp}     ${withIgmp}
+
 Flows validation in ONOS before subscriber provisioning
     [Documentation]    Check that all the flows has been acknowledged
     [Tags]      non-critical    flow-before   plot-onos-flows-before
@@ -134,6 +141,13 @@ Flows validation in VOLTHA after subscriber provisioning
     # NOTE fail the test immediately if we're trying to check flows without provisioning them
     Should Be Equal   ${enableFlowProvisioning}     true
     Wait for Logical Devices flows   ${workflow}    ${total_onus}    ${olt}    true
+    ...     ${withEapol}    ${withDhcp}     ${withIgmp}
+
+Flows validation in VOLTHA Adapters after subscriber provisioning
+    [Documentation]  Check that all flows has been store in devices of type openolt
+    [Tags]      non-critical    flow-after   plot-voltha-openolt-flows-after
+    Should Be Equal   ${enableFlowProvisioning}     true
+    Wait for OpenOLT Devices flows   ${workflow}    ${total_onus}    ${olt}    true
     ...     ${withEapol}    ${withDhcp}     ${withIgmp}
 
 Flows validation in ONOS after subscriber provisioning
