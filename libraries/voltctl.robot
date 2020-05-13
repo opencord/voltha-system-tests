@@ -142,6 +142,14 @@ Get Device List from Voltha
     Log    ${devices}
     Should Be Equal As Integers    ${rc1}    0
 
+Get Device List from Voltha by type
+    [Documentation]    Gets Device List Output from Voltha applying filtering by device type
+    [Arguments]  ${type}
+    ${rc1}    ${devices}=    Run and Return Rc and Output    ${VOLTCTL_CONFIG}; voltctl device list -f Type=${type} -o json
+    Log    ${devices}
+    Should Be Equal As Integers    ${rc1}    0
+    Return From Keyword     ${devices}
+
 Get Logical Device List from Voltha
     [Documentation]    Gets Logical Device List Output from Voltha (in json format)
     ${rc1}    ${devices}=    Run and Return Rc and Output    ${VOLTCTL_CONFIG}; voltctl logicaldevice list -o json
@@ -482,6 +490,9 @@ Count Logical Devices flows
         Should Be Equal As Integers    ${rc}    0
         ${total_flows}=     Evaluate    ${total_flows} + ${flows}
     END
+    ${msg}=     Format String   Found {total_flows} flows of {targetFlows} expected
+    ...     total_flows=${total_flows}  targetFlows=${targetFlows}
+    Log     ${msg}
     Should Be Equal As Integers    ${targetFlows}    ${total_flows}
 
 Wait for Logical Devices flows
@@ -494,3 +505,30 @@ Wait for Logical Devices flows
     # TODO extend Validate Logical Device Flows to check the correct number of flows
     Wait Until Keyword Succeeds     10m     5s  Count Logical Devices flows     ${targetFlows}
 
+Count OpenOLT Device Flows
+    [Documentation]  Count the flows across openolt devices in VOLTHA
+    [Arguments]  ${targetFlows}
+    ${output}=     Get Device List from Voltha by type      openolt
+    ${devices}=    To Json    ${output}
+    ${total_flows}=     Set Variable    0
+    FOR     ${device}   IN  @{devices}
+        ${rc}    ${flows}=    Run and Return Rc and Output
+        ...     ${VOLTCTL_CONFIG}; voltctl device flows ${device['id']} | grep -v ID | wc -l
+        Should Be Equal As Integers    ${rc}    0
+        ${total_flows}=     Evaluate    ${total_flows} + ${flows}
+    END
+    ${msg}=     Format String   Found {total_flows} flows of {targetFlows} expected
+    ...     total_flows=${total_flows}  targetFlows=${targetFlows}
+    Log     ${msg}
+    Should Be Equal As Integers    ${targetFlows}    ${total_flows}
+
+Wait for OpenOLT Devices flows
+    [Documentation]  Waits until the flows have been provisioned in the openolt devices
+    [Arguments]  ${workflow}    ${uni_count}    ${olt_count}    ${provisioned}
+    ...     ${withEapol}    ${withDhcp}     ${withIgmp}
+    ${targetFlows}=     Calculate flows by workflow     ${workflow}    ${uni_count}    ${olt_count}     ${provisioned}
+    ...     ${withEapol}    ${withDhcp}     ${withIgmp}
+    # In the physical device we only have 2 data plane flows (on the PON) instead of 4    
+    ${targetFlows}=     Evaluate    ${targetFlows} - (${uni_count} * 2)
+    Log     ${targetFlows}
+    Wait Until Keyword Succeeds     10m     5s  Count OpenOLT Device Flows     ${targetFlows}

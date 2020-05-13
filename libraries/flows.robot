@@ -59,11 +59,11 @@ Calculate Att flows
     ${flow_count}=  Run Keyword If  $provisioned=='false'
     ...     Evaluate    (${uni_count} * ${eapFlowsCount}) + (${olt_count} * 2)
     ...     ELSE
-    ...     Calculate Att Provisione Flows  ${olt_count}    ${uni_count}
+    ...     Calculate Att Provisioned Flows  ${olt_count}    ${uni_count}
     ...     ${eapFlowsCount}   ${dhcpFlowsCount}   ${igmpFlowsCount}
     Return From Keyword     ${flow_count}
 
-Calculate Att Provisione Flows
+Calculate Att Provisioned Flows
     [Documentation]  This calculate the flows for provisioned subscribers in the ATT workflow
     [Arguments]  ${olt_count}   ${uni_count}    ${eapFlowsCount}   ${dhcpFlowsCount}   ${igmpFlowsCount}
     ${eap}=     Evaluate    ${uni_count} * ${eapFlowsCount}
