@@ -1,0 +1,142 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "415559aa_97a82ef2",
+        "filename": "tests/data/dt-berlin-pod-gpon-sadis-DT.json",
+        "patchSetId": 2
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2020-05-13T18:55:44Z",
+      "side": 1,
+      "message": "same",
+      "range": {
+        "startLine": 45,
+        "startChar": 0,
+        "endLine": 46,
+        "endChar": 64
+      },
+      "revId": "0401b3f19e4a191971f604343e86c9730ba49116",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a04b0df2_8f9be91a",
+        "filename": "tests/data/dt-berlin-pod-multi-olt-sadis.json",
+        "patchSetId": 2
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2020-05-13T18:55:44Z",
+      "side": 1,
+      "message": "same",
+      "range": {
+        "startLine": 81,
+        "startChar": 0,
+        "endLine": 82,
+        "endChar": 62
+      },
+      "revId": "0401b3f19e4a191971f604343e86c9730ba49116",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4e4f2e4f_d07f6ba4",
+        "filename": "tests/data/flex-ocp-cord-sadis.json",
+        "patchSetId": 2
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2020-05-13T18:55:44Z",
+      "side": 1,
+      "message": "why are we doing different upstream/downsteam different ?",
+      "range": {
+        "startLine": 43,
+        "startChar": 0,
+        "endLine": 44,
+        "endChar": 62
+      },
+      "revId": "0401b3f19e4a191971f604343e86c9730ba49116",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "994d8de5_4b3c518b",
+        "filename": "tests/data/infosys-pod-sadis.json",
+        "patchSetId": 2
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2020-05-13T18:55:44Z",
+      "side": 1,
+      "message": "same",
+      "range": {
+        "startLine": 29,
+        "startChar": 0,
+        "endLine": 30,
+        "endChar": 62
+      },
+      "revId": "0401b3f19e4a191971f604343e86c9730ba49116",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ce3b173d_453653e8",
+        "filename": "tests/data/onf-demo-pod-sadis-DT.json",
+        "patchSetId": 2
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2020-05-13T18:55:44Z",
+      "side": 1,
+      "message": "same",
+      "range": {
+        "startLine": 45,
+        "startChar": 0,
+        "endLine": 46,
+        "endChar": 60
+      },
+      "revId": "0401b3f19e4a191971f604343e86c9730ba49116",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "713a4a1f_61dc3f0a",
+        "filename": "tests/data/onf-demo-pod-sadis.json",
+        "patchSetId": 2
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2020-05-13T18:55:44Z",
+      "side": 1,
+      "message": "same",
+      "range": {
+        "startLine": 57,
+        "startChar": 0,
+        "endLine": 58,
+        "endChar": 60
+      },
+      "revId": "0401b3f19e4a191971f604343e86c9730ba49116",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    }
+  ]
+}
