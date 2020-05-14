@@ -53,7 +53,7 @@ ${scripts}        ../../scripts
 
 # For dataplane bandwidth testing
 ${upper_margin_pct}      105     # Allow 5% over the limit
-${lower_margin_pct}      93      # Allow 7% under the limit
+${lower_margin_pct}      92      # Allow 8% under the limit
 ${udp_rate_multiplier}   1.10    # Send UDP at bw profile limit * rate_multiplier
 ${udp_packet_bytes}      1400    # UDP payload in bytes
 
@@ -463,6 +463,12 @@ Data plane verification using TCP
     FOR    ${I}    IN RANGE    0    ${num_onus}
         ${src}=    Set Variable    ${hosts.src[${I}]}
         ${dst}=    Set Variable    ${hosts.dst[${I}]}
+
+        # Check for iperf3 and jq tools
+        ${stdout}    ${stderr}    ${rc}=    Execute Remote Command    which iperf3 jq
+        ...    ${src['ip']}    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
+        Pass Execution If    ${rc} != 0    Skipping test: iperf3 / jq not found on the RG
+
         ${onu_port}=    Wait Until Keyword Succeeds    ${timeout}    2s    Get ONU Port in ONOS    ${src['onu']}
         ...    ${of_id}
         ${subscriber_id}=    Set Variable    ${of_id}/${onu_port}
