@@ -62,6 +62,22 @@
                 "downstreamBandwidthProfile": "User_Bandwidth3",
                 "isDhcpRequired": false
               }]
+          },
+          {
+            "id": "SCOM00001c0b-1",
+            "nasPortId": "SCOM00001c0b-1",
+            "circuitId": "SCOM00001c0b-1",
+            "remoteId": "EC1912001814",
+            "uniTagList": [
+              {
+                "uniTagMatch": 4096,
+                "ponCTag": 4096,
+                "ponSTag": 34,
+                "technologyProfileId": 64,
+                "upstreamBandwidthProfile": "User_Bandwidth1",
+                "downstreamBandwidthProfile": "User_Bandwidth2",
+                "isDhcpRequired": false
+              }]
           }]
       },
       "bandwidthprofile":{
