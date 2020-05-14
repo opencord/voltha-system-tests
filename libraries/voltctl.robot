@@ -283,10 +283,14 @@ Validate Device Flows
     ...    Number of flows for ${device_id} was not ${flow_count}
 
 Validate OLT Flows
-    [Arguments]    ${flow_count}=${EMPTY}
+    [Arguments]    ${list_olts_info}    ${flow_count}=${EMPTY}
     [Documentation]    Parses the output of voltctl device flows ${olt_device_id}
     ...    and expects flow count == ${flow_count}
-    Validate Device Flows    ${olt_device_id}    ${flow_count}
+    FOR    ${info}    IN    @{list_olts_info}
+        ${olt_device_id}=    Set Variable    ${info}[device_id]
+        Validate Device Flows    ${olt_device_id}    ${flow_count}
+    END
+
 
 Validate ONU Flows
     [Arguments]    ${List_ONU_Serial}    ${flow_count}=${EMPTY}
