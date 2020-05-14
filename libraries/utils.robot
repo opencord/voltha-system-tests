@@ -61,10 +61,18 @@ Common Test Suite Setup
     ${onos_auth}=    Create List    karaf    karaf
     ${HEADERS}    Create Dictionary    Content-Type=application/json
     Create Session    ONOS    http://${ONOS_REST_IP}:${ONOS_REST_PORT}    auth=${ONOS_AUTH}
-    ${olt_ip}=    Evaluate    ${olts}[0].get("ip")
-    ${olt_user}=    Evaluate    ${olts}[0].get("user")
-    ${olt_pass}=    Evaluate    ${olts}[0].get("pass")
-    ${olt_serial_number}=    Evaluate    ${olts}[0].get("serial")
+    ${num_olts}    Get Length    ${olts}
+    ${num_olts}    Convert to String    ${num_olts}
+    ${list_olts}    Create List
+    FOR    ${I}    IN RANGE    0    ${num_olts}
+        ${ip}    Evaluate    ${olts}[${I}].get("ip")
+        ${user}    Evaluate    ${olts}[${I}].get("user")
+        ${pass}    Evaluate    ${olts}[${I}].get("pass")
+        ${serial_number}    Evaluate    ${olts}[${I}].get("serial")
+        ${olt}    Create Dictionary    ip    ${ip}    user    ${user}    pass
+        ...    ${pass}    sn    ${serial_number}
+        Append To List    ${list_olts}    ${olt}
+    END
     ${num_onus}=    Get Length    ${hosts.src}
     ${num_onus}=    Convert to String    ${num_onus}
     #send sadis file to onos
@@ -72,10 +80,8 @@ Common Test Suite Setup
     Log To Console    \nSadis File:${sadis_file}
     Run Keyword Unless    '${sadis_file}' is '${None}'    Send File To Onos    ${sadis_file}    apps/
     Set Suite Variable    ${num_onus}
-    Set Suite Variable    ${olt_serial_number}
-    Set Suite Variable    ${olt_ip}
-    Set Suite Variable    ${olt_user}
-    Set Suite Variable    ${olt_pass}
+    Set Suite Variable    ${num_olts}
+    Set Suite Variable    ${list_olts}
     @{container_list}=    Create List    adapter-open-olt    adapter-open-onu    voltha-api-server
     ...    voltha-ro-core    voltha-rw-core-11    voltha-rw-core-12    voltha-ofagent
     Set Suite Variable    ${container_list}
@@ -145,18 +151,26 @@ Check Remote File Contents For WPA Logs
     [Return]    ${result}
 
 Perform Sanity Test
+    [Documentation]    This keyword iterate all OLTs and performs Sanity Test Procedure
+    FOR    ${J}    IN RANGE    0    ${num_olts}
+        ${olt_serial_number}=    Set Variable    ${list_olts}[${J}][sn]
+        ${of_id}=    Wait Until Keyword Succeeds    ${timeout}    15s    Validate OLT Device in ONOS
+        ...    ${olt_serial_number}
+        ${nni_port}=    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
+        ...    Get NNI Port in ONOS    ${of_id}
+        Perform Sanity Test Per OLT    ${of_id}    ${nni_port}    ${olt_serial_number}
+    END
+
+Perform Sanity Test Per OLT
+    [Arguments]    ${of_id}    ${nni_port}    ${olt_serial_number}
     [Documentation]    This keyword performs Sanity Test Procedure
     ...    Sanity test performs authentication, dhcp and pings for all the ONUs given for the POD
     ...    This keyword can be used to call in any other tests where sanity check is required
     ...    and avoids duplication of code.
-    ${of_id}=    Wait Until Keyword Succeeds    ${timeout}    15s    Validate OLT Device in ONOS    ${olt_serial_number}
-    Set Global Variable    ${of_id}
-    ${nni_port}=    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
-    ...    Get NNI Port in ONOS    ${of_id}
-    Set Global Variable    ${nni_port}
     FOR    ${I}    IN RANGE    0    ${num_onus}
         ${src}=    Set Variable    ${hosts.src[${I}]}
         ${dst}=    Set Variable    ${hosts.dst[${I}]}
+        Continue For Loop If    "${olt_serial_number}"!="${src['olt']}"
         Run Keyword and Ignore Error    Collect Logs
         ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
         ${onu_port}=    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
@@ -201,18 +215,26 @@ Perform Sanity Test
     END
 
 Perform Sanity Test DT
+    [Documentation]    This keyword iterate all OLTs and performs Sanity Test Procedure for DT workflow
+    FOR    ${J}    IN RANGE    0    ${num_olts}
+        ${olt_serial_number}=    Set Variable    ${list_olts}[${J}][sn]
+        ${of_id}=    Wait Until Keyword Succeeds    ${timeout}    15s    Validate OLT Device in ONOS
+        ...    ${olt_serial_number}
+        ${nni_port}=    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
+        ...    Get NNI Port in ONOS    ${of_id}
+        Perform Sanity Test DT Per OLT    ${of_id}    ${nni_port}    ${olt_serial_number}
+    END
+
+Perform Sanity Test DT Per OLT
+    [Arguments]    ${of_id}    ${nni_port}    ${olt_serial_number}
     [Documentation]    This keyword performs Sanity Test Procedure for DT Workflow
     ...    Sanity test performs dhcp and pings (without EAPOL and DHCP flows) for all the ONUs given for the POD
     ...    This keyword can be used to call in any other tests where sanity check is required
     ...    and avoids duplication of code.
-    ${of_id}=    Wait Until Keyword Succeeds    ${timeout}    15s    Validate OLT Device in ONOS    ${olt_serial_number}
-    Set Global Variable    ${of_id}
-    ${nni_port}=    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
-    ...    Get NNI Port in ONOS    ${of_id}
-    Set Global Variable    ${nni_port}
     FOR    ${I}    IN RANGE    0    ${num_onus}
         ${src}=    Set Variable    ${hosts.src[${I}]}
         ${dst}=    Set Variable    ${hosts.dst[${I}]}
+        Continue For Loop If    "${olt_serial_number}"!="${src['olt']}"
         ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
         ${onu_port}=    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
         ...    Get ONU Port in ONOS    ${src['onu']}    ${of_id}
@@ -250,7 +272,8 @@ Perform Sanity Test DT
     ${olt_flows}=    Evaluate    2 * ${num_onus} + 1
     # Number of per ONU Flows equals 2 (one each for downstream and upstream)
     ${onu_flows}=    Set Variable    2
-    Run Keyword    Wait Until Keyword Succeeds    ${timeout}    5s    Validate OLT Flows    ${olt_flows}
+    Run Keyword    Wait Until Keyword Succeeds    ${timeout}    5s    Validate OLT Flows    ${list_olts_info}
+    ...    ${olt_flows}
     ${List_ONU_Serial}    Create List
     Set Suite Variable    ${List_ONU_Serial}
     Build ONU SN List    ${List_ONU_Serial}
@@ -262,21 +285,30 @@ Setup
     [Documentation]    Pre-test Setup
     #test for empty device list
     Test Empty Device List
-    Run Keyword If    ${has_dataplane}    Wait Until Keyword Succeeds    120s    10s    Openolt is Up
-    ...    ${olt_ip}    ${olt_user}    ${olt_pass}
+    FOR    ${I}    IN RANGE    0    ${num_olts}
+        ${olt_ip}=    Set Variable    ${list_olts}[${I}][ip]
+        ${olt_pass}=    Set Variable    ${list_olts}[${I}][pass]
+        Run Keyword If    ${has_dataplane}    Wait Until Keyword Succeeds    120s    10s    Openolt is Up
+        ...    ${olt_ip}    ${olt_user}    ${olt_pass}
+    END
+    Run Keyword Unless    ${has_dataplane}    Determine BBSim instances
     Run Keyword If    ${has_dataplane}    Sleep    60s
-    #create/preprovision device
-    ${olt_device_id}=    Create Device    ${olt_ip}    ${OLT_PORT}
-    Set Suite Variable    ${olt_device_id}
-    #validate olt states
-    Wait Until Keyword Succeeds    ${timeout}    5s
-    ...    Validate OLT Device    PREPROVISIONED    UNKNOWN    UNKNOWN    ${olt_device_id}
-    Sleep    5s
-    Enable Device    ${olt_device_id}
-    Wait Until Keyword Succeeds    180s    5s
-    ...    Validate OLT Device    ENABLED    ACTIVE    REACHABLE    ${olt_serial_number}
-    ${logical_id}=    Get Logical Device ID From SN    ${olt_serial_number}
-    Set Suite Variable    ${logical_id}
+    ${list_olts_info}    Create List
+    FOR    ${I}    IN RANGE    0    ${num_olts}
+        ${olt_device_id}=    Create Device    ${list_olts}[${I}][ip]    ${OLT_PORT}
+        ${olt_serial_number}=    Set Variable    ${list_olts}[${I}][sn]
+        #validate olt states
+        Wait Until Keyword Succeeds    ${timeout}    5s    Validate OLT Device    PREPROVISIONED    UNKNOWN    UNKNOWN
+        ...    ${olt_device_id}
+        Sleep    5s
+        Enable Device    ${olt_device_id}
+        Wait Until Keyword Succeeds    ${timeout}    5s    Validate OLT Device    ENABLED    ACTIVE    REACHABLE
+        ...    ${olt_serial_number}
+        ${logical_id}=    Get Logical Device ID From SN    ${olt_serial_number}
+        ${olt}    Create Dictionary    device_id    ${olt_device_id}    logical_id    ${logical_id}
+        Append To List    ${list_olts_info}    ${olt}
+    END
+    Set Suite Variable    ${list_olts_info}
 
 Validate ONUs After OLT Disable
     [Documentation]    Validates the ONUs state in Voltha, ONUs port state in ONOS
@@ -323,30 +355,44 @@ Teardown Suite
 
 Delete Device and Verify
     [Documentation]    Disable -> Delete devices via voltctl and verify its removed
-    ${olt_device_id}=    Get Device ID From SN    ${olt_serial_number}
-    ${rc}    ${output}=    Run and Return Rc and Output
-    ...    ${VOLTCTL_CONFIG}; voltctl device disable ${olt_device_id}
-    Should Be Equal As Integers    ${rc}    0
-    Sleep    5s
-    Wait Until Keyword Succeeds    ${timeout}    5s
-    ...    Validate OLT Device    DISABLED    UNKNOWN    REACHABLE    ${olt_serial_number}
-    ${rc}    ${output}=    Run and Return Rc and Output
-    ...    ${VOLTCTL_CONFIG}; voltctl device delete ${olt_device_id}
-    Run Keyword If    ${has_dataplane}    Sleep    50s
-    Should Be Equal As Integers    ${rc}    0
-    Wait Until Keyword Succeeds    ${timeout}    5s    Validate Device Removed    ${olt_device_id}
+    FOR    ${I}    IN RANGE    0    ${num_olts}
+        ${olt_serial_number}=    Set Variable    ${list_olts}[${I}][sn]
+        ${olt_device_id}=    Get Device ID From SN    ${olt_serial_number}
+        ${rc}    ${output}=    Run and Return Rc and Output
+        ...    ${VOLTCTL_CONFIG}; voltctl device disable ${olt_device_id}
+        Should Be Equal As Integers    ${rc}    0
+        Sleep    5s
+        Wait Until Keyword Succeeds    ${timeout}    5s
+        ...    Validate OLT Device    DISABLED    UNKNOWN    REACHABLE    ${olt_serial_number}
+        ${rc}    ${output}=    Run and Return Rc and Output
+        ...    ${VOLTCTL_CONFIG}; voltctl device delete ${olt_device_id}
+        Run Keyword If    ${has_dataplane}    Sleep    50s
+        Should Be Equal As Integers    ${rc}    0
+        Wait Until Keyword Succeeds    ${timeout}    5s    Validate Device Removed    ${olt_device_id}
+    END
 
 Repeat Sanity Test
+    [Documentation]    This keyword iterate all OLTs and performs Repeat Sanity Test Procedure
+    FOR    ${J}    IN RANGE    0    ${num_olts}
+        ${olt_serial_number}=    Set Variable    ${list_olts}[${J}][sn]
+        ${of_id}=    Wait Until Keyword Succeeds    ${timeout}    15s    Validate OLT Device in ONOS
+        ...    ${olt_serial_number}
+        ...    Get NNI Port in ONOS    ${of_id}
+	Repeat Sanity Test Per OLT    ${of_id}    ${olt_serial_number}
+    END
+
+Repeat Sanity Test Per OLT
+    [Arguments]    ${of_id}    ${nni_port}    ${olt_serial_number}
     [Documentation]    This keyword performs Sanity Test Procedure
     ...    Sanity test performs authentication, dhcp and pings for all the ONUs given for the POD
     ...    This keyword can be used to call in any other tests where sanity check is required
     ...    with wpa reassociation
-    ${of_id}=    Wait Until Keyword Succeeds    ${timeout}    15s    Validate OLT Device in ONOS    ${olt_serial_number}
     Set Global Variable    ${of_id}
     FOR    ${I}    IN RANGE    0    ${num_onus}
         Run Keyword and Ignore Error    Collect Logs
         ${src}=    Set Variable    ${hosts.src[${I}]}
         ${dst}=    Set Variable    ${hosts.dst[${I}]}
+        Continue For Loop If    "${olt_serial_number}"!="${src['olt']}"
         ${onu_port}=    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
         ...    Get ONU Port in ONOS    ${src['onu']}    ${of_id}
         # Check ONU port is Enabled in ONOD
@@ -384,8 +430,10 @@ Repeat Sanity Test
 Collect Logs
     [Documentation]    Collect Logs from voltha and onos cli for various commands
     Run Keyword and Ignore Error    Get Device List from Voltha
-    Run Keyword and Ignore Error    Get Device Output from Voltha    ${olt_device_id}
-    Run Keyword and Ignore Error    Get Logical Device Output from Voltha    ${logical_id}
+    FOR    ${I}    IN RANGE    0    ${num_olts}
+        Run Keyword and Ignore Error    Get Device Output from Voltha    ${list_olts_info}[${I}][device_id]
+        Run Keyword and Ignore Error    Get Logical Device Output from Voltha    ${list_olts_info}[${I}][logical_id]
+    END
     Get ONOS Status    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}
 
 Verify ping is succesful except for given device
@@ -537,3 +585,16 @@ Run Iperf3 Test Client
     Should Be Equal As Integers    ${rc}    0
     ${object}=    Evaluate    json.loads(r'''${output}''')    json
     [Return]    ${object}
+
+Determine BBSim instances
+    [Documentation]    Read the number of BBSim instances and set number of OLTs (num_olts) accordingly.
+    ...    Only valid for BBSim environment.
+    ...    This give the user more flexibilty. A predefined yaml-file with up to 10 OLTs can be passed,
+    ...    but only the real started OLTs will be used by testing. Please consider the correct order of
+    ...    the OLTs in the yaml-file!
+    #read all bbsims
+    ${rc}    ${num_bbsims}    Run And Return Rc And Output    kubectl get pod -n voltha | grep bbsim | wc -l
+    Should Be Equal As Integers    ${rc}    0
+    Should Not Be Empty    ${num_bbsims}
+    Should Not Be Equal As Integers    ${num_bbsims}    0
+    Run Keyword Unless    ${has_dataplane}    Set Suite Variable    ${num_olts}    ${num_bbsims}
