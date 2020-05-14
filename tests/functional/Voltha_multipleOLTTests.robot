@@ -124,11 +124,6 @@ Setup Test
     Test Empty Device List
     Sleep    60s
     #create/preprovision device
-    #read all bbsims
-    ${rc}    ${num_bbsims}    Run And Return Rc And Output    kubectl get pod -n voltha | grep bbsim | wc -l
-    Should Be Equal As Integers    ${rc}    0
-    Should Not Be Empty    ${num_bbsims}
-    Should Not Be Equal As Integers    ${num_bbsims}    0
     Run Keyword Unless    ${has_dataplane}    Set Suite Variable    ${num_olts}    ${num_bbsims}
     FOR    ${I}    IN RANGE    0    ${num_olts}
         ${olt_device_id}=    Create Device    ${list_olts}[${I}][ip]    ${OLT_PORT}

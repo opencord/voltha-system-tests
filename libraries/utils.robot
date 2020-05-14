@@ -61,6 +61,18 @@ Common Test Suite Setup
     ${onos_auth}=    Create List    karaf    karaf
     ${HEADERS}    Create Dictionary    Content-Type=application/json
     Create Session    ONOS    http://${ONOS_REST_IP}:${ONOS_REST_PORT}    auth=${ONOS_AUTH}
+    ${num_olts}    Get Length    ${olts}
+    ${num_olts}    Convert to String    ${num_olts}
+    ${list_olts}    Create List
+    FOR    ${I}    IN RANGE    0    ${num_olts}
+        ${ip}    Evaluate    ${olts}[${I}].get("ip")
+        ${user}    Evaluate    ${olts}[${I}].get("user")
+        ${pass}    Evaluate    ${olts}[${I}].get("pass")
+        ${serial_number}    Evaluate    ${olts}[${I}].get("serial")
+        ${olt}    Create Dictionary    ip    ${ip}    user    ${user}    pass
+        ...    ${pass}    sn    ${serial_number}
+        Append To List    ${list_olts}    ${olt}
+    END
     ${olt_ip}=    Evaluate    ${olts}[0].get("ip")
     ${olt_user}=    Evaluate    ${olts}[0].get("user")
     ${olt_pass}=    Evaluate    ${olts}[0].get("pass")
@@ -72,6 +84,8 @@ Common Test Suite Setup
     Log To Console    \nSadis File:${sadis_file}
     Run Keyword Unless    '${sadis_file}' is '${None}'    Send File To Onos    ${sadis_file}    apps/
     Set Suite Variable    ${num_onus}
+    Set Suite Variable    ${num_olts}
+    Set Suite Variable    ${list_olts}
     Set Suite Variable    ${olt_serial_number}
     Set Suite Variable    ${olt_ip}
     Set Suite Variable    ${olt_user}
@@ -265,18 +279,19 @@ Setup
     Run Keyword If    ${has_dataplane}    Wait Until Keyword Succeeds    120s    10s    Openolt is Up
     ...    ${olt_ip}    ${olt_user}    ${olt_pass}
     Run Keyword If    ${has_dataplane}    Sleep    60s
-    #create/preprovision device
-    ${olt_device_id}=    Create Device    ${olt_ip}    ${OLT_PORT}
-    Set Suite Variable    ${olt_device_id}
-    #validate olt states
-    Wait Until Keyword Succeeds    ${timeout}    5s
-    ...    Validate OLT Device    PREPROVISIONED    UNKNOWN    UNKNOWN    ${olt_device_id}
-    Sleep    5s
-    Enable Device    ${olt_device_id}
-    Wait Until Keyword Succeeds    180s    5s
-    ...    Validate OLT Device    ENABLED    ACTIVE    REACHABLE    ${olt_serial_number}
-    ${logical_id}=    Get Logical Device ID From SN    ${olt_serial_number}
-    Set Suite Variable    ${logical_id}
+    FOR    ${I}    IN RANGE    0    ${num_olts}
+        ${olt_device_id}=    Create Device    ${list_olts}[${I}][ip]    ${OLT_PORT}
+        Set Suite Variable    ${olt_device_id}
+        #validate olt states
+        Wait Until Keyword Succeeds    ${timeout}    5s    Validate OLT Device    PREPROVISIONED    UNKNOWN    UNKNOWN
+        ...    ${olt_device_id}
+        Sleep    5s
+        Enable Device    ${olt_device_id}
+        Wait Until Keyword Succeeds    ${timeout}    5s    Validate OLT Device    ENABLED    ACTIVE    REACHABLE
+        ...    ${olt_serial_number}
+        ${logical_id}=    Get Logical Device ID From SN    ${olt_serial_number}
+        Set Suite Variable    ${logical_id}
+    END
 
 Validate ONUs After OLT Disable
     [Documentation]    Validates the ONUs state in Voltha, ONUs port state in ONOS
