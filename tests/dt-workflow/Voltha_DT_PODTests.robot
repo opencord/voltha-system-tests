@@ -107,7 +107,8 @@ Test Subscriber Delete and Add for DT
         ...    ${of_id}    ${onos_flows_count}
         # Verify VOLTHA flows for OLT equals twice the number of ONUS (minus ONU under test) + 1 for LLDP
         ${olt_flows}=    Evaluate    2 * ( ${num_onus} - 1 ) + 1
-        Run Keyword    Wait Until Keyword Succeeds    ${timeout}    5s    Validate OLT Flows    ${olt_flows}
+        Run Keyword    Wait Until Keyword Succeeds    ${timeout}    5s    Validate OLT Flows    ${list_olts_info}
+        ...    ${olt_flows}
         # Verify VOLTHA flows for ONU under test is Zero
         Run Keyword    Wait Until Keyword Succeeds    ${timeout}    5s    Validate Device Flows
         ...    ${onu_device_id}    0
@@ -151,7 +152,8 @@ Test Subscriber Delete and Add for DT
     ${olt_flows}=    Evaluate    2 * ${num_onus} + 1
     # Number of per ONU Flows equals 2 (one each for downstream and upstream)
     ${onu_flows}=    Set Variable    2
-    Run Keyword    Wait Until Keyword Succeeds    ${timeout}    5s    Validate OLT Flows    ${olt_flows}
+    Run Keyword    Wait Until Keyword Succeeds    ${timeout}    5s    Validate OLT Flows    ${list_olts_info}
+    ...    ${olt_flows}
     ${List_ONU_Serial}    Create List
     Set Suite Variable    ${List_ONU_Serial}
     Build ONU SN List    ${List_ONU_Serial}
@@ -228,7 +230,8 @@ Test Disable and Delete OLT for DT
     ${olt_flows}=    Evaluate    2 * ${num_onus} + 1
     # Number of per ONU Flows equals 2 (one each for downstream and upstream)
     ${onu_flows}=    Set Variable    2
-    Run Keyword    Wait Until Keyword Succeeds    ${timeout}    5s    Validate OLT Flows    ${olt_flows}
+    Run Keyword    Wait Until Keyword Succeeds    ${timeout}    5s    Validate OLT Flows    ${list_olts_info}
+    ...    ${olt_flows}
     ${List_ONU_Serial}    Create List
     Set Suite Variable    ${List_ONU_Serial}
     Build ONU SN List    ${List_ONU_Serial}

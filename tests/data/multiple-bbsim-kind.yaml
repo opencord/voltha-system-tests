@@ -61,76 +61,58 @@ olts:
     serial: BBSIM_OLT_9
 
 hosts:
-  -
-    src:
-      - onu: 'BBSM00000001'
-        c_tag: '900'
-        s_tag: '900'
-    dst:
-      - ip: null
-  -
-    src:
-      - onu: 'BBSM00010001'
-        c_tag: '900'
-        s_tag: '900'
-    dst:
-      - ip: null
-  -
-    src:
-      - onu: 'BBSM00020001'
-        c_tag: '900'
-        s_tag: '900'
-    dst:
-      - ip: null
-  -
-    src:
-      - onu: 'BBSM00030001'
-        c_tag: '900'
-        s_tag: '900'
-    dst:
-      - ip: null
-  -
-    src:
-      - onu: 'BBSM00040001'
-        c_tag: '900'
-        s_tag: '900'
-    dst:
-      - ip: null
-  -
-    src:
-      - onu: 'BBSM00050001'
-        c_tag: '900'
-        s_tag: '900'
-    dst:
-      - ip: null
-  -
-    src:
-      - onu: 'BBSM00060001'
-        c_tag: '900'
-        s_tag: '900'
-    dst:
-      - ip: null
-  -
-    src:
-      - onu: 'BBSM00070001'
-        c_tag: '900'
-        s_tag: '900'
-    dst:
-      - ip: null
-  -
-    src:
-      - onu: 'BBSM00080001'
-        c_tag: '900'
-        s_tag: '900'
-    dst:
-      - ip: null
-  -
-    src:
-      - onu: 'BBSM00090001'
-        c_tag: '900'
-        s_tag: '900'
-    dst:
-      - ip: null
+  src:
+    - onu: 'BBSM00000001'
+      c_tag: '900'
+      s_tag: '900'
+      olt: 'BBSIM_OLT_0'
+    - onu: 'BBSM00010001'
+      c_tag: '900'
+      s_tag: '900'
+      olt: 'BBSIM_OLT_1'
+    - onu: 'BBSM00020001'
+      c_tag: '900'
+      s_tag: '900'
+      olt: 'BBSIM_OLT_2'
+    - onu: 'BBSM00030001'
+      c_tag: '900'
+      s_tag: '900'
+      olt: 'BBSIM_OLT_3'
+    - onu: 'BBSM00040001'
+      c_tag: '900'
+      s_tag: '900'
+      olt: 'BBSIM_OLT_4'
+    - onu: 'BBSM00050001'
+      c_tag: '900'
+      s_tag: '900'
+      olt: 'BBSIM_OLT_5'
+    - onu: 'BBSM00060001'
+      c_tag: '900'
+      s_tag: '900'
+      olt: 'BBSIM_OLT_6'
+    - onu: 'BBSM00070001'
+      c_tag: '900'
+      s_tag: '900'
+      olt: 'BBSIM_OLT_7'
+    - onu: 'BBSM00080001'
+      c_tag: '900'
+      s_tag: '900'
+      olt: 'BBSIM_OLT_8'
+    - onu: 'BBSM00090001'
+      c_tag: '900'
+      s_tag: '900'
+      olt: 'BBSIM_OLT_9'
+  dst:
+    - ip: null
+    - ip: null
+    - ip: null
+    - ip: null
+    - ip: null
+    - ip: null
+    - ip: null
+    - ip: null
+    - ip: null
+    - ip: null
 
 sadis:
   file: ${CURDIR}/../../data/onos-sadis-multiple-bbsim.json
