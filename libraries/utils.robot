@@ -513,21 +513,27 @@ Execute Remote Command
     ...    SSHLibrary.Login With Public Key    ${user}    %{HOME}/.ssh/id_rsa
     ${namespace}=    Run Keyword If    '${container_type}' == 'K8S'    SSHLibrary.Execute Command
     ...    kubectl get pods --all-namespaces | grep ${container_name} | awk '{print $1}'
-    ${output}=    Run Keyword If    '${container_type}' == 'LXC'
-    ...    SSHLibrary.Execute Command    lxc exec ${container_name} -- ${cmd}
+    ${stdout}    ${stderr}    ${rc}=    Run Keyword If    '${container_type}' == 'LXC'
+    ...        SSHLibrary.Execute Command    lxc exec ${container_name} -- ${cmd}
+    ...        return_stderr=True    return_rc=True
     ...    ELSE IF    '${container_type}' == 'K8S'
-    ...    SSHLibrary.Execute Command    kubectl -n ${namespace} exec ${container_name} -- ${cmd}
+    ...        SSHLibrary.Execute Command    kubectl -n ${namespace} exec ${container_name} -- ${cmd}
+    ...        return_stderr=True    return_rc=True
     ...    ELSE
-    ...    SSHLibrary.Execute Command    ${cmd}
-    Log    ${output}
+    ...        SSHLibrary.Execute Command    ${cmd}    return_stderr=True    return_rc=True
+
+    Log    ${stdout}
+    Log    ${stderr}
+    Log    ${rc}
     SSHLibrary.Close Connection
-    [Return]    ${output}
+    [Return]    ${stdout}    ${stderr}    ${rc}
 
 Run Iperf3 Test Client
     [Arguments]    ${src}    ${server}    ${args}
     [Documentation]    Login to ${src} and run the iperf3 client against ${server} using ${args}.
     ...    Return a Dictionary containing the results of the test.
-    ${output}=    Execute Remote Command    iperf3 -J -c ${server} ${args} | jq -M -c '.'
+    ${output}    ${stderr}    ${rc}=    Execute Remote Command    iperf3 -J -c ${server} ${args} | jq -M -c '.'
     ...    ${src['ip']}    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
+    Should Be Equal    ${rc}    0
     ${object}=    Evaluate    json.loads(r'''${output}''')    json
     [Return]    ${object}
