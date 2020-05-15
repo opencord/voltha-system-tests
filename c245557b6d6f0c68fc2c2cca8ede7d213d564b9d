@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "41fa9251_cb7cc8a4",
+        "filename": "libraries/utils.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 282,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2020-05-15T08:18:53Z",
+      "side": 1,
+      "message": "Insert before (see my comment in Voltha_multipleOLTTests.robot):\n    #read all bbsims\n    ${rc}    ${num_bbsims}    Run And Return Rc And Output    kubectl get pod -n voltha | grep bbsim | wc -l\n    Should Be Equal As Integers    ${rc}    0\n    Should Not Be Empty    ${num_bbsims}\n    Should Not Be Equal As Integers    ${num_bbsims}    0\n    Run Keyword Unless    ${has_dataplane}    Set Suite Variable    ${num_olts}    ${num_bbsims}",
+      "range": {
+        "startLine": 282,
+        "startChar": 0,
+        "endLine": 282,
+        "endChar": 47
+      },
+      "revId": "c245557b6d6f0c68fc2c2cca8ede7d213d564b9d",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c6c3172c_5e95bf46",
+        "filename": "tests/functional/Voltha_multipleOLTTests.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2020-05-15T08:18:53Z",
+      "side": 1,
+      "message": "Can be replaced by: \n    [Setup]    Start Logging    SanityMultiOLT",
+      "range": {
+        "startLine": 47,
+        "startChar": 4,
+        "endLine": 48,
+        "endChar": 28
+      },
+      "revId": "c245557b6d6f0c68fc2c2cca8ede7d213d564b9d",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "833e24a8_817ed9a4",
+        "filename": "tests/functional/Voltha_multipleOLTTests.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2020-05-15T08:18:53Z",
+      "side": 1,
+      "message": "can be replaced now by:\nSetup Suite\n    [Documentation]    Set up the test suite\n    Common Test Suite Setup",
+      "range": {
+        "startLine": 67,
+        "startChar": 0,
+        "endLine": 119,
+        "endChar": 37
+      },
+      "revId": "c245557b6d6f0c68fc2c2cca8ede7d213d564b9d",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6213a268_9b103a47",
+        "filename": "tests/functional/Voltha_multipleOLTTests.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2020-05-15T08:18:53Z",
+      "side": 1,
+      "message": "Setup Test can be removed. Functionality will be take over by Setup of utils.robot.",
+      "range": {
+        "startLine": 121,
+        "startChar": 0,
+        "endLine": 121,
+        "endChar": 10
+      },
+      "revId": "c245557b6d6f0c68fc2c2cca8ede7d213d564b9d",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    }
+  ]
+}
