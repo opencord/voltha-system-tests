@@ -163,7 +163,7 @@ node ("${TestNodeName}") {
                         timeout(5) {
                             waitUntil {
                                 olt_sw_present = sh returnStdout: true, script: """
-                                if [[ "${deployment_config.olts[i].oltDebVersion}" == *"asfvolt16-2.4"* ]] || [[ "${deployment_config.olts[i].oltDebVersion23}" == *"asfvolt16-2.4"* ]]; then
+                                if [[ "${deployment_config.olts[i].oltDebVersion}" == *"asfvolt16-2.4"* ]] || [[ "${deployment_config.olts[i].oltDebVersion23}" == *"asfvolt16"* ]]; then
                                     sshpass -p ${deployment_config.olts[i].pass} ssh -l ${deployment_config.olts[i].user} ${deployment_config.olts[i].ip} 'dpkg --list | grep asfvolt16 | wc -l'
                                 else
                                     sshpass -p ${deployment_config.olts[i].pass} ssh -l ${deployment_config.olts[i].user} ${deployment_config.olts[i].ip} 'dpkg --list | grep asgvolt64 | wc -l'
