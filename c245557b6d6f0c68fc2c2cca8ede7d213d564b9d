@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "77cbe5b3_f8879e2d",
+        "filename": "libraries/utils.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 282,
+      "author": {
+        "id": 1000596
+      },
+      "writtenOn": "2020-05-18T15:07:39Z",
+      "side": 1,
+      "message": "Thanks, This keyword should support both BBSIm and physical POD. I think we should put this back to bbsim-related test case instead of this util function.",
+      "parentUuid": "41fa9251_cb7cc8a4",
+      "range": {
+        "startLine": 282,
+        "startChar": 0,
+        "endLine": 282,
+        "endChar": 47
+      },
+      "revId": "c245557b6d6f0c68fc2c2cca8ede7d213d564b9d",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c6c3172c_5e95bf46",
         "filename": "tests/functional/Voltha_multipleOLTTests.robot",
         "patchSetId": 2
@@ -36,6 +60,30 @@
       "writtenOn": "2020-05-15T08:18:53Z",
       "side": 1,
       "message": "Can be replaced by: \n    [Setup]    Start Logging    SanityMultiOLT",
+      "range": {
+        "startLine": 47,
+        "startChar": 4,
+        "endLine": 48,
+        "endChar": 28
+      },
+      "revId": "c245557b6d6f0c68fc2c2cca8ede7d213d564b9d",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "162e27ad_47dd30c3",
+        "filename": "tests/functional/Voltha_multipleOLTTests.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1000596
+      },
+      "writtenOn": "2020-05-18T15:07:39Z",
+      "side": 1,
+      "message": "ok, thanks.",
+      "parentUuid": "c6c3172c_5e95bf46",
       "range": {
         "startLine": 47,
         "startChar": 4,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "0f9f5bd1_4469efbc",
+        "filename": "tests/functional/Voltha_multipleOLTTests.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1000596
+      },
+      "writtenOn": "2020-05-18T15:07:39Z",
+      "side": 1,
+      "message": "ok, thanks.",
+      "parentUuid": "833e24a8_817ed9a4",
+      "range": {
+        "startLine": 67,
+        "startChar": 0,
+        "endLine": 119,
+        "endChar": 37
+      },
+      "revId": "c245557b6d6f0c68fc2c2cca8ede7d213d564b9d",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6213a268_9b103a47",
         "filename": "tests/functional/Voltha_multipleOLTTests.robot",
         "patchSetId": 2
@@ -82,6 +154,30 @@
       "writtenOn": "2020-05-15T08:18:53Z",
       "side": 1,
       "message": "Setup Test can be removed. Functionality will be take over by Setup of utils.robot.",
+      "range": {
+        "startLine": 121,
+        "startChar": 0,
+        "endLine": 121,
+        "endChar": 10
+      },
+      "revId": "c245557b6d6f0c68fc2c2cca8ede7d213d564b9d",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da604c1a_10ca4f90",
+        "filename": "tests/functional/Voltha_multipleOLTTests.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1000596
+      },
+      "writtenOn": "2020-05-18T15:07:39Z",
+      "side": 1,
+      "message": "ok, thanks.",
+      "parentUuid": "6213a268_9b103a47",
       "range": {
         "startLine": 121,
         "startChar": 0,

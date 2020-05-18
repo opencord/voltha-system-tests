@@ -22,6 +22,30 @@
       "revId": "85b0a8d1be1a3396bb3e38c3ac5b7a969d9193bc",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "99a95419_360affc0",
+        "filename": "tests/functional/Voltha_multipleOLTTests.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1000596
+      },
+      "writtenOn": "2020-05-18T15:07:39Z",
+      "side": 0,
+      "message": "Since the utils.robot(setup keyword) should support both BBSIM and physical POD, put this back here. any idea?",
+      "parentUuid": "a11a2ab4_17523667",
+      "range": {
+        "startLine": 127,
+        "startChar": 0,
+        "endLine": 131,
+        "endChar": 57
+      },
+      "revId": "85b0a8d1be1a3396bb3e38c3ac5b7a969d9193bc",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
     }
   ]
 }
