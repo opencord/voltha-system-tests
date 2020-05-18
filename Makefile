@@ -74,7 +74,7 @@ functional-multi-olt: ROBOT_FILE := Voltha_multipleOLTTests.robot
 functional-multi-olt: voltha-test
 
 # target to invoke openonu go adapter
-openonu-go-adapter-test: ROBOT_MISC_ARGS += -v state2test:4 -v testmode:SingleState -v timeout:120s
+openonu-go-adapter-test: ROBOT_MISC_ARGS += -v state2test:4 -v testmode:SingleStateTime -v timeout:180s
 openonu-go-adapter-test: ROBOT_MISC_ARGS += -i statetest $(ROBOT_DEBUG_LOG_OPT)
 openonu-go-adapter-test: ROBOT_MISC_ARGS += -X
 openonu-go-adapter-test: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_SINGLE_PON_FILE)
