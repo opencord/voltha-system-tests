@@ -25,8 +25,8 @@
               "ponCTag": 11,
               "ponSTag": 11,
               "technologyProfileId": 64,
-              "upstreamBandwidthProfile": "Default",
-              "downstreamBandwidthProfile": "Default",
+              "upstreamBandwidthProfile": "Gold_Upload",
+              "downstreamBandwidthProfile": "Gold_Download",
               "isDhcpRequired": true
             }]
           },
@@ -39,8 +39,8 @@
               "ponCTag": 12,
               "ponSTag": 11,
               "technologyProfileId": 64,
-              "upstreamBandwidthProfile": "User_Bandwidth1",
-              "downstreamBandwidthProfile": "User_Bandwidth2",
+              "upstreamBandwidthProfile": "Gold_Upload",
+              "downstreamBandwidthProfile": "Gold_Download",
               "isDhcpRequired": true
             }]
           },
@@ -53,8 +53,8 @@
               "ponCTag": 21,
               "ponSTag": 21,
               "technologyProfileId": 64,
-              "upstreamBandwidthProfile": "User_Bandwidth3",
-              "downstreamBandwidthProfile": "User_Bandwidth3",
+              "upstreamBandwidthProfile": "Gold_Upload",
+              "downstreamBandwidthProfile": "Gold_Download",
               "isDhcpRequired": true
             }]
           }
@@ -89,17 +89,33 @@
                   "id": "User_Bandwidth2",
                   "air": 100000,
                   "cbs": 5000,
-                  "cir": 100000,
+                  "cir": 200000,
                   "ebs": 5000,
-                  "eir": 100000
+                  "eir": 16000
               },
               {
                   "id": "User_Bandwidth3",
                   "air": 100000,
-                  "cbs": 5000,
+                  "cbs": 50000,
                   "cir": 500000,
-                  "ebs": 5000,
+                  "ebs": 50000,
                   "eir": 500000
+              },
+              {
+                  "id": "Gold_Upload",
+                  "air": 10000000,
+                  "cbs": 4000,
+                  "cir": 750000,
+                  "ebs": 4000,
+                   "eir": 1000000
+              },
+              {
+                  "id": "Gold_Download",
+                  "air": 10000000,
+                  "cbs": 4000,
+                  "cir": 750000,
+                  "ebs": 4000,
+                  "eir": 1000000
               }
 
           ]
