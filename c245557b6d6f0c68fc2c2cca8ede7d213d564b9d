@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "1a6d6cbe_413088e6",
+        "filename": "libraries/utils.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 282,
+      "author": {
+        "id": 1000596
+      },
+      "writtenOn": "2020-05-18T23:29:09Z",
+      "side": 1,
+      "message": "It seems we need to change the format of `host` in bbsim yaml.\nIn your previous implementation, it\u0027s a nested list but it\u0027s a single list before, we need to change everywhere to support this change.",
+      "parentUuid": "77cbe5b3_f8879e2d",
+      "range": {
+        "startLine": 282,
+        "startChar": 0,
+        "endLine": 282,
+        "endChar": 47
+      },
+      "revId": "c245557b6d6f0c68fc2c2cca8ede7d213d564b9d",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c6c3172c_5e95bf46",
         "filename": "tests/functional/Voltha_multipleOLTTests.robot",
         "patchSetId": 2
