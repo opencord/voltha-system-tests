@@ -418,7 +418,6 @@ Validate authentication on a disabled ONU
     ...        AND    Setup
     [Teardown]    Run Keywords    Collect Logs
     ...           AND             Stop Logging    DisableONU_AuthCheck
-    ...           AND             Delete Device and Verify
     Run Keyword and Ignore Error    Collect Logs
     Run Keyword If    ${has_dataplane}    Clean Up Linux
     Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test
