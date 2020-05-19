@@ -96,6 +96,30 @@
     },
     {
       "key": {
+        "uuid": "bcd77da7_dac4d129",
+        "filename": "libraries/utils.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 294,
+      "author": {
+        "id": 1000596
+      },
+      "writtenOn": "2020-05-19T17:54:43Z",
+      "side": 1,
+      "message": "Here is another example file how to map the ONUs to OLTs\nhttps://github.com/opencord/pod-configs/blob/master/deployment-configs/dt-berlin-pod-multi-olt.yaml\n\nIt used the filed `olt` in each ONUs to find a corresponding OLT.",
+      "parentUuid": "409a4144_4204d6d0",
+      "range": {
+        "startLine": 282,
+        "startChar": 4,
+        "endLine": 294,
+        "endChar": 7
+      },
+      "revId": "c245557b6d6f0c68fc2c2cca8ede7d213d564b9d",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c6c3172c_5e95bf46",
         "filename": "tests/functional/Voltha_multipleOLTTests.robot",
         "patchSetId": 2
