@@ -46,6 +46,29 @@
       "revId": "85b0a8d1be1a3396bb3e38c3ac5b7a969d9193bc",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c4d8a6df_f86afefc",
+        "filename": "tests/functional/Voltha_multipleOLTTests.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2020-05-19T09:57:43Z",
+      "side": 0,
+      "message": "Then we should make the condition no physical OLT (hasDataplane).",
+      "range": {
+        "startLine": 127,
+        "startChar": 0,
+        "endLine": 131,
+        "endChar": 57
+      },
+      "revId": "85b0a8d1be1a3396bb3e38c3ac5b7a969d9193bc",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
     }
   ]
 }
