@@ -62,7 +62,7 @@ Verify ONU after rebooting physically
     ...    Test case runs only on the PODs that are configured with PowerSwitch that
     ...    controls the power off/on ONUs/OLT remotely (simulating a physical reboot)
     ...    VOL-2634
-    [Tags]    functional   PowerSwitch
+    [Tags]    functional   PowerSwitch    notready
     [Setup]    Run Keywords    Announce Message    START TEST ONUreboot_PowerSwitch
     ...        AND             Start Logging    ONUreboot_PowerSwitch
     [Teardown]    Run Keywords    Collect Logs
