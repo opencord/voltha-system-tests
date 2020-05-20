@@ -1,0 +1,10 @@
+Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Upstream-Name: voltha-system-tests
+Upstream-Contact: Open Networking Foundation <info@opennetworking.org>
+Source: https://gerrit.opencord.org/voltha-system-tests
+
+# Sample paragraph, commented out:
+#
+Files: tests/data/*.json
+Copyright: 2019 Open Networking Foundation <info@opennetworking.org
+License: CC0-1.0
