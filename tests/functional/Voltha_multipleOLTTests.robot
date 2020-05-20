@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2019 - present Open Networking Foundation <info@opennetworking.org>
+#
+# SPDX-License-Identifier: Apache-2.0
+
 *** Settings ***
 Documentation     Test various end-to-end scenarios with multiple OLTs
 Suite Setup       Setup Suite
@@ -202,4 +206,3 @@ Do Sanity Test
         Run Keyword and Ignore Error    Get Device Output from Voltha    ${onu_device_id}
         Run Keyword and Ignore Error    Collect Logs
     END
-

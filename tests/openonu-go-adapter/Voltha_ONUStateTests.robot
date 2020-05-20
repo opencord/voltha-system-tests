@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2020 Open Networking Foundation <info@opennetworking.org>
+#
+# SPDX-License-Identifier: Apache-2.0
+
 *** Settings ***
 Documentation     Test states of ONU Go adapter
 Suite Setup       Setup Suite
