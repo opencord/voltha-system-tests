@@ -1,3 +1,9 @@
+<!--
+SPDX-FileCopyrightText: 2020 Open Networking Foundation <info@opennetworking.org>
+
+SPDX-License-Identifier: Apache-2.0
+-->
+
 # VOLTHA System Tests
 
 Automated test-suites to validate the stability/functionality of VOLTHA. Tests
