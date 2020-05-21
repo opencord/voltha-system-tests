@@ -22,6 +22,30 @@
       "revId": "90d86e28d3f10f99a4d7264adc57ac6f2fd1a78f",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c84a53aa_9859a12d",
+        "filename": "tests/functional/Voltha_FailureScenarios.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1000064
+      },
+      "writtenOn": "2020-05-21T19:03:29Z",
+      "side": 1,
+      "message": "Yes, I will remove this header. And the license should be from 2019 - present. which is the correct one",
+      "parentUuid": "d3e8aa5b_f12544ea",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 1,
+        "endChar": 53
+      },
+      "revId": "90d86e28d3f10f99a4d7264adc57ac6f2fd1a78f",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
     }
   ]
 }
