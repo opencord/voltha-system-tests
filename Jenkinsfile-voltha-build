@@ -261,8 +261,12 @@ node ("${TestNodeName}") {
             if ( deployment_config.fabric_switches.size() > 0 ) {
                 stage('Switch Configurations in ONOS') {
                     timeout(1) {
+                        def netcfg = "$WORKSPACE/${configBaseDir}/${configToscaDir}/voltha/${configFileName}-onos-netcfg-switch.json"
+                        if (params.inBandManagement){
+                             netcfg = "$WORKSPACE/${configBaseDir}/${configToscaDir}/voltha/${configFileName}-onos-netcfg-switch-inband.json"
+                        }
                         netcfg_out = sh returnStatus: true, script: """
-                        curl -sSL --user karaf:karaf -X POST -H Content-Type:application/json http://${deployment_config.nodes[0].ip}:30120/onos/v1/network/configuration --data @$WORKSPACE/${configBaseDir}/${configToscaDir}/voltha/${configFileName}-onos-netcfg-switch.json
+                        curl -sSL --user karaf:karaf -X POST -H Content-Type:application/json http://${deployment_config.nodes[0].ip}:30120/onos/v1/network/configuration --data @${netcfg}
                         curl -sSL --user karaf:karaf -X POST http://${deployment_config.nodes[0].ip}:30120/onos/v1/applications/org.onosproject.segmentrouting/active
 
                         """
