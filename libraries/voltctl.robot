@@ -172,10 +172,10 @@ Validate Device
     ${matched}=    Set Variable    False
     FOR    ${INDEX}    IN RANGE    0    ${length}
         ${value}=    Get From List    ${jsondata}    ${INDEX}
-        ${astate}=    Get From Dictionary    ${value}    adminstate
-        ${opstatus}=    Get From Dictionary    ${value}    operstatus
-        ${cstatus}=    Get From Dictionary    ${value}    connectstatus
-        ${sn}=    Get From Dictionary    ${value}    serialnumber
+        ${astate}=    Get From Dictionary    ${value}    admin_state
+        ${opstatus}=    Get From Dictionary    ${value}    oper_status
+        ${cstatus}=    Get From Dictionary    ${value}    connect_status
+        ${sn}=    Get From Dictionary    ${value}    serial_number
         ${devId}=    Get From Dictionary    ${value}    id
         ${mib_state}=    Get From Dictionary    ${value}    reason
         ${matched}=    Set Variable If    '${sn}' == '${id}' or '${devId}' == '${id}'    True    False
@@ -221,8 +221,8 @@ Validate Device Port Types
     ${length}=    Get Length    ${jsondata}
     FOR    ${INDEX}    IN RANGE    0    ${length}
         ${value}=    Get From List    ${jsondata}    ${INDEX}
-        ${astate}=    Get From Dictionary    ${value}    adminstate
-        ${opstatus}=    Get From Dictionary    ${value}    operstatus
+        ${astate}=    Get From Dictionary    ${value}    admin_state
+        ${opstatus}=    Get From Dictionary    ${value}    oper_status
         ${type}=    Get From Dictionary    ${value}    type
         Should Be Equal    '${astate}'    'ENABLED'    Device ${device_id} port admin_state != ENABLED    values=False
         Run Keyword If    ${all_active}    Should Be Equal    '${opstatus}'    'ACTIVE'
