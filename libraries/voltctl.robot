@@ -172,10 +172,24 @@ Validate Device
     ${matched}=    Set Variable    False
     FOR    ${INDEX}    IN RANGE    0    ${length}
         ${value}=    Get From List    ${jsondata}    ${INDEX}
-        ${astate}=    Get From Dictionary    ${value}    adminstate
-        ${opstatus}=    Get From Dictionary    ${value}    operstatus
-        ${cstatus}=    Get From Dictionary    ${value}    connectstatus
-        ${sn}=    Get From Dictionary    ${value}    serialnumber
+        ${jsonCamelCaseFieldnames}=    Run Keyword And Return Status
+        ...    Dictionary Should Contain Key       ${value}      adminState
+        ${astate}=    Run Keyword If     ${jsonCamelCaseFieldNames}
+        ...    Get From Dictionary    ${value}    adminState
+        ...    ELSE
+        ...    Get From Dictionary    ${value}    adminstate
+        ${opstatus}=    Run Keyword If     ${jsonCamelCaseFieldNames}
+        ...    Get From Dictionary    ${value}    operStatus
+        ...    ELSE
+        ...    Get From Dictionary    ${value}    operstatus
+        ${cstatus}=    Run Keyword If     ${jsonCamelCaseFieldNames}
+        ...    Get From Dictionary    ${value}    connectStatus
+        ...    ELSE
+        ...    Get From Dictionary    ${value}    connectstatus
+        ${sn}=    Run Keyword If     ${jsonCamelCaseFieldNames}
+        ...    Get From Dictionary    ${value}    serialNumber
+        ...    ELSE
+        ...    Get From Dictionary    ${value}    serialnumber
         ${devId}=    Get From Dictionary    ${value}    id
         ${mib_state}=    Get From Dictionary    ${value}    reason
         ${matched}=    Set Variable If    '${sn}' == '${id}' or '${devId}' == '${id}'    True    False
@@ -221,8 +235,16 @@ Validate Device Port Types
     ${length}=    Get Length    ${jsondata}
     FOR    ${INDEX}    IN RANGE    0    ${length}
         ${value}=    Get From List    ${jsondata}    ${INDEX}
-        ${astate}=    Get From Dictionary    ${value}    adminstate
-        ${opstatus}=    Get From Dictionary    ${value}    operstatus
+        ${jsonCamelCaseFieldnames}=    Run Keyword And Return Status
+        ...    Dictionary Should Contain Key       ${value}      adminState
+        ${astate}=    Run Keyword If     ${jsonCamelCaseFieldNames}
+        ...    ${astate}=    Get From Dictionary    ${value}    adminState
+        ...    ELSE
+        ...    ${astate}=    Get From Dictionary    ${value}    adminstate
+        ${opstatus}=    Run Keyword If     ${jsonCamelCaseFieldNames}
+        ...    Get From Dictionary    ${value}    operStatus
+        ...    ELSE
+        ...    ${astate}=    Get From Dictionary    ${value}    operstatus
         ${type}=    Get From Dictionary    ${value}    type
         Should Be Equal    '${astate}'    'ENABLED'    Device ${device_id} port admin_state != ENABLED    values=False
         Run Keyword If    ${all_active}    Should Be Equal    '${opstatus}'    'ACTIVE'
