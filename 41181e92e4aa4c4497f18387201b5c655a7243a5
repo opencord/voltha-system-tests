@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c704c998_230338ad",
+        "filename": "libraries/utils.robot",
+        "patchSetId": 7
+      },
+      "lineNbr": 295,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2020-05-26T10:47:38Z",
+      "side": 1,
+      "message": "I would like to suggest following:\nInsert before this line:\n    Run Keyword Unless    ${has_dataplane}    Determine BBSim instances\n\nThe body of the new keyword could be this:\nDetermine BBSim instances \n    [Documentation]    Read the number of BBSim instances and set number of OLTs (num_olts) accordingly.\n    ...    Only valid for BBSim environment.\n    ...    This give the user more flexibilty. A predefined yaml-file with up to 10 OLTs can be passed,\n    ...    but only the real started OLTs will be used by testing. Please consider the correct order of\n    ...    the OLTs in the yaml-file!\n    #read all bbsims\n    ${rc}    ${num_bbsims}    Run And Return Rc And Output    kubectl get pod -n voltha | grep bbsim | wc -l\n    Should Be Equal As Integers    ${rc}    0\n    Should Not Be Empty    ${num_bbsims}\n    Should Not Be Equal As Integers    ${num_bbsims}    0\n    Run Keyword Unless    ${has_dataplane}    Set Suite Variable    ${num_olts}    ${num_bbsims}",
+      "range": {
+        "startLine": 295,
+        "startChar": 4,
+        "endLine": 295,
+        "endChar": 36
+      },
+      "revId": "41181e92e4aa4c4497f18387201b5c655a7243a5",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    }
+  ]
+}
