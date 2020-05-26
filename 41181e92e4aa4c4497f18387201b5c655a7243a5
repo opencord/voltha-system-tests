@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "7061cadd_22f21597",
+        "filename": "libraries/utils.robot",
+        "patchSetId": 7
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2020-05-26T11:27:22Z",
+      "side": 1,
+      "message": "Please exchange the order of these both lines. Collect Logs take about 35 sec per call. It should be realized for the right ONU only.",
+      "range": {
+        "startLine": 173,
+        "startChar": 8,
+        "endLine": 174,
+        "endChar": 71
+      },
+      "revId": "41181e92e4aa4c4497f18387201b5c655a7243a5",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c704c998_230338ad",
         "filename": "libraries/utils.robot",
         "patchSetId": 7
