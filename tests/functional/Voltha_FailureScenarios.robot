@@ -537,20 +537,34 @@ Sanity E2E Test for OLT/ONU on POD With Core Fail and Restart
         ...    Validate Subscriber DHCP Allocation    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${onu_port}
     END
 
-ONU Reboot
-    [Documentation]    Reboot ONU and verify that ONU comes up properly
-    [Tags]    VOL-1957    RebootONU   notready
-    [Setup]    Start Logging    RebootONU
+Verify ONU Soft Reboot
+    [Documentation]    Test soft reboot of the ONU using voltctl command
+    [Tags]    VOL-1957    ONUSoftReboot   notready
+    [Setup]    Start Logging    ONUSoftReboot
+    #...        AND             Setup
     [Teardown]    Run Keywords    Collect Logs
-    ...           AND             Stop Logging    RebootONU
+    ...           AND             Stop Logging    ONUSoftReboot
+    #...           AND             Delete Device and Verify
+    # Performing Sanity Test to make sure subscribers are all AUTH+DHCP and pingable
+    #Run Keyword If    ${has_dataplane}    Clean Up Linux
+    #Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test
+    #Reboot the ONU and verify that ping fails
     FOR    ${I}    IN RANGE    0    ${num_onus}
         ${src}=    Set Variable    ${hosts.src[${I}]}
         ${dst}=    Set Variable    ${hosts.dst[${I}]}
         ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
         ${onu_port}=    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
         ...    Get ONU Port in ONOS    ${src['onu']}    ${of_id}
-        Reboot ONU    ${onu_device_id}   ${src}   ${dst}
+        Reboot Device    ${onu_device_id}
+        Run Keyword If    ${has_dataplane}    Run Keyword And Continue On Failure
+        ...    Wait Until Keyword Succeeds    60s    2s
+        ...    Check Ping    False    ${dst['dp_iface_ip_qinq']}    ${src['dp_iface_name']}
+        ...    ${src['ip']}    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
+        # Remove Subscriber Access (To replicate ATT workflow)
+        Wait Until Keyword Succeeds    ${timeout}    2s    Execute ONOS CLI Command    ${ONOS_SSH_IP}
+        ...    ${ONOS_SSH_PORT}    volt-remove-subscriber-access ${of_id} ${onu_port}
         Verify ping is succesful except for given device     ${num_onus}    ${onu_device_id}
+        Sleep    40s
         # Check ONU port is Enabled in ONOS
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds   120s   2s
         ...    Verify ONU Port Is Enabled   ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${onu_port}
@@ -561,19 +575,35 @@ ONU Reboot
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s    Validate Device
         ...    ENABLED    ACTIVE    REACHABLE
         ...    ${src['onu']}    onu=True    onu_reason=omci-flows-pushed
+        Run Keyword If    ${has_dataplane}    Clean Up Linux
+        # Perform Authentication
+        ${wpa_log}=    Run Keyword If    ${has_dataplane}    Catenate    SEPARATOR=.
+        ...    /tmp/wpa    ${src['dp_iface_name']}    log
+        Run Keyword If    ${has_dataplane}    Run Keyword And Continue On Failure    Validate Authentication    True
+        ...    ${src['dp_iface_name']}    wpa_supplicant.conf    ${src['ip']}    ${src['user']}    ${src['pass']}
+        ...    ${src['container_type']}    ${src['container_name']}    ${wpa_log}
+        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2
+        ...    Verify ONU in AAA-Users    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${onu_port}
+        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2
+        ...    Execute ONOS CLI Command    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}
+        ...    volt-add-subscriber-access ${of_id} ${onu_port}
+        # Verify that no pending flows exist for the ONU port
+        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
+        ...    Verify No Pending Flows For ONU    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${onu_port}
         # Verify subscriber access flows are added for the ONU port
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
         ...    Verify Subscriber Access Flows Added For ONU    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${of_id}
         ...    ${onu_port}    ${nni_port}    ${src['c_tag']}    ${src['s_tag']}
-        # Verify pings are successful after reboot on the current ONU
-        Run Keyword If    ${has_dataplane}    Run Keyword And Continue On Failure
-        ...    Wait Until Keyword Succeeds    60s    2s
-        ...    Check Ping    True    ${dst['dp_iface_ip_qinq']}    ${src['dp_iface_name']}
+        Run Keyword If    ${has_dataplane}    Run Keyword And Continue On Failure    Validate DHCP and Ping    True
+        ...    True    ${src['dp_iface_name']}    ${src['s_tag']}    ${src['c_tag']}    ${dst['dp_iface_ip_qinq']}
         ...    ${src['ip']}    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
+        ...    ${dst['dp_iface_name']}    ${dst['ip']}    ${dst['user']}    ${dst['pass']}    ${dst['container_type']}
+        ...    ${dst['container_name']}
+        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
+        ...    Validate Subscriber DHCP Allocation    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${onu_port}
+        Run Keyword and Ignore Error    Get Device Output from Voltha    ${onu_device_id}
+        Run Keyword And Ignore Error    Collect Logs
     END
-    #Run Keyword If    ${has_dataplane}    Clean Up Linux
-    #Check after reboot that ONUs are active, authenticated/DHCP/pingable
-    #Perform Sanity Test
 
 *** Keywords ***
 Setup Suite
