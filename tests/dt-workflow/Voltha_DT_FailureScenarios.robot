@@ -423,6 +423,76 @@ Verify OLT Soft Reboot for DT
     Run Keyword If    ${has_dataplane}    Clean Up Linux
     Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test DT
 
+Verify ONU Soft Reboot for DT
+    [Documentation]    Test soft reboot of the ONU using voltctl command
+    [Tags]    VOL-2820    ONUSoftRebootDt   notready
+    [Setup]    Start Logging    ONUSoftRebootDt
+    #...        AND             Setup
+    [Teardown]    Run Keywords    Collect Logs
+    ...           AND             Stop Logging    ONUSoftRebootDt
+    #...           AND             Delete Device and Verify
+    # Performing Sanity Test to make sure subscribers are all DHCP and pingable
+    #Run Keyword If    ${has_dataplane}    Clean Up Linux
+    #Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test DT
+    #Reboot the ONU and verify that ping fails
+    FOR    ${I}    IN RANGE    0    ${num_onus}
+        ${src}=    Set Variable    ${hosts.src[${I}]}
+        ${dst}=    Set Variable    ${hosts.dst[${I}]}
+        ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
+        ${onu_port}=    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
+        ...    Get ONU Port in ONOS    ${src['onu']}    ${of_id}
+        Reboot Device    ${onu_device_id}
+        Run Keyword If    ${has_dataplane}    Run Keyword And Continue On Failure
+        ...    Wait Until Keyword Succeeds    60s    2s
+        ...    Check Ping    False    ${dst['dp_iface_ip_qinq']}    ${src['dp_iface_name']}
+        ...    ${src['ip']}    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
+        Verify ping is succesful except for given device     ${num_onus}    ${onu_device_id}
+        # Remove Subscriber Access (To replicate DT workflow)
+        Wait Until Keyword Succeeds    ${timeout}    2s    Execute ONOS CLI Command    ${ONOS_SSH_IP}
+        ...    ${ONOS_SSH_PORT}    volt-remove-subscriber-access ${of_id} ${onu_port}
+	# Delete ONU Device (To replicate DT workflow)
+        Delete Device    ${onu_device_id}
+        Sleep    40s
+        # Check ONU port is Enabled in ONOS
+        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds   120s   2s
+        ...    Verify ONU Port Is Enabled   ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${onu_port}
+        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2
+        ...    Execute ONOS CLI Command    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}
+        ...    volt-add-subscriber-access ${of_id} ${onu_port}
+        # Verify ONU state in voltha
+        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s    Validate Device
+        ...    ENABLED    ACTIVE    REACHABLE
+        ...    ${src['onu']}    onu=True    onu_reason=omci-flows-pushed
+        # Verify subscriber access flows are added for the ONU port
+        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
+        ...    Verify Subscriber Access Flows Added For ONU DT    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${of_id}
+        ...    ${onu_port}    ${nni_port}    ${src['s_tag']}
+        #Run Keyword If    ${has_dataplane}    Clean Up Linux
+        Run Keyword If    ${has_dataplane}    Run Keyword And Continue On Failure    Validate DHCP and Ping    True
+        ...    True    ${src['dp_iface_name']}    ${src['s_tag']}    ${src['c_tag']}    ${dst['dp_iface_ip_qinq']}
+        ...    ${src['ip']}    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
+        ...    ${dst['dp_iface_name']}    ${dst['ip']}    ${dst['user']}    ${dst['pass']}    ${dst['container_type']}
+        ...    ${dst['container_name']}
+        Run Keyword And Ignore Error    Collect Logs
+    END
+    # Verify ONOS Flows
+    # Number of Access Flows on ONOS equals 4 * the Number of Active ONUs (2 for each downstream and upstream)
+    ${onos_flows_count}=    Evaluate    4 * ${num_onus}
+    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
+    ...    Verify Subscriber Access Flows Added Count DT    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}
+    ...    ${of_id}    ${onos_flows_count}
+    # Verify VOLTHA Flows
+    # Number of per OLT Flows equals Twice the Number of Active ONUs (each for downstream and upstream) + 1 for LLDP
+    ${olt_flows}=    Evaluate    2 * ${num_onus} + 1
+    # Number of per ONU Flows equals 2 (one each for downstream and upstream)
+    ${onu_flows}=    Set Variable    2
+    Run Keyword    Wait Until Keyword Succeeds    ${timeout}    5s    Validate OLT Flows    ${olt_flows}
+    ${List_ONU_Serial}    Create List
+    Set Suite Variable    ${List_ONU_Serial}
+    Build ONU SN List    ${List_ONU_Serial}
+    Log    ${List_ONU_Serial}
+    Run Keyword    Wait Until Keyword Succeeds    ${timeout}    5s    Validate ONU Flows
+    ...    ${List_ONU_Serial}    ${onu_flows}
 
 *** Keywords ***
 Setup Suite
