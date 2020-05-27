@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "06fefb19_ee952010",
+        "filename": "tests/functional/Voltha_FailureScenarios.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 540,
+      "author": {
+        "id": 1000514
+      },
+      "writtenOn": "2020-05-27T08:21:23Z",
+      "side": 1,
+      "message": "Not supported on BBSim at the moment and needs verification on POD with multiple ONUs",
+      "range": {
+        "startLine": 540,
+        "startChar": 0,
+        "endLine": 540,
+        "endChar": 22
+      },
+      "revId": "58c2078dfc785a4606e61f0b967feb3c51a212f1",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    }
+  ]
+}
