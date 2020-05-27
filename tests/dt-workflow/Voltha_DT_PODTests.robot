@@ -100,8 +100,9 @@ Test Subscriber Delete and Add for DT
     [Documentation]    Validates E2E Ping Connectivity and object states for the given scenario:
     ...    Assuming that all the ONUs are DHCP/pingable (i.e. assuming sanityDt test was executed)
     ...    Delete a subscriber and validate that the pings do not succeed and state is purged
-    ...    Disable and Enable the ONU (This is to replicate the existing DT behaviour)
+    ...    Disable, Delete and Re-Enable the ONU (This is to replicate the existing DT behaviour)
     ...    Re-add the subscriber, and validate that the flows are present and pings are successful
+    ...    This TC also covers VOL-3098: ONU Auto-Discovery on Delete (#TODO: VOL-3097: BBSim support)
     [Tags]    functionalDt    SubAddDeleteDt
     [Setup]    Start Logging     SubAddDeleteDt
     [Teardown]    Run Keywords    Collect Logs
@@ -116,7 +117,6 @@ Test Subscriber Delete and Add for DT
         Wait Until Keyword Succeeds    ${timeout}    2s    Execute ONOS CLI Command    ${ONOS_SSH_IP}
         ...    ${ONOS_SSH_PORT}    volt-remove-subscriber-access ${of_id} ${onu_port}
         Sleep    10s
-        # TODO: Yet to Verify on the GPON based Physical POD (VOL-2652)
         Run Keyword If    ${has_dataplane}    Run Keyword And Continue On Failure
         ...    Wait Until Keyword Succeeds    60s    2s
         ...    Check Ping    False    ${dst['dp_iface_ip_qinq']}    ${src['dp_iface_name']}
@@ -132,13 +132,19 @@ Test Subscriber Delete and Add for DT
         # Verify VOLTHA flows for ONU under test is Zero
         Run Keyword    Wait Until Keyword Succeeds    ${timeout}    5s    Validate Device Flows
         ...    ${onu_device_id}    0
-        # Disable and Re-Enable the ONU (To replicate DT current workflow)
-        # TODO: Delete and Auto-Discovery Add of ONU (not yet supported)
+        # Disable, Delete and Re-Enable the ONU (To replicate DT current workflow)
         Disable Device    ${onu_device_id}
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
         ...    Validate Device    DISABLED    UNKNOWN
         ...    REACHABLE    ${src['onu']}
+        # Delete ONU Device
+        Delete Device    ${onu_device_id}
+        # Waiting extra time for the ONU to come up
+        Sleep    45s
+        # Get the ONU new device Id
+        ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
         Enable Device    ${onu_device_id}
+        Sleep    15s
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    360s    5s
         ...    Validate Device    ENABLED    ACTIVE
         ...    REACHABLE    ${src['onu']}
@@ -153,11 +159,11 @@ Test Subscriber Delete and Add for DT
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    360s    5s
         ...    Validate Device    ENABLED    ACTIVE
         ...    REACHABLE    ${src['onu']}    onu=True    onu_reason=omci-flows-pushed
-        # TODO: Yet to Verify on the GPON based Physical POD (VOL-2652)
-        Run Keyword If    ${has_dataplane}    Run Keyword And Continue On Failure
-        ...    Wait Until Keyword Succeeds    60s    2s
-        ...    Check Ping    True    ${dst['dp_iface_ip_qinq']}    ${src['dp_iface_name']}
+        Run Keyword If    ${has_dataplane}    Run Keyword And Continue On Failure    Validate DHCP and Ping    True
+        ...    True    ${src['dp_iface_name']}    ${src['s_tag']}    ${src['c_tag']}    ${dst['dp_iface_ip_qinq']}
         ...    ${src['ip']}    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
+        ...    ${dst['dp_iface_name']}    ${dst['ip']}    ${dst['user']}    ${dst['pass']}    ${dst['container_type']}
+        ...    ${dst['container_name']}
         Run Keyword and Ignore Error    Get Device Output from Voltha    ${onu_device_id}
         Run Keyword and Ignore Error    Collect Logs
     END
