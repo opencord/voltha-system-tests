@@ -365,9 +365,10 @@ Test Disable ONUs and OLT Then Delete ONUs and OLT for DT
 Data plane verification using TCP for DT
     [Documentation]    Test bandwidth profile is met and not exceeded for each subscriber.
     ...    Assumes iperf3 and jq installed on client and iperf -s running on DHCP server
-    [Tags]    dataplaneDt    BW-profile-TCP-Dt    VOL-3061
-    [Setup]    None
-    [Teardown]    None
+    [Tags]    dataplaneDt    BandwidthProfileTCPDt    VOL-3061
+    [Setup]    Start Logging    BandwidthProfileTCPDt
+    [Teardown]    Run Keywords    Collect Logs
+    ...           AND    Stop Logging    BandwidthProfileTCPDt
     Pass Execution If   '${has_dataplane}'=='False'    Bandwidth profile validation can be done only in
     ...    physical pod.  Skipping this test in BBSIM.
     ${of_id}=    Wait Until Keyword Succeeds    ${timeout}    15s    Validate OLT Device in ONOS    ${olt_serial_number}
@@ -418,9 +419,10 @@ Data plane verification using TCP for DT
 Data plane verification using UDP for DT
     [Documentation]    Test bandwidth profile is met and not exceeded for each subscriber.
     ...    Assumes iperf3 and jq installed on client and iperf -s running on DHCP server
-    [Tags]    dataplaneDt    BW-profile-UDP-Dt    VOL-3061    notready
-    [Setup]    None
-    [Teardown]    None
+    [Tags]    dataplaneDt    BandwidthProfileUDPDt    VOL-3061    notready
+    [Setup]    Start Logging    BandwidthProfileUDPDt
+    [Teardown]    Run Keywords    Collect Logs
+    ...           AND    Stop Logging    BandwidthProfileUDPDt
     Pass Execution If   '${has_dataplane}'=='False'    Bandwidth profile validation can be done only in
     ...    physical pod.  Skipping this test in BBSIM.
     ${of_id}=    Wait Until Keyword Succeeds    ${timeout}    15s    Validate OLT Device in ONOS    ${olt_serial_number}
