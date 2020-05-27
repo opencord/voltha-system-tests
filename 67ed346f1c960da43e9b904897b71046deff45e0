@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ac3b2528_65a38e87",
+        "filename": "tests/scale/Voltha_Scale_Tests.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1000007
+      },
+      "writtenOn": "2020-05-27T16:13:13Z",
+      "side": 1,
+      "message": "the variable needs to be declared (see line 72). Why not calling it \"withLLDP\" for consistency?\n\nIt also needs support in the pipeline so that it\u0027s passed to robot: https://github.com/opencord/ci-management/blob/master/jjb/pipeline/voltha-scale-test.groovy#L276",
+      "range": {
+        "startLine": 107,
+        "startChar": 59,
+        "endLine": 107,
+        "endChar": 72
+      },
+      "revId": "67ed346f1c960da43e9b904897b71046deff45e0",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    }
+  ]
+}
