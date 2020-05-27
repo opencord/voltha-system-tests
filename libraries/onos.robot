@@ -360,9 +360,9 @@ Count ADDED flows
 Wait for all flows to in ADDED state
     [Documentation]  Waits until the flows have been provisioned
     [Arguments]  ${onos_ip}    ${onos_port}     ${workflow}    ${uni_count}    ${olt_count}    ${provisioned}
-    ...     ${withEapol}    ${withDhcp}     ${withIgmp}
+    ...     ${withEapol}    ${withDhcp}     ${withIgmp}     ${withLldp}
     ${targetFlows}=     Calculate flows by workflow     ${workflow}    ${uni_count}    ${olt_count}     ${provisioned}
-    ...     ${withEapol}    ${withDhcp}     ${withIgmp}
+    ...     ${withEapol}    ${withDhcp}     ${withIgmp}     ${withLldp}
     Wait Until Keyword Succeeds     10m     5s      Count ADDED flows
     ...     ${onos_ip}    ${onos_port}  ${targetFlows}
 

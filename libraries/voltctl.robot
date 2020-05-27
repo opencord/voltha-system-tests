@@ -499,9 +499,9 @@ Count Logical Devices flows
 Wait for Logical Devices flows
     [Documentation]  Waits until the flows have been provisioned in the logical device
     [Arguments]  ${workflow}    ${uni_count}    ${olt_count}    ${provisioned}
-    ...     ${withEapol}    ${withDhcp}     ${withIgmp}
+    ...     ${withEapol}    ${withDhcp}     ${withIgmp}     ${withLldp}
     ${targetFlows}=     Calculate flows by workflow     ${workflow}    ${uni_count}    ${olt_count}     ${provisioned}
-    ...     ${withEapol}    ${withDhcp}     ${withIgmp}
+    ...     ${withEapol}    ${withDhcp}     ${withIgmp}    ${withLldp}
     Log     ${targetFlows}
     # TODO extend Validate Logical Device Flows to check the correct number of flows
     Wait Until Keyword Succeeds     10m     5s  Count Logical Devices flows     ${targetFlows}
@@ -526,9 +526,9 @@ Count OpenOLT Device Flows
 Wait for OpenOLT Devices flows
     [Documentation]  Waits until the flows have been provisioned in the openolt devices
     [Arguments]  ${workflow}    ${uni_count}    ${olt_count}    ${provisioned}
-    ...     ${withEapol}    ${withDhcp}     ${withIgmp}
+    ...     ${withEapol}    ${withDhcp}     ${withIgmp}     ${withLldp}
     ${targetFlows}=     Calculate flows by workflow     ${workflow}    ${uni_count}    ${olt_count}     ${provisioned}
-    ...     ${withEapol}    ${withDhcp}     ${withIgmp}
+    ...     ${withEapol}    ${withDhcp}     ${withIgmp}     ${withLldp}
     # In the physical device we only have 2 data plane flows (on the PON) instead of 4
     Run Keyword If  $provisioned=='true'
     ...     ${targetFlows}=     Evaluate    ${targetFlows} - (${uni_count} * 2)

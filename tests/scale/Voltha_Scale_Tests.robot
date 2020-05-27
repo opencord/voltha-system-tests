@@ -104,14 +104,14 @@ Flows validation in VOLTHA before subscriber provisioning
     # NOTE fail the test immediately if we're trying to check flows without provisioning them
     Should Be Equal   ${enableFlowProvisioning}     true
     Wait for Logical Devices flows   ${workflow}    ${total_onus}    ${olt}    false
-    ...     ${withEapol}    ${withDhcp}     ${withIgmp}
+    ...     ${withEapol}    ${withDhcp}     ${withIgmp}    ${enableLLDP}
 
 Flows validation in VOLTHA Adapters before subscriber provisioning
     [Documentation]  Check that all flows has been store in devices of type openolt
     [Tags]      non-critical    flow-before   plot-voltha-openolt-flows-before
     Should Be Equal   ${enableFlowProvisioning}     true
     Wait for OpenOLT Devices flows   ${workflow}    ${total_onus}    ${olt}    false
-    ...     ${withEapol}    ${withDhcp}     ${withIgmp}
+    ...     ${withEapol}    ${withDhcp}     ${withIgmp}    ${enableLLDP}
 
 Flows validation in ONOS before subscriber provisioning
     [Documentation]    Check that all the flows has been acknowledged
@@ -119,7 +119,8 @@ Flows validation in ONOS before subscriber provisioning
     # NOTE fail the test immediately if we're trying to check flows without provisioning them
     Should Be Equal   ${enableFlowProvisioning}     true
     Wait for all flows to in ADDED state    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}
-    ...     ${workflow}    ${total_onus}    ${olt}    false     ${withEapol}    ${withDhcp}     ${withIgmp}
+    ...     ${workflow}    ${total_onus}    ${olt}    false     ${withEapol}    ${withDhcp}
+    ...     ${withIgmp}   ${enableLLDP}
 
 Wait for subscribers to be Authenticated
     [Documentation]    Check that all subscribers have successfully authenticated
@@ -141,14 +142,14 @@ Flows validation in VOLTHA after subscriber provisioning
     # NOTE fail the test immediately if we're trying to check flows without provisioning them
     Should Be Equal   ${enableFlowProvisioning}     true
     Wait for Logical Devices flows   ${workflow}    ${total_onus}    ${olt}    true
-    ...     ${withEapol}    ${withDhcp}     ${withIgmp}
+    ...     ${withEapol}    ${withDhcp}     ${withIgmp}    ${enableLLDP}
 
 Flows validation in VOLTHA Adapters after subscriber provisioning
     [Documentation]  Check that all flows has been store in devices of type openolt
     [Tags]      non-critical    flow-after   plot-voltha-openolt-flows-after
     Should Be Equal   ${enableFlowProvisioning}     true
     Wait for OpenOLT Devices flows   ${workflow}    ${total_onus}    ${olt}    true
-    ...     ${withEapol}    ${withDhcp}     ${withIgmp}
+    ...     ${withEapol}    ${withDhcp}     ${withIgmp}    ${enableLLDP}
 
 Flows validation in ONOS after subscriber provisioning
     [Documentation]    Check that all the flows has been acknowledged
@@ -156,7 +157,8 @@ Flows validation in ONOS after subscriber provisioning
     # NOTE fail the test immediately if we're trying to check flows without provisioning them
     Should Be Equal   ${enableFlowProvisioning}     true
     Wait for all flows to in ADDED state    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}
-    ...     ${workflow}    ${total_onus}    ${olt}    true      ${withEapol}    ${withDhcp}     ${withIgmp}
+    ...     ${workflow}    ${total_onus}    ${olt}    true      ${withEapol}    ${withDhcp}
+    ...     ${withIgmp}   ${enableLLDP}
 
 Wait for subscribers to have an IP
     [Documentation]    Check that all subscribers have received a DHCP_ACK
