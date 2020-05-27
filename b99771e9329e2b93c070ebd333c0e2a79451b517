@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "971678a5_456c53ca",
+        "filename": "tests/dt-workflow/Voltha_DT_FailureScenarios.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 426,
+      "author": {
+        "id": 1000514
+      },
+      "writtenOn": "2020-05-27T08:30:58Z",
+      "side": 1,
+      "message": "This ATT one, this also needs to be verified on POD with multiple ONUs.",
+      "range": {
+        "startLine": 426,
+        "startChar": 0,
+        "endLine": 426,
+        "endChar": 29
+      },
+      "revId": "b99771e9329e2b93c070ebd333c0e2a79451b517",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "855cb984_3cc2e267",
+        "filename": "tests/dt-workflow/Voltha_DT_FailureScenarios.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 452,
+      "author": {
+        "id": 1000514
+      },
+      "writtenOn": "2020-05-27T08:30:58Z",
+      "side": 1,
+      "message": "Please fix the indentation",
+      "range": {
+        "startLine": 452,
+        "startChar": 0,
+        "endLine": 452,
+        "endChar": 2
+      },
+      "revId": "b99771e9329e2b93c070ebd333c0e2a79451b517",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "36ac26c8_6ca0181b",
+        "filename": "tests/dt-workflow/Voltha_DT_FailureScenarios.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 454,
+      "author": {
+        "id": 1000514
+      },
+      "writtenOn": "2020-05-27T08:30:58Z",
+      "side": 1,
+      "message": "Suggestion: Post ONU Delete, the entry/id for that ONU will obviously be gone. This needs to be moved up after the \"Reboot\" and Ping Fail keywords for better verification.",
+      "range": {
+        "startLine": 454,
+        "startChar": 0,
+        "endLine": 454,
+        "endChar": 92
+      },
+      "revId": "b99771e9329e2b93c070ebd333c0e2a79451b517",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    }
+  ]
+}
