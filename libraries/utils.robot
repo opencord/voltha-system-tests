@@ -588,9 +588,12 @@ Stop Logging
 
 Clean Up Linux
     [Documentation]    Kill processes and clean up interfaces on src+dst servers
+    [Arguments]    ${onu_id}=${EMPTY}
     FOR    ${I}    IN RANGE    0    ${num_onus}
         ${src}=    Set Variable    ${hosts.src[${I}]}
         ${dst}=    Set Variable    ${hosts.dst[${I}]}
+        ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
+        Continue For Loop If    '${onu_id}' != '${EMPTY}' and '${onu_id}' != '${onu_device_id}'
         Execute Remote Command    sudo pkill wpa_supplicant    ${src['ip']}
         ...    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
         Execute Remote Command    sudo pkill dhclient    ${src['ip']}
