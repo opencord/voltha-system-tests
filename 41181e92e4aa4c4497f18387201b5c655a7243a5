@@ -45,6 +45,30 @@
       "revId": "41181e92e4aa4c4497f18387201b5c655a7243a5",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d4014fd7_25f6305e",
+        "filename": "libraries/utils.robot",
+        "patchSetId": 7
+      },
+      "lineNbr": 295,
+      "author": {
+        "id": 1000596
+      },
+      "writtenOn": "2020-05-27T20:32:07Z",
+      "side": 1,
+      "message": "Thanks!",
+      "parentUuid": "c704c998_230338ad",
+      "range": {
+        "startLine": 295,
+        "startChar": 4,
+        "endLine": 295,
+        "endChar": 36
+      },
+      "revId": "41181e92e4aa4c4497f18387201b5c655a7243a5",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
     }
   ]
 }
