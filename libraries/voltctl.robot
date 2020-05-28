@@ -530,7 +530,7 @@ Wait for OpenOLT Devices flows
     ${targetFlows}=     Calculate flows by workflow     ${workflow}    ${uni_count}    ${olt_count}     ${provisioned}
     ...     ${withEapol}    ${withDhcp}     ${withIgmp}     ${withLldp}
     # In the physical device we only have 2 data plane flows (on the PON) instead of 4
-    Run Keyword If  $provisioned=='true'
+    Set Variable If  $provisioned=='true'
     ...     ${targetFlows}=     Evaluate    ${targetFlows} - (${uni_count} * 2)
     Log     ${targetFlows}
     Wait Until Keyword Succeeds     10m     5s  Count OpenOLT Device Flows     ${targetFlows}
