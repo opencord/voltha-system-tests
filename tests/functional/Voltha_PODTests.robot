@@ -532,7 +532,7 @@ Data plane verification using UDP
         # Stream UDP packets from RG to server
         ${uprate}=    Evaluate    ${limiting_bw_value_upstream}*${udp_rate_multiplier}
         ${updict}=    Run Iperf3 Test Client    ${src}    server=${dst['dp_iface_ip_qinq']}
-        ...    args=-u -b ${uprate}K -t 30 -l ${udp_packet_bytes}
+        ...    args=-u -b ${uprate}K -t 30 -l ${udp_packet_bytes} --pacing-timer 0
         # With UDP test, bits per second is the sending rate.  Multiply by the loss rate to get the throughput.
         ${actual_upstream_bw_used}=    Evaluate
         ...    (100 - ${updict['end']['sum']['lost_percent']})*${updict['end']['sum']['bits_per_second']}/100000
@@ -540,7 +540,7 @@ Data plane verification using UDP
         # Stream UDP packets from server to RG
         ${dnrate}=    Evaluate    ${limiting_bw_value_dnstream}*${udp_rate_multiplier}
         ${dndict}=    Run Iperf3 Test Client    ${src}    server=${dst['dp_iface_ip_qinq']}
-        ...    args=-u -b ${dnrate}K -R -t 30 -l ${udp_packet_bytes}
+        ...    args=-u -b ${dnrate}K -R -t 30 -l ${udp_packet_bytes} --pacing-timer 0
         # With UDP test, bits per second is the sending rate.  Multiply by the loss rate to get the throughput.
         ${actual_dnstream_bw_used}=    Evaluate
         ...    (100 - ${dndict['end']['sum']['lost_percent']})*${dndict['end']['sum']['bits_per_second']}/100000
