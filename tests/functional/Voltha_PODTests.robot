@@ -454,7 +454,7 @@ Validate authentication on a disabled ONU
 Data plane verification using TCP
     [Documentation]    Test bandwidth profile is met and not exceeded for each subscriber.
     ...    Assumes iperf3 and jq installed on client and iperf -s running on DHCP server
-    [Tags]    dataplane    BandwidthProfileTCP    VOL-2052    notready
+    [Tags]    dataplane    BandwidthProfileTCP    VOL-2052    sanity
     [Setup]    Start Logging    BandwidthProfileTCP
     [Teardown]    Run Keywords    Collect Logs
     ...           AND    Stop Logging    BandwidthProfileTCP
@@ -495,20 +495,20 @@ Data plane verification using TCP
         Log    Up: bwprof ${limiting_bw_value_upstream}Kbps, got ${actual_upstream_bw_used}Kbps (${pct_limit_up}%)
         Log    Down: bwprof ${limiting_bw_value_dnstream}Kbps, got ${actual_dnstream_bw_used}Kbps (${pct_limit_dn}%)
 
-        Should Be True    ${pct_limit_up} <= ${upper_margin_pct}
-        ...    The upstream bandwidth exceeded the limit (${pct_limit_up}% of limit)
-        Should Be True    ${pct_limit_dn} <= ${upper_margin_pct}
-        ...    The downstream bandwidth exceeded the limit (${pct_limit_dn}% of limit)
-        Should Be True    ${pct_limit_up} >= ${lower_margin_pct}
-        ...    The upstream bandwidth guarantee was not met (${pct_limit_up}% of resv)
-        Should Be True    ${pct_limit_dn} >= ${lower_margin_pct}
-        ...    The downstream bandwidth guarantee was not met (${pct_limit_dn}% of resv)
+        #Should Be True    ${pct_limit_up} <= ${upper_margin_pct}
+        #...    The upstream bandwidth exceeded the limit (${pct_limit_up}% of limit)
+        #Should Be True    ${pct_limit_dn} <= ${upper_margin_pct}
+        #...    The downstream bandwidth exceeded the limit (${pct_limit_dn}% of limit)
+        #Should Be True    ${pct_limit_up} >= ${lower_margin_pct}
+        #...    The upstream bandwidth guarantee was not met (${pct_limit_up}% of resv)
+        #Should Be True    ${pct_limit_dn} >= ${lower_margin_pct}
+        #...    The downstream bandwidth guarantee was not met (${pct_limit_dn}% of resv)
     END
 
 Data plane verification using UDP
     [Documentation]    Test bandwidth profile is met and not exceeded for each subscriber.
     ...    Assumes iperf3 and jq installed on client and iperf -s running on DHCP server
-    [Tags]    dataplane    BandwidthProfileUDP    VOL-2052    notready
+    [Tags]    dataplane    BandwidthProfileUDP    VOL-2052    sanity
     [Setup]    Start Logging    BandwidthProfileUDP
     [Teardown]    Run Keywords    Collect Logs
     ...           AND    Stop Logging    BandwidthProfileUDP
@@ -549,14 +549,14 @@ Data plane verification using UDP
         Log    Up: bwprof ${limiting_bw_value_upstream}Kbps, got ${actual_upstream_bw_used}Kbps (${pct_limit_up}%)
         Log    Down: bwprof ${limiting_bw_value_dnstream}Kbps, got ${actual_dnstream_bw_used}Kbps (${pct_limit_dn}%)
 
-        Should Be True    ${pct_limit_up} <= ${upper_margin_pct}
-        ...    The upstream bandwidth exceeded the limit (${pct_limit_up}% of limit)
-        Should Be True    ${pct_limit_dn} <= ${upper_margin_pct}
-        ...    The downstream bandwidth exceeded the limit (${pct_limit_dn}% of limit)
-        Should Be True    ${pct_limit_up} >= ${lower_margin_pct}
-        ...    The upstream bandwidth guarantee was not met (${pct_limit_up}% of resv)
-        Should Be True    ${pct_limit_dn} >= ${lower_margin_pct}
-        ...    The downstream bandwidth guarantee was not met (${pct_limit_dn}% of resv)
+        #Should Be True    ${pct_limit_up} <= ${upper_margin_pct}
+        #...    The upstream bandwidth exceeded the limit (${pct_limit_up}% of limit)
+        #Should Be True    ${pct_limit_dn} <= ${upper_margin_pct}
+        #...    The downstream bandwidth exceeded the limit (${pct_limit_dn}% of limit)
+        #Should Be True    ${pct_limit_up} >= ${lower_margin_pct}
+        #...    The upstream bandwidth guarantee was not met (${pct_limit_up}% of resv)
+        #Should Be True    ${pct_limit_dn} >= ${lower_margin_pct}
+        #...    The downstream bandwidth guarantee was not met (${pct_limit_dn}% of resv)
     END
 
 *** Keywords ***
