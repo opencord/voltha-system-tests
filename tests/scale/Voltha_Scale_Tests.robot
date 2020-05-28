@@ -56,6 +56,7 @@ Resource          ../../variables/variables.robot
 *** Variables ***
 ${ONOS_SSH_IP}  127.0.0.1
 ${ONOS_SSH_PORT}    8101
+${ONOS_REST_PORT}    8181
 
 # Scale pipeline values
 ${olt}  1
@@ -109,7 +110,7 @@ Flows validation in VOLTHA before subscriber provisioning
 
 Flows validation in VOLTHA Adapters before subscriber provisioning
     [Documentation]  Check that all flows has been store in devices of type openolt
-    [Tags]      non-critical    flow-before   plot-voltha-openolt-flows-before
+    [Tags]      non-critical    flow-before   plot-voltha-openolt-flows-before  only-me
     Should Be Equal   ${enableFlowProvisioning}     true
     Wait for OpenOLT Devices flows   ${workflow}    ${total_onus}    ${olt}    false
     ...     ${withEapol}    ${withDhcp}     ${withIgmp}    ${withLLDP}
@@ -134,7 +135,7 @@ Provision subscribers
     Should Be Equal   ${enableSubscriberProvisioning}     true
     ${olts}=    List OLTs   ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}
     FOR     ${olt}  IN  @{olts}
-        Provision all subscribers on device  ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}  ${olt}
+        Provision all subscribers on device  ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}     ${ONOS_REST_PORT}  ${olt}
     END
 
 Flows validation in VOLTHA after subscriber provisioning
@@ -147,7 +148,7 @@ Flows validation in VOLTHA after subscriber provisioning
 
 Flows validation in VOLTHA Adapters after subscriber provisioning
     [Documentation]  Check that all flows has been store in devices of type openolt
-    [Tags]      non-critical    flow-after   plot-voltha-openolt-flows-after
+    [Tags]      non-critical    flow-after   plot-voltha-openolt-flows-after    only-me
     Should Be Equal   ${enableFlowProvisioning}     true
     Wait for OpenOLT Devices flows   ${workflow}    ${total_onus}    ${olt}    true
     ...     ${withEapol}    ${withDhcp}     ${withIgmp}    ${withLLDP}

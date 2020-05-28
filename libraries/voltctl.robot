@@ -527,10 +527,10 @@ Wait for OpenOLT Devices flows
     [Documentation]  Waits until the flows have been provisioned in the openolt devices
     [Arguments]  ${workflow}    ${uni_count}    ${olt_count}    ${provisioned}
     ...     ${withEapol}    ${withDhcp}     ${withIgmp}     ${withLldp}
-    ${targetFlows}=     Calculate flows by workflow     ${workflow}    ${uni_count}    ${olt_count}     ${provisioned}
-    ...     ${withEapol}    ${withDhcp}     ${withIgmp}     ${withLldp}
     # In the physical device we only have 2 data plane flows (on the PON) instead of 4
-    Run Keyword If  $provisioned=='true'
-    ...     ${targetFlows}=     Evaluate    ${targetFlows} - (${uni_count} * 2)
+    ${beforeFlows}=     Calculate flows by workflow     ${workflow}    ${uni_count}    ${olt_count}     ${provisioned}
+    ...     ${withEapol}    ${withDhcp}     ${withIgmp}     ${withLldp}
+    ${afterFlows}=      Evaluate    ${beforeFlows} - (${uni_count} * 2)
+    ${targetFlows}=    Set Variable If  $provisioned=='true'    ${afterFlows}   ${beforeFlows}
     Log     ${targetFlows}
     Wait Until Keyword Succeeds     10m     5s  Count OpenOLT Device Flows     ${targetFlows}
