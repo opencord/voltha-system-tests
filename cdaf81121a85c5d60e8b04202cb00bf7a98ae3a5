@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a668f81_63362bd8",
+        "filename": "libraries/onos.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 310,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2020-05-28T18:50:28Z",
+      "side": 1,
+      "message": "Capital P for consistency",
+      "range": {
+        "startLine": 310,
+        "startChar": 0,
+        "endLine": 310,
+        "endChar": 9
+      },
+      "revId": "cdaf81121a85c5d60e8b04202cb00bf7a98ae3a5",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ff752e52_d9be3bd0",
+        "filename": "libraries/onos.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 336,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2020-05-28T18:50:28Z",
+      "side": 1,
+      "message": "update documentation",
+      "range": {
+        "startLine": 336,
+        "startChar": 21,
+        "endLine": 336,
+        "endChar": 53
+      },
+      "revId": "cdaf81121a85c5d60e8b04202cb00bf7a98ae3a5",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    }
+  ]
+}
