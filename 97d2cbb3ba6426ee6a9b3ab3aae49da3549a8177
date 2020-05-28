@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "28577701_b82e0288",
+        "filename": "tests/data/multiple-bbsim-kind.yaml",
+        "patchSetId": 8
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2020-05-28T07:45:48Z",
+      "side": 1,
+      "message": "Please insert the corresponding olts like this:\nhosts:\n  src:\n      - \n        onu: \u0027BBSM00000001\u0027\n        olt: BBSIM_OLT_0\n        c_tag: \u0027900\u0027\n        s_tag: \u0027900\u0027\n\n      - \n        onu: \u0027BBSM00010001\u0027\n        olt: BBSIM_OLT_1\n        c_tag: \u0027900\u0027\n        s_tag: \u0027900\u0027\n\n      - onu: \u0027BBSM00020001\u0027\n        olt: BBSIM_OLT_2\n        c_tag: \u0027900\u0027\n        s_tag: \u0027900\u0027\n\n      - \n        onu: \u0027BBSM00030001\u0027\n        olt: BBSIM_OLT_3\n        c_tag: \u0027900\u0027\n        s_tag: \u0027900\u0027\n\n      - \n        onu: \u0027BBSM00040001\u0027\n        olt: BBSIM_OLT_4\n        c_tag: \u0027900\u0027\n        s_tag: \u0027900\u0027\n\n      - \n        onu: \u0027BBSM00050001\u0027\n        olt: BBSIM_OLT_5\n        c_tag: \u0027900\u0027\n        s_tag: \u0027900\u0027\n\n      - \n        onu: \u0027BBSM00060001\u0027\n        olt: BBSIM_OLT_6\n        c_tag: \u0027900\u0027\n        s_tag: \u0027900\u0027\n\n      - \n        onu: \u0027BBSM00070001\u0027\n        olt: BBSIM_OLT_7\n        c_tag: \u0027900\u0027\n        s_tag: \u0027900\u0027\n\n      - \n        onu: \u0027BBSM00080001\u0027\n        olt: BBSIM_OLT_8\n        c_tag: \u0027900\u0027\n        s_tag: \u0027900\u0027\n\n      - \n        onu: \u0027BBSM00090001\u0027\n        olt: BBSIM_OLT_9\n        c_tag: \u0027900\u0027\n        s_tag: \u0027900\u0027",
+      "range": {
+        "startLine": 63,
+        "startChar": 0,
+        "endLine": 94,
+        "endChar": 18
+      },
+      "revId": "97d2cbb3ba6426ee6a9b3ab3aae49da3549a8177",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    }
+  ]
+}
