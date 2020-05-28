@@ -56,6 +56,7 @@ Resource          ../../variables/variables.robot
 *** Variables ***
 ${ONOS_SSH_IP}  127.0.0.1
 ${ONOS_SSH_PORT}    8101
+${ONOS_REST_PORT}    8181
 
 # Scale pipeline values
 ${olt}  1
@@ -132,7 +133,7 @@ Provision subscribers
     Should Be Equal   ${enableSubscriberProvisioning}     true
     ${olts}=    List OLTs   ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}
     FOR     ${olt}  IN  @{olts}
-        Provision all subscribers on device  ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}  ${olt}
+        Provision all subscribers on device  ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}     ${ONOS_REST_PORT}  ${olt}
     END
 
 Flows validation in VOLTHA after subscriber provisioning

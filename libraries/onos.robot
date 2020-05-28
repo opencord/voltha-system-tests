@@ -307,6 +307,14 @@ Provision subscriber
     Execute ONOS CLI Command    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}
             ...    volt-add-subscriber-access ${of_id} ${onu_port}
 
+provision subscriber REST
+    [Documentation]     Uses the rest APIs to provision a subscriber
+    [Arguments]     ${onos_ip}    ${onos_port}   ${of_id}    ${onu_port}
+    ${resp}=    Post Request    ONOS
+    ...    /onos/olt/oltapp/${of_id}/${onu_port}
+    Should Be Equal As Strings    ${resp.status_code}    200
+
+
 List Enabled UNI Ports
     [Documentation]  List all the UNI Ports, the only way we have is to filter out the one called NNI
     ...     Creates a list of dictionaries
@@ -326,10 +334,12 @@ List Enabled UNI Ports
 
 Provision all subscribers on device
     [Documentation]  Calls volt-add-subscriber-access in ONOS for all the enabled UNI ports on a partivular device
-    [Arguments]     ${onos_ip}    ${onos_port}   ${of_id}
-    ${unis}=    List Enabled UNI Ports  ${onos_ip}  ${onos_port}   ${of_id}
+    [Arguments]     ${onos_ip}    ${onos_ssh_port}  ${onos_rest_port}   ${of_id}
+    ${unis}=    List Enabled UNI Ports  ${onos_ip}  ${onos_ssh_port}   ${of_id}
+    ${onos_auth}=    Create List    karaf    karaf
+    Create Session    ONOS    http://${onos_ip}:${onos_rest_port}    auth=${onos_auth}
     FOR     ${uni}  IN      @{unis}
-        Provision subscriber   ${onos_ip}  ${onos_port}   ${uni['of_id']}   ${uni['port']}
+        Provision Subscriber REST   ${onos_ip}  ${onos_rest_port}   ${uni['of_id']}   ${uni['port']}
     END
 
 List OLTs
