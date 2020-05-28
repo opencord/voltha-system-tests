@@ -365,7 +365,7 @@ Test Disable ONUs and OLT Then Delete ONUs and OLT for DT
 Data plane verification using TCP for DT
     [Documentation]    Test bandwidth profile is met and not exceeded for each subscriber.
     ...    Assumes iperf3 and jq installed on client and iperf -s running on DHCP server
-    [Tags]    dataplaneDt    BandwidthProfileTCPDt    VOL-3061
+    [Tags]    dataplaneDt    BandwidthProfileTCPDt    VOL-3061    notready
     [Setup]    Start Logging    BandwidthProfileTCPDt
     [Teardown]    Run Keywords    Collect Logs
     ...           AND    Stop Logging    BandwidthProfileTCPDt
