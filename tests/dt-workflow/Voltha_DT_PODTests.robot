@@ -207,7 +207,7 @@ Test Disable and Delete OLT for DT
     ...    Perform disable on the OLT and validate ONUs state and that the pings do not succeed
     ...    Perform delete on the OLT, Re-do Setup (Recreate the OLT) and Perform Sanity Test DT
     [Tags]    functionalDt    DisableDeleteOLTDt
-    [Setup]    Start Logging    DisableDeleteOLTDt
+    [Setup]    Start Logging    DisableDeleteOLTDt    notready
     [Teardown]    Run Keywords    Collect Logs
     ...           AND             Stop Logging    DisableDeleteOLTDt
     # Disable and Validate OLT Device
