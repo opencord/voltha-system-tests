@@ -465,6 +465,8 @@ Validate authentication on a disabled ONU
 Setup Suite
     [Documentation]    Set up the test suite
     Common Test Suite Setup
+    #Restore all ONUs
+    Run Keyword If    ${has_dataplane}    RestoreONUs    ${num_onus}
 
 Clear All Devices Then Create New Device
     [Documentation]    Remove any devices from VOLTHA and ONOS

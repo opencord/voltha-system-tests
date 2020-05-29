@@ -483,3 +483,61 @@ Parse RFC3339
     ${rc}    ${output}=    Run and Return Rc and Output     date --date="${dateStr}" "+%s"
     Should Be Equal As Numbers    ${rc}    0
     [return]    ${output}
+
+Execute Remote Command
+    [Documentation]    SSH into a remote host and execute a command on the bare host or in a container.
+    ...    This replaces and simplifies the Login And Run Command On Remote System keyword in CORDRobot.
+    [Arguments]    ${cmd}    ${ip}    ${user}    ${pass}=${None}
+    ...    ${container_type}=${None}    ${container_name}=${None}
+    ${conn_id}=    SSHLibrary.Open Connection    ${ip}
+    Run Keyword If    '${pass}' != '${None}'
+    ...    SSHLibrary.Login    ${user}    ${pass}
+    ...    ELSE
+    ...    SSHLibrary.Login With Public Key    ${user}    %{HOME}/.ssh/id_rsa
+    ${namespace}=    Run Keyword If    '${container_type}' == 'K8S'    SSHLibrary.Execute Command
+    ...    kubectl get pods --all-namespaces | grep ${container_name} | awk '{print $1}'
+    ${stdout}    ${stderr}    ${rc}=    Run Keyword If    '${container_type}' == 'LXC'
+    ...        SSHLibrary.Execute Command    lxc exec ${container_name} -- ${cmd}
+    ...        return_stderr=True    return_rc=True
+    ...    ELSE IF    '${container_type}' == 'K8S'
+    ...        SSHLibrary.Execute Command    kubectl -n ${namespace} exec ${container_name} -- ${cmd}
+    ...        return_stderr=True    return_rc=True
+    ...    ELSE
+    ...        SSHLibrary.Execute Command    ${cmd}    return_stderr=True    return_rc=True
+
+    Log    ${stdout}
+    Log    ${stderr}
+    Log    ${rc}
+    SSHLibrary.Close Connection
+    [Return]    ${stdout}    ${stderr}    ${rc}
+
+RestoreONUs
+    [Documentation]    Restore all connected ONUs
+    [Arguments]    ${num_onus}
+    FOR    ${I}    IN RANGE    0    ${num_onus}
+        ${src}=    Set Variable    ${hosts.src[${I}]}
+        ${container_type}=    Get Variable Value    ${src['container_type']}    "null"
+        ${container_name}=    Get Variable Value    ${src['container_name']}    "null"
+        ${onu_type}=    Get Variable Value    ${src['onu_type']}    "null"
+        #Get ens6f0 from ens6f0.22
+        ${if_name}=    Replace String Using Regexp    ${src['dp_iface_name']}    \\..*    \
+        Run Keyword IF    '${onu_type}' == 'alpha'    AlphaONURestoreDefault    ${src['ip']}    ${src['user']}
+        ...    ${src['pass']}    ${if_name}    admin    admin    ${container_type}    ${container_name}
+    END
+
+AlphaONURestoreDefault
+    [Documentation]    Restore the Alpha ONU to factory setting
+    [Arguments]    ${rg_ip}    ${rg_user}    ${rg_pass}    ${onu_ifname}
+    ...    ${onu_user}    ${onu_pass}    ${container_type}=${None}    ${container_name}=${None}
+    ${output}=    Login And Run Command On Remote System    sudo ifconfig ${onu_ifname} 192.168.1.3/24
+    ...    ${rg_ip}    ${rg_user}    ${rg_pass}    ${container_type}    ${container_name}
+    ${cmd}	Catenate
+    ...    (echo open "192.168.1.1"; sleep 1;
+    ...    echo "${onu_user}"; sleep 1;
+    ...    echo "${onu_pass}"; sleep 1;
+    ...    echo "restoredefault"; sleep 1) | telnet
+    ${output}=    Login And Run Command On Remote System    ${cmd}
+    ...    ${rg_ip}    ${rg_user}    ${rg_pass}    ${container_type}    ${container_name}
+    Log To Console    ${output}
+    ${output}=    Login And Run Command On Remote System    sudo ifconfig ${onu_ifname} 0
+    ...    ${rg_ip}    ${rg_user}    ${rg_pass}    ${container_type}    ${container_name}
