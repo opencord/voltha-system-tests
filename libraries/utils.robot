@@ -81,6 +81,8 @@ Common Test Suite Setup
     Set Suite Variable    ${container_list}
     ${datetime}=    Get Current Date
     Set Suite Variable    ${datetime}
+    #Restore all ONUs
+    RestoreONUs    ${num_onus}
 
 WPA Reassociate
     [Documentation]    Executes a particular wpa_cli reassociate, which performs force reassociation
@@ -537,3 +539,31 @@ Run Iperf3 Test Client
     Should Be Equal As Integers    ${rc}    0
     ${object}=    Evaluate    json.loads(r'''${output}''')    json
     [Return]    ${object}
+
+
+RestoreONUs
+    [Documentation]    Restore all connected ONUs
+    [Arguments]    ${num_onus}
+    FOR    ${I}    IN RANGE    0    ${num_onus}
+        ${src}=    Set Variable    ${hosts.src[${I}]}
+        ${onu_type}=    Get Variable Value    ${src['onu_type']}    "null"
+        Run Keyword IF    '${onu_type}' == 'alpha'    AlphaONURestoreDefault    ${src['ip']}    ${src['user']}
+        ...    ${src['pass']}    ${src['dp_iface_name']}    admin    admin
+    END
+
+AlphaONURestoreDefault
+    [Documentation]    Restore the Alpha ONU to factory setting
+    [Arguments]    ${rg_ip}    ${rg_user}    ${rg_pass}    ${onu_ifname}
+    ...    ${onu_user}    ${onu_pass}
+    ${output}=    Login And Run Command On Remote System    sudo ifconfig ${onu_ifname} 192.168.1.3/24
+    ...    ${rg_ip}    ${rg_user}    ${rg_pass}
+    ${cmd}	Catenate
+    ...    (echo open "192.168.1.1"; sleep 1;
+    ...    echo "${onu_user}"; sleep 1;
+    ...    echo "${onu_pass}"; sleep 1;
+    ...    echo "restoredefault"; sleep 1) | telnet
+    ${output}=    Login And Run Command On Remote System    ${cmd}
+    ...    ${rg_ip}    ${rg_user}    ${rg_pass}
+    Log To Console    ${output}
+    ${output}=    Login And Run Command On Remote System    sudo ifconfig ${onu_ifname} 0
+    ...    ${rg_ip}    ${rg_user}    ${rg_pass}
