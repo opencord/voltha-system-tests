@@ -63,6 +63,8 @@ ${olt}  1
 ${pon}  1
 ${onu}  1
 
+${kafkaBBSimTopic}  BBSim-OLT-Events
+
 ${enableFlowProvisioning}   true
 ${enableSubscriberProvisioning}     true
 
@@ -93,7 +95,7 @@ Create and Enable devices
 Onu Activation in VOLTHA
     [Documentation]    Check that all ONUs reach the ACTIVE/ENABLED state in VOLTHA
     [Tags]      non-critical    activation    plot-voltha-onus
-    Wait For ONUs In VOLTHA     ${total_onus}
+    Check for ONUs in Voltha     ${total_onus}
 
 Port Discovery in ONOS
     [Documentation]    Check that all the UNI ports show up in ONOS
