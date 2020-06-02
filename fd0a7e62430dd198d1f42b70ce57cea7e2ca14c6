@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e7f2b2c7_f917c150",
+        "filename": "libraries/voltctl.robot",
+        "patchSetId": 3
+      },
+      "lineNbr": 479,
+      "author": {
+        "id": 1000007
+      },
+      "writtenOn": "2020-06-02T21:22:05Z",
+      "side": 1,
+      "message": "this can be simplified, we don\u0027t need to repeat the python command every 5 seconds as that will wait for all the ONUs before returning",
+      "range": {
+        "startLine": 469,
+        "startChar": 0,
+        "endLine": 479,
+        "endChar": 84
+      },
+      "revId": "fd0a7e62430dd198d1f42b70ce57cea7e2ca14c6",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    }
+  ]
+}
