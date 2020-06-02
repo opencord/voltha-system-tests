@@ -469,10 +469,9 @@ Reboot ONU
 Assert ONUs in Voltha
     [Arguments]    ${count}
     [Documentation]    Check that a certain number of devices reached the ACTIVE/ENABLE state
-    ${rc1}    ${devices}=    Run and Return Rc and Output
-    ...     ${VOLTCTL_CONFIG}; voltctl device list | grep -v OLT | grep ACTIVE | wc -l
+    ${rc1}=    Run and Return Rc
+    ...     kubectl exec -it $(kubectl get pods --all-namespaces | grep "kafkacat" | awk '{print $2}') -- kafkacat -b cord-kafka -C -t ${kafkaBBSimTopic} | python ../tests/scale/onu-detection.py ${count}
     Should Be Equal As Integers    ${rc1}    0
-    Should Be Equal As Integers    ${devices}    ${count}
 
 Wait for ONUs in VOLTHA
     [Arguments]    ${count}

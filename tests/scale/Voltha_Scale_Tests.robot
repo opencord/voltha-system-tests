@@ -63,6 +63,8 @@ ${olt}  1
 ${pon}  1
 ${onu}  1
 
+${kafkaBBSimTopic}  BBSim-OLT-Events
+
 ${enableFlowProvisioning}   true
 ${enableSubscriberProvisioning}     true
 
