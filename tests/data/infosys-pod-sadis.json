@@ -1,6 +1,6 @@
 {
   "devices": {
-    "of:000080a235856103": {
+    "of:000080a2358560a0": {
       "basic": {
         "driver": "voltha"
       }
@@ -21,7 +21,7 @@
             "id": "ISKT71e82118-1",
             "nasPortId": "ISKT71e82118-1",
             "circuitId": "ISKT71e82118-1",
-            "remoteId": "EC1917000121",
+            "remoteId": "EC1917000123",
             "uniTagList": [{
               "ponCTag": 222,
               "ponSTag": 111,
@@ -32,10 +32,10 @@
             }]
           },
           {
-            "id": "EC1917000121",
+            "id": "EC1917000123",
             "hardwareIdentifier": "aa:bb:cc:dd:ee:ff",
-            "ipAddress": "192.168.10.29",
-            "nasId": "EC1917000121",
+            "ipAddress": "192.168.10.75",
+            "nasId": "EC1917000123",
             "uplinkPort": 1048576
           }
         ]
