@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e56f7635_9e917f24",
+        "filename": "tests/functional/Voltha_FailureScenarios2.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1000064
+      },
+      "writtenOn": "2020-06-03T22:26:08Z",
+      "side": 1,
+      "message": "These are not required as the previous test has already a condition for \"Perform Sanity Test\", \nexcept for the \"Clean Up Linux\" keyword, rest of them can be removed. Clean up Linux is required because we are performing Auth again",
+      "range": {
+        "startLine": 103,
+        "startChar": 3,
+        "endLine": 105,
+        "endChar": 74
+      },
+      "revId": "4b6d1113d4cb239b1c41ec7f17815231540f9a16",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "57cf207b_f291d355",
+        "filename": "tests/functional/Voltha_FailureScenarios2.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1000064
+      },
+      "writtenOn": "2020-06-03T22:26:08Z",
+      "side": 1,
+      "message": "combine the two for loops and proceed with `add subscriber` `perform DHCP` and `pings` for each ONU after the container is restarted",
+      "range": {
+        "startLine": 140,
+        "startChar": 4,
+        "endLine": 144,
+        "endChar": 52
+      },
+      "revId": "4b6d1113d4cb239b1c41ec7f17815231540f9a16",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    }
+  ]
+}
