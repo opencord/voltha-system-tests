@@ -14,8 +14,12 @@
 
 node ("${TestNodeName}") {
     def withKind = false
+    def VolthaEtcdPort = '2379'
     if (params.withKind != null){
         withKind = params.withKind
+    }
+    if (params.VolthaEtcdPort != null){
+        VolthaEtcdPort = params.VolthaEtcdPort
     }
     timeout (100) {
         try {
@@ -91,12 +95,28 @@ node ("${TestNodeName}") {
                         export EXTRA_HELM_FLAGS='-f $WORKSPACE/${configBaseDir}/${configKubernetesDir}/voltha/${configFileName}.yml'
                     fi
 
+                    # JENKINS_NODE_COOKIE=dontKillMe ask Jenkins doesn't kill the proces after this job.
+                    # we want the `while true; do kubectl port-forward` keep alive
+                    export JENKINS_NODE_COOKIE=dontKillMe
+                    export NUM_OF_OPENONU=${NumOfOpenOnu}
+                    export NUM_OF_ONOS=${NumOfOnos}
+                    export NUM_OF_ATOMIX=${NumOfAtomix}
                     # VOL-2194 ONOS SSH and REST ports hardcoded to 30115/30120 in tests
-                    # JENKINS_NODE_COOKIE=dontKillMe ask Jenkins doesn't kill the proces after this job. we want the `while true; do kubectl port-forward` keep alive
+                    export ONOS_SSH_PORT=30115
+                    export ONOS_API_PORT=30120
+                    export VOLTHA_LOG_LEVEL=DEBUG
+                    export WITH_SIM_ADAPTERS=n
+                    export DEPLOY_K8S=no
+                    export INSTALL_KUBECTL=no
+                    export INSTALL_HELM=no
+                    export FANCY=0
+                    # VOL-3162 Forwaring port 2379 does not work on ONF demo pod
+                    export VOLTHA_ETCD_PORT=${VolthaEtcdPort}
+
                     if [[ "${workFlow}" == "DT" ]]; then
-                       JENKINS_NODE_COOKIE=dontKillMe NUM_OF_OPENONU=${NumOfOpenOnu} NUM_OF_ONOS=${NumOfOnos} NUM_OF_ATOMIX=${NumOfAtomix} ONOS_SSH_PORT=30115 ONOS_API_PORT=30120 VOLTHA_LOG_LEVEL=DEBUG WITH_SIM_ADAPTERS=n WITH_TP=yes DEPLOY_K8S=no INSTALL_KUBECTL=no INSTALL_HELM=no WITH_EAPOL=no WITH_DHCP=no WITH_IGMP=no WITH_RADIUS=no FANCY=0 ./voltha up
+                       WITH_EAPOL=no WITH_DHCP=no WITH_IGMP=no WITH_RADIUS=no ./voltha up
                     else
-                       JENKINS_NODE_COOKIE=dontKillMe NUM_OF_OPENONU=${NumOfOpenOnu} NUM_OF_ONOS=${NumOfOnos} NUM_OF_ATOMIX=${NumOfAtomix} ONOS_SSH_PORT=30115 ONOS_API_PORT=30120 VOLTHA_LOG_LEVEL=DEBUG WITH_SIM_ADAPTERS=n WITH_RADIUS=y WITH_TP=yes DEPLOY_K8S=no INSTALL_KUBECTL=no INSTALL_HELM=no FANCY=0 ./voltha up
+                       ./voltha up
                     fi
 
                     kubectl get pods --all-namespaces -o jsonpath="{range .items[*].status.containerStatuses[*]}{.image}{'\\t'}{.image}{'\\n'}" | sort | uniq
