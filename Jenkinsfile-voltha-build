@@ -267,7 +267,7 @@ node ("${TestNodeName}") {
                         for(int i=0; i < deployment_config.hosts.src.size(); i++) {
                             def aggPort = -1
                             for(int j=0; j < deployment_config.olts.size(); j++) {
-                                if(deployment_config.olts[i].serial == deployment_config.hosts.src[j].olt){
+                                if(deployment_config.olts[j].serial == deployment_config.hosts.src[i].olt){
                                     aggPort = deployment_config.olts[j].aggPort
                                 }
                             }
