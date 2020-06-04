@@ -42,7 +42,9 @@ node ("${TestNodeName}") {
                     make vst_venv
                     source vst_venv/bin/activate
                     cd tests
-                    robot --removekeywords wuks -d Log -V $WORKSPACE/${configBaseDir}/${configDeploymentDir}/${configFileName}.yaml -v POD_NAME:${configFileName} -v KUBERNETES_CONFIGS_DIR:$WORKSPACE/${configBaseDir}/${configKubernetesDir} functional/Voltha_PODTests.robot || true
+                    robot --removekeywords wuks -i sanity -i functional -e bbsim -e notready -d Log -V $WORKSPACE/${configBaseDir}/${configDeploymentDir}/${configFileName}.yaml -v POD_NAME:${configFileName} -v KUBERNETES_CONFIGS_DIR:$WORKSPACE/${configBaseDir}/${configKubernetesDir} functional/Voltha_PODTests.robot || true
+                    //robot --removekeywords wuks -i PowerSwitch -i functional -e bbsim -e notready -d Log -T -V $WORKSPACE/${configBaseDir}/${configDeploymentDir}/${configFileName}.yaml -v POD_NAME:${configFileName} -v KUBERNETES_CONFIGS_DIR:$WORKSPACE/${configBaseDir}/${configKubernetesDir} functional/Voltha_FailureScenarios.robot || true                    
+                    //robot --removekeywords wuks -i functional -e bbsim -e notready -d Log -T -V $WORKSPACE/${configBaseDir}/${configDeploymentDir}/${configFileName}.yaml -v POD_NAME:${configFileName} -v KUBERNETES_CONFIGS_DIR:$WORKSPACE/${configBaseDir}/${configKubernetesDir} functional/Voltha_ErrorScenarios.robot || true                    
                     kubectl get pods --all-namespaces -o jsonpath="{range .items[*].status.containerStatuses[*]}{.image}{'\\t'}{.image}{'\\n'}" | sort | uniq
                     kubectl get pods --all-namespaces -o jsonpath="{range .items[*].status.containerStatuses[*]}{.image}{'\\t'}{.imageID}{'\\n'}" | sort | uniq
                     kubectl get nodes -o wide
