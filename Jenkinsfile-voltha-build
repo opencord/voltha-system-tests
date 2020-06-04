@@ -109,7 +109,7 @@ node ("${TestNodeName}") {
                     export DEPLOY_K8S=no
                     export INSTALL_KUBECTL=no
                     export INSTALL_HELM=no
-                    export WITH_RADIUS=yes 
+                    export WITH_RADIUS=yes
                     export FANCY=0
                     # VOL-3162 Forwaring port 2379 does not work on ONF demo pod
                     export VOLTHA_ETCD_PORT=${VolthaEtcdPort}
@@ -267,7 +267,7 @@ node ("${TestNodeName}") {
                         for(int i=0; i < deployment_config.hosts.src.size(); i++) {
                             def aggPort = -1
                             for(int j=0; j < deployment_config.olts.size(); j++) {
-                                if(deployment_config.olts[j].serial == deployment_config.hosts.src[j].olt){
+                                if(deployment_config.olts[j].serial == deployment_config.hosts.src[i].olt){
                                     aggPort = deployment_config.olts[j].aggPort
                                 }
                             }
