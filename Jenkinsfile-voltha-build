@@ -116,7 +116,7 @@ node ("${TestNodeName}") {
                     if [[ "${workFlow}" == "DT" ]]; then
                        WITH_EAPOL=no WITH_DHCP=no WITH_IGMP=no WITH_RADIUS=no ./voltha up
                     else
-                       ./voltha up
+                       WITH_RADIUS=yes ./voltha up
                     fi
 
                     kubectl get pods --all-namespaces -o jsonpath="{range .items[*].status.containerStatuses[*]}{.image}{'\\t'}{.image}{'\\n'}" | sort | uniq
