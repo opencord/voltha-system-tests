@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8d9e9847_140f4c5d",
+        "filename": "libraries/utils.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 549,
+      "author": {
+        "id": 1000064
+      },
+      "writtenOn": "2020-06-04T20:01:42Z",
+      "side": 1,
+      "message": "please correct typos in the variables",
+      "range": {
+        "startLine": 549,
+        "startChar": 10,
+        "endLine": 549,
+        "endChar": 24
+      },
+      "revId": "3d19088e2d50fc4a9cf03fa47b28949e9218ecbc",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    }
+  ]
+}
