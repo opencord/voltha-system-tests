@@ -109,6 +109,7 @@ node ("${TestNodeName}") {
                     export DEPLOY_K8S=no
                     export INSTALL_KUBECTL=no
                     export INSTALL_HELM=no
+                    export WITH_RADIUS=yes 
                     export FANCY=0
                     # VOL-3162 Forwaring port 2379 does not work on ONF demo pod
                     export VOLTHA_ETCD_PORT=${VolthaEtcdPort}
