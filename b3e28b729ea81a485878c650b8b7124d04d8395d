@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "708cf2d9_77e54abb",
+        "filename": "Jenkinsfile-voltha-build",
+        "patchSetId": 1
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1000064
+      },
+      "writtenOn": "2020-06-04T16:40:38Z",
+      "side": 1,
+      "message": "to be in sync, we can do \"export WITH_RADIUS\u003dyes\"",
+      "range": {
+        "startLine": 119,
+        "startChar": 23,
+        "endLine": 119,
+        "endChar": 38
+      },
+      "revId": "b3e28b729ea81a485878c650b8b7124d04d8395d",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    }
+  ]
+}
