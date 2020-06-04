@@ -546,24 +546,26 @@ RestoreONUs
     [Arguments]    ${num_onus}
     FOR    ${I}    IN RANGE    0    ${num_onus}
         ${src}=    Set Variable    ${hosts.src[${I}]}
+        ${contaienr_type}=    Get Variable Value    ${src['container_type']}    "null"
+        ${contaienr_name}=    Get Variable Value    ${src['container_name']}    "null"
         ${onu_type}=    Get Variable Value    ${src['onu_type']}    "null"
         Run Keyword IF    '${onu_type}' == 'alpha'    AlphaONURestoreDefault    ${src['ip']}    ${src['user']}
-        ...    ${src['pass']}    ${src['dp_iface_name']}    admin    admin
+        ...    ${src['pass']}    ${src['dp_iface_name']}    admin    admin    ${container_type}    ${container_name}
     END
 
 AlphaONURestoreDefault
     [Documentation]    Restore the Alpha ONU to factory setting
     [Arguments]    ${rg_ip}    ${rg_user}    ${rg_pass}    ${onu_ifname}
-    ...    ${onu_user}    ${onu_pass}
+    ...    ${onu_user}    ${onu_pass}    ${container_type}=${None}    ${container_name}=${None}
     ${output}=    Login And Run Command On Remote System    sudo ifconfig ${onu_ifname} 192.168.1.3/24
-    ...    ${rg_ip}    ${rg_user}    ${rg_pass}
+    ...    ${rg_ip}    ${rg_user}    ${rg_pass}    ${container_type}    ${container_name}
     ${cmd}	Catenate
     ...    (echo open "192.168.1.1"; sleep 1;
     ...    echo "${onu_user}"; sleep 1;
     ...    echo "${onu_pass}"; sleep 1;
     ...    echo "restoredefault"; sleep 1) | telnet
     ${output}=    Login And Run Command On Remote System    ${cmd}
-    ...    ${rg_ip}    ${rg_user}    ${rg_pass}
+    ...    ${rg_ip}    ${rg_user}    ${rg_pass}    ${container_type}    ${container_name}
     Log To Console    ${output}
     ${output}=    Login And Run Command On Remote System    sudo ifconfig ${onu_ifname} 0
-    ...    ${rg_ip}    ${rg_user}    ${rg_pass}
+    ...    ${rg_ip}    ${rg_user}    ${rg_pass}    ${container_type}    ${container_name}
