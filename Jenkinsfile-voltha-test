@@ -61,11 +61,7 @@ node ("${TestNodeName}") {
                 ## get default pod logs
                 for pod in \$(kubectl get pods --no-headers | awk '{print \$1}');
                 do
-                  if [[ \$pod == *"onos"* && \$pod != *"onos-service"* ]]; then
-                    kubectl logs \$pod onos> $WORKSPACE/\$pod.log;
-                  else
-                    kubectl logs \$pod> $WORKSPACE/\$pod.log;
-                  fi
+                  kubectl logs \$pod> $WORKSPACE/\$pod.log;
                 done
                 ## get voltha pod logs
                 for pod in \$(kubectl get pods --no-headers -n voltha | awk '{print \$1}');
