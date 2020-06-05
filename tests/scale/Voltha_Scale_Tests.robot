@@ -43,7 +43,6 @@ Library           Collections
 Library           String
 Library           OperatingSystem
 Library           XML
-Library           Timer
 Library           RequestsLibrary
 Library           ../../libraries/DependencyLibrary.py
 Resource          ../../libraries/onos.robot
@@ -186,10 +185,3 @@ Setup Suite
     ${total_onus}=   Evaluate    ${olt} * ${pon} * ${onu}
     Set Suite Variable  ${total_onus}
 
-    Configure Timer     10 minutes  0 seconds   SuiteTimer
-    Start Timer     SuiteTimer
-
-Teardown Suite
-    [Documentation]    Verify the timer
-    Stop Timer     SuiteTimer
-    Verify Single Timer    10 minutes   0 seconds   SuiteTimer
