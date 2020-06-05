@@ -307,8 +307,9 @@ Validate Logical Device
     FOR    ${INDEX}    IN RANGE    0    ${length}
         ${value}=    Get From List    ${jsondata}    ${INDEX}
         ${devid}=    Get From Dictionary    ${value}    id
-        ${rootdev}=    Get From Dictionary    ${value}    rootdeviceid
-        ${sn}=    Get From Dictionary    ${value}    serialnumber
+        ${rootdev}=    Get From Dictionary    ${value}    rootDeviceId
+        ${desc}=    Get From Dictionary    ${value}    desc
+        ${sn}=    Get From Dictionary    ${desc}    serialNumber
         Exit For Loop
     END
     Should Be Equal    '${rootdev}'    '${olt_device_id}'    Root Device does not match ${olt_device_id}    values=False
@@ -434,7 +435,7 @@ Get Logical Device ID From SN
     [Arguments]    ${serial_number}
     [Documentation]    Gets the device id by matching for ${serial_number}
     ${rc}    ${id}=    Run and Return Rc and Output
-    ...    ${VOLTCTL_CONFIG}; voltctl logicaldevice list --filter=SerialNumber=${serial_number} --format='{{.Id}}'
+    ...    ${VOLTCTL_CONFIG}; voltctl logicaldevice list --filter=Desc.SerialNum=${serial_number} --format='{{.Id}}'
     Should Be Equal As Integers    ${rc}    0
     Log    ${id}
     [Return]    ${id}
