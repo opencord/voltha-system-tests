@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "958126a0_4d583b8c",
+        "filename": "tests/data/bbsim-kind-16.yaml",
+        "patchSetId": 10
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2020-06-09T06:56:21Z",
+      "side": 1,
+      "message": "c_tag and s_tag per onu according onos-sadis-bbsim.json file are missing",
+      "range": {
+        "startLine": 38,
+        "startChar": 0,
+        "endLine": 69,
+        "endChar": 24
+      },
+      "revId": "185720f93c8aa685d608e414b386fc50f16bcaed",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a024bb7_bb15cbaf",
+        "filename": "tests/data/bbsim-kind-8x2.yaml",
+        "patchSetId": 10
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2020-06-09T06:56:21Z",
+      "side": 1,
+      "message": "c_tag and s_tag per onu according onos-sadis-bbsim.json file are missing",
+      "range": {
+        "startLine": 38,
+        "startChar": 0,
+        "endLine": 69,
+        "endChar": 23
+      },
+      "revId": "185720f93c8aa685d608e414b386fc50f16bcaed",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    }
+  ]
+}
