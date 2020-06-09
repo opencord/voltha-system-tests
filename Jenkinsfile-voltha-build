@@ -149,21 +149,21 @@ node ("${TestNodeName}") {
                         timeout(1) {
                             out_push_tp = sh returnStatus: true, script: """
                             export KUBECONFIG=$WORKSPACE/${configBaseDir}/${configKubernetesDir}/${configFileName}.conf
-                            etcd_container=\$(kubectl get pods -n voltha | grep voltha-etcd-cluster | awk 'NR==1{print \$1}')
-                            kubectl cp $WORKSPACE/voltha-system-tests/tests/data/TechProfile-${profile}.json voltha/\$etcd_container:/tmp/flexpod.json
-                            put_result=\$(kubectl exec -it \$etcd_container -n voltha -- /bin/sh -c 'cat /tmp/flexpod.json | ETCDCTL_API=3 etcdctl put service/voltha/technology_profiles/${tech_prof_directory}/64')
-                            kubectl cp $WORKSPACE/voltha-system-tests/tests/data/MIB_Alpha.json voltha/\$etcd_container:/tmp/MIB_Alpha.json
-                            put_result=\$(kubectl exec -it \$etcd_container -n voltha -- /bin/sh -c 'cat /tmp/MIB_Alpha.json | ETCDCTL_API=3 etcdctl put service/voltha/omci_mibs/templates/BRCM/BVM4K00BRA0915-0083/5023_020O02414')
-                            //kubectl cp $WORKSPACE/voltha-system-tests/tests/data/MIB_Iskratel.json voltha/\$etcd_container:/tmp/MIB_Iskratel.json
-                            //put_result=\$(kubectl exec -it \$etcd_container -n voltha -- /bin/sh -c 'cat /tmp/MIB_Iskratel.json | ETCDCTL_API=3 etcdctl put service/voltha/omci_mibs/templates/BRCM/G108_10/7.0.1b8-0.6')
+                            etcd_container=\$(kubectl get pods | grep etcd | awk 'NR==1{print \$1}')
+                            kubectl cp $WORKSPACE/voltha-system-tests/tests/data/TechProfile-${profile}.json \$etcd_container:/tmp/flexpod.json
+                            put_result=\$(kubectl exec -it \$etcd_container -- /bin/sh -c 'cat /tmp/flexpod.json | ETCDCTL_API=3 etcdctl put service/voltha/technology_profiles/${tech_prof_directory}/64')
+                            kubectl cp $WORKSPACE/voltha-system-tests/tests/data/MIB_Alpha.json \$etcd_container:/tmp/MIB_Alpha.json
+                            put_result=\$(kubectl exec -it \$etcd_container -- /bin/sh -c 'cat /tmp/MIB_Alpha.json | ETCDCTL_API=3 etcdctl put service/voltha/omci_mibs/templates/BRCM/BVM4K00BRA0915-0083/5023_020O02414')
+                            //kubectl cp $WORKSPACE/voltha-system-tests/tests/data/MIB_Iskratel.json \$etcd_container:/tmp/MIB_Iskratel.json
+                            //put_result=\$(kubectl exec -it \$etcd_container -- /bin/sh -c 'cat /tmp/MIB_Iskratel.json | ETCDCTL_API=3 etcdctl put service/voltha/omci_mibs/templates/BRCM/G108_10/7.0.1b8-0.6')
                             """
                             return out_push_tp == 0
                         }
                         timeout(1) {
                             out_get_tp = sh returnStatus: true, script: """
                             export KUBECONFIG=$WORKSPACE/${configBaseDir}/${configKubernetesDir}/${configFileName}.conf
-                            etcd_container=\$(kubectl get pods -n voltha | grep voltha-etcd-cluster | awk 'NR==1{print \$1}')
-                            get_result=\$(kubectl exec -it \$etcd_container -n voltha -- /bin/sh -c 'ETCDCTL_API=3 etcdctl get --prefix service/voltha/technology_profiles/${tech_prof_directory}/64')
+                            etcd_container=\$(kubectl get pods | grep etcd | awk 'NR==1{print \$1}')
+                            get_result=\$(kubectl exec -it \$etcd_container -- /bin/sh -c 'ETCDCTL_API=3 etcdctl get --prefix service/voltha/technology_profiles/${tech_prof_directory}/64')
                             """
                             return out_get_tp == 0
                         }
