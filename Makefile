@@ -162,6 +162,8 @@ voltha-test: vst_venv
 	cd tests/functional ;\
 	robot -V $(ROBOT_CONFIG_FILE) $(ROBOT_MISC_ARGS) $(ROBOT_FILE)
 
+voltha-dt-test: ROBOT_MISC_ARGS += -e notready
+
 voltha-dt-test: vst_venv
 	source ./$</bin/activate ; set -u ;\
 	cd tests/dt-workflow ;\

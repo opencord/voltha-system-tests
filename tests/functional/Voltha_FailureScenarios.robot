@@ -185,10 +185,11 @@ Verify restart openolt-adapter container after subscriber provisioning
     ${podStatusOutput}=    Run    kubectl get pods -n ${NAMESPACE}
     Log    ${podStatusOutput}
     ${countBforRestart}=    Run    kubectl get pods -n ${NAMESPACE} | grep Running | wc -l
-    ${podName}    Set Variable     open-olt
-    Restart Pod    ${NAMESPACE}    ${podName}
-    Wait Until Keyword Succeeds    ${waitforRestart}    2s    Validate Pod Status    ${podName}    ${NAMESPACE}
-    ...    Running
+    ${podName}    Set Variable     adapter-open-olt
+    Wait Until Keyword Succeeds    ${timeout}    15s    Delete K8s Pods By Label    ${NAMESPACE}    app    ${podName}
+    Sleep    5s
+    Wait Until Keyword Succeeds    ${timeout}    2s    Validate Pods Status By Label    ${NAMESPACE}
+    ...    app    ${podName}    Running
     # Wait for 1min after openolt adapter is restarted
     Sleep    60s
     Repeat Sanity Test
@@ -210,9 +211,11 @@ Check OLT/ONU Authentication After Radius Pod Restart
     [Teardown]    Run Keywords    Collect Logs
     ...           AND             Stop Logging    RadiusRestart
     ${waitforRestart}    Set Variable    120s
-    Wait Until Keyword Succeeds    ${timeout}    15s    Restart Pod    ${DEFAULTSPACE}    ${RESTART_POD_NAME}
-    Wait Until Keyword Succeeds    ${waitforRestart}    2s    Validate Pod Status    ${RESTART_POD_NAME}
-    ...    ${DEFAULTSPACE}    Running
+    ${podName}    Set Variable     radius
+    Wait Until Keyword Succeeds    ${timeout}    15s    Delete K8s Pods By Label    ${DEFAULTSPACE}    app    ${podName}
+    Sleep    5s
+    Wait Until Keyword Succeeds    ${waitforRestart}    2s    Validate Pods Status By Label    ${DEFAULTSPACE}
+    ...    app    ${podName}    Running
     FOR    ${I}    IN RANGE    0    ${num_onus}
         ${src}=    Set Variable    ${hosts.src[${I}]}
         ${dst}=    Set Variable    ${hosts.dst[${I}]}
@@ -278,12 +281,12 @@ Verify openolt adapter restart before subscriber provisioning
         ...    ${ONOS_SSH_PORT}     ${onu_port}
     END
     # Scale down the open OLT adapter deployment to 0 PODs and once confirmed, scale it back to 1
-    Scale K8s Deployment    voltha    open-olt    0
-    Wait Until Keyword Succeeds    ${timeout}    2s    Pod Does Not Exist    voltha    open-olt
+    Scale K8s Deployment    voltha    open-olt-voltha-adapter-openolt    0
+    Wait Until Keyword Succeeds    ${timeout}    2s    Pod Does Not Exist    voltha    open-olt-voltha-adapter-openolt
     # Scale up the open OLT adapter deployment and make sure both it and the ofagent deployment are back
-    Scale K8s Deployment    voltha   open-olt    1
+    Scale K8s Deployment    voltha   open-olt-voltha-adapter-openolt    1
     Wait Until Keyword Succeeds    ${timeout}    2s
-    ...    Check Expected Available Deployment Replicas    voltha    open-olt    1
+    ...    Check Expected Available Deployment Replicas    voltha    open-olt-voltha-adapter-openolt    1
 
     # Ensure the device is available in ONOS, this represents system connectivity being restored
     Wait Until Keyword Succeeds    ${timeout}    2s    Device Is Available In ONOS
@@ -313,17 +316,17 @@ Verify restart ofagent container after subscriber is provisioned
     [Setup]    Start Logging    ofagentRestart
     [Teardown]    Run Keywords    Collect Logs
     ...           AND             Stop Logging    ofagentRestart
-    ...           AND             Scale K8s Deployment    ${NAMESPACE}    voltha-ofagent    1
+    ...           AND             Scale K8s Deployment    ${NAMESPACE}    voltha-voltha-ofagent    1
     # set timeout value
     ${waitforRestart}    Set Variable    120s
     ${podStatusOutput}=    Run    kubectl get pods -n ${NAMESPACE}
     Log    ${podStatusOutput}
     ${countBforRestart}=    Run    kubectl get pods -n ${NAMESPACE} | grep Running | wc -l
     ${podName}    Set Variable     ofagent
-    Restart Pod    ${NAMESPACE}    ${podName}
+    Wait Until Keyword Succeeds    ${timeout}    15s    Delete K8s Pods By Label    ${NAMESPACE}    app    ${podName}
     Sleep    60s
-    Wait Until Keyword Succeeds    ${waitforRestart}    2s    Validate Pod Status    ofagent    ${NAMESPACE}
-    ...    Running
+    Wait Until Keyword Succeeds    ${timeout}    2s    Validate Pods Status By Label    ${NAMESPACE}
+    ...    app    ${podName}    Running
     # Performing Sanity Test to make sure subscribers are all AUTH+DHCP and pingable
     Run Keyword If    ${has_dataplane}    Clean Up Linux
     Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test
@@ -332,7 +335,7 @@ Verify restart ofagent container after subscriber is provisioned
     ${countAfterRestart}=    Run    kubectl get pods -n ${NAMESPACE} | grep Running | wc -l
     Should Be Equal As Strings    ${countAfterRestart}    ${countBforRestart}
     # Scale Down the Of-Agent Deployment
-    Scale K8s Deployment    ${NAMESPACE}    voltha-ofagent    0
+    Scale K8s Deployment    ${NAMESPACE}    voltha-voltha-ofagent    0
     Sleep    30s
     FOR    ${I}    IN RANGE    0    ${num_onus}
         ${src}=    Set Variable    ${hosts.src[${I}]}
@@ -369,7 +372,7 @@ Verify restart ofagent container after subscriber is provisioned
         Run Keyword and Ignore Error    Collect Logs
     END
     # Scale Up the Of-Agent Deployment
-    Scale K8s Deployment    ${NAMESPACE}    voltha-ofagent    1
+    Scale K8s Deployment    ${NAMESPACE}    voltha-voltha-ofagent    1
     Wait Until Keyword Succeeds    ${waitforRestart}    2s    Validate Pod Status    ofagent    ${NAMESPACE}
     ...    Running
     # Performing Sanity Test to make sure subscribers are all AUTH+DHCP and pingable
@@ -388,7 +391,7 @@ Check ONU adapter crash not forcing authentication again
     # Wait for adapter to resync
     Sleep    60s
     # Restart the onu
-    ${podName}    Set Variable     open-onu
+    ${podName}    Set Variable     adapter-open-onu
     Wait Until Keyword Succeeds    ${timeout}    15s    Delete K8s Pods By Label    ${NAMESPACE}    app    ${podName}
     # Validate ONU Ports
     FOR    ${I}    IN RANGE    0    ${num_onus}
@@ -497,17 +500,17 @@ Sanity E2E Test for OLT/ONU on POD With Core Fail and Restart
     END
 
     # Scale down the rw-core deployment to 0 PODs and once confirmed, scale it back to 1
-    Scale K8s Deployment    voltha    voltha-rw-core    0
-    Wait Until Keyword Succeeds    ${timeout}    2s    Pod Does Not Exist    voltha    voltha-rw-core
+    Scale K8s Deployment    voltha    voltha-voltha-rw-core    0
+    Wait Until Keyword Succeeds    ${timeout}    2s    Pod Does Not Exist    voltha    voltha-voltha-rw-core
     # Ensure the ofagent POD goes "not-ready" as expected
     Wait Until keyword Succeeds    ${timeout}    2s
-    ...    Check Expected Available Deployment Replicas    voltha    voltha-ofagent    0
+    ...    Check Expected Available Deployment Replicas    voltha    voltha-voltha-ofagent    0
     # Scale up the core deployment and make sure both it and the ofagent deployment are back
-    Scale K8s Deployment    voltha    voltha-rw-core    1
+    Scale K8s Deployment    voltha    voltha-voltha-rw-core    1
     Wait Until Keyword Succeeds    ${timeout}    2s
-    ...    Check Expected Available Deployment Replicas    voltha    voltha-rw-core    1
+    ...    Check Expected Available Deployment Replicas    voltha    voltha-voltha-rw-core    1
     Wait Until Keyword Succeeds    ${timeout}    2s
-    ...    Check Expected Available Deployment Replicas    voltha    voltha-ofagent    1
+    ...    Check Expected Available Deployment Replicas    voltha    voltha-voltha-ofagent    1
     # For some reason scaling down and up the POD behind a service causes the port forward to stop working,
     # so restart the port forwarding for the API service
     Restart VOLTHA Port Foward    voltha-api-minimal
