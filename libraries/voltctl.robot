@@ -297,6 +297,55 @@ Validate ONU Flows
         Validate Device Flows    ${onu_dev_id}    ${flow_count}
     END
 
+Validate ONU Devices With Duration
+    [Documentation]
+    ...    Parses the output of "voltctl device list" and inspects all devices ${List_ONU_Serial},
+    ...    Iteratively match on each Serial number contained in ${List_ONU_Serial} and inspect
+    ...    states including MIB state.
+    [Arguments]    ${admin_state}    ${oper_status}    ${connect_status}    ${onu_reason}
+    ...    ${List_ONU_Serial}   ${startTime}    ${print2console}=False    ${output_file}=${EMPTY}
+    ${rc}    ${output}=    Run and Return Rc and Output    ${VOLTCTL_CONFIG}; voltctl device list -o json
+    Should Be Equal As Integers    ${rc}    0
+    ${timeCurrent} =    Get Current Date
+    ${timeTotalMs} =    Subtract Date From Date    ${timeCurrent}    ${startTime}    result_format=number
+    ${jsondata}=    To Json    ${output}
+    ${length}=    Get Length    ${jsondata}
+    FOR    ${INDEX}    IN RANGE    0    ${length}
+        ${matched}=    Set Variable    False
+        ${value}=    Get From List    ${jsondata}    ${INDEX}
+        ${jsonCamelCaseFieldnames}=    Run Keyword And Return Status
+        ...    Dictionary Should Contain Key       ${value}      adminState
+        ${astate}=    Run Keyword If     ${jsonCamelCaseFieldNames}
+        ...    Get From Dictionary    ${value}    adminState
+        ...    ELSE
+        ...    Get From Dictionary    ${value}    adminstate
+        ${opstatus}=    Run Keyword If     ${jsonCamelCaseFieldNames}
+        ...    Get From Dictionary    ${value}    operStatus
+        ...    ELSE
+        ...    Get From Dictionary    ${value}    operstatus
+        ${cstatus}=    Run Keyword If     ${jsonCamelCaseFieldNames}
+        ...    Get From Dictionary    ${value}    connectStatus
+        ...    ELSE
+        ...    Get From Dictionary    ${value}    connectstatus
+        ${sn}=    Run Keyword If     ${jsonCamelCaseFieldNames}
+        ...    Get From Dictionary    ${value}    serialNumber
+        ...    ELSE
+        ...    Get From Dictionary    ${value}    serialnumber
+        ${mib_state}=    Get From Dictionary    ${value}    reason
+        ${onu_id}=    Get Index From List    ${List_ONU_Serial}   ${sn}
+        ${matched}=    Set Variable If    -1 != ${onu_id}    True    False
+        ${matched}=    Set Variable If    '${astate}' == '${admin_state}'    ${matched}    False
+        ${matched}=    Set Variable If    '${opstatus}' == '${oper_status}'    ${matched}    False
+        ${matched}=    Set Variable If    '${cstatus}' == '${connect_status}'    ${matched}    False
+        ${matched}=    Set Variable If    '${mib_state}' == '${onu_reason}'    ${matched}    False
+        Run Keyword If    ${matched} and ${print2console}    Log
+        ...    \r\nONU ${sn} reached the state ${onu_reason} after ${timeTotalMs} sec.    console=yes
+        Run Keyword If    ${matched} and ('${output_file}'!='${EMPTY}')    Append To File    ${output_file}
+        ...    \r\nONU ${sn} reached the state ${onu_reason} after ${timeTotalMs} sec.
+        Run Keyword If    ${matched}    Remove Values From List    ${List_ONU_Serial}    ${sn}
+    END
+    Should Be Empty    ${List_ONU_Serial}    List ${List_ONU_Serial} not empty
+
 Validate Logical Device
     [Documentation]    Validate Logical Device is listed
     ${rc}    ${output}=    Run and Return Rc and Output    ${VOLTCTL_CONFIG}; voltctl logicaldevice list -o json
