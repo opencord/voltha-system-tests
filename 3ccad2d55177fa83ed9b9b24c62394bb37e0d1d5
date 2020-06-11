@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8ffa91e2_6bc42bd4",
+        "filename": "tests/data/flex-ocp-cord-sadis-TT.json",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1000127
+      },
+      "writtenOn": "2020-06-11T05:34:40Z",
+      "side": 1,
+      "message": "I do not think this device exists on flex pod. So you can remove it.",
+      "range": {
+        "startLine": 4,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 5
+      },
+      "revId": "3ccad2d55177fa83ed9b9b24c62394bb37e0d1d5",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    }
+  ]
+}
