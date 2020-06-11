@@ -239,13 +239,13 @@ Validate Device Port Types
         ${jsonCamelCaseFieldnames}=    Run Keyword And Return Status
         ...    Dictionary Should Contain Key       ${value}      adminState
         ${astate}=    Run Keyword If     ${jsonCamelCaseFieldNames}
-        ...    ${astate}=    Get From Dictionary    ${value}    adminState
+        ...    Get From Dictionary    ${value}    adminState
         ...    ELSE
-        ...    ${astate}=    Get From Dictionary    ${value}    adminstate
+        ...    Get From Dictionary    ${value}    adminstate
         ${opstatus}=    Run Keyword If     ${jsonCamelCaseFieldNames}
         ...    Get From Dictionary    ${value}    operStatus
         ...    ELSE
-        ...    ${astate}=    Get From Dictionary    ${value}    operstatus
+        ...    Get From Dictionary    ${value}    operstatus
         ${type}=    Get From Dictionary    ${value}    type
         Should Be Equal    '${astate}'    'ENABLED'    Device ${device_id} port admin_state != ENABLED    values=False
         Run Keyword If    ${all_active}    Should Be Equal    '${opstatus}'    'ACTIVE'

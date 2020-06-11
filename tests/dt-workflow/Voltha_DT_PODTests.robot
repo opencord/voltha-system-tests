@@ -272,7 +272,7 @@ Test Disable and Enable OLT for DT
     ...    Assuming that all the ONUs are DHCP/pingable (i.e. assuming sanityDt test was executed)
     ...    Perform disable on the OLT and validate that the pings do not succeed
     ...    Perform enable on the OLT and validate that the pings are successful
-    [Tags]    functionalDt    DisableEnableOLTDt    notready
+    [Tags]    functionalDt    DisableEnableOLTDt
     [Setup]    Start Logging    DisableEnableOLTDt
     [Teardown]    Run Keywords    Collect Logs
     ...           AND             Stop Logging    DisableEnableOLTDt
@@ -296,10 +296,13 @@ Test Disable and Enable OLT for DT
         # Remove Subscriber Access (To replicate DT workflow)
         Wait Until Keyword Succeeds    ${timeout}    2s    Execute ONOS CLI Command    ${ONOS_SSH_IP}
         ...    ${ONOS_SSH_PORT}    volt-remove-subscriber-access ${of_id} ${onu_port}
+        Sleep    10s
         # Delete ONU Device (To replicate DT workflow)
         Delete Device    ${onu_device_id}
+        Sleep    5s
     END
-    Sleep    15s
+    Sleep    5s
+    Run Keyword If    ${has_dataplane}    Clean Up Linux
     # Enable the OLT back and check ONU, OLT status are back to "ACTIVE"
     Enable Device    ${olt_device_id}
     Wait Until Keyword Succeeds    ${timeout}    5s    Validate OLT Device    ENABLED    ACTIVE    REACHABLE
@@ -308,7 +311,6 @@ Test Disable and Enable OLT for DT
     ...    PON_OLT    ETHERNET_NNI
     # Waiting extra time for the ONUs to come up
     Sleep    60s
-    Run Keyword If    ${has_dataplane}    Clean Up Linux
     Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test DT
 
 Test Delete and ReAdd OLT for DT

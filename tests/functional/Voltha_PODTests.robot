@@ -93,46 +93,6 @@ Sanity E2E Test for OLT/ONU on POD
     Run Keyword If    ${has_dataplane}    Clean Up Linux
     Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test
 
-Test Disable and Enable OLT
-    [Documentation]    Validates E2E Ping Connectivity and object states for the given scenario:
-    ...    Assuming that test1 was executed where all the ONUs are authenticated/DHCP/pingable
-    ...    Perform disable on the OLT and validate that the pings do not succeed
-    ...    Perform enable on the OLT and validate that the pings are successful
-    [Tags]    functional    VOL-2410    DisableEnableOLT    notready
-    [Setup]    Start Logging    DisableEnableOLT
-    [Teardown]    Run Keywords    Collect Logs
-    ...           AND             Stop Logging    DisableEnableOLT
-    #Disable the OLT and verify the OLT/ONUs are disabled properly
-    ${rc}    ${output}=    Run and Return Rc and Output    ${VOLTCTL_CONFIG}; voltctl device disable ${olt_device_id}
-    Should Be Equal As Integers    ${rc}    0
-    Wait Until Keyword Succeeds    ${timeout}    5s    Validate OLT Device    DISABLED    UNKNOWN    REACHABLE
-    ...    ${olt_serial_number}
-    FOR    ${I}    IN RANGE    0    ${num_onus}
-        ${src}=    Set Variable    ${hosts.src[${I}]}
-        ${dst}=    Set Variable    ${hosts.dst[${I}]}
-        ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
-        ${onu_port}=    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
-        ...    Get ONU Port in ONOS    ${src['onu']}    ${of_id}
-        Wait Until Keyword Succeeds    ${timeout}    5s    Validate Device    ENABLED    DISCOVERED
-        ...    UNREACHABLE    ${src['onu']}    onu=false
-        #Verify that ping fails
-        Run Keyword If    ${has_dataplane}
-        ...    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    60s    2s
-        ...    Check Ping    False    ${dst['dp_iface_ip_qinq']}    ${src['dp_iface_name']}
-        ...    ${src['ip']}    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
-        # Remove Subscriber Access (To replicate ATT workflow)
-        Wait Until Keyword Succeeds    ${timeout}    2s    Execute ONOS CLI Command    ${ONOS_SSH_IP}
-        ...    ${ONOS_SSH_PORT}    volt-remove-subscriber-access ${of_id} ${onu_port}
-    END
-    #Enable the OLT back and check ONU, OLT status are back to "ACTIVE"
-    Enable Device    ${olt_device_id}
-    Wait Until Keyword Succeeds    ${timeout}    5s    Validate OLT Device    ENABLED    ACTIVE    REACHABLE
-    ...    ${olt_serial_number}
-    Wait Until Keyword Succeeds    ${timeout}    5s    Validate OLT Port Types
-    ...    PON_OLT    ETHERNET_NNI
-    Run Keyword If    ${has_dataplane}    Clean Up Linux
-    Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test
-
 Test Disable and Enable ONU
     [Documentation]    Validates E2E Ping Connectivity and object states for the given scenario:
     ...    Assuming that test1 was executed where all the ONUs are authenticated/DHCP/pingable
@@ -316,6 +276,48 @@ Test Disable and Enable ONU scenario for ATT workflow
         ...    Validate Subscriber DHCP Allocation    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${onu_port}
         Run Keyword and Ignore Error    Collect Logs
     END
+
+Test Disable and Enable OLT
+    [Documentation]    Validates E2E Ping Connectivity and object states for the given scenario:
+    ...    Assuming that test1 was executed where all the ONUs are authenticated/DHCP/pingable
+    ...    Perform disable on the OLT and validate that the pings do not succeed
+    ...    Perform enable on the OLT and validate that the pings are successful
+    [Tags]    functional    VOL-2410    DisableEnableOLT
+    [Setup]    Start Logging    DisableEnableOLT
+    [Teardown]    Run Keywords    Collect Logs
+    ...           AND             Stop Logging    DisableEnableOLT
+    #Disable the OLT and verify the OLT/ONUs are disabled properly
+    ${rc}    ${output}=    Run and Return Rc and Output    ${VOLTCTL_CONFIG}; voltctl device disable ${olt_device_id}
+    Should Be Equal As Integers    ${rc}    0
+    Wait Until Keyword Succeeds    ${timeout}    5s    Validate OLT Device    DISABLED    UNKNOWN    REACHABLE
+    ...    ${olt_serial_number}
+    FOR    ${I}    IN RANGE    0    ${num_onus}
+        ${src}=    Set Variable    ${hosts.src[${I}]}
+        ${dst}=    Set Variable    ${hosts.dst[${I}]}
+        ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
+        ${onu_port}=    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
+        ...    Get ONU Port in ONOS    ${src['onu']}    ${of_id}
+        Wait Until Keyword Succeeds    ${timeout}    5s    Validate Device    ENABLED    DISCOVERED
+        ...    UNREACHABLE    ${src['onu']}    onu=false
+        #Verify that ping fails
+        Run Keyword If    ${has_dataplane}
+        ...    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    60s    2s
+        ...    Check Ping    False    ${dst['dp_iface_ip_qinq']}    ${src['dp_iface_name']}
+        ...    ${src['ip']}    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
+        # Remove Subscriber Access (To replicate ATT workflow)
+        Wait Until Keyword Succeeds    ${timeout}    2s    Execute ONOS CLI Command    ${ONOS_SSH_IP}
+        ...    ${ONOS_SSH_PORT}    volt-remove-subscriber-access ${of_id} ${onu_port}
+        Sleep    10s
+    END
+    #Enable the OLT back and check ONU, OLT status are back to "ACTIVE"
+    Enable Device    ${olt_device_id}
+    Sleep    15s
+    Wait Until Keyword Succeeds    ${timeout}    5s    Validate OLT Device    ENABLED    ACTIVE    REACHABLE
+    ...    ${olt_serial_number}
+    Wait Until Keyword Succeeds    ${timeout}    5s    Validate OLT Port Types
+    ...    PON_OLT    ETHERNET_NNI
+    Run Keyword If    ${has_dataplane}    Clean Up Linux
+    Wait Until Keyword Succeeds    ${timeout}    5s    Perform Sanity Test
 
 Delete OLT, ReAdd OLT and Perform Sanity Test
     [Documentation]    Validates E2E Ping Connectivity and object states for the given scenario:
