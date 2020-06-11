@@ -188,7 +188,7 @@ Verify restart openolt-adapter container after subscriber provisioning for DT
     ${podStatusOutput}=    Run    kubectl get pods -n ${NAMESPACE}
     Log    ${podStatusOutput}
     ${countBforRestart}=    Run    kubectl get pods -n ${NAMESPACE} | grep Running | wc -l
-    ${podName}    Set Variable     adapter-open-olt
+    ${podName}    Set Variable     open-olt
     Restart Pod    ${NAMESPACE}    ${podName}
     Wait Until Keyword Succeeds    ${waitforRestart}    2s    Validate Pod Status    ${podName}    ${NAMESPACE}
     ...    Running
@@ -231,12 +231,12 @@ Verify openolt adapter restart before subscriber provisioning for DT
         ...    ${onu_device_id}    onu=True    onu_reason=omci-flows-pushed
     END
     # Scale down the open OLT adapter deployment to 0 PODs and once confirmed, scale it back to 1
-    Scale K8s Deployment    voltha    adapter-open-olt    0
-    Wait Until Keyword Succeeds    ${timeout}    2s    Pod Does Not Exist    voltha    adapter-open-olt
+    Scale K8s Deployment    voltha    open-olt    0
+    Wait Until Keyword Succeeds    ${timeout}    2s    Pod Does Not Exist    voltha    open-olt
     # Scale up the open OLT adapter deployment and make sure both it and the ofagent deployment are back
-    Scale K8s Deployment    voltha   adapter-open-olt    1
+    Scale K8s Deployment    voltha   open-olt    1
     Wait Until Keyword Succeeds    ${timeout}    2s
-    ...    Check Expected Available Deployment Replicas    voltha    adapter-open-olt    1
+    ...    Check Expected Available Deployment Replicas    voltha    open-olt    1
 
     # Ensure the device is available in ONOS, this represents system connectivity being restored
     Wait Until Keyword Succeeds    ${timeout}    2s    Device Is Available In ONOS
