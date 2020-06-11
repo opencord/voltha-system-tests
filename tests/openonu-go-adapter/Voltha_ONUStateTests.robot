@@ -42,11 +42,12 @@ ${container_log_dir}    ${None}
 ${state2test}    6
 ${testmode}    SingleState
 ${porttest}    True
+${debugmode}    False
 
 *** Test Cases ***
 ONU State Test
     [Documentation]    Validates the ONU Go adapter states
-    [Tags]    statetest
+    [Tags]    statetest    onutest
     [Setup]    Run Keywords    Start Logging    ONUStateTest
     ...    AND    Setup Test
     Run Keyword If    ${has_dataplane}    Clean Up Linux
@@ -57,9 +58,17 @@ ONU State Test
     ...    ELSE IF    "${testmode}"=="Up2State"    Do ONU Up To State Test
     ...    ELSE IF    "${testmode}"=="SingleStateTime"    Do ONU Single State Test Time
     ...    ELSE    Fail    The testmode (${testmode}) is not valid!
-    Run Keyword If    ${porttest}    Do Onu Port Check
     [Teardown]    Run Keywords    Collect Logs
     ...    AND    Stop Logging    ONUStateTest
+
+Onu Port Check
+    [Documentation]    Validates the ONU Go adapter states
+    ...    Assuming that ONU State Test was executed where all the ONUs are reached the expected state.
+    [Tags]    onutest
+    [Setup]    Start Logging    ONUPortTest
+    Run Keyword If    ${porttest}    Do Onu Port Check
+    [Teardown]    Run Keywords    Collect Logs
+    ...    AND    Stop Logging    ONUPortTest
 
 *** Keywords ***
 Setup Suite
@@ -86,6 +95,7 @@ Calculate Timeout
     [Documentation]    Calculates the timeout regarding num-onus in case of more than 4 onus
     ${timeout}    Fetch From Left    ${timeout}    s
     ${timeout}=    evaluate    ${timeout}+((${num_onus}-4)*30)
+    ${timeout}=    Set Variable If    (not ${debugmode}) and (${timeout}>600)    600    ${timeout}
     ${timeout}=    Catenate    SEPARATOR=    ${timeout}    s
     Set Suite Variable    ${timeout}
     #Log    \r\nTimeout: ${timeout}    INFO    console=True
@@ -163,92 +173,51 @@ Do ONU Single State Test Time
     Set Global Variable    ${ListfinishedONUs}
     Create File    ONU_Startup_Time.txt    This file contains the startup times of all ONUs.
     ${list_onus}    Create List
-    FOR    ${I}    IN RANGE    0    ${num_onus}
-        ${src}=    Set Variable    ${hosts.src[${I}]}
-        ${dst}=    Set Variable    ${hosts.dst[${I}]}
-        ${onu}    Evaluate    ${hosts.src}[${I}].get("onu")
-        Append To List    ${list_onus}    ${onu}
-    END
+    Build ONU SN List    ${list_onus}
     Run Keyword If    ${state2test}==1
     ...    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    50ms
     ...    Validate ONU Devices With Duration   ENABLED    ACTIVATING    REACHABLE
-    ...    ${list_onus}    onu_reason=activating-onu
+    ...    activating-onu    ${list_onus}    ${timeStart}    print2console=True
+    ...    output_file=ONU_Startup_Time.txt
     ...    ELSE IF    ${state2test}==2
     ...    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    50ms
     ...    Validate ONU Devices With Duration    ENABLED    ACTIVATING    REACHABLE
-    ...    ${list_onus}    onu_reason=starting-openomci
+    ...    starting-openomci    ${list_onus}    ${timeStart}    print2console=True
+    ...    output_file=ONU_Startup_Time.txt
     ...    ELSE IF    ${state2test}==3
     ...    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    50ms
     ...    Validate ONU Devices With Duration    ENABLED    ACTIVATING    REACHABLE
-    ...    ${list_onus}    onu_reason=discovery-mibsync-complete
+    ...    discovery-mibsync-complete    ${list_onus}    ${timeStart}    print2console=True
+    ...    output_file=ONU_Startup_Time.txt
     ...    ELSE IF    ${state2test}==4
     ...    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    50ms
     ...    Validate ONU Devices With Duration    ENABLED    ACTIVE    REACHABLE
-    ...    ${list_onus}    onu_reason=initial-mib-downloaded
+    ...    initial-mib-downloaded    ${list_onus}    ${timeStart}    print2console=True
+    ...    output_file=ONU_Startup_Time.txt
     ...    ELSE IF    ${state2test}==5
     ...    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    50ms
     ...    Validate ONU Devices With Duration    ENABLED    ACTIVE    REACHABLE
-    ...    ${list_onus}    onu_reason=tech-profile-config-download-success
+    ...    tech-profile-config-download-success    ${list_onus}    ${timeStart}    print2console=True
+    ...    output_file=ONU_Startup_Time.txt
     ...    ELSE IF    ${state2test}==6
     ...    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    50ms
     ...    Validate ONU Devices With Duration    ENABLED    ACTIVE    REACHABLE
-    ...    ${list_onus}    onu_reason=omci-flows-pushed
+    ...    omci-flows-pushed    ${list_onus}    ${timeStart}    print2console=True
+    ...    output_file=ONU_Startup_Time.txt
     ...    ELSE    Fail    The state to test (${state2test}) is not valid!
 
 Do Onu Port Check
     [Documentation]    This keyword performs Onu Port Check
-    ${of_id}=    Wait Until Keyword Succeeds    ${timeout}    15s    Validate OLT Device in ONOS    ${olt_serial_number}
+    ${onu_port_check_timeout}=    Set Variable   120s
+    ${of_id}=    Wait Until Keyword Succeeds    ${onu_port_check_timeout}    15s    Validate OLT Device in ONOS
+    ...    ${olt_serial_number}
     Set Global Variable    ${of_id}
     FOR    ${I}    IN RANGE    0    ${num_onus}
         ${src}=    Set Variable    ${hosts.src[${I}]}
         ${dst}=    Set Variable    ${hosts.dst[${I}]}
         ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
-        ${onu_port}=    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
-        ...    Get ONU Port in ONOS    ${src['onu']}    ${of_id}
+        ${onu_port}=    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${onu_port_check_timeout}
+        ...    2s    Get ONU Port in ONOS    ${src['onu']}    ${of_id}
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds   120s   2s
         ...    Verify ONU Port Is Enabled   ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${onu_port}
     END
-
-Validate ONU Devices With Duration
-    [Documentation]
-    ...    Parses the output of "voltctl device list" and inspects all devices ${List_ONU_Serial},
-    ...    Iteratively match on each Serial number contained in ${List_ONU_Serial} and inspect
-    ...    states including MIB state.
-    [Arguments]    ${admin_state}    ${oper_status}    ${connect_status}    ${List_ONU_Serial}
-    ...    ${onu_reason}=${EMPTY}
-    ${rc}    ${output}=    Run and Return Rc and Output    ${VOLTCTL_CONFIG}; voltctl device list -o json
-    Should Be Equal As Integers    ${rc}    0
-    ${timeCurrent} =    Get Current Date
-    ${jsondata}=    To Json    ${output}
-    ${length}=    Get Length    ${jsondata}
-    FOR    ${INDEX}    IN RANGE    0    ${length}
-        ${matched}=    Set Variable    False
-        ${value}=    Get From List    ${jsondata}    ${INDEX}
-        ${astate}=    Get From Dictionary    ${value}    adminstate
-        ${opstatus}=    Get From Dictionary    ${value}    operstatus
-        ${cstatus}=    Get From Dictionary    ${value}    connectstatus
-        ${sn}=    Get From Dictionary    ${value}    serialnumber
-        ${mib_state}=    Get From Dictionary    ${value}    reason
-        ${finished_id}=    Get Index From List    ${ListfinishedONUs}   ${sn}
-        ${onu_id}=    Get Index From List    ${List_ONU_Serial}   ${sn}
-        ${matched}=    Set Variable If    -1 == ${finished_id}    True    False
-        ${matched}=    Set Variable If    -1 != ${onu_id}    ${matched}    False
-        ${matched}=    Set Variable If    '${astate}' == '${admin_state}'    ${matched}    False
-        ${matched}=    Set Variable If    '${opstatus}' == '${oper_status}'    ${matched}    False
-        ${matched}=    Set Variable If    '${cstatus}' == '${connect_status}'    ${matched}    False
-        ${matched}=    Set Variable If    '${mib_state}' == '${onu_reason}'    ${matched}    False
-        Run Keyword If    ${matched}    Log And Store Finished ONU    ${sn}    ${timeCurrent}    ${onu_reason}
-        Run Keyword If    ${matched} or -1 != ${finished_id}    Remove Values From List    ${List_ONU_Serial}    ${sn}
-    END
-    Should Be Empty    ${List_ONU_Serial}    List ${List_ONU_Serial} not empty
-
-Log And Store Finished ONU
-    [Documentation]
-    ...    Log and stores the finished ONU
-    [Arguments]    ${onu_sn}    ${finish_time}    ${onu_reason}
-    ${timeTotalMs} =    Subtract Date From Date    ${finish_time}    ${timeStart}    result_format=number
-    Log    \r\nONU ${onu_sn} reached the state ${onu_reason} after ${timeTotalMs} sec.    INFO    console=True
-    Append To File    ONU_Startup_Time.txt
-    ...    \r\nONU ${onu_sn} reached the state ${onu_reason} after ${timeTotalMs} sec.
-    Append To List    ${ListfinishedONUs}    ${onu_sn}
-    Set Global Variable    ${ListfinishedONUs}
