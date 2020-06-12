@@ -549,6 +549,7 @@ RestoreONUs
         ${onu_type}=    Get Variable Value    ${src['onu_type']}    "null"
         #Get ens6f0 from ens6f0.22
         ${if_name}=    Replace String Using Regexp    ${src['dp_iface_name']}    \\..*    \
+        [Timeout]    2 minute
         Run Keyword IF    '${onu_type}' == 'alpha'    AlphaONURestoreDefault    ${src['ip']}    ${src['user']}
         ...    ${src['pass']}    ${if_name}    admin    admin    ${container_type}    ${container_name}
     END
@@ -557,7 +558,7 @@ AlphaONURestoreDefault
     [Documentation]    Restore the Alpha ONU to factory setting
     [Arguments]    ${rg_ip}    ${rg_user}    ${rg_pass}    ${onu_ifname}
     ...    ${onu_user}    ${onu_pass}    ${container_type}=${None}    ${container_name}=${None}
-    ${output}=    Login And Run Command On Remote System    sudo ifconfig ${onu_ifname} 192.168.1.3/24
+    ${output}=    Login And Run Command On Remote System    sudo ifconfig ${onu_ifname} 192.168.1.3/24 up
     ...    ${rg_ip}    ${rg_user}    ${rg_pass}    ${container_type}    ${container_name}
     ${cmd}	Catenate
     ...    (echo open "192.168.1.1"; sleep 1;
@@ -567,5 +568,5 @@ AlphaONURestoreDefault
     ${output}=    Login And Run Command On Remote System    ${cmd}
     ...    ${rg_ip}    ${rg_user}    ${rg_pass}    ${container_type}    ${container_name}
     Log To Console    ${output}
-    ${output}=    Login And Run Command On Remote System    sudo ifconfig ${onu_ifname} 0
+    ${output}=    Login And Run Command On Remote System    sudo ifconfig ${onu_ifname} 0 up
     ...    ${rg_ip}    ${rg_user}    ${rg_pass}    ${container_type}    ${container_name}
