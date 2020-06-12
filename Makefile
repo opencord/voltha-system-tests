@@ -41,6 +41,7 @@ ROBOT_FAIL_SINGLE_PON_FILE      ?= $(ROOT_DIR)/tests/data/bbsim-kind.yaml
 ROBOT_SANITY_MULT_PON_FILE      ?= $(ROOT_DIR)/tests/data/bbsim-kind-2x2.yaml
 ROBOT_SCALE_SINGLE_PON_FILE     ?= $(ROOT_DIR)/tests/data/bbsim-kind-16.yaml
 ROBOT_SCALE_MULT_PON_FILE       ?= $(ROOT_DIR)/tests/data/bbsim-kind-8x2.yaml
+ROBOT_SCALE_MULT_ONU_FILE       ?= $(ROOT_DIR)/tests/data/bbsim-kind-8x8.yaml
 ROBOT_DEBUG_LOG_OPT             ?=
 ROBOT_MISC_ARGS                 ?=
 
@@ -75,11 +76,19 @@ functional-multi-olt: voltha-test
 
 # target to invoke openonu go adapter
 openonu-go-adapter-test: ROBOT_MISC_ARGS += -v state2test:4 -v testmode:SingleStateTime -v timeout:180s
-openonu-go-adapter-test: ROBOT_MISC_ARGS += -i statetest $(ROBOT_DEBUG_LOG_OPT)
+openonu-go-adapter-test: ROBOT_MISC_ARGS += -i onutest $(ROBOT_DEBUG_LOG_OPT)
 openonu-go-adapter-test: ROBOT_MISC_ARGS += -X
 openonu-go-adapter-test: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_SINGLE_PON_FILE)
 openonu-go-adapter-test: ROBOT_FILE := Voltha_ONUStateTests.robot
 openonu-go-adapter-test: openonu-go-adapter-statetest
+
+# target to invoke multiple openonu go adapter
+multi-openonu-go-adapter-test: ROBOT_MISC_ARGS += -v state2test:4 -v testmode:SingleStateTime -v timeout:180s
+multi-openonu-go-adapter-test: ROBOT_MISC_ARGS += -i onutest $(ROBOT_DEBUG_LOG_OPT)
+multi-openonu-go-adapter-test: ROBOT_MISC_ARGS += -X
+multi-openonu-go-adapter-test: ROBOT_CONFIG_FILE := $(ROBOT_SCALE_MULT_ONU_FILE)
+multi-openonu-go-adapter-test: ROBOT_FILE := Voltha_ONUStateTests.robot
+multi-openonu-go-adapter-test: openonu-go-adapter-statetest
 
 sanity-single-kind: ROBOT_MISC_ARGS += -i sanity $(ROBOT_DEBUG_LOG_OPT)
 sanity-single-kind: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_SINGLE_PON_FILE)
