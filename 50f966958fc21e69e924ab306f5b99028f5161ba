@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d21c853f_dc5f5a95",
+        "filename": "libraries/utils.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 561,
+      "author": {
+        "id": 1000064
+      },
+      "writtenOn": "2020-06-12T01:48:09Z",
+      "side": 1,
+      "message": "Do we need this again?",
+      "range": {
+        "startLine": 561,
+        "startChar": 63,
+        "endLine": 561,
+        "endChar": 66
+      },
+      "revId": "50f966958fc21e69e924ab306f5b99028f5161ba",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    }
+  ]
+}
