@@ -40,7 +40,7 @@ Lookup Deployment That Owns Device
     Should Be Equal as Integers    ${rc}    0
     [Return]    ${deploy}
 
-Restart VOLTHA Port Foward
+Restart VOLTHA Port Forward
     [Arguments]    ${name}
     [Documentation]    Uses a script to restart a kubectl port-forward
     ${cmd}	Catenate
