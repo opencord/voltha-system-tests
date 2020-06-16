@@ -346,6 +346,48 @@ Validate ONU Devices With Duration
     END
     Should Be Empty    ${List_ONU_Serial}    List ${List_ONU_Serial} not empty
 
+Validate ONU Devices MIB State With Duration
+    [Documentation]
+    ...    Parses the output of "voltctl device list" and inspects all devices ${List_ONU_Serial},
+    ...    Iteratively match on each Serial number contained in ${List_ONU_Serial} and inspect MIB state.
+    [Arguments]    ${onu_reason}
+    ...    ${List_ONU_Serial}   ${startTime}    ${print2console}=False    ${output_file}=${EMPTY}
+    ${type} =    Set Variable    brcm_openomci_onu
+    ${rc}    ${output}=    Run and Return Rc and Output
+    ...    ${VOLTCTL_CONFIG}; voltctl device list -f Type=${type} -f Reason=${onu_reason} --format '{{.SerialNumber}}'
+    Should Be Equal As Integers    ${rc}    0
+    ${timeCurrent} =    Get Current Date
+    ${timeTotalMs} =    Subtract Date From Date    ${timeCurrent}    ${startTime}    result_format=number
+    @{outputdata} =    Split String    ${output}
+    ${outputlength} =    Get Length    ${outputdata}
+    ${onulength} =    Get Length    ${List_ONU_Serial}
+    ${Matches} =    Run Keyword If    ${outputlength}<=${onulength}
+    ...    Compare Lists    ${outputdata}    ${List_ONU_Serial}
+    ...    ELSE    Compare Lists    ${List_ONU_Serial}    ${outputdata}
+    ${length} =    Get Length    ${Matches}
+    FOR    ${INDEX}    IN RANGE    0    ${length}
+        ${sn}=    Get From List    ${Matches}    ${INDEX}
+        Run Keyword If    ${print2console}    Log
+        ...    \r\nONU ${sn} reached the state ${onu_reason} after ${timeTotalMs} sec.    console=yes
+        Run Keyword If    ('${output_file}'!='${EMPTY}')    Append To File    ${output_file}
+        ...    \r\nONU ${sn} reached the state ${onu_reason} after ${timeTotalMs} sec.
+        Remove Values From List    ${List_ONU_Serial}    ${sn}
+    END
+    Should Be Empty    ${List_ONU_Serial}    List ${List_ONU_Serial} not empty
+
+Compare Lists
+    [Documentation]
+    ...    Compares both lists and put all matches in the returned list
+    [Arguments]    ${ListIterate}    ${ListCompare}
+    @{list} =    Create List
+    ${length} =    Get Length    ${ListIterate}
+    FOR    ${INDEX}    IN RANGE    0    ${length}
+        ${sn}=    Get From List    ${ListIterate}    ${INDEX}
+        ${onu_id}=    Get Index From List    ${ListCompare}   ${sn}
+        Run Keyword If    -1 != ${onu_id}    Append To List    ${list}    ${sn}
+    END
+    [Return]    ${list}
+
 Validate Logical Device
     [Documentation]    Validate Logical Device is listed
     ${rc}    ${output}=    Run and Return Rc and Output    ${VOLTCTL_CONFIG}; voltctl logicaldevice list -o json

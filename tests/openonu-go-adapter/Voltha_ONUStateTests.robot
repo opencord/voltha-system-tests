@@ -176,32 +176,32 @@ Do ONU Single State Test Time
     Build ONU SN List    ${list_onus}
     Run Keyword If    ${state2test}==1
     ...    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    50ms
-    ...    Validate ONU Devices With Duration   ENABLED    ACTIVATING    REACHABLE
+    ...    Validate ONU Devices MIB State With Duration
     ...    activating-onu    ${list_onus}    ${timeStart}    print2console=True
     ...    output_file=ONU_Startup_Time.txt
     ...    ELSE IF    ${state2test}==2
     ...    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    50ms
-    ...    Validate ONU Devices With Duration    ENABLED    ACTIVATING    REACHABLE
+    ...    Validate ONU Devices MIB State With Duration
     ...    starting-openomci    ${list_onus}    ${timeStart}    print2console=True
     ...    output_file=ONU_Startup_Time.txt
     ...    ELSE IF    ${state2test}==3
     ...    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    50ms
-    ...    Validate ONU Devices With Duration    ENABLED    ACTIVATING    REACHABLE
+    ...    Validate ONU Devices MIB State With Duration
     ...    discovery-mibsync-complete    ${list_onus}    ${timeStart}    print2console=True
     ...    output_file=ONU_Startup_Time.txt
     ...    ELSE IF    ${state2test}==4
     ...    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    50ms
-    ...    Validate ONU Devices With Duration    ENABLED    ACTIVE    REACHABLE
+    ...    Validate ONU Devices MIB State With Duration
     ...    initial-mib-downloaded    ${list_onus}    ${timeStart}    print2console=True
     ...    output_file=ONU_Startup_Time.txt
     ...    ELSE IF    ${state2test}==5
     ...    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    50ms
-    ...    Validate ONU Devices With Duration    ENABLED    ACTIVE    REACHABLE
+    ...    Validate ONU Devices MIB State With Duration
     ...    tech-profile-config-download-success    ${list_onus}    ${timeStart}    print2console=True
     ...    output_file=ONU_Startup_Time.txt
     ...    ELSE IF    ${state2test}==6
     ...    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    50ms
-    ...    Validate ONU Devices With Duration    ENABLED    ACTIVE    REACHABLE
+    ...    Validate ONU Devices MIB State With Duration
     ...    omci-flows-pushed    ${list_onus}    ${timeStart}    print2console=True
     ...    output_file=ONU_Startup_Time.txt
     ...    ELSE    Fail    The state to test (${state2test}) is not valid!
@@ -221,3 +221,4 @@ Do Onu Port Check
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds   120s   2s
         ...    Verify ONU Port Is Enabled   ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${onu_port}
     END
+
