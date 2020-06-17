@@ -214,18 +214,18 @@ Verify Eapol Flows Added For ONU
     Should Not Be Empty    ${eapol_flows_added}
 
 Verify ONU Port Is Enabled
-    [Arguments]    ${ip}    ${port}    ${onu_port}
+    [Arguments]    ${ip}    ${port}    ${onu_name}
     [Documentation]    Verifies if the ONU port is enabled in ONOS
     ${onu_port_enabled}=    Execute ONOS CLI Command    ${ip}    ${port}
-    ...    ports -e | grep port=${onu_port}
+    ...    ports -e | grep portName=${onu_name}
     Log    ${onu_port_enabled}
     Should Not Be Empty    ${onu_port_enabled}
 
 Verify ONU Port Is Disabled
-    [Arguments]    ${ip}    ${port}    ${onu_port}
+    [Arguments]    ${ip}    ${port}    ${onu_name}
     [Documentation]    Verifies if the ONU port is disabled in ONOS
     ${onu_port_disabled}=    Execute ONOS CLI Command    ${ip}    ${port}
-    ...    ports -e | grep port=${onu_port}
+    ...    ports -e | grep portName=${onu_name}
     Log    ${onu_port_disabled}
     Should Be Empty    ${onu_port_disabled}
 

@@ -179,7 +179,7 @@ Test Disable and Enable ONU for DT
         ...    Validate Device    DISABLED    UNKNOWN
         ...    REACHABLE    ${src['onu']}    onu=True    onu_reason=omci-admin-lock
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds   ${timeout}    2s
-        ...    Verify ONU Port Is Disabled   ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${onu_port}
+        ...    Verify ONU Port Is Disabled   ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${src['onu']}
         # TODO: Yet to Verify on the GPON based Physical POD (VOL-2652)
         Run Keyword If    ${has_dataplane}    Run Keyword And Continue On Failure
         ...    Wait Until Keyword Succeeds    60s    2s
@@ -191,7 +191,7 @@ Test Disable and Enable ONU for DT
         ...    Validate Device    ENABLED    ACTIVE
         ...    REACHABLE    ${src['onu']}    onu=True    onu_reason=onu-reenabled
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds   ${timeout}    2s
-        ...    Verify ONU Port Is Enabled   ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${onu_port}
+        ...    Verify ONU Port Is Enabled   ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${src['onu']}
         # TODO: Yet to Verify on the GPON based Physical POD (VOL-2652)
         Run Keyword If    ${has_dataplane}    Run Keyword And Continue On Failure
         ...    Wait Until Keyword Succeeds    60s    2s
@@ -267,7 +267,7 @@ Test Disable and Enable OLT for DT
         ${onu_port}=    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
         ...    Get ONU Port in ONOS    ${src['onu']}    ${of_id}
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds   ${timeout}    2s
-        ...    Verify ONU Port Is Disabled   ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${onu_port}
+        ...    Verify ONU Port Is Disabled   ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${src['onu']}
         Run Keyword If    ${has_dataplane}    Run Keyword And Continue On Failure
         ...    Wait Until Keyword Succeeds    60s    2s
         ...    Check Ping    False    ${dst['dp_iface_ip_qinq']}    ${src['dp_iface_name']}
