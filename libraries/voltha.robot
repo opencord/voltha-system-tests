@@ -45,7 +45,7 @@ Restart VOLTHA Port Forward
     [Documentation]    Uses a script to restart a kubectl port-forward
     ${cmd}	Catenate
     ...    ps e -ww -A |
-    ...    grep _TAG=${name} |
+    ...    grep -E "_TAG=([a-z_-]+-)?${name}" |
     ...    grep -v grep |
     ...    awk '{printf(\"%s %s\\n\",$1,$5)}' |
     ...    grep -v bash | awk '{print $1}'
