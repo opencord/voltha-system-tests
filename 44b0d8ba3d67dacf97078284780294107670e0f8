@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "aa16d2ed_4b0d6cb7",
+        "filename": "libraries/utils.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 487,
+      "author": {
+        "id": 1000064
+      },
+      "writtenOn": "2020-06-17T18:34:10Z",
+      "side": 1,
+      "message": "This may not be needed in this patch.",
+      "range": {
+        "startLine": 487,
+        "startChar": 0,
+        "endLine": 487,
+        "endChar": 47
+      },
+      "revId": "44b0d8ba3d67dacf97078284780294107670e0f8",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    }
+  ]
+}
