@@ -61,6 +61,24 @@ ${udp_packet_bytes}      1400    # UDP payload in bytes
 ${container_log_dir}    ${None}
 
 *** Test Cases ***
+Reboot ONUs Physically
+    [Documentation]   This test reboots ONUs physically before execution all the tests
+    ...    Test case runs only on the PODs that are configured with PowerSwitch that
+    ...    controls the power off/on ONUs/OLT remotely (simulating a physical reboot)
+    [Tags]    functional   PowerSwitch    RebootAllONUs
+    [Setup]    Start Logging    RebootAllONUs
+    [Teardown]    Run Keywords    Collect Logs
+    ...           AND             Stop Logging    RebootAllONUs
+    Power Switch Connection Suite    ${web_power_switch.ip}    ${web_power_switch.user}    ${web_power_switch.password}
+    FOR    ${I}    IN RANGE    0    ${num_onus}
+        ${src}=    Set Variable    ${hosts.src[${I}]}
+        ${dst}=    Set Variable    ${hosts.dst[${I}]}
+        Disable Switch Outlet    ${src['power_switch_port']}
+        Sleep    60s
+        Enable Switch Outlet    ${src['power_switch_port']}
+        Sleep    60s
+    END
+
 Sanity E2E Test for OLT/ONU on POD
     [Documentation]    Validates E2E Ping Connectivity and object states for the given scenario:
     ...    Validate successful authentication/DHCP/E2E ping for the tech profile that is used
@@ -565,7 +583,7 @@ Setup Suite
     [Documentation]    Set up the test suite
     Common Test Suite Setup
     #Restore all ONUs
-    Run Keyword If    ${has_dataplane}    RestoreONUs    ${num_onus}
+    #Run Keyword If    ${has_dataplane}    RestoreONUs    ${num_onus}
 
 Clear All Devices Then Create New Device
     [Documentation]    Remove any devices from VOLTHA and ONOS
