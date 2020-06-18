@@ -264,7 +264,7 @@ Setup
     Test Empty Device List
     #Run Keyword If    ${has_dataplane}    Wait Until Keyword Succeeds    120s    10s    Openolt is Up
     #...    ${olt_ip}    ${olt_user}    ${olt_pass}
-    Run Keyword If    ${has_dataplane}    Sleep    180s
+    Run Keyword If    ${has_dataplane}    Sleep    230s
     #create/preprovision device
     ${olt_device_id}=    Create Device    ${olt_ip}    ${OLT_PORT}
     Set Suite Variable    ${olt_device_id}
