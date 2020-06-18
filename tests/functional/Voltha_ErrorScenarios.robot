@@ -268,3 +268,7 @@ Setup Suite
     [Documentation]    Set up the test suite
     Common Test Suite Setup
 
+#Teardown Suite
+#    [Documentation]    Teardown suite
+    #Restore all ONUs
+#    Run Keyword If    ${has_dataplane}    RestoreONUs    ${num_onus}
