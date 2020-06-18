@@ -402,12 +402,21 @@ Verify ping is succesful except for given device
         ...    ${src['ip']}    ${src['user']}    ${src['pass']}   ${src['container_type']}    ${src['container_name']}
     END
 
+Echo Message to OLT Logs
+    [Arguments]    ${message}
+    [Documentation]     Echoes ${message} into the OLT logs
+    Execute Remote Command    printf '%s\n' '' '${label}' '' >> /var/log/openolt.log
+    ...    ${olt_ip}    ${olt_user}    ${olt_pass}
+    Execute Remote Command    printf '%s\n' '' '${label}' '' >> /var/log/dev_mgmt_daemon.log
+    ...    ${olt_ip}    ${olt_user}    ${olt_pass}
+
 Start Logging
     [Arguments]    ${label}
     [Documentation]    Start logging for test ${label}
     ${kail_process}=     Run Keyword If    "${container_log_dir}" != "${None}"   Start Process    kail    -n    default
     ...    -n    voltha    cwd=${container_log_dir}   stdout=${label}-combined.log
     Set Test Variable    ${kail_process}
+    Run Keyword If    ${has_dataplane}    Echo Message to OLT Logs     ${label}
 
 Stop Logging
     [Arguments]    ${label}
@@ -417,6 +426,7 @@ Stop Logging
     ${test_logfile}=    Run Keyword If    "${container_log_dir}" != "${None}"
     ...    Join Path    ${container_log_dir}    ${label}-combined.log
     Run Keyword If Test Passed    Run Keyword If    "${test_logfile}" != "${None}"    Remove File    ${test_logfile}
+    Run Keyword If    ${has_dataplane}    Echo Message to OLT Logs     ${label}
 
 Clean Up Linux
     [Documentation]    Kill processes and clean up interfaces on src+dst servers
