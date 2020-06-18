@@ -18,7 +18,7 @@ Documentation     Test various end-to-end scenarios
 Suite Setup       Common Test Suite Setup
 Test Setup        Setup
 Test Teardown     Teardown
-#Suite Teardown    Teardown Suite
+Suite Teardown    Teardown Suite
 Library           Collections
 Library           String
 Library           OperatingSystem
@@ -268,3 +268,7 @@ Setup Suite
     [Documentation]    Set up the test suite
     Common Test Suite Setup
 
+Teardown Suite
+    [Documentation]    Teardown suite
+    #Restore all ONUs
+    Run Keyword If    ${has_dataplane}    RestoreONUs    ${num_onus}
