@@ -1,0 +1,8 @@
+Code-Review+2: Suchitra Vemuri <suchitra@opennetworking.org>
+Code-Review+2: Hung-Wei Chiu <hungwei@opennetworking.org>
+Verified+1: Hung-Wei Chiu <hungwei@opennetworking.org>
+Submitted-by: Hung-Wei Chiu <hungwei@opennetworking.org>
+Submitted-at: Fri, 19 Jun 2020 17:34:37 +0000
+Reviewed-on: https://gerrit.opencord.org/c/voltha-system-tests/+/19372
+Project: voltha-system-tests
+Branch: refs/heads/voltha-2.3
