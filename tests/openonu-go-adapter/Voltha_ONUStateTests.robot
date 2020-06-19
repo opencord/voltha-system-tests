@@ -63,7 +63,7 @@ ONU State Test
 
 Onu Port Check
     [Documentation]    Validates the ONU Go adapter states
-    ...    Assuming that ONU State Test was executed where all the ONUs are reached the expected state.
+    ...    Assuming that ONU State Test was executed where all the ONUs are reached the expected state!
     [Tags]    onutest
     [Setup]    Start Logging    ONUPortTest
     Run Keyword If    ${porttest}    Do Onu Port Check
@@ -207,18 +207,6 @@ Do ONU Single State Test Time
     ...    ELSE    Fail    The state to test (${state2test}) is not valid!
 
 Do Onu Port Check
-    [Documentation]    This keyword performs Onu Port Check
-    ${onu_port_check_timeout}=    Set Variable   120s
-    ${of_id}=    Wait Until Keyword Succeeds    ${onu_port_check_timeout}    15s    Validate OLT Device in ONOS
-    ...    ${olt_serial_number}
-    Set Global Variable    ${of_id}
-    FOR    ${I}    IN RANGE    0    ${num_onus}
-        ${src}=    Set Variable    ${hosts.src[${I}]}
-        ${dst}=    Set Variable    ${hosts.dst[${I}]}
-        ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
-        ${onu_port}=    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${onu_port_check_timeout}
-        ...    2s    Get ONU Port in ONOS    ${src['onu']}    ${of_id}
-        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds   120s   2s
-        ...    Verify ONU Port Is Enabled   ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${onu_port}
-    END
+    [Documentation]    Check that all the UNI ports show up in ONOS
+    Wait for Ports in ONOS      ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}  ${num_onus}   BBSM
 
