@@ -31,6 +31,7 @@ Resource          ../../libraries/voltha.robot
 Resource          ../../libraries/utils.robot
 Resource          ../../libraries/k8s.robot
 Resource          ../../variables/variables.robot
+Resource          ../../libraries/power_switch.robot
 
 *** Variables ***
 ${POD_NAME}       flex-ocp-cord
@@ -55,6 +56,24 @@ ${scripts}        ../../scripts
 ${container_log_dir}    ${None}
 
 *** Test Cases ***
+Reboot ONUs Physically
+    [Documentation]   This test reboots ONUs physically before execution all the tests
+    ...    Test case runs only on the PODs that are configured with PowerSwitch that
+    ...    controls the power off/on ONUs/OLT remotely (simulating a physical reboot)
+    [Tags]    functional   PowerSwitch    RebootAllONUs
+    [Setup]    Start Logging    RebootAllONUs
+    [Teardown]    Run Keywords    Collect Logs
+    ...           AND             Stop Logging    RebootAllONUs
+    Power Switch Connection Suite    ${web_power_switch.ip}    ${web_power_switch.user}    ${web_power_switch.password}
+    FOR    ${I}    IN RANGE    0    ${num_onus}
+        ${src}=    Set Variable    ${hosts.src[${I}]}
+        ${dst}=    Set Variable    ${hosts.dst[${I}]}
+        Disable Switch Outlet    ${src['power_switch_port']}
+        Sleep    60s
+        Enable Switch Outlet    ${src['power_switch_port']}
+        Sleep    60s
+    END
+
 Sanity E2E Test for OLT/ONU on POD for DT
     [Documentation]    Validates E2E Ping Connectivity and object states for the given scenario:
     ...    Validate successful DHCP/E2E ping (no EAPOL and DHCP flows) for the tech profile that is used
@@ -254,6 +273,9 @@ Setup Suite
     Common Test Suite Setup
     #Restore all ONUs
     #Run Keyword If    ${has_dataplane}    RestoreONUs    ${num_onus}
+    ${switch_type}=    Get Variable Value    ${web_power_switch.type}
+    Run Keyword If  "${switch_type}"!=""    Set Global Variable    ${powerswitch_type}    ${switch_type}
+
 
 Clear All Devices Then Create New Device
     [Documentation]    Remove any devices from VOLTHA and ONOS
