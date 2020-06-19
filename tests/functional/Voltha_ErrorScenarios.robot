@@ -76,7 +76,7 @@ Adding the same OLT before and after enabling the device
     ${rc}    ${output}=    Run and Return Rc and Output
     ...    ${VOLTCTL_CONFIG}; voltctl device create -t openolt -H ${olt_ip}:${OLT_PORT}
     Should Not Be Equal As Integers    ${rc}    0
-    Should Contain     ${output}     Device is already pre-provisioned
+    Should Contain     ${output}     Device is already pre-provisioned    ignore_case=True
     #Enable the created OLT device
     Enable Device    ${olt_device_id}
     Wait Until Keyword Succeeds    ${timeout}    5s    Validate OLT Device    ENABLED    ACTIVE    REACHABLE
@@ -85,7 +85,7 @@ Adding the same OLT before and after enabling the device
     ...    ${VOLTCTL_CONFIG}; voltctl device create -t openolt -H ${olt_ip}:${OLT_PORT}
     Should Not Be Equal As Integers    ${rc}    0
     Log    ${output}
-    Should Contain     ${output}    Device is already pre-provisioned
+    Should Contain     ${output}    Device is already pre-provisioned    ignore_case=True
     Log    "This OLT is added already and enabled"
 
 Test Disable or Enable different device id which is not in the device list
@@ -190,13 +190,14 @@ Check disabling of pre-provisioned OLT before enabling
     Wait Until Keyword Succeeds    ${timeout}    5s    Validate OLT Device    ENABLED    ACTIVE    REACHABLE
     ...    ${olt_serial_number}
     ${logical_id}=    Get Logical Device ID From SN    ${olt_serial_number}
+    ${onu_reason}=    Set Variable If    '${workflow}' == 'DT'    initial-mib-downloaded    omci-flows-pushed
     Set Suite Variable    ${logical_id}
     FOR    ${I}    IN RANGE    0    ${num_onus}
 	${src}=    Set Variable    ${hosts.src[${I}]}
 	${dst}=    Set Variable    ${hosts.dst[${I}]}
 	Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s    Validate Device
 	...    ENABLED    ACTIVE    REACHABLE
-	...    ${src['onu']}    onu=True    onu_reason=omci-flows-pushed
+	...    ${src['onu']}    onu=True    onu_reason=${onu_reason}
     END
 
 Disable and Delete the logical device directly
