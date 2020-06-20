@@ -405,10 +405,10 @@ Verify ping is succesful except for given device
 Echo Message to OLT Logs
     [Arguments]    ${message}
     [Documentation]     Echoes ${message} into the OLT logs
-    Wait Until Keyword Succeeds    60s    2s    Execute Remote Command
+    Wait Until Keyword Succeeds    180s    10s    Execute Remote Command
     ...    printf '%s\n' '' '' '${message}' '' >> /var/log/openolt.log
     ...    ${olt_ip}    ${olt_user}    ${olt_pass}
-    Wait Until Keyword Succeeds    60s    2s    Execute Remote Command
+    Wait Until Keyword Succeeds    180s    10s    Execute Remote Command
     ...    printf '%s\n' '' '' '${message}' '' >> /var/log/dev_mgmt_daemon.log
     ...    ${olt_ip}    ${olt_user}    ${olt_pass}
 
