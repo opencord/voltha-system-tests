@@ -50,6 +50,7 @@ ${logical_id}     0
 ${has_dataplane}    True
 ${teardown_device}    False
 ${scripts}        ../../scripts
+${workflow}    ATT
 
 # Per-test logging on failure is turned off by default; set this variable to enable
 ${container_log_dir}    ${None}
@@ -70,7 +71,7 @@ Adding the same OLT before and after enabling the device
     Run Keyword and Ignore Error   Collect Logs
     ${olt_device_id}=    Create Device    ${olt_ip}    ${OLT_PORT}
     Set Suite Variable    ${olt_device_id}
-    ${timeout}    Set Variable    180s
+    ${timeout}    Set Variable    250s
     Wait Until Keyword Succeeds    ${timeout}    5s    Validate OLT Device    PREPROVISIONED    UNKNOWN    UNKNOWN
     ...    ${olt_device_id}
     ${rc}    ${output}=    Run and Return Rc and Output
