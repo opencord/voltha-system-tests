@@ -152,8 +152,8 @@ node ("${TestNodeName}") {
                             etcd_container=\$(kubectl get pods | grep etcd | awk 'NR==1{print \$1}')
                             kubectl cp $WORKSPACE/voltha-system-tests/tests/data/TechProfile-${profile}.json \$etcd_container:/tmp/flexpod.json
                             put_result=\$(kubectl exec -it \$etcd_container -- /bin/sh -c 'cat /tmp/flexpod.json | ETCDCTL_API=3 etcdctl put service/voltha/technology_profiles/${tech_prof_directory}/64')
-                            kubectl cp $WORKSPACE/voltha-system-tests/tests/data/MIB_Alpha.json \$etcd_container:/tmp/MIB_Alpha.json
-                            put_result=\$(kubectl exec -it \$etcd_container -- /bin/sh -c 'cat /tmp/MIB_Alpha.json | ETCDCTL_API=3 etcdctl put service/voltha/omci_mibs/templates/BRCM/BVM4K00BRA0915-0083/5023_020O02414')
+                            //kubectl cp $WORKSPACE/voltha-system-tests/tests/data/MIB_Alpha.json \$etcd_container:/tmp/MIB_Alpha.json
+                            //put_result=\$(kubectl exec -it \$etcd_container -- /bin/sh -c 'cat /tmp/MIB_Alpha.json | ETCDCTL_API=3 etcdctl put service/voltha/omci_mibs/templates/BRCM/BVM4K00BRA0915-0083/5023_020O02414')
                             //kubectl cp $WORKSPACE/voltha-system-tests/tests/data/MIB_Iskratel.json \$etcd_container:/tmp/MIB_Iskratel.json
                             //put_result=\$(kubectl exec -it \$etcd_container -- /bin/sh -c 'cat /tmp/MIB_Iskratel.json | ETCDCTL_API=3 etcdctl put service/voltha/omci_mibs/templates/BRCM/G108_10/7.0.1b8-0.6')
                             """
@@ -173,6 +173,10 @@ node ("${TestNodeName}") {
             stage('Push Sadis-config') {
                 timeout(1) {
                     sadis_out = sh returnStatus: true, script: """
+                    export KUBECONFIG=$WORKSPACE/${configBaseDir}/${configKubernetesDir}/${configFileName}.conf
+                    etcd_container=\$(kubectl get pods | grep etcd | awk 'NR==1{print \$1}')
+                    kubectl cp $WORKSPACE/voltha-system-tests/tests/data/MIB_Alpha.json \$etcd_container:/tmp/MIB_Alpha.json
+                    put_result=\$(kubectl exec -it \$etcd_container -- /bin/sh -c 'cat /tmp/MIB_Alpha.json | ETCDCTL_API=3 etcdctl put service/voltha/omci_mibs/templates/BRCM/BVM4K00BRA0915-0083/5023_020O02414')
                     if [[ "${workFlow}" == "DT" ]]; then
                         curl -sSL --user karaf:karaf -X POST -H Content-Type:application/json http://${deployment_config.nodes[0].ip}:30120/onos/v1/network/configuration --data @$WORKSPACE/voltha-system-tests/tests/data/${configFileName}-sadis-DT.json
                     else
@@ -275,6 +279,7 @@ node ("${TestNodeName}") {
                                 throw new Exception("Upstream port for the olt is not configured, field aggPort is empty")
                             }
                             xconnect_out = sh returnStatus: true, script: """
+                            sleep 30
                             version=\$(sshpass -p karaf ssh -p 30115 karaf@${deployment_config.nodes[0].ip} "summary" | grep version)
                             sleep 10
                             if [[ \$version == *"version=2.2"* ]]; then
