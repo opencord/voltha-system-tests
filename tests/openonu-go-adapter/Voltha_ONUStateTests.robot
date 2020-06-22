@@ -1,13 +1,14 @@
 *** Settings ***
 Documentation     Test states of ONU Go adapter
 Suite Setup       Setup Suite
-Suite Teardown    Teardown Suite
+#Suite Teardown    Teardown Suite
 Test Setup        Setup
 Test Teardown     Teardown
 Library           Collections
 Library           String
 Library           OperatingSystem
 Library           XML
+Library           Dialogs
 Library           RequestsLibrary
 Library           ../../libraries/DependencyLibrary.py
 Resource          ../../libraries/onos.robot
@@ -43,6 +44,7 @@ ${state2test}    6
 ${testmode}    SingleState
 ${porttest}    True
 ${debugmode}    False
+${pausebeforecleanup}    False
 
 *** Test Cases ***
 ONU State Test
@@ -69,6 +71,16 @@ Onu Port Check
     Run Keyword If    ${porttest}    Do Onu Port Check
     [Teardown]    Run Keywords    Collect Logs
     ...    AND    Stop Logging    ONUPortTest
+
+Clean Up And Check
+    [Documentation]    Cleans up and checks all ONU ports disabled in ONOS
+    ...    Replaces the Suite Teardown!
+    [Tags]    cleanup
+    [Setup]    Start Logging    CleanUpAndCheckTest
+    Run Keyword If    ${pausebeforecleanup}    Pause Execution    Press OK to continue with clean up!
+    Run Keyword If    ${teardown_device}    Delete All Devices and Verify
+    Wait for Ports in ONOS      ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}  0   BBSM
+    [Teardown]    Stop Logging    CleanUpAndCheckTest
 
 *** Keywords ***
 Setup Suite
