@@ -43,6 +43,7 @@ ${state2test}    6
 ${testmode}    SingleState
 ${porttest}    True
 ${debugmode}    False
+${pausebeforecleanup}    False
 
 *** Test Cases ***
 ONU State Test
@@ -75,6 +76,15 @@ Setup Suite
     [Documentation]    Set up the test suite
     Common Test Suite Setup
     Run Keyword If   ${num_onus}>4    Calculate Timeout
+
+Teardown Suite
+    [Documentation]    Replaces the Suite Teardown in utils.robot.
+    ...    Cleans up and checks all ONU ports disabled in ONOS.
+    ...    Furthermore gives the possibility to pause the execution.
+    Run Keyword If    ${pausebeforecleanup}    Import Library    Dialogs
+    Run Keyword If    ${pausebeforecleanup}    Pause Execution    Press OK to continue with clean up!
+    Run Keyword If    ${teardown_device}    Delete All Devices and Verify
+    Wait for Ports in ONOS      ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}  0   BBSM
 
 Setup Test
     [Documentation]    Pre-test Setup
