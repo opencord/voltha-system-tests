@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cb111a8b_90b392e9",
+        "filename": "tests/functional/Voltha_PODTests.robot",
+        "patchSetId": 5
+      },
+      "lineNbr": 584,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2020-06-23T07:16:57Z",
+      "side": 1,
+      "message": "this is done, correct ?",
+      "revId": "764af611a4287ace9316491232a49799bd7e9135",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    }
+  ]
+}
