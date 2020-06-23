@@ -16,6 +16,24 @@
       "revId": "764af611a4287ace9316491232a49799bd7e9135",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "31c7ec45_b261407c",
+        "filename": "tests/functional/Voltha_PODTests.robot",
+        "patchSetId": 5
+      },
+      "lineNbr": 584,
+      "author": {
+        "id": 1000514
+      },
+      "writtenOn": "2020-06-23T08:26:03Z",
+      "side": 1,
+      "message": "Yes.. Will update in the next patch iteration.. Thanks..",
+      "parentUuid": "cb111a8b_90b392e9",
+      "revId": "764af611a4287ace9316491232a49799bd7e9135",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
     }
   ]
 }
