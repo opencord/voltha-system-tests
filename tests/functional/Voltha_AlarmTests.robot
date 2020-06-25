@@ -36,6 +36,7 @@ ${logical_id}     0
 ${has_dataplane}    True
 ${setup_device}    True
 ${teardown_device}    True
+${VOLTCTL_KAFKA_ENDPOINT}    kafka:9092
 ${VOLTCTL_NAMESPACE}      default
 ${BBSIMCTL_NAMESPACE}      voltha
 ${VOLTCTL_POD_NAME}    voltctl
@@ -473,7 +474,7 @@ Get Device Event
     [Documentation]    Get the most recent alarm event from voltha.events
     [Arguments]    ${deviceEventName}    ${since}
     ${output}    ${raiseErr}    Exec Pod Separate Stderr   ${VOLTCTL_NAMESPACE}     ${VOLTCTL_POD_NAME}
-    ...    voltctl event listen --show-body -t 1 -o json -f Titles=${deviceEventName} -s ${since}
+    ...    voltctl event listen --show-body -t 1 -o json -f Titles=${deviceEventName} -s ${since} --kafka ${VOLTCTL_KAFKA_ENDPOINT}
     ${json}    To Json    ${output}
     ${count}    Get Length    ${json}
     # If there is more than one event (which could happen if we quickly do a raise and a clear),
