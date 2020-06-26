@@ -1,0 +1,8 @@
+Verified+1: Jenkins Jenkins <do-not-reply@opencord.org>
+Code-Review+1: Suchitra Vemuri <suchitra@opennetworking.org>
+Code-Review+2: Scott Baker <scottb@opennetworking.org>
+Submitted-by: Scott Baker <scottb@opennetworking.org>
+Submitted-at: Fri, 26 Jun 2020 01:54:22 +0000
+Reviewed-on: https://gerrit.opencord.org/c/voltha-system-tests/+/19467
+Project: voltha-system-tests
+Branch: refs/heads/voltha-2.3
