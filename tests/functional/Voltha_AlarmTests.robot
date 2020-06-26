@@ -475,7 +475,7 @@ Get Device Event
     [Arguments]    ${deviceEventName}    ${since}
     ${voltctl_command}     Catenate    SEPARATOR=
     ...    voltctl event listen --show-body -t 1 -o json -f Titles=${deviceEventName} ${EMPTY}
-    ...    -s ${since} -kafka ${VOLTCTL_KAFKA_ENDPOINT}
+    ...    -s ${since} --kafka ${VOLTCTL_KAFKA_ENDPOINT}
     ${output}    ${raiseErr}    Exec Pod Separate Stderr   ${VOLTCTL_NAMESPACE}     ${VOLTCTL_POD_NAME}
     ...    ${voltctl_command}
     ${json}    To Json    ${output}
