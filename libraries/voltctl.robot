@@ -584,7 +584,7 @@ Assert ONUs in Voltha
     [Arguments]    ${count}
     [Documentation]    Check that a certain number of devices reached the ACTIVE/ENABLE state
     ${rc1}    ${devices}=    Run and Return Rc and Output
-    ...     ${VOLTCTL_CONFIG}; voltctl device list | grep -v OLT | grep ACTIVE | wc -l
+    ...     ${VOLTCTL_CONFIG}; voltctl -m 8M device list | grep -v OLT | grep ACTIVE | wc -l
     Should Be Equal As Integers    ${rc1}    0
     Should Be Equal As Integers    ${devices}    ${count}
 
