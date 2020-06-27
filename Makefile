@@ -68,6 +68,18 @@ functional-single-kind-dt: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_DT_SINGLE_PON_FIL
 functional-single-kind-dt: ROBOT_FILE := Voltha_DT_PODTests.robot
 functional-single-kind-dt: voltha-dt-test
 
+# target to invoke TT Workflow Sanity
+sanity-kind-dt: ROBOT_MISC_ARGS += -i sanityTT $(ROBOT_DEBUG_LOG_OPT)
+sanity-kind-dt: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_TT_SINGLE_PON_FILE)
+sanity-kind-dt: ROBOT_FILE := Voltha_TT_PODTests.robot
+sanity-kind-dt: voltha-tt-test
+
+# target to invoke TT Workflow Functional scenarios
+functional-single-kind-tt: ROBOT_MISC_ARGS += -i sanityTTORfunctional $(ROBOT_DEBUG_LOG_OPT)
+functional-single-kind-tt: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_TT_SINGLE_PON_FILE)
+functional-single-kind-tt: ROBOT_FILE := Voltha_TT_PODTests.robot
+functional-single-kind-tt: voltha-tt-test
+
 # target to invoke multiple OLTs Functional scenarios
 functional-multi-olt: ROBOT_MISC_ARGS += -i sanityMultiOLT $(ROBOT_DEBUG_LOG_OPT)
 functional-multi-olt: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_MULTIPLE_OLT_FILE)
