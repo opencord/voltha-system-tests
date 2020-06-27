@@ -31,6 +31,10 @@ node ("${TestNodeName}") {
                 if ( params.workFlow == "DT" ) {
                     deployment_config = readYaml file: "${configBaseDir}/${configDeploymentDir}/${configFileName}-DT.yaml"
                 }
+                else if ( params.workFlow == "TT" )
+                {
+                    deployment_config = readYaml file: "${configBaseDir}/${configDeploymentDir}/${configFileName}-TT.yaml"
+                }
                 else
                 {
                     deployment_config = readYaml file: "${configBaseDir}/${configDeploymentDir}/${configFileName}.yaml"
@@ -116,6 +120,8 @@ node ("${TestNodeName}") {
 
                     if [[ "${workFlow}" == "DT" ]]; then
                        WITH_EAPOL=no WITH_DHCP=no WITH_IGMP=no WITH_RADIUS=no ./voltha up
+                    elif [[  "${workFlow}" == "TT" ]]; then
+                       WITH_EAPOL=no WITH_DHCP=no WITH_INCREMENTAL_EVTO_UPDATE=yes WITH_IGMP=yes WITH_RADIUS=no ./voltha up
                     else
                        ./voltha up
                     fi
@@ -150,12 +156,18 @@ node ("${TestNodeName}") {
                             out_push_tp = sh returnStatus: true, script: """
                             export KUBECONFIG=$WORKSPACE/${configBaseDir}/${configKubernetesDir}/${configFileName}.conf
                             etcd_container=\$(kubectl get pods | grep etcd | awk 'NR==1{print \$1}')
-                            kubectl cp $WORKSPACE/voltha-system-tests/tests/data/TechProfile-${profile}.json \$etcd_container:/tmp/flexpod.json
-                            put_result=\$(kubectl exec -it \$etcd_container -- /bin/sh -c 'cat /tmp/flexpod.json | ETCDCTL_API=3 etcdctl put service/voltha/technology_profiles/${tech_prof_directory}/64')
-                            //kubectl cp $WORKSPACE/voltha-system-tests/tests/data/MIB_Alpha.json \$etcd_container:/tmp/MIB_Alpha.json
-                            //put_result=\$(kubectl exec -it \$etcd_container -- /bin/sh -c 'cat /tmp/MIB_Alpha.json | ETCDCTL_API=3 etcdctl put service/voltha/omci_mibs/templates/BRCM/BVM4K00BRA0915-0083/5023_020O02414')
-                            //kubectl cp $WORKSPACE/voltha-system-tests/tests/data/MIB_Iskratel.json \$etcd_container:/tmp/MIB_Iskratel.json
-                            //put_result=\$(kubectl exec -it \$etcd_container -- /bin/sh -c 'cat /tmp/MIB_Iskratel.json | ETCDCTL_API=3 etcdctl put service/voltha/omci_mibs/templates/BRCM/G108_10/7.0.1b8-0.6')
+                            if [[ "${workFlow}" == "TT" ]]; then
+                               kubectl cp $WORKSPACE/voltha-system-tests/tests/data/TechProfile-${profile}.json \$etcd_container:/tmp/flexpod.json
+RKSPACE/voltha-system-tests/tests/data/TechProfile-TT-HSIA.json \$etcd_container:/tmp/hsia.json
+                               put_result=\$(kubectl exec -it \$etcd_container -- /bin/sh -c 'cat /tmp/hsia.json | ETCDCTL_API=3 etcdctl put service/voltha/technology_profiles/${tech_prof_directory}/64')
+                               kubectl cp $WORKSPACE/voltha-system-tests/tests/data/TechProfile-TT-VoIP.json \$etcd_container:/tmp/voip.json
+                               put_result=\$(kubectl exec -it \$etcd_container -- /bin/sh -c 'cat /tmp/voip.json | ETCDCTL_API=3 etcdctl put service/voltha/technology_profiles/${tech_prof_directory}/65')
+                               kubectl cp $WORKSPACE/voltha-system-tests/tests/data/TechProfile-TT-MCAST.json \$etcd_container:/tmp/mcast.json
+                               put_result=\$(kubectl exec -it \$etcd_container -- /bin/sh -c 'cat /tmp/mcast.json | ETCDCTL_API=3 etcdctl put service/voltha/technology_profiles/${tech_prof_directory}/66')
+                            else
+                               kubectl cp $WORKSPACE/voltha-system-tests/tests/data/TechProfile-${profile}.json \$etcd_container:/tmp/flexpod.json
+                               put_result=\$(kubectl exec -it \$etcd_container -- /bin/sh -c 'cat /tmp/flexpod.json | ETCDCTL_API=3 etcdctl put service/voltha/technology_profiles/${tech_prof_directory}/64')
+                            fi
                             """
                             return out_push_tp == 0
                         }
@@ -179,6 +191,9 @@ node ("${TestNodeName}") {
                     put_result=\$(kubectl exec -it \$etcd_container -- /bin/sh -c 'cat /tmp/MIB_Alpha.json | ETCDCTL_API=3 etcdctl put service/voltha/omci_mibs/templates/BRCM/BVM4K00BRA0915-0083/5023_020O02414')
                     if [[ "${workFlow}" == "DT" ]]; then
                         curl -sSL --user karaf:karaf -X POST -H Content-Type:application/json http://${deployment_config.nodes[0].ip}:30120/onos/v1/network/configuration --data @$WORKSPACE/voltha-system-tests/tests/data/${configFileName}-sadis-DT.json
+
+                    elif [[ "${workFlow}" == "TT" ]]; then
+                        curl -sSL --user karaf:karaf -X POST -H Content-Type:application/json http://${deployment_config.nodes[0].ip}:30120/onos/v1/network/configuration --data @$WORKSPACE/voltha-system-tests/tests/data/${configFileName}-sadis-TT.json
                     else
                         curl -sSL --user karaf:karaf -X POST -H Content-Type:application/json http://${deployment_config.nodes[0].ip}:30120/onos/v1/network/configuration --data @$WORKSPACE/voltha-system-tests/tests/data/${configFileName}-sadis.json
                     fi
