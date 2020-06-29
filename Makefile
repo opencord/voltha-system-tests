@@ -52,12 +52,12 @@ sanity-kind-dt: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_DT_SINGLE_PON_FILE)
 sanity-kind-dt: ROBOT_FILE := Voltha_DT_PODTests.robot
 sanity-kind-dt: voltha-dt-test
 
-functional-single-kind: ROBOT_MISC_ARGS += -i sanity -i functional $(ROBOT_DEBUG_LOG_OPT)
+functional-single-kind: ROBOT_MISC_ARGS += -i sanity -i functional -e PowerSwitch $(ROBOT_DEBUG_LOG_OPT)
 functional-single-kind: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_SINGLE_PON_FILE)
 functional-single-kind: bbsim-kind
 
 # target to invoke DT Workflow Functional scenarios
-functional-single-kind-dt: ROBOT_MISC_ARGS += -i sanityDt -i functionalDt $(ROBOT_DEBUG_LOG_OPT)
+functional-single-kind-dt: ROBOT_MISC_ARGS += -i sanityDt -i functionalDt -e PowerSwitch $(ROBOT_DEBUG_LOG_OPT)
 functional-single-kind-dt: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_DT_SINGLE_PON_FILE)
 functional-single-kind-dt: ROBOT_FILE := Voltha_DT_PODTests.robot
 functional-single-kind-dt: voltha-dt-test

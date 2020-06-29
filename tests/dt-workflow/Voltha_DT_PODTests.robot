@@ -60,7 +60,7 @@ Reboot ONUs Physically
     [Documentation]   This test reboots ONUs physically before execution all the tests
     ...    Test case runs only on the PODs that are configured with PowerSwitch that
     ...    controls the power off/on ONUs/OLT remotely (simulating a physical reboot)
-    [Tags]    functional   PowerSwitch    RebootAllONUs
+    [Tags]    functionalDt   PowerSwitch    RebootAllONUs
     [Setup]    Start Logging    RebootAllONUs
     [Teardown]    Run Keywords    Collect Logs
     ...           AND             Stop Logging    RebootAllONUs
