@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6e13ef8c_f34c5ad0",
+        "filename": "Makefile",
+        "patchSetId": 1
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1000514
+      },
+      "writtenOn": "2020-06-29T14:50:24Z",
+      "side": 1,
+      "message": "TODO: In Voltha-2.3 as well",
+      "range": {
+        "startLine": 61,
+        "startChar": 65,
+        "endLine": 61,
+        "endChar": 79
+      },
+      "revId": "d6aa082fcee327aebec953f107651e4acdfba446",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    }
+  ]
+}
