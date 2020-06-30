@@ -488,8 +488,8 @@ Clean Up Linux
         ${bng_ip}=    Get Variable Value    ${dst['noroot_ip']}
         ${bng_user}=    Get Variable Value    ${dst['noroot_user']}
         ${bng_pass}=    Get Variable Value    ${dst['noroot_pass']}
-        Run Keyword If    ("${bng_ip}" and "${bng_user}" and "${bng_pass}")    Execute Remote Command
-        ...    sudo pkill mausezahn    ${bng_ip}    ${bng_user}    ${bng_pass}
+        Run Keyword If    "${bng_ip}" != "${NONE}" and "${bng_user}" != "${NONE}" and "${bng_pass}" != "${NONE}"
+        ...    Execute Remote Command    sudo pkill mausezahn    ${bng_ip}    ${bng_user}    ${bng_pass}
         ...    ${dst['container_type']}    ${dst['container_name']}
     END
 

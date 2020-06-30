@@ -601,7 +601,7 @@ Validate parsing of data traffic through voltha using tech profile
         ${bng_ip}=    Get Variable Value    ${dst['noroot_ip']}
         ${bng_user}=    Get Variable Value    ${dst['noroot_user']}
         ${bng_pass}=    Get Variable Value    ${dst['noroot_pass']}
-        Pass Execution If    not ("${bng_ip}" and "${bng_user}" and "${bng_pass}")
+        Pass Execution If    "${bng_ip}" == "${NONE}" or "${bng_user}" == "${NONE}" or "${bng_pass}" == "${NONE}"
         ...    Skipping test: credentials for BNG login required in deployment config
 
         ${stdout}    ${stderr}    ${rc}=    Execute Remote Command    which mausezahn tcpdump
