@@ -472,9 +472,9 @@ Clean Up Linux
     FOR    ${I}    IN RANGE    0    ${num_onus}
         ${src}=    Set Variable    ${hosts.src[${I}]}
         ${dst}=    Set Variable    ${hosts.dst[${I}]}
-        Execute Remote Command    pkill wpa_supplicant    ${src['ip']}
+        Execute Remote Command    sudo pkill wpa_supplicant    ${src['ip']}
         ...    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
-        Execute Remote Command    pkill dhclient    ${src['ip']}
+        Execute Remote Command    sudo pkill dhclient    ${src['ip']}
         ...    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
         Execute Remote Command    sudo pkill mausezahn    ${src['ip']}
         ...    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
@@ -485,8 +485,11 @@ Clean Up Linux
         Run Keyword If    '${dst['ip']}' != '${None}'    Delete Interface on Remote Host
         ...    ${dst['dp_iface_name']}.${src['s_tag']}    ${dst['ip']}    ${dst['user']}    ${dst['pass']}
         ...    ${dst['container_type']}    ${dst['container_name']}
-        Run Keyword If    '${dst['noroot_ip']}' != '${None}'    Execute Remote Command
-        ...    sudo pkill mausezahn    ${dst['noroot_ip']}    ${dst['noroot_user']}    ${dst['noroot_pass']}
+        ${bng_ip}=    Get Variable Value    ${dst['noroot_ip']}
+        ${bng_user}=    Get Variable Value    ${dst['noroot_user']}
+        ${bng_pass}=    Get Variable Value    ${dst['noroot_pass']}
+        Run Keyword If    ("${bng_ip}" and "${bng_user}" and "${bng_pass}")    Execute Remote Command
+        ...    sudo pkill mausezahn    ${bng_ip}    ${bng_user}    ${bng_pass}
         ...    ${dst['container_type']}    ${dst['container_name']}
     END
 
