@@ -474,7 +474,7 @@ Validate authentication on a disabled ONU
 Data plane verification using TCP
     [Documentation]    Test bandwidth profile is met and not exceeded for each subscriber.
     ...    Assumes iperf3 and jq installed on client and iperf -s running on DHCP server
-    [Tags]    dataplane    BandwidthProfileTCP    VOL-2052    sanity
+    [Tags]    dataplane    BandwidthProfileTCP    VOL-2052
     [Setup]    Start Logging    BandwidthProfileTCP
     [Teardown]    Run Keywords    Collect Logs
     ...           AND    Stop Logging    BandwidthProfileTCP
@@ -529,7 +529,7 @@ Data plane verification using TCP
 Data plane verification using UDP
     [Documentation]    Test bandwidth profile is met and not exceeded for each subscriber.
     ...    Assumes iperf3 and jq installed on client and iperf -s running on DHCP server
-    [Tags]    dataplane    BandwidthProfileUDP    VOL-2052    sanity
+    [Tags]    dataplane    BandwidthProfileUDP    VOL-2052
     [Setup]    Start Logging    BandwidthProfileUDP
     [Teardown]    Run Keywords    Collect Logs
     ...           AND    Stop Logging    BandwidthProfileUDP
@@ -588,7 +588,7 @@ Validate parsing of data traffic through voltha using tech profile
     ...    Make sure 9999 port is enabled or forwarded for both upsteam and downstream direction
     ...    This test sends UDP packets on port 9999 with pbits between 0 and 7 and validates that
     ...    the pbits are preserved by the PON.
-    [Tags]    dataplane    TechProfile    VOL-2054    sanity
+    [Tags]    dataplane    TechProfile    VOL-2054
     [Setup]    Start Logging    TechProfile
     [Teardown]    Run Keywords    Collect Logs
     ...           AND    Stop Logging    TechProfile
