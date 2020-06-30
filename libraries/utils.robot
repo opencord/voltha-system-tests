@@ -472,9 +472,9 @@ Clean Up Linux
     FOR    ${I}    IN RANGE    0    ${num_onus}
         ${src}=    Set Variable    ${hosts.src[${I}]}
         ${dst}=    Set Variable    ${hosts.dst[${I}]}
-        Execute Remote Command    pkill wpa_supplicant    ${src['ip']}
+        Execute Remote Command    sudo pkill wpa_supplicant    ${src['ip']}
         ...    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
-        Execute Remote Command    pkill dhclient    ${src['ip']}
+        Execute Remote Command    sudo pkill dhclient    ${src['ip']}
         ...    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
         Execute Remote Command    sudo pkill mausezahn    ${src['ip']}
         ...    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
