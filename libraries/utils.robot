@@ -602,6 +602,8 @@ Start Remote Command
     ...        SSHLibrary.Start Command    kubectl -n ${namespace} exec ${container_name} -- ${cmd}
     ...    ELSE
     ...        SSHLibrary.Start Command    ${cmd}
+    # It seems that closing the connection immediately will sometimes kill the command
+    Sleep    1s
     SSHLibrary.Close Connection
 
 Run Iperf3 Test Client
