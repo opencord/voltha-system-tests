@@ -439,6 +439,8 @@ Clean Up Linux
         ...    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
         Run Keyword And Ignore Error    Kill Linux Process    [d]hclient    ${src['ip']}
         ...    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
+        Run Keyword And Ignore Error    Kill Linux Process    mausezahn    ${src['ip']}
+        ...    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
         Run Keyword If    '${dst['ip']}' != '${None}'    Run Keyword And Ignore Error
         ...    Kill Linux Process    [d]hcpd    ${dst['ip']}    ${dst['user']}
         ...    ${dst['pass']}    ${dst['container_type']}    ${dst['container_name']}
@@ -446,6 +448,9 @@ Clean Up Linux
         ...    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
         Run Keyword If    '${dst['ip']}' != '${None}'    Delete Interface on Remote Host
         ...    ${dst['dp_iface_name']}.${src['s_tag']}    ${dst['ip']}    ${dst['user']}    ${dst['pass']}
+        ...    ${dst['container_type']}    ${dst['container_name']}
+        Run Keyword If    '${dst['noroot_ip']}' != '${None}'    Execute Remote Command
+        ...    sudo pkill -2 mausezahn    ${dst['noroot_ip']}    ${dst['noroot_user']}    ${dst['noroot_pass']}
         ...    ${dst['container_type']}    ${dst['container_name']}
     END
 
@@ -517,7 +522,7 @@ Execute Remote Command
     [Documentation]    SSH into a remote host and execute a command on the bare host or in a container.
     ...    This replaces and simplifies the Login And Run Command On Remote System keyword in CORDRobot.
     [Arguments]    ${cmd}    ${ip}    ${user}    ${pass}=${None}
-    ...    ${container_type}=${None}    ${container_name}=${None}
+    ...    ${container_type}=${None}    ${container_name}=${None}    ${timeout}=3 seconds
     ${conn_id}=    SSHLibrary.Open Connection    ${ip}
     Run Keyword If    '${pass}' != '${None}'
     ...    SSHLibrary.Login    ${user}    ${pass}
@@ -527,12 +532,12 @@ Execute Remote Command
     ...    kubectl get pods --all-namespaces | grep ${container_name} | awk '{print $1}'
     ${stdout}    ${stderr}    ${rc}=    Run Keyword If    '${container_type}' == 'LXC'
     ...        SSHLibrary.Execute Command    lxc exec ${container_name} -- ${cmd}
-    ...        return_stderr=True    return_rc=True
+    ...        return_stderr=True    return_rc=True    timeout=${timeout}
     ...    ELSE IF    '${container_type}' == 'K8S'
     ...        SSHLibrary.Execute Command    kubectl -n ${namespace} exec ${container_name} -- ${cmd}
-    ...        return_stderr=True    return_rc=True
+    ...        return_stderr=True    return_rc=True    timeout=${timeout}
     ...    ELSE
-    ...        SSHLibrary.Execute Command    ${cmd}    return_stderr=True    return_rc=True
+    ...        SSHLibrary.Execute Command    ${cmd}    return_stderr=True    return_rc=True    timeout=${timeout}
 
     Log    ${stdout}
     Log    ${stderr}
@@ -611,14 +616,15 @@ Create traffic with each pbit and capture at other end
     FOR    ${pbit}    IN RANGE    8
         Execute Remote Command    sudo pkill -2 mausezahn
         ...    ${src_ip}    ${src_user}    ${src_pass}    ${src_container_type}    ${src_container_name}
-        ${var1}=    Set Variable    sudo mausezahn ${src_iface} -B ${target_ip} -c ${packet_count}
+        ${var1}=    Set Variable    sudo mausezahn ${src_iface} -B ${target_ip} -c ${packet_count} -d 100m
         ${var2}=    Set Variable    -t ${packet_type} "dp=${target_port}" -p 1472 -Q ${pbit}:${vlan}
         ${cmd}=    Set Variable    ${var1} ${var2}
         Start Remote Command    ${cmd}    ${src_ip}    ${src_user}    ${src_pass}
         ...    ${src_container_type}    ${src_container_name}
         ${output}    ${stderr}    ${rc}=    Execute Remote Command
-        ...    timeout 30 sudo tcpdump -l -U -c 30 -i ${target_iface} -e ${tcpdump_filter}
+        ...    sudo tcpdump -l -U -c 30 -i ${target_iface} -e ${tcpdump_filter}
         ...    ${dst_ip}    ${dst_user}    ${dst_pass}    ${dst_container_type}    ${dst_container_name}
+        ...    timeout=30 seconds
         Execute Remote Command    sudo pkill -2 mausezahn
         ...    ${src_ip}    ${src_user}    ${src_pass}    ${src_container_type}    ${src_container_name}
         # VOL-3262:  I'm seeing untagged downstream traffic at RG for pbit 0.  According to Girish this is
