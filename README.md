@@ -251,7 +251,7 @@ If you have trouble with the line length check, try the following:
 
 * If you get a Line Length related problem, you can continue lines between
   keywords with the `...` operator - see the [robot
-  documentation](https://robotframework.org/robotframework/latest/RobotFrameworkUserGuide.html#dividing-test-data-to-several-rows)
+  documentation](https://robotframework.org/robotframework/latest/RobotFrameworkUserGuide.html#dividing-data-to-several-rows)
   for more information.
 
 * If it's an issue with a long shell invocation that uses a pipeline to filter
