@@ -44,6 +44,8 @@ ROBOT_SCALE_MULT_PON_FILE       ?= $(ROOT_DIR)/tests/data/bbsim-kind-8x2.yaml
 ROBOT_SCALE_MULT_ONU_FILE       ?= $(ROOT_DIR)/tests/data/bbsim-kind-8x8.yaml
 ROBOT_DEBUG_LOG_OPT             ?=
 ROBOT_MISC_ARGS                 ?=
+# TODO: TT workflow not yet supported on BBSim
+ROBOT_SANITY_TT_SINGLE_PON_FILE    ?=
 
 # for backwards compatibility
 sanity-kind: sanity-single-kind
@@ -69,13 +71,13 @@ functional-single-kind-dt: ROBOT_FILE := Voltha_DT_PODTests.robot
 functional-single-kind-dt: voltha-dt-test
 
 # target to invoke TT Workflow Sanity
-sanity-kind-dt: ROBOT_MISC_ARGS += -i sanityTT $(ROBOT_DEBUG_LOG_OPT)
-sanity-kind-dt: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_TT_SINGLE_PON_FILE)
-sanity-kind-dt: ROBOT_FILE := Voltha_TT_PODTests.robot
-sanity-kind-dt: voltha-tt-test
+sanity-kind-tt: ROBOT_MISC_ARGS += -i sanityTT $(ROBOT_DEBUG_LOG_OPT)
+sanity-kind-tt: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_TT_SINGLE_PON_FILE)
+sanity-kind-tt: ROBOT_FILE := Voltha_TT_PODTests.robot
+sanity-kind-tt: voltha-tt-test
 
 # target to invoke TT Workflow Functional scenarios
-functional-single-kind-tt: ROBOT_MISC_ARGS += -i sanityTTORfunctional $(ROBOT_DEBUG_LOG_OPT)
+functional-single-kind-tt: ROBOT_MISC_ARGS += -i sanityTTORfunctional -e PowerSwitch $(ROBOT_DEBUG_LOG_OPT)
 functional-single-kind-tt: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_TT_SINGLE_PON_FILE)
 functional-single-kind-tt: ROBOT_FILE := Voltha_TT_PODTests.robot
 functional-single-kind-tt: voltha-tt-test
@@ -188,6 +190,13 @@ voltha-dt-test: ROBOT_MISC_ARGS += -e notready
 voltha-dt-test: vst_venv
 	source ./$</bin/activate ; set -u ;\
 	cd tests/dt-workflow ;\
+	robot -V $(ROBOT_CONFIG_FILE) $(ROBOT_MISC_ARGS) $(ROBOT_FILE)
+
+voltha-tt-test: ROBOT_MISC_ARGS += -e notready
+
+voltha-tt-test: vst_venv
+	source ./$</bin/activate ; set -u ;\
+	cd tests/tt-workflow ;\
 	robot -V $(ROBOT_CONFIG_FILE) $(ROBOT_MISC_ARGS) $(ROBOT_FILE)
 
 voltha-scale-test: vst_venv
