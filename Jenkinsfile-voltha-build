@@ -88,12 +88,12 @@ node ("${TestNodeName}") {
                     sh returnStdout: true, script: """
                     export KUBECONFIG=$WORKSPACE/${configBaseDir}/${configKubernetesDir}/${configFileName}.conf
                     cd kind-voltha/
+                    export EXTRA_HELM_FLAGS=""
                     if [ "${branch}" != "master" ]; then
                         cd $WORKSPACE/kind-voltha
                         source releases/${branch}
-                    else
-                        export EXTRA_HELM_FLAGS='-f $WORKSPACE/${configBaseDir}/${configKubernetesDir}/voltha/${configFileName}.yml'
                     fi
+                    export EXTRA_HELM_FLAGS="-f $WORKSPACE/${configBaseDir}/${configKubernetesDir}/voltha/${configFileName}.yml \$EXTRA_HELM_FLAGS"
 
                     # JENKINS_NODE_COOKIE=dontKillMe ask Jenkins doesn't kill the proces after this job.
                     # we want the `while true; do kubectl port-forward` keep alive
