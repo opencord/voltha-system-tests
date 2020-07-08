@@ -87,7 +87,7 @@ Sanity E2E Test for TT
     ...           AND             Stop Logging    SanityTestTT
     Run Keyword If    ${has_dataplane}    Clean Up Linux
     Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test TT
-    Run Keyword If    ${has_dataplane}    Clean Up Linux
+    #Run Keyword If    ${has_dataplane}    Clean Up Linux
 
 *** Keywords ***
 Setup Suite
@@ -104,3 +104,7 @@ Clear All Devices Then Create New Device
     # Execute normal test Setup Keyword
     Setup
 
+
+Teardown Suite
+    [Documentation]    Tear down steps for the suite
+    Run Keyword If    ${has_dataplane}    Clean Up Linux
