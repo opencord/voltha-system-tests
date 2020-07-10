@@ -78,7 +78,7 @@ Disable Devices In Voltha
     ${arg}=    Set Variable    ${EMPTY}
     ${arg}=    Run Keyword If    len('${filter}'.strip()) != 0    Set Variable    --filter ${filter}
     ${rc}    ${devices}=    Run and Return Rc and Output
-    ...    ${VOLTCTL_CONFIG}; voltctl device list ${arg} --orderby Root -q | xargs echo -n
+    ...    ${VOLTCTL_CONFIG}; voltctl device list -m 8MB ${arg} --orderby Root -q | xargs echo -n
     Should Be Equal As Integers    ${rc}    0
     ${rc}    ${output}=    Run Keyword If    len('${devices}') != 0    Run and Return Rc and Output
     ...    ${VOLTCTL_CONFIG}; voltctl device disable ${devices}
@@ -88,7 +88,7 @@ Test Devices Disabled In Voltha
     [Documentation]    Tests to verify that all devices in VOLTHA are disabled
     [Arguments]    ${filter}
     ${rc}    ${count}=    Run and Return Rc and Output
-    ...    ${VOLTCTL_CONFIG}; voltctl device list --filter '${filter},AdminState!=DISABLED' -q | wc -l
+    ...    ${VOLTCTL_CONFIG}; voltctl device list -m 8MB --filter '${filter},AdminState!=DISABLED' -q | wc -l
     Should Be Equal As Integers    ${rc}    0
     Should Be Equal As Integers    ${count}    0
 
@@ -98,7 +98,7 @@ Delete Devices In Voltha
     ${arg}=    Set Variable    ${EMPTY}
     ${arg}=    Run Keyword If    len('${filter}'.strip()) != 0    Set Variable    --filter ${filter}
     ${rc}    ${devices}=    Run and Return Rc and Output
-    ...    ${VOLTCTL_CONFIG}; voltctl device list ${arg} --orderby Root -q | xargs echo -n
+    ...    ${VOLTCTL_CONFIG}; voltctl device list ${arg} -m 8MB --orderby Root -q | xargs echo -n
     Should Be Equal As Integers    ${rc}    0
     ${rc}    ${output}=    Run Keyword If    len('${devices}') != 0    Run and Return Rc and Output
     ...    ${VOLTCTL_CONFIG}; voltctl device delete ${devices}
@@ -108,7 +108,7 @@ Get Device Flows from Voltha
     [Arguments]    ${device_id}
     [Documentation]    Gets device flows from VOLTHA
     ${rc}    ${output}=    Run and Return Rc and Output
-    ...    ${VOLTCTL_CONFIG}; voltctl device flows ${device_id}
+    ...    ${VOLTCTL_CONFIG}; voltctl device flows ${device_id} -m 8MB
     Should Be Equal As Integers    ${rc}    0
     [Return]    ${output}
 
@@ -128,9 +128,9 @@ Get Device Output from Voltha
     [Arguments]    ${device_id}
     [Documentation]    Gets device flows and ports from VOLTHA
     ${rc1}    ${flows}=    Run and Return Rc and Output
-    ...    ${VOLTCTL_CONFIG}; voltctl device flows ${device_id}
+    ...    ${VOLTCTL_CONFIG}; voltctl device flows ${device_id} -m 8MB
     ${rc2}    ${ports}=    Run and Return Rc and Output
-    ...    ${VOLTCTL_CONFIG}; voltctl device port list ${device_id}
+    ...    ${VOLTCTL_CONFIG}; voltctl device port list ${device_id} -m 8MB
     Log    ${flows}
     Log    ${ports}
     Should Be Equal As Integers    ${rc1}    0
@@ -138,7 +138,7 @@ Get Device Output from Voltha
 
 Get Device List from Voltha
     [Documentation]    Gets Device List Output from Voltha
-    ${rc1}    ${devices}=    Run and Return Rc and Output    ${VOLTCTL_CONFIG}; voltctl device list
+    ${rc1}    ${devices}=    Run and Return Rc and Output    ${VOLTCTL_CONFIG}; voltctl device list -m 8MB
     Log    ${devices}
     Should Be Equal As Integers    ${rc1}    0
 
@@ -146,14 +146,14 @@ Get Device List from Voltha by type
     [Documentation]    Gets Device List Output from Voltha applying filtering by device type
     [Arguments]  ${type}
     ${rc1}    ${devices}=    Run and Return Rc and Output
-    ...     ${VOLTCTL_CONFIG}; voltctl device list -f Type=${type} -o json
+    ...     ${VOLTCTL_CONFIG}; voltctl device list -m 8MB -f Type=${type} -o json
     Log    ${devices}
     Should Be Equal As Integers    ${rc1}    0
     Return From Keyword     ${devices}
 
 Get Logical Device List from Voltha
     [Documentation]    Gets Logical Device List Output from Voltha (in json format)
-    ${rc1}    ${devices}=    Run and Return Rc and Output    ${VOLTCTL_CONFIG}; voltctl logicaldevice list -o json
+    ${rc1}    ${devices}=    Run and Return Rc and Output    ${VOLTCTL_CONFIG}; voltctl logicaldevice list -m 8MB -o json
     Log    ${devices}
     Should Be Equal As Integers    ${rc1}    0
     Return From Keyword     ${devices}
@@ -165,7 +165,7 @@ Validate Device
     ...    "oper_status", and "connect_status"
     [Arguments]    ${admin_state}    ${oper_status}    ${connect_status}
     ...    ${id}=${EMPTY}    ${onu_reason}=${EMPTY}    ${onu}=False
-    ${rc}    ${output}=    Run and Return Rc and Output    ${VOLTCTL_CONFIG}; voltctl device list -o json
+    ${rc}    ${output}=    Run and Return Rc and Output    ${VOLTCTL_CONFIG}; voltctl device list -m 8MB -o json
     Should Be Equal As Integers    ${rc}    0
     ${jsondata}=    To Json    ${output}
     ${length}=    Get Length    ${jsondata}
@@ -228,7 +228,7 @@ Validate Device Port Types
     ...    Parses the output of voltctl device port list <device_id> and matches the port types listed
     [Arguments]    ${device_id}    ${pon_type}    ${ethernet_type}   ${all_active}=True
     ${rc}    ${output}=    Run and Return Rc and Output
-    ...    ${VOLTCTL_CONFIG}; voltctl device port list ${device_id} -o json
+    ...    ${VOLTCTL_CONFIG}; voltctl device port list ${device_id} -m 8MB -o json
     Should Be Equal As Integers    ${rc}    0
     ${jsondata}=    To Json    ${output}
     Log    ${jsondata}
@@ -271,7 +271,7 @@ Validate ONU Port Types
 Validate Device Flows
     [Arguments]    ${device_id}    ${flow_count}=${EMPTY}
     [Documentation]    Parses the output of voltctl device flows <device_id> and expects flow count > 0
-    ${rc}    ${output}=    Run and Return Rc and Output    ${VOLTCTL_CONFIG}; voltctl device flows ${device_id} -o json
+    ${rc}    ${output}=    Run and Return Rc and Output    ${VOLTCTL_CONFIG}; voltctl device flows ${device_id} -m 8MB -o json
     Should Be Equal As Integers    ${rc}    0
     ${jsondata}=    To Json    ${output}
     Log    ${jsondata}
@@ -304,7 +304,7 @@ Validate ONU Devices With Duration
     ...    states including MIB state.
     [Arguments]    ${admin_state}    ${oper_status}    ${connect_status}    ${onu_reason}
     ...    ${List_ONU_Serial}   ${startTime}    ${print2console}=False    ${output_file}=${EMPTY}
-    ${rc}    ${output}=    Run and Return Rc and Output    ${VOLTCTL_CONFIG}; voltctl device list -o json
+    ${rc}    ${output}=    Run and Return Rc and Output    ${VOLTCTL_CONFIG}; voltctl device list -m 8MB -o json
     Should Be Equal As Integers    ${rc}    0
     ${timeCurrent} =    Get Current Date
     ${timeTotalMs} =    Subtract Date From Date    ${timeCurrent}    ${startTime}    result_format=number
@@ -354,7 +354,7 @@ Validate ONU Devices MIB State With Duration
     ...    ${List_ONU_Serial}   ${startTime}    ${print2console}=False    ${output_file}=${EMPTY}
     ${type} =    Set Variable    brcm_openomci_onu
     ${rc}    ${output}=    Run and Return Rc and Output
-    ...    ${VOLTCTL_CONFIG}; voltctl device list -f Type=${type} -f Reason=${onu_reason} --format '{{.SerialNumber}}'
+    ...    ${VOLTCTL_CONFIG}; voltctl device list -m 8MB -f Type=${type} -f Reason=${onu_reason} --format '{{.SerialNumber}}'
     Should Be Equal As Integers    ${rc}    0
     ${timeCurrent} =    Get Current Date
     ${timeTotalMs} =    Subtract Date From Date    ${timeCurrent}    ${startTime}    result_format=number
