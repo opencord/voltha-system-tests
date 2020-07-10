@@ -170,7 +170,7 @@
           "uniTagList" : [ {
             "uniTagMatch" : 35,
             "ponCTag" : 101,
-            "ponSTag" : 111,
+            "ponSTag" : 222,
             "usPonCTagPriority" : 0,
             "usPonSTagPriority" : 0,
             "dsPonCTagPriority" : 0,
