@@ -89,7 +89,7 @@
             "downstreamBandwidthProfile" : "VOIP",
             "upstreamBandwidthProfile" : "User1-Specific2",
             "isDhcpRequired" : "true",
-            "configuredMacAddress" : "90:e2:ba:82:f9:77",
+            "configuredMacAddress" : "b4:96:91:0c:4f:e5",
             "serviceName" : "VOIP"
           }, {
             "uniTagMatch" : 55,
@@ -140,7 +140,7 @@
             "downstreamBandwidthProfile" : "VOIP",
             "upstreamBandwidthProfile" : "User1-Specific2",
             "isDhcpRequired" : "true",
-            "configuredMacAddress" : "90:e2:ba:82:fa:83",
+            "configuredMacAddress" : "b4:96:91:0c:4f:e4",
             "serviceName" : "VOIP"
           }, {
             "uniTagMatch" : 55,
@@ -191,7 +191,7 @@
             "downstreamBandwidthProfile" : "VOIP",
             "upstreamBandwidthProfile" : "User1-Specific2",
             "isDhcpRequired" : "true",
-            "configuredMacAddress" : "90:e2:ba:82:f9:75",
+            "configuredMacAddress" : "b4:96:91:0c:4f:c9",
             "serviceName" : "VOIP"
           }, {
             "uniTagMatch" : 55,
