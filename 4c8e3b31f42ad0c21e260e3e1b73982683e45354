@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "96bb1d7f_97fee6e5",
+        "filename": "libraries/voltctl.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 276,
+      "author": {
+        "id": 1000514
+      },
+      "writtenOn": "2020-07-13T07:07:17Z",
+      "side": 1,
+      "message": "Entire voltctl command should be in same line.. Suggestion: Split it into second line after \"Run and Return Rc and Output\" keyword as done above..",
+      "range": {
+        "startLine": 276,
+        "startChar": 4,
+        "endLine": 276,
+        "endChar": 7
+      },
+      "revId": "4c8e3b31f42ad0c21e260e3e1b73982683e45354",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "07e24498_626032e3",
+        "filename": "libraries/voltctl.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 360,
+      "author": {
+        "id": 1000514
+      },
+      "writtenOn": "2020-07-13T07:07:17Z",
+      "side": 1,
+      "message": "Same as above.. Also \"Catenate\" can be used for long commands. For reference: https://github.com/opencord/voltha-system-tests/blob/master/libraries/onos.robot#L111-L113",
+      "range": {
+        "startLine": 360,
+        "startChar": 4,
+        "endLine": 360,
+        "endChar": 7
+      },
+      "revId": "4c8e3b31f42ad0c21e260e3e1b73982683e45354",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    }
+  ]
+}
