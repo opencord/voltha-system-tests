@@ -22,6 +22,30 @@
       "revId": "751a40f10e454805abe5c73d8fd54726ad6857b9",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0b57e856_4ec3940b",
+        "filename": "Jenkinsfile-voltha-build",
+        "patchSetId": 1
+      },
+      "lineNbr": 336,
+      "author": {
+        "id": 1000064
+      },
+      "writtenOn": "2020-07-15T19:26:17Z",
+      "side": 1,
+      "message": "I understand, this wait time worked during my testing. But, on the safe side,  I can increase it to one more min and then based on nightly runs we can update it further.",
+      "parentUuid": "10fc3193_5151d565",
+      "range": {
+        "startLine": 331,
+        "startChar": 0,
+        "endLine": 336,
+        "endChar": 25
+      },
+      "revId": "751a40f10e454805abe5c73d8fd54726ad6857b9",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
     }
   ]
 }
