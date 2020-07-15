@@ -81,7 +81,7 @@ Verify OLT Soft Reboot
     END
     # Wait for the OLT to come back up
     Run Keyword If    ${has_dataplane}    Wait Until Keyword Succeeds    120s    10s
-    ...    Check Remote System Reachability    True    ${olt_ip}
+    ...    Check Remote System Reachability    True    ${olt_ssh_ip}
     # Waiting extra time for the ONUs to come up
     Sleep    60s
     # Check OLT states
