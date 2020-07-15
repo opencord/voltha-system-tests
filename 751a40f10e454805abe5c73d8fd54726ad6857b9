@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "10fc3193_5151d565",
+        "filename": "Jenkinsfile-voltha-build",
+        "patchSetId": 1
+      },
+      "lineNbr": 336,
+      "author": {
+        "id": 1000127
+      },
+      "writtenOn": "2020-07-15T19:18:34Z",
+      "side": 1,
+      "message": "Are you waiting for openolt to come up. Well that depends on how fast the in-band interface of the OLT gets the IP. The scripts will start openolt only after the in-band interface gets an IP. We may need to fine tune these time outs later.",
+      "range": {
+        "startLine": 331,
+        "startChar": 0,
+        "endLine": 336,
+        "endChar": 25
+      },
+      "revId": "751a40f10e454805abe5c73d8fd54726ad6857b9",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    }
+  ]
+}
