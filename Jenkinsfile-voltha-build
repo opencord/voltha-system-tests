@@ -260,8 +260,12 @@ node ("${TestNodeName}") {
             if ( deployment_config.fabric_switches.size() > 0 ) {
                 stage('Switch Configurations in ONOS') {
                     timeout(1) {
+                        def netcfg = "$WORKSPACE/${configBaseDir}/${configToscaDir}/voltha/${configFileName}-onos-netcfg-switch.json"
+                        if (params.inBandManagement){
+                             netcfg = "$WORKSPACE/${configBaseDir}/${configToscaDir}/voltha/${configFileName}-onos-netcfg-switch-inband.json"
+                        }
                         netcfg_out = sh returnStatus: true, script: """
-                        curl -sSL --user karaf:karaf -X POST -H Content-Type:application/json http://${deployment_config.nodes[0].ip}:30120/onos/v1/network/configuration --data @$WORKSPACE/${configBaseDir}/${configToscaDir}/voltha/${configFileName}-onos-netcfg-switch.json
+                        curl -sSL --user karaf:karaf -X POST -H Content-Type:application/json http://${deployment_config.nodes[0].ip}:30120/onos/v1/network/configuration --data @${netcfg}
                         curl -sSL --user karaf:karaf -X POST http://${deployment_config.nodes[0].ip}:30120/onos/v1/applications/org.onosproject.segmentrouting/active
 
                         """
@@ -307,7 +311,35 @@ node ("${TestNodeName}") {
                     }
                 }
             }
-            currentBuild.result = 'SUCCESS'
+
+
+
+          if ( params.inBandManagement ) {
+                stage('Reboot OLT') {
+                    for(int i=0; i < deployment_config.olts.size(); i++) {
+                        timeout(5) {
+                            sh returnStdout: true, script: """
+                            ssh-keyscan -H ${deployment_config.olts[i].sship} >> ~/.ssh/known_hosts
+                            sshpass -p ${deployment_config.olts[i].pass} ssh -l ${deployment_config.olts[i].user} ${deployment_config.olts[i].sship} 'rm -f /var/log/openolt.log; rm -f /var/log/dev_mgmt_daemon.log; reboot' || true
+                            sleep 200
+                            """
+                        }
+                        timeout(15) {
+                            waitUntil {
+                                devprocess = sh returnStdout: true, script: "sshpass -p ${deployment_config.olts[i].pass} ssh -l ${deployment_config.olts[i].user} ${deployment_config.olts[i].sship} 'ps -ef | grep dev_mgmt_daemon | wc -l'"
+                                return devprocess.toInteger() > 0
+                            }
+                        }
+                        timeout(15) {
+                            waitUntil {
+                                openoltprocess = sh returnStdout: true, script: "sshpass -p ${deployment_config.olts[i].pass} ssh -l ${deployment_config.olts[i].user} ${deployment_config.olts[i].sship} 'ps -ef | grep openolt | wc -l'"
+                                return openoltprocess.toInteger() > 0
+                            }
+                        }
+                    }
+                }
+            }
+  currentBuild.result = 'SUCCESS'
         } catch (err) {
             currentBuild.result = 'FAILURE'
             step([$class: 'Mailer', notifyEveryUnstableBuild: true, recipients: "${notificationEmail}", sendToIndividuals: false])

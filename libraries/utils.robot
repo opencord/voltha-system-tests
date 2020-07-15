@@ -62,6 +62,7 @@ Common Test Suite Setup
     ${HEADERS}    Create Dictionary    Content-Type=application/json
     Create Session    ONOS    http://${ONOS_REST_IP}:${ONOS_REST_PORT}    auth=${ONOS_AUTH}
     ${olt_ip}=    Evaluate    ${olts}[0].get("ip")
+    ${olt_ssh_ip}=    Evaluate    ${olts}[0].get("sship")
     ${olt_user}=    Evaluate    ${olts}[0].get("user")
     ${olt_pass}=    Evaluate    ${olts}[0].get("pass")
     ${olt_serial_number}=    Evaluate    ${olts}[0].get("serial")
@@ -74,6 +75,7 @@ Common Test Suite Setup
     Set Suite Variable    ${num_onus}
     Set Suite Variable    ${olt_serial_number}
     Set Suite Variable    ${olt_ip}
+    Set Suite Variable    ${olt_sship}
     Set Suite Variable    ${olt_user}
     Set Suite Variable    ${olt_pass}
     @{container_list}=    Create List    adapter-open-olt    adapter-open-onu    voltha-api-server
@@ -444,10 +446,10 @@ Echo Message to OLT Logs
     [Documentation]     Echoes ${message} into the OLT logs
     Wait Until Keyword Succeeds    180s    10s    Execute Remote Command
     ...    printf '%s\n' '' '' '${message}' '' >> /var/log/openolt.log
-    ...    ${olt_ip}    ${olt_user}    ${olt_pass}
+    ...    ${olt_ssh_ip}    ${olt_user}    ${olt_pass}
     Wait Until Keyword Succeeds    180s    10s    Execute Remote Command
     ...    printf '%s\n' '' '' '${message}' '' >> /var/log/dev_mgmt_daemon.log
-    ...    ${olt_ip}    ${olt_user}    ${olt_pass}
+    ...    ${olt_ssh_ip}    ${olt_user}    ${olt_pass}
 
 Start Logging
     [Arguments]    ${label}
