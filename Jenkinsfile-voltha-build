@@ -313,7 +313,7 @@ node ("${TestNodeName}") {
                 }
             }
             if ( params.inBandManagement ) {
-                stage('Reboot OLT’) {
+                stage('Reboot OLT') {
                     for(int i=0; i < deployment_config.olts.size(); i++) {
                         timeout(5) {
                             sh returnStdout: true, script: """
