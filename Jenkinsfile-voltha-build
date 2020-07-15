@@ -312,6 +312,32 @@ node ("${TestNodeName}") {
                     }
                 }
             }
+            if ( params.inBandManagement ) {
+                stage('Reboot OLT’) {
+                    for(int i=0; i < deployment_config.olts.size(); i++) {
+                        timeout(5) {
+                            sh returnStdout: true, script: """
+                            ssh-keyscan -H ${deployment_config.olts[i].sship} >> ~/.ssh/known_hosts
+                            sshpass -p ${deployment_config.olts[i].pass} ssh -l ${deployment_config.olts[i].user} ${deployment_config.olts[i].sship} 'rm -f /var/log/openolt.log; rm -f /var/log/dev_mgmt_daemon.log; reboot' || true
+                            sleep 300
+                            """
+                        }
+                        timeout(15) {
+                            waitUntil {
+                                devprocess = sh returnStdout: true, script: "sshpass -p ${deployment_config.olts[i].pass} ssh -l ${deployment_config.olts[i].user} ${deployment_config.olts[i].sship} 'ps -ef | grep dev_mgmt_daemon | wc -l'"
+                                return devprocess.toInteger() > 0
+                            }
+                        }
+                        timeout(15) {
+                            waitUntil {
+                                openoltprocess = sh returnStdout: true, script: "sshpass -p ${deployment_config.olts[i].pass} ssh -l ${deployment_config.olts[i].user} ${deployment_config.olts[i].sship} 'ps -ef | grep openolt | wc -l'"
+                                return openoltprocess.toInteger() > 0
+                            }
+                        }
+                    }
+                }
+            }
+
             currentBuild.result = 'SUCCESS'
         } catch (err) {
             currentBuild.result = 'FAILURE'
