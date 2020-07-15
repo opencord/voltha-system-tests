@@ -148,7 +148,7 @@ Verify OLT after rebooting physically
     Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test
     # Reboot the OLT from the OLT CLI
     Run Keyword If    ${has_dataplane}    Login And Run Command On Remote System
-    ...    sudo reboot    ${olt_ip}    ${olt_user}    ${olt_pass}   prompt=#
+    ...    sudo reboot    ${olt_ssh_ip}    ${olt_user}    ${olt_pass}   prompt=#
     Run Keyword And Ignore Error    Collect Logs
     FOR    ${I}    IN RANGE    0    ${num_onus}
         ${src}=    Set Variable    ${hosts.src[${I}]}
@@ -160,7 +160,7 @@ Verify OLT after rebooting physically
     END
     # Wait for the OLT to come back up
     Run Keyword If    ${has_dataplane}    Wait Until Keyword Succeeds    120s    10s
-    ...    Check Remote System Reachability    True    ${olt_ip}
+    ...    Check Remote System Reachability    True    ${olt_ssh_ip}
     # Waiting extra time for the ONUs to come up
     Sleep    60s
     Run Keyword And Ignore Error    Collect Logs
