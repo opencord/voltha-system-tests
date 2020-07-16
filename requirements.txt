@@ -11,3 +11,4 @@ yamllint==1.23.0
 git+https://github.com/zdw/robotframework-importresource@b81b87aabaee0594e966687b41e3674b866f28ee
 cord-robot==2.1.1
 virtualenv
+matplotlib==3.0.3
