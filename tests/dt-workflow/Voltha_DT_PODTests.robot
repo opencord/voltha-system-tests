@@ -514,6 +514,8 @@ Validate parsing of data traffic through voltha using tech profile
         ${src}=    Set Variable    ${hosts.src[${I}]}
         ${dst}=    Set Variable    ${hosts.dst[${I}]}
 
+        ${src_iface_name}=    Fetch From Left    ${src['dp_iface_name']}    .
+
         ${bng_ip}=    Get Variable Value    ${dst['noroot_ip']}
         ${bng_user}=    Get Variable Value    ${dst['noroot_user']}
         ${bng_pass}=    Get Variable Value    ${dst['noroot_pass']}
@@ -528,8 +530,8 @@ Validate parsing of data traffic through voltha using tech profile
         Pass Execution If    ${rc} != 0    Skipping test: mausezahn / tcpdump not found on the BNG
         Log    Upstream test
         Run Keyword If    ${has_dataplane}    Create traffic with each pbit and capture at other end
-        ...    ${dst['dp_iface_ip_qinq']}    ${dst['dp_iface_name']}    ${src['dp_iface_name']}
-        ...    0    udp    9999    0    vlan
+        ...    ${dst['dp_iface_ip_qinq']}    ${dst['dp_iface_name']}    ${src_iface_name}
+        ...    0    udp    9999    ${src['c_tag']}    vlan
         ...    ${bng_ip}    ${bng_user}    ${bng_pass}    ${dst['container_type']}    ${dst['container_name']}
         ...    ${src['ip']}    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
         Log    Downstream test
@@ -538,7 +540,7 @@ Validate parsing of data traffic through voltha using tech profile
         ...    ${src['ip']}    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
         Should Be Equal As Integers    ${rc}    0    Could not get RG's IP address
         Run Keyword If    ${has_dataplane}    Create traffic with each pbit and capture at other end
-        ...    ${rg_ip}    ${src['dp_iface_name']}    ${dst['dp_iface_name']}.${src['s_tag']}
+        ...    ${rg_ip}    ${src_iface_name]}    ${dst['dp_iface_name']}.${src['s_tag']}
         ...    0    udp    9999    ${src['c_tag']}    udp
         ...    ${src['ip']}    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
         ...    ${bng_ip}    ${bng_user}    ${bng_pass}    ${dst['container_type']}    ${dst['container_name']}
