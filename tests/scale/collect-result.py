@@ -24,8 +24,10 @@ double_dash = "=" * 75
 def cut_string(str):
     return (str[:48] + "..") if len(str) > 50 else str
 
+
 def format_key(str):
     return str.replace("plot-", "").replace("-", " ")
+
 
 def read_file(file, plot_folder):
     # create element tree object
@@ -36,8 +38,7 @@ def read_file(file, plot_folder):
 
     results = {}
 
-
-    startTimer = 0
+    start_timer = 0
     print(double_dash)
     print("{:<50}{:>10}{:>15}".format("Test Name", "Status", "Duration (s)"))
     print(double_dash)
@@ -49,7 +50,7 @@ def read_file(file, plot_folder):
         s = datetime.strptime(start[:-4], "%Y%m%d %H:%M:%S")
         e = datetime.strptime(end[:-4], "%Y%m%d %H:%M:%S")
         diff = e - s
-        time = startTimer + diff.seconds
+        time = start_timer + diff.seconds
         print("{:<50}{:>10}{:>15}".format(cut_string(name), status.attrib["status"], time))
         print(dash)
 
@@ -58,7 +59,7 @@ def read_file(file, plot_folder):
         for tag in test.findall("./tags/tag"):
             if "plot-" in tag.text:
                 results[tag.text] = time
-        startTimer = time
+        start_timer = time
 
     if not os.path.isdir(plot_folder):
         os.mkdir(plot_folder)
