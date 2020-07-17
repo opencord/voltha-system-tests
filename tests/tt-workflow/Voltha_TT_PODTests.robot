@@ -74,7 +74,7 @@ Reboot TT ONUs Physically - Clean Up
         Sleep    60s
     END
 
-Sanity E2E Test for TT
+Sanity E2E Test for TT (HSIA, VoD, VoIP)
     [Documentation]    Validates E2E Ping Connectivity and object states for the given scenario:
     ...    Validate successful DHCP/E2E ping (no EAPOL and DHCP flows) for the tech profile that is used
     ...    Traffic sent with same vlan from different RGs,
@@ -88,6 +88,19 @@ Sanity E2E Test for TT
     Run Keyword If    ${has_dataplane}    Clean Up Linux
     Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test TT
     #Run Keyword If    ${has_dataplane}    Clean Up Linux
+
+Sanity E2E Test for TT (MCAST) 
+    [Documentation]    Validates E2E Ping Connectivity and object states for the given scenario:
+    ...    Validate successful DHCP/E2E ping (no EAPOL and DHCP flows) for the tech profile that is used
+    ...    Traffic sent with same vlan from different RGs,
+    ...    should reach the NNI port on the OLT with the expected double tagged vlan ids
+    ...    Inner vlans from the RG should not change
+    [Tags]    sanityTT-MCAST
+    [Setup]    Run Keyword    Start Logging    SanityTestTT-MCAST
+    [Teardown]    Run Keywords    Collect Logs
+    ...           AND             Stop Logging    SanityTestTT-MCAST
+    Run Keyword If    ${has_dataplane}    Clean Up Linux
+    Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test TT MCAST
 
 *** Keywords ***
 Setup Suite

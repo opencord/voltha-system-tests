@@ -265,37 +265,142 @@ Perform Sanity Test TT
     ...    Sanity test performs dhcp and pings (without EAPOL and DHCP flows) for all the ONUs given for the POD
     ...    This keyword can be used to call in any other tests where sanity check is required
     ...    and avoids duplication of code.
+    FOR    ${I}    IN RANGE    0    ${num_onus}
+        ${src}=    Set Variable    ${hosts.src[${I}]}
+        ${dst}=    Set Variable    ${hosts.dst[${I}]}
+        ${service_type}=    Get Variable Value    ${src['service_type']}    "null"
+        Run Keyword IF    '${service_type}' != 'mcast'    Sanity Test TT one ONU    ${src}    ${dst}
+        Run Keyword and Ignore Error    Collect Logs
+    END
+    Run Keyword and Ignore Error    Collect Logs
+
+Sanity Test TT one ONU
+    [Documentation]    This keyword performs sanity test for a single ONU for TT workflow
+    ...       Tests for one ONU
+    ...       Assertions apply to HSIA, VoD, VoIP services
+    [Arguments]    ${src}    ${dst}
     ${of_id}=    Wait Until Keyword Succeeds    ${timeout}    15s    Validate OLT Device in ONOS    ${olt_serial_number}
     Set Global Variable    ${of_id}
     ${nni_port}=    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
     ...    Get NNI Port in ONOS    ${of_id}
     Set Global Variable    ${nni_port}
+    ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
+    ${onu_port}=    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
+    ...    Get ONU Port in ONOS    ${src['onu']}    ${of_id}
+    # Check ONU port is Enabled in ONOS
+    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds   120s   2s
+    ...    Verify ONU Port Is Enabled   ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${src['onu']}
+    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2
+    ...    Execute ONOS CLI Command    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}
+    ...    volt-add-subscriber-access ${of_id} ${onu_port}
+    Sleep    30s
+    # Verify ONU state in voltha
+    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s    Validate Device
+    ...    ENABLED    ACTIVE    REACHABLE
+    ...    ${src['onu']}    onu=True    onu_reason=omci-flows-pushed
+    # TODO: Yet to Verify on the GPON based Physical POD (VOL-2652)
+    Run Keyword If    ${has_dataplane}    Run Keyword And Continue On Failure    Validate DHCP and Ping    True
+    ...    True    ${src['dp_iface_name']}    ${src['s_tag']}    ${src['c_tag']}    ${dst['dp_iface_ip_qinq']}
+    ...    ${src['ip']}    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
+    ...    ${dst['dp_iface_name']}    ${dst['ip']}    ${dst['user']}    ${dst['pass']}    ${dst['container_type']}
+    ...    ${dst['container_name']}
+    Run Keyword and Ignore Error    Get Device Output from Voltha    ${onu_device_id}
+    Run Keyword and Ignore Error    Collect Logs
+
+Perform Sanity Test TT MCAST
+    [Documentation]    This keyword performs Sanity Test Procedure for TT Workflow
+    ...    Adds subscribers
+    ...    Validates  for MCAST
     FOR    ${I}    IN RANGE    0    ${num_onus}
         ${src}=    Set Variable    ${hosts.src[${I}]}
         ${dst}=    Set Variable    ${hosts.dst[${I}]}
-        ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
-        ${onu_port}=    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
-        ...    Get ONU Port in ONOS    ${src['onu']}    ${of_id}
-        # Check ONU port is Enabled in ONOS
-        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds   120s   2s
-        ...    Verify ONU Port Is Enabled   ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${src['onu']}
-        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2
-        ...    Execute ONOS CLI Command    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}
-        ...    volt-add-subscriber-access ${of_id} ${onu_port}
-        Sleep    30s
-        # Verify ONU state in voltha
-        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s    Validate Device
-        ...    ENABLED    ACTIVE    REACHABLE
-        ...    ${src['onu']}    onu=True    onu_reason=omci-flows-pushed
-        # TODO: Yet to Verify on the GPON based Physical POD (VOL-2652)
-        Run Keyword If    ${has_dataplane}    Run Keyword And Continue On Failure    Validate DHCP and Ping    True
-        ...    True    ${src['dp_iface_name']}    ${src['s_tag']}    ${src['c_tag']}    ${dst['dp_iface_ip_qinq']}
-        ...    ${src['ip']}    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
-        ...    ${dst['dp_iface_name']}    ${dst['ip']}    ${dst['user']}    ${dst['pass']}    ${dst['container_type']}
-        ...    ${dst['container_name']}
-        Run Keyword and Ignore Error    Get Device Output from Voltha    ${onu_device_id}
+        ${service_type}=    Get Variable Value    ${src['service_type']}    "null"
+        Run Keyword IF    '${service_type}' == 'mcast'    Sanity Test TT MCAST one ONU    ${src}
+        ...    ${dst}
         Run Keyword and Ignore Error    Collect Logs
     END
+    Run Keyword and Ignore Error    Collect Logs
+
+Sanity Test TT MCAST one ONU
+    [Documentation]    This keyword performs sanity test for a single ONU for TT workflow
+    ...       Tests for one ONU
+    ...       Assertions apply to MCAST services
+    [Arguments]    ${src}    ${dst}
+    # Check for iperf and jq tools
+    ${stdout}    ${stderr}    ${rc}=    Execute Remote Command    which iperf jq
+    ...    ${src['ip']}    ${src['user']}    ${src['pass']}    ${src['container_type']}
+    ...    ${src['container_name']}
+    Pass Execution If    ${rc} != 0    Skipping test: iperf / jq not found on the RG
+
+    #Reset the IP on the interface
+    ${output}=    Login And Run Command On Remote System    sudo ifconfig ${src['dp_iface_name']} 0
+    ...    ${src['ip']}    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
+    # Kill iperf  on BNG
+    ${rg_output}=    Run Keyword and Continue On Failure    Login And Run Command On Remote System
+    ...    sudo kill -9 `pidof iperf`
+    ...    ${dst['bng_ip']}    ${dst['bng_user']}    ${dst['bng_pass']}    ${dst['container_type']}
+    ...    ${dst['container_name']}
+
+    # Setup RG for Multi-cast test
+    ${output}=    Login And Run Command On Remote System
+    ...    sudo ifconfig ${src['dp_iface_name']} ${src['mcast_rg']} up ; sudo kill -9 `pidof iperf`
+    ...    ${src['ip']}    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
+    ${output}=    Login And Run Command On Remote System
+    ...    sudo ip route add ${src['mcast_grp_subnet_mask']} dev ${src['dp_iface_name']} scope link
+    ...    ${src['ip']}    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
+
+    # Perform operations for adding subscriber
+    ${of_id}=    Wait Until Keyword Succeeds    ${timeout}    15s    Validate OLT Device in ONOS    ${olt_serial_number}
+    Set Global Variable    ${of_id}
+    ${nni_port}=    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
+    ...    Get NNI Port in ONOS    ${of_id}
+    Set Global Variable    ${nni_port}
+    ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
+    ${onu_port}=    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
+    ...    Get ONU Port in ONOS    ${src['onu']}    ${of_id}
+    # Check ONU port is Enabled in ONOS
+    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds   120s   2s
+    ...    Verify ONU Port Is Enabled   ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${src['onu']}
+    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2
+    ...    Execute ONOS CLI Command    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}
+    ...    volt-add-subscriber-access ${of_id} ${onu_port}
+    Sleep    30s
+    # Verify ONU state in voltha
+    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s    Validate Device
+    ...    ENABLED    ACTIVE    REACHABLE
+    ...    ${src['onu']}    onu=True    onu_reason=omci-flows-pushed
+
+    # Setup iperf on the BNG
+    ${server_output}=    Login And Run Command On Remote System
+    ...    sudo iperf -c ${dst['dp_iface_ip_qinq']} -u -T 32 -t 60 -i 1 &
+    ...    ${dst['bng_ip']}    ${dst['bng_user']}    ${dst['bng_pass']}    ${dst['container_type']}
+    ...    ${dst['container_name']}
+
+    # Setup iperf on the RG
+    ${rg_output}=    Run Keyword and Continue On Failure    Wait Until Keyword Succeeds     90s    5s
+    ...    Login And Run Command On Remote System
+    ...    rm -rf /tmp/rg_output ; sudo iperf -s -u -B ${dst['dp_iface_ip_qinq']} -i 1 -D >> /tmp/rg_output
+    ...    ${src['ip']}    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
+    Log    ${rg_output}
+    Sleep    60s
+    ${output}=    Run Keyword and Continue On Failure     Wait Until Keyword Succeeds     90s    5s
+    ...    Login And Run Command On Remote System
+    ...    cat /tmp/rg_output | grep KBytes
+    ...    ${src['ip']}    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
+    Log    ${output}
+    Should Contain    ${output}    KBytes
+
+    # Kill iperf  on BNG
+    ${rg_output}=    Run Keyword and Continue On Failure    Login And Run Command On Remote System
+    ...    sudo kill -9 `pidof iperf`
+    ...    ${dst['bng_ip']}    ${dst['bng_user']}    ${dst['bng_pass']}    ${dst['container_type']}
+    ...    ${dst['container_name']}
+
+    # Kill iperf on the RG
+    ${output}=    Run Keyword and Continue On Failure    Login And Run Command On Remote System
+    ...    sudo kill -9 `pidof iperf`
+    ...    ${src['ip']}    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
+
 
 Setup
     [Documentation]    Pre-test Setup
@@ -613,6 +718,16 @@ Run Iperf3 Test Client
     [Documentation]    Login to ${src} and run the iperf3 client against ${server} using ${args}.
     ...    Return a Dictionary containing the results of the test.
     ${output}    ${stderr}    ${rc}=    Execute Remote Command    iperf3 -J -c ${server} ${args} | jq -M -c '.'
+    ...    ${src['ip']}    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
+    Should Be Equal As Integers    ${rc}    0
+    ${object}=    Evaluate    json.loads(r'''${output}''')    json
+    [Return]    ${object}
+
+Run Iperf Test Client for MCAST
+    [Arguments]    ${src}    ${server}    ${args}
+    [Documentation]    Login to ${src} and run the iperf client against ${server} using ${args}.
+    ...    Return a Dictionary containing the results of the test.
+    ${output}    ${stderr}    ${rc}=    Execute Remote Command    sudo iperf -c ${server} ${args} | jq -M -c '.'
     ...    ${src['ip']}    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
     Should Be Equal As Integers    ${rc}    0
     ${object}=    Evaluate    json.loads(r'''${output}''')    json
