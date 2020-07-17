@@ -103,7 +103,7 @@ Verify ONU after Rebooting Physically for DT
         ...    Execute ONOS CLI Command    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}
         ...    volt-add-subscriber-access ${of_id} ${onu_port}
         # Verify ONU state in voltha
-        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s    Validate Device
+        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    360s    5s    Validate Device
         ...    ENABLED    ACTIVE    REACHABLE
         ...    ${src['onu']}    onu=True    onu_reason=omci-flows-pushed
         # Verify subscriber access flows are added for the ONU port
@@ -228,7 +228,7 @@ Verify openolt adapter restart before subscriber provisioning for DT
         ${onu_port}=    Wait Until Keyword Succeeds    ${timeout}    2s    Get ONU Port in ONOS    ${src['onu']}
         ...    ${of_id}
         # Bring up the device and verify it authenticates
-        Wait Until Keyword Succeeds    ${timeout}    5s    Validate Device        ENABLED    ACTIVE    REACHABLE
+        Wait Until Keyword Succeeds    360s    5s    Validate Device        ENABLED    ACTIVE    REACHABLE
         ...    ${onu_device_id}    onu=True    onu_reason=omci-flows-pushed
     END
     # Scale down the open OLT adapter deployment to 0 PODs and once confirmed, scale it back to 1
@@ -294,7 +294,7 @@ Verify restart ofagent container after subscriber is provisioned for DT
         ${onu_port}=    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
         ...    Get ONU Port in ONOS    ${src['onu']}    ${of_id}
         # Verify ONU state in voltha
-        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s    Validate Device
+        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    360s    5s    Validate Device
         ...    ENABLED    ACTIVE    REACHABLE
         ...    ${src['onu']}    onu=True    onu_reason=omci-flows-pushed
         # Check ONU port is Disabled in ONOS
@@ -346,7 +346,7 @@ Sanity E2E Test for OLT/ONU on POD With Core Fail and Restart for DT
         ${onu_port}=    Wait Until Keyword Succeeds    ${timeout}    2s    Get ONU Port in ONOS    ${src['onu']}
         ...    ${of_id}
         # Bring up the device and verify it authenticates
-        Wait Until Keyword Succeeds    ${timeout}    5s    Validate Device    ENABLED    ACTIVE    REACHABLE
+        Wait Until Keyword Succeeds    360s    5s    Validate Device    ENABLED    ACTIVE    REACHABLE
         ...    ${onu_device_id}    onu=True    onu_reason=initial-mib-downloaded
     END
 
@@ -418,7 +418,7 @@ Verify OLT Soft Reboot for DT
     # Waiting extra time for the ONUs to come up
     Sleep    60s
     # Check OLT states
-    Wait Until Keyword Succeeds    ${timeout}    5s    Validate OLT Device    ENABLED    ACTIVE    REACHABLE
+    Wait Until Keyword Succeeds    360s    5s    Validate OLT Device    ENABLED    ACTIVE    REACHABLE
     ...    ${olt_serial_number}
     Run Keyword And Ignore Error    Collect Logs
     #Check after reboot that ONUs are active, DHCP and pingable
@@ -462,7 +462,7 @@ Verify ONU Soft Reboot for DT
         ...    Execute ONOS CLI Command    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}
         ...    volt-add-subscriber-access ${of_id} ${onu_port}
         # Verify ONU state in voltha
-        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s    Validate Device
+        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    360s    5s    Validate Device
         ...    ENABLED    ACTIVE    REACHABLE
         ...    ${src['onu']}    onu=True    onu_reason=omci-flows-pushed
         # Verify subscriber access flows are added for the ONU port

@@ -317,11 +317,11 @@ node ("${TestNodeName}") {
           if ( params.inBandManagement ) {
                 stage('Reboot OLT') {
                     for(int i=0; i < deployment_config.olts.size(); i++) {
-                        timeout(5) {
+                        timeout(10) {
                             sh returnStdout: true, script: """
                             ssh-keyscan -H ${deployment_config.olts[i].sship} >> ~/.ssh/known_hosts
                             sshpass -p ${deployment_config.olts[i].pass} ssh -l ${deployment_config.olts[i].user} ${deployment_config.olts[i].sship} 'rm -f /var/log/openolt.log; rm -f /var/log/dev_mgmt_daemon.log; reboot' || true
-                            sleep 200
+                            sleep 360
                             """
                         }
                         timeout(15) {
