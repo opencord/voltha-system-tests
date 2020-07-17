@@ -372,7 +372,7 @@ Check Mib State on OLT recreation after ONU, OLT deletion
         ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
         ${onu_port}=    Wait Until Keyword Succeeds    ${timeout}    2s    Get ONU Port in ONOS    ${src['onu']}
         ...    ${of_id}
-        Wait Until Keyword Succeeds    ${timeout}    5s    Validate Device    ENABLED    ACTIVE
+        Wait Until Keyword Succeeds    180s    5s    Validate Device    ENABLED    ACTIVE
         ...    REACHABLE    ${src['onu']}    onu=True    onu_reason=omci-flows-pushed
     END
 
@@ -390,7 +390,7 @@ Test disable ONUs and OLT then delete ONUs and OLT
         ${src}=    Set Variable    ${hosts.src[${I}]}
         ${dst}=    Set Variable    ${hosts.dst[${I}]}
         ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
-        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
+        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    360s    5s
         ...    Validate Device    ENABLED    ACTIVE
         ...    REACHABLE    ${src['onu']}    onu=True    onu_reason=omci-flows-pushed
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
@@ -402,7 +402,7 @@ Test disable ONUs and OLT then delete ONUs and OLT
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
         ...    Validate Device    DISABLED    UNKNOWN
         ...    REACHABLE    ${src['onu']}    onu=false
-        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
+        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    360s    5s
         ...    Validate OLT Device    ENABLED    ACTIVE
         ...    REACHABLE    ${olt_serial_number}
     END

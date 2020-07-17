@@ -300,7 +300,7 @@ node ("${TestNodeName}") {
                             }
                             xconnect_out = sh returnStatus: true, script: """
                             sleep 30
-                            version=\$(sshpass -p karaf ssh -p 30115 karaf@${deployment_config.nodes[0].ip} "summary" | grep version)
+                            version=\$(sshpass -p karaf ssh -q -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -p 30115 karaf@${deployment_config.nodes[0].ip} "summary" | grep version)
                             sleep 10
                             if [[ \$version == *"version=2.2"* ]]; then
                                 curl -X POST --user karaf:karaf --header 'Content-Type: application/json' --header 'Accept: application/json' -d '{"deviceId": "${deployment_config.fabric_switches[0].device_id}", "vlanId": "${deployment_config.hosts.src[i].s_tag}", "endpoints": [${deployment_config.fabric_switches[0].bngPort},${aggPort}]}' 'http://${deployment_config.nodes[0].ip}:30120/onos/segmentrouting/xconnect'
@@ -315,11 +315,11 @@ node ("${TestNodeName}") {
             if ( params.inBandManagement ) {
                 stage('Reboot OLT') {
                     for(int i=0; i < deployment_config.olts.size(); i++) {
-                        timeout(5) {
+                        timeout(10) {
                             sh returnStdout: true, script: """
                             ssh-keyscan -H ${deployment_config.olts[i].sship} >> ~/.ssh/known_hosts
                             sshpass -p ${deployment_config.olts[i].pass} ssh -l ${deployment_config.olts[i].user} ${deployment_config.olts[i].sship} 'rm -f /var/log/openolt.log; rm -f /var/log/dev_mgmt_daemon.log; reboot' || true
-                            sleep 300
+                            sleep 360
                             """
                         }
                         timeout(15) {

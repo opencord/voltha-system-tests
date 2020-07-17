@@ -137,7 +137,7 @@ Test Subscriber Delete and Add for DT
         ...    Validate Device    DISABLED    UNKNOWN
         ...    REACHABLE    ${src['onu']}
         Enable Device    ${onu_device_id}
-        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
+        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    360s    5s
         ...    Validate Device    ENABLED    ACTIVE
         ...    REACHABLE    ${src['onu']}
         # Add Subscriber Access
@@ -148,7 +148,7 @@ Test Subscriber Delete and Add for DT
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
         ...    Verify Subscriber Access Flows Added For ONU DT    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${of_id}
         ...    ${onu_port}    ${nni_port}    ${src['s_tag']}
-        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
+        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    360s    5s
         ...    Validate Device    ENABLED    ACTIVE
         ...    REACHABLE    ${src['onu']}    onu=True    onu_reason=omci-flows-pushed
         # TODO: Yet to Verify on the GPON based Physical POD (VOL-2652)
@@ -206,7 +206,7 @@ Test Disable and Enable ONU for DT
         ...    ${src['ip']}    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
         Sleep    5s
         Enable Device    ${onu_device_id}
-        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
+        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    360s    5s
         ...    Validate Device    ENABLED    ACTIVE
         ...    REACHABLE    ${src['onu']}    onu=True    onu_reason=onu-reenabled
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds   ${timeout}    2s
