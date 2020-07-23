@@ -185,6 +185,105 @@ Verify Subscriber Access Flows Added Count DT
     ...    flows -s ADDED ${olt_of_id} | grep -v deviceId | grep -v ETH_TYPE:lldp | wc -l
     Should Be Equal As Integers    ${access_flows_added}    ${expected_flows}
 
+Get Programmed Subscribers
+    [Arguments]    ${ip}    ${port}    ${olt_of_id}    ${onu_port}
+    [Documentation]    Retrieves the subscriber details at a given location
+    ${sub_location}=    Catenate    SEPARATOR=/    ${olt_of_id}    ${onu_port}
+    Log To Console    ${sub_location}
+    ${programmed_sub}=    Execute ONOS CLI Command    ${ip}    ${port}
+    ...    volt-programmed-subscribers | grep ${sub_location}
+    [Return]    ${programmed_sub}
+
+Get Upstream and Downstream Bandwidth Profile Name
+    [Arguments]    ${programmed_sub}
+    [Documentation]    Retrieves the upstream and downstream bandwidth profile name
+    ...    from the programmed subscriber
+    @{programmed_sub_array}=    Split String    ${programmed_sub}    ,
+    # Get upstream bandwidth profile name for the subscriber
+    @{param_val_pair}=    Split String    ${programmed_sub_array[9]}    =
+    ${programmed_sub_param}=    Set Variable    ${param_val_pair[0]}
+    ${programmed_sub_val}=    Set Variable    ${param_val_pair[1]}
+    ${us_bw_profile}=    Run Keyword If    '${programmed_sub_param}' == ' upstreamBandwidthProfile'
+    ...    Set Variable    ${programmed_sub_val}
+    #Log To Console    ${us_bw_profile}
+    # Get downstream bandwidth profile name for the subscriber
+    @{param_val_pair}=    Split String    ${programmed_sub_array[10]}    =
+    ${programmed_sub_param}=    Set Variable    ${param_val_pair[0]}
+    ${programmed_sub_val}=    Set Variable    ${param_val_pair[1]}
+    ${ds_bw_profile}=    Run Keyword If    '${programmed_sub_param}' == ' downstreamBandwidthProfile'
+    ...    Set Variable    ${programmed_sub_val}
+    #Log To Console    ${ds_bw_profile}
+    [Return]    ${us_bw_profile}    ${ds_bw_profile}
+
+Get Bandwidth Profile Details
+    [Arguments]    ${ip}    ${port}    ${bw_profile}
+    [Documentation]    Retrieves the details of the given bandwidth profile
+    ${bw_profile_values}=    Execute ONOS CLI Command    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}
+    ...    bandwidthprofile ${bw_profile}
+    @{bw_profile_array}=    Split String    ${bw_profile_values}    ,
+    @{param_val_pair}=    Split String    ${bw_profile_array[1]}    =
+    ${bw_param}=    Set Variable    ${param_val_pair[0]}
+    ${bw_val}=    Set Variable    ${param_val_pair[1]}
+    ${cir}    Run Keyword If    '${bw_param}' == ' committedInformationRate'
+    ...    Set Variable    ${bw_val}
+    @{param_val_pair}=    Split String    ${bw_profile_array[2]}    =
+    ${bw_param}=    Set Variable    ${param_val_pair[0]}
+    ${bw_val}=    Set Variable    ${param_val_pair[1]}
+    ${cbs}    Run Keyword If    '${bw_param}' == ' committedBurstSize'
+    ...    Set Variable    ${bw_val}
+    @{param_val_pair}=    Split String    ${bw_profile_array[3]}    =
+    ${bw_param}=    Set Variable    ${param_val_pair[0]}
+    ${bw_val}=    Set Variable    ${param_val_pair[1]}
+    ${eir}    Run Keyword If    '${bw_param}' == ' exceededInformationRate'
+    ...    Set Variable    ${bw_val}
+    @{param_val_pair}=    Split String    ${bw_profile_array[4]}    =
+    ${bw_param}=    Set Variable    ${param_val_pair[0]}
+    ${bw_val}=    Set Variable    ${param_val_pair[1]}
+    ${ebs}    Run Keyword If    '${bw_param}' == ' exceededBurstSize'
+    ...    Set Variable    ${bw_val}
+    @{param_val_pair}=    Split String    ${bw_profile_array[5]}    =
+    ${bw_param}=    Set Variable    ${param_val_pair[0]}
+    ${bw_val}=    Set Variable    ${param_val_pair[1]}
+    @{bw_val_air}=    Split String    ${bw_val}    }
+    ${air}    Run Keyword If    '${bw_param}' == ' assuredInformationRate'
+    ...    Set Variable    ${bw_val_air[0]}
+    [Return]    ${cir}    ${cbs}    ${eir}    ${ebs}    ${air}
+
+Verify Meters in ONOS
+    [Arguments]    ${ip}    ${port}    ${olt_of_id}    ${onu_port}
+    [Documentation]    Verifies the meters
+    # Get programmed subscriber
+    ${programmed_sub}=    Get Programmed Subscribers    ${ip}    ${port}
+    ...    ${olt_of_id}    ${onu_port}
+    Log To Console    ${programmed_sub}
+    ${us_bw_profile}    ${ds_bw_profile}    Get Upstream and Downstream Bandwidth Profile Name
+    ...    ${programmed_sub}
+    Log To Console    ${us_bw_profile}
+    Log To Console    ${ds_bw_profile}
+    # Get upstream bandwidth profile details
+    ${us_cir}    ${us_cbs}    ${us_eir}    ${us_ebs}    ${us_air}    Get Bandwidth Profile Details
+    ...    ${ip}    ${port}    ${us_bw_profile}
+    Sleep    1s
+    # Verify meter for upstream bandwidth profile
+    ${us_meter_cmd}=    Catenate    SEPARATOR=
+    ...    meters ${olt_of_id} | grep rate=${us_cir} | grep burst-size=${us_cbs}
+    ...     | grep rate=${us_eir} | grep burst-size=${us_ebs} | grep rate=${us_air}
+    ${upstream_meter_added}=    Execute ONOS CLI Command    ${ip}    ${port}
+    ...    ${us_meter_cmd}
+    Should Not Be Empty    ${upstream_meter_added}
+    Sleep    1s
+    # Get downstream bandwidth profile details
+    ${ds_cir}    ${ds_cbs}    ${ds_eir}    ${ds_ebs}    ${ds_air}    Get Bandwidth Profile Details
+    ...    ${ip}    ${port}    ${ds_bw_profile}
+    Sleep    1s
+    # Verify meter for downstream bandwidth profile
+    ${ds_meter_cmd}=    Catenate    SEPARATOR=
+    ...    meters ${olt_of_id} | grep rate=${ds_cir} | grep burst-size=${ds_cbs}
+    ...     | grep rate=${ds_eir} | grep burst-size=${ds_ebs} | grep rate=${ds_air}
+    ${downstream_meter_added}=    Execute ONOS CLI Command    ${ip}    ${port}
+    ...    ${ds_meter_cmd}
+    Should Not Be Empty    ${downstream_meter_added}
+
 Verify Device Flows Removed
     [Arguments]    ${ip}    ${port}    ${olt_of_id}
     [Documentation]    Verifies all flows are removed from the device
