@@ -102,6 +102,7 @@
             "technologyProfileId" : 66,
             "downstreamBandwidthProfile" : "High-Speed-Internet",
             "upstreamBandwidthProfile" : "User1-Specific",
+            "configuredMacAddress" : "b4:96:91:0c:4f:e5",
             "serviceName" : "VOD",
             "isDhcpRequired" : "true",
             "isIgmpRequired" : "true"
@@ -153,6 +154,7 @@
             "technologyProfileId" : 66,
             "downstreamBandwidthProfile" : "High-Speed-Internet",
             "upstreamBandwidthProfile" : "User1-Specific",
+            "configuredMacAddress" : "b4:96:91:0c:4f:e4",
             "serviceName" : "VOD",
             "isDhcpRequired" : "true",
             "isIgmpRequired" : "true"
@@ -204,6 +206,7 @@
             "technologyProfileId" : 66,
             "downstreamBandwidthProfile" : "High-Speed-Internet",
             "upstreamBandwidthProfile" : "User1-Specific",
+            "configuredMacAddress" : "b4:96:91:0c:4f:c9",
             "serviceName" : "VOD",
             "isDhcpRequired" : "true",
             "isIgmpRequired" : "true"
