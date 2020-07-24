@@ -164,7 +164,7 @@ Verify OLT after Rebooting Physically for DT
         ...    ${src['ip']}    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
     END
     # Wait for the OLT to come back up
-    Run Keyword If    ${has_dataplane}    Wait Until Keyword Succeeds    120s    10s
+    Run Keyword If    ${has_dataplane}    Wait Until Keyword Succeeds    360s    10s
     ...    Check Remote System Reachability    True    ${olt_ssh_ip}
     # Waiting extra time for the ONUs to come up
     Sleep    60s
@@ -413,7 +413,7 @@ Verify OLT Soft Reboot for DT
         ...    ${src['ip']}    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
     END
     # Wait for the OLT to come back up
-    Run Keyword If    ${has_dataplane}    Wait Until Keyword Succeeds    120s    10s
+    Run Keyword If    ${has_dataplane}    Wait Until Keyword Succeeds    360s    10s
     ...    Check Remote System Reachability    True    ${olt_ssh_ip}
     # Waiting extra time for the ONUs to come up
     Sleep    60s

@@ -324,6 +324,7 @@ Test Delete and ReAdd OLT for DT
     Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
     ...    Verify Device Flows Removed    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${of_id}
     Run Keyword and Ignore Error    Collect Logs
+    Sleep    180s
     # Recreate the OLT
     Setup
     Wait Until Keyword Succeeds    ${timeout}   2s    Perform Sanity Test DT
@@ -377,6 +378,7 @@ Test Disable ONUs and OLT Then Delete ONUs and OLT for DT
     Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
     ...    Verify Device Flows Removed    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${of_id}
     # Re-do Setup (Recreate the OLT) and Perform Sanity Test DT
+    Sleep    180s
     Run Keyword    Setup
     Wait Until Keyword Succeeds    ${timeout}   2s    Perform Sanity Test DT
     Run Keyword If    ${has_dataplane}    Clean Up Linux
