@@ -43,18 +43,35 @@ node ("${TestNodeName}") {
             stage('Clean up') {
                 timeout(15) {
                     sh returnStdout: true, script: """
+                    echo "cleaning up"
                     export KUBECONFIG=$WORKSPACE/${configBaseDir}/${configKubernetesDir}/${configFileName}.conf
-                    for hchart in \$(helm list -q | grep -E -v 'docker-registry|mavenrepo|ponnet');
+                    HELM_MAJOR=\$(helm version --client --short | sed -E -e 's/^.*v([0-9]+)\\.[0-9]+\\.[0-9]+.*\$/\\1/')
+                    for hchart in \$(helm list -q | grep -E -v 'docker-registry|mavenrepo|ponnet|local-path-storage');
                     do
                         echo "Purging chart: \${hchart}"
-                        helm delete --purge "\${hchart}"
+                        if [ \$HELM_MAJOR -le 2 ]; then
+                            helm delete --purge "\${hchart}"
+                        else
+                            helm uninstall "\${hchart}"
+                        fi
                     done
+                    if [ \$HELM_MAJOR -gt 2 ]; then
+                        for hchart in \$(helm list -q -n voltha | grep -E -v 'docker-registry|mavenrepo|ponnet|local-path-storage');
+                        do
+                            echo "Purging chart: \${hchart}"
+                            if [ \$HELM_MAJOR -le 2 ]; then
+                                helm delete --purge "\${hchart}"
+                            else
+                                helm uninstall -n voltha "\${hchart}"
+                            fi
+                        done
+                    fi
                     """
                     timeout(5) {
                         waitUntil {
                             helm_deleted = sh returnStdout: true, script: """
                             export KUBECONFIG=$WORKSPACE/${configBaseDir}/${configKubernetesDir}/${configFileName}.conf &&
-                            helm ls -q | grep -E -v 'docker-registry|mavenrepo|ponnet' | wc -l
+                            helm list -q --all-namespaces | grep -E -v 'docker-registry|mavenrepo|ponnet|local-path-storage' | wc -l
                             """
                             return helm_deleted.toInteger() == 0
                         }
@@ -63,7 +80,7 @@ node ("${TestNodeName}") {
                         waitUntil {
                             kubectl_deleted = sh returnStdout: true, script: """
                             export KUBECONFIG=$WORKSPACE/${configBaseDir}/${configKubernetesDir}/${configFileName}.conf &&
-                            kubectl get pods --all-namespaces --no-headers | grep -E -v 'kube-system|docker-registry|mavenrepo|ponnet' | wc -l
+                            kubectl get pods --all-namespaces --no-headers | grep -E -v 'kube-system|docker-registry|mavenrepo|ponnet|local-path-storage' | wc -l
                             """
                             return kubectl_deleted.toInteger() == 0
                         }
