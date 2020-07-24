@@ -46,7 +46,7 @@ node ("${TestNodeName}") {
                     echo "cleaning up"
                     export KUBECONFIG=$WORKSPACE/${configBaseDir}/${configKubernetesDir}/${configFileName}.conf
                     HELM_MAJOR=\$(helm version --client --short | sed -E -e 's/^.*v([0-9]+)\\.[0-9]+\\.[0-9]+.*\$/\\1/')
-                    for hchart in \$(helm list -q | grep -E -v 'docker-registry|mavenrepo|ponnet|local-path-storage');
+                    for hchart in \$(helm list -q | grep -E -v 'docker-registry|mavenrepo|ponnet|local-path-storage|cattle');
                     do
                         echo "Purging chart: \${hchart}"
                         if [ \$HELM_MAJOR -le 2 ]; then
@@ -56,7 +56,7 @@ node ("${TestNodeName}") {
                         fi
                     done
                     if [ \$HELM_MAJOR -gt 2 ]; then
-                        for hchart in \$(helm list -q -n voltha | grep -E -v 'docker-registry|mavenrepo|ponnet|local-path-storage');
+                        for hchart in \$(helm list -q -n voltha | grep -E -v 'docker-registry|mavenrepo|ponnet|local-path-storage|cattle');
                         do
                             echo "Purging chart: \${hchart}"
                             if [ \$HELM_MAJOR -le 2 ]; then
@@ -70,8 +70,20 @@ node ("${TestNodeName}") {
                     timeout(5) {
                         waitUntil {
                             helm_deleted = sh returnStdout: true, script: """
+<<<<<<< HEAD   (5a4c4b Upping time for OLT reboot)
                             export KUBECONFIG=$WORKSPACE/${configBaseDir}/${configKubernetesDir}/${configFileName}.conf &&
                             helm ls -q --all-namespaces | grep -E -v 'docker-registry|mavenrepo|ponnet|local-path-storage' | wc -l
+=======
+
+                            export KUBECONFIG=$WORKSPACE/${configBaseDir}/${configKubernetesDir}/${configFileName}.conf
+                            HELM_MAJOR=\$(helm version --client --short | sed -E -e 's/^.*v([0-9]+)\\.[0-9]+\\.[0-9]+.*\$/\\1/')
+
+                            if [ \$HELM_MAJOR -le 2 ]; then
+                                helm list -q | grep -E -v 'docker-registry|mavenrepo|ponnet|local-path-storage|cattle' | wc -l
+                            else
+                                helm list -q --all-namespaces | grep -E -v 'docker-registry|mavenrepo|ponnet|local-path-storage|cattle' | wc -l
+                            fi
+>>>>>>> CHANGE (a41975 Fix for helm2 in the build pipeline)
                             """
                             return helm_deleted.toInteger() == 0
                         }
@@ -80,7 +92,7 @@ node ("${TestNodeName}") {
                         waitUntil {
                             kubectl_deleted = sh returnStdout: true, script: """
                             export KUBECONFIG=$WORKSPACE/${configBaseDir}/${configKubernetesDir}/${configFileName}.conf &&
-                            kubectl get pods --all-namespaces --no-headers | grep -E -v 'kube-system|docker-registry|mavenrepo|ponnet|local-path-storage' | wc -l
+                            kubectl get pods --all-namespaces --no-headers | grep -E -v 'kube-system|docker-registry|mavenrepo|ponnet|local-path-storage|cattle' | wc -l
                             """
                             return kubectl_deleted.toInteger() == 0
                         }
