@@ -47,7 +47,11 @@ node ("${TestNodeName}") {
                     for hchart in \$(helm list -q | grep -E -v 'docker-registry|mavenrepo|ponnet');
                     do
                         echo "Purging chart: \${hchart}"
-                        helm delete --purge "\${hchart}"
+                        if [ "$HELM_MAJOR" -le 2 ]; then
+                            helm delete --purge "\${hchart}"
+                        else
+                            helm uninstall "\${hchart}"
+                        fi
                     done
                     """
                     timeout(5) {
