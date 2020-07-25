@@ -70,11 +70,6 @@ node ("${TestNodeName}") {
                     timeout(5) {
                         waitUntil {
                             helm_deleted = sh returnStdout: true, script: """
-<<<<<<< HEAD   (5a4c4b Upping time for OLT reboot)
-                            export KUBECONFIG=$WORKSPACE/${configBaseDir}/${configKubernetesDir}/${configFileName}.conf &&
-                            helm ls -q --all-namespaces | grep -E -v 'docker-registry|mavenrepo|ponnet|local-path-storage' | wc -l
-=======
-
                             export KUBECONFIG=$WORKSPACE/${configBaseDir}/${configKubernetesDir}/${configFileName}.conf
                             HELM_MAJOR=\$(helm version --client --short | sed -E -e 's/^.*v([0-9]+)\\.[0-9]+\\.[0-9]+.*\$/\\1/')
 
@@ -83,7 +78,6 @@ node ("${TestNodeName}") {
                             else
                                 helm list -q --all-namespaces | grep -E -v 'docker-registry|mavenrepo|ponnet|local-path-storage|cattle' | wc -l
                             fi
->>>>>>> CHANGE (a41975 Fix for helm2 in the build pipeline)
                             """
                             return helm_deleted.toInteger() == 0
                         }
