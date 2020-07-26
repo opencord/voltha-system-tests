@@ -51,7 +51,6 @@ ${logical_id}     0
 ${has_dataplane}    True
 ${teardown_device}    False
 ${scripts}        ../../scripts
-
 # Per-test logging on failure is turned off by default; set this variable to enable
 ${container_log_dir}    ${None}
 
@@ -64,8 +63,8 @@ Verify ONU after Rebooting Physically for DT
     [Tags]    functionalDt    PowerSwitchOnuRebootDt    VOL-2819    PowerSwitch
     [Setup]    Start Logging    RebootOnu_PowerSwitch_Dt
     [Teardown]    Run Keywords    Collect Logs
-    ...           AND             Stop Logging    RebootOnu_PowerSwitch_Dt
-    ...           AND             Delete Device and Verify
+    ...    AND    Stop Logging    RebootOnu_PowerSwitch_Dt
+    ...    AND    Delete Device and Verify
     # Add OLT device
     Setup
     # Performing Sanity Test to make sure subscribers are all DHCP and pingable
@@ -97,8 +96,8 @@ Verify ONU after Rebooting Physically for DT
         # Waiting extra time for the ONU to come up
         Sleep    60s
         # Check ONU port is Enabled in ONOS
-        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds   120s   2s
-        ...    Verify ONU Port Is Enabled   ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${src['onu']}
+        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    120s    2s
+        ...    Verify ONU Port Is Enabled    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${src['onu']}
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2
         ...    Execute ONOS CLI Command    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}
         ...    volt-add-subscriber-access ${of_id} ${onu_port}
@@ -141,11 +140,11 @@ Verify OLT after Rebooting Physically for DT
     [Documentation]    Test the physical reboot of the OLT
     ...    Assuming that all the ONUs are DHCP/pingable (i.e. assuming sanityDt test was executed)
     ...    Test performs a physical reboot, performs "reboot" from the OLT CLI
-    [Tags]    functionalDt   PhysicalOltRebootDt   VOL-2817
+    [Tags]    functionalDt    PhysicalOltRebootDt    VOL-2817
     [Setup]    Start Logging    RebootOlt_Physical_Dt
     [Teardown]    Run Keywords    Collect Logs
-    ...           AND             Stop Logging    RebootOlt_Physical_Dt
-    ...           AND             Delete Device and Verify
+    ...    AND    Stop Logging    RebootOlt_Physical_Dt
+    ...    AND    Delete Device and Verify
     # Add OLT device
     Setup
     # Performing Sanity Test to make sure subscribers are all DHCP and pingable
@@ -153,7 +152,7 @@ Verify OLT after Rebooting Physically for DT
     Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test DT
     # Reboot the OLT from the OLT CLI
     Run Keyword If    ${has_dataplane}    Login And Run Command On Remote System
-    ...    sudo reboot    ${olt_ssh_ip}    ${olt_user}    ${olt_pass}   prompt=#
+    ...    sudo reboot    ${olt_ssh_ip}    ${olt_user}    ${olt_pass}    prompt=#
     Run Keyword And Ignore Error    Collect Logs
     FOR    ${I}    IN RANGE    0    ${num_onus}
         ${src}=    Set Variable    ${hosts.src[${I}]}
@@ -175,10 +174,10 @@ Verify OLT after Rebooting Physically for DT
 Verify restart openolt-adapter container after subscriber provisioning for DT
     [Documentation]    Restart openolt-adapter container after VOLTHA is operational.
     ...    Prerequisite : ONUs are authenticated and pingable.
-    [Tags]    functionalDt   Restart-OpenOlt-Dt
+    [Tags]    functionalDt    Restart-OpenOlt-Dt
     [Setup]    Start Logging    Restart-OpenOlt-Dt
     [Teardown]    Run Keywords    Collect Logs
-    ...           AND             Stop Logging    Restart-OpenOlt-Dt
+    ...    AND    Stop Logging    Restart-OpenOlt-Dt
     # Add OLT device
     setup
     # Performing Sanity Test to make sure subscribers are all DHCP and pingable
@@ -188,7 +187,7 @@ Verify restart openolt-adapter container after subscriber provisioning for DT
     ${podStatusOutput}=    Run    kubectl get pods -n ${NAMESPACE}
     Log    ${podStatusOutput}
     ${countBforRestart}=    Run    kubectl get pods -n ${NAMESPACE} | grep Running | wc -l
-    ${podName}    Set Variable     adapter-open-olt
+    ${podName}    Set Variable    adapter-open-olt
     Wait Until Keyword Succeeds    ${timeout}    15s    Delete K8s Pods By Label    ${NAMESPACE}    app    ${podName}
     Sleep    5s
     Wait Until Keyword Succeeds    ${timeout}    2s    Validate Pods Status By Label    ${NAMESPACE}
@@ -212,15 +211,14 @@ Verify openolt adapter restart before subscriber provisioning for DT
     ...    complete the DHCP sequence.
     [Tags]    functionalDt    olt-adapter-restart-Dt
     [Setup]    Start Logging    OltAdapterRestart-Dt
-    #...        AND             Clear All Devices Then Create New Device
-    [Teardown]   Run Keywords    Collect Logs
-    ...          AND             Stop Logging    OltAdapterRestart-Dt
+    #...    AND    Clear All Devices Then Create New Device
+    [Teardown]    Run Keywords    Collect Logs
+    ...    AND    Stop Logging    OltAdapterRestart-Dt
     # Add OLT and perform sanity test
     #setup
     Run Keyword If    ${has_dataplane}    Clean Up Linux
     #Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test
     Set Global Variable    ${of_id}
-
     FOR    ${I}    IN RANGE    0    ${num_onus}
         ${src}=    Set Variable    ${hosts.src[${I}]}
         ${dst}=    Set Variable    ${hosts.dst[${I}]}
@@ -228,21 +226,19 @@ Verify openolt adapter restart before subscriber provisioning for DT
         ${onu_port}=    Wait Until Keyword Succeeds    ${timeout}    2s    Get ONU Port in ONOS    ${src['onu']}
         ...    ${of_id}
         # Bring up the device and verify it authenticates
-        Wait Until Keyword Succeeds    360s    5s    Validate Device        ENABLED    ACTIVE    REACHABLE
+        Wait Until Keyword Succeeds    360s    5s    Validate Device    ENABLED    ACTIVE    REACHABLE
         ...    ${onu_device_id}    onu=True    onu_reason=omci-flows-pushed
     END
     # Scale down the open OLT adapter deployment to 0 PODs and once confirmed, scale it back to 1
     Scale K8s Deployment    voltha    open-olt-voltha-adapter-openolt    0
-    Wait Until Keyword Succeeds    ${timeout}    2s    Pod Does Not Exist    voltha   open-olt-voltha-adapter-openolt
+    Wait Until Keyword Succeeds    ${timeout}    2s    Pod Does Not Exist    voltha    open-olt-voltha-adapter-openolt
     # Scale up the open OLT adapter deployment and make sure both it and the ofagent deployment are back
-    Scale K8s Deployment    voltha   open-olt-voltha-adapter-openolt    1
+    Scale K8s Deployment    voltha    open-olt-voltha-adapter-openolt    1
     Wait Until Keyword Succeeds    ${timeout}    2s
     ...    Check Expected Available Deployment Replicas    voltha    open-olt-voltha-adapter-openolt    1
-
     # Ensure the device is available in ONOS, this represents system connectivity being restored
     Wait Until Keyword Succeeds    ${timeout}    2s    Device Is Available In ONOS
     ...    http://karaf:karaf@${ONOS_REST_IP}:${ONOS_REST_PORT}    ${of_id}
-
     FOR    ${I}    IN RANGE    0    ${num_onus}
         # Add subscriber access and verify that DHCP completes to ensure system is still functioning properly
         Wait Until Keyword Succeeds    ${timeout}    2s    Execute ONOS CLI Command    ${ONOS_SSH_IP}
@@ -261,17 +257,17 @@ Verify openolt adapter restart before subscriber provisioning for DT
 Verify restart ofagent container after subscriber is provisioned for DT
     [Documentation]    Restart ofagent container after VOLTHA is operational.
     ...    Prerequisite : ONUs are authenticated and pingable.
-    [Tags]    functionalDt   ofagentRestart-Dt
+    [Tags]    functionalDt    ofagentRestart-Dt
     [Setup]    Start Logging    ofagentRestart-Dt
     [Teardown]    Run Keywords    Collect Logs
-    ...           AND             Stop Logging    ofagentRestart-Dt
-    ...           AND             Scale K8s Deployment    ${NAMESPACE}    voltha-voltha-ofagent    1
+    ...    AND    Stop Logging    ofagentRestart-Dt
+    ...    AND    Scale K8s Deployment    ${NAMESPACE}    voltha-voltha-ofagent    1
     # set timeout value
     ${waitforRestart}    Set Variable    120s
     ${podStatusOutput}=    Run    kubectl get pods -n ${NAMESPACE}
     Log    ${podStatusOutput}
     ${countBforRestart}=    Run    kubectl get pods -n ${NAMESPACE} | grep Running | wc -l
-    ${podName}    Set Variable     ofagent
+    ${podName}    Set Variable    ofagent
     Wait Until Keyword Succeeds    ${timeout}    15s    Delete K8s Pods By Label    ${NAMESPACE}    app    ${podName}
     Sleep    60s
     Wait Until Keyword Succeeds    ${timeout}    2s    Validate Pods Status By Label    ${NAMESPACE}
@@ -298,8 +294,8 @@ Verify restart ofagent container after subscriber is provisioned for DT
         ...    ENABLED    ACTIVE    REACHABLE
         ...    ${src['onu']}    onu=True    onu_reason=omci-flows-pushed
         # Check ONU port is Disabled in ONOS
-        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds   120s   2s
-        ...    Verify ONU Port Is Disabled   ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${src['onu']}
+        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    120s    2s
+        ...    Verify ONU Port Is Disabled    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${src['onu']}
         # Verify subscriber access flows are added for the ONU port
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
         ...    Verify Subscriber Access Flows Added For ONU DT    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${of_id}
@@ -328,10 +324,10 @@ Sanity E2E Test for OLT/ONU on POD With Core Fail and Restart for DT
     ...    complete the DHCP sequence.
     [Tags]    functionalDt    rwcore-restart-Dt
     [Setup]    Run Keywords    Start Logging    RwCoreFailAndRestart-Dt
-    ...        AND             Clear All Devices Then Create New Device
-    [Teardown]   Run Keywords    Collect Logs
-    ...          AND             Stop Logging    RwCoreFailAndRestart-Dt
-    #...          AND             Delete Device and Verify
+    ...    AND    Clear All Devices Then Create New Device
+    [Teardown]    Run Keywords    Collect Logs
+    ...    AND    Stop Logging    RwCoreFailAndRestart-Dt
+    #...    AND    Delete Device and Verify
     Run Keyword and Ignore Error    Collect Logs
     Run Keyword If    ${has_dataplane}    Clean Up Linux
     ${of_id}=    Wait Until Keyword Succeeds    ${timeout}    15s    Validate OLT Device in ONOS    ${olt_serial_number}
@@ -349,7 +345,6 @@ Sanity E2E Test for OLT/ONU on POD With Core Fail and Restart for DT
         Wait Until Keyword Succeeds    360s    5s    Validate Device    ENABLED    ACTIVE    REACHABLE
         ...    ${onu_device_id}    onu=True    onu_reason=initial-mib-downloaded
     END
-
     # Scale down the rw-core deployment to 0 PODs and once confirmed, scale it back to 1
     Scale K8s Deployment    voltha    voltha-voltha-rw-core    0
     Wait Until Keyword Succeeds    ${timeout}    2s    Pod Does Not Exist    voltha    voltha-voltha-rw-core
@@ -369,7 +364,6 @@ Sanity E2E Test for OLT/ONU on POD With Core Fail and Restart for DT
     # represents system connectivity being restored
     Wait Until Keyword Succeeds    ${timeout}    2s    Device Is Available In ONOS
     ...    http://karaf:karaf@${ONOS_REST_IP}:${ONOS_REST_PORT}    ${of_id}
-
     FOR    ${I}    IN RANGE    0    ${num_onus}
         ${src}=    Set Variable    ${hosts.src[${I}]}
         ${dst}=    Set Variable    ${hosts.dst[${I}]}
@@ -391,12 +385,12 @@ Sanity E2E Test for OLT/ONU on POD With Core Fail and Restart for DT
 
 Verify OLT Soft Reboot for DT
     [Documentation]    Test soft reboot of the OLT using voltctl command
-    [Tags]    VOL-2818   OLTSoftRebootDt    notready
+    [Tags]    VOL-2818    OLTSoftRebootDt    notready
     [Setup]    Start Logging    OLTSoftRebootDt
-    #...        AND             Setup
+    #...    AND    Setup
     [Teardown]    Run Keywords    Collect Logs
-    ...           AND             Stop Logging    OLTSoftRebootDt
-    #...           AND             Delete Device and Verify
+    ...    AND    Stop Logging    OLTSoftRebootDt
+    #...    AND    Delete Device and Verify
     ## Performing Sanity Test to make sure subscribers are all DHCP and pingable
     #Run Keyword If    ${has_dataplane}    Clean Up Linux
     #Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test DT
@@ -427,12 +421,12 @@ Verify OLT Soft Reboot for DT
 
 Verify ONU Soft Reboot for DT
     [Documentation]    Test soft reboot of the ONU using voltctl command
-    [Tags]    VOL-2820    ONUSoftRebootDt   notready
+    [Tags]    VOL-2820    ONUSoftRebootDt    notready
     [Setup]    Start Logging    ONUSoftRebootDt
-    #...        AND             Setup
+    #...    AND    Setup
     [Teardown]    Run Keywords    Collect Logs
-    ...           AND             Stop Logging    ONUSoftRebootDt
-    #...           AND             Delete Device and Verify
+    ...    AND    Stop Logging    ONUSoftRebootDt
+    #...    AND    Delete Device and Verify
     # Performing Sanity Test to make sure subscribers are all DHCP and pingable
     #Run Keyword If    ${has_dataplane}    Clean Up Linux
     #Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test DT
@@ -448,16 +442,16 @@ Verify ONU Soft Reboot for DT
         ...    Wait Until Keyword Succeeds    60s    2s
         ...    Check Ping    False    ${dst['dp_iface_ip_qinq']}    ${src['dp_iface_name']}
         ...    ${src['ip']}    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
-        Verify ping is succesful except for given device     ${num_onus}    ${onu_device_id}
+        Verify ping is succesful except for given device    ${num_onus}    ${onu_device_id}
         # Remove Subscriber Access (To replicate DT workflow)
         Wait Until Keyword Succeeds    ${timeout}    2s    Execute ONOS CLI Command    ${ONOS_SSH_IP}
         ...    ${ONOS_SSH_PORT}    volt-remove-subscriber-access ${of_id} ${onu_port}
-	# Delete ONU Device (To replicate DT workflow)
+        # Delete ONU Device (To replicate DT workflow)
         Delete Device    ${onu_device_id}
         Sleep    40s
         # Check ONU port is Enabled in ONOS
-        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds   120s   2s
-        ...    Verify ONU Port Is Enabled   ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${src['onu']}
+        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    120s    2s
+        ...    Verify ONU Port Is Enabled    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${src['onu']}
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2
         ...    Execute ONOS CLI Command    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}
         ...    volt-add-subscriber-access ${of_id} ${onu_port}
@@ -502,7 +496,7 @@ Setup Suite
     Common Test Suite Setup
     #power_switch.robot needs it to support different vendor's power switch
     ${switch_type}=    Get Variable Value    ${web_power_switch.type}
-    Run Keyword If  "${switch_type}"!=""    Set Global Variable    ${powerswitch_type}    ${switch_type}
+    Run Keyword If    "${switch_type}"!=""    Set Global Variable    ${powerswitch_type}    ${switch_type}
 
 Clear All Devices Then Create New Device
     [Documentation]    Remove any devices from VOLTHA and ONOS
@@ -510,4 +504,3 @@ Clear All Devices Then Create New Device
     Delete All Devices and Verify
     # Execute normal test Setup Keyword
     Setup
-

@@ -39,10 +39,10 @@ ${scripts}        ../../scripts
 # Per-test logging on failure is turned off by default; set this variable to enable
 ${container_log_dir}    ${None}
 # state to test variable, can be passed via the command line too
-${state2test}    6
-${testmode}    SingleState
-${porttest}    True
-${debugmode}    False
+${state2test}     6
+${testmode}       SingleState
+${porttest}       True
+${debugmode}      False
 ${pausebeforecleanup}    False
 
 *** Test Cases ***
@@ -75,7 +75,7 @@ Onu Port Check
 Setup Suite
     [Documentation]    Set up the test suite
     Common Test Suite Setup
-    Run Keyword If   ${num_onus}>4    Calculate Timeout
+    Run Keyword If    ${num_onus}>4    Calculate Timeout
 
 Teardown Suite
     [Documentation]    Replaces the Suite Teardown in utils.robot.
@@ -84,7 +84,7 @@ Teardown Suite
     Run Keyword If    ${pausebeforecleanup}    Import Library    Dialogs
     Run Keyword If    ${pausebeforecleanup}    Pause Execution    Press OK to continue with clean up!
     Run Keyword If    ${teardown_device}    Delete All Devices and Verify
-    Wait for Ports in ONOS      ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}  0   BBSM
+    Wait for Ports in ONOS    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    0    BBSM
 
 Setup Test
     [Documentation]    Pre-test Setup
@@ -116,27 +116,27 @@ Do ONU Up To State Test
     FOR    ${I}    IN RANGE    0    ${num_onus}
         ${src}=    Set Variable    ${hosts.src[${I}]}
         ${dst}=    Set Variable    ${hosts.dst[${I}]}
-        Run Keyword If   ${state2test}>=1
+        Run Keyword If    ${state2test}>=1
         ...    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    50ms
         ...    Validate Device    ENABLED    ACTIVATING    REACHABLE
         ...    ${src['onu']}    onu=True    onu_reason=activating-onu
-        Run Keyword If   ${state2test}>=2
+        Run Keyword If    ${state2test}>=2
         ...    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    50ms
         ...    Validate Device    ENABLED    ACTIVATING    REACHABLE
         ...    ${src['onu']}    onu=True    onu_reason=starting-openomci
-        Run Keyword If   ${state2test}>=3
+        Run Keyword If    ${state2test}>=3
         ...    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    50ms
         ...    Validate Device    ENABLED    ACTIVATING    REACHABLE
         ...    ${src['onu']}    onu=True    onu_reason=discovery-mibsync-complete
-        Run Keyword If   ${state2test}>=4
+        Run Keyword If    ${state2test}>=4
         ...    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    50ms
         ...    Validate Device    ENABLED    ACTIVE    REACHABLE
         ...    ${src['onu']}    onu=True    onu_reason=initial-mib-downloaded
-        Run Keyword If   ${state2test}>=5
+        Run Keyword If    ${state2test}>=5
         ...    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    50ms
         ...    Validate Device    ENABLED    ACTIVE    REACHABLE
         ...    ${src['onu']}    onu=True    onu_reason=tech-profile-config-download-success
-        Run Keyword If   ${state2test}>=6
+        Run Keyword If    ${state2test}>=6
         ...    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    50ms
         ...    Validate Device    ENABLED    ACTIVE    REACHABLE
         ...    ${src['onu']}    onu=True    onu_reason=omci-flows-pushed
@@ -218,5 +218,4 @@ Do ONU Single State Test Time
 
 Do Onu Port Check
     [Documentation]    Check that all the UNI ports show up in ONOS
-    Wait for Ports in ONOS      ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}  ${num_onus}   BBSM
-
+    Wait for Ports in ONOS    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${num_onus}    BBSM

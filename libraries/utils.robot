@@ -36,7 +36,7 @@ Check CLI Tools Configured
 
 Send File To Onos
     [Documentation]    Send the content of the file to Onos to selected section of configuration
-    ...   using Post Request
+    ...    using Post Request
     [Arguments]    ${CONFIG_FILE}    ${section}
     ${Headers}=    Create Dictionary    Content-Type    application/json
     ${File_Data}=    OperatingSystem.Get File    ${CONFIG_FILE}
@@ -52,7 +52,7 @@ Common Test Suite Setup
     Set Global Variable    ${VOLTCTL_CONFIG}    export VOLTCONFIG=%{VOLTCONFIG}
     ${k8s_node_ip}=    Evaluate    ${nodes}[0].get("ip")
     ${ONOS_REST_IP}=    Get Environment Variable    ONOS_REST_IP    ${k8s_node_ip}
-    ${ONOS_SSH_IP}=     Get Environment Variable    ONOS_SSH_IP     ${k8s_node_ip}
+    ${ONOS_SSH_IP}=    Get Environment Variable    ONOS_SSH_IP    ${k8s_node_ip}
     Set Global Variable    ${ONOS_REST_IP}
     Set Global Variable    ${ONOS_SSH_IP}
     ${k8s_node_user}=    Evaluate    ${nodes}[0].get("user")
@@ -164,8 +164,8 @@ Perform Sanity Test
         ${onu_port}=    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
         ...    Get ONU Port in ONOS    ${src['onu']}    ${of_id}
         # Check ONU port is Enabled in ONOS
-        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds   120s   2s
-        ...    Verify ONU Port Is Enabled   ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${src['onu']}
+        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    120s    2s
+        ...    Verify ONU Port Is Enabled    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${src['onu']}
         # Verify EAPOL flows are added for the ONU port
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
         ...    Verify Eapol Flows Added For ONU    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${onu_port}
@@ -219,8 +219,8 @@ Perform Sanity Test DT
         ${onu_port}=    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
         ...    Get ONU Port in ONOS    ${src['onu']}    ${of_id}
         # Check ONU port is Enabled in ONOS
-        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds   120s   2s
-        ...    Verify ONU Port Is Enabled   ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${src['onu']}
+        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    120s    2s
+        ...    Verify ONU Port Is Enabled    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${src['onu']}
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2
         ...    Execute ONOS CLI Command    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}
         ...    volt-add-subscriber-access ${of_id} ${onu_port}
@@ -276,8 +276,8 @@ Perform Sanity Test TT
 
 Sanity Test TT one ONU
     [Documentation]    This keyword performs sanity test for a single ONU for TT workflow
-    ...       Tests for one ONU
-    ...       Assertions apply to HSIA, VoD, VoIP services
+    ...    Tests for one ONU
+    ...    Assertions apply to HSIA, VoD, VoIP services
     [Arguments]    ${src}    ${dst}
     ${of_id}=    Wait Until Keyword Succeeds    ${timeout}    15s    Validate OLT Device in ONOS    ${olt_serial_number}
     Set Global Variable    ${of_id}
@@ -288,8 +288,8 @@ Sanity Test TT one ONU
     ${onu_port}=    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
     ...    Get ONU Port in ONOS    ${src['onu']}    ${of_id}
     # Check ONU port is Enabled in ONOS
-    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds   120s   2s
-    ...    Verify ONU Port Is Enabled   ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${src['onu']}
+    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    120s    2s
+    ...    Verify ONU Port Is Enabled    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${src['onu']}
     Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2
     ...    Execute ONOS CLI Command    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}
     ...    volt-add-subscriber-access ${of_id} ${onu_port}
@@ -310,7 +310,7 @@ Sanity Test TT one ONU
 Perform Sanity Test TT MCAST
     [Documentation]    This keyword performs Sanity Test Procedure for TT Workflow
     ...    Adds subscribers
-    ...    Validates  for MCAST
+    ...    Validates    for MCAST
     FOR    ${I}    IN RANGE    0    ${num_onus}
         ${src}=    Set Variable    ${hosts.src[${I}]}
         ${dst}=    Set Variable    ${hosts.dst[${I}]}
@@ -323,24 +323,22 @@ Perform Sanity Test TT MCAST
 
 Sanity Test TT MCAST one ONU
     [Documentation]    This keyword performs sanity test for a single ONU for TT workflow
-    ...       Tests for one ONU
-    ...       Assertions apply to MCAST services
+    ...    Tests for one ONU
+    ...    Assertions apply to MCAST services
     [Arguments]    ${src}    ${dst}
     # Check for iperf and jq tools
     ${stdout}    ${stderr}    ${rc}=    Execute Remote Command    which iperf jq
     ...    ${src['ip']}    ${src['user']}    ${src['pass']}    ${src['container_type']}
     ...    ${src['container_name']}
     Pass Execution If    ${rc} != 0    Skipping test: iperf / jq not found on the RG
-
     #Reset the IP on the interface
     ${output}=    Login And Run Command On Remote System    sudo ifconfig ${src['dp_iface_name']} 0
     ...    ${src['ip']}    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
-    # Kill iperf  on BNG
+    # Kill iperf    on BNG
     ${rg_output}=    Run Keyword and Continue On Failure    Login And Run Command On Remote System
     ...    sudo kill -9 `pidof iperf`
     ...    ${dst['bng_ip']}    ${dst['bng_user']}    ${dst['bng_pass']}    ${dst['container_type']}
     ...    ${dst['container_name']}
-
     # Setup RG for Multi-cast test
     ${output}=    Login And Run Command On Remote System
     ...    sudo ifconfig ${src['dp_iface_name']} ${src['mcast_rg']} up ; sudo kill -9 `pidof iperf`
@@ -348,7 +346,6 @@ Sanity Test TT MCAST one ONU
     ${output}=    Login And Run Command On Remote System
     ...    sudo ip route add ${src['mcast_grp_subnet_mask']} dev ${src['dp_iface_name']} scope link
     ...    ${src['ip']}    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
-
     # Perform operations for adding subscriber
     ${of_id}=    Wait Until Keyword Succeeds    ${timeout}    15s    Validate OLT Device in ONOS    ${olt_serial_number}
     Set Global Variable    ${of_id}
@@ -359,8 +356,8 @@ Sanity Test TT MCAST one ONU
     ${onu_port}=    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
     ...    Get ONU Port in ONOS    ${src['onu']}    ${of_id}
     # Check ONU port is Enabled in ONOS
-    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds   120s   2s
-    ...    Verify ONU Port Is Enabled   ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${src['onu']}
+    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    120s    2s
+    ...    Verify ONU Port Is Enabled    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${src['onu']}
     Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2
     ...    Execute ONOS CLI Command    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}
     ...    volt-add-subscriber-access ${of_id} ${onu_port}
@@ -369,38 +366,33 @@ Sanity Test TT MCAST one ONU
     Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s    Validate Device
     ...    ENABLED    ACTIVE    REACHABLE
     ...    ${src['onu']}    onu=True    onu_reason=omci-flows-pushed
-
     # Setup iperf on the BNG
     ${server_output}=    Login And Run Command On Remote System
     ...    sudo iperf -c ${dst['dp_iface_ip_qinq']} -u -T 32 -t 60 -i 1 &
     ...    ${dst['bng_ip']}    ${dst['bng_user']}    ${dst['bng_pass']}    ${dst['container_type']}
     ...    ${dst['container_name']}
-
     # Setup iperf on the RG
-    ${rg_output}=    Run Keyword and Continue On Failure    Wait Until Keyword Succeeds     90s    5s
+    ${rg_output}=    Run Keyword and Continue On Failure    Wait Until Keyword Succeeds    90s    5s
     ...    Login And Run Command On Remote System
     ...    rm -rf /tmp/rg_output ; sudo iperf -s -u -B ${dst['dp_iface_ip_qinq']} -i 1 -D >> /tmp/rg_output
     ...    ${src['ip']}    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
     Log    ${rg_output}
     Sleep    60s
-    ${output}=    Run Keyword and Continue On Failure     Wait Until Keyword Succeeds     90s    5s
+    ${output}=    Run Keyword and Continue On Failure    Wait Until Keyword Succeeds    90s    5s
     ...    Login And Run Command On Remote System
     ...    cat /tmp/rg_output | grep KBytes
     ...    ${src['ip']}    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
     Log    ${output}
     Should Contain    ${output}    KBytes
-
-    # Kill iperf  on BNG
+    # Kill iperf    on BNG
     ${rg_output}=    Run Keyword and Continue On Failure    Login And Run Command On Remote System
     ...    sudo kill -9 `pidof iperf`
     ...    ${dst['bng_ip']}    ${dst['bng_user']}    ${dst['bng_pass']}    ${dst['container_type']}
     ...    ${dst['container_name']}
-
     # Kill iperf on the RG
     ${output}=    Run Keyword and Continue On Failure    Login And Run Command On Remote System
     ...    sudo kill -9 `pidof iperf`
     ...    ${src['ip']}    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
-
 
 Setup
     [Documentation]    Pre-test Setup
@@ -434,8 +426,8 @@ Validate ONUs After OLT Disable
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
         ...    Validate Device    ENABLED    DISCOVERED
         ...    UNREACHABLE    ${src['onu']}    onu=True    onu_reason=stopping-openomci
-        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds   ${timeout}    2s
-        ...    Verify ONU Port Is Disabled   ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${src['onu']}
+        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
+        ...    Verify ONU Port Is Disabled    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${src['onu']}
         Run Keyword If    ${has_dataplane}    Run Keyword And Continue On Failure
         ...    Wait Until Keyword Succeeds    60s    2s
         ...    Check Ping    False    ${dst['dp_iface_ip_qinq']}    ${src['dp_iface_name']}
@@ -494,8 +486,8 @@ Repeat Sanity Test
         ${onu_port}=    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
         ...    Get ONU Port in ONOS    ${src['onu']}    ${of_id}
         # Check ONU port is Enabled in ONOD
-        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds   120s   2s
-        ...    Verify ONU Port Is Enabled   ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${src['onu']}
+        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    120s    2s
+        ...    Verify ONU Port Is Enabled    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${src['onu']}
         # Verify EAPOL flows are added for the ONU port
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
         ...    Verify Eapol Flows Added For ONU    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${onu_port}
@@ -509,7 +501,7 @@ Repeat Sanity Test
         ...    True    ${src['dp_iface_name']}    ${src['ip']}    ${src['user']}    ${src['pass']}
         ...    ${src['container_type']}    ${src['container_name']}
         Wait Until Keyword Succeeds    ${timeout}    2s
-        ...    Verify ONU in AAA-Users    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}     ${onu_port}
+        ...    Verify ONU in AAA-Users    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${onu_port}
         Wait Until Keyword Succeeds    ${timeout}    2s
         ...    Execute ONOS CLI Command    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}
         ...    volt-add-subscriber-access ${of_id} ${onu_port}
@@ -521,8 +513,8 @@ Repeat Sanity Test
         ...    ${dst['container_name']}
         Wait Until Keyword Succeeds    ${timeout}    2s    Run Keyword And Continue On Failure
         ...    Validate Subscriber DHCP Allocation    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${onu_port}
-        Run Keyword and Ignore Error   Get Device Output from Voltha    ${onu_device_id}
-        Run Keyword and Ignore Error   Collect Logs
+        Run Keyword and Ignore Error    Get Device Output from Voltha    ${onu_device_id}
+        Run Keyword and Ignore Error    Collect Logs
     END
 
 Collect Logs
@@ -535,20 +527,20 @@ Collect Logs
 Verify ping is succesful except for given device
     [Arguments]    ${num_onus}    ${exceptional_onu_id}
     [Documentation]    Checks that ping for all the devices are successful except the given ONU.
-    ${pingStatus}     Set Variable    True
+    ${pingStatus}    Set Variable    True
     FOR    ${I}    IN RANGE    0    ${num_onus}
         ${src}=    Set Variable    ${hosts.src[${I}]}
         ${dst}=    Set Variable    ${hosts.dst[${I}]}
         ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
-        ${pingStatus}     Run Keyword If    '${onu_device_id}' == '${exceptional_onu_id}'    Set Variable     False
+        ${pingStatus}    Run Keyword If    '${onu_device_id}' == '${exceptional_onu_id}'    Set Variable    False
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    60s    2s
         ...    Check Ping    ${pingStatus}    ${dst['dp_iface_ip_qinq']}    ${src['dp_iface_name']}
-        ...    ${src['ip']}    ${src['user']}    ${src['pass']}   ${src['container_type']}    ${src['container_name']}
+        ...    ${src['ip']}    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
     END
 
 Echo Message to OLT Logs
     [Arguments]    ${message}
-    [Documentation]     Echoes ${message} into the OLT logs
+    [Documentation]    Echoes ${message} into the OLT logs
     Wait Until Keyword Succeeds    180s    10s    Execute Remote Command
     ...    printf '%s\n' '' '' '${message}' '' >> /var/log/openolt.log
     ...    ${olt_ssh_ip}    ${olt_user}    ${olt_pass}
@@ -559,10 +551,10 @@ Echo Message to OLT Logs
 Start Logging
     [Arguments]    ${label}
     [Documentation]    Start logging for test ${label}
-    ${kail_process}=     Run Keyword If    "${container_log_dir}" != "${None}"   Start Process    kail    -n    default
-    ...    -n    voltha    cwd=${container_log_dir}   stdout=${label}-combined.log
+    ${kail_process}=    Run Keyword If    "${container_log_dir}" != "${None}"    Start Process    kail    -n    default
+    ...    -n    voltha    cwd=${container_log_dir}    stdout=${label}-combined.log
     Set Test Variable    ${kail_process}
-    Run Keyword If    ${has_dataplane}    Echo Message to OLT Logs     START ${label}
+    Run Keyword If    ${has_dataplane}    Echo Message to OLT Logs    START ${label}
 
 Stop Logging
     [Arguments]    ${label}
@@ -572,7 +564,7 @@ Stop Logging
     ${test_logfile}=    Run Keyword If    "${container_log_dir}" != "${None}"
     ...    Join Path    ${container_log_dir}    ${label}-combined.log
     Run Keyword If Test Passed    Run Keyword If    "${test_logfile}" != "${None}"    Remove File    ${test_logfile}
-    Run Keyword If    ${has_dataplane}    Echo Message to OLT Logs     END ${label}
+    Run Keyword If    ${has_dataplane}    Echo Message to OLT Logs    END ${label}
 
 Clean Up Linux
     [Documentation]    Kill processes and clean up interfaces on src+dst servers
@@ -638,17 +630,17 @@ Should Be Newer Than Or Equal To
 Get Current Time
     [Documentation]    Return the current time in RFC3339 format
     ${output}=    Run    date -u +"%FT%T%:z"
-    [return]     ${output}
+    [Return]    ${output}
 
 Parse RFC3339
-    [Documentation]     Parse an RFC3339 timestamp
+    [Documentation]    Parse an RFC3339 timestamp
     [Arguments]    ${dateStr}
-    ${rc}    ${output}=    Run and Return Rc and Output     date --date="${dateStr}" "+%s"
+    ${rc}    ${output}=    Run and Return Rc and Output    date --date="${dateStr}" "+%s"
     Should Be Equal As Numbers    ${rc}    0
-    [return]    ${output}
+    [Return]    ${output}
 
 Get Bandwidth Profile Name For Given Subscriber
-    [Arguments]    ${subscriber_id}   ${stream_type}=upstreamBandwidthProfile
+    [Arguments]    ${subscriber_id}    ${stream_type}=upstreamBandwidthProfile
     [Documentation]    Keyword to get the bandwidth details of the given subscriber
     ${bandwidth_profile_output}=    Execute ONOS CLI Command    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}
     ...    volt-programmed-subscribers | grep ${subscriber_id}
@@ -677,14 +669,13 @@ Execute Remote Command
     ${namespace}=    Run Keyword If    '${container_type}' == 'K8S'    SSHLibrary.Execute Command
     ...    kubectl get pods --all-namespaces | grep ${container_name} | awk '{print $1}'
     ${stdout}    ${stderr}    ${rc}=    Run Keyword If    '${container_type}' == 'LXC'
-    ...        SSHLibrary.Execute Command    lxc exec ${container_name} -- ${cmd}
-    ...        return_stderr=True    return_rc=True    timeout=${timeout}
+    ...    SSHLibrary.Execute Command    lxc exec ${container_name} -- ${cmd}
+    ...    return_stderr=True    return_rc=True    timeout=${timeout}
     ...    ELSE IF    '${container_type}' == 'K8S'
-    ...        SSHLibrary.Execute Command    kubectl -n ${namespace} exec ${container_name} -- ${cmd}
-    ...        return_stderr=True    return_rc=True    timeout=${timeout}
+    ...    SSHLibrary.Execute Command    kubectl -n ${namespace} exec ${container_name} -- ${cmd}
+    ...    return_stderr=True    return_rc=True    timeout=${timeout}
     ...    ELSE
-    ...        SSHLibrary.Execute Command    ${cmd}    return_stderr=True    return_rc=True    timeout=${timeout}
-
+    ...    SSHLibrary.Execute Command    ${cmd}    return_stderr=True    return_rc=True    timeout=${timeout}
     Log    ${stdout}
     Log    ${stderr}
     Log    ${rc}
@@ -704,11 +695,11 @@ Start Remote Command
     ${namespace}=    Run Keyword If    '${container_type}' == 'K8S'    SSHLibrary.Execute Command
     ...    kubectl get pods --all-namespaces | grep ${container_name} | awk '{print $1}'
     Run Keyword If    '${container_type}' == 'LXC'
-    ...        SSHLibrary.Start Command    lxc exec ${container_name} -- ${cmd}
+    ...    SSHLibrary.Start Command    lxc exec ${container_name} -- ${cmd}
     ...    ELSE IF    '${container_type}' == 'K8S'
-    ...        SSHLibrary.Start Command    kubectl -n ${namespace} exec ${container_name} -- ${cmd}
+    ...    SSHLibrary.Start Command    kubectl -n ${namespace} exec ${container_name} -- ${cmd}
     ...    ELSE
-    ...        SSHLibrary.Start Command    ${cmd}
+    ...    SSHLibrary.Start Command    ${cmd}
     # It seems that closing the connection immediately will sometimes kill the command
     Sleep    1s
     SSHLibrary.Close Connection
@@ -753,7 +744,7 @@ AlphaONURestoreDefault
     ...    ${onu_user}    ${onu_pass}    ${container_type}=${None}    ${container_name}=${None}
     ${output}=    Login And Run Command On Remote System    sudo ifconfig ${onu_ifname} 192.168.1.3/24
     ...    ${rg_ip}    ${rg_user}    ${rg_pass}    ${container_type}    ${container_name}
-    ${cmd}	Catenate
+    ${cmd}    Catenate
     ...    (echo open "192.168.1.1"; sleep 1;
     ...    echo "${onu_user}"; sleep 1;
     ...    echo "${onu_pass}"; sleep 1;
@@ -785,8 +776,8 @@ Create traffic with each pbit and capture at other end
         ...    timeout=30 seconds
         Execute Remote Command    sudo pkill mausezahn
         ...    ${src_ip}    ${src_user}    ${src_pass}    ${src_container_type}    ${src_container_name}
-        # VOL-3262:  I'm seeing untagged downstream traffic at RG for pbit 0.  According to Girish this is
-        # incorrect behavior.  Simplify the following check when VOL-3262 is resolved.
+        # VOL-3262:    I'm seeing untagged downstream traffic at RG for pbit 0.    According to Girish this is
+        # incorrect behavior.    Simplify the following check when VOL-3262 is resolved.
         Run Keyword If    ${pbit}==0 and "${tcpdump_filter}"=="udp"
         ...    Should Match Regexp    ${output}    \\.${target_port}: UDP,
         ...    ELSE    Should Match Regexp    ${output}    , p ${pbit},.*\\.${target_port}: UDP,

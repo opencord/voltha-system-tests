@@ -41,7 +41,7 @@ ${KUBERNETES_YAML}    ${KUBERNETES_CONFIGS_DIR}/${POD_NAME}.yml
 ${HELM_CHARTS_DIR}    ~/helm-charts
 ${VOLTHA_POD_NUM}    8
 ${NAMESPACE}      voltha
-${DEFAULTSPACE}      default
+${DEFAULTSPACE}    default
 # For below variable value, using deployment name as using grep for
 # parsing radius pod name, we can also use full radius pod name
 ${RESTART_POD_NAME}    radius
@@ -51,19 +51,18 @@ ${logical_id}     0
 ${has_dataplane}    True
 ${teardown_device}    False
 ${scripts}        ../../scripts
-
 # Per-test logging on failure is turned off by default; set this variable to enable
 ${container_log_dir}    ${None}
 
 *** Test Cases ***
 Verify OLT Soft Reboot
     [Documentation]    Test soft reboot of the OLT using voltctl command
-    [Tags]    VOL-2745   OLTSoftReboot    notready
+    [Tags]    VOL-2745    OLTSoftReboot    notready
     [Setup]    Start Logging    OLTSoftReboot
-    #...        AND             Setup
+    #...    AND    Setup
     [Teardown]    Run Keywords    Collect Logs
-    ...           AND             Stop Logging    OLTSoftReboot
-    #...           AND             Delete Device and Verify
+    ...    AND    Stop Logging    OLTSoftReboot
+    #...    AND    Delete Device and Verify
     ## Performing Sanity Test to make sure subscribers are all AUTH+DHCP and pingable
     #Run Keyword If    ${has_dataplane}    Clean Up Linux
     #Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test
@@ -91,7 +90,6 @@ Verify OLT Soft Reboot
     #Check after reboot that ONUs are active, authenticated/DHCP/pingable
     Run Keyword If    ${has_dataplane}    Clean Up Linux
     Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test
-
 
 *** Keywords ***
 Setup Suite

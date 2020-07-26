@@ -110,36 +110,36 @@ Verify Subscriber Access Flows Added for ONU
     # Verify upstream table=0 flow
     ${upstream_flow_0_cmd}=    Catenate    SEPARATOR=
     ...    flows -s ADDED ${olt_of_id} | grep IN_PORT:${onu_port} | grep VLAN_VID:0 |
-    ...     grep VLAN_ID:${c_tag} | grep transition=TABLE:1
+    ...    grep VLAN_ID:${c_tag} | grep transition=TABLE:1
     ${upstream_flow_0_added}=    Execute ONOS CLI Command    ${ip}    ${port}
     ...    ${upstream_flow_0_cmd}
     Should Not Be Empty    ${upstream_flow_0_added}
     # Verify upstream table=1 flow
     ${flow_vlan_push_cmd}=    Catenate    SEPARATOR=
     ...    flows -s ADDED ${olt_of_id} | grep IN_PORT:${onu_port} | grep VLAN_VID:${c_tag} |
-    ...     grep VLAN_PUSH | grep VLAN_ID:${s_tag} | grep OUTPUT:${nni_port}
+    ...    grep VLAN_PUSH | grep VLAN_ID:${s_tag} | grep OUTPUT:${nni_port}
     ${upstream_flow_1_added}=    Execute ONOS CLI Command    ${ip}    ${port}
     ...    ${flow_vlan_push_cmd}
     Should Not Be Empty    ${upstream_flow_1_added}
     # Verify downstream table=0 flow
     ${flow_vlan_pop_cmd}=    Catenate    SEPARATOR=
     ...    flows -s ADDED ${olt_of_id} | grep IN_PORT:${nni_port} | grep VLAN_VID:${s_tag} |
-    ...     grep VLAN_POP | grep transition=TABLE:1
+    ...    grep VLAN_POP | grep transition=TABLE:1
     ${downstream_flow_0_added}=    Execute ONOS CLI Command    ${ip}    ${port}
     ...    ${flow_vlan_pop_cmd}
     Should Not Be Empty    ${downstream_flow_0_added}
     # Verify downstream table=1 flow
     ${downstream_flow_1_cmd}=    Catenate    SEPARATOR=
     ...    flows -s ADDED ${olt_of_id} | grep IN_PORT:${nni_port} | grep VLAN_VID:${c_tag} |
-    ...     grep VLAN_ID:0 | grep OUTPUT:${onu_port}
+    ...    grep VLAN_ID:0 | grep OUTPUT:${onu_port}
     ${downstream_flow_1_added}=    Execute ONOS CLI Command    ${ip}    ${port}
     ...    ${downstream_flow_1_cmd}
     Should Not Be Empty    ${downstream_flow_1_added}
     # Verify ipv4 dhcp upstream flow
     ${upstream_flow_ipv4_cmd}=    Catenate    SEPARATOR=
     ...    flows -s ADDED ${olt_of_id} | grep IN_PORT:${onu_port} | grep ETH_TYPE:ipv4 |
-    ...     grep IP_PROTO:17 | grep UDP_SRC:68 | grep UDP_DST:67 | grep VLAN_VID:${c_tag} |
-    ...     grep OUTPUT:CONTROLLER
+    ...    grep IP_PROTO:17 | grep UDP_SRC:68 | grep UDP_DST:67 | grep VLAN_VID:${c_tag} |
+    ...    grep OUTPUT:CONTROLLER
     ${upstream_flow_ipv4_added}=    Execute ONOS CLI Command    ${ip}    ${port}
     ...    ${upstream_flow_ipv4_cmd}
     Should Not Be Empty    ${upstream_flow_ipv4_added}
@@ -147,7 +147,7 @@ Verify Subscriber Access Flows Added for ONU
     # Note: This flow will be one per nni per olt
     ${downstream_flow_ipv4_cmd}=    Catenate    SEPARATOR=
     ...    flows -s ADDED ${olt_of_id} | grep IN_PORT:${nni_port} | grep ETH_TYPE:ipv4 |
-    ...     grep IP_PROTO:17 | grep UDP_SRC:67 | grep UDP_DST:68 | grep OUTPUT:CONTROLLER
+    ...    grep IP_PROTO:17 | grep UDP_SRC:67 | grep UDP_DST:68 | grep OUTPUT:CONTROLLER
     ${downstream_flow_ipv4_added}=    Execute ONOS CLI Command    ${ip}    ${port}
     ...    ${downstream_flow_ipv4_cmd}
     Should Not Be Empty    ${downstream_flow_ipv4_added}
@@ -162,14 +162,14 @@ Verify Subscriber Access Flows Added for ONU DT
     # Verify upstream table=1 flow
     ${flow_vlan_push_cmd}=    Catenate    SEPARATOR=
     ...    flows -s ADDED ${olt_of_id} | grep IN_PORT:${onu_port} | grep VLAN_VID:Any |
-    ...     grep VLAN_PUSH | grep VLAN_ID:${s_tag} | grep OUTPUT:${nni_port}
+    ...    grep VLAN_PUSH | grep VLAN_ID:${s_tag} | grep OUTPUT:${nni_port}
     ${upstream_flow_1_added}=    Execute ONOS CLI Command    ${ip}    ${port}
     ...    ${flow_vlan_push_cmd}
     Should Not Be Empty    ${upstream_flow_1_added}
     # Verify downstream table=0 flow
     ${flow_vlan_pop_cmd}=    Catenate    SEPARATOR=
     ...    flows -s ADDED ${olt_of_id} | grep IN_PORT:${nni_port} | grep VLAN_VID:${s_tag} |
-    ...     grep VLAN_POP | grep transition=TABLE:1
+    ...    grep VLAN_POP | grep transition=TABLE:1
     ${downstream_flow_0_added}=    Execute ONOS CLI Command    ${ip}    ${port}
     ...    ${flow_vlan_pop_cmd}
     Should Not Be Empty    ${downstream_flow_0_added}
@@ -280,101 +280,100 @@ Remove All Devices From ONOS
     END
 
 Assert Ports in ONOS
-    [Arguments]    ${ip}    ${port}     ${count}     ${filter}
+    [Arguments]    ${ip}    ${port}    ${count}    ${filter}
     [Documentation]    Check that a certain number of ports are enabled in ONOS
     ${ports}=    Execute ONOS CLI Command    ${ip}    ${port}
-        ...    ports -e | grep ${filter} | wc -l
+    ...    ports -e | grep ${filter} | wc -l
     Should Be Equal As Integers    ${ports}    ${count}
 
 Wait for Ports in ONOS
-    [Arguments]    ${ip}    ${port}     ${count}     ${filter}
+    [Arguments]    ${ip}    ${port}    ${count}    ${filter}
     [Documentation]    Waits untill a certain number of ports are enabled in ONOS
-    Wait Until Keyword Succeeds     10m     5s      Assert Ports in ONOS   ${ip}    ${port}     ${count}     ${filter}
+    Wait Until Keyword Succeeds    10m    5s    Assert Ports in ONOS    ${ip}    ${port}    ${count}    ${filter}
 
 Wait for AAA Authentication
-    [Arguments]    ${ip}    ${port}     ${count}
+    [Arguments]    ${ip}    ${port}    ${count}
     [Documentation]    Waits untill a certain number of subscribers are authenticated in ONOS
-    Wait Until Keyword Succeeds     10m     5s      Assert Number of AAA-Users      ${ip}    ${port}     ${count}
+    Wait Until Keyword Succeeds    10m    5s    Assert Number of AAA-Users    ${ip}    ${port}    ${count}
 
 Wait for DHCP Ack
-    [Arguments]    ${ip}    ${port}     ${count}
+    [Arguments]    ${ip}    ${port}    ${count}
     [Documentation]    Waits untill a certain number of subscribers have received a DHCP_ACK
-    Wait Until Keyword Succeeds     10m     5s      Validate DHCP Allocations      ${ip}    ${port}     ${count}
+    Wait Until Keyword Succeeds    10m    5s    Validate DHCP Allocations    ${ip}    ${port}    ${count}
 
 Provision subscriber
-    [Documentation]  Calls volt-add-subscriber-access in ONOS
-    [Arguments]    ${onos_ip}    ${onos_port}   ${of_id}    ${onu_port}
+    [Documentation]    Calls volt-add-subscriber-access in ONOS
+    [Arguments]    ${onos_ip}    ${onos_port}    ${of_id}    ${onu_port}
     Execute ONOS CLI Command    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}
-            ...    volt-add-subscriber-access ${of_id} ${onu_port}
+    ...    volt-add-subscriber-access ${of_id} ${onu_port}
 
 Provision subscriber REST
-    [Documentation]     Uses the rest APIs to provision a subscriber
-    [Arguments]     ${onos_ip}    ${onos_port}   ${of_id}    ${onu_port}
+    [Documentation]    Uses the rest APIs to provision a subscriber
+    [Arguments]    ${onos_ip}    ${onos_port}    ${of_id}    ${onu_port}
     ${resp}=    Post Request    ONOS
     ...    /onos/olt/oltapp/${of_id}/${onu_port}
     Should Be Equal As Strings    ${resp.status_code}    200
 
-
 List Enabled UNI Ports
-    [Documentation]  List all the UNI Ports, the only way we have is to filter out the one called NNI
-    ...     Creates a list of dictionaries
-    [Arguments]     ${onos_ip}    ${onos_port}   ${of_id}
-    [Return]  [{'port': '16', 'of_id': 'of:00000a0a0a0a0a00'}, {'port': '32', 'of_id': 'of:00000a0a0a0a0a00'}]
-    ${result}=      Create List
+    [Documentation]    List all the UNI Ports, the only way we have is to filter out the one called NNI
+    ...    Creates a list of dictionaries
+    [Arguments]    ${onos_ip}    ${onos_port}    ${of_id}
+    [Return]    [{'port': '16', 'of_id': 'of:00000a0a0a0a0a00'}, {'port': '32', 'of_id': 'of:00000a0a0a0a0a00'}]
+    ${result}=    Create List
     ${out}=    Execute ONOS CLI Command    ${onos_ip}    ${onos_port}
     ...    ports -e ${of_id} | grep -v SWITCH | grep -v nni
     @{unis}=    Split To Lines    ${out}
     FOR    ${uni}    IN    @{unis}
-        ${matches} =    Get Regexp Matches    ${uni}  .*port=([0-9]+),.*  1
+        ${matches} =    Get Regexp Matches    ${uni}    .*port=([0-9]+),.*    1
         &{portDict}    Create Dictionary    of_id=${of_id}    port=${matches[0]}
-        Append To List  ${result}    ${portDict}
+        Append To List    ${result}    ${portDict}
     END
-    Log     ${result}
-    Return From Keyword     ${result}
+    Log    ${result}
+    Return From Keyword    ${result}
 
 Provision all subscribers on device
-    [Documentation]  Provisions a subscriber in ONOS for all the enabled UNI ports on a particular device
-    [Arguments]     ${onos_ip}    ${onos_ssh_port}  ${onos_rest_port}   ${of_id}
-    ${unis}=    List Enabled UNI Ports  ${onos_ip}  ${onos_ssh_port}   ${of_id}
+    [Documentation]    Provisions a subscriber in ONOS for all the enabled UNI ports on a particular device
+    [Arguments]    ${onos_ip}    ${onos_ssh_port}    ${onos_rest_port}    ${of_id}
+    ${unis}=    List Enabled UNI Ports    ${onos_ip}    ${onos_ssh_port}    ${of_id}
     ${onos_auth}=    Create List    karaf    karaf
     Create Session    ONOS    http://${onos_ip}:${onos_rest_port}    auth=${onos_auth}
-    FOR     ${uni}  IN      @{unis}
-        Provision Subscriber REST   ${onos_ip}  ${onos_rest_port}   ${uni['of_id']}   ${uni['port']}
+    FOR    ${uni}    IN    @{unis}
+        Provision Subscriber REST    ${onos_ip}    ${onos_rest_port}    ${uni['of_id']}    ${uni['port']}
     END
 
 List OLTs
-    [Documentation]  Returns a list of OLTs known to ONOS
-    [Arguments]  ${onos_ip}    ${onos_port}
-    [Return]  ['of:00000a0a0a0a0a00', 'of:00000a0a0a0a0a01']
-    ${result}=      Create List
+    [Documentation]    Returns a list of OLTs known to ONOS
+    [Arguments]    ${onos_ip}    ${onos_port}
+    [Return]    ['of:00000a0a0a0a0a00', 'of:00000a0a0a0a0a01']
+    ${result}=    Create List
     ${out}=    Execute ONOS CLI Command    ${onos_ip}    ${onos_port}
-    ...     volt-olts
+    ...    volt-olts
     @{olts}=    Split To Lines    ${out}
     FOR    ${olt}    IN    @{olts}
-        Log     ${olt}
-        ${matches} =    Get Regexp Matches    ${olt}  ^OLT (.+)$  1
+        Log    ${olt}
+        ${matches} =    Get Regexp Matches    ${olt}    ^OLT (.+)$    1
         # there may be some logs mixed with the output so only append if we have a match
-        ${matches_length}=      Get Length  ${matches}
-        Run Keyword If  ${matches_length}==1
-        ...     Append To List  ${result}    ${matches[0]}
+        ${matches_length}=    Get Length    ${matches}
+        Run Keyword If    ${matches_length}==1
+        ...    Append To List    ${result}    ${matches[0]}
     END
-    Return From Keyword     ${result}
+    Return From Keyword    ${result}
 
 Count ADDED flows
-    [Documentation]  Count the flows in ADDED state in ONOS
-    [Arguments]  ${onos_ip}     ${onos_port}    ${targetFlows}
+    [Documentation]    Count the flows in ADDED state in ONOS
+    [Arguments]    ${onos_ip}    ${onos_port}    ${targetFlows}
     ${flows}=    Execute ONOS CLI Command    ${onos_ip}    ${onos_port}
-    ...     flows -s | grep ADDED | wc -l
+    ...    flows -s | grep ADDED | wc -l
     Should Be Equal As Integers    ${targetFlows}    ${flows}
 
 Wait for all flows to in ADDED state
-    [Documentation]  Waits until the flows have been provisioned
-    [Arguments]  ${onos_ip}    ${onos_port}     ${workflow}    ${uni_count}    ${olt_count}    ${provisioned}
-    ...     ${withEapol}    ${withDhcp}     ${withIgmp}     ${withLldp}
-    ${targetFlows}=     Calculate flows by workflow     ${workflow}    ${uni_count}    ${olt_count}     ${provisioned}
-    ...     ${withEapol}    ${withDhcp}     ${withIgmp}     ${withLldp}
-    Wait Until Keyword Succeeds     10m     5s      Count ADDED flows
-    ...     ${onos_ip}    ${onos_port}  ${targetFlows}
+    [Documentation]    Waits until the flows have been provisioned
+    [Arguments]    ${onos_ip}    ${onos_port}    ${workflow}    ${uni_count}    ${olt_count}    ${provisioned}
+    ...    ${withEapol}    ${withDhcp}    ${withIgmp}    ${withLldp}
+    ${targetFlows}=    Calculate flows by workflow    ${workflow}    ${uni_count}    ${olt_count}    ${provisioned}
+    ...    ${withEapol}    ${withDhcp}    ${withIgmp}    ${withLldp}
+    Wait Until Keyword Succeeds    10m    5s    Count ADDED flows
+    ...    ${onos_ip}    ${onos_port}    ${targetFlows}
 
 Get Bandwidth Details
     [Arguments]    ${bandwidth_profile_name}
@@ -395,7 +394,7 @@ Get Bandwidth Details
     @{parameter_value_pair}=    Split String    ${bandwidth_profile_array[3]}    =
     ${bandwidthparameter}=    Set Variable    ${parameter_value_pair[0]}
     ${value}=    Set Variable    ${parameter_value_pair[1]}
-    ${eir_value}    Run Keyword If    '${bandwidthparameter}' == ' exceededInformationRate'   Set Variable    ${value}
+    ${eir_value}    Run Keyword If    '${bandwidthparameter}' == ' exceededInformationRate'    Set Variable    ${value}
     @{parameter_value_pair}=    Split String    ${bandwidth_profile_array[4]}    =
     ${bandwidthparameter}=    Set Variable    ${parameter_value_pair[0]}
     ${value}=    Set Variable    ${parameter_value_pair[1]}

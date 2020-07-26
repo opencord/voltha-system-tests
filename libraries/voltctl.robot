@@ -36,7 +36,7 @@ Test Empty Device List
     Should Be Equal As Integers    ${length}    0
 
 Create Device
-    [Arguments]    ${ip}    ${port}     ${type}=openolt
+    [Arguments]    ${ip}    ${port}    ${type}=openolt
     [Documentation]    Creates a device in VOLTHA
     #create/preprovision device
     ${rc}    ${device_id}=    Run and Return Rc and Output
@@ -144,20 +144,20 @@ Get Device List from Voltha
 
 Get Device List from Voltha by type
     [Documentation]    Gets Device List Output from Voltha applying filtering by device type
-    [Arguments]  ${type}
+    [Arguments]    ${type}
     ${rc1}    ${devices}=    Run and Return Rc and Output
-    ...     ${VOLTCTL_CONFIG}; voltctl device list -m 8MB -f Type=${type} -o json
+    ...    ${VOLTCTL_CONFIG}; voltctl device list -m 8MB -f Type=${type} -o json
     Log    ${devices}
     Should Be Equal As Integers    ${rc1}    0
-    Return From Keyword     ${devices}
+    Return From Keyword    ${devices}
 
 Get Logical Device List from Voltha
     [Documentation]    Gets Logical Device List Output from Voltha (in json format)
     ${rc1}    ${devices}=    Run and Return Rc and Output
-    ...   ${VOLTCTL_CONFIG}; voltctl logicaldevice list -m 8MB -o json
+    ...    ${VOLTCTL_CONFIG}; voltctl logicaldevice list -m 8MB -o json
     Log    ${devices}
     Should Be Equal As Integers    ${rc1}    0
-    Return From Keyword     ${devices}
+    Return From Keyword    ${devices}
 
 Validate Device
     [Documentation]
@@ -174,20 +174,20 @@ Validate Device
     FOR    ${INDEX}    IN RANGE    0    ${length}
         ${value}=    Get From List    ${jsondata}    ${INDEX}
         ${jsonCamelCaseFieldnames}=    Run Keyword And Return Status
-        ...    Dictionary Should Contain Key       ${value}      adminState
-        ${astate}=    Run Keyword If     ${jsonCamelCaseFieldNames}
+        ...    Dictionary Should Contain Key    ${value}    adminState
+        ${astate}=    Run Keyword If    ${jsonCamelCaseFieldNames}
         ...    Get From Dictionary    ${value}    adminState
         ...    ELSE
         ...    Get From Dictionary    ${value}    adminstate
-        ${opstatus}=    Run Keyword If     ${jsonCamelCaseFieldNames}
+        ${opstatus}=    Run Keyword If    ${jsonCamelCaseFieldNames}
         ...    Get From Dictionary    ${value}    operStatus
         ...    ELSE
         ...    Get From Dictionary    ${value}    operstatus
-        ${cstatus}=    Run Keyword If     ${jsonCamelCaseFieldNames}
+        ${cstatus}=    Run Keyword If    ${jsonCamelCaseFieldNames}
         ...    Get From Dictionary    ${value}    connectStatus
         ...    ELSE
         ...    Get From Dictionary    ${value}    connectstatus
-        ${sn}=    Run Keyword If     ${jsonCamelCaseFieldNames}
+        ${sn}=    Run Keyword If    ${jsonCamelCaseFieldNames}
         ...    Get From Dictionary    ${value}    serialNumber
         ...    ELSE
         ...    Get From Dictionary    ${value}    serialnumber
@@ -227,7 +227,7 @@ Validate ONU Devices
 Validate Device Port Types
     [Documentation]
     ...    Parses the output of voltctl device port list <device_id> and matches the port types listed
-    [Arguments]    ${device_id}    ${pon_type}    ${ethernet_type}   ${all_active}=True
+    [Arguments]    ${device_id}    ${pon_type}    ${ethernet_type}    ${all_active}=True
     ${rc}    ${output}=    Run and Return Rc and Output
     ...    ${VOLTCTL_CONFIG}; voltctl device port list ${device_id} -m 8MB -o json
     Should Be Equal As Integers    ${rc}    0
@@ -237,12 +237,12 @@ Validate Device Port Types
     FOR    ${INDEX}    IN RANGE    0    ${length}
         ${value}=    Get From List    ${jsondata}    ${INDEX}
         ${jsonCamelCaseFieldnames}=    Run Keyword And Return Status
-        ...    Dictionary Should Contain Key       ${value}      adminState
-        ${astate}=    Run Keyword If     ${jsonCamelCaseFieldNames}
+        ...    Dictionary Should Contain Key    ${value}    adminState
+        ${astate}=    Run Keyword If    ${jsonCamelCaseFieldNames}
         ...    ${astate}=    Get From Dictionary    ${value}    adminState
         ...    ELSE
         ...    ${astate}=    Get From Dictionary    ${value}    adminstate
-        ${opstatus}=    Run Keyword If     ${jsonCamelCaseFieldNames}
+        ${opstatus}=    Run Keyword If    ${jsonCamelCaseFieldNames}
         ...    Get From Dictionary    ${value}    operStatus
         ...    ELSE
         ...    ${astate}=    Get From Dictionary    ${value}    operstatus
@@ -266,7 +266,7 @@ Validate ONU Port Types
     FOR    ${serial_number}    IN    @{List_ONU_Serial}
         ${onu_dev_id}=    Get Device ID From SN    ${serial_number}
         # Only first UNI port is ACTIVE; the rest are in DISCOVERED operstatus
-        Validate Device Port Types    ${onu_dev_id}    ${pon_type}    ${ethernet_type}   all_active=False
+        Validate Device Port Types    ${onu_dev_id}    ${pon_type}    ${ethernet_type}    all_active=False
     END
 
 Validate Device Flows
@@ -305,7 +305,7 @@ Validate ONU Devices With Duration
     ...    Iteratively match on each Serial number contained in ${List_ONU_Serial} and inspect
     ...    states including MIB state.
     [Arguments]    ${admin_state}    ${oper_status}    ${connect_status}    ${onu_reason}
-    ...    ${List_ONU_Serial}   ${startTime}    ${print2console}=False    ${output_file}=${EMPTY}
+    ...    ${List_ONU_Serial}    ${startTime}    ${print2console}=False    ${output_file}=${EMPTY}
     ${rc}    ${output}=    Run and Return Rc and Output    ${VOLTCTL_CONFIG}; voltctl device list -m 8MB -o json
     Should Be Equal As Integers    ${rc}    0
     ${timeCurrent} =    Get Current Date
@@ -316,25 +316,25 @@ Validate ONU Devices With Duration
         ${matched}=    Set Variable    False
         ${value}=    Get From List    ${jsondata}    ${INDEX}
         ${jsonCamelCaseFieldnames}=    Run Keyword And Return Status
-        ...    Dictionary Should Contain Key       ${value}      adminState
-        ${astate}=    Run Keyword If     ${jsonCamelCaseFieldNames}
+        ...    Dictionary Should Contain Key    ${value}    adminState
+        ${astate}=    Run Keyword If    ${jsonCamelCaseFieldNames}
         ...    Get From Dictionary    ${value}    adminState
         ...    ELSE
         ...    Get From Dictionary    ${value}    adminstate
-        ${opstatus}=    Run Keyword If     ${jsonCamelCaseFieldNames}
+        ${opstatus}=    Run Keyword If    ${jsonCamelCaseFieldNames}
         ...    Get From Dictionary    ${value}    operStatus
         ...    ELSE
         ...    Get From Dictionary    ${value}    operstatus
-        ${cstatus}=    Run Keyword If     ${jsonCamelCaseFieldNames}
+        ${cstatus}=    Run Keyword If    ${jsonCamelCaseFieldNames}
         ...    Get From Dictionary    ${value}    connectStatus
         ...    ELSE
         ...    Get From Dictionary    ${value}    connectstatus
-        ${sn}=    Run Keyword If     ${jsonCamelCaseFieldNames}
+        ${sn}=    Run Keyword If    ${jsonCamelCaseFieldNames}
         ...    Get From Dictionary    ${value}    serialNumber
         ...    ELSE
         ...    Get From Dictionary    ${value}    serialnumber
         ${mib_state}=    Get From Dictionary    ${value}    reason
-        ${onu_id}=    Get Index From List    ${List_ONU_Serial}   ${sn}
+        ${onu_id}=    Get Index From List    ${List_ONU_Serial}    ${sn}
         ${matched}=    Set Variable If    -1 != ${onu_id}    True    False
         ${matched}=    Set Variable If    '${astate}' == '${admin_state}'    ${matched}    False
         ${matched}=    Set Variable If    '${opstatus}' == '${oper_status}'    ${matched}    False
@@ -353,10 +353,10 @@ Validate ONU Devices MIB State With Duration
     ...    Parses the output of "voltctl device list" and inspects all devices ${List_ONU_Serial},
     ...    Iteratively match on each Serial number contained in ${List_ONU_Serial} and inspect MIB state.
     [Arguments]    ${onu_reason}
-    ...    ${List_ONU_Serial}   ${startTime}    ${print2console}=False    ${output_file}=${EMPTY}
+    ...    ${List_ONU_Serial}    ${startTime}    ${print2console}=False    ${output_file}=${EMPTY}
     ${type} =    Set Variable    brcm_openomci_onu
     ${voltctl_commad} =    Catenate    SEPARATOR=
-        ...    voltctl device list -m 8MB -f Type=${type} -f Reason=${onu_reason} --format '{{.SerialNumber}}'
+    ...    voltctl device list -m 8MB -f Type=${type} -f Reason=${onu_reason} --format '{{.SerialNumber}}'
     ${rc}    ${output}=    Run and Return Rc and Output    ${voltctl_commad}
     Should Be Equal As Integers    ${rc}    0
     ${timeCurrent} =    Get Current Date
@@ -386,7 +386,7 @@ Compare Lists
     ${length} =    Get Length    ${ListIterate}
     FOR    ${INDEX}    IN RANGE    0    ${length}
         ${sn}=    Get From List    ${ListIterate}    ${INDEX}
-        ${onu_id}=    Get Index From List    ${ListCompare}   ${sn}
+        ${onu_id}=    Get Index From List    ${ListCompare}    ${sn}
         Run Keyword If    -1 != ${onu_id}    Append To List    ${list}    ${sn}
     END
     [Return]    ${list}
@@ -576,78 +576,78 @@ Validate Device Removed
     List Should Not Contain Value    ${ids}    ${id}
 
 Reboot ONU
-    [Arguments]    ${onu_id}    ${src}   ${dst}
-    [Documentation]   Using voltctl command reboot ONU and verify that ONU comes up to running state
+    [Arguments]    ${onu_id}    ${src}    ${dst}
+    [Documentation]    Using voltctl command reboot ONU and verify that ONU comes up to running state
     ${rc}    ${devices}=    Run and Return Rc and Output    ${VOLTCTL_CONFIG}; voltctl device reboot ${onu_id}
     Should Be Equal As Integers    ${rc}    0
-    Run Keyword and Ignore Error    Wait Until Keyword Succeeds    60s   1s    Validate Device
-    ...    ENABLED    DISCOVERED    UNREACHABLE   ${onu_id}    onu=True
+    Run Keyword and Ignore Error    Wait Until Keyword Succeeds    60s    1s    Validate Device
+    ...    ENABLED    DISCOVERED    UNREACHABLE    ${onu_id}    onu=True
 
 Assert ONUs in Voltha
     [Arguments]    ${count}
     [Documentation]    Check that a certain number of devices reached the ACTIVE/ENABLE state
     ${rc1}    ${devices}=    Run and Return Rc and Output
-    ...     ${VOLTCTL_CONFIG}; voltctl -m 8M device list | grep -v OLT | grep ACTIVE | wc -l
+    ...    ${VOLTCTL_CONFIG}; voltctl -m 8M device list | grep -v OLT | grep ACTIVE | wc -l
     Should Be Equal As Integers    ${rc1}    0
     Should Be Equal As Integers    ${devices}    ${count}
 
 Wait for ONUs in VOLTHA
     [Arguments]    ${count}
     [Documentation]    Waits until a certain number of devices reached the ACTIVE/ENABLE state
-    Wait Until Keyword Succeeds     10m     5s      Assert ONUs In Voltha   ${count}
+    Wait Until Keyword Succeeds    10m    5s    Assert ONUs In Voltha    ${count}
 
 Count Logical Devices flows
-    [Documentation]  Count the flows across logical devices in VOLTHA
-    [Arguments]  ${targetFlows}
-    ${output}=     Get Logical Device List From Voltha
+    [Documentation]    Count the flows across logical devices in VOLTHA
+    [Arguments]    ${targetFlows}
+    ${output}=    Get Logical Device List From Voltha
     ${logical_devices}=    To Json    ${output}
-    ${total_flows}=     Set Variable    0
-    FOR     ${device}   IN  @{logical_devices}
+    ${total_flows}=    Set Variable    0
+    FOR    ${device}    IN    @{logical_devices}
         ${rc}    ${flows}=    Run and Return Rc and Output
         ...    ${VOLTCTL_CONFIG}; voltctl logicaldevice flows ${device['id']} | grep -v ID | wc -l
         Should Be Equal As Integers    ${rc}    0
-        ${total_flows}=     Evaluate    ${total_flows} + ${flows}
+        ${total_flows}=    Evaluate    ${total_flows} + ${flows}
     END
-    ${msg}=     Format String   Found {total_flows} flows of {targetFlows} expected
-    ...     total_flows=${total_flows}  targetFlows=${targetFlows}
-    Log     ${msg}
+    ${msg}=    Format String    Found {total_flows} flows of {targetFlows} expected
+    ...    total_flows=${total_flows}    targetFlows=${targetFlows}
+    Log    ${msg}
     Should Be Equal As Integers    ${targetFlows}    ${total_flows}
 
 Wait for Logical Devices flows
-    [Documentation]  Waits until the flows have been provisioned in the logical device
-    [Arguments]  ${workflow}    ${uni_count}    ${olt_count}    ${provisioned}
-    ...     ${withEapol}    ${withDhcp}     ${withIgmp}     ${withLldp}
-    ${targetFlows}=     Calculate flows by workflow     ${workflow}    ${uni_count}    ${olt_count}     ${provisioned}
-    ...     ${withEapol}    ${withDhcp}     ${withIgmp}    ${withLldp}
-    Log     ${targetFlows}
+    [Documentation]    Waits until the flows have been provisioned in the logical device
+    [Arguments]    ${workflow}    ${uni_count}    ${olt_count}    ${provisioned}
+    ...    ${withEapol}    ${withDhcp}    ${withIgmp}    ${withLldp}
+    ${targetFlows}=    Calculate flows by workflow    ${workflow}    ${uni_count}    ${olt_count}    ${provisioned}
+    ...    ${withEapol}    ${withDhcp}    ${withIgmp}    ${withLldp}
+    Log    ${targetFlows}
     # TODO extend Validate Logical Device Flows to check the correct number of flows
-    Wait Until Keyword Succeeds     10m     5s  Count Logical Devices flows     ${targetFlows}
+    Wait Until Keyword Succeeds    10m    5s    Count Logical Devices flows    ${targetFlows}
 
 Count OpenOLT Device Flows
-    [Documentation]  Count the flows across openolt devices in VOLTHA
-    [Arguments]  ${targetFlows}
-    ${output}=     Get Device List from Voltha by type      openolt
+    [Documentation]    Count the flows across openolt devices in VOLTHA
+    [Arguments]    ${targetFlows}
+    ${output}=    Get Device List from Voltha by type    openolt
     ${devices}=    To Json    ${output}
-    ${total_flows}=     Set Variable    0
-    FOR     ${device}   IN  @{devices}
+    ${total_flows}=    Set Variable    0
+    FOR    ${device}    IN    @{devices}
         ${rc}    ${flows}=    Run and Return Rc and Output
-        ...     ${VOLTCTL_CONFIG}; voltctl device flows ${device['id']} | grep -v ID | wc -l
+        ...    ${VOLTCTL_CONFIG}; voltctl device flows ${device['id']} | grep -v ID | wc -l
         Should Be Equal As Integers    ${rc}    0
-        ${total_flows}=     Evaluate    ${total_flows} + ${flows}
+        ${total_flows}=    Evaluate    ${total_flows} + ${flows}
     END
-    ${msg}=     Format String   Found {total_flows} flows of {targetFlows} expected
-    ...     total_flows=${total_flows}  targetFlows=${targetFlows}
-    Log     ${msg}
+    ${msg}=    Format String    Found {total_flows} flows of {targetFlows} expected
+    ...    total_flows=${total_flows}    targetFlows=${targetFlows}
+    Log    ${msg}
     Should Be Equal As Integers    ${targetFlows}    ${total_flows}
 
 Wait for OpenOLT Devices flows
-    [Documentation]  Waits until the flows have been provisioned in the openolt devices
-    [Arguments]  ${workflow}    ${uni_count}    ${olt_count}    ${provisioned}
-    ...     ${withEapol}    ${withDhcp}     ${withIgmp}     ${withLldp}
+    [Documentation]    Waits until the flows have been provisioned in the openolt devices
+    [Arguments]    ${workflow}    ${uni_count}    ${olt_count}    ${provisioned}
+    ...    ${withEapol}    ${withDhcp}    ${withIgmp}    ${withLldp}
     # In the physical device we only have 2 data plane flows (on the PON) instead of 4
-    ${beforeFlows}=     Calculate flows by workflow     ${workflow}    ${uni_count}    ${olt_count}     ${provisioned}
-    ...     ${withEapol}    ${withDhcp}     ${withIgmp}     ${withLldp}
-    ${afterFlows}=      Evaluate    ${beforeFlows} - (${uni_count} * 2)
-    ${targetFlows}=    Set Variable If  $provisioned=='true'    ${afterFlows}   ${beforeFlows}
-    Log     ${targetFlows}
-    Wait Until Keyword Succeeds     10m     5s  Count OpenOLT Device Flows     ${targetFlows}
+    ${beforeFlows}=    Calculate flows by workflow    ${workflow}    ${uni_count}    ${olt_count}    ${provisioned}
+    ...    ${withEapol}    ${withDhcp}    ${withIgmp}    ${withLldp}
+    ${afterFlows}=    Evaluate    ${beforeFlows} - (${uni_count} * 2)
+    ${targetFlows}=    Set Variable If    $provisioned=='true'    ${afterFlows}    ${beforeFlows}
+    Log    ${targetFlows}
+    Wait Until Keyword Succeeds    10m    5s    Count OpenOLT Device Flows    ${targetFlows}

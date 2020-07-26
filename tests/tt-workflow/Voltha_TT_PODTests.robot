@@ -51,19 +51,18 @@ ${logical_id}     0
 ${has_dataplane}    True
 ${teardown_device}    False
 ${scripts}        ../../scripts
-
 # Per-test logging on failure is turned off by default; set this variable to enable
 ${container_log_dir}    ${None}
 
 *** Test Cases ***
 Reboot TT ONUs Physically - Clean Up
-    [Documentation]   This test reboots ONUs physically before execution all the tests
+    [Documentation]    This test reboots ONUs physically before execution all the tests
     ...    Test case runs only on the PODs that are configured with PowerSwitch that
     ...    controls the power off/on ONUs/OLT remotely (simulating a physical reboot)
-    [Tags]    functional   PowerSwitch    RebootAllTTONUs
+    [Tags]    functional    PowerSwitch    RebootAllTTONUs
     [Setup]    Start Logging    RebootAllTTONUs
     [Teardown]    Run Keywords    Collect Logs
-    ...           AND             Stop Logging    RebootAllTTONUs
+    ...    AND    Stop Logging    RebootAllTTONUs
     Power Switch Connection Suite    ${web_power_switch.ip}    ${web_power_switch.user}    ${web_power_switch.password}
     FOR    ${I}    IN RANGE    0    ${num_onus}
         ${src}=    Set Variable    ${hosts.src[${I}]}
@@ -82,9 +81,9 @@ Sanity E2E Test for TT (HSIA, VoD, VoIP)
     ...    Inner vlans from the RG should not change
     [Tags]    sanityTT
     [Setup]    Run Keywords    Start Logging    SanityTestTT
-    ...        AND             Setup
+    ...    AND    Setup
     [Teardown]    Run Keywords    Collect Logs
-    ...           AND             Stop Logging    SanityTestTT
+    ...    AND    Stop Logging    SanityTestTT
     Run Keyword If    ${has_dataplane}    Clean Up Linux
     Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test TT
     #Run Keyword If    ${has_dataplane}    Clean Up Linux
@@ -98,7 +97,7 @@ Sanity E2E Test for TT (MCAST)
     [Tags]    sanityTT-MCAST
     [Setup]    Run Keyword    Start Logging    SanityTestTT-MCAST
     [Teardown]    Run Keywords    Collect Logs
-    ...           AND             Stop Logging    SanityTestTT-MCAST
+    ...    AND    Stop Logging    SanityTestTT-MCAST
     Run Keyword If    ${has_dataplane}    Clean Up Linux
     Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test TT MCAST
 
@@ -107,8 +106,7 @@ Setup Suite
     [Documentation]    Set up the test suite
     Common Test Suite Setup
     ${switch_type}=    Get Variable Value    ${web_power_switch.type}
-    Run Keyword If  "${switch_type}"!=""    Set Global Variable    ${powerswitch_type}    ${switch_type}
-
+    Run Keyword If    "${switch_type}"!=""    Set Global Variable    ${powerswitch_type}    ${switch_type}
 
 Clear All Devices Then Create New Device
     [Documentation]    Remove any devices from VOLTHA and ONOS
@@ -116,7 +114,6 @@ Clear All Devices Then Create New Device
     Delete All Devices and Verify
     # Execute normal test Setup Keyword
     Setup
-
 
 Teardown Suite
     [Documentation]    Tear down steps for the suite

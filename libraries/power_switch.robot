@@ -14,13 +14,13 @@
 
 *** Settings ***
 Documentation     Library for Web Power Switch, support DLI(Digital Loggers)
-                  ...    and EPC(Expert Power Control)
+...               and EPC(Expert Power Control)
 Library           Collections
 Library           RequestsLibrary
 
 *** Variables ***
-${timeout}       60s
-${alias_name}    Switch Outlet
+${timeout}        60s
+${alias_name}     Switch Outlet
 
 *** Keywords ***
 Power Switch Connection Suite
@@ -37,18 +37,17 @@ Enable Switch Outlet
     [Documentation]    Enable specific outlet of the Web Power Switch
     Variable Should Exist    ${powerswitch_type}
     ...    'Miss Global Variable powerswitch_type, available options are EPC, DLI'
-    Run Keyword IF    '${powerswitch_type}' == 'DLI'    Enable DLI Switch Outlet   ${outlet_number}
-    ...    ELSE IF    '${powerswitch_type}' == 'EPC'    Enable EPC Switch Outlet   ${outlet_number}
+    Run Keyword IF    '${powerswitch_type}' == 'DLI'    Enable DLI Switch Outlet    ${outlet_number}
+    ...    ELSE IF    '${powerswitch_type}' == 'EPC'    Enable EPC Switch Outlet    ${outlet_number}
     ...    ELSE    Fail    'The Power Switch Type unsupported: ${powerswitch_type}'
-
 
 Disable Switch Outlet
     [Arguments]    ${outlet_number}
     [Documentation]    Disable specific outlet of the web Power Switch
     Variable Should Exist    ${powerswitch_type}
     ...    'Miss Global Variable powerswitch_type, available options are EPC, DLI'
-    Run Keyword IF    '${powerswitch_type}' == 'DLI'    Disable DLI Switch Outlet   ${outlet_number}
-    ...    ELSE IF    '${powerswitch_type}' == 'EPC'    Disable EPC Switch Outlet   ${outlet_number}
+    Run Keyword IF    '${powerswitch_type}' == 'DLI'    Disable DLI Switch Outlet    ${outlet_number}
+    ...    ELSE IF    '${powerswitch_type}' == 'EPC'    Disable EPC Switch Outlet    ${outlet_number}
     ...    ELSE    Fail    'The Power Switch Type unsupported: ${powerswitch_type}'
 
 Check Expected Switch Outlet Status
@@ -59,8 +58,8 @@ Check Expected Switch Outlet Status
     Run Keyword IF    '${powerswitch_type}' == 'DLI'    Check Expected DLI Switch Outlet Status    ${outlet_number}
     ...    ELSE IF    '${powerswitch_type}' == 'EPC'    Check Expected EPC Switch Outlet Status    ${outlet_number}
     ...    ELSE    Fail    'The Power Switch Type unsupported: ${powerswitch_type}'
-
 #Intenal Use Only
+
 Setup DLI Power Switch
     [Arguments]    ${ip}    ${username}    ${password}
     [Documentation]    Setup The HTTP Session To Web Power Switch
@@ -81,15 +80,14 @@ Setup EPC Power Switch
     Create Digest Session    alias=${alias_name}    url=http://${ip}
     ...    auth=${auth}    headers=${headers}
 
-
 Enable DLI Switch Outlet
     [Arguments]    ${outlet_number}
     [Documentation]    Enable specific outlet of DLI power switch
     # Port number starts from 0 in DLI API
     # Pass the original outlet number to Check function to avoid duplicated calculation
-    ${new_outlet_number}=   Evaluate    ${outlet_number}-1
+    ${new_outlet_number}=    Evaluate    ${outlet_number}-1
     ${resp}=    Put Request    alias=${alias_name}    uri==${new_outlet_number}/state/    data=value=true
-    Should Be Equal As Strings  ${resp.status_code}  207
+    Should Be Equal As Strings    ${resp.status_code}    207
     Wait Until Keyword Succeeds    ${timeout}    2s
     ...    Check Expected DLI Switch Outlet Status    ${outlet_number}    true
 
@@ -105,9 +103,9 @@ Disable DLI Switch Outlet
     [Documentation]    Disable specific outlet of DLI Power Switch
     # Port number starts from 0 in DLI API
     # Pass the original outlet number to Check function to avoid duplicated calculation
-    ${new_outlet_number}=   Evaluate    ${outlet_number}-1
+    ${new_outlet_number}=    Evaluate    ${outlet_number}-1
     ${resp}=    Put Request    alias=${alias_name}    uri==${new_outlet_number}/state/    data=value=false
-    Should Be Equal As Strings  ${resp.status_code}  207
+    Should Be Equal As Strings    ${resp.status_code}    207
     Wait Until Keyword Succeeds    ${timeout}    2s
     ...    Check Expected DLI Switch Outlet Status    ${outlet_number}    false
 
@@ -122,16 +120,16 @@ Check Expected DLI Switch Outlet Status
     [Arguments]    ${outlet_number}    ${status}
     [Documentation]    Succeeds if the status of the desired DLI switch outlet is expected
     # Port number starts from 0 in DLI API
-    ${outlet_number}=   Evaluate    ${outlet_number}-1
+    ${outlet_number}=    Evaluate    ${outlet_number}-1
     ${resp}=    Get Request    alias=${alias_name}    uri==${outlet_number}/state/
-    Should Be Equal As Strings  ${resp.text}  [${status}]
+    Should Be Equal As Strings    ${resp.text}    [${status}]
 
 Check Expected EPC Switch Outlet Status
     [Arguments]    ${outlet_number}    ${status}
     [Documentation]    Succeeds if the status of the desired EPC switch outlet is expected
     ${resp}=    Get Request    alias=${alias_name}    uri=statusjsn.js?components=1
-    ${outlet_number}=  Convert To Number  ${outlet_number}
+    ${outlet_number}=    Convert To Number    ${outlet_number}
     ${rc}    ${outlet_status}    Run and Return Rc And Output
     ...    echo '${resp.text}' | jq -r .outputs[${outlet_number - 1}].state
     Should Be Equal As Integers    0    ${rc}
-    Should Be Equal As Strings  ${outlet_status}  ${status}
+    Should Be Equal As Strings    ${outlet_status}    ${status}

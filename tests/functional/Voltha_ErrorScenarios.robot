@@ -50,23 +50,22 @@ ${logical_id}     0
 ${has_dataplane}    True
 ${teardown_device}    False
 ${scripts}        ../../scripts
-${workflow}    ATT
-
+${workflow}       ATT
 # Per-test logging on failure is turned off by default; set this variable to enable
 ${container_log_dir}    ${None}
 
 *** Test Cases ***
 Adding the same OLT before and after enabling the device
     [Documentation]    Create OLT, Create the same OLT again and Check for the Error message
-    ...                VOL-2405  VOL-2406
-    [Tags]    AddSameOLT   functional    released
+    ...    VOL-2405    VOL-2406
+    [Tags]    AddSameOLT    functional    released
     [Setup]    Start Logging    AddSameOLT
-    [Teardown]   Run Keywords     Collect Logs
-    ...          AND              Stop Logging    AddSameOLT
+    [Teardown]    Run Keywords    Collect Logs
+    ...    AND    Stop Logging    AddSameOLT
     # Add OLT device
     #setup
     Delete All Devices and Verify
-    Run Keyword and Ignore Error   Collect Logs
+    Run Keyword and Ignore Error    Collect Logs
     ${olt_device_id}=    Create Device    ${olt_ip}    ${OLT_PORT}
     Set Suite Variable    ${olt_device_id}
     ${timeout}    Set Variable    180s
@@ -75,7 +74,7 @@ Adding the same OLT before and after enabling the device
     ${rc}    ${output}=    Run and Return Rc and Output
     ...    ${VOLTCTL_CONFIG}; voltctl device create -t openolt -H ${olt_ip}:${OLT_PORT}
     Should Not Be Equal As Integers    ${rc}    0
-    Should Contain     ${output}     device is already pre-provisioned    ignore_case=True
+    Should Contain    ${output}    device is already pre-provisioned    ignore_case=True
     #Enable the created OLT device
     Enable Device    ${olt_device_id}
     Wait Until Keyword Succeeds    ${timeout}    5s    Validate OLT Device    ENABLED    ACTIVE    REACHABLE
@@ -84,19 +83,19 @@ Adding the same OLT before and after enabling the device
     ...    ${VOLTCTL_CONFIG}; voltctl device create -t openolt -H ${olt_ip}:${OLT_PORT}
     Should Not Be Equal As Integers    ${rc}    0
     Log    ${output}
-    Should Contain     ${output}    device is already pre-provisioned    ignore_case=True
+    Should Contain    ${output}    device is already pre-provisioned    ignore_case=True
     Log    "This OLT is added already and enabled"
 
 Test Disable or Enable different device id which is not in the device list
-    [Documentation]    Disable or Enable  a device id which is not listed in the voltctl device list
+    [Documentation]    Disable or Enable    a device id which is not listed in the voltctl device list
     ...    command and ensure that error message is shown.
     ...    VOL-2412-2413
     [Tags]    functional    DisableEnableInvalidDevice    released
     [Setup]    Start Logging    DisableInvalidDevice
     [Teardown]    Run Keywords    Collect Logs
-    ...           AND             Stop Logging    DisableInvalidDevice
-    Run Keyword and Ignore Error   Collect Logs
-    ${rc}  ${output}=    Run and Return Rc and Output    ${VOLTCTL_CONFIG}; voltctl device list -o json
+    ...    AND    Stop Logging    DisableInvalidDevice
+    Run Keyword and Ignore Error    Collect Logs
+    ${rc}    ${output}=    Run and Return Rc and Output    ${VOLTCTL_CONFIG}; voltctl device list -o json
     Should Be Equal As Integers    ${rc}    0
     ${jsondata}=    To Json    ${output}
     Log    ${jsondata}
@@ -108,18 +107,18 @@ Test Disable or Enable different device id which is not in the device list
         Append To List    ${ids}    ${device_id}
     END
     #Create a new fake device id
-    ${fakeDeviceId}    Replace String Using Regexp          ${device_id}    \\d\\d     xx    count=1
-    Log     ${fakeDeviceId}
+    ${fakeDeviceId}    Replace String Using Regexp    ${device_id}    \\d\\d    xx    count=1
+    Log    ${fakeDeviceId}
     #Ensure that the new id created is not in the device id list
     List Should Not Contain Value    ${ids}    ${fakeDeviceId}
     #Disable fake device id
-    ${rc}  ${output}=    Run and Return Rc and Output    ${VOLTCTL_CONFIG}; voltctl device disable ${fakeDeviceId}
-    Should Contain    ${output}     Error while disabling '${fakeDeviceId}'
+    ${rc}    ${output}=    Run and Return Rc and Output    ${VOLTCTL_CONFIG}; voltctl device disable ${fakeDeviceId}
+    Should Contain    ${output}    Error while disabling '${fakeDeviceId}'
     #Disable device for VOL-2413
     Disable Device    ${device_id}
     #Enable fake device id
-    ${rc}  ${output}=    Run and Return Rc and Output    ${VOLTCTL_CONFIG}; voltctl device enable ${fakeDeviceId}
-    Should Contain    ${output}     Error while enabling '${fakeDeviceId}'
+    ${rc}    ${output}=    Run and Return Rc and Output    ${VOLTCTL_CONFIG}; voltctl device enable ${fakeDeviceId}
+    Should Contain    ${output}    Error while enabling '${fakeDeviceId}'
 
 Check deletion of OLT/ONU before disabling
     [Documentation]    Try deleting OL/ONU before disabling and check error message
@@ -128,9 +127,9 @@ Check deletion of OLT/ONU before disabling
     ...    VOL-2411
     #TODO: If this TC gets updated in future, To add support for DT workflow as well (refer JIRA: VOL-2945)
     [Tags]    functional    DeleteBeforeDisableCheck    notready
-    [Setup]   Start Logging    DeleteBeforeDisableCheck
+    [Setup]    Start Logging    DeleteBeforeDisableCheck
     [Teardown]    Run Keywords    Collect Logs
-    ...           AND             Stop Logging    DeleteBeforeDisableCheck
+    ...    AND    Stop Logging    DeleteBeforeDisableCheck
     #validate olt states
     Run Keyword If    ${has_dataplane}    Clean Up Linux
     Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test
@@ -138,21 +137,21 @@ Check deletion of OLT/ONU before disabling
     ...    ${olt_serial_number}
     ${rc}    ${output}=    Run and Return Rc and Output    ${VOLTCTL_CONFIG}; voltctl device delete ${olt_device_id}
     Log    ${output}
-    Should Contain     ${output}     expected-admin-state:DISABLED
+    Should Contain    ${output}    expected-admin-state:DISABLED
     Wait Until Keyword Succeeds    ${timeout}    5s
     ...    Validate OLT Device    ENABLED    ACTIVE    REACHABLE    ${olt_serial_number}
     ${of_id}=    Wait Until Keyword Succeeds    ${timeout}    15s    Validate OLT Device in ONOS    ${olt_serial_number}
     Set Global Variable    ${of_id}
     FOR    ${I}    IN RANGE    0    ${num_onus}
-	${src}=    Set Variable    ${hosts.src[${I}]}
-	${dst}=    Set Variable    ${hosts.dst[${I}]}
-	${onu_device_id}=    Get Device ID From SN    ${src['onu']}
-	Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s    Validate Device
-	...    ENABLED    ACTIVE    REACHABLE
-	...    ${src['onu']}    onu=True    onu_reason=omci-flows-pushed
-	${rc}    ${output}=    Run and Return Rc and Output    ${VOLTCTL_CONFIG}; voltctl device delete ${onu_device_id}
-	Log    ${output}
-	Should Contain     ${output}     expected-admin-state:DISABLED
+        ${src}=    Set Variable    ${hosts.src[${I}]}
+        ${dst}=    Set Variable    ${hosts.dst[${I}]}
+        ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
+        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s    Validate Device
+        ...    ENABLED    ACTIVE    REACHABLE
+        ...    ${src['onu']}    onu=True    onu_reason=omci-flows-pushed
+        ${rc}    ${output}=    Run and Return Rc and Output    ${VOLTCTL_CONFIG}; voltctl device delete ${onu_device_id}
+        Log    ${output}
+        Should Contain    ${output}    expected-admin-state:DISABLED
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s    Validate Device
         ...    ENABLED    ACTIVE    REACHABLE
         ...    ${src['onu']}    onu=True    onu_reason=omci-flows-pushed
@@ -160,12 +159,12 @@ Check deletion of OLT/ONU before disabling
 
 Check disabling of pre-provisioned OLT before enabling
     [Documentation]    Create OLT, disable same OLT, check error message and validates ONU
-    ...                VOL-2414
+    ...    VOL-2414
     [Tags]    functional    DisablePreprovisionedOLTCheck
-    [Setup]   Run Keywords    Start Logging    DisablePreprovisionedOLTCheck
-    ...       AND             Delete All Devices and Verify
+    [Setup]    Run Keywords    Start Logging    DisablePreprovisionedOLTCheck
+    ...    AND    Delete All Devices and Verify
     [Teardown]    Run Keywords    Collect Logs
-    ...           AND             Stop Logging    DisablePreprovisionedOLTCheck
+    ...    AND    Stop Logging    DisablePreprovisionedOLTCheck
     Sleep    180s
     Run Keyword and Ignore Error    Collect Logs
     #create/preprovision device
@@ -178,7 +177,7 @@ Check disabling of pre-provisioned OLT before enabling
     ${rc}    ${output}=    Run and Return Rc and Output    ${VOLTCTL_CONFIG}; voltctl device disable ${olt_device_id}
     Should Not Be Equal As Integers    ${rc}    0
     Log    ${output}
-    Should Contain     ${output}     invalid-admin-state:PREPROVISIONED
+    Should Contain    ${output}    invalid-admin-state:PREPROVISIONED
     #Enable OLT
     Enable Device    ${olt_device_id}
     Wait Until Keyword Succeeds    ${timeout}    5s    Validate OLT Device    ENABLED    ACTIVE    REACHABLE
@@ -187,22 +186,22 @@ Check disabling of pre-provisioned OLT before enabling
     Set Suite Variable    ${logical_id}
     ${onu_reason}=    Set Variable If    '${workflow}' == 'DT'    initial-mib-downloaded    omci-flows-pushed
     FOR    ${I}    IN RANGE    0    ${num_onus}
-	${src}=    Set Variable    ${hosts.src[${I}]}
-	${dst}=    Set Variable    ${hosts.dst[${I}]}
-	Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s    Validate Device
-	...    ENABLED    ACTIVE    REACHABLE
-	...    ${src['onu']}    onu=True    onu_reason=${onu_reason}
+        ${src}=    Set Variable    ${hosts.src[${I}]}
+        ${dst}=    Set Variable    ${hosts.dst[${I}]}
+        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s    Validate Device
+        ...    ENABLED    ACTIVE    REACHABLE
+        ...    ${src['onu']}    onu=True    onu_reason=${onu_reason}
     END
 
 Disable and Delete the logical device directly
     [Documentation]    Disable and delete the logical device directly is not possible
     ...    since it is allowed only through OLT device deletion.
     ...    VOL-2418
-    [Tags]    functional     DisableDelete_LogicalDevice
-    [Setup]   Run Keywords    Start Logging    DisableDelete_LogicalDevice
-    ...       AND             Delete All Devices and Verify
+    [Tags]    functional    DisableDelete_LogicalDevice
+    [Setup]    Run Keywords    Start Logging    DisableDelete_LogicalDevice
+    ...    AND    Delete All Devices and Verify
     [Teardown]    Run Keywords    Collect Logs
-    ...           AND             Stop Logging    DisableDelete_LogicalDevice
+    ...    AND    Stop Logging    DisableDelete_LogicalDevice
     Run Keyword If    ${has_dataplane}    Sleep    180s
     #create/preprovision OLT device
     ${olt_device_id}=    Create Device    ${olt_ip}    ${OLT_PORT}
@@ -225,21 +224,21 @@ Disable and Delete the logical device directly
     ...    ${VOLTCTL_CONFIG}; voltctl logicaldevice disable ${logical_id}
     Should Not Be Equal As Integers    ${rc}    0
     Log    ${output}
-    Should Contain     '${output}'     Unknown command
+    Should Contain    '${output}'    Unknown command
     ${rc}    ${output1}=    Run and Return Rc and Output
     ...    ${VOLTCTL_CONFIG}; voltctl logicaldevice delete ${logical_id}
     Should Not Be Equal As Integers    ${rc}    0
     Log    ${output1}
-    Should Contain     '${output1}'     Unknown command
+    Should Contain    '${output1}'    Unknown command
 
 Check logical device creation and deletion
     [Documentation]    Deletes all devices, checks logical device, creates devices again and checks
     ...    logical device, flows, ports
     ...    VOL-2416 VOL-2417
     [Tags]    functional    LogicalDeviceCheck
-    [Setup]   Start Logging    LogicalDeviceCheck
+    [Setup]    Start Logging    LogicalDeviceCheck
     [Teardown]    Run Keywords    Collect Logs
-    ...           AND             Stop Logging    LogicalDeviceCheck
+    ...    AND    Stop Logging    LogicalDeviceCheck
     Delete All Devices and Verify
     ${logical_id}=    Get Logical Device ID From SN    ${olt_serial_number}
     Should Be Empty    ${logical_id}
@@ -257,7 +256,7 @@ Check logical device creation and deletion
     ...    ${VOLTCTL_CONFIG}; voltctl logicaldevice list
     Should Be Equal As Integers    ${rc}    0
     Log    ${output}
-    Should Contain     ${output}    ${olt_device_id}
+    Should Contain    ${output}    ${olt_device_id}
     Set Suite Variable    ${logical_id}
     Wait Until Keyword Succeeds    ${timeout}    5s    Validate Logical Device Ports    ${logical_id}
     Wait Until Keyword Succeeds    ${timeout}    5s    Validate Logical Device Flows    ${logical_id}

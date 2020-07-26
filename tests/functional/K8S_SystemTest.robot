@@ -37,7 +37,6 @@ ${common_pod_label_key}    app
 ${rwcore_pod_label_value}    rw-core
 ${ofagent_pod_label_value}    ofagent
 ${adapter_openolt_pod_label_value}    adapter-open-olt
-
 # Per-test logging on failure is turned off by default; set this variable to enable
 ${container_log_dir}    ${None}
 
@@ -46,10 +45,10 @@ ETCD Scale Test
     [Documentation]    Perform the sanity test if some ETCD endpoints crash
     [Tags]    functional    bbsim
     [Setup]    Run Keywords    Start Logging    EtcdScaleTest
-    ...        AND    Setup
+    ...    AND    Setup
     [Teardown]    Run Keywords    Collect Logs
-    ...           AND    Teardown Suite
-    ...           AND    Stop Logging    EtcdScaleTest
+    ...    AND    Teardown Suite
+    ...    AND    Stop Logging    EtcdScaleTest
     ${current_size}=    Get ETCD Replica Count    ${ETCD_namespace}
     Pass Execution If    '${current_size}' != '${desired_ETCD_cluster_size}'
     ...    'Skip the test if the cluster size smaller than minimal size 3'
@@ -70,7 +69,7 @@ ETCD Failure Test
     [Tags]    FailureTest
     [Setup]    Start Logging    EtcdFailureTest
     [Teardown]    Run Keywords    Collect Logs
-    ...              AND    Stop Logging    EtcdFailureTest
+    ...    AND    Stop Logging    EtcdFailureTest
     Delete K8s Pods By Label    ${ETCD_namespace}    ${ETCD_pod_label_key}    ${ETCD_name}
     #Wait Until Keyword Succeeds    ${timeout}    2s
     #...    Pods Do Not Exist By Label    ${ETCD_namespace}    ${ETCD_pod_label_key}    ${ETCD_name}

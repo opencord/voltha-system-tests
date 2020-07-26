@@ -61,7 +61,7 @@ Exec Pod
     ${rc}    ${output}=    Run and Return Rc and Output
     ...    kubectl exec -i ${exec_pod_name} -n ${namespace} -- ${command}
     Log    ${output}
-    [return]    ${output}
+    [Return]    ${output}
 
 Exec Pod Separate Stderr
     [Arguments]    ${namespace}    ${name}    ${command}
@@ -70,14 +70,14 @@ Exec Pod Separate Stderr
     ...    kubectl get pods -n ${namespace} | grep ${name} | awk 'NR==1{print $1}'
     Log    ${exec_pod_name}
     Should Not Be Empty    ${exec_pod_name}    Unable to parse pod name
-    @{args}=     Split String    ${command}
+    @{args}=    Split String    ${command}
     ${result}=    Run Process
-    ...    kubectl     exec     -i     ${exec_pod_name}     -n     ${namespace}     --     @{args}
+    ...    kubectl    exec    -i    ${exec_pod_name}    -n    ${namespace}    --    @{args}
     ${stdout}=    Set Variable    ${result.stdout}
     ${stderr}=    Set Variable    ${result.stderr}
     Log    ${stdout}
     Log    ${stderr}
-    [return]    ${stdout}    ${stderr}
+    [Return]    ${stdout}    ${stderr}
 
 Copy File To Pod
     [Arguments]    ${namespace}    ${name}    ${src}    ${dest}
@@ -89,7 +89,7 @@ Copy File To Pod
     ${rc}    ${output}=    Run and Return Rc and Output
     ...    kubectl cp -n ${namespace} ${src} ${exec_pod_name}:${dest}
     Log    ${output}
-    [return]    ${output}
+    [Return]    ${output}
 
 Apply Kubernetes Resources
     [Arguments]    ${resource_yaml}    ${namespace}
@@ -106,7 +106,7 @@ Delete Kubernetes Resources
     Should Be Equal as Integers    ${rc}    0
 
 Validate Pod Status
-    [Arguments]    ${pod_name}    ${namespace}   ${expectedStatus}
+    [Arguments]    ${pod_name}    ${namespace}    ${expectedStatus}
     [Documentation]    To run the kubectl command and check the status of the given pod matches the expected status
     ${length}=    Run    kubectl get pod -n ${namespace} -o name | wc -l
     ${matched}=    Set Variable    False
@@ -125,7 +125,7 @@ Validate Pod Status
     Should Contain    ${currentStatusofPod}    ${expectedStatus}
 
 Validate Pods Status By Label
-    [Arguments]    ${namespace}    ${label_key}   ${label_value}    ${expectedStatus}
+    [Arguments]    ${namespace}    ${label_key}    ${label_value}    ${expectedStatus}
     [Documentation]    To run the kubectl command and check the status of all pods filter
     ...    by label matche the expected status
     ${command}=    Catenate
@@ -367,4 +367,3 @@ Check Expected Running Pods Number By Label
     ${rc}    ${count}    Run and Return Rc and Output
     ...    kubectl -n ${namespace} get pods -l ${key}=${value} -o json | jq -r ".items[].status.phase" | wc -l
     Should Be Equal as Integers    ${count}    ${number}
-

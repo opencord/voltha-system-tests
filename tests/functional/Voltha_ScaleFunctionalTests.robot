@@ -13,8 +13,8 @@
 # limitations under the License.
 
 *** Settings ***
-Documentation    Test suite that engages a larger number of ONU at the same which makes it a more realistic test
-...    It is addaptable to either BBSim or Real H/W using a configuration file
+Documentation     Test suite that engages a larger number of ONU at the same which makes it a more realistic test
+...               It is addaptable to either BBSim or Real H/W using a configuration file
 Suite Setup       Setup Suite
 Suite Teardown    Teardown Suite
 Library           Collections
@@ -30,10 +30,10 @@ Resource          ../../libraries/k8s.robot
 Resource          ../../variables/variables.robot
 
 *** Variables ***
-${timeout}         60s
+${timeout}        60s
 ${long_timeout}    420
-${of_id}           0
-${logical_id}      0
+${of_id}          0
+${logical_id}     0
 ${has_dataplane}    True
 ${teardown_device}    False
 
@@ -49,12 +49,12 @@ Activate Devices OLT/ONU
     ${olt_device_id}=    Create Device    ${olt_ip}    ${OLT_PORT}
     Set Global Variable    ${olt_device_id}
     #validate olt states
-    Wait Until Keyword Succeeds    ${timeout}    5s    Validate OLT Device   PREPROVISIONED    UNKNOWN    UNKNOWN
+    Wait Until Keyword Succeeds    ${timeout}    5s    Validate OLT Device    PREPROVISIONED    UNKNOWN    UNKNOWN
     ...    ${olt_device_id}
     #enable device
     Enable Device    ${olt_device_id}
     #validate olt states
-    Wait Until Keyword Succeeds    ${timeout}    5s    Validate OLT Device   ENABLED    ACTIVE    REACHABLE
+    Wait Until Keyword Succeeds    ${timeout}    5s    Validate OLT Device    ENABLED    ACTIVE    REACHABLE
     ...    ${olt_device_id}
 
 ONU Discovery
@@ -75,7 +75,7 @@ Verify AAA-Users Authentication
     ${List_ONU_Serial}    Create List
     Set Suite Variable    ${List_ONU_Serial}
     Build ONU SN List    ${List_ONU_Serial}
-    Wait Until Keyword Succeeds    ${long_timeout}    60s   Verify Number of AAA-Users    ${ONOS_SSH_IP}
+    Wait Until Keyword Succeeds    ${long_timeout}    60s    Verify Number of AAA-Users    ${ONOS_SSH_IP}
     ...    ${ONOS_SSH_PORT}    16
 
 Validate Device's Ports and Flows
@@ -121,16 +121,16 @@ Validate Total Number Of DHCP Allocations
     [Documentation]    Verify dhcp allocation for multiple ONU user
     [Tags]    VOL-1824    active
     #validate total number of DHCP allocations
-    Wait Until Keyword Succeeds  ${long_timeout}  20s  Validate DHCP Allocations  ${ONOS_SSH_IP}
-    ...    ${ONOS_SSH_PORT}        16
+    Wait Until Keyword Succeeds    ${long_timeout}    20s    Validate DHCP Allocations    ${ONOS_SSH_IP}
+    ...    ${ONOS_SSH_PORT}    16
     #validate DHCP allocation for each port
     FOR    ${I}    IN RANGE    0    ${num_onus}
         ${src}=    Set Variable    ${hosts.src[${I}]}
         ${dst}=    Set Variable    ${hosts.dst[${I}]}
         ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
-        ${onu_port}=    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds  ${timeout}    2s
+        ${onu_port}=    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
         ...    Get ONU Port in ONOS    ${src['onu']}    ${of_id}
-        Wait Until Keyword Succeeds  ${long_timeout}  20s  Validate Subscriber DHCP Allocation  ${ONOS_SSH_IP}
+        Wait Until Keyword Succeeds    ${long_timeout}    20s    Validate Subscriber DHCP Allocation    ${ONOS_SSH_IP}
         ...    ${ONOS_SSH_PORT}    ${onu_port}
     END
 
@@ -158,15 +158,15 @@ Validate Peer Devices
     Validate ONU Peer Id    ${olt_device_id}    ${List_ONU_Serial}
 
 Test Disable and Enable ONU
-    [Documentation]     Perform disable/enable on the ONUs and validate test assertions
-    [Tags]      active  VOL-2732
+    [Documentation]    Perform disable/enable on the ONUs and validate test assertions
+    [Tags]    active    VOL-2732
     FOR    ${I}    IN RANGE    0    ${num_onus}
         ${src}=    Set Variable    ${hosts.src[${I}]}
         ${dst}=    Set Variable    ${hosts.dst[${I}]}
         ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
         Disable Device    ${onu_device_id}
     END
-    Wait Until Keyword Succeeds    ${long_timeout}     20s    Validate ONU Devices
+    Wait Until Keyword Succeeds    ${long_timeout}    20s    Validate ONU Devices
     ...    DISABLED    UNKNOWN    REACHABLE    ${List_ONU_Serial}    omci-admin-lock
     FOR    ${I}    IN RANGE    0    ${num_onus}
         ${src}=    Set Variable    ${hosts.src[${I}]}
@@ -174,7 +174,7 @@ Test Disable and Enable ONU
         ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
         Enable Device    ${onu_device_id}
     END
-    Wait Until Keyword Succeeds    ${long_timeout}    20s     Validate ONU Devices
+    Wait Until Keyword Succeeds    ${long_timeout}    20s    Validate ONU Devices
     ...    ENABLED    ACTIVE    REACHABLE    ${List_ONU_Serial}
 
 *** Keywords ***

@@ -2,7 +2,6 @@
 Documentation     Test various end-to-end scenarios with multiple OLTs
 Suite Setup       Setup Suite
 Suite Teardown    Teardown Suite
-Test Setup
 Test Teardown     Teardown
 Library           Collections
 Library           String
@@ -70,7 +69,7 @@ Setup Suite
     Set Global Variable    ${VOLTCTL_CONFIG}    export VOLTCONFIG=%{VOLTCONFIG}
     ${k8s_node_ip}=    Evaluate    ${nodes}[0].get("ip")
     ${ONOS_REST_IP}=    Get Environment Variable    ONOS_REST_IP    ${k8s_node_ip}
-    ${ONOS_SSH_IP}=     Get Environment Variable    ONOS_SSH_IP     ${k8s_node_ip}
+    ${ONOS_SSH_IP}=    Get Environment Variable    ONOS_SSH_IP    ${k8s_node_ip}
     Set Global Variable    ${ONOS_REST_IP}
     Set Global Variable    ${ONOS_SSH_IP}
     ${k8s_node_user}=    Evaluate    ${nodes}[0].get("user")
@@ -165,8 +164,8 @@ Do Sanity Test
         ${onu_port}=    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
         ...    Get ONU Port in ONOS    ${src['onu']}    ${of_id}
         # Check ONU port is Enabled in ONOS
-        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds   120s   2s
-        ...    Verify ONU Port Is Enabled   ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${onu_port}
+        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    120s    2s
+        ...    Verify ONU Port Is Enabled    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${onu_port}
         # Verify EAPOL flows are added for the ONU port
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
         ...    Verify Eapol Flows Added For ONU    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${onu_port}
@@ -202,4 +201,3 @@ Do Sanity Test
         Run Keyword and Ignore Error    Get Device Output from Voltha    ${onu_device_id}
         Run Keyword and Ignore Error    Collect Logs
     END
-

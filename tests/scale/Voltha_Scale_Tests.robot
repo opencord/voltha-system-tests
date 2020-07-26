@@ -22,22 +22,22 @@
 # - [dhcp] Checks that subscribers have received an IP
 #
 # To run the full test:
-#   robot Voltha_Scale_Tests.robot
+#                 robot Voltha_Scale_Tests.robot
 #
 # To run only ceratain tests:
-#   robot -i activation -i flow-before Voltha_Scale_Tests.robot
+#                 robot -i activation -i flow-before Voltha_Scale_Tests.robot
 #
 # To exclude only ceratain tests:
-#   robot -e -i flow-before Voltha_Scale_Tests.robot
+#                 robot -e -i flow-before Voltha_Scale_Tests.robot
 #
 # Once te test complete you can extrapolate the results by using
-#   python extract-times.py
+#                 python extract-times.py
 
 *** Settings ***
 Documentation     Collect measurements on VOLTHA performances
 Suite Setup       Setup Suite
-#Test Setup        Setup
-#Test Teardown     Teardown
+#Test Setup       Setup
+#Test Teardown    Teardown
 #Suite Teardown    Teardown Suite
 Library           Collections
 Library           String
@@ -53,127 +53,120 @@ Resource          ../../libraries/k8s.robot
 Resource          ../../variables/variables.robot
 
 *** Variables ***
-${ONOS_SSH_IP}  127.0.0.1
+${ONOS_SSH_IP}    127.0.0.1
 ${ONOS_SSH_PORT}    8101
 ${ONOS_REST_PORT}    8181
-
 # Scale pipeline values
-${olt}  1
-${pon}  1
-${onu}  1
-
-${enableFlowProvisioning}   true
-${enableSubscriberProvisioning}     true
-
-${workflow}     att
-${withEapol}    false
-${withDhcp}    false
-${withIgmp}    false
+${olt}            1
+${pon}            1
+${onu}            1
+${enableFlowProvisioning}    true
+${enableSubscriberProvisioning}    true
+${workflow}       att
+${withEapol}      false
+${withDhcp}       false
+${withIgmp}       false
 # as of now the LLDP flow is always installed
-${withLLDP}   true
-
+${withLLDP}       true
 # Per-test logging on failure is turned off by default; set this variable to enable
 ${container_log_dir}    ${None}
 
 *** Test Cases ***
-
 Create and Enable devices
-    [Documentation]  Create and enable the OLTs in VOLTHA
-    [Tags]      non-critical    setup
-    ${olt_device_ids}=      Create List
+    [Documentation]    Create and enable the OLTs in VOLTHA
+    [Tags]    non-critical    setup
+    ${olt_device_ids}=    Create List
     FOR    ${INDEX}    IN RANGE    0    ${olt}
-        ${olt_device_id}=    Create Device  bbsim${INDEX}     50060     openolt
+        ${olt_device_id}=    Create Device    bbsim${INDEX}    50060    openolt
         Enable Device    ${olt_device_id}
-        Append To List  ${olt_device_ids}    ${olt_device_id}
+        Append To List    ${olt_device_ids}    ${olt_device_id}
     END
-
     Set Suite Variable    ${olt_device_ids}
 
 Onu Activation in VOLTHA
     [Documentation]    Check that all ONUs reach the ACTIVE/ENABLED state in VOLTHA
-    [Tags]      non-critical    activation    plot-voltha-onus
-    Wait For ONUs In VOLTHA     ${total_onus}
+    [Tags]    non-critical    activation    plot-voltha-onus
+    Wait For ONUs In VOLTHA    ${total_onus}
 
 Port Discovery in ONOS
     [Documentation]    Check that all the UNI ports show up in ONOS
-    [Tags]      non-critical    activation    plot-onos-ports
-    Wait for Ports in ONOS      ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}  ${total_onus}   BBSM
+    [Tags]    non-critical    activation    plot-onos-ports
+    Wait for Ports in ONOS    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${total_onus}    BBSM
 
 Flows validation in VOLTHA before subscriber provisioning
     [Documentation]    Check that all the flows has been stored in the logical device
-    [Tags]      non-critical    flow-before   plot-voltha-flows-before
+    [Tags]    non-critical    flow-before    plot-voltha-flows-before
     # NOTE fail the test immediately if we're trying to check flows without provisioning them
-    Should Be Equal   ${enableFlowProvisioning}     true
-    Wait for Logical Devices flows   ${workflow}    ${total_onus}    ${olt}    false
-    ...     ${withEapol}    ${withDhcp}     ${withIgmp}    ${withLLDP}
+    Should Be Equal    ${enableFlowProvisioning}    true
+    Wait for Logical Devices flows    ${workflow}    ${total_onus}    ${olt}    false
+    ...    ${withEapol}    ${withDhcp}    ${withIgmp}    ${withLLDP}
 
 Flows validation in VOLTHA Adapters before subscriber provisioning
-    [Documentation]  Check that all flows has been store in devices of type openolt
-    [Tags]      non-critical    flow-before   plot-voltha-openolt-flows-before  only-me
-    Should Be Equal   ${enableFlowProvisioning}     true
-    Wait for OpenOLT Devices flows   ${workflow}    ${total_onus}    ${olt}    false
-    ...     ${withEapol}    ${withDhcp}     ${withIgmp}    ${withLLDP}
+    [Documentation]    Check that all flows has been store in devices of type openolt
+    [Tags]    non-critical    flow-before    plot-voltha-openolt-flows-before    only-me
+    Should Be Equal    ${enableFlowProvisioning}    true
+    Wait for OpenOLT Devices flows    ${workflow}    ${total_onus}    ${olt}    false
+    ...    ${withEapol}    ${withDhcp}    ${withIgmp}    ${withLLDP}
 
 Flows validation in ONOS before subscriber provisioning
     [Documentation]    Check that all the flows has been acknowledged
-    [Tags]      non-critical    flow-before   plot-onos-flows-before
+    [Tags]    non-critical    flow-before    plot-onos-flows-before
     # NOTE fail the test immediately if we're trying to check flows without provisioning them
-    Should Be Equal   ${enableFlowProvisioning}     true
+    Should Be Equal    ${enableFlowProvisioning}    true
     Wait for all flows to in ADDED state    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}
-    ...     ${workflow}    ${total_onus}    ${olt}    false     ${withEapol}    ${withDhcp}
-    ...     ${withIgmp}   ${withLLDP}
+    ...    ${workflow}    ${total_onus}    ${olt}    false    ${withEapol}    ${withDhcp}
+    ...    ${withIgmp}    ${withLLDP}
 
 Wait for subscribers to be Authenticated
     [Documentation]    Check that all subscribers have successfully authenticated
-    [Tags]      non-critical    authentication    plot-onos-auth
-    Wait for AAA Authentication     ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}  ${total_onus}
+    [Tags]    non-critical    authentication    plot-onos-auth
+    Wait for AAA Authentication    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${total_onus}
 
 Provision subscribers
     [Documentation]    Provision data plane flows for all the subscribers
-    [Tags]      non-critical    provision
-    Should Be Equal   ${enableSubscriberProvisioning}     true
-    ${olts}=    List OLTs   ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}
-    FOR     ${olt}  IN  @{olts}
-        Provision all subscribers on device  ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}     ${ONOS_REST_PORT}  ${olt}
+    [Tags]    non-critical    provision
+    Should Be Equal    ${enableSubscriberProvisioning}    true
+    ${olts}=    List OLTs    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}
+    FOR    ${olt}    IN    @{olts}
+        Provision all subscribers on device    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${ONOS_REST_PORT}    ${olt}
     END
 
 Flows validation in VOLTHA after subscriber provisioning
     [Documentation]    Check that all the flows has been stored in the logical device
-    [Tags]      non-critical    flow-after    plot-voltha-flows-after
+    [Tags]    non-critical    flow-after    plot-voltha-flows-after
     # NOTE fail the test immediately if we're trying to check flows without provisioning them
-    Should Be Equal   ${enableFlowProvisioning}     true
-    Wait for Logical Devices flows   ${workflow}    ${total_onus}    ${olt}    true
-    ...     ${withEapol}    ${withDhcp}     ${withIgmp}    ${withLLDP}
+    Should Be Equal    ${enableFlowProvisioning}    true
+    Wait for Logical Devices flows    ${workflow}    ${total_onus}    ${olt}    true
+    ...    ${withEapol}    ${withDhcp}    ${withIgmp}    ${withLLDP}
 
 Flows validation in VOLTHA Adapters after subscriber provisioning
-    [Documentation]  Check that all flows has been store in devices of type openolt
-    [Tags]      non-critical    flow-after   plot-voltha-openolt-flows-after    only-me
-    Should Be Equal   ${enableFlowProvisioning}     true
-    Wait for OpenOLT Devices flows   ${workflow}    ${total_onus}    ${olt}    true
-    ...     ${withEapol}    ${withDhcp}     ${withIgmp}    ${withLLDP}
+    [Documentation]    Check that all flows has been store in devices of type openolt
+    [Tags]    non-critical    flow-after    plot-voltha-openolt-flows-after    only-me
+    Should Be Equal    ${enableFlowProvisioning}    true
+    Wait for OpenOLT Devices flows    ${workflow}    ${total_onus}    ${olt}    true
+    ...    ${withEapol}    ${withDhcp}    ${withIgmp}    ${withLLDP}
 
 Flows validation in ONOS after subscriber provisioning
     [Documentation]    Check that all the flows has been acknowledged
-    [Tags]      non-critical    flow-after    plot-onos-flows-after
+    [Tags]    non-critical    flow-after    plot-onos-flows-after
     # NOTE fail the test immediately if we're trying to check flows without provisioning them
-    Should Be Equal   ${enableFlowProvisioning}     true
+    Should Be Equal    ${enableFlowProvisioning}    true
     Wait for all flows to in ADDED state    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}
-    ...     ${workflow}    ${total_onus}    ${olt}    true      ${withEapol}    ${withDhcp}
-    ...     ${withIgmp}   ${withLLDP}
+    ...    ${workflow}    ${total_onus}    ${olt}    true    ${withEapol}    ${withDhcp}
+    ...    ${withIgmp}    ${withLLDP}
 
 Wait for subscribers to have an IP
     [Documentation]    Check that all subscribers have received a DHCP_ACK
-    [Tags]      non-critical    dhcp  plot-onos-dhcp
-    Wait for DHCP Ack     ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}  ${total_onus}
+    [Tags]    non-critical    dhcp    plot-onos-dhcp
+    Wait for DHCP Ack    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${total_onus}
 
 Disable and Delete devices
-    [Documentation]  Disable and delete the OLTs in VOLTHA
-    [Tags]      non-critical    teardown
-    FOR    ${olt_device_id}    IN  @{olt_device_ids}
-        Disable Device  ${olt_device_id}
-        Delete Device  ${olt_device_id}
+    [Documentation]    Disable and delete the OLTs in VOLTHA
+    [Tags]    non-critical    teardown
+    FOR    ${olt_device_id}    IN    @{olt_device_ids}
+        Disable Device    ${olt_device_id}
+        Delete Device    ${olt_device_id}
     END
-
     Set Suite Variable    ${olt_device_ids}
 
 *** Keywords ***
@@ -181,7 +174,5 @@ Setup Suite
     [Documentation]    Setup test global variables and starts a timer
     Set Suite Variable    ${KUBECTL_CONFIG}    export KUBECONFIG=%{KUBECONFIG}
     Set Suite Variable    ${VOLTCTL_CONFIG}    export VOLTCONFIG=%{VOLTCONFIG}
-
-    ${total_onus}=   Evaluate    ${olt} * ${pon} * ${onu}
-    Set Suite Variable  ${total_onus}
-
+    ${total_onus}=    Evaluate    ${olt} * ${pon} * ${onu}
+    Set Suite Variable    ${total_onus}

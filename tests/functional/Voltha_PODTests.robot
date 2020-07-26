@@ -51,25 +51,23 @@ ${logical_id}     0
 ${has_dataplane}    True
 ${teardown_device}    False
 ${scripts}        ../../scripts
-
 # For dataplane bandwidth testing
-${upper_margin_pct}      105     # Allow 5% over the limit
-${lower_margin_pct}      92      # Allow 8% under the limit
-${udp_rate_multiplier}   1.10    # Send UDP at bw profile limit * rate_multiplier
-${udp_packet_bytes}      1400    # UDP payload in bytes
-
+${upper_margin_pct}    105    # Allow 5% over the limit
+${lower_margin_pct}    92    # Allow 8% under the limit
+${udp_rate_multiplier}    1.10    # Send UDP at bw profile limit * rate_multiplier
+${udp_packet_bytes}    1400    # UDP payload in bytes
 # Per-test logging on failure is turned off by default; set this variable to enable
 ${container_log_dir}    ${None}
 
 *** Test Cases ***
 Reboot ONUs Physically
-    [Documentation]   This test reboots ONUs physically before execution all the tests
+    [Documentation]    This test reboots ONUs physically before execution all the tests
     ...    Test case runs only on the PODs that are configured with PowerSwitch that
     ...    controls the power off/on ONUs/OLT remotely (simulating a physical reboot)
-    [Tags]    functional   PowerSwitch    RebootAllONUs
+    [Tags]    functional    PowerSwitch    RebootAllONUs
     [Setup]    Start Logging    RebootAllONUs
     [Teardown]    Run Keywords    Collect Logs
-    ...           AND             Stop Logging    RebootAllONUs
+    ...    AND    Stop Logging    RebootAllONUs
     Power Switch Connection Suite    ${web_power_switch.ip}    ${web_power_switch.user}    ${web_power_switch.password}
     FOR    ${I}    IN RANGE    0    ${num_onus}
         ${src}=    Set Variable    ${hosts.src[${I}]}
@@ -85,9 +83,9 @@ Sanity E2E Test for OLT/ONU on POD
     ...    Validate successful authentication/DHCP/E2E ping for the tech profile that is used
     [Tags]    sanity    test1
     [Setup]    Run Keywords    Start Logging    SanityTest
-    ...        AND             Setup
+    ...    AND    Setup
     [Teardown]    Run Keywords    Collect Logs
-    ...           AND             Stop Logging    SanityTest
+    ...    AND    Stop Logging    SanityTest
     Run Keyword If    ${has_dataplane}    Clean Up Linux
     Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test
 
@@ -99,7 +97,7 @@ Test Disable and Enable OLT
     [Tags]    functional    VOL-2410    DisableEnableOLT    notready
     [Setup]    Start Logging    DisableEnableOLT
     [Teardown]    Run Keywords    Collect Logs
-    ...           AND             Stop Logging    DisableEnableOLT
+    ...    AND    Stop Logging    DisableEnableOLT
     #Disable the OLT and verify the OLT/ONUs are disabled properly
     ${rc}    ${output}=    Run and Return Rc and Output    ${VOLTCTL_CONFIG}; voltctl device disable ${olt_device_id}
     Should Be Equal As Integers    ${rc}    0
@@ -139,7 +137,7 @@ Test Disable and Enable ONU
     [Tags]    functional    DisableEnableONU    released
     [Setup]    Start Logging    DisableEnableONU
     [Teardown]    Run Keywords    Collect Logs
-    ...           AND             Stop Logging    DisableEnableONU
+    ...    AND    Stop Logging    DisableEnableONU
     FOR    ${I}    IN RANGE    0    ${num_onus}
         ${src}=    Set Variable    ${hosts.src[${I}]}
         ${dst}=    Set Variable    ${hosts.dst[${I}]}
@@ -173,9 +171,9 @@ Test Subscriber Delete and Add
     ...    Delete a subscriber and validate that the pings do not succeed
     ...    Re-add the subscriber and validate that the pings are successful
     [Tags]    functional    SubAddDelete    released
-    [Setup]    Start Logging     SubAddDelete
+    [Setup]    Start Logging    SubAddDelete
     [Teardown]    Run Keywords    Collect Logs
-    ...           AND             Stop Logging    SubAddDelete
+    ...    AND    Stop Logging    SubAddDelete
     FOR    ${I}    IN RANGE    0    ${num_onus}
         ${src}=    Set Variable    ${hosts.src[${I}]}
         ${dst}=    Set Variable    ${hosts.dst[${I}]}
@@ -217,7 +215,7 @@ Check DHCP attempt fails when subscriber is not added
     [Tags]    functional    SubsRemoveDHCP    released
     [Setup]    Start Logging    SubsRemoveDHCP
     [Teardown]    Run Keywords    Collect Logs
-    ...           AND             Stop Logging    SubsRemoveDHCP
+    ...    AND    Stop Logging    SubsRemoveDHCP
     FOR    ${I}    IN RANGE    0    ${num_onus}
         ${src}=    Set Variable    ${hosts.src[${I}]}
         ${dst}=    Set Variable    ${hosts.dst[${I}]}
@@ -271,15 +269,15 @@ Test Disable and Enable ONU scenario for ATT workflow
     [Tags]    functional    ATT_DisableEnableONU    released
     [Setup]    Start Logging    ATT_DisableEnableONU
     [Teardown]    Run Keywords    Collect Logs
-    ...           AND             Stop Logging    ATT_DisableEnableONU
+    ...    AND    Stop Logging    ATT_DisableEnableONU
     FOR    ${I}    IN RANGE    0    ${num_onus}
         ${src}=    Set Variable    ${hosts.src[${I}]}
         ${dst}=    Set Variable    ${hosts.dst[${I}]}
         ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
         ${onu_port}=    Wait Until Keyword Succeeds    ${timeout}    2s    Get ONU Port in ONOS    ${src['onu']}
         ...    ${of_id}
-        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds   120s   2s
-        ...    Verify ONU Port Is Enabled   ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${src['onu']}
+        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    120s    2s
+        ...    Verify ONU Port Is Enabled    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${src['onu']}
         Disable Device    ${onu_device_id}
         Sleep    10s
         Wait Until Keyword Succeeds    ${timeout}    2s    Execute ONOS CLI Command    ${ONOS_SSH_IP}
@@ -323,7 +321,7 @@ Delete OLT, ReAdd OLT and Perform Sanity Test
     [Tags]    functional    DeleteOLT    released
     [Setup]    Start Logging    DeleteOLT
     [Teardown]    Run Keywords    Collect Logs
-    ...           AND             Stop Logging    DeleteOLT
+    ...    AND    Stop Logging    DeleteOLT
     Run Keyword If    ${has_dataplane}    Clean Up Linux
     Delete Device and Verify
     Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
@@ -331,7 +329,7 @@ Delete OLT, ReAdd OLT and Perform Sanity Test
     Run Keyword and Ignore Error    Collect Logs
     # Recreate the OLT
     Setup
-    Wait Until Keyword Succeeds    ${timeout}   2s    Perform Sanity Test
+    Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test
 
 Check Mib State on OLT recreation after ONU, OLT deletion
     [Documentation]    Assuming that test1 was executed where all the ONUs are authenticated/DHCP/pingable,
@@ -340,7 +338,7 @@ Check Mib State on OLT recreation after ONU, OLT deletion
     [Tags]    functional    CheckMibState    notready
     [Setup]    Start Logging    CheckMibState
     [Teardown]    Run Keywords    Collect Logs
-    ...           AND             Stop Logging    CheckMibState
+    ...    AND    Stop Logging    CheckMibState
     #Disable and Delete the ONU
     FOR    ${I}    IN RANGE    0    ${num_onus}
         ${src}=    Set Variable    ${hosts.src[${I}]}
@@ -350,7 +348,7 @@ Check Mib State on OLT recreation after ONU, OLT deletion
         ...    ${of_id}
         Disable Device    ${onu_device_id}
         Wait Until Keyword Succeeds    20s    2s    Test Devices Disabled in VOLTHA    Id=${onu_device_id}
-        Delete Device     ${onu_device_id}
+        Delete Device    ${onu_device_id}
     END
     #Disable and Delete the OLT
     Delete Device and Verify
@@ -384,7 +382,7 @@ Test disable ONUs and OLT then delete ONUs and OLT
     [Tags]    functional    VOL-2354    DisableDeleteONUandOLT    released
     [Setup]    Start Logging    DisableDeleteONUandOLT
     [Teardown]    Run Keywords    Collect Logs
-    ...           AND             Stop Logging    DisableDeleteONUandOLT
+    ...    AND    Stop Logging    DisableDeleteONUandOLT
     ${olt_device_id}=    Get Device ID From SN    ${olt_serial_number}
     FOR    ${I}    IN RANGE    0    ${num_onus}
         ${src}=    Set Variable    ${hosts.src[${I}]}
@@ -435,10 +433,10 @@ Validate authentication on a disabled ONU
     [Tags]    functional    DisableONU_AuthCheck
     # Creates Devices in the Setup
     [Setup]    Run Keywords    Start Logging    DisableONU_AuthCheck
-    ...        AND    Setup
+    ...    AND    Setup
     [Teardown]    Run Keywords    Collect Logs
-    ...           AND             Stop Logging    DisableONU_AuthCheck
-    ...           AND             Delete Device and Verify
+    ...    AND    Stop Logging    DisableONU_AuthCheck
+    ...    AND    Delete Device and Verify
     Run Keyword and Ignore Error    Collect Logs
     Run Keyword If    ${has_dataplane}    Clean Up Linux
     Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test
@@ -477,19 +475,17 @@ Data plane verification using TCP
     [Tags]    dataplane    BandwidthProfileTCP    VOL-2052
     [Setup]    Start Logging    BandwidthProfileTCP
     [Teardown]    Run Keywords    Collect Logs
-    ...           AND    Stop Logging    BandwidthProfileTCP
-    Pass Execution If   '${has_dataplane}'=='False'
-    ...    Bandwidth profile validation can be done only in physical pod.  Skipping this test in BBSIM.
+    ...    AND    Stop Logging    BandwidthProfileTCP
+    Pass Execution If    '${has_dataplane}'=='False'
+    ...    Bandwidth profile validation can be done only in physical pod.    Skipping this test in BBSIM.
     ${of_id}=    Wait Until Keyword Succeeds    ${timeout}    15s    Validate OLT Device in ONOS    ${olt_serial_number}
     FOR    ${I}    IN RANGE    0    ${num_onus}
         ${src}=    Set Variable    ${hosts.src[${I}]}
         ${dst}=    Set Variable    ${hosts.dst[${I}]}
-
         # Check for iperf3 and jq tools
         ${stdout}    ${stderr}    ${rc}=    Execute Remote Command    which iperf3 jq
         ...    ${src['ip']}    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
         Pass Execution If    ${rc} != 0    Skipping test: iperf3 / jq not found on the RG
-
         ${onu_port}=    Wait Until Keyword Succeeds    ${timeout}    2s    Get ONU Port in ONOS    ${src['onu']}
         ...    ${of_id}
         ${subscriber_id}=    Set Variable    ${of_id}/${onu_port}
@@ -499,25 +495,21 @@ Data plane verification using TCP
         ${bandwidth_profile_name}    Get Bandwidth Profile Name For Given Subscriber    ${subscriber_id}
         ...    downstreamBandwidthProfile
         ${limiting_bw_value_dnstream}    Get Bandwidth Details    ${bandwidth_profile_name}
-
         # Stream TCP packets from RG to server
         ${updict}=    Run Iperf3 Test Client    ${src}    server=${dst['dp_iface_ip_qinq']}
         ...    args=-t 30
         ${actual_upstream_bw_used}=    Evaluate    ${updict['end']['sum_received']['bits_per_second']}/1000
-
         # Stream TCP packets from server to RG
         ${dndict}=    Run Iperf3 Test Client    ${src}    server=${dst['dp_iface_ip_qinq']}
         ...    args=-R -t 30
         ${actual_dnstream_bw_used}=    Evaluate    ${dndict['end']['sum_received']['bits_per_second']}/1000
-
         ${pct_limit_up}=    Evaluate    100*${actual_upstream_bw_used}/${limiting_bw_value_upstream}
         ${pct_limit_dn}=    Evaluate    100*${actual_dnstream_bw_used}/${limiting_bw_value_dnstream}
         Log    Up: bwprof ${limiting_bw_value_upstream}Kbps, got ${actual_upstream_bw_used}Kbps (${pct_limit_up}%)
         Log    Down: bwprof ${limiting_bw_value_dnstream}Kbps, got ${actual_dnstream_bw_used}Kbps (${pct_limit_dn}%)
-
         Should Be True    ${pct_limit_up} <= ${upper_margin_pct}
         ...    The upstream bandwidth exceeded the limit (${pct_limit_up}% of limit)
-        # VOL-3125: downstream bw limit not enforced.  Uncomment when fixed.
+        # VOL-3125: downstream bw limit not enforced.    Uncomment when fixed.
         #Should Be True    ${pct_limit_dn} <= ${upper_margin_pct}
         #...    The downstream bandwidth exceeded the limit (${pct_limit_dn}% of limit)
         Should Be True    ${pct_limit_up} >= ${lower_margin_pct}
@@ -532,19 +524,17 @@ Data plane verification using UDP
     [Tags]    dataplane    BandwidthProfileUDP    VOL-2052
     [Setup]    Start Logging    BandwidthProfileUDP
     [Teardown]    Run Keywords    Collect Logs
-    ...           AND    Stop Logging    BandwidthProfileUDP
-    Pass Execution If   '${has_dataplane}'=='False'
-    ...    Bandwidth profile validation can be done only in physical pod.  Skipping this test in BBSIM.
+    ...    AND    Stop Logging    BandwidthProfileUDP
+    Pass Execution If    '${has_dataplane}'=='False'
+    ...    Bandwidth profile validation can be done only in physical pod.    Skipping this test in BBSIM.
     ${of_id}=    Wait Until Keyword Succeeds    ${timeout}    15s    Validate OLT Device in ONOS    ${olt_serial_number}
     FOR    ${I}    IN RANGE    0    ${num_onus}
         ${src}=    Set Variable    ${hosts.src[${I}]}
         ${dst}=    Set Variable    ${hosts.dst[${I}]}
-
         # Check for iperf3 and jq tools
         ${stdout}    ${stderr}    ${rc}=    Execute Remote Command    which iperf3 jq
         ...    ${src['ip']}    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
         Pass Execution If    ${rc} != 0    Skipping test: iperf3 / jq not found on the RG
-
         ${onu_port}=    Wait Until Keyword Succeeds    ${timeout}    2s    Get ONU Port in ONOS    ${src['onu']}
         ...    ${of_id}
         ${subscriber_id}=    Set Variable    ${of_id}/${onu_port}
@@ -554,31 +544,27 @@ Data plane verification using UDP
         ${bandwidth_profile_name}    Get Bandwidth Profile Name For Given Subscriber    ${subscriber_id}
         ...    downstreamBandwidthProfile
         ${limiting_bw_value_dnstream}    Get Bandwidth Details    ${bandwidth_profile_name}
-
         # Stream UDP packets from RG to server
         ${uprate}=    Evaluate    ${limiting_bw_value_upstream}*${udp_rate_multiplier}
         ${updict}=    Run Iperf3 Test Client    ${src}    server=${dst['dp_iface_ip_qinq']}
         ...    args=-u -b ${uprate}K -t 30 -l ${udp_packet_bytes} --pacing-timer 0
-        # With UDP test, bits per second is the sending rate.  Multiply by the loss rate to get the throughput.
+        # With UDP test, bits per second is the sending rate.    Multiply by the loss rate to get the throughput.
         ${actual_upstream_bw_used}=    Evaluate
         ...    (100 - ${updict['end']['sum']['lost_percent']})*${updict['end']['sum']['bits_per_second']}/100000
-
         # Stream UDP packets from server to RG
         ${dnrate}=    Evaluate    ${limiting_bw_value_dnstream}*${udp_rate_multiplier}
         ${dndict}=    Run Iperf3 Test Client    ${src}    server=${dst['dp_iface_ip_qinq']}
         ...    args=-u -b ${dnrate}K -R -t 30 -l ${udp_packet_bytes} --pacing-timer 0
-        # With UDP test, bits per second is the sending rate.  Multiply by the loss rate to get the throughput.
+        # With UDP test, bits per second is the sending rate.    Multiply by the loss rate to get the throughput.
         ${actual_dnstream_bw_used}=    Evaluate
         ...    (100 - ${dndict['end']['sum']['lost_percent']})*${dndict['end']['sum']['bits_per_second']}/100000
-
         ${pct_limit_up}=    Evaluate    100*${actual_upstream_bw_used}/${limiting_bw_value_upstream}
         ${pct_limit_dn}=    Evaluate    100*${actual_dnstream_bw_used}/${limiting_bw_value_dnstream}
         Log    Up: bwprof ${limiting_bw_value_upstream}Kbps, got ${actual_upstream_bw_used}Kbps (${pct_limit_up}%)
         Log    Down: bwprof ${limiting_bw_value_dnstream}Kbps, got ${actual_dnstream_bw_used}Kbps (${pct_limit_dn}%)
-
         Should Be True    ${pct_limit_up} <= ${upper_margin_pct}
         ...    The upstream bandwidth exceeded the limit (${pct_limit_up}% of limit)
-        # VOL-3125: downstream bw limit not enforced.  Uncomment when fixed.
+        # VOL-3125: downstream bw limit not enforced.    Uncomment when fixed.
         #Should Be True    ${pct_limit_dn} <= ${upper_margin_pct}
         #...    The downstream bandwidth exceeded the limit (${pct_limit_dn}% of limit)
         Should Be True    ${pct_limit_up} >= ${lower_margin_pct}
@@ -597,19 +583,17 @@ Validate parsing of data traffic through voltha using tech profile
     [Tags]    dataplane    TechProfile    VOL-2054
     [Setup]    Start Logging    TechProfile
     [Teardown]    Run Keywords    Collect Logs
-    ...           AND    Stop Logging    TechProfile
-    Pass Execution If   '${has_dataplane}'=='False'
+    ...    AND    Stop Logging    TechProfile
+    Pass Execution If    '${has_dataplane}'=='False'
     ...    Skipping test: Technology profile validation can be done only in physical pod
     FOR    ${I}    IN RANGE    0    ${num_onus}
         ${src}=    Set Variable    ${hosts.src[${I}]}
         ${dst}=    Set Variable    ${hosts.dst[${I}]}
-
         ${bng_ip}=    Get Variable Value    ${dst['noroot_ip']}
         ${bng_user}=    Get Variable Value    ${dst['noroot_user']}
         ${bng_pass}=    Get Variable Value    ${dst['noroot_pass']}
         Pass Execution If    "${bng_ip}" == "${NONE}" or "${bng_user}" == "${NONE}" or "${bng_pass}" == "${NONE}"
         ...    Skipping test: credentials for BNG login required in deployment config
-
         ${stdout}    ${stderr}    ${rc}=    Execute Remote Command    which mausezahn tcpdump
         ...    ${src['ip']}    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
         Pass Execution If    ${rc} != 0    Skipping test: mausezahn / tcpdump not found on the RG
@@ -642,7 +626,7 @@ Setup Suite
     #Run Keyword If    ${has_dataplane}    RestoreONUs    ${num_onus}
     #power_switch.robot needs it to support different vendor's power switch
     ${switch_type}=    Get Variable Value    ${web_power_switch.type}
-    Run Keyword If  "${switch_type}"!=""    Set Global Variable    ${powerswitch_type}    ${switch_type}
+    Run Keyword If    "${switch_type}"!=""    Set Global Variable    ${powerswitch_type}    ${switch_type}
 
 Clear All Devices Then Create New Device
     [Documentation]    Remove any devices from VOLTHA and ONOS
