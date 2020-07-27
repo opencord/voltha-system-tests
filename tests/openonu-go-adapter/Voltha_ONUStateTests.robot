@@ -59,8 +59,7 @@ ONU State Test
     ...    ELSE IF    "${testmode}"=="Up2State"    Do ONU Up To State Test
     ...    ELSE IF    "${testmode}"=="SingleStateTime"    Do ONU Single State Test Time
     ...    ELSE    Fail    The testmode (${testmode}) is not valid!
-    [Teardown]    Run Keywords    Collect Logs
-    ...    AND    Stop Logging    ONUStateTest
+    [Teardown]    Stop Logging    ONUStateTest
 
 Onu Port Check
     [Documentation]    Validates the ONU Go adapter states
@@ -68,8 +67,7 @@ Onu Port Check
     [Tags]    onutest
     [Setup]    Start Logging    ONUPortTest
     Run Keyword If    ${porttest}    Do Onu Port Check
-    [Teardown]    Run Keywords    Collect Logs
-    ...    AND    Stop Logging    ONUPortTest
+    [Teardown]    Stop Logging    ONUPortTest
 
 *** Keywords ***
 Setup Suite
