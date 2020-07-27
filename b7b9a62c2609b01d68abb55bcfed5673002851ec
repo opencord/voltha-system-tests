@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "14c33b37_0d2dda44",
+        "filename": "libraries/utils.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2020-07-27T08:33:10Z",
+      "side": 1,
+      "message": "this needs to be done only for the ATT workflow, not for DT, since DT only has the BWP for the subscribers",
+      "revId": "b7b9a62c2609b01d68abb55bcfed5673002851ec",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    }
+  ]
+}
