@@ -16,6 +16,24 @@
       "revId": "b7b9a62c2609b01d68abb55bcfed5673002851ec",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4505f018_e3ddd0b7",
+        "filename": "libraries/utils.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1000514
+      },
+      "writtenOn": "2020-07-27T08:42:55Z",
+      "side": 1,
+      "message": "Yes.. This is being called only in case of ATT.. It checks for the default Meter (Verify Default Meter Present in ONOS).. Will update the comment line to be more apt.",
+      "parentUuid": "14c33b37_0d2dda44",
+      "revId": "b7b9a62c2609b01d68abb55bcfed5673002851ec",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
     }
   ]
 }
