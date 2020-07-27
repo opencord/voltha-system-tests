@@ -419,7 +419,7 @@ Setup
     ...    Validate OLT Device    PREPROVISIONED    UNKNOWN    UNKNOWN    ${olt_device_id}
     Sleep    5s
     Enable Device    ${olt_device_id}
-    Wait Until Keyword Succeeds    180s    5s
+    Wait Until Keyword Succeeds    380s    5s
     ...    Validate OLT Device    ENABLED    ACTIVE    REACHABLE    ${olt_serial_number}
     ${logical_id}=    Get Logical Device ID From SN    ${olt_serial_number}
     Set Suite Variable    ${logical_id}
