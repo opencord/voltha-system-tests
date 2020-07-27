@@ -97,15 +97,15 @@ node ("${TestNodeName}") {
                         #Remove all while true; do kubectl port-forward ...done; rules
                         for port_fwd_id in `ps -ax | grep "port-forward" | grep -E "onos|voltha" | grep "while true"| awk '{print \$1}'`;
                         do
-                            cat /proc/\$port_fwd_id/cmdline
-                            kill -9 \$port_fwd_id
+                            cat /proc/\$port_fwd_id/cmdline 2>/dev/null
+                            kill -9 \$port_fwd_id || true
                         done
 
                         #Remove all kubectl port-forward rules
                         for port_fwd_id in `ps -ax | grep "port-forward" | grep -E "onos|voltha" | awk '{print \$1}'`;
                         do
-                            cat /proc/\$port_fwd_id/cmdline
-                            kill -9 \$port_fwd_id
+                            cat /proc/\$port_fwd_id/cmdline 2>/dev/null
+                            kill -9 \$port_fwd_id || true
                         done
                         """
                     }
@@ -139,7 +139,7 @@ node ("${TestNodeName}") {
                     export DEPLOY_K8S=no
                     export INSTALL_KUBECTL=no
                     export INSTALL_HELM=no
-                    export WITH_RADIUS=yes 
+                    export WITH_RADIUS=yes
                     export FANCY=0
                     # VOL-3162 Forwaring port 2379 does not work on ONF demo pod
                     export VOLTHA_ETCD_PORT=${VolthaEtcdPort}
@@ -193,7 +193,7 @@ node ("${TestNodeName}") {
                                kubectl cp $WORKSPACE/voltha-system-tests/tests/data/TechProfile-${profile}.json \$etcd_container:/tmp/flexpod.json
                                put_result=\$(kubectl exec -it \$etcd_container -- /bin/sh -c 'cat /tmp/flexpod.json | ETCDCTL_API=3 etcdctl put service/voltha/technology_profiles/${tech_prof_directory}/64')
                             fi
-           
+
                             """
                             return out_push_tp == 0
                         }
