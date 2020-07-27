@@ -43,6 +43,7 @@ ${state2test}    6
 ${testmode}    SingleState
 ${porttest}    True
 ${debugmode}    False
+${logging}    False
 ${pausebeforecleanup}    False
 
 *** Test Cases ***
@@ -59,7 +60,7 @@ ONU State Test
     ...    ELSE IF    "${testmode}"=="Up2State"    Do ONU Up To State Test
     ...    ELSE IF    "${testmode}"=="SingleStateTime"    Do ONU Single State Test Time
     ...    ELSE    Fail    The testmode (${testmode}) is not valid!
-    [Teardown]    Run Keywords    Collect Logs
+    [Teardown]    Run Keywords    Run Keyword If    ${logging}    Collect Logs
     ...    AND    Stop Logging    ONUStateTest
 
 Onu Port Check
@@ -68,7 +69,7 @@ Onu Port Check
     [Tags]    onutest
     [Setup]    Start Logging    ONUPortTest
     Run Keyword If    ${porttest}    Do Onu Port Check
-    [Teardown]    Run Keywords    Collect Logs
+    [Teardown]    Run Keywords    Run Keyword If    ${logging}    Collect Logs
     ...    AND    Stop Logging    ONUPortTest
 
 *** Keywords ***
