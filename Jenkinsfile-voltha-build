@@ -261,7 +261,7 @@ node ("${TestNodeName}") {
                         timeout(5) {
                             sh returnStdout: true, script: """
                             ssh-keyscan -H ${deployment_config.olts[i].ip} >> ~/.ssh/known_hosts
-                            sshpass -p ${deployment_config.olts[i].pass} ssh -l ${deployment_config.olts[i].user} ${deployment_config.olts[i].ip} 'rm -f /var/log/openolt.log; rm -f /var/log/dev_mgmt_daemon.log; reboot' || true
+                            sshpass -p ${deployment_config.olts[i].pass} ssh -l ${deployment_config.olts[i].user} ${deployment_config.olts[i].ip} 'rm -f /var/log/openolt.log; rm -f /var/log/dev_mgmt_daemon.log; rm -f /var/log/openolt_process_watchdog.log; reboot' || true
                             sleep 120
                             """
                         }
@@ -343,7 +343,11 @@ node ("${TestNodeName}") {
                         timeout(10) {
                             sh returnStdout: true, script: """
                             ssh-keyscan -H ${deployment_config.olts[i].sship} >> ~/.ssh/known_hosts
+<<<<<<< HEAD   (9633fe Fix OLT reboot test for DT workflow)
                             sshpass -p ${deployment_config.olts[i].pass} ssh -l ${deployment_config.olts[i].user} ${deployment_config.olts[i].sship} 'rm -f /var/log/openolt.log; rm -f /var/log/dev_mgmt_daemon.log; reboot' || true
+=======
+                            sshpass -p ${deployment_config.olts[i].pass} ssh -l ${deployment_config.olts[i].user} ${deployment_config.olts[i].sship} 'rm -f /var/log/openolt.log; rm -f /var/log/dev_mgmt_daemon.log; rm -f /var/log/startup.log; rm -f /var/log/openolt_process_watchdog.log; reboot' || true
+>>>>>>> CHANGE (26711d Collect watchdog logs from the OLT)
                             sleep 360
                             """
                         }
