@@ -557,6 +557,9 @@ Echo Message to OLT Logs
     Wait Until Keyword Succeeds    180s    10s    Execute Remote Command
     ...    printf '%s\n' '' '' '${message}' '' >> /var/log/dev_mgmt_daemon.log
     ...    ${olt_ssh_ip}    ${olt_user}    ${olt_pass}
+    Wait Until Keyword Succeeds    180s    10s    Execute Remote Command
+    ...    printf '%s\n' '' '' '${message}' '' >> /var/log/openolt_process_watchdog.log
+    ...    ${olt_ssh_ip}    ${olt_user}    ${olt_pass}
 
 Start Logging
     [Arguments]    ${label}
