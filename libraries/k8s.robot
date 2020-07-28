@@ -359,7 +359,7 @@ Pods Are Ready By Label
     [Documentation]    Check that all pods with a label are ready
     ${output}=    Run
     ...    kubectl -n ${namespace} get pods -l ${key}=${value} -o=jsonpath="{.items[].status.containerStatuses[].ready}"
-    Should Not Contain    ${output}    "false"
+    Should Not Contain    ${output}    false
 
 Check Expected Running Pods Number By Label
     [Arguments]    ${namespace}    ${key}    ${value}    ${number}
