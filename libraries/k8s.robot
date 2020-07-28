@@ -311,6 +311,14 @@ Pod Does Not Exist
     Should Be Equal As Integers    ${count}    0
     Should Be True    ${count}==0    Pod ${name} exists but should not
 
+Wait For Pods Not Exist
+    [Arguments]    ${namespace}    ${list_names}
+    [Documentation]    Checks the passed PODs are no longer existing
+	FOR    ${pod_name}    IN    @{list_names}
+        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    3s
+    	...    Pod Does Not Exist    ${namespace}    ${pod_name}
+    END
+
 Pods Do Not Exist By Label
     [Arguments]    ${namespace}    ${key}    ${value}
     [Documentation]    Succeeds if the named POD does not exist
@@ -359,7 +367,15 @@ Pods Are Ready By Label
     [Documentation]    Check that all pods with a label are ready
     ${output}=    Run
     ...    kubectl -n ${namespace} get pods -l ${key}=${value} -o=jsonpath="{.items[].status.containerStatuses[].ready}"
-    Should Not Contain    ${output}    "false"
+    Should Not Contain    ${output}    false
+
+Wait For Pods Ready
+    [Arguments]    ${namespace}    ${list_apps}
+    [Documentation]    Checks the passed PODs are ready
+	FOR    ${app_name}    IN    @{list_apps}
+        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    3s
+    	...    Pods Are Ready By Label    ${namespace}    app    ${app_name}
+    END
 
 Check Expected Running Pods Number By Label
     [Arguments]    ${namespace}    ${key}    ${value}    ${number}
@@ -367,4 +383,3 @@ Check Expected Running Pods Number By Label
     ${rc}    ${count}    Run and Return Rc and Output
     ...    kubectl -n ${namespace} get pods -l ${key}=${value} -o json | jq -r ".items[].status.phase" | wc -l
     Should Be Equal as Integers    ${count}    ${number}
-
