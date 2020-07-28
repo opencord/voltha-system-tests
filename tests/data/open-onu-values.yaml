@@ -1,0 +1,4 @@
+defaults:
+  image_tag: master
+  image_pullPolicy: "IfNotPresent"
+use_openonu_adapter_go: false

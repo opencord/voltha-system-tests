@@ -1,0 +1,25 @@
+defaults:
+  image_tag: master
+  image_pullPolicy: "IfNotPresent"
+images:
+  onos:
+    repository: voltha/voltha-onos
+    tag: master
+image:
+  repository: voltha/voltha-onos
+  tag: master
+  pullPolicy: "IfNotPresent"
+onos_env:
+  - name: POD_IP
+    valueFrom:
+    fieldRef:
+      fieldPath: status.podIP
+  - name: NAMESPACE
+    valueFrom:
+    fieldRef:
+      fieldPath: metadata.namespace
+  - name: ONOS_APPS
+    value: "drivers,openflow-base,hostprovider"
+atomix:
+  persistence:
+    enabled: false

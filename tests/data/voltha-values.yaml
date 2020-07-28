@@ -1,0 +1,5 @@
+defaults:
+  image_tag: master
+  image_pullPolicy: "IfNotPresent"
+private_etcd_cluster: false
+private_kafka_cluster: false

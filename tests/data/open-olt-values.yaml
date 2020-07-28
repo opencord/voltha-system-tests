@@ -1,0 +1,3 @@
+defaults:
+  image_tag: master
+  image_pullPolicy: "IfNotPresent"
