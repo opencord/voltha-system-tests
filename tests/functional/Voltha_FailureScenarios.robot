@@ -165,7 +165,7 @@ Verify OLT after rebooting physically
     Sleep    60s
     Run Keyword And Ignore Error    Collect Logs
     Run Keyword If    ${has_dataplane}    Clean Up Linux
-    Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test
+    Wait Until Keyword Succeeds    180s    2s    Perform Sanity Test
     # Deleting OLT after test completes
     #Run Keyword If    ${has_dataplane}    Delete Device and Verify
 

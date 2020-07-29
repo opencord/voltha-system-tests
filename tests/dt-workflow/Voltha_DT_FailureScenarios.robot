@@ -170,7 +170,7 @@ Verify OLT after Rebooting Physically for DT
     Sleep    60s
     Run Keyword And Ignore Error    Collect Logs
     Run Keyword If    ${has_dataplane}    Clean Up Linux
-    Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test DT
+    Wait Until Keyword Succeeds    180s    2s    Perform Sanity Test DT
 
 Verify restart openolt-adapter container after subscriber provisioning for DT
     [Documentation]    Restart openolt-adapter container after VOLTHA is operational.
