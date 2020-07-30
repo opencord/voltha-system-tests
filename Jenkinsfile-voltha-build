@@ -140,6 +140,7 @@ node ("${TestNodeName}") {
                     export INSTALL_HELM=no
                     export WITH_RADIUS=yes
                     export FANCY=0
+                    export SCHEDULE_ON_CONTROL_NODES=yes
                     # VOL-3162 Forwaring port 2379 does not work on ONF demo pod
                     export VOLTHA_ETCD_PORT=${VolthaEtcdPort}
 
