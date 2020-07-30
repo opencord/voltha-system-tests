@@ -263,8 +263,8 @@ Verify Meters in ONOS
     Sleep    1s
     # Verify meter for upstream bandwidth profile
     ${us_meter_cmd}=    Catenate    SEPARATOR=
-    ...    meters ${olt_of_id} | grep state=ADDED | grep rate=${us_cir} | grep burst-size=${us_cbs}
-    ...     | grep rate=${us_eir} | grep burst-size=${us_ebs} | grep rate=${us_air} | wc -l
+    ...    meters ${olt_of_id} | grep state=ADDED | grep "rate=${us_cir}, burst-size=${us_cbs}"
+    ...     | grep "rate=${us_eir}, burst-size=${us_ebs}" | grep "rate=${us_air}, burst-size=0" | wc -l
     ${upstream_meter_added}=    Execute ONOS CLI Command    ${ip}    ${port}
     ...    ${us_meter_cmd}
     Should Be Equal As Integers    ${upstream_meter_added}    1
@@ -275,8 +275,8 @@ Verify Meters in ONOS
     Sleep    1s
     # Verify meter for downstream bandwidth profile
     ${ds_meter_cmd}=    Catenate    SEPARATOR=
-    ...    meters ${olt_of_id} | grep state=ADDED | grep rate=${ds_cir} | grep burst-size=${ds_cbs}
-    ...     | grep rate=${ds_eir} | grep burst-size=${ds_ebs} | grep rate=${ds_air} | wc -l
+    ...    meters ${olt_of_id} | grep state=ADDED | grep "rate=${ds_cir}, burst-size=${ds_cbs}"
+    ...     | grep "rate=${ds_eir}, burst-size=${ds_ebs}" | grep "rate=${ds_air}, burst-size=0" | wc -l
     ${downstream_meter_added}=    Execute ONOS CLI Command    ${ip}    ${port}
     ...    ${ds_meter_cmd}
     Should Be Equal As Integers    ${downstream_meter_added}    1
@@ -284,9 +284,17 @@ Verify Meters in ONOS
 Verify Default Meter Present in ONOS
     [Arguments]    ${ip}    ${port}    ${olt_of_id}
     [Documentation]    Verifies the single default meter entry is present
-    ${meter_added}=    Execute ONOS CLI Command    ${ip}    ${port}
-    ...    meters ${olt_of_id} | grep state=ADDED | wc -l
-    Should Be Equal As Integers    ${meter_added}    1
+    # Get default bandwidth profile details
+    ${cir}    ${cbs}    ${eir}    ${ebs}    ${air}    Get Bandwidth Profile Details
+    ...    ${ip}    ${port}    'Default'
+    Sleep    1s
+    # Verify meter for default bandwidth profile
+    ${meter_cmd}=    Catenate    SEPARATOR=
+    ...    meters ${olt_of_id} | grep state=ADDED | grep "rate=${cir}, burst-size=${cbs}"
+    ...     | grep "rate=${eir}, burst-size=${ebs}" | grep "rate=${air}, burst-size=0" | wc -l
+    ${default_meter_added}=    Execute ONOS CLI Command    ${ip}    ${port}
+    ...    ${meter_cmd}
+    Should Be Equal As Integers    ${default_meter_added}    1
 
 Verify Device Flows Removed
     [Arguments]    ${ip}    ${port}    ${olt_of_id}
