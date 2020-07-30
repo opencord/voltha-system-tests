@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d78f19b5_2293e6e0",
+        "filename": "tests/functional/Voltha_PODTests.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 660,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2020-07-30T14:22:54Z",
+      "side": 1,
+      "message": "this mandates the existence of such Bandwidth profile in the Sadis json, what happens if it\u0027s not there ?",
+      "revId": "d238ac8c9949bf9867b9b363b020ea6f99f98378",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    }
+  ]
+}
