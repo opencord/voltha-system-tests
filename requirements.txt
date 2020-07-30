@@ -12,4 +12,3 @@ git+https://github.com/zdw/robotframework-importresource@b81b87aabaee0594e966687
 cord-robot==2.1.1
 virtualenv
 matplotlib==3.0.3
-requests==2.24.0

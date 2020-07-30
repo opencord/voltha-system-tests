@@ -17,13 +17,6 @@
 # NOTE
 # Collecting the info for all containers in the same chart can be confusing,
 # we may want to create subcharts for the different groups, eg: infra, ONOS, core, adapters
-import csv
-from sys import platform as sys_pf
-
-if sys_pf == 'darwin':
-    import matplotlib
-
-    matplotlib.use("TkAgg")
 
 import argparse
 import requests
@@ -35,7 +28,7 @@ import time
 EXCLUDED_POD_NAMES = [
     "kube", "coredns", "kind", "grafana",
     "prometheus", "tiller", "control-plane",
-    "calico", "nginx", "registry", "local-path"
+    "calico", "nginx", "registry"
 ]
 
 DATE_FORMATTER_FN = mdates.DateFormatter('%Y-%m-%d %H:%M:%S')
@@ -63,35 +56,18 @@ def main(address, out_folder, since):
     r = requests.get("http://%s/api/v1/query_range" % address, cpu_params)
     print("Downloading CPU info from: %s" % r.url)
     container_cpu = r.json()["data"]["result"]
-    containers = remove_unwanted_containers(container_cpu)
-    plot_cpu_consumption(containers, output="%s/cpu.pdf" % out_folder)
-    data_to_csv(containers, output="%s/cpu.csv" % out_folder)
+    plot_cpu_consumption(remove_unwanted_containers(container_cpu),
+                         output="%s/cpu.pdf" % out_folder)
 
     r = requests.get("http://%s/api/v1/query" % address, {"query": container_mem_query})
     print("Downloading Memory info from: %s" % r.url)
     container_mem = r.json()["data"]["result"]
-    containers = remove_unwanted_containers(container_mem)
-    plot_memory_consumption(containers, output="%s/memory.pdf" % out_folder)
-    data_to_csv(containers, output="%s/memory.csv" % out_folder)
-
-
-def data_to_csv(containers, output=None):
-    csv_file = open(output, "w+")
-    csv_writer = csv.writer(csv_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
-
-    # we assume all the containers have the same timestamps
-    dates = [datetime.fromtimestamp(x[0]) for x in containers[0]["values"]]
-    csv_writer.writerow([''] + dates)
-
-    for c in containers:
-        name = c["metric"]["pod"]
-        data = c["values"]
-
-        values = [float(x[1]) for x in data]
-        csv_writer.writerow([name] + values)
+    plot_memory_consumption(remove_unwanted_containers(container_mem),
+                            output="%s/memory.pdf" % out_folder)
 
 
 def plot_cpu_consumption(containers, output=None):
+
     plt.figure('cpu')
     fig, ax = plt.subplots()
     ax.xaxis.set_major_formatter(DATE_FORMATTER_FN)
@@ -103,7 +79,7 @@ def plot_cpu_consumption(containers, output=None):
     plt.ylabel("% used")
 
     for c in containers:
-        name = c["metric"]["pod"]
+        name = c["metric"]["pod_name"]
         data = c["values"]
 
         dates = [datetime.fromtimestamp(x[0]) for x in data]
@@ -132,7 +108,7 @@ def plot_memory_consumption(containers, output=None):
     plt.ylabel("MB")
 
     for c in containers:
-        name = c["metric"]["pod"]
+        name = c["metric"]["pod_name"]
         data = c["values"]
 
         dates = [datetime.fromtimestamp(x[0]) for x in data]
@@ -150,28 +126,17 @@ def plot_memory_consumption(containers, output=None):
 
 def remove_unwanted_containers(cpus):
     res = []
-    missed = []
     for c in cpus:
-        if "pod" in c["metric"]:
+        if "pod_name" in c["metric"]:
 
-            if c["metric"]["id"].startswith("kubepods", 1):
-                missed.append(c)
-                continue
-
-            if "container" not in c["metric"]:
-                missed.append(c)
-                continue
-
-            pod_name = c["metric"]["pod"]
+            pod_name = c["metric"]["pod_name"]
             container_name = c["metric"]["name"]
 
             if any(x in pod_name for x in EXCLUDED_POD_NAMES):
-                missed.append(c)
                 continue
 
             if "k8s_POD" in container_name:
                 # this is the kubernetes POD controller, we don't care about it
-                missed.append(c)
                 continue
 
             # if "_0" not in container_name:
@@ -181,8 +146,7 @@ def remove_unwanted_containers(cpus):
             res.append(c)
         else:
             continue
-    # print("Found containers: %s" % [c["metric"]["pod"] for c in res])
-    # print("Missed containers: %s" % [c["metric"]["pod"] for c in missed])
+
     return res
 
 
