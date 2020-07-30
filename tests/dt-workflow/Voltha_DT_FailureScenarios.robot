@@ -166,6 +166,9 @@ Verify OLT after Rebooting Physically for DT
     # Wait for the OLT to come back up
     Run Keyword If    ${has_dataplane}    Wait Until Keyword Succeeds    120s    10s
     ...    Check Remote System Reachability    True    ${olt_ssh_ip}
+    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    360s    5s
+    ...    Validate OLT Device    ENABLED    ACTIVE
+    ...    REACHABLE    ${olt_serial_number}
     # Waiting extra time for the ONUs to come up
     Sleep    60s
     Run Keyword And Ignore Error    Collect Logs
