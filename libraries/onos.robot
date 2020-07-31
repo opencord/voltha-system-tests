@@ -25,6 +25,32 @@ Library           OperatingSystem
 Resource          ./flows.robot
 
 *** Keywords ***
+
+Open ONOS SSH Connection
+    [Documentation]    Establishes an ssh connection to ONOS contoller
+    [Arguments]    ${host}    ${port}    ${user}=karaf    ${pass}=karaf
+    ${conn_id}=    SSHLibrary.Open Connection    ${host}    port=${port}    timeout=300s    alias=ONOS_SSH
+    SSHLibrary.Login    ${user}    ${pass}
+    [Return]    ${conn_id}
+
+Execute ONOS CLI Command on open connection
+    [Documentation]    Execute ONOS CLI Command On an Open Connection
+    [Arguments]    ${connection_alias}  ${cmd}
+    SSHLibrary.Switch Connection   ${connection_alias}
+    @{result_values}    SSHLibrary.Execute Command    ${cmd}    return_rc=True
+    ...    return_stderr=True    return_stdout=True
+    ${output}    Set Variable    @{result_values}[0]
+    Log    ${output}
+    Should Be Empty    @{result_values}[1]
+    Should Be Equal As Integers    @{result_values}[2]    0
+    [Return]    ${output}
+
+Close ONOS SSH Connection
+    [Documentation]    Close an SSH Connection
+    [Arguments]    ${connection_alias}
+    SSHLibrary.Switch Connection   ${connection_alias}
+    SSHLibrary.Close Connection
+
 Validate OLT Device in ONOS
     #    FIXME use volt-olts to check that the OLT is ONOS
     [Arguments]    ${serial_number}
@@ -236,15 +262,17 @@ Verify ONU in AAA-Users
     Should Not Be Empty    ${aaa_users}    ONU port ${onu_port} not found in aaa-users
 
 Assert Number of AAA-Users
-    [Arguments]    ${ip}    ${port}    ${expected_onus}
+    [Arguments]    ${onos_ssh_connection}    ${expected_onus}
     [Documentation]    Matches for number of aaa-users authorized based on number of onus
-    ${aaa_users}=    Execute ONOS CLI Command    ${ip}    ${port}    aaa-users | grep AUTHORIZED | wc -l
+    ${aaa_users}=    Execute ONOS CLI Command on open connection     ${onos_ssh_connection}
+    ...     aaa-users | grep AUTHORIZED | wc -l
     Should Be Equal As Integers    ${aaa_users}    ${expected_onus}
 
 Validate DHCP Allocations
-    [Arguments]    ${ip}    ${port}    ${expected_onus}
+    [Arguments]    ${onos_ssh_connection}    ${expected_onus}
     [Documentation]    Matches for number of dhcpacks based on number of onus
-    ${allocations}=    Execute ONOS CLI Command    ${ip}    ${port}    dhcpl2relay-allocations | grep DHCPACK | wc -l
+    ${allocations}=    Execute ONOS CLI Command on open connection     ${onos_ssh_connection}
+    ...     dhcpl2relay-allocations | grep DHCPACK | wc -l
     Should Be Equal As Integers    ${allocations}    ${expected_onus}
 
 Validate Subscriber DHCP Allocation
@@ -280,26 +308,27 @@ Remove All Devices From ONOS
     END
 
 Assert Ports in ONOS
-    [Arguments]    ${ip}    ${port}     ${count}     ${filter}
+    [Arguments]    ${onos_ssh_connection}     ${count}     ${filter}
     [Documentation]    Check that a certain number of ports are enabled in ONOS
-    ${ports}=    Execute ONOS CLI Command    ${ip}    ${port}
+    ${ports}=    Execute ONOS CLI Command on open connection     ${onos_ssh_connection}
         ...    ports -e | grep ${filter} | wc -l
     Should Be Equal As Integers    ${ports}    ${count}
 
 Wait for Ports in ONOS
-    [Arguments]    ${ip}    ${port}     ${count}     ${filter}
+    [Arguments]    ${onos_ssh_connection}     ${count}     ${filter}
     [Documentation]    Waits untill a certain number of ports are enabled in ONOS
-    Wait Until Keyword Succeeds     10m     5s      Assert Ports in ONOS   ${ip}    ${port}     ${count}     ${filter}
+    Wait Until Keyword Succeeds     10m     5s      Assert Ports in ONOS
+    ...     ${onos_ssh_connection}     ${count}     ${filter}
 
 Wait for AAA Authentication
-    [Arguments]    ${ip}    ${port}     ${count}
+    [Arguments]    ${onos_ssh_connection}     ${count}
     [Documentation]    Waits untill a certain number of subscribers are authenticated in ONOS
-    Wait Until Keyword Succeeds     10m     5s      Assert Number of AAA-Users      ${ip}    ${port}     ${count}
+    Wait Until Keyword Succeeds     10m     5s      Assert Number of AAA-Users      ${onos_ssh_connection}     ${count}
 
 Wait for DHCP Ack
-    [Arguments]    ${ip}    ${port}     ${count}
+    [Arguments]    ${onos_ssh_connection}     ${count}
     [Documentation]    Waits untill a certain number of subscribers have received a DHCP_ACK
-    Wait Until Keyword Succeeds     10m     5s      Validate DHCP Allocations      ${ip}    ${port}     ${count}
+    Wait Until Keyword Succeeds     10m     5s      Validate DHCP Allocations      ${onos_ssh_connection}     ${count}
 
 Provision subscriber
     [Documentation]  Calls volt-add-subscriber-access in ONOS
@@ -318,10 +347,10 @@ Provision subscriber REST
 List Enabled UNI Ports
     [Documentation]  List all the UNI Ports, the only way we have is to filter out the one called NNI
     ...     Creates a list of dictionaries
-    [Arguments]     ${onos_ip}    ${onos_port}   ${of_id}
+    [Arguments]     ${onos_ssh_connection}   ${of_id}
     [Return]  [{'port': '16', 'of_id': 'of:00000a0a0a0a0a00'}, {'port': '32', 'of_id': 'of:00000a0a0a0a0a00'}]
     ${result}=      Create List
-    ${out}=    Execute ONOS CLI Command    ${onos_ip}    ${onos_port}
+    ${out}=    Execute ONOS CLI Command on open connection     ${onos_ssh_connection}
     ...    ports -e ${of_id} | grep -v SWITCH | grep -v nni
     @{unis}=    Split To Lines    ${out}
     FOR    ${uni}    IN    @{unis}
@@ -334,8 +363,8 @@ List Enabled UNI Ports
 
 Provision all subscribers on device
     [Documentation]  Provisions a subscriber in ONOS for all the enabled UNI ports on a particular device
-    [Arguments]     ${onos_ip}    ${onos_ssh_port}  ${onos_rest_port}   ${of_id}
-    ${unis}=    List Enabled UNI Ports  ${onos_ip}  ${onos_ssh_port}   ${of_id}
+    [Arguments]     ${onos_ssh_connection}  ${onos_ip}  ${onos_rest_port}   ${of_id}
+    ${unis}=    List Enabled UNI Ports  ${onos_ssh_connection}   ${of_id}
     ${onos_auth}=    Create List    karaf    karaf
     Create Session    ONOS    http://${onos_ip}:${onos_rest_port}    auth=${onos_auth}
     FOR     ${uni}  IN      @{unis}
@@ -344,10 +373,10 @@ Provision all subscribers on device
 
 List OLTs
     [Documentation]  Returns a list of OLTs known to ONOS
-    [Arguments]  ${onos_ip}    ${onos_port}
+    [Arguments]  ${onos_ssh_connection}
     [Return]  ['of:00000a0a0a0a0a00', 'of:00000a0a0a0a0a01']
     ${result}=      Create List
-    ${out}=    Execute ONOS CLI Command    ${onos_ip}    ${onos_port}
+    ${out}=    Execute ONOS CLI Command on open connection     ${onos_ssh_connection}
     ...     volt-olts
     @{olts}=    Split To Lines    ${out}
     FOR    ${olt}    IN    @{olts}
@@ -362,19 +391,19 @@ List OLTs
 
 Count ADDED flows
     [Documentation]  Count the flows in ADDED state in ONOS
-    [Arguments]  ${onos_ip}     ${onos_port}    ${targetFlows}
-    ${flows}=    Execute ONOS CLI Command    ${onos_ip}    ${onos_port}
+    [Arguments]  ${onos_ssh_connection}    ${targetFlows}
+    ${flows}=    Execute ONOS CLI Command on open connection     ${onos_ssh_connection}
     ...     flows -s | grep ADDED | wc -l
     Should Be Equal As Integers    ${targetFlows}    ${flows}
 
 Wait for all flows to in ADDED state
     [Documentation]  Waits until the flows have been provisioned
-    [Arguments]  ${onos_ip}    ${onos_port}     ${workflow}    ${uni_count}    ${olt_count}    ${provisioned}
+    [Arguments]  ${onos_ssh_connection}     ${workflow}    ${uni_count}    ${olt_count}    ${provisioned}
     ...     ${withEapol}    ${withDhcp}     ${withIgmp}     ${withLldp}
     ${targetFlows}=     Calculate flows by workflow     ${workflow}    ${uni_count}    ${olt_count}     ${provisioned}
     ...     ${withEapol}    ${withDhcp}     ${withIgmp}     ${withLldp}
     Wait Until Keyword Succeeds     10m     5s      Count ADDED flows
-    ...     ${onos_ip}    ${onos_port}  ${targetFlows}
+    ...     ${onos_ssh_connection}  ${targetFlows}
 
 Get Bandwidth Details
     [Arguments]    ${bandwidth_profile_name}
