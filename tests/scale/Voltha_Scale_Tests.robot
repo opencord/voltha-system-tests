@@ -38,7 +38,7 @@ Documentation     Collect measurements on VOLTHA performances
 Suite Setup       Setup Suite
 #Test Setup        Setup
 #Test Teardown     Teardown
-#Suite Teardown    Teardown Suite
+Suite Teardown    Teardown Suite
 Library           Collections
 Library           String
 Library           OperatingSystem
@@ -97,7 +97,7 @@ Onu Activation in VOLTHA
 Port Discovery in ONOS
     [Documentation]    Check that all the UNI ports show up in ONOS
     [Tags]      non-critical    activation    plot-onos-ports
-    Wait for Ports in ONOS      ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}  ${total_onus}   BBSM
+    Wait for Ports in ONOS      ${onos_ssh_connection}  ${total_onus}   BBSM
 
 Flows validation in VOLTHA before subscriber provisioning
     [Documentation]    Check that all the flows has been stored in the logical device
@@ -119,22 +119,22 @@ Flows validation in ONOS before subscriber provisioning
     [Tags]      non-critical    flow-before   plot-onos-flows-before
     # NOTE fail the test immediately if we're trying to check flows without provisioning them
     Should Be Equal   ${enableFlowProvisioning}     true
-    Wait for all flows to in ADDED state    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}
+    Wait for all flows to in ADDED state    ${onos_ssh_connection}
     ...     ${workflow}    ${total_onus}    ${olt}    false     ${withEapol}    ${withDhcp}
     ...     ${withIgmp}   ${withLLDP}
 
 Wait for subscribers to be Authenticated
     [Documentation]    Check that all subscribers have successfully authenticated
     [Tags]      non-critical    authentication    plot-onos-auth
-    Wait for AAA Authentication     ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}  ${total_onus}
+    Wait for AAA Authentication     ${onos_ssh_connection}  ${total_onus}
 
 Provision subscribers
     [Documentation]    Provision data plane flows for all the subscribers
     [Tags]      non-critical    provision
     Should Be Equal   ${enableSubscriberProvisioning}     true
-    ${olts}=    List OLTs   ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}
+    ${olts}=    List OLTs   ${onos_ssh_connection}
     FOR     ${olt}  IN  @{olts}
-        Provision all subscribers on device  ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}     ${ONOS_REST_PORT}  ${olt}
+        Provision all subscribers on device  ${onos_ssh_connection}     ${ONOS_SSH_IP}     ${ONOS_REST_PORT}  ${olt}
     END
 
 Flows validation in VOLTHA after subscriber provisioning
@@ -157,14 +157,14 @@ Flows validation in ONOS after subscriber provisioning
     [Tags]      non-critical    flow-after    plot-onos-flows-after
     # NOTE fail the test immediately if we're trying to check flows without provisioning them
     Should Be Equal   ${enableFlowProvisioning}     true
-    Wait for all flows to in ADDED state    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}
+    Wait for all flows to in ADDED state    ${onos_ssh_connection}
     ...     ${workflow}    ${total_onus}    ${olt}    true      ${withEapol}    ${withDhcp}
     ...     ${withIgmp}   ${withLLDP}
 
 Wait for subscribers to have an IP
     [Documentation]    Check that all subscribers have received a DHCP_ACK
     [Tags]      non-critical    dhcp  plot-onos-dhcp
-    Wait for DHCP Ack     ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}  ${total_onus}
+    Wait for DHCP Ack     ${onos_ssh_connection}  ${total_onus}
 
 Disable and Delete devices
     [Documentation]  Disable and delete the OLTs in VOLTHA
@@ -178,10 +178,16 @@ Disable and Delete devices
 
 *** Keywords ***
 Setup Suite
-    [Documentation]    Setup test global variables and starts a timer
+    [Documentation]    Setup test global variables, open an SSH connection to ONOS and starts a timer
     Set Suite Variable    ${KUBECTL_CONFIG}    export KUBECONFIG=%{KUBECONFIG}
     Set Suite Variable    ${VOLTCTL_CONFIG}    export VOLTCONFIG=%{VOLTCONFIG}
 
     ${total_onus}=   Evaluate    ${olt} * ${pon} * ${onu}
     Set Suite Variable  ${total_onus}
 
+    ${onos_ssh_connection}    Open ONOS SSH Connection    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}
+    Set Suite Variable  ${onos_ssh_connection}
+
+Teardown Suite
+   [Documentation]    Close the SSH connection to ONOS
+    Close ONOS SSH Connection   ${onos_ssh_connection}
