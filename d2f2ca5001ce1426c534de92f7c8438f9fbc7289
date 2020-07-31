@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5074af32_74d6370f",
+        "filename": "tests/functional/Voltha_StartContainerPODTests.robot",
+        "patchSetId": 3
+      },
+      "lineNbr": 357,
+      "author": {
+        "id": 1000064
+      },
+      "writtenOn": "2020-07-31T00:39:29Z",
+      "side": 1,
+      "message": "can moved to k8s.robot library",
+      "revId": "d2f2ca5001ce1426c534de92f7c8438f9fbc7289",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    }
+  ]
+}
