@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3ec340bb_9e97d24c",
+        "filename": "tests/functional/Voltha_PODTests.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1000127
+      },
+      "writtenOn": "2020-08-03T22:05:01Z",
+      "side": 1,
+      "message": "I would have preferred that we have the rate multiplier at 1.00 only for BW profile at 1Gbps, but I am not sure how complex that is? If you think that is too complex, then this should be ok. We anyway verify the rate limiting in TCP transport.",
+      "revId": "de978178b6ef4885030d3dccbd17c1da56f8c387",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    }
+  ]
+}
