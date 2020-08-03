@@ -55,7 +55,7 @@ ${scripts}        ../../scripts
 # For dataplane bandwidth testing
 ${upper_margin_pct}      105     # Allow 5% over the limit
 ${lower_margin_pct}      92      # Allow 8% under the limit
-${udp_rate_multiplier}   1.10    # Send UDP at bw profile limit * rate_multiplier
+${udp_rate_multiplier}   1.00    # Send UDP at bw profile limit * rate_multiplier
 ${udp_packet_bytes}      1400    # UDP payload in bytes
 
 # Per-test logging on failure is turned off by default; set this variable to enable
