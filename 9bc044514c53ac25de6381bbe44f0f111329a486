@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "eca5cfb5_d19e91ee",
+        "filename": "tests/data/onf-demo-pod-sadis-DT-GPON.json",
+        "patchSetId": 1
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1000127
+      },
+      "writtenOn": "2020-08-03T22:17:21Z",
+      "side": 1,
+      "message": "000080a2354d28c0 for GPON OLT at Menlo",
+      "range": {
+        "startLine": 3,
+        "startChar": 8,
+        "endLine": 3,
+        "endChar": 24
+      },
+      "revId": "9bc044514c53ac25de6381bbe44f0f111329a486",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7e60c366_897b4260",
+        "filename": "tests/data/onf-demo-pod-sadis-DT-GPON.json",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1000127
+      },
+      "writtenOn": "2020-08-03T22:17:21Z",
+      "side": 1,
+      "message": "Are you sure the stags are correct? Is this something you plan to use or is already configured on the demo pod BNG?",
+      "range": {
+        "startLine": 28,
+        "startChar": 25,
+        "endLine": 28,
+        "endChar": 27
+      },
+      "revId": "9bc044514c53ac25de6381bbe44f0f111329a486",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d0c29c79_22da8013",
+        "filename": "tests/data/onf-demo-pod-sadis-DT-GPON.json",
+        "patchSetId": 1
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1000127
+      },
+      "writtenOn": "2020-08-03T22:17:21Z",
+      "side": 1,
+      "message": "80:a2:35:4d:28:c0. \nThis field actually does not matter, but it is good to have the right value.",
+      "range": {
+        "startLine": 67,
+        "startChar": 35,
+        "endLine": 67,
+        "endChar": 52
+      },
+      "revId": "9bc044514c53ac25de6381bbe44f0f111329a486",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    }
+  ]
+}
