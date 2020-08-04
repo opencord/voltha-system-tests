@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "9c9b4b26_4d19a474",
+        "filename": "tests/data/onf-demo-pod-sadis-DT-GPON.json",
+        "patchSetId": 1
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2020-08-04T07:30:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "eca5cfb5_d19e91ee",
+      "range": {
+        "startLine": 3,
+        "startChar": 8,
+        "endLine": 3,
+        "endChar": 24
+      },
+      "revId": "9bc044514c53ac25de6381bbe44f0f111329a486",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7e60c366_897b4260",
         "filename": "tests/data/onf-demo-pod-sadis-DT-GPON.json",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2020-08-03T22:17:21Z",
       "side": 1,
       "message": "Are you sure the stags are correct? Is this something you plan to use or is already configured on the demo pod BNG?",
+      "range": {
+        "startLine": 28,
+        "startChar": 25,
+        "endLine": 28,
+        "endChar": 27
+      },
+      "revId": "9bc044514c53ac25de6381bbe44f0f111329a486",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b27fbca3_b011eeba",
+        "filename": "tests/data/onf-demo-pod-sadis-DT-GPON.json",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2020-08-04T07:30:03Z",
+      "side": 1,
+      "message": "I was planning to add 3 completely new interfaces for DT in order to keep it separate from existing ones: \nenp3s0f0.31.7 enp3s0f0.32.7 enp3s0f0.33.7\nif that is ok for you I can do so today.",
+      "parentUuid": "7e60c366_897b4260",
       "range": {
         "startLine": 28,
         "startChar": 25,
@@ -68,6 +116,30 @@
       "revId": "9bc044514c53ac25de6381bbe44f0f111329a486",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "04590215_9b43424b",
+        "filename": "tests/data/onf-demo-pod-sadis-DT-GPON.json",
+        "patchSetId": 1
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2020-08-04T07:30:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d0c29c79_22da8013",
+      "range": {
+        "startLine": 67,
+        "startChar": 35,
+        "endLine": 67,
+        "endChar": 52
+      },
+      "revId": "9bc044514c53ac25de6381bbe44f0f111329a486",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
     }
   ]
 }
