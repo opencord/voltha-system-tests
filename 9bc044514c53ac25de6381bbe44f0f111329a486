@@ -96,6 +96,30 @@
     },
     {
       "key": {
+        "uuid": "5a46b6ec_30f79f5f",
+        "filename": "tests/data/onf-demo-pod-sadis-DT-GPON.json",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1000127
+      },
+      "writtenOn": "2020-08-04T23:23:24Z",
+      "side": 1,
+      "message": "Sounds good to me to have different tags for GPON OLT",
+      "parentUuid": "b27fbca3_b011eeba",
+      "range": {
+        "startLine": 28,
+        "startChar": 25,
+        "endLine": 28,
+        "endChar": 27
+      },
+      "revId": "9bc044514c53ac25de6381bbe44f0f111329a486",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d0c29c79_22da8013",
         "filename": "tests/data/onf-demo-pod-sadis-DT-GPON.json",
         "patchSetId": 1
