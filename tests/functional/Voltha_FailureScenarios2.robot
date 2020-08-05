@@ -58,15 +58,15 @@ ${container_log_dir}    ${None}
 *** Test Cases ***
 Verify OLT Soft Reboot
     [Documentation]    Test soft reboot of the OLT using voltctl command
-    [Tags]    VOL-2745   OLTSoftReboot    notready
+    [Tags]    VOL-2745   OLTSoftReboot    functional
     [Setup]    Start Logging    OLTSoftReboot
-    #...        AND             Setup
     [Teardown]    Run Keywords    Collect Logs
     ...           AND             Stop Logging    OLTSoftReboot
     #...           AND             Delete Device and Verify
+    Setup
     ## Performing Sanity Test to make sure subscribers are all AUTH+DHCP and pingable
-    #Run Keyword If    ${has_dataplane}    Clean Up Linux
-    #Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test
+    Run Keyword If    ${has_dataplane}    Clean Up Linux
+    Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test
     # Reboot the OLT using "voltctl device reboot" command
     Reboot Device    ${olt_device_id}
     Run Keyword And Ignore Error    Collect Logs
@@ -83,9 +83,8 @@ Verify OLT Soft Reboot
     Run Keyword If    ${has_dataplane}    Wait Until Keyword Succeeds    120s    10s
     ...    Check Remote System Reachability    True    ${olt_ssh_ip}
     # Waiting extra time for the ONUs to come up
-    Sleep    60s
     # Check OLT states
-    Wait Until Keyword Succeeds    ${timeout}    5s    Validate OLT Device    ENABLED    ACTIVE    REACHABLE
+    Wait Until Keyword Succeeds    360s    5s    Validate OLT Device    ENABLED    ACTIVE    REACHABLE
     ...    ${olt_serial_number}
     Run Keyword And Ignore Error    Collect Logs
     #Check after reboot that ONUs are active, authenticated/DHCP/pingable
@@ -134,14 +133,17 @@ Verify restart ofagent container before subscriber is provisioned
     ...    Running
     FOR    ${I}    IN RANGE    0    ${num_onus}
         # Add subscriber access and verify that DHCP completes to ensure system is still functioning properly
-        Wait Until Keyword Succeeds    ${timeout}    2s    Execute ONOS CLI Command    ${ONOS_SSH_IP}
-        ...    ${ONOS_SSH_PORT}    volt-add-subscriber-access ${of_id} ${onu_port}
+        #Wait Until Keyword Succeeds    ${timeout}    2s    Execute ONOS CLI Command    ${ONOS_SSH_IP}
+        #...    ${ONOS_SSH_PORT}    volt-add-subscriber-access ${of_id} ${onu_port}
         ${src}=    Set Variable    ${hosts.src[${I}]}
         ${dst}=    Set Variable    ${hosts.dst[${I}]}
         Run Keyword and Ignore Error    Collect Logs
         ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
         ${onu_port}=    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
         ...    Get ONU Port in ONOS    ${src['onu']}    ${of_id}
+        # Add subscriber access and verify that DHCP completes to ensure system is still functioning properly
+        Wait Until Keyword Succeeds    ${timeout}    2s    Execute ONOS CLI Command    ${ONOS_SSH_IP}
+        ...    ${ONOS_SSH_PORT}    volt-add-subscriber-access ${of_id} ${onu_port}
 	# Verify DHCP-Allocations
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
         ...    Validate Subscriber DHCP Allocation    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${onu_port}
