@@ -38,13 +38,30 @@ ${teardown_device}    True
 ${scripts}        ../../scripts
 # Per-test logging on failure is turned off by default; set this variable to enable
 ${container_log_dir}    ${None}
-# state to test variable, can be passed via the command line too
+# state to test variable, can be passed via the command line too, valid values: 1-6
+# 1 -> activating-onu
+# 2 -> starting-openomci
+# 3 -> discovery-mibsync-complete
+# 4 -> initial-mib-downloaded
+# 5 -> tech-profile-config-download-success
+# 6 -> omci-flows-pushed
 ${state2test}    6
+# test mode variable, can be passed via the command line too, valid values: SingleState, Up2State, SingleStateTime
 ${testmode}    SingleState
+# flag for execute Tech Profile check, can be passed via the command line too
+${profiletest}    True
+# used tech profile, can be passed via the command line too, valid values: default, 1T4GEM, 1T8GEM
+${techprofile}    default
+# flag for execute port test, can be passed via the command line too
 ${porttest}    True
+# flag debugmode is used, if true timeout calculation various, can be passed via the command line too
 ${debugmode}    False
+# logging flag to enable Collect Logs, can be passed via the command line too
 ${logging}    False
+# if True execution will be paused before clean up
 ${pausebeforecleanup}    False
+${data_dir}    ../data
+
 
 *** Test Cases ***
 ONU State Test
@@ -63,6 +80,16 @@ ONU State Test
     [Teardown]    Run Keywords    Run Keyword If    ${logging}    Collect Logs
     ...    AND    Stop Logging    ONUStateTest
 
+Check Loaded Tech Profile
+    [Documentation]    Validates the loaded Tech Profile
+    ...    Assuming that ONU State Test was executed where all the ONUs are reached the expected state!
+    ...    Check will be executed only the reached ONU state is 5 (tech-profile-config-download-success) or higher
+    [Tags]    onutest
+    [Setup]    Start Logging    ONUCheckTechProfile
+    Run Keyword If    ${state2test}>=5 and ${profiletest}    Do Check Tech Profile
+    [Teardown]    Run Keywords    Run Keyword If    ${logging}    Collect Logs
+    ...    AND    Stop Logging    ONUCheckTechProfile
+
 Onu Port Check
     [Documentation]    Validates the ONU Go adapter states
     ...    Assuming that ONU State Test was executed where all the ONUs are reached the expected state!
@@ -77,6 +104,12 @@ Setup Suite
     [Documentation]    Set up the test suite
     Common Test Suite Setup
     Run Keyword If   ${num_onus}>4    Calculate Timeout
+    Run Keyword If    "${techprofile}"=="default"   Log To Console    \nTechProfile:default
+    ...    ELSE IF    "${techprofile}"=="1T4GEM"    Set Tech Profile    1T4GEM
+    ...    ELSE IF    "${techprofile}"=="1T8GEM"    Set Tech Profile    1T8GEM
+    ...    ELSE    Fail    The TechProfile (${techprofile}) is not valid!
+    ${onos_ssh_connection}    Open ONOS SSH Connection    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}
+    Set Suite Variable  ${onos_ssh_connection}
 
 Teardown Suite
     [Documentation]    Replaces the Suite Teardown in utils.robot.
@@ -85,7 +118,10 @@ Teardown Suite
     Run Keyword If    ${pausebeforecleanup}    Import Library    Dialogs
     Run Keyword If    ${pausebeforecleanup}    Pause Execution    Press OK to continue with clean up!
     Run Keyword If    ${teardown_device}    Delete All Devices and Verify
-    Wait for Ports in ONOS      ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}  0   BBSM
+    # Wait for Ports in ONOS      ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}  0   BBSM
+    Wait for Ports in ONOS      ${onos_ssh_connection}  0   BBSM
+    Close ONOS SSH Connection   ${onos_ssh_connection}
+	Remove Tech Profile
 
 Setup Test
     [Documentation]    Pre-test Setup
@@ -219,5 +255,53 @@ Do ONU Single State Test Time
 
 Do Onu Port Check
     [Documentation]    Check that all the UNI ports show up in ONOS
-    Wait for Ports in ONOS      ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}  ${num_onus}   BBSM
+    # Wait for Ports in ONOS      ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}  ${num_onus}   BBSM
+    Wait for Ports in ONOS      ${onos_ssh_connection}  ${num_onus}   BBSM
 
+Set Tech Profile
+    [Documentation]    This keyword set the passed TechProfile for the test
+    [Arguments]    ${TechProfile}
+	Log To Console    \nTechProfile:${TechProfile}
+    ${namespace}=    Set Variable    default
+    ${podname}=    Set Variable    etcd-0
+    ${src}=    Set Variable    ${data_dir}/TechProfile-${TechProfile}.json
+    ${dest}=    Set Variable    /tmp/flexpod.json
+    ${command}    Catenate
+    ...    /bin/sh -c 'cat    ${dest} | ETCDCTL_API=3 etcdctl put service/voltha/technology_profiles/XGS-PON/64'
+    Copy File To Pod    ${namespace}    ${podname}    ${src}    ${dest}
+    Exec Pod    ${namespace}    ${podname}    ${command}
+    ${commandget}    Catenate
+    ...    /bin/sh -c 'ETCDCTL_API=3 etcdctl get --prefix service/voltha/technology_profiles/XGS-PON/64'
+    Exec Pod    ${namespace}    ${podname}    ${commandget}
+
+Remove Tech Profile
+    [Documentation]    This keyword removes TechProfile
+	Log To Console    \nTechProfile:${TechProfile}
+    ${namespace}=    Set Variable    default
+    ${podname}=    Set Variable    etcd-0
+    ${command}    Catenate
+    ...    /bin/sh -c 'ETCDCTL_API=3 etcdctl del --prefix service/voltha/technology_profiles/XGS-PON/64'
+    Exec Pod    ${namespace}    ${podname}    ${command}
+    ${commandget}    Catenate
+    ...    /bin/sh -c 'ETCDCTL_API=3 etcdctl get --prefix service/voltha/technology_profiles/XGS-PON/64'
+    Exec Pod    ${namespace}    ${podname}    ${commandget}
+
+Do Check Tech Profile
+    [Documentation]    This keyword checks the loaded TechProfile
+    ${namespace}=    Set Variable    default
+    ${podname}=    Set Variable    etcd-0
+    ${commandget}    Catenate
+    ...    /bin/sh -c 'ETCDCTL_API=3 etcdctl get --prefix service/voltha/technology_profiles/XGS-PON/64'
+    ${result}=    Exec Pod    ${namespace}    ${podname}    ${commandget}
+    ${num_gem_ports}=    Set Variable    1
+    ${num_gem_ports}=    Set Variable If
+    ...    "${techprofile}"=="default"   1
+    ...    "${techprofile}"=="1T4GEM"    4
+    ...    "${techprofile}"=="1T8GEM"    8
+    @{resultList}    Split String    ${result}     separator=,
+    ${num_of_count_matches}=    Get Match Count    ${resultList}    "num_gem_ports": ${num_gem_ports}
+    ...    whitespace_insensitive=True
+    ${num_of_expected_matches}=    Run Keyword If    "${techprofile}"=="default"    Evaluate    ${num_onus}
+    ...    ELSE     Evaluate    ${num_onus}+1
+    Run Keyword If    ${num_of_expected_matches}!=${num_of_count_matches}    Log To Console
+    ...    \nTechProfile (${TechProfile}) not loaded correctly:${num_of_count_matches} of ${num_of_expected_matches}
