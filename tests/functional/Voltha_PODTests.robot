@@ -48,6 +48,8 @@ ${RESTART_POD_NAME}    radius
 ${timeout}        60s
 ${of_id}          0
 ${logical_id}     0
+${uprate}         0
+${dnrate}         0
 ${has_dataplane}    True
 ${teardown_device}    False
 ${scripts}        ../../scripts
