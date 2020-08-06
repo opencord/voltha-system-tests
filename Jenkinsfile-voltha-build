@@ -97,14 +97,12 @@ node ("${TestNodeName}") {
                         #Remove all while true; do kubectl port-forward ...done; rules
                         for port_fwd_id in `ps -ax | grep "port-forward" | grep -E "onos|voltha" | grep "while true"| awk '{print \$1}'`;
                         do
-                            cat /proc/\$port_fwd_id/cmdline 2>/dev/null
                             kill -9 \$port_fwd_id || true
                         done
 
                         #Remove all kubectl port-forward rules
                         for port_fwd_id in `ps -ax | grep "port-forward" | grep -E "onos|voltha" | awk '{print \$1}'`;
                         do
-                            cat /proc/\$port_fwd_id/cmdline 2>/dev/null
                             kill -9 \$port_fwd_id || true
                         done
                         """
