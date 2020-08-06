@@ -67,6 +67,9 @@ Adding the same OLT before and after enabling the device
     #setup
     Delete All Devices and Verify
     Run Keyword and Ignore Error   Collect Logs
+    # Wait for the OLT to be reachable
+    Run Keyword If    ${has_dataplane}    Wait Until Keyword Succeeds    120s    10s
+    ...    Check Remote System Reachability    True    ${olt_ssh_ip}
     ${olt_device_id}=    Create Device    ${olt_ip}    ${OLT_PORT}
     Set Suite Variable    ${olt_device_id}
     Wait Until Keyword Succeeds    ${timeout}    5s    Validate OLT Device    PREPROVISIONED    UNKNOWN    UNKNOWN
