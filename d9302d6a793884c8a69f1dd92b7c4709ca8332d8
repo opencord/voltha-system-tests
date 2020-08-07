@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "13fe4b3a_7bf497ab",
+        "filename": "tests/data/MIB_Scom.json",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000007
+      },
+      "writtenOn": "2020-08-07T20:26:29Z",
+      "side": 1,
+      "message": "Should add this file in this folder too?\nhttps://github.com/opencord/voltha-openonu-adapter/tree/master/templates",
+      "revId": "d9302d6a793884c8a69f1dd92b7c4709ca8332d8",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    }
+  ]
+}
