@@ -1,0 +1,2042 @@
+{
+  "template_name": "SCOM/Glasfaser-Modem/090140.1.0.304",
+  "template_created": "2020-07-31 19:28:27.223044",
+  "version": 1,
+  "5": {
+    "class_id": 5,
+    "257": {
+      "instance_id": 257,
+      "attributes": {
+        "actual_plugin_unit_type": 47,
+        "expected_plugin_unit_type": 47,
+        "expected_port_count": 1,
+        "expected_equipment_id": "                    ",
+        "actual_equipment_id": "                    ",
+        "protection_profile_pointer": 0,
+        "invoke_protection_switch": 0,
+        "arc": 0,
+        "arc_interval": 0
+      }
+    },
+    "384": {
+      "instance_id": 384,
+      "attributes": {
+        "actual_plugin_unit_type": 248,
+        "expected_plugin_unit_type": 248,
+        "expected_port_count": 1,
+        "expected_equipment_id": "                    ",
+        "actual_equipment_id": "                    ",
+        "protection_profile_pointer": 0,
+        "invoke_protection_switch": 0,
+        "arc": 0,
+        "arc_interval": 0
+      }
+    }
+  },
+  "6": {
+    "class_id": 6,
+    "257": {
+      "instance_id": 257,
+      "attributes": {
+        "type": 47,
+        "number_of_ports": 1,
+        "serial_number": "%SERIAL_NUMBER%",
+        "version": "Glasfaser.DTV1",
+        "vendor_id": "SCOM",
+        "administrative_state": 0,
+        "operational_state": 0,
+        "bridged_or_ip_ind": 2,
+        "equipment_id": "                    ",
+        "card_configuration": 0,
+        "total_tcont_buffer_number": 0,
+        "total_priority_queue_number": 8,
+        "total_traffic_scheduler_number": 0,
+        "power_sched_override": 0
+      }
+    },
+    "384": {
+      "instance_id": 384,
+      "attributes": {
+        "type": 248,
+        "number_of_ports": 1,
+        "serial_number": "%SERIAL_NUMBER%",
+        "version": "Glasfaser.DTV1",
+        "vendor_id": "SCOM",
+        "administrative_state": 0,
+        "operational_state": 0,
+        "bridged_or_ip_ind": 0,
+        "equipment_id": "                    ",
+        "card_configuration": 0,
+        "total_tcont_buffer_number": 8,
+        "total_priority_queue_number": 64,
+        "total_traffic_scheduler_number": 8,
+        "power_sched_override": 0
+      }
+    }
+  },
+  "7": {
+    "class_id": 7,
+    "0": {
+      "instance_id": 0,
+      "attributes": {
+        "version": "090140.1.0.304",
+        "is_committed": 1,
+        "is_active": 1,
+        "is_valid": 1,
+        "product_code": "",
+        "image_hash": ""
+      }
+    },
+    "1": {
+      "instance_id": 1,
+      "attributes": {
+        "version": "090140.9.9.308",
+        "is_committed": 0,
+        "is_active": 0,
+        "is_valid": 1,
+        "product_code": "",
+        "image_hash": ""
+      }
+    }
+  },
+  "11": {
+    "class_id": 11,
+    "257": {
+      "instance_id": 257,
+      "attributes": {
+        "expected_type": 47,
+        "sensed_type": 47,
+        "autodetection_config": 0,
+        "ethernet_loopback_config": 0,
+        "administrative_state": 0,
+        "operational_state": 1,
+        "config_ind": 0,
+        "max_frame_size": 1518,
+        "dte_dce_ind": 0,
+        "pause_time": 0,
+        "bridged_ip_ind": 2,
+        "arc": 0,
+        "arc_interval": 0,
+        "pppoe_filter": 0,
+        "power_control": 0
+      }
+    }
+  },
+  "131": {
+    "class_id": 131,
+    "0": {
+      "instance_id": 0,
+      "attributes": {
+        "olt_vendor_id": "    ",
+        "equipment_id": "                    ",
+        "version": "00000000000000",
+        "time_of_day": ""
+      }
+    }
+  },
+  "134": {
+    "class_id": 134,
+    "1": {
+      "instance_id": 1,
+      "attributes": {
+        "ip_options": 0,
+        "mac_address": "%MAC_ADDRESS%",
+        "onu_identifier": "",
+        "ip_address": "0.0.0.0",
+        "mask": "0.0.0.0",
+        "gateway": "0.0.0.0",
+        "primary_dns": "0.0.0.0",
+        "secondary_dns": "0.0.0.0",
+        "current_address": "0.0.0.0",
+        "current_mask": "0.0.0.0",
+        "current_gateway": "0.0.0.0",
+        "current_primary_dns": "0.0.0.0",
+        "current_secondary_dns": "0.0.0.0",
+        "domain_name": "",
+        "host_name": "",
+        "relay_agent_options": 0
+      }
+    }
+  },
+  "138": {
+    "class_id": 138,
+    "0": {
+      "instance_id": 0,
+      "attributes": {
+        "voltha-unknown-blob": "000000000000000000000000000000000000000000000000000000000028"
+      }
+    }
+  },
+  "256": {
+    "class_id": 256,
+    "0": {
+      "instance_id": 0,
+      "attributes": {
+        "vendor_id": "SCOM",
+        "version": "Glasfaser.DTV1",
+        "serial_number": "%SERIAL_NUMBER%",
+        "traffic_management_options": 2,
+        "vp_vc_cross_connection_option": 0,
+        "battery_backup": 0,
+        "administrative_state": 0,
+        "operational_state": 0,
+        "ont_survival_time": 0,
+        "logical_onu_id": "",
+        "logical_password": "",
+        "credentials_status": 0,
+        "extended_tc_layer_options": 3
+      }
+    }
+  },
+  "257": {
+    "class_id": 257,
+    "0": {
+      "instance_id": 0,
+      "attributes": {
+        "equipment_id": "Glasfaser-Modem",
+        "omcc_version": 161,
+        "vendor_product_code": 21317,
+        "security_capability": 1,
+        "security_mode": 1,
+        "total_priority_queue_number": 64,
+        "total_traffic_scheduler_number": 8,
+        "mode": 1,
+        "total_gem_port_id_number": 256,
+        "sys_uptime": 336424609,
+        "connectivity_capability": 127,
+        "current_connectivity_mode": 0,
+        "qos_configuration_flexibility": 24,
+        "priority_queue_scale_factor": 90
+      }
+    }
+  },
+  "262": {
+    "class_id": 262,
+    "32768": {
+      "instance_id": 32768,
+      "attributes": {
+        "alloc_id": 255,
+        "mode_indicator": 1,
+        "policy": 2
+      }
+    },
+    "32769": {
+      "instance_id": 32769,
+      "attributes": {
+        "alloc_id": 255,
+        "mode_indicator": 1,
+        "policy": 2
+      }
+    },
+    "32770": {
+      "instance_id": 32770,
+      "attributes": {
+        "alloc_id": 255,
+        "mode_indicator": 1,
+        "policy": 2
+      }
+    },
+    "32771": {
+      "instance_id": 32771,
+      "attributes": {
+        "alloc_id": 255,
+        "mode_indicator": 1,
+        "policy": 2
+      }
+    },
+    "32772": {
+      "instance_id": 32772,
+      "attributes": {
+        "alloc_id": 255,
+        "mode_indicator": 1,
+        "policy": 2
+      }
+    },
+    "32773": {
+      "instance_id": 32773,
+      "attributes": {
+        "alloc_id": 255,
+        "mode_indicator": 1,
+        "policy": 2
+      }
+    },
+    "32774": {
+      "instance_id": 32774,
+      "attributes": {
+        "alloc_id": 255,
+        "mode_indicator": 1,
+        "policy": 2
+      }
+    },
+    "32775": {
+      "instance_id": 32775,
+      "attributes": {
+        "alloc_id": 255,
+        "mode_indicator": 1,
+        "policy": 2
+      }
+    }
+  },
+  "263": {
+    "class_id": 263,
+    "32769": {
+      "instance_id": 32769,
+      "attributes": {
+        "sr_indication": 1,
+        "total_tcont_number": 8,
+        "gem_block_length": 48,
+        "piggyback_dba_reporting": 0,
+        "whole_ont_dba_reporting": 0,
+        "sf_threshold": 5,
+        "sd_threshold": 9,
+        "arc": 0,
+        "arc_interval": 0,
+        "optical_signal_level": 0,
+        "lower_optical_threshold": 255,
+        "upper_optical_threshold": 255,
+        "ont_response_time": 0,
+        "transmit_optical_level": 0,
+        "lower_transmit_power_threshold": 129,
+        "upper_transmit_power_threshold": 129
+      }
+    }
+  },
+  "264": {
+    "class_id": 264,
+    "257": {
+      "instance_id": 257,
+      "attributes": {
+        "configuration_option_status": 0,
+        "administrative_state": 0,
+        "management_capability": 0,
+        "non_omci_management_identifier": 0,
+        "relay_agent_options": 0
+      }
+    }
+  },
+  "277": {
+    "class_id": 277,
+    "257": {
+      "instance_id": 257,
+      "attributes": {
+        "queue_configuration_option": 1,
+        "maximum_queue_size": 0,
+        "allocated_queue_size": 0,
+        "discard_block_counter_reset_interval": 0,
+        "threshold_value_for_discarded_blocks": 0,
+        "related_port": 16842752,
+        "traffic_scheduler_pointer": 0,
+        "weight": 1,
+        "back_pressure_operation": 0,
+        "back_pressure_time": 0,
+        "back_pressure_occur_queue_threshold": 0,
+        "back_pressure_clear_queue_threshold": 0,
+        "packet_drop_queue_thresholds": 0,
+        "packet_drop_max_p": 65535,
+        "queue_drop_w_q": 9,
+        "drop_precedence_colour_marking": 0
+      }
+    },
+    "258": {
+      "instance_id": 258,
+      "attributes": {
+        "queue_configuration_option": 1,
+        "maximum_queue_size": 0,
+        "allocated_queue_size": 0,
+        "discard_block_counter_reset_interval": 0,
+        "threshold_value_for_discarded_blocks": 0,
+        "related_port": 16842753,
+        "traffic_scheduler_pointer": 0,
+        "weight": 1,
+        "back_pressure_operation": 0,
+        "back_pressure_time": 0,
+        "back_pressure_occur_queue_threshold": 0,
+        "back_pressure_clear_queue_threshold": 0,
+        "packet_drop_queue_thresholds": 0,
+        "packet_drop_max_p": 65535,
+        "queue_drop_w_q": 9,
+        "drop_precedence_colour_marking": 0
+      }
+    },
+    "259": {
+      "instance_id": 259,
+      "attributes": {
+        "queue_configuration_option": 1,
+        "maximum_queue_size": 0,
+        "allocated_queue_size": 0,
+        "discard_block_counter_reset_interval": 0,
+        "threshold_value_for_discarded_blocks": 0,
+        "related_port": 16842754,
+        "traffic_scheduler_pointer": 0,
+        "weight": 1,
+        "back_pressure_operation": 0,
+        "back_pressure_time": 0,
+        "back_pressure_occur_queue_threshold": 0,
+        "back_pressure_clear_queue_threshold": 0,
+        "packet_drop_queue_thresholds": 0,
+        "packet_drop_max_p": 65535,
+        "queue_drop_w_q": 9,
+        "drop_precedence_colour_marking": 0
+      }
+    },
+    "260": {
+      "instance_id": 260,
+      "attributes": {
+        "queue_configuration_option": 1,
+        "maximum_queue_size": 0,
+        "allocated_queue_size": 0,
+        "discard_block_counter_reset_interval": 0,
+        "threshold_value_for_discarded_blocks": 0,
+        "related_port": 16842755,
+        "traffic_scheduler_pointer": 0,
+        "weight": 1,
+        "back_pressure_operation": 0,
+        "back_pressure_time": 0,
+        "back_pressure_occur_queue_threshold": 0,
+        "back_pressure_clear_queue_threshold": 0,
+        "packet_drop_queue_thresholds": 0,
+        "packet_drop_max_p": 65535,
+        "queue_drop_w_q": 9,
+        "drop_precedence_colour_marking": 0
+      }
+    },
+    "261": {
+      "instance_id": 261,
+      "attributes": {
+        "queue_configuration_option": 1,
+        "maximum_queue_size": 0,
+        "allocated_queue_size": 0,
+        "discard_block_counter_reset_interval": 0,
+        "threshold_value_for_discarded_blocks": 0,
+        "related_port": 16842756,
+        "traffic_scheduler_pointer": 0,
+        "weight": 1,
+        "back_pressure_operation": 0,
+        "back_pressure_time": 0,
+        "back_pressure_occur_queue_threshold": 0,
+        "back_pressure_clear_queue_threshold": 0,
+        "packet_drop_queue_thresholds": 0,
+        "packet_drop_max_p": 65535,
+        "queue_drop_w_q": 9,
+        "drop_precedence_colour_marking": 0
+      }
+    },
+    "262": {
+      "instance_id": 262,
+      "attributes": {
+        "queue_configuration_option": 1,
+        "maximum_queue_size": 0,
+        "allocated_queue_size": 0,
+        "discard_block_counter_reset_interval": 0,
+        "threshold_value_for_discarded_blocks": 0,
+        "related_port": 16842757,
+        "traffic_scheduler_pointer": 0,
+        "weight": 1,
+        "back_pressure_operation": 0,
+        "back_pressure_time": 0,
+        "back_pressure_occur_queue_threshold": 0,
+        "back_pressure_clear_queue_threshold": 0,
+        "packet_drop_queue_thresholds": 0,
+        "packet_drop_max_p": 65535,
+        "queue_drop_w_q": 9,
+        "drop_precedence_colour_marking": 0
+      }
+    },
+    "263": {
+      "instance_id": 263,
+      "attributes": {
+        "queue_configuration_option": 1,
+        "maximum_queue_size": 0,
+        "allocated_queue_size": 0,
+        "discard_block_counter_reset_interval": 0,
+        "threshold_value_for_discarded_blocks": 0,
+        "related_port": 16842758,
+        "traffic_scheduler_pointer": 0,
+        "weight": 1,
+        "back_pressure_operation": 0,
+        "back_pressure_time": 0,
+        "back_pressure_occur_queue_threshold": 0,
+        "back_pressure_clear_queue_threshold": 0,
+        "packet_drop_queue_thresholds": 0,
+        "packet_drop_max_p": 65535,
+        "queue_drop_w_q": 9,
+        "drop_precedence_colour_marking": 0
+      }
+    },
+    "264": {
+      "instance_id": 264,
+      "attributes": {
+        "queue_configuration_option": 1,
+        "maximum_queue_size": 0,
+        "allocated_queue_size": 0,
+        "discard_block_counter_reset_interval": 0,
+        "threshold_value_for_discarded_blocks": 0,
+        "related_port": 16842759,
+        "traffic_scheduler_pointer": 0,
+        "weight": 1,
+        "back_pressure_operation": 0,
+        "back_pressure_time": 0,
+        "back_pressure_occur_queue_threshold": 0,
+        "back_pressure_clear_queue_threshold": 0,
+        "packet_drop_queue_thresholds": 0,
+        "packet_drop_max_p": 65535,
+        "queue_drop_w_q": 9,
+        "drop_precedence_colour_marking": 0
+      }
+    },
+    "32768": {
+      "instance_id": 32768,
+      "attributes": {
+        "queue_configuration_option": 1,
+        "maximum_queue_size": 0,
+        "allocated_queue_size": 0,
+        "discard_block_counter_reset_interval": 0,
+        "threshold_value_for_discarded_blocks": 0,
+        "related_port": 2147483648,
+        "traffic_scheduler_pointer": 0,
+        "weight": 1,
+        "back_pressure_operation": 0,
+        "back_pressure_time": 0,
+        "back_pressure_occur_queue_threshold": 0,
+        "back_pressure_clear_queue_threshold": 0,
+        "packet_drop_queue_thresholds": 0,
+        "packet_drop_max_p": 65535,
+        "queue_drop_w_q": 9,
+        "drop_precedence_colour_marking": 0
+      }
+    },
+    "32769": {
+      "instance_id": 32769,
+      "attributes": {
+        "queue_configuration_option": 1,
+        "maximum_queue_size": 0,
+        "allocated_queue_size": 0,
+        "discard_block_counter_reset_interval": 0,
+        "threshold_value_for_discarded_blocks": 0,
+        "related_port": 2147483649,
+        "traffic_scheduler_pointer": 0,
+        "weight": 1,
+        "back_pressure_operation": 0,
+        "back_pressure_time": 0,
+        "back_pressure_occur_queue_threshold": 0,
+        "back_pressure_clear_queue_threshold": 0,
+        "packet_drop_queue_thresholds": 0,
+        "packet_drop_max_p": 65535,
+        "queue_drop_w_q": 9,
+        "drop_precedence_colour_marking": 0
+      }
+    },
+    "32770": {
+      "instance_id": 32770,
+      "attributes": {
+        "queue_configuration_option": 1,
+        "maximum_queue_size": 0,
+        "allocated_queue_size": 0,
+        "discard_block_counter_reset_interval": 0,
+        "threshold_value_for_discarded_blocks": 0,
+        "related_port": 2147483650,
+        "traffic_scheduler_pointer": 0,
+        "weight": 1,
+        "back_pressure_operation": 0,
+        "back_pressure_time": 0,
+        "back_pressure_occur_queue_threshold": 0,
+        "back_pressure_clear_queue_threshold": 0,
+        "packet_drop_queue_thresholds": 0,
+        "packet_drop_max_p": 65535,
+        "queue_drop_w_q": 9,
+        "drop_precedence_colour_marking": 0
+      }
+    },
+    "32771": {
+      "instance_id": 32771,
+      "attributes": {
+        "queue_configuration_option": 1,
+        "maximum_queue_size": 0,
+        "allocated_queue_size": 0,
+        "discard_block_counter_reset_interval": 0,
+        "threshold_value_for_discarded_blocks": 0,
+        "related_port": 2147483651,
+        "traffic_scheduler_pointer": 0,
+        "weight": 1,
+        "back_pressure_operation": 0,
+        "back_pressure_time": 0,
+        "back_pressure_occur_queue_threshold": 0,
+        "back_pressure_clear_queue_threshold": 0,
+        "packet_drop_queue_thresholds": 0,
+        "packet_drop_max_p": 65535,
+        "queue_drop_w_q": 9,
+        "drop_precedence_colour_marking": 0
+      }
+    },
+    "32772": {
+      "instance_id": 32772,
+      "attributes": {
+        "queue_configuration_option": 1,
+        "maximum_queue_size": 0,
+        "allocated_queue_size": 0,
+        "discard_block_counter_reset_interval": 0,
+        "threshold_value_for_discarded_blocks": 0,
+        "related_port": 2147483652,
+        "traffic_scheduler_pointer": 0,
+        "weight": 1,
+        "back_pressure_operation": 0,
+        "back_pressure_time": 0,
+        "back_pressure_occur_queue_threshold": 0,
+        "back_pressure_clear_queue_threshold": 0,
+        "packet_drop_queue_thresholds": 0,
+        "packet_drop_max_p": 65535,
+        "queue_drop_w_q": 9,
+        "drop_precedence_colour_marking": 0
+      }
+    },
+    "32773": {
+      "instance_id": 32773,
+      "attributes": {
+        "queue_configuration_option": 1,
+        "maximum_queue_size": 0,
+        "allocated_queue_size": 0,
+        "discard_block_counter_reset_interval": 0,
+        "threshold_value_for_discarded_blocks": 0,
+        "related_port": 2147483653,
+        "traffic_scheduler_pointer": 0,
+        "weight": 1,
+        "back_pressure_operation": 0,
+        "back_pressure_time": 0,
+        "back_pressure_occur_queue_threshold": 0,
+        "back_pressure_clear_queue_threshold": 0,
+        "packet_drop_queue_thresholds": 0,
+        "packet_drop_max_p": 65535,
+        "queue_drop_w_q": 9,
+        "drop_precedence_colour_marking": 0
+      }
+    },
+    "32774": {
+      "instance_id": 32774,
+      "attributes": {
+        "queue_configuration_option": 1,
+        "maximum_queue_size": 0,
+        "allocated_queue_size": 0,
+        "discard_block_counter_reset_interval": 0,
+        "threshold_value_for_discarded_blocks": 0,
+        "related_port": 2147483654,
+        "traffic_scheduler_pointer": 0,
+        "weight": 1,
+        "back_pressure_operation": 0,
+        "back_pressure_time": 0,
+        "back_pressure_occur_queue_threshold": 0,
+        "back_pressure_clear_queue_threshold": 0,
+        "packet_drop_queue_thresholds": 0,
+        "packet_drop_max_p": 65535,
+        "queue_drop_w_q": 9,
+        "drop_precedence_colour_marking": 0
+      }
+    },
+    "32775": {
+      "instance_id": 32775,
+      "attributes": {
+        "queue_configuration_option": 1,
+        "maximum_queue_size": 0,
+        "allocated_queue_size": 0,
+        "discard_block_counter_reset_interval": 0,
+        "threshold_value_for_discarded_blocks": 0,
+        "related_port": 2147483655,
+        "traffic_scheduler_pointer": 0,
+        "weight": 1,
+        "back_pressure_operation": 0,
+        "back_pressure_time": 0,
+        "back_pressure_occur_queue_threshold": 0,
+        "back_pressure_clear_queue_threshold": 0,
+        "packet_drop_queue_thresholds": 0,
+        "packet_drop_max_p": 65535,
+        "queue_drop_w_q": 9,
+        "drop_precedence_colour_marking": 0
+      }
+    },
+    "32776": {
+      "instance_id": 32776,
+      "attributes": {
+        "queue_configuration_option": 1,
+        "maximum_queue_size": 0,
+        "allocated_queue_size": 0,
+        "discard_block_counter_reset_interval": 0,
+        "threshold_value_for_discarded_blocks": 0,
+        "related_port": 2147549184,
+        "traffic_scheduler_pointer": 0,
+        "weight": 1,
+        "back_pressure_operation": 0,
+        "back_pressure_time": 0,
+        "back_pressure_occur_queue_threshold": 0,
+        "back_pressure_clear_queue_threshold": 0,
+        "packet_drop_queue_thresholds": 0,
+        "packet_drop_max_p": 65535,
+        "queue_drop_w_q": 9,
+        "drop_precedence_colour_marking": 0
+      }
+    },
+    "32777": {
+      "instance_id": 32777,
+      "attributes": {
+        "queue_configuration_option": 1,
+        "maximum_queue_size": 0,
+        "allocated_queue_size": 0,
+        "discard_block_counter_reset_interval": 0,
+        "threshold_value_for_discarded_blocks": 0,
+        "related_port": 2147549185,
+        "traffic_scheduler_pointer": 0,
+        "weight": 1,
+        "back_pressure_operation": 0,
+        "back_pressure_time": 0,
+        "back_pressure_occur_queue_threshold": 0,
+        "back_pressure_clear_queue_threshold": 0,
+        "packet_drop_queue_thresholds": 0,
+        "packet_drop_max_p": 65535,
+        "queue_drop_w_q": 9,
+        "drop_precedence_colour_marking": 0
+      }
+    },
+    "32778": {
+      "instance_id": 32778,
+      "attributes": {
+        "queue_configuration_option": 1,
+        "maximum_queue_size": 0,
+        "allocated_queue_size": 0,
+        "discard_block_counter_reset_interval": 0,
+        "threshold_value_for_discarded_blocks": 0,
+        "related_port": 2147549186,
+        "traffic_scheduler_pointer": 0,
+        "weight": 1,
+        "back_pressure_operation": 0,
+        "back_pressure_time": 0,
+        "back_pressure_occur_queue_threshold": 0,
+        "back_pressure_clear_queue_threshold": 0,
+        "packet_drop_queue_thresholds": 0,
+        "packet_drop_max_p": 65535,
+        "queue_drop_w_q": 9,
+        "drop_precedence_colour_marking": 0
+      }
+    },
+    "32779": {
+      "instance_id": 32779,
+      "attributes": {
+        "queue_configuration_option": 1,
+        "maximum_queue_size": 0,
+        "allocated_queue_size": 0,
+        "discard_block_counter_reset_interval": 0,
+        "threshold_value_for_discarded_blocks": 0,
+        "related_port": 2147549187,
+        "traffic_scheduler_pointer": 0,
+        "weight": 1,
+        "back_pressure_operation": 0,
+        "back_pressure_time": 0,
+        "back_pressure_occur_queue_threshold": 0,
+        "back_pressure_clear_queue_threshold": 0,
+        "packet_drop_queue_thresholds": 0,
+        "packet_drop_max_p": 65535,
+        "queue_drop_w_q": 9,
+        "drop_precedence_colour_marking": 0
+      }
+    },
+    "32780": {
+      "instance_id": 32780,
+      "attributes": {
+        "queue_configuration_option": 1,
+        "maximum_queue_size": 0,
+        "allocated_queue_size": 0,
+        "discard_block_counter_reset_interval": 0,
+        "threshold_value_for_discarded_blocks": 0,
+        "related_port": 2147549188,
+        "traffic_scheduler_pointer": 0,
+        "weight": 1,
+        "back_pressure_operation": 0,
+        "back_pressure_time": 0,
+        "back_pressure_occur_queue_threshold": 0,
+        "back_pressure_clear_queue_threshold": 0,
+        "packet_drop_queue_thresholds": 0,
+        "packet_drop_max_p": 65535,
+        "queue_drop_w_q": 9,
+        "drop_precedence_colour_marking": 0
+      }
+    },
+    "32781": {
+      "instance_id": 32781,
+      "attributes": {
+        "queue_configuration_option": 1,
+        "maximum_queue_size": 0,
+        "allocated_queue_size": 0,
+        "discard_block_counter_reset_interval": 0,
+        "threshold_value_for_discarded_blocks": 0,
+        "related_port": 2147549189,
+        "traffic_scheduler_pointer": 0,
+        "weight": 1,
+        "back_pressure_operation": 0,
+        "back_pressure_time": 0,
+        "back_pressure_occur_queue_threshold": 0,
+        "back_pressure_clear_queue_threshold": 0,
+        "packet_drop_queue_thresholds": 0,
+        "packet_drop_max_p": 65535,
+        "queue_drop_w_q": 9,
+        "drop_precedence_colour_marking": 0
+      }
+    },
+    "32782": {
+      "instance_id": 32782,
+      "attributes": {
+        "queue_configuration_option": 1,
+        "maximum_queue_size": 0,
+        "allocated_queue_size": 0,
+        "discard_block_counter_reset_interval": 0,
+        "threshold_value_for_discarded_blocks": 0,
+        "related_port": 2147549190,
+        "traffic_scheduler_pointer": 0,
+        "weight": 1,
+        "back_pressure_operation": 0,
+        "back_pressure_time": 0,
+        "back_pressure_occur_queue_threshold": 0,
+        "back_pressure_clear_queue_threshold": 0,
+        "packet_drop_queue_thresholds": 0,
+        "packet_drop_max_p": 65535,
+        "queue_drop_w_q": 9,
+        "drop_precedence_colour_marking": 0
+      }
+    },
+    "32783": {
+      "instance_id": 32783,
+      "attributes": {
+        "queue_configuration_option": 1,
+        "maximum_queue_size": 0,
+        "allocated_queue_size": 0,
+        "discard_block_counter_reset_interval": 0,
+        "threshold_value_for_discarded_blocks": 0,
+        "related_port": 2147549191,
+        "traffic_scheduler_pointer": 0,
+        "weight": 1,
+        "back_pressure_operation": 0,
+        "back_pressure_time": 0,
+        "back_pressure_occur_queue_threshold": 0,
+        "back_pressure_clear_queue_threshold": 0,
+        "packet_drop_queue_thresholds": 0,
+        "packet_drop_max_p": 65535,
+        "queue_drop_w_q": 9,
+        "drop_precedence_colour_marking": 0
+      }
+    },
+    "32784": {
+      "instance_id": 32784,
+      "attributes": {
+        "queue_configuration_option": 1,
+        "maximum_queue_size": 0,
+        "allocated_queue_size": 0,
+        "discard_block_counter_reset_interval": 0,
+        "threshold_value_for_discarded_blocks": 0,
+        "related_port": 2147614720,
+        "traffic_scheduler_pointer": 0,
+        "weight": 1,
+        "back_pressure_operation": 0,
+        "back_pressure_time": 0,
+        "back_pressure_occur_queue_threshold": 0,
+        "back_pressure_clear_queue_threshold": 0,
+        "packet_drop_queue_thresholds": 0,
+        "packet_drop_max_p": 65535,
+        "queue_drop_w_q": 9,
+        "drop_precedence_colour_marking": 0
+      }
+    },
+    "32785": {
+      "instance_id": 32785,
+      "attributes": {
+        "queue_configuration_option": 1,
+        "maximum_queue_size": 0,
+        "allocated_queue_size": 0,
+        "discard_block_counter_reset_interval": 0,
+        "threshold_value_for_discarded_blocks": 0,
+        "related_port": 2147614721,
+        "traffic_scheduler_pointer": 0,
+        "weight": 1,
+        "back_pressure_operation": 0,
+        "back_pressure_time": 0,
+        "back_pressure_occur_queue_threshold": 0,
+        "back_pressure_clear_queue_threshold": 0,
+        "packet_drop_queue_thresholds": 0,
+        "packet_drop_max_p": 65535,
+        "queue_drop_w_q": 9,
+        "drop_precedence_colour_marking": 0
+      }
+    },
+    "32786": {
+      "instance_id": 32786,
+      "attributes": {
+        "queue_configuration_option": 1,
+        "maximum_queue_size": 0,
+        "allocated_queue_size": 0,
+        "discard_block_counter_reset_interval": 0,
+        "threshold_value_for_discarded_blocks": 0,
+        "related_port": 2147614722,
+        "traffic_scheduler_pointer": 0,
+        "weight": 1,
+        "back_pressure_operation": 0,
+        "back_pressure_time": 0,
+        "back_pressure_occur_queue_threshold": 0,
+        "back_pressure_clear_queue_threshold": 0,
+        "packet_drop_queue_thresholds": 0,
+        "packet_drop_max_p": 65535,
+        "queue_drop_w_q": 9,
+        "drop_precedence_colour_marking": 0
+      }
+    },
+    "32787": {
+      "instance_id": 32787,
+      "attributes": {
+        "queue_configuration_option": 1,
+        "maximum_queue_size": 0,
+        "allocated_queue_size": 0,
+        "discard_block_counter_reset_interval": 0,
+        "threshold_value_for_discarded_blocks": 0,
+        "related_port": 2147614723,
+        "traffic_scheduler_pointer": 0,
+        "weight": 1,
+        "back_pressure_operation": 0,
+        "back_pressure_time": 0,
+        "back_pressure_occur_queue_threshold": 0,
+        "back_pressure_clear_queue_threshold": 0,
+        "packet_drop_queue_thresholds": 0,
+        "packet_drop_max_p": 65535,
+        "queue_drop_w_q": 9,
+        "drop_precedence_colour_marking": 0
+      }
+    },
+    "32788": {
+      "instance_id": 32788,
+      "attributes": {
+        "queue_configuration_option": 1,
+        "maximum_queue_size": 0,
+        "allocated_queue_size": 0,
+        "discard_block_counter_reset_interval": 0,
+        "threshold_value_for_discarded_blocks": 0,
+        "related_port": 2147614724,
+        "traffic_scheduler_pointer": 0,
+        "weight": 1,
+        "back_pressure_operation": 0,
+        "back_pressure_time": 0,
+        "back_pressure_occur_queue_threshold": 0,
+        "back_pressure_clear_queue_threshold": 0,
+        "packet_drop_queue_thresholds": 0,
+        "packet_drop_max_p": 65535,
+        "queue_drop_w_q": 9,
+        "drop_precedence_colour_marking": 0
+      }
+    },
+    "32789": {
+      "instance_id": 32789,
+      "attributes": {
+        "queue_configuration_option": 1,
+        "maximum_queue_size": 0,
+        "allocated_queue_size": 0,
+        "discard_block_counter_reset_interval": 0,
+        "threshold_value_for_discarded_blocks": 0,
+        "related_port": 2147614725,
+        "traffic_scheduler_pointer": 0,
+        "weight": 1,
+        "back_pressure_operation": 0,
+        "back_pressure_time": 0,
+        "back_pressure_occur_queue_threshold": 0,
+        "back_pressure_clear_queue_threshold": 0,
+        "packet_drop_queue_thresholds": 0,
+        "packet_drop_max_p": 65535,
+        "queue_drop_w_q": 9,
+        "drop_precedence_colour_marking": 0
+      }
+    },
+    "32790": {
+      "instance_id": 32790,
+      "attributes": {
+        "queue_configuration_option": 1,
+        "maximum_queue_size": 0,
+        "allocated_queue_size": 0,
+        "discard_block_counter_reset_interval": 0,
+        "threshold_value_for_discarded_blocks": 0,
+        "related_port": 2147614726,
+        "traffic_scheduler_pointer": 0,
+        "weight": 1,
+        "back_pressure_operation": 0,
+        "back_pressure_time": 0,
+        "back_pressure_occur_queue_threshold": 0,
+        "back_pressure_clear_queue_threshold": 0,
+        "packet_drop_queue_thresholds": 0,
+        "packet_drop_max_p": 65535,
+        "queue_drop_w_q": 9,
+        "drop_precedence_colour_marking": 0
+      }
+    },
+    "32791": {
+      "instance_id": 32791,
+      "attributes": {
+        "queue_configuration_option": 1,
+        "maximum_queue_size": 0,
+        "allocated_queue_size": 0,
+        "discard_block_counter_reset_interval": 0,
+        "threshold_value_for_discarded_blocks": 0,
+        "related_port": 2147614727,
+        "traffic_scheduler_pointer": 0,
+        "weight": 1,
+        "back_pressure_operation": 0,
+        "back_pressure_time": 0,
+        "back_pressure_occur_queue_threshold": 0,
+        "back_pressure_clear_queue_threshold": 0,
+        "packet_drop_queue_thresholds": 0,
+        "packet_drop_max_p": 65535,
+        "queue_drop_w_q": 9,
+        "drop_precedence_colour_marking": 0
+      }
+    },
+    "32792": {
+      "instance_id": 32792,
+      "attributes": {
+        "queue_configuration_option": 1,
+        "maximum_queue_size": 0,
+        "allocated_queue_size": 0,
+        "discard_block_counter_reset_interval": 0,
+        "threshold_value_for_discarded_blocks": 0,
+        "related_port": 2147680256,
+        "traffic_scheduler_pointer": 0,
+        "weight": 1,
+        "back_pressure_operation": 0,
+        "back_pressure_time": 0,
+        "back_pressure_occur_queue_threshold": 0,
+        "back_pressure_clear_queue_threshold": 0,
+        "packet_drop_queue_thresholds": 0,
+        "packet_drop_max_p": 65535,
+        "queue_drop_w_q": 9,
+        "drop_precedence_colour_marking": 0
+      }
+    },
+    "32793": {
+      "instance_id": 32793,
+      "attributes": {
+        "queue_configuration_option": 1,
+        "maximum_queue_size": 0,
+        "allocated_queue_size": 0,
+        "discard_block_counter_reset_interval": 0,
+        "threshold_value_for_discarded_blocks": 0,
+        "related_port": 2147680257,
+        "traffic_scheduler_pointer": 0,
+        "weight": 1,
+        "back_pressure_operation": 0,
+        "back_pressure_time": 0,
+        "back_pressure_occur_queue_threshold": 0,
+        "back_pressure_clear_queue_threshold": 0,
+        "packet_drop_queue_thresholds": 0,
+        "packet_drop_max_p": 65535,
+        "queue_drop_w_q": 9,
+        "drop_precedence_colour_marking": 0
+      }
+    },
+    "32794": {
+      "instance_id": 32794,
+      "attributes": {
+        "queue_configuration_option": 1,
+        "maximum_queue_size": 0,
+        "allocated_queue_size": 0,
+        "discard_block_counter_reset_interval": 0,
+        "threshold_value_for_discarded_blocks": 0,
+        "related_port": 2147680258,
+        "traffic_scheduler_pointer": 0,
+        "weight": 1,
+        "back_pressure_operation": 0,
+        "back_pressure_time": 0,
+        "back_pressure_occur_queue_threshold": 0,
+        "back_pressure_clear_queue_threshold": 0,
+        "packet_drop_queue_thresholds": 0,
+        "packet_drop_max_p": 65535,
+        "queue_drop_w_q": 9,
+        "drop_precedence_colour_marking": 0
+      }
+    },
+    "32795": {
+      "instance_id": 32795,
+      "attributes": {
+        "queue_configuration_option": 1,
+        "maximum_queue_size": 0,
+        "allocated_queue_size": 0,
+        "discard_block_counter_reset_interval": 0,
+        "threshold_value_for_discarded_blocks": 0,
+        "related_port": 2147680259,
+        "traffic_scheduler_pointer": 0,
+        "weight": 1,
+        "back_pressure_operation": 0,
+        "back_pressure_time": 0,
+        "back_pressure_occur_queue_threshold": 0,
+        "back_pressure_clear_queue_threshold": 0,
+        "packet_drop_queue_thresholds": 0,
+        "packet_drop_max_p": 65535,
+        "queue_drop_w_q": 9,
+        "drop_precedence_colour_marking": 0
+      }
+    },
+    "32796": {
+      "instance_id": 32796,
+      "attributes": {
+        "queue_configuration_option": 1,
+        "maximum_queue_size": 0,
+        "allocated_queue_size": 0,
+        "discard_block_counter_reset_interval": 0,
+        "threshold_value_for_discarded_blocks": 0,
+        "related_port": 2147680260,
+        "traffic_scheduler_pointer": 0,
+        "weight": 1,
+        "back_pressure_operation": 0,
+        "back_pressure_time": 0,
+        "back_pressure_occur_queue_threshold": 0,
+        "back_pressure_clear_queue_threshold": 0,
+        "packet_drop_queue_thresholds": 0,
+        "packet_drop_max_p": 65535,
+        "queue_drop_w_q": 9,
+        "drop_precedence_colour_marking": 0
+      }
+    },
+    "32797": {
+      "instance_id": 32797,
+      "attributes": {
+        "queue_configuration_option": 1,
+        "maximum_queue_size": 0,
+        "allocated_queue_size": 0,
+        "discard_block_counter_reset_interval": 0,
+        "threshold_value_for_discarded_blocks": 0,
+        "related_port": 2147680261,
+        "traffic_scheduler_pointer": 0,
+        "weight": 1,
+        "back_pressure_operation": 0,
+        "back_pressure_time": 0,
+        "back_pressure_occur_queue_threshold": 0,
+        "back_pressure_clear_queue_threshold": 0,
+        "packet_drop_queue_thresholds": 0,
+        "packet_drop_max_p": 65535,
+        "queue_drop_w_q": 9,
+        "drop_precedence_colour_marking": 0
+      }
+    },
+    "32798": {
+      "instance_id": 32798,
+      "attributes": {
+        "queue_configuration_option": 1,
+        "maximum_queue_size": 0,
+        "allocated_queue_size": 0,
+        "discard_block_counter_reset_interval": 0,
+        "threshold_value_for_discarded_blocks": 0,
+        "related_port": 2147680262,
+        "traffic_scheduler_pointer": 0,
+        "weight": 1,
+        "back_pressure_operation": 0,
+        "back_pressure_time": 0,
+        "back_pressure_occur_queue_threshold": 0,
+        "back_pressure_clear_queue_threshold": 0,
+        "packet_drop_queue_thresholds": 0,
+        "packet_drop_max_p": 65535,
+        "queue_drop_w_q": 9,
+        "drop_precedence_colour_marking": 0
+      }
+    },
+    "32799": {
+      "instance_id": 32799,
+      "attributes": {
+        "queue_configuration_option": 1,
+        "maximum_queue_size": 0,
+        "allocated_queue_size": 0,
+        "discard_block_counter_reset_interval": 0,
+        "threshold_value_for_discarded_blocks": 0,
+        "related_port": 2147680263,
+        "traffic_scheduler_pointer": 0,
+        "weight": 1,
+        "back_pressure_operation": 0,
+        "back_pressure_time": 0,
+        "back_pressure_occur_queue_threshold": 0,
+        "back_pressure_clear_queue_threshold": 0,
+        "packet_drop_queue_thresholds": 0,
+        "packet_drop_max_p": 65535,
+        "queue_drop_w_q": 9,
+        "drop_precedence_colour_marking": 0
+      }
+    },
+    "32800": {
+      "instance_id": 32800,
+      "attributes": {
+        "queue_configuration_option": 1,
+        "maximum_queue_size": 0,
+        "allocated_queue_size": 0,
+        "discard_block_counter_reset_interval": 0,
+        "threshold_value_for_discarded_blocks": 0,
+        "related_port": 2147745792,
+        "traffic_scheduler_pointer": 0,
+        "weight": 1,
+        "back_pressure_operation": 0,
+        "back_pressure_time": 0,
+        "back_pressure_occur_queue_threshold": 0,
+        "back_pressure_clear_queue_threshold": 0,
+        "packet_drop_queue_thresholds": 0,
+        "packet_drop_max_p": 65535,
+        "queue_drop_w_q": 9,
+        "drop_precedence_colour_marking": 0
+      }
+    },
+    "32801": {
+      "instance_id": 32801,
+      "attributes": {
+        "queue_configuration_option": 1,
+        "maximum_queue_size": 0,
+        "allocated_queue_size": 0,
+        "discard_block_counter_reset_interval": 0,
+        "threshold_value_for_discarded_blocks": 0,
+        "related_port": 2147745793,
+        "traffic_scheduler_pointer": 0,
+        "weight": 1,
+        "back_pressure_operation": 0,
+        "back_pressure_time": 0,
+        "back_pressure_occur_queue_threshold": 0,
+        "back_pressure_clear_queue_threshold": 0,
+        "packet_drop_queue_thresholds": 0,
+        "packet_drop_max_p": 65535,
+        "queue_drop_w_q": 9,
+        "drop_precedence_colour_marking": 0
+      }
+    },
+    "32802": {
+      "instance_id": 32802,
+      "attributes": {
+        "queue_configuration_option": 1,
+        "maximum_queue_size": 0,
+        "allocated_queue_size": 0,
+        "discard_block_counter_reset_interval": 0,
+        "threshold_value_for_discarded_blocks": 0,
+        "related_port": 2147745794,
+        "traffic_scheduler_pointer": 0,
+        "weight": 1,
+        "back_pressure_operation": 0,
+        "back_pressure_time": 0,
+        "back_pressure_occur_queue_threshold": 0,
+        "back_pressure_clear_queue_threshold": 0,
+        "packet_drop_queue_thresholds": 0,
+        "packet_drop_max_p": 65535,
+        "queue_drop_w_q": 9,
+        "drop_precedence_colour_marking": 0
+      }
+    },
+    "32803": {
+      "instance_id": 32803,
+      "attributes": {
+        "queue_configuration_option": 1,
+        "maximum_queue_size": 0,
+        "allocated_queue_size": 0,
+        "discard_block_counter_reset_interval": 0,
+        "threshold_value_for_discarded_blocks": 0,
+        "related_port": 2147745795,
+        "traffic_scheduler_pointer": 0,
+        "weight": 1,
+        "back_pressure_operation": 0,
+        "back_pressure_time": 0,
+        "back_pressure_occur_queue_threshold": 0,
+        "back_pressure_clear_queue_threshold": 0,
+        "packet_drop_queue_thresholds": 0,
+        "packet_drop_max_p": 65535,
+        "queue_drop_w_q": 9,
+        "drop_precedence_colour_marking": 0
+      }
+    },
+    "32804": {
+      "instance_id": 32804,
+      "attributes": {
+        "queue_configuration_option": 1,
+        "maximum_queue_size": 0,
+        "allocated_queue_size": 0,
+        "discard_block_counter_reset_interval": 0,
+        "threshold_value_for_discarded_blocks": 0,
+        "related_port": 2147745796,
+        "traffic_scheduler_pointer": 0,
+        "weight": 1,
+        "back_pressure_operation": 0,
+        "back_pressure_time": 0,
+        "back_pressure_occur_queue_threshold": 0,
+        "back_pressure_clear_queue_threshold": 0,
+        "packet_drop_queue_thresholds": 0,
+        "packet_drop_max_p": 65535,
+        "queue_drop_w_q": 9,
+        "drop_precedence_colour_marking": 0
+      }
+    },
+    "32805": {
+      "instance_id": 32805,
+      "attributes": {
+        "queue_configuration_option": 1,
+        "maximum_queue_size": 0,
+        "allocated_queue_size": 0,
+        "discard_block_counter_reset_interval": 0,
+        "threshold_value_for_discarded_blocks": 0,
+        "related_port": 2147745797,
+        "traffic_scheduler_pointer": 0,
+        "weight": 1,
+        "back_pressure_operation": 0,
+        "back_pressure_time": 0,
+        "back_pressure_occur_queue_threshold": 0,
+        "back_pressure_clear_queue_threshold": 0,
+        "packet_drop_queue_thresholds": 0,
+        "packet_drop_max_p": 65535,
+        "queue_drop_w_q": 9,
+        "drop_precedence_colour_marking": 0
+      }
+    },
+    "32806": {
+      "instance_id": 32806,
+      "attributes": {
+        "queue_configuration_option": 1,
+        "maximum_queue_size": 0,
+        "allocated_queue_size": 0,
+        "discard_block_counter_reset_interval": 0,
+        "threshold_value_for_discarded_blocks": 0,
+        "related_port": 2147745798,
+        "traffic_scheduler_pointer": 0,
+        "weight": 1,
+        "back_pressure_operation": 0,
+        "back_pressure_time": 0,
+        "back_pressure_occur_queue_threshold": 0,
+        "back_pressure_clear_queue_threshold": 0,
+        "packet_drop_queue_thresholds": 0,
+        "packet_drop_max_p": 65535,
+        "queue_drop_w_q": 9,
+        "drop_precedence_colour_marking": 0
+      }
+    },
+    "32807": {
+      "instance_id": 32807,
+      "attributes": {
+        "queue_configuration_option": 1,
+        "maximum_queue_size": 0,
+        "allocated_queue_size": 0,
+        "discard_block_counter_reset_interval": 0,
+        "threshold_value_for_discarded_blocks": 0,
+        "related_port": 2147745799,
+        "traffic_scheduler_pointer": 0,
+        "weight": 1,
+        "back_pressure_operation": 0,
+        "back_pressure_time": 0,
+        "back_pressure_occur_queue_threshold": 0,
+        "back_pressure_clear_queue_threshold": 0,
+        "packet_drop_queue_thresholds": 0,
+        "packet_drop_max_p": 65535,
+        "queue_drop_w_q": 9,
+        "drop_precedence_colour_marking": 0
+      }
+    },
+    "32808": {
+      "instance_id": 32808,
+      "attributes": {
+        "queue_configuration_option": 1,
+        "maximum_queue_size": 0,
+        "allocated_queue_size": 0,
+        "discard_block_counter_reset_interval": 0,
+        "threshold_value_for_discarded_blocks": 0,
+        "related_port": 2147811328,
+        "traffic_scheduler_pointer": 0,
+        "weight": 1,
+        "back_pressure_operation": 0,
+        "back_pressure_time": 0,
+        "back_pressure_occur_queue_threshold": 0,
+        "back_pressure_clear_queue_threshold": 0,
+        "packet_drop_queue_thresholds": 0,
+        "packet_drop_max_p": 65535,
+        "queue_drop_w_q": 9,
+        "drop_precedence_colour_marking": 0
+      }
+    },
+    "32809": {
+      "instance_id": 32809,
+      "attributes": {
+        "queue_configuration_option": 1,
+        "maximum_queue_size": 0,
+        "allocated_queue_size": 0,
+        "discard_block_counter_reset_interval": 0,
+        "threshold_value_for_discarded_blocks": 0,
+        "related_port": 2147811329,
+        "traffic_scheduler_pointer": 0,
+        "weight": 1,
+        "back_pressure_operation": 0,
+        "back_pressure_time": 0,
+        "back_pressure_occur_queue_threshold": 0,
+        "back_pressure_clear_queue_threshold": 0,
+        "packet_drop_queue_thresholds": 0,
+        "packet_drop_max_p": 65535,
+        "queue_drop_w_q": 9,
+        "drop_precedence_colour_marking": 0
+      }
+    },
+    "32810": {
+      "instance_id": 32810,
+      "attributes": {
+        "queue_configuration_option": 1,
+        "maximum_queue_size": 0,
+        "allocated_queue_size": 0,
+        "discard_block_counter_reset_interval": 0,
+        "threshold_value_for_discarded_blocks": 0,
+        "related_port": 2147811330,
+        "traffic_scheduler_pointer": 0,
+        "weight": 1,
+        "back_pressure_operation": 0,
+        "back_pressure_time": 0,
+        "back_pressure_occur_queue_threshold": 0,
+        "back_pressure_clear_queue_threshold": 0,
+        "packet_drop_queue_thresholds": 0,
+        "packet_drop_max_p": 65535,
+        "queue_drop_w_q": 9,
+        "drop_precedence_colour_marking": 0
+      }
+    },
+    "32811": {
+      "instance_id": 32811,
+      "attributes": {
+        "queue_configuration_option": 1,
+        "maximum_queue_size": 0,
+        "allocated_queue_size": 0,
+        "discard_block_counter_reset_interval": 0,
+        "threshold_value_for_discarded_blocks": 0,
+        "related_port": 2147811331,
+        "traffic_scheduler_pointer": 0,
+        "weight": 1,
+        "back_pressure_operation": 0,
+        "back_pressure_time": 0,
+        "back_pressure_occur_queue_threshold": 0,
+        "back_pressure_clear_queue_threshold": 0,
+        "packet_drop_queue_thresholds": 0,
+        "packet_drop_max_p": 65535,
+        "queue_drop_w_q": 9,
+        "drop_precedence_colour_marking": 0
+      }
+    },
+    "32812": {
+      "instance_id": 32812,
+      "attributes": {
+        "queue_configuration_option": 1,
+        "maximum_queue_size": 0,
+        "allocated_queue_size": 0,
+        "discard_block_counter_reset_interval": 0,
+        "threshold_value_for_discarded_blocks": 0,
+        "related_port": 2147811332,
+        "traffic_scheduler_pointer": 0,
+        "weight": 1,
+        "back_pressure_operation": 0,
+        "back_pressure_time": 0,
+        "back_pressure_occur_queue_threshold": 0,
+        "back_pressure_clear_queue_threshold": 0,
+        "packet_drop_queue_thresholds": 0,
+        "packet_drop_max_p": 65535,
+        "queue_drop_w_q": 9,
+        "drop_precedence_colour_marking": 0
+      }
+    },
+    "32813": {
+      "instance_id": 32813,
+      "attributes": {
+        "queue_configuration_option": 1,
+        "maximum_queue_size": 0,
+        "allocated_queue_size": 0,
+        "discard_block_counter_reset_interval": 0,
+        "threshold_value_for_discarded_blocks": 0,
+        "related_port": 2147811333,
+        "traffic_scheduler_pointer": 0,
+        "weight": 1,
+        "back_pressure_operation": 0,
+        "back_pressure_time": 0,
+        "back_pressure_occur_queue_threshold": 0,
+        "back_pressure_clear_queue_threshold": 0,
+        "packet_drop_queue_thresholds": 0,
+        "packet_drop_max_p": 65535,
+        "queue_drop_w_q": 9,
+        "drop_precedence_colour_marking": 0
+      }
+    },
+    "32814": {
+      "instance_id": 32814,
+      "attributes": {
+        "queue_configuration_option": 1,
+        "maximum_queue_size": 0,
+        "allocated_queue_size": 0,
+        "discard_block_counter_reset_interval": 0,
+        "threshold_value_for_discarded_blocks": 0,
+        "related_port": 2147811334,
+        "traffic_scheduler_pointer": 0,
+        "weight": 1,
+        "back_pressure_operation": 0,
+        "back_pressure_time": 0,
+        "back_pressure_occur_queue_threshold": 0,
+        "back_pressure_clear_queue_threshold": 0,
+        "packet_drop_queue_thresholds": 0,
+        "packet_drop_max_p": 65535,
+        "queue_drop_w_q": 9,
+        "drop_precedence_colour_marking": 0
+      }
+    },
+    "32815": {
+      "instance_id": 32815,
+      "attributes": {
+        "queue_configuration_option": 1,
+        "maximum_queue_size": 0,
+        "allocated_queue_size": 0,
+        "discard_block_counter_reset_interval": 0,
+        "threshold_value_for_discarded_blocks": 0,
+        "related_port": 2147811335,
+        "traffic_scheduler_pointer": 0,
+        "weight": 1,
+        "back_pressure_operation": 0,
+        "back_pressure_time": 0,
+        "back_pressure_occur_queue_threshold": 0,
+        "back_pressure_clear_queue_threshold": 0,
+        "packet_drop_queue_thresholds": 0,
+        "packet_drop_max_p": 65535,
+        "queue_drop_w_q": 9,
+        "drop_precedence_colour_marking": 0
+      }
+    },
+    "32816": {
+      "instance_id": 32816,
+      "attributes": {
+        "queue_configuration_option": 1,
+        "maximum_queue_size": 0,
+        "allocated_queue_size": 0,
+        "discard_block_counter_reset_interval": 0,
+        "threshold_value_for_discarded_blocks": 0,
+        "related_port": 2147876864,
+        "traffic_scheduler_pointer": 0,
+        "weight": 1,
+        "back_pressure_operation": 0,
+        "back_pressure_time": 0,
+        "back_pressure_occur_queue_threshold": 0,
+        "back_pressure_clear_queue_threshold": 0,
+        "packet_drop_queue_thresholds": 0,
+        "packet_drop_max_p": 65535,
+        "queue_drop_w_q": 9,
+        "drop_precedence_colour_marking": 0
+      }
+    },
+    "32817": {
+      "instance_id": 32817,
+      "attributes": {
+        "queue_configuration_option": 1,
+        "maximum_queue_size": 0,
+        "allocated_queue_size": 0,
+        "discard_block_counter_reset_interval": 0,
+        "threshold_value_for_discarded_blocks": 0,
+        "related_port": 2147876865,
+        "traffic_scheduler_pointer": 0,
+        "weight": 1,
+        "back_pressure_operation": 0,
+        "back_pressure_time": 0,
+        "back_pressure_occur_queue_threshold": 0,
+        "back_pressure_clear_queue_threshold": 0,
+        "packet_drop_queue_thresholds": 0,
+        "packet_drop_max_p": 65535,
+        "queue_drop_w_q": 9,
+        "drop_precedence_colour_marking": 0
+      }
+    },
+    "32818": {
+      "instance_id": 32818,
+      "attributes": {
+        "queue_configuration_option": 1,
+        "maximum_queue_size": 0,
+        "allocated_queue_size": 0,
+        "discard_block_counter_reset_interval": 0,
+        "threshold_value_for_discarded_blocks": 0,
+        "related_port": 2147876866,
+        "traffic_scheduler_pointer": 0,
+        "weight": 1,
+        "back_pressure_operation": 0,
+        "back_pressure_time": 0,
+        "back_pressure_occur_queue_threshold": 0,
+        "back_pressure_clear_queue_threshold": 0,
+        "packet_drop_queue_thresholds": 0,
+        "packet_drop_max_p": 65535,
+        "queue_drop_w_q": 9,
+        "drop_precedence_colour_marking": 0
+      }
+    },
+    "32819": {
+      "instance_id": 32819,
+      "attributes": {
+        "queue_configuration_option": 1,
+        "maximum_queue_size": 0,
+        "allocated_queue_size": 0,
+        "discard_block_counter_reset_interval": 0,
+        "threshold_value_for_discarded_blocks": 0,
+        "related_port": 2147876867,
+        "traffic_scheduler_pointer": 0,
+        "weight": 1,
+        "back_pressure_operation": 0,
+        "back_pressure_time": 0,
+        "back_pressure_occur_queue_threshold": 0,
+        "back_pressure_clear_queue_threshold": 0,
+        "packet_drop_queue_thresholds": 0,
+        "packet_drop_max_p": 65535,
+        "queue_drop_w_q": 9,
+        "drop_precedence_colour_marking": 0
+      }
+    },
+    "32820": {
+      "instance_id": 32820,
+      "attributes": {
+        "queue_configuration_option": 1,
+        "maximum_queue_size": 0,
+        "allocated_queue_size": 0,
+        "discard_block_counter_reset_interval": 0,
+        "threshold_value_for_discarded_blocks": 0,
+        "related_port": 2147876868,
+        "traffic_scheduler_pointer": 0,
+        "weight": 1,
+        "back_pressure_operation": 0,
+        "back_pressure_time": 0,
+        "back_pressure_occur_queue_threshold": 0,
+        "back_pressure_clear_queue_threshold": 0,
+        "packet_drop_queue_thresholds": 0,
+        "packet_drop_max_p": 65535,
+        "queue_drop_w_q": 9,
+        "drop_precedence_colour_marking": 0
+      }
+    },
+    "32821": {
+      "instance_id": 32821,
+      "attributes": {
+        "queue_configuration_option": 1,
+        "maximum_queue_size": 0,
+        "allocated_queue_size": 0,
+        "discard_block_counter_reset_interval": 0,
+        "threshold_value_for_discarded_blocks": 0,
+        "related_port": 2147876869,
+        "traffic_scheduler_pointer": 0,
+        "weight": 1,
+        "back_pressure_operation": 0,
+        "back_pressure_time": 0,
+        "back_pressure_occur_queue_threshold": 0,
+        "back_pressure_clear_queue_threshold": 0,
+        "packet_drop_queue_thresholds": 0,
+        "packet_drop_max_p": 65535,
+        "queue_drop_w_q": 9,
+        "drop_precedence_colour_marking": 0
+      }
+    },
+    "32822": {
+      "instance_id": 32822,
+      "attributes": {
+        "queue_configuration_option": 1,
+        "maximum_queue_size": 0,
+        "allocated_queue_size": 0,
+        "discard_block_counter_reset_interval": 0,
+        "threshold_value_for_discarded_blocks": 0,
+        "related_port": 2147876870,
+        "traffic_scheduler_pointer": 0,
+        "weight": 1,
+        "back_pressure_operation": 0,
+        "back_pressure_time": 0,
+        "back_pressure_occur_queue_threshold": 0,
+        "back_pressure_clear_queue_threshold": 0,
+        "packet_drop_queue_thresholds": 0,
+        "packet_drop_max_p": 65535,
+        "queue_drop_w_q": 9,
+        "drop_precedence_colour_marking": 0
+      }
+    },
+    "32823": {
+      "instance_id": 32823,
+      "attributes": {
+        "queue_configuration_option": 1,
+        "maximum_queue_size": 0,
+        "allocated_queue_size": 0,
+        "discard_block_counter_reset_interval": 0,
+        "threshold_value_for_discarded_blocks": 0,
+        "related_port": 2147876871,
+        "traffic_scheduler_pointer": 0,
+        "weight": 1,
+        "back_pressure_operation": 0,
+        "back_pressure_time": 0,
+        "back_pressure_occur_queue_threshold": 0,
+        "back_pressure_clear_queue_threshold": 0,
+        "packet_drop_queue_thresholds": 0,
+        "packet_drop_max_p": 65535,
+        "queue_drop_w_q": 9,
+        "drop_precedence_colour_marking": 0
+      }
+    },
+    "32824": {
+      "instance_id": 32824,
+      "attributes": {
+        "queue_configuration_option": 1,
+        "maximum_queue_size": 0,
+        "allocated_queue_size": 0,
+        "discard_block_counter_reset_interval": 0,
+        "threshold_value_for_discarded_blocks": 0,
+        "related_port": 2147942400,
+        "traffic_scheduler_pointer": 0,
+        "weight": 1,
+        "back_pressure_operation": 0,
+        "back_pressure_time": 0,
+        "back_pressure_occur_queue_threshold": 0,
+        "back_pressure_clear_queue_threshold": 0,
+        "packet_drop_queue_thresholds": 0,
+        "packet_drop_max_p": 65535,
+        "queue_drop_w_q": 9,
+        "drop_precedence_colour_marking": 0
+      }
+    },
+    "32825": {
+      "instance_id": 32825,
+      "attributes": {
+        "queue_configuration_option": 1,
+        "maximum_queue_size": 0,
+        "allocated_queue_size": 0,
+        "discard_block_counter_reset_interval": 0,
+        "threshold_value_for_discarded_blocks": 0,
+        "related_port": 2147942401,
+        "traffic_scheduler_pointer": 0,
+        "weight": 1,
+        "back_pressure_operation": 0,
+        "back_pressure_time": 0,
+        "back_pressure_occur_queue_threshold": 0,
+        "back_pressure_clear_queue_threshold": 0,
+        "packet_drop_queue_thresholds": 0,
+        "packet_drop_max_p": 65535,
+        "queue_drop_w_q": 9,
+        "drop_precedence_colour_marking": 0
+      }
+    },
+    "32826": {
+      "instance_id": 32826,
+      "attributes": {
+        "queue_configuration_option": 1,
+        "maximum_queue_size": 0,
+        "allocated_queue_size": 0,
+        "discard_block_counter_reset_interval": 0,
+        "threshold_value_for_discarded_blocks": 0,
+        "related_port": 2147942402,
+        "traffic_scheduler_pointer": 0,
+        "weight": 1,
+        "back_pressure_operation": 0,
+        "back_pressure_time": 0,
+        "back_pressure_occur_queue_threshold": 0,
+        "back_pressure_clear_queue_threshold": 0,
+        "packet_drop_queue_thresholds": 0,
+        "packet_drop_max_p": 65535,
+        "queue_drop_w_q": 9,
+        "drop_precedence_colour_marking": 0
+      }
+    },
+    "32827": {
+      "instance_id": 32827,
+      "attributes": {
+        "queue_configuration_option": 1,
+        "maximum_queue_size": 0,
+        "allocated_queue_size": 0,
+        "discard_block_counter_reset_interval": 0,
+        "threshold_value_for_discarded_blocks": 0,
+        "related_port": 2147942403,
+        "traffic_scheduler_pointer": 0,
+        "weight": 1,
+        "back_pressure_operation": 0,
+        "back_pressure_time": 0,
+        "back_pressure_occur_queue_threshold": 0,
+        "back_pressure_clear_queue_threshold": 0,
+        "packet_drop_queue_thresholds": 0,
+        "packet_drop_max_p": 65535,
+        "queue_drop_w_q": 9,
+        "drop_precedence_colour_marking": 0
+      }
+    },
+    "32828": {
+      "instance_id": 32828,
+      "attributes": {
+        "queue_configuration_option": 1,
+        "maximum_queue_size": 0,
+        "allocated_queue_size": 0,
+        "discard_block_counter_reset_interval": 0,
+        "threshold_value_for_discarded_blocks": 0,
+        "related_port": 2147942404,
+        "traffic_scheduler_pointer": 0,
+        "weight": 1,
+        "back_pressure_operation": 0,
+        "back_pressure_time": 0,
+        "back_pressure_occur_queue_threshold": 0,
+        "back_pressure_clear_queue_threshold": 0,
+        "packet_drop_queue_thresholds": 0,
+        "packet_drop_max_p": 65535,
+        "queue_drop_w_q": 9,
+        "drop_precedence_colour_marking": 0
+      }
+    },
+    "32829": {
+      "instance_id": 32829,
+      "attributes": {
+        "queue_configuration_option": 1,
+        "maximum_queue_size": 0,
+        "allocated_queue_size": 0,
+        "discard_block_counter_reset_interval": 0,
+        "threshold_value_for_discarded_blocks": 0,
+        "related_port": 2147942405,
+        "traffic_scheduler_pointer": 0,
+        "weight": 1,
+        "back_pressure_operation": 0,
+        "back_pressure_time": 0,
+        "back_pressure_occur_queue_threshold": 0,
+        "back_pressure_clear_queue_threshold": 0,
+        "packet_drop_queue_thresholds": 0,
+        "packet_drop_max_p": 65535,
+        "queue_drop_w_q": 9,
+        "drop_precedence_colour_marking": 0
+      }
+    },
+    "32830": {
+      "instance_id": 32830,
+      "attributes": {
+        "queue_configuration_option": 1,
+        "maximum_queue_size": 0,
+        "allocated_queue_size": 0,
+        "discard_block_counter_reset_interval": 0,
+        "threshold_value_for_discarded_blocks": 0,
+        "related_port": 2147942406,
+        "traffic_scheduler_pointer": 0,
+        "weight": 1,
+        "back_pressure_operation": 0,
+        "back_pressure_time": 0,
+        "back_pressure_occur_queue_threshold": 0,
+        "back_pressure_clear_queue_threshold": 0,
+        "packet_drop_queue_thresholds": 0,
+        "packet_drop_max_p": 65535,
+        "queue_drop_w_q": 9,
+        "drop_precedence_colour_marking": 0
+      }
+    },
+    "32831": {
+      "instance_id": 32831,
+      "attributes": {
+        "queue_configuration_option": 1,
+        "maximum_queue_size": 0,
+        "allocated_queue_size": 0,
+        "discard_block_counter_reset_interval": 0,
+        "threshold_value_for_discarded_blocks": 0,
+        "related_port": 2147942407,
+        "traffic_scheduler_pointer": 0,
+        "weight": 1,
+        "back_pressure_operation": 0,
+        "back_pressure_time": 0,
+        "back_pressure_occur_queue_threshold": 0,
+        "back_pressure_clear_queue_threshold": 0,
+        "packet_drop_queue_thresholds": 0,
+        "packet_drop_max_p": 65535,
+        "queue_drop_w_q": 9,
+        "drop_precedence_colour_marking": 0
+      }
+    }
+  },
+  "278": {
+    "class_id": 278,
+    "32768": {
+      "instance_id": 32768,
+      "attributes": {
+        "tcont_pointer": 32768,
+        "traffic_scheduler_pointer": 0,
+        "policy": 1,
+        "priority_weight": 0
+      }
+    },
+    "32769": {
+      "instance_id": 32769,
+      "attributes": {
+        "tcont_pointer": 32769,
+        "traffic_scheduler_pointer": 0,
+        "policy": 1,
+        "priority_weight": 0
+      }
+    },
+    "32770": {
+      "instance_id": 32770,
+      "attributes": {
+        "tcont_pointer": 32770,
+        "traffic_scheduler_pointer": 0,
+        "policy": 1,
+        "priority_weight": 0
+      }
+    },
+    "32771": {
+      "instance_id": 32771,
+      "attributes": {
+        "tcont_pointer": 32771,
+        "traffic_scheduler_pointer": 0,
+        "policy": 1,
+        "priority_weight": 0
+      }
+    },
+    "32772": {
+      "instance_id": 32772,
+      "attributes": {
+        "tcont_pointer": 32772,
+        "traffic_scheduler_pointer": 0,
+        "policy": 1,
+        "priority_weight": 0
+      }
+    },
+    "32773": {
+      "instance_id": 32773,
+      "attributes": {
+        "tcont_pointer": 32773,
+        "traffic_scheduler_pointer": 0,
+        "policy": 1,
+        "priority_weight": 0
+      }
+    },
+    "32774": {
+      "instance_id": 32774,
+      "attributes": {
+        "tcont_pointer": 32774,
+        "traffic_scheduler_pointer": 0,
+        "policy": 1,
+        "priority_weight": 0
+      }
+    },
+    "32775": {
+      "instance_id": 32775,
+      "attributes": {
+        "tcont_pointer": 32775,
+        "traffic_scheduler_pointer": 0,
+        "policy": 1,
+        "priority_weight": 0
+      }
+    }
+  },
+  "350": {
+    "class_id": 350,
+    "0": {
+      "instance_id": 0,
+      "attributes": {
+        "voltha-unknown-blob": "000000000000000000000000000000000000000000000000000000000028"
+      }
+    }
+  },
+  "353": {
+    "class_id": 353,
+    "0": {
+      "instance_id": 0,
+      "attributes": {
+        "voltha-unknown-blob": "312e332e302e300000000000000000000000000000000000000000000028"
+      }
+    },
+    "1": {
+      "instance_id": 1,
+      "attributes": {
+        "voltha-unknown-blob": "312e332e302e300000000000000000000000000000000000000000000028"
+      }
+    }
+  },
+  "367": {
+    "class_id": 367,
+    "0": {
+      "instance_id": 0,
+      "attributes": {
+        "voltha-unknown-blob": "000000000000000000000000000000000000000000000000000000000028"
+      }
+    }
+  },
+  "373": {
+    "class_id": 373,
+    "0": {
+      "instance_id": 0,
+      "attributes": {
+        "voltha-unknown-blob": "0101000001010101ff808000e000c0000101000000000000000000000028"
+      }
+    }
+  },
+  "377": {
+    "class_id": 377,
+    "0": {
+      "instance_id": 0,
+      "attributes": {
+        "voltha-unknown-blob": "000000000000000000000000000000000000000000000000000000000028"
+      }
+    }
+  },
+  "65408": {
+    "class_id": 65408,
+    "0": {
+      "instance_id": 0,
+      "attributes": {
+        "voltha-unknown-blob": "000000000000000000000000000000000000000000000000000000000028"
+      }
+    }
+  },
+  "65414": {
+    "class_id": 65414,
+    "0": {
+      "instance_id": 0,
+      "attributes": {
+        "voltha-unknown-blob": "03e8c3508bb78e0f42deffff000000000000000000000000000000000028"
+      }
+    }
+  },
+  "65415": {
+    "class_id": 65415,
+    "0": {
+      "instance_id": 0,
+      "attributes": {
+        "voltha-unknown-blob": "020000000000000000000000000000000000000000000000000000000028"
+      }
+    }
+  },
+  "65427": {
+    "class_id": 65427,
+    "350": {
+      "instance_id": 350,
+      "attributes": {
+        "voltha-unknown-blob": "ffff53515353515351535351515151515351000000000000000000000028"
+      }
+    },
+    "351": {
+      "instance_id": 351,
+      "attributes": {
+        "voltha-unknown-blob": "fff851575151515151515151515151000000000000000000000000000028"
+      }
+    },
+    "377": {
+      "instance_id": 377,
+      "attributes": {
+        "voltha-unknown-blob": "ffff51515151515151515151515151515151000000000000000000000028"
+      }
+    },
+    "65408": {
+      "instance_id": 65408,
+      "attributes": {
+        "voltha-unknown-blob": "fe0052535151515351000000000000000000000000000000000000000028"
+      }
+    },
+    "65414": {
+      "instance_id": 65414,
+      "attributes": {
+        "voltha-unknown-blob": "fff051515151515151515151515100000000000000000000000000000028"
+      }
+    },
+    "65415": {
+      "instance_id": 65415,
+      "attributes": {
+        "voltha-unknown-blob": "c00053710000000000000000000000000000000000000000000000000028"
+      }
+    }
+  },
+  "65529": {
+    "class_id": 65529,
+    "0": {
+      "instance_id": 0,
+      "attributes": {
+        "voltha-unknown-blob": "000000000001000000000000000000000000000000000000000000000028"
+      }
+    }
+  },
+  "65530": {
+    "class_id": 65530,
+    "0": {
+      "instance_id": 0,
+      "attributes": {
+        "voltha-unknown-blob": "000000000000000000000000000000000000000000000000000000000028"
+      }
+    }
+  }
+}

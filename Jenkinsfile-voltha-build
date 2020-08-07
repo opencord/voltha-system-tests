@@ -214,6 +214,8 @@ node ("${TestNodeName}") {
                     etcd_container=\$(kubectl get pods | grep etcd | awk 'NR==1{print \$1}')
                     kubectl cp $WORKSPACE/voltha-system-tests/tests/data/MIB_Alpha.json \$etcd_container:/tmp/MIB_Alpha.json
                     put_result=\$(kubectl exec -it \$etcd_container -- /bin/sh -c 'cat /tmp/MIB_Alpha.json | ETCDCTL_API=3 etcdctl put service/voltha/omci_mibs/templates/BRCM/BVM4K00BRA0915-0083/5023_020O02414')
+                    kubectl cp $WORKSPACE/voltha-system-tests/tests/data/MIB_Scom.json \$etcd_container:/tmp/MIB_Scom.json
+                    put_result=\$(kubectl exec -it \$etcd_container -- /bin/sh -c 'cat /tmp/MIB_Scom.json | ETCDCTL_API=3 etcdctl put service/voltha/omci_mibs/templates/SCOM/Glasfaser-Modem/090140.1.0.304')
                     if [[ "${workFlow}" == "DT" ]]; then
                         curl -sSL --user karaf:karaf -X POST -H Content-Type:application/json http://${deployment_config.nodes[0].ip}:30120/onos/v1/network/configuration --data @$WORKSPACE/voltha-system-tests/tests/data/${configFileName}-sadis-DT.json
                     elif [[ "${workFlow}" == "TT" ]]; then
