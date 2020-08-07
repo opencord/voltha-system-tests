@@ -96,6 +96,22 @@ openonu-go-adapter-test: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_SINGLE_PON_FILE)
 openonu-go-adapter-test: ROBOT_FILE := Voltha_ONUStateTests.robot
 openonu-go-adapter-test: openonu-go-adapter-statetest
 
+# target to invoke 1T4GEM openonu go adapter
+1t4gem-openonu-go-adapter-test: ROBOT_MISC_ARGS += -v state2test:5 -v testmode:SingleStateTime -v timeout:180s
+1t4gem-openonu-go-adapter-test: ROBOT_MISC_ARGS += -v techprofile:1T4GEM -i onutest $(ROBOT_DEBUG_LOG_OPT)
+1t4gem-openonu-go-adapter-test: ROBOT_MISC_ARGS += -X
+1t4gem-openonu-go-adapter-test: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_SINGLE_PON_FILE)
+1t4gem-openonu-go-adapter-test: ROBOT_FILE := Voltha_ONUStateTests.robot
+1t4gem-openonu-go-adapter-test: openonu-go-adapter-statetest
+
+# target to invoke 1T8GEM openonu go adapter
+1t8gem-openonu-go-adapter-test: ROBOT_MISC_ARGS += -v state2test:5 -v testmode:SingleStateTime -v timeout:180s
+1t8gem-openonu-go-adapter-test: ROBOT_MISC_ARGS += -v techprofile:1T8GEM -i onutest $(ROBOT_DEBUG_LOG_OPT)
+1t8gem-openonu-go-adapter-test: ROBOT_MISC_ARGS += -X
+1t8gem-openonu-go-adapter-test: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_SINGLE_PON_FILE)
+1t8gem-openonu-go-adapter-test: ROBOT_FILE := Voltha_ONUStateTests.robot
+1t8gem-openonu-go-adapter-test: openonu-go-adapter-statetest
+
 # target to invoke multiple openonu go adapter
 multi-openonu-go-adapter-test: ROBOT_MISC_ARGS += -v state2test:5 -v testmode:SingleStateTime -v timeout:180s
 multi-openonu-go-adapter-test: ROBOT_MISC_ARGS += -i onutest $(ROBOT_DEBUG_LOG_OPT)
@@ -103,6 +119,22 @@ multi-openonu-go-adapter-test: ROBOT_MISC_ARGS += -X
 multi-openonu-go-adapter-test: ROBOT_CONFIG_FILE := $(ROBOT_SCALE_MULT_ONU_FILE)
 multi-openonu-go-adapter-test: ROBOT_FILE := Voltha_ONUStateTests.robot
 multi-openonu-go-adapter-test: openonu-go-adapter-statetest
+
+# target to invoke multiple 1T4GEM openonu go adapter
+multi-1t4gem-openonu-go-adapter-test: ROBOT_MISC_ARGS += -v state2test:5 -v testmode:SingleStateTime -v timeout:180s
+multi-1t4gem-openonu-go-adapter-test: ROBOT_MISC_ARGS += -v techprofile:1T4GEM -i onutest $(ROBOT_DEBUG_LOG_OPT)
+multi-1t4gem-openonu-go-adapter-test: ROBOT_MISC_ARGS += -X
+multi-1t4gem-openonu-go-adapter-test: ROBOT_CONFIG_FILE := $(ROBOT_SCALE_MULT_ONU_FILE)
+multi-1t4gem-openonu-go-adapter-test: ROBOT_FILE := Voltha_ONUStateTests.robot
+multi-1t4gem-openonu-go-adapter-test: openonu-go-adapter-statetest
+
+# target to invoke multiple 1T8GEM openonu go adapter
+multi-1t8gem-openonu-go-adapter-test: ROBOT_MISC_ARGS += -v state2test:5 -v testmode:SingleStateTime -v timeout:180s
+multi-1t8gem-openonu-go-adapter-test: ROBOT_MISC_ARGS += -v techprofile:1T8GEM -i onutest $(ROBOT_DEBUG_LOG_OPT)
+multi-1t8gem-openonu-go-adapter-test: ROBOT_MISC_ARGS += -X
+multi-1t8gem-openonu-go-adapter-test: ROBOT_CONFIG_FILE := $(ROBOT_SCALE_MULT_ONU_FILE)
+multi-1t8gem-openonu-go-adapter-test: ROBOT_FILE := Voltha_ONUStateTests.robot
+multi-1t8gem-openonu-go-adapter-test: openonu-go-adapter-statetest
 
 sanity-single-kind: ROBOT_MISC_ARGS += -i sanity $(ROBOT_DEBUG_LOG_OPT)
 sanity-single-kind: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_SINGLE_PON_FILE)
