@@ -16,6 +16,24 @@
       "revId": "d9302d6a793884c8a69f1dd92b7c4709ca8332d8",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9d964122_9e13f0b6",
+        "filename": "tests/data/MIB_Scom.json",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000127
+      },
+      "writtenOn": "2020-08-10T15:36:12Z",
+      "side": 1,
+      "message": "Done. Created a new patch https://gerrit.opencord.org/c/voltha-openonu-adapter/+/20052 for openonu adapter",
+      "parentUuid": "13fe4b3a_7bf497ab",
+      "revId": "d9302d6a793884c8a69f1dd92b7c4709ca8332d8",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
     }
   ]
 }
