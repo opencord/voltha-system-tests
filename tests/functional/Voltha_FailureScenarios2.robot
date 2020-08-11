@@ -62,7 +62,7 @@ Verify OLT Soft Reboot
     [Setup]    Start Logging    OLTSoftReboot
     [Teardown]    Run Keywords    Collect Logs
     ...           AND             Stop Logging    OLTSoftReboot
-    #...           AND             Delete Device and Verify
+    Delete All Devices and Verify
     Setup
     ## Performing Sanity Test to make sure subscribers are all AUTH+DHCP and pingable
     Run Keyword If    ${has_dataplane}    Clean Up Linux
