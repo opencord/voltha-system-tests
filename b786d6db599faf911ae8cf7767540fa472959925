@@ -16,6 +16,24 @@
       "revId": "b786d6db599faf911ae8cf7767540fa472959925",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c55e909c_5f688b90",
+        "filename": "libraries/utils.robot",
+        "patchSetId": 15
+      },
+      "lineNbr": 537,
+      "author": {
+        "id": 1000514
+      },
+      "writtenOn": "2020-08-13T08:04:26Z",
+      "side": 1,
+      "message": "Yes.. Will update in next patch iteration..",
+      "parentUuid": "24d6743c_862deb88",
+      "revId": "b786d6db599faf911ae8cf7767540fa472959925",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
     }
   ]
 }
