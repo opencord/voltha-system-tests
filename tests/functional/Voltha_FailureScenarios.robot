@@ -549,12 +549,15 @@ Verify OLT Soft Reboot
     [Setup]    Start Logging    OLTSoftReboot
     [Teardown]    Run Keywords    Collect Logs
     ...           AND             Stop Logging    OLTSoftReboot
-    Delete All Devices and Verify
-    Setup
+    #Delete All Devices and Verify
+    #Setup
     ## Performing Sanity Test to make sure subscribers are all AUTH+DHCP and pingable
-    Run Keyword If    ${has_dataplane}    Clean Up Linux
-    Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test
+    #Run Keyword If    ${has_dataplane}    Clean Up Linux
+    #Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test
     # Reboot the OLT using "voltctl device reboot" command
+    Wait Until Keyword Succeeds    360s    5s
+    ...    Validate OLT Device    ENABLED    ACTIVE
+    ...    REACHABLE    ${olt_serial_number}
     Reboot Device    ${olt_device_id}
     Run Keyword And Ignore Error    Collect Logs
     #Verify that ping fails
