@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "24d6743c_862deb88",
+        "filename": "libraries/utils.robot",
+        "patchSetId": 15
+      },
+      "lineNbr": 537,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2020-08-13T07:42:34Z",
+      "side": 1,
+      "message": "I think this method is a very close copy of `Clean Up Linux` line 589 of old file, line 804 after your updates, can you either update that one to call this one for each ONU ?",
+      "revId": "b786d6db599faf911ae8cf7767540fa472959925",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    }
+  ]
+}
