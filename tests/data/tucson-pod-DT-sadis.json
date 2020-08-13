@@ -1,0 +1,112 @@
+{
+  "apps": {
+    "org.opencord.sadis": {
+      "sadis": {
+        "integration": {
+          "cache": {
+            "enabled": false,
+            "maxsize": 50,
+            "ttl": "PT0m"
+          }
+        },
+        "entries": [
+          {
+            "id": "EC1925000157",
+            "hardwareIdentifier": "0f:f1:ce:c0:ff:ee",
+            "nasId": "EC1925000157",
+            "uplinkPort": 1048576
+          },
+          {
+            "id": "ALPHe3d1ce7b-1",
+            "nasPortId": "ALPHe3d1ce7b-1",
+            "circuitId": "ALPHe3d1ce7b-1",
+            "remoteId": "ALPHe3d1ce7b",
+            "uniTagList": [{
+              "uniTagMatch": 4096,
+              "ponCTag": 4096,
+              "ponSTag": 11,
+              "technologyProfileId": 64,
+              "upstreamBandwidthProfile": "Default",
+              "downstreamBandwidthProfile": "Default",
+              "isDhcpRequired": false
+            }]
+          },
+          {
+            "id": "ISKT71e801a0-1",
+            "nasPortId": "ISKT71e801a0-1",
+            "circuitId": "ISKT71e801a0-1",
+            "remoteId": "ISKT71e801a0",
+            "uniTagList": [{
+              "uniTagMatch": 4096,
+              "ponCTag": 4096,
+              "ponSTag": 12,
+              "technologyProfileId": 64,
+              "upstreamBandwidthProfile": "User_Bandwidth1",
+              "downstreamBandwidthProfile": "User_Bandwidth2",
+              "isDhcpRequired": false
+            }]
+          },
+          {
+            "id": "ALPHe3d1cfac-1",
+            "nasPortId": "ALPHe3d1cfac-1",
+            "circuitId": "ALPHe3d1cfac-1",
+            "remoteId": "ALPHe3d1cfac",
+            "uniTagList": [{
+              "uniTagMatch": 4096,
+              "ponCTag": 4096,
+              "ponSTag": 21,
+              "technologyProfileId": 64,
+              "upstreamBandwidthProfile": "User_Bandwidth3",
+              "downstreamBandwidthProfile": "User_Bandwidth3",
+              "isDhcpRequired": false
+            }]
+          }
+        ]
+      },
+      "bandwidthprofile":{
+          "integration":{
+              "cache":{
+                  "enabled":true,
+                  "maxsize":40,
+                  "ttl":"PT1m"
+              }
+          },
+          "entries":[
+              {
+                  "id": "Default",
+                  "air": 100000,
+                  "cbs": 30,
+                  "cir": 16000,
+                  "ebs": 30,
+                  "eir": 16000
+              },
+              {
+                  "id": "User_Bandwidth1",
+                  "air": 100000,
+                  "cbs": 1000,
+                  "cir": 30000,
+                  "ebs": 1000,
+                  "eir": 20000
+              },
+              {
+                  "id": "User_Bandwidth2",
+                  "air": 100000,
+                  "cbs": 5000,
+                  "cir": 100000,
+                  "ebs": 5000,
+                  "eir": 100000
+              },
+              {
+                  "id": "User_Bandwidth3",
+                  "air": 100000,
+                  "cbs": 5000,
+                  "cir": 500000,
+                  "ebs": 5000,
+                  "eir": 500000
+              }
+
+          ]
+      }
+    }
+  }
+}
