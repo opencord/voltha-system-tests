@@ -581,6 +581,74 @@ Verify OLT Soft Reboot
     Run Keyword If    ${has_dataplane}    Clean Up Linux
     Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test
 
+Verify restart ofagent container before subscriber is provisioned
+    [Documentation]    Restart ofagent container before subscriber is provisioned.
+    [Tags]    functional   VOL-2962   ofagentRestart2
+    [Setup]    Start Logging    ofagentRestart2
+    [Teardown]    Run Keywords    Collect Logs
+    ...           AND             Stop Logging    ofagentRestart
+    ...           AND             Scale K8s Deployment    ${NAMESPACE}    voltha-voltha-ofagent    1
+    Delete Device And Verify
+    setup
+    Run Keyword If    ${has_dataplane}    Clean Up Linux
+    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    360s    5s
+    ...    Validate OLT Device    ENABLED    ACTIVE
+    ...    REACHABLE    ${olt_serial_number}
+    ${of_id}=    Wait Until Keyword Succeeds    ${timeout}    15s    Validate OLT Device in ONOS    ${olt_serial_number}
+    Set Global Variable    ${of_id}
+    FOR    ${I}    IN RANGE    0    ${num_onus}
+        ${src}=    Set Variable    ${hosts.src[${I}]}
+        ${dst}=    Set Variable    ${hosts.dst[${I}]}
+        ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
+        ${onu_port}=    Wait Until Keyword Succeeds    ${timeout}    2s    Get ONU Port in ONOS    ${src['onu']}
+        ...    ${of_id}
+        # Bring up the device and verify it authenticates
+        Wait Until Keyword Succeeds    ${timeout}    5s    Validate Device        ENABLED    ACTIVE    REACHABLE
+        ...    ${onu_device_id}    onu=True    onu_reason=omci-flows-pushed
+        Wait Until Keyword Succeeds    ${timeout}    2s    Verify Eapol Flows Added For ONU    ${ONOS_SSH_IP}
+        ...    ${ONOS_SSH_PORT}    ${onu_port}
+        ${wpa_log}=    Run Keyword If    ${has_dataplane}    Catenate    SEPARATOR=.
+        ...    /tmp/wpa    ${src['dp_iface_name']}    log
+        Run Keyword If    ${has_dataplane}    Run Keyword And Continue On Failure    Validate Authentication    True
+        ...    ${src['dp_iface_name']}    wpa_supplicant.conf    ${src['ip']}    ${src['user']}    ${src['pass']}
+        ...    ${src['container_type']}    ${src['container_name']}    ${wpa_log}
+        Wait Until Keyword Succeeds    ${timeout}    2s    Verify ONU in AAA-Users    ${ONOS_SSH_IP}
+        ...    ${ONOS_SSH_PORT}     ${onu_port}
+    END
+    # Restart POD ofagent
+    ${waitforRestart}    Set Variable    120s
+    ${podStatusOutput}=    Run    kubectl get pods -n ${NAMESPACE}
+    Log    ${podStatusOutput}
+    ${countBforRestart}=    Run    kubectl get pods -n ${NAMESPACE} | grep Running | wc -l
+    ${podName}    Set Variable     ofagent
+    Restart Pod    ${NAMESPACE}    ${podName}
+    Sleep    60s
+    Wait Until Keyword Succeeds    ${waitforRestart}    2s    Validate Pod Status    ofagent    ${NAMESPACE}
+    ...    Running
+    FOR    ${I}    IN RANGE    0    ${num_onus}
+        # Add subscriber access and verify that DHCP completes to ensure system is still functioning properly
+        #Wait Until Keyword Succeeds    ${timeout}    2s    Execute ONOS CLI Command    ${ONOS_SSH_IP}
+        #...    ${ONOS_SSH_PORT}    volt-add-subscriber-access ${of_id} ${onu_port}
+        ${src}=    Set Variable    ${hosts.src[${I}]}
+        ${dst}=    Set Variable    ${hosts.dst[${I}]}
+        Run Keyword and Ignore Error    Collect Logs
+        ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
+        ${onu_port}=    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
+        ...    Get ONU Port in ONOS    ${src['onu']}    ${of_id}
+        # Add subscriber access and verify that DHCP completes to ensure system is still functioning properly
+        Wait Until Keyword Succeeds    ${timeout}    2s    Execute ONOS CLI Command    ${ONOS_SSH_IP}
+        ...    ${ONOS_SSH_PORT}    volt-add-subscriber-access ${of_id} ${onu_port}
+        Run Keyword If    ${has_dataplane}    Run Keyword And Continue On Failure    Validate DHCP and Ping    True
+        ...    True    ${src['dp_iface_name']}    ${src['s_tag']}    ${src['c_tag']}    ${dst['dp_iface_ip_qinq']}
+        ...    ${src['ip']}    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
+        ...    ${dst['dp_iface_name']}    ${dst['ip']}    ${dst['user']}    ${dst['pass']}    ${dst['container_type']}
+        ...    ${dst['container_name']}
+        # Verify DHCP-Allocations
+        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
+        ...    Validate Subscriber DHCP Allocation    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${onu_port}
+        Run Keyword and Ignore Error    Collect Logs
+    END
+
 Verify ONU Soft Reboot
     [Documentation]    Test soft reboot of the ONU using voltctl command
     [Tags]    VOL-1957    ONUSoftReboot   notready
