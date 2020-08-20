@@ -651,7 +651,7 @@ Verify restart ofagent container before subscriber is provisioned
 
 Verify ONU Soft Reboot
     [Documentation]    Test soft reboot of the ONU using voltctl command
-    [Tags]    VOL-1957    ONUSoftReboot   notready
+    [Tags]    VOL-1957    ONUSoftReboot   functional
     [Setup]    Start Logging    ONUSoftReboot
     #...        AND             Setup
     [Teardown]    Run Keywords    Collect Logs
