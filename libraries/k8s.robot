@@ -134,6 +134,16 @@ Validate Pods Status By Label
     ${pods_status}=    Run    ${command}
     Should Not Be Equal    ${pods_status}    ${EMPTY}    Can't filter out Pods with exptected status ${expectedStatus}
 
+Validate Pods Status By Name
+    [Arguments]    ${namespace}    ${name}    ${expectedStatus}
+    [Documentation]    To run the kubectl command and check the status of all pods filter
+    ...    by label matche the expected status
+    ${command}=    Catenate
+    ...    kubectl -n ${namespace} get pods ${name}
+    ...    -o=jsonpath="{.status.phase}"
+    ${pods_status}=    Run    ${command}
+    Should Not Be Equal    ${pods_status}    ${EMPTY}    Can't filter out Pods with exptected status ${expectedStatus}
+
 Verify All Voltha Pods For Any Error Logs
     [Arguments]    ${datetime}
     [Documentation]    This keyword checks for the error occurence in the voltha pods
@@ -287,6 +297,13 @@ Delete K8s Pods By Label
     [Documentation]    Uses kubectl to delete a PODs, filtering by label
     ${rc}=    Run and Return Rc
     ...    kubectl -n ${namespace} delete pods -l${key}=${value}
+    Should Be Equal as Integers    ${rc}    0
+
+Delete K8s Pods By Name
+    [Arguments]    ${namespace}    ${value}
+    [Documentation]    Uses kubectl to delete a PODs, filtering by label
+    ${rc}=    Run and Return Rc
+    ...    kubectl -n ${namespace} delete pods ${value}
     Should Be Equal as Integers    ${rc}    0
 
 Scale K8s Deployment
