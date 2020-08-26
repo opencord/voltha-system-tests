@@ -130,6 +130,14 @@ Get FabricSwitch in ONOS
     Should Be True    ${matched}    No fabric switch found
     [Return]    ${of_id}
 
+Get Master Instace in ONOS
+    [Arguments]    ${of_id}
+    [Documentation]    Returns nodeId of the Master instace for a giver device in ONOS
+    ${resp}=    Get Request    ONOS    onos/v1/mastership/${of_id}/master
+    ${jsondata}=    To Json    ${resp.content}
+    Should Not Be Empty    ${jsondata['nodeId']}
+    [Return]    Get From Dictionary    ${jsondata['nodeId']}    nodeId
+
 Verify Subscriber Access Flows Added for ONU
     [Arguments]    ${ip}    ${port}    ${olt_of_id}    ${onu_port}    ${nni_port}    ${c_tag}    ${s_tag}
     [Documentation]    Verifies if the Subscriber Access Flows are added in ONOS for the ONU
