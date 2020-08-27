@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f2d4a195_506eeb0c",
+        "filename": "tests/functional/Voltha_ONOSHATests.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1000064
+      },
+      "writtenOn": "2020-08-27T01:19:02Z",
+      "side": 1,
+      "message": "If the test purpose is to make sure that the subscriber still has data plane after restart of ONOS, then we should have the precondition setup before the restart of ONOS instance. Something like \"Perform Sanity Test\" as we need the subscribers to be auth+dhcp+pingable",
+      "revId": "433bb81ba9926dda039c4061357a320afda5b38d",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5d0fb882_d7718f96",
+        "filename": "tests/functional/Voltha_ONOSHATests.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1000064
+      },
+      "writtenOn": "2020-08-27T01:19:02Z",
+      "side": 1,
+      "message": "Since this is the first test case in the suite, we need to create the device. One option is to add to the [Setup], or add it as part of the assertion",
+      "revId": "433bb81ba9926dda039c4061357a320afda5b38d",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    }
+  ]
+}
