@@ -18,6 +18,14 @@
 # Collecting the info for all containers in the same chart can be confusing,
 # we may want to create subcharts for the different groups, eg: infra, ONOS, core, adapters
 
+import csv
+from sys import platform as sys_pf
+
+if sys_pf == 'darwin':
+    import matplotlib
+
+    matplotlib.use("TkAgg")
+
 import argparse
 import requests
 import matplotlib.pyplot as plt
@@ -28,7 +36,7 @@ import time
 EXCLUDED_POD_NAMES = [
     "kube", "coredns", "kind", "grafana",
     "prometheus", "tiller", "control-plane",
-    "calico", "nginx", "registry"
+    "calico", "nginx", "registry", "cattle", "canal", "metrics",
 ]
 
 DATE_FORMATTER_FN = mdates.DateFormatter('%Y-%m-%d %H:%M:%S')
@@ -43,8 +51,11 @@ def main(address, out_folder, since):
     :return: void
     """
     time_delta = int(since) * 60
-    container_mem_query = "container_memory_usage_bytes{image!=''}[%sm]" % since
-    container_cpu_query = "rate(container_cpu_user_seconds_total{image!=''}[%sm]) * 100" % since
+
+    container_mem_query = \
+        "rate(container_memory_working_set_bytes{namespace='default',container!='',container!='POD'}[%sm])" % since
+    container_cpu_query = "rate(container_cpu_user_seconds_total{image!=''," \
+                          "namespace='default',container!='',container!='POD'}[%sm]) * 100" % since
 
     now = time.time()
     cpu_params = {
@@ -56,18 +67,54 @@ def main(address, out_folder, since):
     r = requests.get("http://%s/api/v1/query_range" % address, cpu_params)
     print("Downloading CPU info from: %s" % r.url)
     container_cpu = r.json()["data"]["result"]
-    plot_cpu_consumption(remove_unwanted_containers(container_cpu),
+    containers = remove_unwanted_containers(container_cpu)
+    plot_cpu_consumption(containers,
                          output="%s/cpu.pdf" % out_folder)
+    data_to_csv(containers, output="%s/cpu.csv" % out_folder,
+                convert_values=lambda values: [str(v) + "%" for v in values])
 
-    r = requests.get("http://%s/api/v1/query" % address, {"query": container_mem_query})
+    mem_params = {
+        "query": container_mem_query,
+        "start": now - time_delta,
+        "end": now,
+        "step": "30",
+    }
+
+    r = requests.get("http://%s/api/v1/query_range" % address, mem_params)
     print("Downloading Memory info from: %s" % r.url)
     container_mem = r.json()["data"]["result"]
-    plot_memory_consumption(remove_unwanted_containers(container_mem),
-                            output="%s/memory.pdf" % out_folder)
+    containers = remove_unwanted_containers(container_mem)
+    plot_memory_consumption(containers, output="%s/memory.pdf" % out_folder)
+    data_to_csv(containers, output="%s/memory.csv" % out_folder,
+                convert_values=lambda values: ["{:.2f} MB".format(bytesto(v, "m")) for v in values])
+
+
+def data_to_csv(containers, output=None, convert_values=None):
+    """
+    Get a list of prometheus metrics and dumps them in a csv
+    :param containers: Prometheus metrics
+    :param output: Destination file
+    :param convert_values: Function to convert the valus, take a list on numbers
+    """
+    csv_file = open(output, "w+")
+    csv_writer = csv.writer(csv_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
+
+    # we assume all the containers have the same timestamps
+    dates = [datetime.fromtimestamp(x[0]) for x in containers[0]["values"]]
+    csv_writer.writerow([''] + dates)
+
+    for c in containers:
+        name = c["metric"]["pod"]
+        data = c["values"]
+
+        values = [float(x[1]) for x in data]
+
+        if convert_values:
+            values = convert_values(values)
+        csv_writer.writerow([name] + values)
 
 
 def plot_cpu_consumption(containers, output=None):
-
     plt.figure('cpu')
     fig, ax = plt.subplots()
     ax.xaxis.set_major_formatter(DATE_FORMATTER_FN)
@@ -79,7 +126,7 @@ def plot_cpu_consumption(containers, output=None):
     plt.ylabel("% used")
 
     for c in containers:
-        name = c["metric"]["pod_name"]
+        name = c["metric"]["pod"]
         data = c["values"]
 
         dates = [datetime.fromtimestamp(x[0]) for x in data]
@@ -89,12 +136,12 @@ def plot_cpu_consumption(containers, output=None):
         plt.plot(dates, values, label=name, lw=2, color=get_line_color(name))
         # plt.plot(dates[1:], get_diff(values), label=name, lw=2, color=get_line_color(name))
 
-    plt.legend(loc='upper left')
+    plt.legend(loc='upper left', title="CPU Consumption", bbox_to_anchor=(1.05, 1))
 
     fig = plt.gcf()
     fig.set_size_inches(20, 11)
 
-    plt.savefig(output)
+    plt.savefig(output, bbox_inches="tight")
 
 
 def plot_memory_consumption(containers, output=None):
@@ -108,44 +155,32 @@ def plot_memory_consumption(containers, output=None):
     plt.ylabel("MB")
 
     for c in containers:
-        name = c["metric"]["pod_name"]
+        name = c["metric"]["pod"]
         data = c["values"]
 
         dates = [datetime.fromtimestamp(x[0]) for x in data]
         values = [bytesto(float(x[1]), "m") for x in data]
 
-        plt.plot(dates[1:], get_diff(values), label=name, lw=2, color=get_line_color(name))
+        # plt.plot(dates[1:], get_diff(values), label=name, lw=2, color=get_line_color(name))
+        plt.plot(dates[1:], values[1:], label=name, lw=2, color=get_line_color(name))
 
-    plt.legend(loc='upper left')
+    plt.legend(loc='upper left', title="Memory Usage", bbox_to_anchor=(1.05, 1))
 
     fig = plt.gcf()
     fig.set_size_inches(20, 11)
 
-    plt.savefig(output)
+    plt.savefig(output, bbox_inches="tight")
 
 
 def remove_unwanted_containers(cpus):
     res = []
     for c in cpus:
-        if "pod_name" in c["metric"]:
 
-            pod_name = c["metric"]["pod_name"]
-            container_name = c["metric"]["name"]
-
+        if "pod" in c["metric"]:
+            pod_name = c["metric"]["pod"]
             if any(x in pod_name for x in EXCLUDED_POD_NAMES):
                 continue
-
-            if "k8s_POD" in container_name:
-                # this is the kubernetes POD controller, we don't care about it
-                continue
-
-            # if "_0" not in container_name:
-            #     # this is something with the ONOS chart that is weird (each POD is reported 3 times)
-            #     continue
-
             res.append(c)
-        else:
-            continue
 
     return res
 
@@ -205,6 +240,7 @@ def get_line_color(container_name):
 
 
 def get_diff(data):
+    # get the delta between the current data and the previous point
     return [x - data[i - 1] for i, x in enumerate(data)][1:]
 
 
