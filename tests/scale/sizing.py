@@ -71,7 +71,7 @@ def main(address, out_folder, since):
     plot_cpu_consumption(containers,
                          output="%s/cpu.pdf" % out_folder)
     data_to_csv(containers, output="%s/cpu.csv" % out_folder,
-                convert_values=lambda values: [str(v) + "%" for v in values])
+                convert_values=lambda values: ["{:.2f}".format(v) for v in values])
 
     mem_params = {
         "query": container_mem_query,
@@ -86,7 +86,7 @@ def main(address, out_folder, since):
     containers = remove_unwanted_containers(container_mem)
     plot_memory_consumption(containers, output="%s/memory.pdf" % out_folder)
     data_to_csv(containers, output="%s/memory.csv" % out_folder,
-                convert_values=lambda values: ["{:.2f} MB".format(bytesto(v, "m")) for v in values])
+                convert_values=lambda values: ["{:.2f}".format(bytesto(v, "m")) for v in values])
 
 
 def data_to_csv(containers, output=None, convert_values=None):
