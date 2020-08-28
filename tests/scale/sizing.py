@@ -52,10 +52,9 @@ def main(address, out_folder, since):
     """
     time_delta = int(since) * 60
 
-    container_mem_query = \
-        "rate(container_memory_working_set_bytes{namespace='default',container!='',container!='POD'}[%sm])" % since
-    container_cpu_query = "rate(container_cpu_user_seconds_total{image!=''," \
-                          "namespace='default',container!='',container!='POD'}[%sm]) * 100" % since
+    container_mem_query = "sum by(pod) (container_memory_working_set_bytes{namespace='default',container!='',container!='POD'})"
+
+    container_cpu_query = "sum by(pod) (rate(container_cpu_usage_seconds_total{namespace='default',container!='',container!='POD'}[%sm])) * 100" % since
 
     now = time.time()
     cpu_params = {
@@ -64,6 +63,7 @@ def main(address, out_folder, since):
         "end": now,
         "step": "30",
     }
+
     r = requests.get("http://%s/api/v1/query_range" % address, cpu_params)
     print("Downloading CPU info from: %s" % r.url)
     container_cpu = r.json()["data"]["result"]
@@ -71,7 +71,7 @@ def main(address, out_folder, since):
     plot_cpu_consumption(containers,
                          output="%s/cpu.pdf" % out_folder)
     data_to_csv(containers, output="%s/cpu.csv" % out_folder,
-                convert_values=lambda values: [str(v) + "%" for v in values])
+                convert_values=lambda values: ["{:.2f}".format(v) for v in values])
 
     mem_params = {
         "query": container_mem_query,
@@ -86,7 +86,7 @@ def main(address, out_folder, since):
     containers = remove_unwanted_containers(container_mem)
     plot_memory_consumption(containers, output="%s/memory.pdf" % out_folder)
     data_to_csv(containers, output="%s/memory.csv" % out_folder,
-                convert_values=lambda values: ["{:.2f} MB".format(bytesto(v, "m")) for v in values])
+                convert_values=lambda values: ["{:.2f}".format(bytesto(v, "m")) for v in values])
 
 
 def data_to_csv(containers, output=None, convert_values=None):
