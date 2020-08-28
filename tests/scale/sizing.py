@@ -52,10 +52,9 @@ def main(address, out_folder, since):
     """
     time_delta = int(since) * 60
 
-    container_mem_query = \
-        "rate(container_memory_working_set_bytes{namespace='default',container!='',container!='POD'}[%sm])" % since
-    container_cpu_query = "rate(container_cpu_user_seconds_total{image!=''," \
-                          "namespace='default',container!='',container!='POD'}[%sm]) * 100" % since
+    container_mem_query = "sum by(pod) (container_memory_working_set_bytes{namespace='default',container!='',container!='POD'})"
+
+    container_cpu_query = "sum by(pod) (rate(container_cpu_usage_seconds_total{namespace='default',container!='',container!='POD'}[%sm])) * 100" % since
 
     now = time.time()
     cpu_params = {
@@ -64,6 +63,7 @@ def main(address, out_folder, since):
         "end": now,
         "step": "30",
     }
+
     r = requests.get("http://%s/api/v1/query_range" % address, cpu_params)
     print("Downloading CPU info from: %s" % r.url)
     container_cpu = r.json()["data"]["result"]
