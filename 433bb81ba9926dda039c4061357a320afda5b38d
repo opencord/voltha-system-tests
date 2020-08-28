@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "2e55bdf4_aa368ce2",
+        "filename": "tests/functional/Voltha_ONOSHATests.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2020-08-28T14:59:47Z",
+      "side": 1,
+      "message": "I was expecting the system to come before the test in that state. So I was expecting to put the test in a. place where the system is like that. if this is not true I can call setup here. If I call setup on an already present and brought up system, what happens ?",
+      "parentUuid": "f2d4a195_506eeb0c",
+      "revId": "433bb81ba9926dda039c4061357a320afda5b38d",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "5d0fb882_d7718f96",
         "filename": "tests/functional/Voltha_ONOSHATests.robot",
         "patchSetId": 1
