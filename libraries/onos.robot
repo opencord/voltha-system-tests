@@ -380,11 +380,14 @@ Assert Number of AAA-Users
     Should Be Equal As Integers    ${aaa_users}    ${expected_onus}
 
 Validate DHCP Allocations
-    [Arguments]    ${onos_ssh_connection}    ${expected_onus}
+    [Arguments]    ${onos_ssh_connection}    ${count}   ${workflow}
     [Documentation]    Matches for number of dhcpacks based on number of onus
     ${allocations}=    Execute ONOS CLI Command on open connection     ${onos_ssh_connection}
     ...     dhcpl2relay-allocations | grep DHCPACK | wc -l
-    Should Be Equal As Integers    ${allocations}    ${expected_onus}
+    # if the workflow is TT we'll have 2 allocations for each ONU
+    ${ttAllocations}=     Evaluate   (${count} * 2)
+    ${count}=    Set Variable If  $workflow=='tt'    ${ttAllocations}   ${count}
+    Should Be Equal As Integers    ${allocations}    ${count}
 
 Validate Subscriber DHCP Allocation
     [Arguments]    ${ip}    ${port}    ${onu_port}
@@ -437,9 +440,10 @@ Wait for AAA Authentication
     Wait Until Keyword Succeeds     10m     5s      Assert Number of AAA-Users      ${onos_ssh_connection}     ${count}
 
 Wait for DHCP Ack
-    [Arguments]    ${onos_ssh_connection}     ${count}
+    [Arguments]    ${onos_ssh_connection}     ${count}  ${workflow}
     [Documentation]    Waits untill a certain number of subscribers have received a DHCP_ACK
-    Wait Until Keyword Succeeds     10m     5s      Validate DHCP Allocations      ${onos_ssh_connection}     ${count}
+    Wait Until Keyword Succeeds     10m     5s      Validate DHCP Allocations
+        ...     ${onos_ssh_connection}     ${count}  ${workflow}
 
 Provision subscriber
     [Documentation]  Calls volt-add-subscriber-access in ONOS
