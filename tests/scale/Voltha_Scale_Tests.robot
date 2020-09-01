@@ -164,7 +164,7 @@ Flows validation in ONOS after subscriber provisioning
 Wait for subscribers to have an IP
     [Documentation]    Check that all subscribers have received a DHCP_ACK
     [Tags]      non-critical    dhcp  plot-onos-dhcp
-    Wait for DHCP Ack     ${onos_ssh_connection}  ${total_onus}
+    Wait for DHCP Ack     ${onos_ssh_connection}  ${total_onus}     ${workflow}
 
 Disable and Delete devices
     [Documentation]  Disable and delete the OLTs in VOLTHA

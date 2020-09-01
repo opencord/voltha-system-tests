@@ -122,5 +122,5 @@ Calculate Tt flows
     ${flow_count}=  Run Keyword If  $provisioned=='false'
         ...     Evaluate    (${olt_count} * ${dhcpFlowsCount}) + (${olt_count} * ${lldpFlowsCount})
         ...     ELSE
-        ...     Evaluate    (${uni_count} * 6) + (${olt_count} * ${dhcpFlowsCount}) + (${olt_count} * ${lldpFlowsCount})
+        ...     Evaluate    (${uni_count} * 15) + (${olt_count} * ${dhcpFlowsCount}) + (${olt_count} * ${lldpFlowsCount})
     Return From Keyword     ${flow_count}
