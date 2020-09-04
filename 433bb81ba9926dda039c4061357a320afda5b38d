@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "ed4983d6_22ea4a67",
+        "filename": "tests/functional/Voltha_ONOSHATests.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1000064
+      },
+      "writtenOn": "2020-09-04T22:44:30Z",
+      "side": 1,
+      "message": "We will use the HA tests in a different stage, then I would suggest that we can call `setup` and then Perform Sanity Test before the actual test begins. BTW, regarding your question about giving a setup in an already existing state will fail the test.",
+      "parentUuid": "2e55bdf4_aa368ce2",
+      "revId": "433bb81ba9926dda039c4061357a320afda5b38d",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "5d0fb882_d7718f96",
         "filename": "tests/functional/Voltha_ONOSHATests.robot",
         "patchSetId": 1
