@@ -1,0 +1,22 @@
+{
+    "org.opencord.igmpproxy" : {  
+        "igmpproxy":{
+            "FastLeave":"true",
+            "LastQueryInterval":1,
+            "MaxResp":1,
+            "enableIgmpProvisioning":"false",
+            "globalConnectPointMode":"true",
+            "globalConnectPoint" : "of:0000000000000001/3",
+            "sourceDeviceAndPort":"of:0000000000000001/3",
+            "outgoingIgmpVlanId":550,
+            "outgoingIgmpInnerVlanId":55,
+            "outgoingIgmpWithV3":"true",
+            "IgmpCos":5,
+            "IgmpUniCos":5,
+            "PeriodicQuery":"true",
+            "KeepAliveInterval":60,
+            "KeepAliveCount":5,
+            "requestDsIgmpPackets":false
+        }
+    }
+}
