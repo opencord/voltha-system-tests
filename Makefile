@@ -173,6 +173,20 @@ sanity-single-kind: ROBOT_MISC_ARGS += -i sanity $(ROBOT_DEBUG_LOG_OPT)
 sanity-single-kind: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_SINGLE_PON_FILE)
 sanity-single-kind: bbsim-kind
 
+sanity-bbsim-att: ROBOT_MISC_ARGS += -v logging:True -v workflow:ATT
+sanity-bbsim-att: sanity-bbsim
+
+sanity-bbsim-dt: ROBOT_MISC_ARGS += -v logging:True -v workflow:DT
+sanity-bbsim-dt: sanity-bbsim
+
+sanity-bbsim-tt: ROBOT_MISC_ARGS += -v logging:True -v workflow:TT
+sanity-bbsim-tt: sanity-bbsim
+
+sanity-bbsim: ROBOT_MISC_ARGS += -i bbsimSanity $(ROBOT_DEBUG_LOG_OPT)
+sanity-bbsim: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_SINGLE_PON_FILE)
+sanity-bbsim: ROBOT_FILE := Voltha_BBSimTests.robot
+sanity-bbsim: voltha-bbsim-test
+
 rwcore-restart-single-kind: ROBOT_MISC_ARGS += -X -i functionalANDrwcore-restart $(ROBOT_DEBUG_LOG_OPT)
 rwcore-restart-single-kind: ROBOT_CONFIG_FILE := $(ROBOT_FAIL_SINGLE_PON_FILE)
 rwcore-restart-single-kind: ROBOT_FILE := Voltha_FailureScenarios.robot
@@ -314,6 +328,10 @@ openonu-go-adapter-tests: vst_venv
 	cd tests/openonu-go-adapter ;\
 	robot -V $(ROBOT_CONFIG_FILE) $(ROBOT_MISC_ARGS) $(ROBOT_FILE)
 
+voltha-bbsim-test: vst_venv
+	source ./$</bin/activate ; set -u ;\
+	cd tests/bbsim ;\
+	robot -V $(ROBOT_CONFIG_FILE) $(ROBOT_MISC_ARGS) $(ROBOT_FILE)
 
 # self-test, lint, and setup targets
 

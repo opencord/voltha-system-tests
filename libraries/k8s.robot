@@ -68,13 +68,19 @@ Exec Pod In Kube
     [Documentation]    Uses kubectl to execute a command in the pod and return the output
     ${rc}    ${exec_pod_name}=    Run and Return Rc and Output
     ...    kubectl -n ${namespace} get pods -l app.kubernetes.io/name=${name} -o name
+
+Exec Pod And Return Output And RC
+    [Arguments]    ${namespace}    ${name}    ${command}
+    [Documentation]    Uses kubectl to execute a command in the pod and return the output
+    ${rc}    ${exec_pod_name}=    Run and Return Rc and Output
+    ...    kubectl get pods -n ${namespace} | grep ${name} | awk 'NR==1{print $1}'
+
     Log    ${exec_pod_name}
     Should Not Be Empty    ${exec_pod_name}    Unable to parse pod name
     ${rc}    ${output}=    Run and Return Rc and Output
     ...    kubectl exec -i ${exec_pod_name} -n ${namespace} -- ${command}
     Log    ${output}
-    [return]    ${output}
-
+    [return]    ${output}   ${rc}
 
 Exec Pod Separate Stderr
     [Arguments]    ${namespace}    ${name}    ${command}
@@ -136,6 +142,14 @@ Validate Pod Status
     ...    kubectl get pod -n ${namespace} -o=jsonpath="{.items[${index}].status.phase}"
     Log    ${currentStatusofPod}
     Should Contain    ${currentStatusofPod}    ${expectedStatus}
+
+Get Pod Name By Label
+    [Arguments]    ${namespace}    ${label_key}   ${label_value}
+    [Documentation]  Return a pod name from a given label
+    ${rc}    ${pod_name}=    Run and Return Rc and Output
+        ...    kubectl get pods -n ${namespace} -l ${label_key}=${label_value} --no-headers | awk '{print $1}'
+    Should Not Be Empty    ${pod_name}    Pod not found
+    [return]  ${pod_name}
 
 Validate Pods Status By Label
     [Arguments]    ${namespace}    ${label_key}   ${label_value}    ${expectedStatus}
