@@ -44,8 +44,7 @@ ROBOT_SCALE_MULT_PON_FILE       ?= $(ROOT_DIR)/tests/data/bbsim-kind-8x2.yaml
 ROBOT_SCALE_MULT_ONU_FILE       ?= $(ROOT_DIR)/tests/data/bbsim-kind-8x8.yaml
 ROBOT_DEBUG_LOG_OPT             ?=
 ROBOT_MISC_ARGS                 ?=
-# TODO: TT workflow not yet supported on BBSim
-ROBOT_SANITY_TT_SINGLE_PON_FILE    ?=
+ROBOT_SANITY_TT_SINGLE_PON_FILE    ?= $(ROOT_DIR)/tests/data/bbsim-kind-tt.yaml
 
 # for backwards compatibility
 sanity-kind: sanity-single-kind
