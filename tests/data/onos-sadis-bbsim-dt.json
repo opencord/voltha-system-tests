@@ -28,7 +28,6 @@
               "technologyProfileId": 64,
               "downstreamBandwidthProfile": "Default",
               "upstreamBandwidthProfile": "Default",
-              "isDhcpRequired": true
             }
           ]
         },
@@ -45,7 +44,6 @@
               "technologyProfileId": 64,
               "downstreamBandwidthProfile": "Default",
               "upstreamBandwidthProfile": "Default",
-              "isDhcpRequired": true
             }
           ]
         }
