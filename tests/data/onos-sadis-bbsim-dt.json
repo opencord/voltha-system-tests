@@ -27,8 +27,7 @@
               "ponSTag": 900,
               "technologyProfileId": 64,
               "downstreamBandwidthProfile": "Default",
-              "upstreamBandwidthProfile": "Default",
-              "isDhcpRequired": true
+              "upstreamBandwidthProfile": "Default"
             }
           ]
         },
@@ -44,8 +43,7 @@
               "ponSTag": 901,
               "technologyProfileId": 64,
               "downstreamBandwidthProfile": "Default",
-              "upstreamBandwidthProfile": "Default",
-              "isDhcpRequired": true
+              "upstreamBandwidthProfile": "Default"
             }
           ]
         }
