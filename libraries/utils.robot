@@ -85,6 +85,10 @@ Common Test Suite Setup
     ${sadis_file}=    Get Variable Value    ${sadis.file}
     Log To Console    \nSadis File:${sadis_file}
     Run Keyword Unless    '${sadis_file}' is '${None}'    Send File To Onos    ${sadis_file}    apps/
+    #send igmp file to onos (valid only for TT)
+    ${onos_netcfg_file}=    Get Variable Value    ${onos_netcfg.file}
+    Run Keyword If    '${workflow}'=='TT' and '${has_dataplane}'=='False' and '${onos_netcfg_file}'!='${None}'
+    ...    Send File To Onos    ${onos_netcfg_file}    apps/
     Set Suite Variable    ${num_all_onus}
     Set Suite Variable    ${num_olts}
     Set Suite Variable    ${list_olts}

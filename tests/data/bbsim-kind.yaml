@@ -42,3 +42,7 @@ hosts:
 
   dst:
     - ip: null
+
+# To read only if workflow is "TT"
+onos_netcfg:
+  file: ${CURDIR}/../../data/onos-igmp.json
