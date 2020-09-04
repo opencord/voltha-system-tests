@@ -41,6 +41,3 @@ hosts:
 
   dst:
     - ip: null
-
-sadis:
-  file: ${CURDIR}/../../data/onos-sadis-bbsim.json

@@ -38,10 +38,7 @@ hosts:
     -
       onu: 'BBSM00000001'
       c_tag: '4096'
-      s_tag: '900'
+      s_tag: '7'
 
   dst:
     - ip: null
-
-sadis:
-  file: ${CURDIR}/../../data/onos-sadis-bbsim-dt.json
