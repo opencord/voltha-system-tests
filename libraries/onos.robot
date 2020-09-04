@@ -419,6 +419,13 @@ Verify ONU in AAA-Users
     ${aaa_users}=    Execute ONOS CLI Command    ${ip}    ${port}    aaa-users | grep AUTHORIZED | grep ${onu_port}
     Should Not Be Empty    ${aaa_users}    ONU port ${onu_port} not found in aaa-users
 
+Verify ONU in Groups
+    [Arguments]    ${ip}    ${port}    ${deviceId}    ${onu_port}
+    [Documentation]    Verifies that the specified onu_port exists in groups output
+    ${groups}=    Execute ONOS CLI Command    ${ip}    ${port}    groups -j | grep ${deviceId} | grep ${onu_port}
+    Log To Console    Group: ${groups}
+    Should Not Be Empty    ${groups}    ONU port ${onu_port} not found in groups
+
 Assert Number of AAA-Users
     [Arguments]    ${onos_ssh_connection}    ${expected_onus}   ${deviceId}
     [Documentation]    Matches for number of aaa-users authorized based on number of onus
