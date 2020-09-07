@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "6a7daa2b_72586533",
+        "filename": "tests/functional/Voltha_ONOSHATests.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2020-09-07T08:50:45Z",
+      "side": 1,
+      "message": "Done, added a Setup a clean up linux and a perform sanity test. I\u0027ve tested this on BBSIM and seems to work. Let\u0027s plan to test on one of HW pods.",
+      "parentUuid": "ed4983d6_22ea4a67",
+      "revId": "433bb81ba9926dda039c4061357a320afda5b38d",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "5d0fb882_d7718f96",
         "filename": "tests/functional/Voltha_ONOSHATests.robot",
         "patchSetId": 1
