@@ -109,8 +109,8 @@ Calculate Tt flows
     [Documentation]  Calculate the flow for the TT workflow
     [Arguments]  ${uni_count}    ${olt_count}   ${provisioned}  ${withDhcp}     ${withIgmp}    ${withLldp}
     # TODO account for withDhcp, withIgmp, see Calculate Att flows for examples
-    # (1 LLDP + 1 DHCP * OLTS) before provisioning
-    # (1 DHCP, 1 IGMP, 4 DP * ONUs) * (1 LLDP + 1 DHCP * OLTS) after provisioning
+    # (1 LLDP + 1 DHCP + 1 IGMP * OLTS) before provisioning
+    # (1 DHCP, 1 IGMP, 4 DP * ONUs) * (1 LLDP + 1 DHCP + 1 IGMP * OLTS) after provisioning
     ${dhcpFlowsCount}=   Run Keyword If   $withDhcp=='true'
     ...     Evaluate     1
     ...     ELSE
@@ -119,8 +119,14 @@ Calculate Tt flows
     ...     Evaluate     1
     ...     ELSE
     ...     Evaluate     0
+    ${igmpFlowsCount}=   Run Keyword If   $withIgmp=='true'
+    ...     Evaluate     1
+    ...     ELSE
+    ...     Evaluate     0
     ${flow_count}=  Run Keyword If  $provisioned=='false'
     ...     Evaluate    (${olt_count} * ${dhcpFlowsCount}) + (${olt_count} * ${lldpFlowsCount})
+    ...                  + (${olt_count} * ${igmpFlowsCount})
     ...     ELSE
     ...     Evaluate    (${uni_count} * 15) + (${olt_count} * ${dhcpFlowsCount}) + (${olt_count} * ${lldpFlowsCount})
+    ...                  + (${olt_count} * ${igmpFlowsCount})
     Return From Keyword     ${flow_count}
