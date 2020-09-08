@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "416f1353_4fd12052",
+        "filename": "tests/functional/Voltha_ONOSHATests.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1000064
+      },
+      "writtenOn": "2020-09-08T22:19:15Z",
+      "side": 1,
+      "message": "\"Setup Suite\" is not defined.. we need something like below as the suite is using the variables\n\u003d\u003d\u003d\u003d\nSetup Suite\n    [Documentation]    Set up the test suite\n    Common Test Suite Setup\n\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d",
+      "revId": "b5ca1cdc473233b0f9d53647b9dc35b4ce0664f4",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    }
+  ]
+}
