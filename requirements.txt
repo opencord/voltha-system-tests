@@ -9,7 +9,7 @@ robotframework-sshlibrary==3.4.0
 yamllint==1.23.0
 # replace when we can use upstream (needs python 3.6)
 git+https://github.com/zdw/robotframework-importresource@b81b87aabaee0594e966687b41e3674b866f28ee
-cord-robot==2.1.1
+cord-robot==2.1.3
 virtualenv
 matplotlib==3.0.3
 requests==2.24.0
