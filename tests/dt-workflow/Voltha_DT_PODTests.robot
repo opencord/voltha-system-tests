@@ -299,18 +299,18 @@ Test Disable and Enable OLT for DT
         Sleep    10s
         # Delete ONU Device (To replicate DT workflow)
         Delete Device    ${onu_device_id}
-        Sleep    5s
+        Sleep    10s
     END
     Sleep    5s
     Run Keyword If    ${has_dataplane}    Clean Up Linux
     # Enable the OLT back and check ONU, OLT status are back to "ACTIVE"
     Enable Device    ${olt_device_id}
+    # Waiting extra time for the ONUs to come up
+    Sleep    75s
     Wait Until Keyword Succeeds    ${timeout}    5s    Validate OLT Device    ENABLED    ACTIVE    REACHABLE
     ...    ${olt_serial_number}
     Wait Until Keyword Succeeds    ${timeout}    5s    Validate OLT Port Types
     ...    PON_OLT    ETHERNET_NNI
-    # Waiting extra time for the ONUs to come up
-    Sleep    60s
     Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test DT
 
 Test Delete and ReAdd OLT for DT
