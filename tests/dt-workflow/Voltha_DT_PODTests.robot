@@ -153,7 +153,6 @@ Test Subscriber Delete and Add for DT
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    360s    5s
         ...    Validate Device    ENABLED    ACTIVE
         ...    REACHABLE    ${src['onu']}    onu=True    onu_reason=omci-flows-pushed
-        # TODO: Yet to Verify on the GPON based Physical POD (VOL-2652)
         Run Keyword If    ${has_dataplane}    Run Keyword And Continue On Failure
         ...    Wait Until Keyword Succeeds    60s    2s
         ...    Check Ping    True    ${dst['dp_iface_ip_qinq']}    ${src['dp_iface_name']}
@@ -299,18 +298,24 @@ Test Disable and Enable OLT for DT
         Sleep    10s
         # Delete ONU Device (To replicate DT workflow)
         Delete Device    ${onu_device_id}
-        Sleep    5s
+        Sleep    10s
     END
     Sleep    5s
     Run Keyword If    ${has_dataplane}    Clean Up Linux
     # Enable the OLT back and check ONU, OLT status are back to "ACTIVE"
     Enable Device    ${olt_device_id}
+    Sleep    15s
     Wait Until Keyword Succeeds    ${timeout}    5s    Validate OLT Device    ENABLED    ACTIVE    REACHABLE
     ...    ${olt_serial_number}
+    #TODO remove, just for test
+    sleep    ${timeout}
     Wait Until Keyword Succeeds    ${timeout}    5s    Validate OLT Port Types
     ...    PON_OLT    ETHERNET_NNI
-    # Waiting extra time for the ONUs to come up
-    Sleep    60s
+    FOR    ${I}    IN RANGE    0    ${num_onus}
+        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
+        ...    Validate Device    ENABLED    ACTIVE
+        ...    REACHABLE    ${src['onu']}
+    END
     Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test DT
 
 Test Delete and ReAdd OLT for DT
