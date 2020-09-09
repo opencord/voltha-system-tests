@@ -16,6 +16,24 @@
       "revId": "91ecd04e84a1a9a7e8d8df76afc733e91856dcbb",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5a9ec0b5_ceab93f9",
+        "filename": "tests/data/bbsim-kind-tt.yaml",
+        "patchSetId": 4
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1000007
+      },
+      "writtenOn": "2020-09-09T18:01:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6d0ea1b4_02982cf5",
+      "revId": "91ecd04e84a1a9a7e8d8df76afc733e91856dcbb",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
     }
   ]
 }
