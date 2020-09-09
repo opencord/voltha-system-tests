@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6d0ea1b4_02982cf5",
+        "filename": "tests/data/bbsim-kind-tt.yaml",
+        "patchSetId": 4
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2020-09-09T17:38:03Z",
+      "side": 1,
+      "message": "is this 4096 correct ?",
+      "revId": "91ecd04e84a1a9a7e8d8df76afc733e91856dcbb",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    }
+  ]
+}
