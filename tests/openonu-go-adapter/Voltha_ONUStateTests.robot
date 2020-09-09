@@ -45,20 +45,37 @@ ${container_log_dir}    ${None}
 # 4 -> initial-mib-downloaded
 # 5 -> tech-profile-config-download-success
 # 6 -> omci-flows-pushed
+# example: -v state2test:5
 ${state2test}    6
 # test mode variable, can be passed via the command line too, valid values: SingleState, Up2State, SingleStateTime
+# example: -v testmode:SingleStateTime
 ${testmode}    SingleState
 # flag for execute Tech Profile check, can be passed via the command line too
+# example: -v profiletest:False
 ${profiletest}    True
-# used tech profile, can be passed via the command line too, valid values: default, 1T4GEM, 1T8GEM
+# used tech profile, can be passed via the command line too, valid values: default (=1T1GEM), 1T4GEM, 1T8GEM
+# example: -v techprofile:1T4GEM
 ${techprofile}    default
 # flag for execute port test, can be passed via the command line too
+# example: -v porttest:False
 ${porttest}    True
+# flag for execute flow test, can be passed via the command line too
+# example: -v flowtest:False
+${flowtest}    True
+# flag for execute reconcile onu device test, can be passed via the command line too
+# example: -v reconciletest:True
+${reconciletest}    False
+# flag for execute onu device state test after reconcile, can be passed via the command line too
+# example: -v reconcilestatetest:True
+${reconcilestatetest}    False
 # flag debugmode is used, if true timeout calculation various, can be passed via the command line too
+# example: -v debugmode:True
 ${debugmode}    False
 # logging flag to enable Collect Logs, can be passed via the command line too
+# example: -v logging:True
 ${logging}    False
 # if True execution will be paused before clean up
+# example: -v pausebeforecleanup:True
 ${pausebeforecleanup}    False
 ${data_dir}    ../data
 
@@ -91,7 +108,7 @@ Check Loaded Tech Profile
     ...    AND    Stop Logging    ONUCheckTechProfile
 
 Onu Port Check
-    [Documentation]    Validates the ONU Go adapter states
+    [Documentation]    Validates that all the UNI ports show up in ONOS
     ...    Assuming that ONU State Test was executed where all the ONUs are reached the expected state!
     [Tags]    onutest
     [Setup]    Start Logging    ONUPortTest
@@ -102,9 +119,17 @@ Onu Port Check
 *** Keywords ***
 Setup Suite
     [Documentation]    Set up the test suite
+    ${LogInfo}=    Catenate
+    ...    \r\nPassed arguments:
+    ...    state2test:${state2test}, testmode:${testmode}, profiletest:${profiletest}, techprofile:${techprofile},
+    ...    porttest:${porttest}, flowtest:${flowtest}, reconciletest:${reconciletest},
+    ...    reconcilestatetest:${reconcilestatetest}, debugmode:${debugmode}, logging:${logging},
+    ...    pausebeforecleanup:${pausebeforecleanup}
+    Log    ${LogInfo}    console=yes
     Common Test Suite Setup
     Run Keyword If   ${num_onus}>4    Calculate Timeout
-    Run Keyword If    "${techprofile}"=="default"   Log To Console    \nTechProfile:default
+    Run Keyword If    "${techprofile}"=="1T1GEM"    ${techprofile}=    Set Variable    default
+    Run Keyword If    "${techprofile}"=="default"   Log To Console    \nTechProfile:default (1T1GEM)
     ...    ELSE IF    "${techprofile}"=="1T4GEM"    Set Tech Profile    1T4GEM
     ...    ELSE IF    "${techprofile}"=="1T8GEM"    Set Tech Profile    1T8GEM
     ...    ELSE    Fail    The TechProfile (${techprofile}) is not valid!
@@ -117,11 +142,12 @@ Teardown Suite
     ...    Furthermore gives the possibility to pause the execution.
     Run Keyword If    ${pausebeforecleanup}    Import Library    Dialogs
     Run Keyword If    ${pausebeforecleanup}    Pause Execution    Press OK to continue with clean up!
+    Run Keyword If    ${pausebeforecleanup}    Log    Teardown will be continued...    console=yes
     Run Keyword If    ${teardown_device}    Delete All Devices and Verify
     # Wait for Ports in ONOS      ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}  0   BBSM
     Wait for Ports in ONOS      ${onos_ssh_connection}  0   BBSM
     Close ONOS SSH Connection   ${onos_ssh_connection}
-	Remove Tech Profile
+    Remove Tech Profile
 
 Setup Test
     [Documentation]    Pre-test Setup
@@ -145,7 +171,6 @@ Calculate Timeout
     ${timeout}=    Set Variable If    (not ${debugmode}) and (${timeout}>600)    600    ${timeout}
     ${timeout}=    Catenate    SEPARATOR=    ${timeout}    s
     Set Suite Variable    ${timeout}
-    #Log    \r\nTimeout: ${timeout}    INFO    console=True
 
 Do ONU Up To State Test
     [Documentation]    This keyword performs Up2State Test
@@ -255,13 +280,12 @@ Do ONU Single State Test Time
 
 Do Onu Port Check
     [Documentation]    Check that all the UNI ports show up in ONOS
-    # Wait for Ports in ONOS      ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}  ${num_onus}   BBSM
     Wait for Ports in ONOS      ${onos_ssh_connection}  ${num_onus}   BBSM
 
 Set Tech Profile
     [Documentation]    This keyword set the passed TechProfile for the test
     [Arguments]    ${TechProfile}
-	Log To Console    \nTechProfile:${TechProfile}
+    Log To Console    \nTechProfile:${TechProfile}
     ${namespace}=    Set Variable    default
     ${podname}=    Set Variable    etcd-0
     ${src}=    Set Variable    ${data_dir}/TechProfile-${TechProfile}.json
