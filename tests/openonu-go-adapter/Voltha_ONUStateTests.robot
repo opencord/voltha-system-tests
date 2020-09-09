@@ -287,7 +287,7 @@ Set Tech Profile
     [Arguments]    ${TechProfile}
     Log To Console    \nTechProfile:${TechProfile}
     ${namespace}=    Set Variable    default
-    ${podname}=    Set Variable    etcd-0
+    ${podname}=    Set Variable    etcd
     ${src}=    Set Variable    ${data_dir}/TechProfile-${TechProfile}.json
     ${dest}=    Set Variable    /tmp/flexpod.json
     ${command}    Catenate
@@ -302,7 +302,7 @@ Remove Tech Profile
     [Documentation]    This keyword removes TechProfile
 	Log To Console    \nTechProfile:${TechProfile}
     ${namespace}=    Set Variable    default
-    ${podname}=    Set Variable    etcd-0
+    ${podname}=    Set Variable    etcd
     ${command}    Catenate
     ...    /bin/sh -c 'ETCDCTL_API=3 etcdctl del --prefix service/voltha/technology_profiles/XGS-PON/64'
     Exec Pod    ${namespace}    ${podname}    ${command}
@@ -313,7 +313,7 @@ Remove Tech Profile
 Do Check Tech Profile
     [Documentation]    This keyword checks the loaded TechProfile
     ${namespace}=    Set Variable    default
-    ${podname}=    Set Variable    etcd-0
+    ${podname}=    Set Variable    etcd
     ${commandget}    Catenate
     ...    /bin/sh -c 'ETCDCTL_API=3 etcdctl get --prefix service/voltha/technology_profiles/XGS-PON/64'
     ${result}=    Exec Pod    ${namespace}    ${podname}    ${commandget}
