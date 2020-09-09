@@ -16,6 +16,24 @@
       "revId": "b5ca1cdc473233b0f9d53647b9dc35b4ce0664f4",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d927c9dc_a98a9e88",
+        "filename": "tests/functional/Voltha_ONOSHATests.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2020-09-09T08:11:17Z",
+      "side": 1,
+      "message": "done",
+      "parentUuid": "416f1353_4fd12052",
+      "revId": "b5ca1cdc473233b0f9d53647b9dc35b4ce0664f4",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
     }
   ]
 }
