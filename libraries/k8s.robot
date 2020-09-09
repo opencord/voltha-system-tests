@@ -55,7 +55,7 @@ Exec Pod
     [Arguments]    ${namespace}    ${name}    ${command}
     [Documentation]    Uses kubectl to execute a command in the pod and return the output
     ${rc}    ${exec_pod_name}=    Run and Return Rc and Output
-    ...    kubectl get pods -n ${namespace} | grep ${name} | awk 'NR==1{print $1}'
+    ...    kubectl -n ${namespace} get pods -l app=${name} -o name
     Log    ${exec_pod_name}
     Should Not Be Empty    ${exec_pod_name}    Unable to parse pod name
     ${rc}    ${output}=    Run and Return Rc and Output
@@ -67,7 +67,7 @@ Exec Pod Separate Stderr
     [Arguments]    ${namespace}    ${name}    ${command}
     [Documentation]    Uses kubectl to execute a command in the pod and return the stderr and stdout
     ${rc}    ${exec_pod_name}=    Run and Return Rc and Output
-    ...    kubectl get pods -n ${namespace} | grep ${name} | awk 'NR==1{print $1}'
+    ...    kubectl -n ${namespace} get pods -l app=${name} -o name
     Log    ${exec_pod_name}
     Should Not Be Empty    ${exec_pod_name}    Unable to parse pod name
     @{args}=     Split String    ${command}
