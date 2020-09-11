@@ -145,7 +145,7 @@ node ("${TestNodeName}") {
                     if [[ "${workFlow}" == "DT" ]]; then
                        WITH_EAPOL=no WITH_DHCP=no WITH_IGMP=no WITH_RADIUS=no ./voltha up
                     elif [[  "${workFlow}" == "TT" ]]; then
-                       WITH_EAPOL=no WITH_DHCP=no WITH_INCREMENTAL_EVTO_UPDATE=yes WITH_IGMP=yes WITH_RADIUS=no ./voltha up
+                       WITH_EAPOL=no WITH_DHCP=yes WITH_INCREMENTAL_EVTO_UPDATE=yes WITH_IGMP=yes WITH_RADIUS=no ./voltha up
                     else
                        ./voltha up
                     fi
