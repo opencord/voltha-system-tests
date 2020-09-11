@@ -116,6 +116,15 @@ Onu Port Check
     [Teardown]    Run Keywords    Run Keyword If    ${logging}    Collect Logs
     ...    AND    Stop Logging    ONUPortTest
 
+Reconcile Onu Device
+    [Documentation]    Reconciles ONU Device and check state
+    ...    Assuming that ONU State Test was executed where all the ONUs are reached the expected state!
+    [Tags]    onutest
+    [Setup]    Start Logging    ReconcileONUDevice
+    Run Keyword If    ${state2test}>=5 and ${reconciletest}    Do Reconcile Onu Device
+    [Teardown]    Run Keywords    Run Keyword If    ${logging}    Collect Logs
+    ...    AND    Stop Logging    ReconcileONUDevice
+
 *** Keywords ***
 Setup Suite
     [Documentation]    Set up the test suite
@@ -128,7 +137,7 @@ Setup Suite
     Log    ${LogInfo}    console=yes
     Common Test Suite Setup
     Run Keyword If   ${num_onus}>4    Calculate Timeout
-    Run Keyword If    "${techprofile}"=="1T1GEM"    ${techprofile}=    Set Variable    default
+	Run Keyword If    "${techprofile}"=="1T1GEM"    ${techprofile}=    Set Variable    default
     Run Keyword If    "${techprofile}"=="default"   Log To Console    \nTechProfile:default (1T1GEM)
     ...    ELSE IF    "${techprofile}"=="1T4GEM"    Set Tech Profile    1T4GEM
     ...    ELSE IF    "${techprofile}"=="1T8GEM"    Set Tech Profile    1T8GEM
@@ -147,7 +156,7 @@ Teardown Suite
     # Wait for Ports in ONOS      ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}  0   BBSM
     Wait for Ports in ONOS      ${onos_ssh_connection}  0   BBSM
     Close ONOS SSH Connection   ${onos_ssh_connection}
-    Remove Tech Profile
+	Remove Tech Profile
 
 Setup Test
     [Documentation]    Pre-test Setup
@@ -285,7 +294,7 @@ Do Onu Port Check
 Set Tech Profile
     [Documentation]    This keyword set the passed TechProfile for the test
     [Arguments]    ${TechProfile}
-    Log To Console    \nTechProfile:${TechProfile}
+	Log To Console    \nTechProfile:${TechProfile}
     ${namespace}=    Set Variable    default
     ${podname}=    Set Variable    etcd
     ${src}=    Set Variable    ${data_dir}/TechProfile-${TechProfile}.json
@@ -329,3 +338,72 @@ Do Check Tech Profile
     ...    ELSE     Evaluate    ${num_onus}+1
     Run Keyword If    ${num_of_expected_matches}!=${num_of_count_matches}    Log To Console
     ...    \nTechProfile (${TechProfile}) not loaded correctly:${num_of_count_matches} of ${num_of_expected_matches}
+
+Do Reconcile Onu Device
+    [Documentation]    This keyword reconciles ONU device and check the state afterwards.
+    ...    Following steps will be executed:
+    ...    - restart openonu adaptor
+    ...    - check openonu adaptor is ready again
+    ...    - ONU-Disable
+    ...    - wait some seconds
+    ...    - ONU-Enable
+    ...    - wait some seconds
+    ...    - port check
+    ...    - optional: Check state = before disable
+    # get open-onu app name
+    ${open-onu}    CreateDictionary    helmchart=open-onu    namespace=voltha
+    ...    apps=${list_openonu_apps}    names=${list_openonu_names}
+    #ToDo here
+    # FOR    ${I}    IN RANGE    0    ${num_onus}
+    ${I}=    Set Variable    0
+        ${src}=    Set Variable    ${hosts.src[${I}]}
+        ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
+        Disable Device    ${onu_device_id}
+        Wait Until Keyword Succeeds    20s    2s    Test Devices Disabled in VOLTHA    Id=${onu_device_id}
+        Sleep    5s
+        Enable Device    ${onu_device_id}
+        Sleep    5s
+        #check state
+        Run Keyword If    ${reconcilestatetest}    Do Reconcile State Test    ${state2test}    ${src['onu']}
+# END
+
+Do Reconcile State Test
+    [Documentation]    This keyword checks the passed state of the given onu.
+    [Arguments]    ${state}    ${onu}
+    Run Keyword If    ${state}==1
+    ...    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    50ms
+    ...    Validate Device    ENABLED    ACTIVATING    REACHABLE
+    ...    ${onu}    onu=True    onu_reason=activating-onu
+    ...    ELSE IF    ${state}==2
+    ...    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    50ms
+    ...    Validate Device    ENABLED    ACTIVATING    REACHABLE
+    ...    ${onu}    onu=True    onu_reason=starting-openomci
+    ...    ELSE IF    ${state}==3
+    ...    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    50ms
+    ...    Validate Device    ENABLED    ACTIVATING    REACHABLE
+    ...    ${onu}    onu=True    onu_reason=discovery-mibsync-complete
+    ...    ELSE IF    ${state}==4
+    ...    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    50ms
+    ...    Validate Device    ENABLED    ACTIVE    REACHABLE
+    ...    ${onu}    onu=True    onu_reason=initial-mib-downloaded
+    ...    ELSE IF    ${state}==5
+    ...    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    50ms
+    ...    Validate Device    ENABLED    ACTIVE    REACHABLE
+    ...    ${onu}    onu=True    onu_reason=tech-profile-config-download-success
+    ...    ELSE IF    ${state}==6
+    ...    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    50ms
+    ...    Validate Device    ENABLED    ACTIVE    REACHABLE
+    ...    ${onu}    onu=True    onu_reason=omci-flows-pushed
+    ...    ELSE    Fail    The state to test (${state}) is not valid!
+
+Map State
+    [Documentation]    This keyword converts the passed numeric value of a state to its state name.
+    [Arguments]    ${statenumeric}
+    ${statename}=    Set Variable If
+	...    ${statenumeric}==1    activating-onu
+    ...    ${statenumeric}==2    starting-openomci
+    ...    ${statenumeric}==3    discovery-mibsync-complete
+    ...    ${statenumeric}==4    initial-mib-downloaded
+    ...    ${statenumeric}==5    tech-profile-config-download-success
+    ...    ${statenumeric}==6    omci-flows-pushed
+    [Return]    ${statename}
