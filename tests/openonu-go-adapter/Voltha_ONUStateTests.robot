@@ -77,6 +77,12 @@ ${logging}    False
 # if True execution will be paused before clean up
 # example: -v pausebeforecleanup:True
 ${pausebeforecleanup}    False
+# flag for use of standard pod restart (k8s.robot) instead of preferred kill command, used in Reconcile test only
+# example: -v userestart:True
+${userestart}    False
+# flag for use of python adaptor instead of GO adaptor, used in Reconcile test only
+# example: -v usepyadaptor:True
+${usepyadaptor}    False
 ${data_dir}    ../data
 
 
@@ -116,6 +122,15 @@ Onu Port Check
     [Teardown]    Run Keywords    Run Keyword If    ${logging}    Collect Logs
     ...    AND    Stop Logging    ONUPortTest
 
+Reconcile Onu Device
+    [Documentation]    Reconciles ONU Device and check state
+    ...    Assuming that ONU State Test was executed where all the ONUs are reached the expected state!
+    [Tags]    onutest
+    [Setup]    Start Logging    ReconcileONUDevice
+    Run Keyword If    ${state2test}>=5 and ${reconciletest}    Do Reconcile Onu Device
+    [Teardown]    Run Keywords    Run Keyword If    ${logging}    Collect Logs
+    ...    AND    Stop Logging    ReconcileONUDevice
+
 *** Keywords ***
 Setup Suite
     [Documentation]    Set up the test suite
@@ -124,7 +139,7 @@ Setup Suite
     ...    state2test:${state2test}, testmode:${testmode}, profiletest:${profiletest}, techprofile:${techprofile},
     ...    porttest:${porttest}, flowtest:${flowtest}, reconciletest:${reconciletest},
     ...    reconcilestatetest:${reconcilestatetest}, debugmode:${debugmode}, logging:${logging},
-    ...    pausebeforecleanup:${pausebeforecleanup}
+    ...    pausebeforecleanup:${pausebeforecleanup}, userestart:${userestart}, usepyadaptor:${usepyadaptor}
     Log    ${LogInfo}    console=yes
     Common Test Suite Setup
     Run Keyword If   ${num_onus}>4    Calculate Timeout
@@ -329,3 +344,89 @@ Do Check Tech Profile
     ...    ELSE     Evaluate    ${num_onus}+1
     Run Keyword If    ${num_of_expected_matches}!=${num_of_count_matches}    Log To Console
     ...    \nTechProfile (${TechProfile}) not loaded correctly:${num_of_count_matches} of ${num_of_expected_matches}
+
+Do Reconcile Onu Device
+    [Documentation]    This keyword reconciles ONU device and check the state afterwards.
+    ...    Following steps will be executed:
+    ...    - restart openonu adaptor
+    ...    - check openonu adaptor is ready again
+    ...    - ONU-Disable
+    ...    - wait some seconds
+    ...    - ONU-Enable
+    ...    - wait some seconds
+    ...    - optional: Check state = before disable
+    ...    - port check
+    # set open-onu app name
+    ${list_openonu_apps}   Create List    adapter-open-onu
+    ${namespace}=    Set Variable    voltha
+    ${adaptorname}=    Set Variable    open-onu
+    # restart openonu adapter
+    # use kill command instaed of libraries restart keyword (requested by Holger)
+    Run Keyword If    not ${userestart}    Kill Pod    ${namespace}    ${adaptorname}
+    ...    ELSE    Restart Pod    ${namespace}    ${adaptorname}
+    Wait For Pods Ready    ${namespace}    ${list_openonu_apps}
+    FOR    ${I}    IN RANGE    0    ${num_onus}
+        ${src}=    Set Variable    ${hosts.src[${I}]}
+        ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
+        Disable Device    ${onu_device_id}
+        Wait Until Keyword Succeeds    20s    2s    Test Devices Disabled in VOLTHA    Id=${onu_device_id}
+        Sleep    5s
+        Enable Device    ${onu_device_id}
+        Sleep    5s
+        #check state
+        Run Keyword If    ${reconcilestatetest}    Do Reconcile State Test    ${state2test}    ${src['onu']}
+    END
+    Run Keyword If    ${porttest}    Do Onu Port Check
+
+
+Do Reconcile State Test
+    [Documentation]    This keyword checks the passed state of the given onu.
+    [Arguments]    ${state}    ${onu}
+    Run Keyword If    ${state}==1
+    ...    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    50ms
+    ...    Validate Device    ENABLED    ACTIVATING    REACHABLE
+    ...    ${onu}    onu=True    onu_reason=activating-onu
+    ...    ELSE IF    ${state}==2
+    ...    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    50ms
+    ...    Validate Device    ENABLED    ACTIVATING    REACHABLE
+    ...    ${onu}    onu=True    onu_reason=starting-openomci
+    ...    ELSE IF    ${state}==3
+    ...    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    50ms
+    ...    Validate Device    ENABLED    ACTIVATING    REACHABLE
+    ...    ${onu}    onu=True    onu_reason=discovery-mibsync-complete
+    ...    ELSE IF    ${state}==4
+    ...    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    50ms
+    ...    Validate Device    ENABLED    ACTIVE    REACHABLE
+    ...    ${onu}    onu=True    onu_reason=initial-mib-downloaded
+    ...    ELSE IF    ${state}==5
+    ...    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    50ms
+    ...    Validate Device    ENABLED    ACTIVE    REACHABLE
+    ...    ${onu}    onu=True    onu_reason=tech-profile-config-download-success
+    ...    ELSE IF    ${state}==6
+    ...    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    50ms
+    ...    Validate Device    ENABLED    ACTIVE    REACHABLE
+    ...    ${onu}    onu=True    onu_reason=omci-flows-pushed
+    ...    ELSE    Fail    The state to test (${state}) is not valid!
+
+Kill Pod
+    [Documentation]    This keyword kills the open onu adptor.
+    [Arguments]    ${namespace}    ${adaptorname}
+    ${cmd}	Catenate
+    ...    kubectl exec -it -n voltha $(kubectl get pods -n ${namespace} | grep ${adaptorname} | awk 'NR==1{print $1}')
+    ...     -- /bin/sh -c "kill 1"
+    ${cmd}=    Run Keyword If    ${usepyadaptor}    Replace String    ${cmd}    "kill 1"    "/sbin/killall5"
+    ...    ELSE    Set Variable    ${cmd}
+    ${rc}    ${output}=    Run and Return Rc and Output    ${cmd}
+    Log    ${output}
+
+Map State
+    [Documentation]    This keyword converts the passed numeric value of a state to its state name.
+    [Arguments]    ${statenumeric}
+    ${statename}=    Set Variable If
+    ...    ${statenumeric}==1    activating-onu
+    ...    ${statenumeric}==2    starting-openomci
+    ...    ${statenumeric}==3    discovery-mibsync-complete
+    ...    ${statenumeric}==4    initial-mib-downloaded
+    ...    ${statenumeric}==5    tech-profile-config-download-success
+    ...    ${statenumeric}==6    omci-flows-pushed
+    [Return]    ${statename}
