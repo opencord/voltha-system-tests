@@ -67,17 +67,6 @@ ONU Discovery
     ${parent_id}    Get Parent ID From Device ID     ${onu_id}
     Set Suite Variable    ${parent_id}
 
-Test RaiseActivationFailureAlarm
-    # Note: Can only be raised, not cleared
-    [Documentation]    Raise Activation Fail Alarm and verify event received
-    [Tags]    active
-    ${header}    ${deviceEvent}    Raise Onu Alarm And Get Event    ONU_ACTIVATION_FAILURE
-    ...     ${onu_sn}    ONU_ACTIVATION_FAIL_RAISE_EVENT
-    # Note: PON is the zero value of the subCategory field, and causes it to be not present
-    Verify Header   ${header}    Voltha.openolt.ONU_ACTIVATION_FAIL\.(\\d+)    ${EMPTY}
-    Should Be Equal    ${deviceEvent}[deviceEventName]    ONU_ACTIVATION_FAIL_RAISE_EVENT
-    Should Be Equal    ${deviceEvent}[resourceId]    ${parent_id}
-
 Test RaiseDriftOfWindowAlarm
     [Documentation]    Raise Drift Of Window Alarm and verify event received
     [Tags]    active
