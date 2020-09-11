@@ -42,10 +42,10 @@ hosts:
       s_tag: '900'
     - onu: 'BBSM00000101'
       c_tag: '902'
-      s_tag: '901'
+      s_tag: '900'
     - onu: 'BBSM00000102'
       c_tag: '903'
-      s_tag: '901'
+      s_tag: '900'
 
   dst:
     - ip: null
