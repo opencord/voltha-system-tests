@@ -313,6 +313,8 @@ Sanity Test TT one ONU
     ...    ${src['ip']}    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
     ...    ${dst['dp_iface_name']}    ${dst['ip']}    ${dst['user']}    ${dst['pass']}    ${dst['container_type']}
     ...    ${dst['container_name']}
+    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
+    ...    Validate Subscriber DHCP Allocation    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${onu_port}
     Run Keyword and Ignore Error    Get Device Output from Voltha    ${onu_device_id}
     Run Keyword and Ignore Error    Collect Logs
 
@@ -807,6 +809,15 @@ Clean Up Linux
         Run Keyword If    "${bng_ip}" != "${NONE}" and "${bng_user}" != "${NONE}" and "${bng_pass}" != "${NONE}"
         ...    Execute Remote Command    sudo pkill mausezahn    ${bng_ip}    ${bng_user}    ${bng_pass}
         ...    ${dst['container_type']}    ${dst['container_name']}
+    END
+
+Clean dhclient
+    [Documentation]    Kills dhclient processes only for all RGs
+    FOR    ${I}    IN RANGE    0    ${num_onus}
+        ${src}=    Set Variable    ${hosts.src[${I}]}
+        ${dst}=    Set Variable    ${hosts.dst[${I}]}
+        Execute Remote Command    sudo pkill dhclient    ${src['ip']}
+        ...    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
     END
 
 Clean WPA Process
