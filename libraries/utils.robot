@@ -307,6 +307,8 @@ Sanity Test TT one ONU
     ...    ${src['ip']}    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
     ...    ${dst['dp_iface_name']}    ${dst['ip']}    ${dst['user']}    ${dst['pass']}    ${dst['container_type']}
     ...    ${dst['container_name']}
+    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
+    ...    Validate Subscriber DHCP Allocation    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${onu_port}
     Run Keyword and Ignore Error    Get Device Output from Voltha    ${onu_device_id}
     Run Keyword and Ignore Error    Collect Logs
 
