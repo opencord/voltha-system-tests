@@ -62,9 +62,11 @@ Verify restart ONOS instace master of device after subscriber is provisioned
     ...    Prerequisite : ONUs are authenticated and pingable, thus setup and sanity is performed.
     [Tags]    onosHa   VOL-3436   onosMasterRestart
     [Setup]    Run Keywords    Start Logging    onosMasterRestart
-    ...        AND             Setup
+    #...        AND             Setup
     [Teardown]    Run Keywords    Collect Logs
     ...           AND             Stop Logging    onosMasterRestart
+    Delete All Devices and Verify
+    Setup
     Run Keyword If    ${has_dataplane}    Clean Up Linux
     Run Keyword If   '${workflow}' == 'ATT'    Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test
     Run Keyword If   '${workflow}' == 'DT'    Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test DT
