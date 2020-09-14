@@ -1,0 +1,8 @@
+Verified+1: Girish Gowdra <girish@opennetworking.org>
+Code-Review+1: Saurav Das <saurav.das@opennetworking.org>
+Code-Review+2: Suchitra Vemuri <suchitra@opennetworking.org>
+Submitted-by: Girish Gowdra <girish@opennetworking.org>
+Submitted-at: Mon, 14 Sep 2020 04:17:07 +0000
+Reviewed-on: https://gerrit.opencord.org/c/voltha-system-tests/+/20478
+Project: voltha-system-tests
+Branch: refs/heads/voltha-2.4
