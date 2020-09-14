@@ -229,7 +229,6 @@ Remove VOLTHA Helm Charts
     [Arguments]    ${name}    ${namespace}
     [Documentation]    Remove VOLTHA helm charts
     ${cmd}    Catenate    helm uninstall --no-hooks --namespace '${namespace}' '${name}'
-    #${cmd}    Catenate    helm delete --no-hooks --purge '${name}'
     ${rc}    Run And Return Rc    ${cmd}
     Should Be Equal as Integers    ${rc}    0
 
@@ -271,9 +270,9 @@ Restart Voltha Adapters Open OLT
     ...    --set services.etcd.service=etcd.default.svc --set services.etcd.port=2379
     ...    --set services.etcd.address=etcd.default.svc:2379 --set kafka_broker=kafka.default.svc:9092
     ...    --set services.kafka.adapter.service=kafka.default.svc --set services.kafka.adapter.port=9092
-    ...    --set services.kafka.adapter.address=kafka.default.svc:9092
     ...    --set services.kafka.cluster.service=kafka.default.svc --set services.kafka.cluster.port=9092
-    ...    --set services.kafka.cluster.address=kafka.default.svc:9092 --set defaults.log_level=WARN
+    ...    --set services.kafka.cluster.address=kafka.default.svc:9092
+    ...    --set services.kafka.adapter.address=kafka.default.svc:9092 --set defaults.log_level=WARN
     ...    --namespace voltha open-olt onf/voltha-adapter-openolt
     ${rc}    Run And Return Rc    ${cmd}
     Should Be Equal as Integers    ${rc}    0
@@ -281,11 +280,12 @@ Restart Voltha Adapters Open OLT
 Restart Voltha Adapters Open ONU
     [Documentation]    Restart Voltha Adapters Open ONU helm chart
     ${cmd}	Catenate
-    ...    helm install -f ${values_dir}/open-onu-values.yaml    --set services.etcd.service=etcd.default.svc
-    ...    --set services.etcd.port=2379 --set services.etcd.address=etcd.default.svc:2379
-    ...    --set kafka_broker=kafka.default.svc:9092 --set services.kafka.adapter.service=kafka.default.svc
-    ...    --set services.kafka.adapter.port=9092 --set services.kafka.adapter.address=kafka.default.svc:9092
+    ...    helm install -f ${values_dir}/open-onu-values.yaml    --create-namespace
+    ...    --set services.etcd.service=etcd.default.svc --set services.etcd.port=2379
+    ...    --set services.etcd.address=etcd.default.svc:2379 --set kafka_broker=kafka.default.svc:9092
+    ...    --set services.kafka.adapter.service=kafka.default.svc --set services.kafka.adapter.port=9092
     ...    --set services.kafka.cluster.service=kafka.default.svc --set services.kafka.cluster.port=9092
+    ...    --set services.kafka.adapter.address=kafka.default.svc:9092
     ...    --set services.kafka.cluster.address=kafka.default.svc:9092 --set replicas.adapter_open_onu=1
     ...    --set defaults.log_level=WARN --namespace voltha open-onu onf/voltha-adapter-openonu
     ${rc}    Run And Return Rc    ${cmd}
@@ -295,9 +295,14 @@ Restart Voltha
     [Documentation]    Restart Voltha helm chart
     ${cmd}	Catenate
     ...    helm install -f ${values_dir}/voltha-values.yaml   --create-namespace --set therecanbeonlyone=true
-    ...    --set therecanbeonlyone=true --set services.etcd.address=etcd.default.svc:2379
-    ...    --set kafka_broker=kafka.default.svc:9092 --set services.kafka.adapter.address=kafka.default.svc:9092
+    ...    --set services.etcd.service=etcd.default.svc --set services.etcd.port=2379
+    ...    --set services.etcd.address=etcd.default.svc:2379 --set kafka_broker=kafka.default.svc:9092
+    ...    --set services.kafka.adapter.service=kafka.default.svc --set services.kafka.adapter.port=9092
+    ...    --set services.kafka.cluster.service=kafka.default.svc --set services.kafka.cluster.port=9092
+    ...    --set services.kafka.adapter.address=kafka.default.svc:9092
     ...    --set services.kafka.cluster.address=kafka.default.svc:9092
+    ...    --set 'services.controller[0].service=onos-onos-classic-0.onos-onos-classic-hs.default.svc'
+    ...    --set 'services.controller[0].port=6653'
     ...    --set 'services.controller[0].address=onos-onos-classic-0.onos-onos-classic-hs.default.svc:6653'
     ...    --set defaults.log_level=WARN --namespace voltha voltha onf/voltha
     ${rc}    Run And Return Rc    ${cmd}
@@ -362,7 +367,7 @@ Enable VOLTHA ONOS DHCP Provisioning
     ...    cd ~/kind-voltha;
     ...    curl -sSL --user karaf:karaf -w %\{http_code\} -X POST --fail -H Content-Type:application/json
     ...    http://127.0.0.1:8181/onos/v1/configuration/org.opencord.olt.impl.OltFlowService
-    ...    --data '{"enableDhcpOnProvisioning":true,"enableDhcpV4":true}'; cd -
+    ...    --data '{"enableDhcpOnNni":true,"enableDhcpV4":true}'; cd -
     ${rc}    Run And Return Rc    ${cmd}
     Should Be Equal as Integers    ${rc}    0
 
@@ -372,7 +377,7 @@ Disable VOLTHA ONOS IGMP Provisioning
     ...    cd ~/kind-voltha;
     ...    curl -sSL --user karaf:karaf -w %\{http_code\} -X POST --fail -H Content-Type:application/json
     ...    http://127.0.0.1:8181/onos/v1/configuration/org.opencord.olt.impl.OltFlowService
-    ...    --data '{"enableIgmpOnProvisioning":false}'; cd -
+    ...    --data '{"enableIgmpOnNni":false}'; cd -
     ${rc}    Run And Return Rc    ${cmd}
     Should Be Equal as Integers    ${rc}    0
 
