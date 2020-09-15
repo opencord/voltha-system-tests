@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a4735dd6_f5b52d04",
+        "filename": "tests/functional/Voltha_PODTests.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 700,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2020-09-15T13:57:12Z",
+      "side": 1,
+      "message": "NIT: before deletion fo this subscriber I\u0027d do a traffic verification, simple ping is enough, to make sure that if we fail the test this is actually due to the change of BP. Can be done in further patch",
+      "revId": "ccd0c6ce25c047ecbb4351ed7fc762f33c856cce",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    }
+  ]
+}
