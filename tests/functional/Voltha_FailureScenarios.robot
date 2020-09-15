@@ -586,7 +586,7 @@ Verify restart ofagent container before subscriber is provisioned
     [Tags]    functional   VOL-2962   ofagentRestart2
     [Setup]    Start Logging    ofagentRestart2
     [Teardown]    Run Keywords    Collect Logs
-    ...           AND             Stop Logging    ofagentRestart
+    ...           AND             Stop Logging    ofagentRestart2
     ...           AND             Scale K8s Deployment    ${NAMESPACE}    voltha-voltha-ofagent    1
     Delete Device And Verify
     setup
