@@ -687,6 +687,92 @@ Test Disable and Enable OLT PON Port
         Disable Enable PON Port Per OLT    ${olt_serial_number}
     END
 
+Data plane Bandwidth profile update verification
+    [Documentation]    Test bandwidth profile is updated for one subscriber and not changed for other subscribers.
+    ...    Assumes iperf3 and jq installed on client and iperf -s running on DHCP server
+    ...    Assumes Default and User_Bandwidth2 profiles are configured as bandwidth profiles
+    [Tags]    non-critical    dataplane    BandwidthProfileUpdateTCP    VOL-2053
+    [Setup]    Start Logging    BandwidthProfileUpdateTCP
+    [Teardown]    Run Keywords    Collect Logs
+    ...           AND    Stop Logging    BandwidthProfileUpdateTCP
+    ...           AND    Send File To Onos    ${CURDIR}/../../tests/data/${POD_NAME}-sadis.json
+    Pass Execution If   '${has_dataplane}'=='False'
+    ...    Bandwidth profile validation can be done only in physical pod.  Skipping this test in BBSIM.
+    Delete All Devices And Verify
+    Run Keyword If    ${has_dataplane}    Clean Up Linux
+    Setup
+    Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test
+    # Update the Bandwidth Profile for the First Subscriber under test
+    ${src}=    Set Variable    ${hosts.src[${0}]}
+    ${dst}=    Set Variable    ${hosts.dst[${0}]}
+    ${of_id}=    Get ofID From OLT List    ${src['olt']}
+    ${onu_port}=    Wait Until Keyword Succeeds    ${timeout}    2s    Get ONU Port in ONOS    ${src['onu']}
+    ...    ${of_id}    ${src['uni_id']}
+    ${subscriber_id}=    Set Variable    ${of_id}/${onu_port}
+    ${oldBwName}    Get Bandwidth Profile Name For Given Subscriber    ${subscriber_id}    upstreamBandwidthProfile
+    # Delete the existing subscriber
+    Wait Until Keyword Succeeds    ${timeout}    2s    Execute ONOS CLI Command use single connection    ${ONOS_SSH_IP}
+    ...    ${ONOS_SSH_PORT}    volt-remove-subscriber-access ${of_id} ${onu_port}
+    # Change the bandwidth profile and load the configuration
+    ${newBwName}      Set Variable If     ${oldBwName} == 'Default'    'User_Bandwidth2'    ELSE    'Default'
+    ${rc}    Run and Return RC
+    ...    sed 's/upstreamBandwidthProfile": "${oldBwName}"/upstreamBandwidthProfile": "${newBwName}"/g'
+    ...     ${CURDIR}/../../tests/data/${POD_NAME}-sadis.json > ${CURDIR}/../../tests/data/${POD_NAME}-sadis-new.json
+    Send File To Onos    ${CURDIR}/../../tests/data/${POD_NAME}-sadis-new.json
+    # Re-add the subscriber with new bandwidth profile
+    Wait Until Keyword Succeeds    ${timeout}    2s    Execute ONOS CLI Command use single connection    ${ONOS_SSH_IP}
+    ...    ${ONOS_SSH_PORT}    volt-add-subscriber-access ${of_id} ${onu_port}
+    # Verify new bandwidth profile is applied and other subscribers are working fine
+    ${checkBwName}    Get Bandwidth Profile Name For Given Subscriber    ${subscriber_id}    upstreamBandwidthProfile
+    Should Be Equal    ${checkBwName}    ${newBwName}    The bandwidth profile is not updated properly
+    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
+    ...    Verify Meters in ONOS    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${of_id}    ${onu_port}
+    FOR    ${I}    IN RANGE    0    ${num_all_onus}
+        ${src}=    Set Variable    ${hosts.src[${I}]}
+        ${dst}=    Set Variable    ${hosts.dst[${I}]}
+        ${of_id}=    Get ofID From OLT List    ${src['olt']}
+
+        # Check for iperf3 and jq tools
+        ${stdout}    ${stderr}    ${rc}=    Execute Remote Command    which iperf3 jq
+        ...    ${src['ip']}    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
+        Pass Execution If    ${rc} != 0    Skipping test: iperf3 / jq not found on the RG
+
+        ${onu_port}=    Wait Until Keyword Succeeds    ${timeout}    2s    Get ONU Port in ONOS    ${src['onu']}
+        ...    ${of_id}    ${src['uni_id']}
+        ${subscriber_id}=    Set Variable    ${of_id}/${onu_port}
+        ${bandwidth_profile_name}    Get Bandwidth Profile Name For Given Subscriber    ${subscriber_id}
+        ...    upstreamBandwidthProfile
+        ${limiting_bw_value_upstream}    Get Limiting Bandwidth Details    ${bandwidth_profile_name}
+        ${bandwidth_profile_name}    Get Bandwidth Profile Name For Given Subscriber    ${subscriber_id}
+        ...    downstreamBandwidthProfile
+        ${limiting_bw_value_dnstream}    Get Limiting Bandwidth Details    ${bandwidth_profile_name}
+
+        # Stream TCP packets from RG to server
+        ${updict}=    Run Iperf3 Test Client    ${src}    server=${dst['dp_iface_ip_qinq']}
+        ...    args=-t 30
+        ${actual_upstream_bw_used}=    Evaluate    ${updict['end']['sum_received']['bits_per_second']}/1000
+
+        # Stream TCP packets from server to RG
+        ${dndict}=    Run Iperf3 Test Client    ${src}    server=${dst['dp_iface_ip_qinq']}
+        ...    args=-R -t 30
+        ${actual_dnstream_bw_used}=    Evaluate    ${dndict['end']['sum_received']['bits_per_second']}/1000
+
+        ${pct_limit_up}=    Evaluate    100*${actual_upstream_bw_used}/${limiting_bw_value_upstream}
+        ${pct_limit_dn}=    Evaluate    100*${actual_dnstream_bw_used}/${limiting_bw_value_dnstream}
+        Log    Up: bwprof ${limiting_bw_value_upstream}Kbps, got ${actual_upstream_bw_used}Kbps (${pct_limit_up}%)
+        Log    Down: bwprof ${limiting_bw_value_dnstream}Kbps, got ${actual_dnstream_bw_used}Kbps (${pct_limit_dn}%)
+
+        Should Be True    ${pct_limit_up} <= ${upper_margin_pct}
+        ...    The upstream bandwidth exceeded the limit (${pct_limit_up}% of limit)
+        # VOL-3125: downstream bw limit not enforced.  Uncomment when fixed.
+        #Should Be True    ${pct_limit_dn} <= ${upper_margin_pct}
+        #...    The downstream bandwidth exceeded the limit (${pct_limit_dn}% of limit)
+        Should Be True    ${pct_limit_up} >= ${lower_margin_pct}
+        ...    The upstream bandwidth guarantee was not met (${pct_limit_up}% of resv)
+        Should Be True    ${pct_limit_dn} >= ${lower_margin_pct}
+        ...    The downstream bandwidth guarantee was not met (${pct_limit_dn}% of resv)
+    END
+
 *** Keywords ***
 Setup Suite
     [Documentation]    Set up the test suite
