@@ -61,8 +61,7 @@ Verify restart ONOS instace master of device after subscriber is provisioned
     ...    subscriuber still has dataplane traffic.
     ...    Prerequisite : ONUs are authenticated and pingable, thus setup and sanity is performed.
     [Tags]    onosHa   VOL-3436   onosMasterRestart
-    [Setup]    Run Keywords    Start Logging    onosMasterRestart
-    #...        AND             Setup
+    [Setup]    Run Keyword    Start Logging    onosMasterRestart
     [Teardown]    Run Keywords    Collect Logs
     ...           AND             Stop Logging    onosMasterRestart
     Delete All Devices and Verify
