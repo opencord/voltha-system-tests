@@ -246,6 +246,10 @@ Check logical device creation and deletion
     ${logical_id}=    Get Logical Device ID From SN    ${olt_serial_number}
     Should Be Empty    ${logical_id}
     Run Keyword If    ${has_dataplane}    Sleep    180s
+<<<<<<< HEAD   (9f71cb Fixed typos in tests that caused log collections to fail)
+=======
+    ...    ELSE    Sleep 10s
+>>>>>>> CHANGE (c1efa6 Fix issues in the tests)
     ${olt_device_id}=    Create Device    ${olt_ip}    ${OLT_PORT}
     Set Suite Variable    ${olt_device_id}
     Wait Until Keyword Succeeds    ${timeout}    5s    Validate OLT Device    PREPROVISIONED    UNKNOWN    UNKNOWN
