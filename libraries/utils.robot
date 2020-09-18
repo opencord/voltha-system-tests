@@ -213,7 +213,7 @@ Perform Sanity Test DT
     ...    Sanity test performs dhcp and pings (without EAPOL and DHCP flows) for all the ONUs given for the POD
     ...    This keyword can be used to call in any other tests where sanity check is required
     ...    and avoids duplication of code.
-    ${of_id}=    Wait Until Keyword Succeeds    ${timeout}    15s    Validate OLT Device in ONOS    ${olt_serial_number}
+    ${of_id}=    Wait Until Keyword Succeeds    360s    15s    Validate OLT Device in ONOS    ${olt_serial_number}
     Set Global Variable    ${of_id}
     ${nni_port}=    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
     ...    Get NNI Port in ONOS    ${of_id}
