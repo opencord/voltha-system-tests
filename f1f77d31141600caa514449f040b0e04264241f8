@@ -16,6 +16,24 @@
       "revId": "f1f77d31141600caa514449f040b0e04264241f8",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f694ee25_9afefff7",
+        "filename": "tests/openonu-go-adapter/Voltha_ONUStateTests.robot",
+        "patchSetId": 5
+      },
+      "lineNbr": 355,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2020-09-18T10:42:47Z",
+      "side": 1,
+      "message": "Goal of disable/enable ONU was to verify the openonu adaptor is working well after reconcile. The ONU should reach the same state before reconcile.\nDo you know a better way to check this?",
+      "parentUuid": "0956ca66_9fb29105",
+      "revId": "f1f77d31141600caa514449f040b0e04264241f8",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
     }
   ]
 }
