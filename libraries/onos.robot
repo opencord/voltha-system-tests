@@ -173,7 +173,7 @@ Verify Subscriber Access Flows Added for ONU
     # Verify ipv4 dhcp upstream flow
     ${upstream_flow_ipv4_cmd}=    Catenate    SEPARATOR=
     ...    flows -s ADDED ${olt_of_id} | grep IN_PORT:${onu_port} | grep ETH_TYPE:ipv4 |
-    ...     grep IP_PROTO:17 | grep UDP_SRC:68 | grep UDP_DST:67 | grep VLAN_VID:${c_tag} |
+    ...     grep IP_PROTO:17 | grep UDP_SRC:68 | grep UDP_DST:67 | grep VLAN_ID:${c_tag} |
     ...     grep OUTPUT:CONTROLLER
     ${upstream_flow_ipv4_added}=    Execute ONOS CLI Command    ${ip}    ${port}
     ...    ${upstream_flow_ipv4_cmd}
