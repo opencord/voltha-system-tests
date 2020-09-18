@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0956ca66_9fb29105",
+        "filename": "tests/openonu-go-adapter/Voltha_ONUStateTests.robot",
+        "patchSetId": 5
+      },
+      "lineNbr": 355,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2020-09-18T09:50:33Z",
+      "side": 1,
+      "message": "why are you disabling the ONU ? I think this should be seamless. disabling the ONU means that you will remove flows and such.",
+      "revId": "f1f77d31141600caa514449f040b0e04264241f8",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    }
+  ]
+}
