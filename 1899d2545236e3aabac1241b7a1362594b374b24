@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "391d41b0_a8b04037",
+        "filename": "tests/openonu-go-adapter/Voltha_ONUStateTests.robot",
+        "patchSetId": 4
+      },
+      "lineNbr": 358,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2020-09-18T06:59:34Z",
+      "side": 1,
+      "message": "To have a more realistic scenario of a crashing application, it should be terminated with a \"kill\"-command executed in the container environment itself.",
+      "range": {
+        "startLine": 358,
+        "startChar": 4,
+        "endLine": 358,
+        "endChar": 12
+      },
+      "revId": "1899d2545236e3aabac1241b7a1362594b374b24",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    }
+  ]
+}
