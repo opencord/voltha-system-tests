@@ -34,6 +34,24 @@
       "revId": "f1f77d31141600caa514449f040b0e04264241f8",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4f19b1a8_ff8a0f2b",
+        "filename": "tests/openonu-go-adapter/Voltha_ONUStateTests.robot",
+        "patchSetId": 5
+      },
+      "lineNbr": 355,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2020-09-18T13:30:30Z",
+      "side": 1,
+      "message": "ideally we should do multiple steps\n1) make sure that for VOLTHA no change was happening, so check the devices that are in the correct state, this ensures that no state is lost/misplaced \n2) perform a disable/enable and check again.",
+      "parentUuid": "f694ee25_9afefff7",
+      "revId": "f1f77d31141600caa514449f040b0e04264241f8",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
     }
   ]
 }
