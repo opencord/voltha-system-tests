@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3a8af645_bcd10b99",
+        "filename": "tests/openonu-go-adapter/Voltha_ONUStateTests.robot",
+        "patchSetId": 6
+      },
+      "lineNbr": 327,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2020-09-21T12:52:03Z",
+      "side": 1,
+      "message": "just a comment, this is valid for DT until we introduce flows, if we push flows or use the ATT workflow this should be omci-flows-pushed.",
+      "revId": "c18062727f12a63f6d3f133a20c0e97c0c4a2ba8",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    }
+  ]
+}
