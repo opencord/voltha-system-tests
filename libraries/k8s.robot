@@ -385,3 +385,12 @@ Check Expected Running Pods Number By Label
     ...    kubectl -n ${namespace} get pods -l ${key}=${value} -o json | jq -r ".items[].status.phase" | wc -l
     Should Be Equal as Integers    ${count}    ${number}
 
+<<<<<<< HEAD   (1ef847 Update DT sanity test for OLT wait timers)
+=======
+Get Number of Running Pods Number By Label
+    [Arguments]    ${namespace}    ${key}    ${value}
+    [Documentation]   Returns the number of pods for a given label
+    ${rc}    ${count}    Run and Return Rc and Output
+    ...    kubectl -n ${namespace} get pods -l ${key}=${value} -o name | wc -l
+    [Return]    ${count}
+>>>>>>> CHANGE (962fe8 [VOL-3490] Checking number of ONOS instances prior to HA tes)
