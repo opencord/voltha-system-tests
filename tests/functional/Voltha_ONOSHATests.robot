@@ -48,6 +48,7 @@ ${timeout}        60s
 ${of_id}          0
 ${logical_id}     0
 ${has_dataplane}    True
+${numOfOnos}    1
 ${teardown_device}    True
 ${scripts}        ../../scripts
 ${workflow}    ATT
@@ -64,6 +65,9 @@ Verify restart ONOS instace master of device after subscriber is provisioned
     [Setup]    Start Logging     onosMasterRestart
     [Teardown]    Run Keywords    Collect Logs
     ...           AND             Stop Logging    onosMasterRestart
+    ${numOfOnos}=    Wait Until Keyword Succeeds    20s    5s    Get Number of Running Pods Number By Label
+    ...    default    app    onos-onos-classic
+    Pass Execution If    ${numOfOnos} == 1    Skipping test: just one instance of ONOS
     Delete All Devices and Verify
     Setup
     Run Keyword If    ${has_dataplane}    Clean Up Linux
