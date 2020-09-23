@@ -1,0 +1,8 @@
+Code-Review+1: Holger Hildebrandt <holger.hildebrandt@adtran.com>
+Code-Review+2: Andrea Campanella <andrea@opennetworking.org>
+Verified+1: Jenkins Technical User <do-not-reply@opennetworking.org>
+Submitted-by: Andrea Campanella <andrea@opennetworking.org>
+Submitted-at: Wed, 23 Sep 2020 08:50:38 +0000
+Reviewed-on: https://gerrit.opencord.org/c/voltha-system-tests/+/20708
+Project: voltha-system-tests
+Branch: refs/heads/master
