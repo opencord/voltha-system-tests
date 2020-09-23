@@ -62,6 +62,9 @@ ${porttest}    True
 # flag for execute flow test, can be passed via the command line too
 # example: -v flowtest:False
 ${flowtest}    True
+# flag for execute disable/enable onu device test, can be passed via the command line too
+# example: -v disableenabletest:True
+${disableenabletest}    False
 # flag for execute reconcile onu device test, can be passed via the command line too
 # example: -v reconciletest:True
 ${reconciletest}    False
@@ -113,6 +116,15 @@ Onu Port Check
     [Teardown]    Run Keywords    Run Keyword If    ${logging}    Collect Logs
     ...    AND    Stop Logging    ONUPortTest
 
+Disable Enable Onu Device
+    [Documentation]    Disables/enables ONU Device and check states
+    ...    Assuming that ONU State Test was executed where all the ONUs are reached the expected state!
+    [Tags]    onutest
+    [Setup]    Start Logging    DisableEnableONUDevice
+    Run Keyword If    ${state2test}>=5 and ${disableenabletest}    Do Disable Enable Onu Test
+    [Teardown]    Run Keywords    Run Keyword If    ${logging}    Collect Logs
+    ...    AND    Stop Logging    DisableEnableONUDevice
+
 Reconcile Onu Device
     [Documentation]    Reconciles ONU Device and check state
     ...    Assuming that ONU State Test was executed where all the ONUs are reached the expected state!
@@ -129,6 +141,7 @@ Setup Suite
     ...    \r\nPassed arguments:
     ...    state2test:${state2test}, testmode:${testmode}, profiletest:${profiletest}, techprofile:${techprofile},
     ...    porttest:${porttest}, flowtest:${flowtest}, reconciletest:${reconciletest},
+    ...    disableenabletest:${disableenabletest},
     ...    debugmode:${debugmode}, logging:${logging}, pausebeforecleanup:${pausebeforecleanup},
     Log    ${LogInfo}    console=yes
     Common Test Suite Setup
