@@ -16,6 +16,24 @@
       "revId": "aa07af74327fe1444718b1c007367b3bb93fd6db",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "81806dfb_923b967b",
+        "filename": "tests/openonu-go-adapter/Voltha_ONUStateTests.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 283,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2020-09-24T13:07:54Z",
+      "side": 1,
+      "message": "it is the default (ATT) flow and it is needed by openonu-go-adaptor developer to find out why ATT workflow does not run.\nBy the way, the testcase was created a few weeks before but forget to upload.",
+      "parentUuid": "8b7bb02b_15b6913e",
+      "revId": "aa07af74327fe1444718b1c007367b3bb93fd6db",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
     }
   ]
 }
