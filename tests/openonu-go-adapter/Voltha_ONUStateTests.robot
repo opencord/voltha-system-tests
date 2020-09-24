@@ -1,5 +1,5 @@
 *** Settings ***
-Documentation     Test states of ONU Go adapter
+Documentation     Test states of ONU Go adapter with ATT workflows only (not for DT/TT workflow!)
 Suite Setup       Setup Suite
 Suite Teardown    Teardown Suite
 Test Setup        Setup
@@ -60,8 +60,8 @@ ${techprofile}    default
 # example: -v porttest:False
 ${porttest}    True
 # flag for execute flow test, can be passed via the command line too
-# example: -v flowtest:False
-${flowtest}    True
+# example: -v flowtest:True
+${flowtest}    False
 # flag for execute disable/enable onu device test, can be passed via the command line too
 # example: -v disableenabletest:True
 ${disableenabletest}    False
@@ -115,6 +115,15 @@ Onu Port Check
     Run Keyword If    ${porttest}    Do Onu Port Check
     [Teardown]    Run Keywords    Run Keyword If    ${logging}    Collect Logs
     ...    AND    Stop Logging    ONUPortTest
+
+Onu Flow Check
+    [Documentation]    Validates the onu flows in ONOS and Voltha
+    ...    Assuming that ONU State Test was executed where all the ONUs are reached the expected state!
+    [Tags]    onutest
+    [Setup]    Start Logging    ONUFlowTest
+    Run Keyword If    ${state2test}>=6 and ${flowtest}    Do Onu Flow Check
+    [Teardown]    Run Keywords    Run Keyword If    ${logging}    Collect Logs
+    ...    AND    Stop Logging    ONUFlowTest
 
 Disable Enable Onu Device
     [Documentation]    Disables/enables ONU Device and check states
@@ -252,6 +261,26 @@ Do ONU Single State Test Time
 Do Onu Port Check
     [Documentation]    Check that all the UNI ports show up in ONOS
     Wait for Ports in ONOS      ${onos_ssh_connection}  ${num_onus}   BBSM
+
+Do Onu Flow Check
+    [Documentation]    Check that all ONU flows show up in ONOS and Voltha
+    ${of_id}=    Wait Until Keyword Succeeds    ${timeout}    15s    Validate OLT Device in ONOS    ${olt_serial_number}
+    ${nni_port}=    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
+    ...    Get NNI Port in ONOS    ${of_id}
+    FOR    ${I}    IN RANGE    0    ${num_onus}
+        ${src}=    Set Variable    ${hosts.src[${I}]}
+        ${dst}=    Set Variable    ${hosts.dst[${I}]}
+        ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
+        ${onu_port}=    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
+        ...    Get ONU Port in ONOS    ${src['onu']}    ${of_id}
+        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2
+        ...    Execute ONOS CLI Command    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}
+        ...    volt-add-subscriber-access ${of_id} ${onu_port}
+        # Verify subscriber access flows are added for the ONU port
+        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
+        ...    Verify Subscriber Access Flows Added For ONU    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${of_id}
+        ...    ${onu_port}    ${nni_port}    ${src['c_tag']}    ${src['s_tag']}
+    END
 
 Set Tech Profile
     [Documentation]    This keyword set the passed TechProfile for the test
