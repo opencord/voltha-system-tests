@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8b7bb02b_15b6913e",
+        "filename": "tests/openonu-go-adapter/Voltha_ONUStateTests.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 283,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2020-09-24T13:00:55Z",
+      "side": 1,
+      "message": "since we are running the DT sanity test in the ci-management pipeline this is not really needed here, it\u0027s the exact same thing, or am I missing something?",
+      "revId": "aa07af74327fe1444718b1c007367b3bb93fd6db",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    }
+  ]
+}
