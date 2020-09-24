@@ -1,0 +1,7 @@
+Code-Review+2: Matteo Scandolo <teo@opennetworking.org>
+Verified+1: Matteo Scandolo <teo@opennetworking.org>
+Submitted-by: Matteo Scandolo <teo@opennetworking.org>
+Submitted-at: Thu, 24 Sep 2020 03:35:12 +0000
+Reviewed-on: https://gerrit.opencord.org/c/voltha-system-tests/+/20556
+Project: voltha-system-tests
+Branch: refs/heads/voltha-2.5
