@@ -241,13 +241,13 @@ node ("${TestNodeName}") {
                         timeout(5) {
                             waitUntil {
                                 olt_sw_present = sh returnStdout: true, script: """
-                                if [[ "${deployment_config.olts[i].oltDebVersion}" == *"asfvolt16-2.5"* ]] || [[ "${deployment_config.olts[i].oltDebVersion23}" == *"asfvolt16-2.4"* ]]; then
+                                if [[ "${deployment_config.olts[i].oltDebVersion}" == *"asfvolt16-2.4"* ]] || [[ "${deployment_config.olts[i].oltDebVersion23}" == *"asfvolt16-2.4"* ]]; then
                                     sshpass -p ${deployment_config.olts[i].pass} ssh -l ${deployment_config.olts[i].user} ${deployment_config.olts[i].ip} 'dpkg --list | grep asfvolt16 | wc -l'
                                 else
                                     sshpass -p ${deployment_config.olts[i].pass} ssh -l ${deployment_config.olts[i].user} ${deployment_config.olts[i].ip} 'dpkg --list | grep asgvolt64 | wc -l'
                                 fi
                                 if (${deployment_config.olts[i].fortygig}); then
-                                    if [[ "${deployment_config.olts[i].oltDebVersion}" == *"asfvolt16-2.5"* ]] || [[ "${deployment_config.olts[i].oltDebVersion23}" == *"asfvolt16-2.4"* ]]; then
+                                    if [[ "${deployment_config.olts[i].oltDebVersion}" == *"asfvolt16-2.4"* ]] || [[ "${deployment_config.olts[i].oltDebVersion23}" == *"asfvolt16-2.4"* ]]; then
                                         sshpass -p ${deployment_config.olts[i].pass} ssh -l ${deployment_config.olts[i].user} ${deployment_config.olts[i].ip} 'echo "port ce128 sp=40000 if=XLAUI" >> /broadcom/qax.soc'
                                     else
                                         sshpass -p ${deployment_config.olts[i].pass} ssh -l ${deployment_config.olts[i].user} ${deployment_config.olts[i].ip} 'echo "port ce128 sp=40000" >> /broadcom/qax.soc'
