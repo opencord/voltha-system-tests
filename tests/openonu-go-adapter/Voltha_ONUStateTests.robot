@@ -155,7 +155,7 @@ Setup Suite
     Log    ${LogInfo}    console=yes
     Common Test Suite Setup
     Run Keyword If   ${num_onus}>4    Calculate Timeout
-    Run Keyword If    "${techprofile}"=="1T1GEM"    ${techprofile}=    Set Variable    default
+    ${techprofile}=    Set Variable If    "${techprofile}"=="1T1GEM"    default    ${techprofile}
     Run Keyword If    "${techprofile}"=="default"   Log To Console    \nTechProfile:default (1T1GEM)
     ...    ELSE IF    "${techprofile}"=="1T4GEM"    Set Tech Profile    1T4GEM
     ...    ELSE IF    "${techprofile}"=="1T8GEM"    Set Tech Profile    1T8GEM
