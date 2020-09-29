@@ -104,6 +104,7 @@ Check Loaded Tech Profile
     [Tags]    onutest
     [Setup]    Start Logging    ONUCheckTechProfile
     Run Keyword If    ${state2test}>=5 and ${profiletest}    Do Check Tech Profile
+    ...    ELSE    Pass Execution    ${skip_message}    skipped
     [Teardown]    Run Keywords    Run Keyword If    ${logging}    Collect Logs
     ...    AND    Stop Logging    ONUCheckTechProfile
 
@@ -113,6 +114,7 @@ Onu Port Check
     [Tags]    onutest
     [Setup]    Start Logging    ONUPortTest
     Run Keyword If    ${porttest}    Do Onu Port Check
+    ...    ELSE    Pass Execution    ${skip_message}    skipped
     [Teardown]    Run Keywords    Run Keyword If    ${logging}    Collect Logs
     ...    AND    Stop Logging    ONUPortTest
 
@@ -122,6 +124,7 @@ Onu Flow Check
     [Tags]    onutest
     [Setup]    Start Logging    ONUFlowTest
     Run Keyword If    ${state2test}>=6 and ${flowtest}    Do Onu Flow Check
+    ...    ELSE    Pass Execution    ${skip_message}    skipped
     [Teardown]    Run Keywords    Run Keyword If    ${logging}    Collect Logs
     ...    AND    Stop Logging    ONUFlowTest
 
@@ -131,6 +134,7 @@ Disable Enable Onu Device
     [Tags]    onutest
     [Setup]    Start Logging    DisableEnableONUDevice
     Run Keyword If    ${state2test}>=5 and ${disableenabletest}    Do Disable Enable Onu Test
+    ...    ELSE    Pass Execution    ${skip_message}    skipped
     [Teardown]    Run Keywords    Run Keyword If    ${logging}    Collect Logs
     ...    AND    Stop Logging    DisableEnableONUDevice
 
@@ -140,6 +144,7 @@ Reconcile Onu Device
     [Tags]    onutest
     [Setup]    Start Logging    ReconcileONUDevice
     Run Keyword If    ${state2test}>=5 and ${reconciletest}    Do Reconcile Onu Device
+    ...    ELSE    Pass Execution    ${skip_message}    skipped
     [Teardown]    Run Keywords    Run Keyword If    ${logging}    Collect Logs
     ...    AND    Stop Logging    ReconcileONUDevice
 
@@ -154,6 +159,11 @@ Setup Suite
     ...    debugmode:${debugmode}, logging:${logging}, pausebeforecleanup:${pausebeforecleanup},
     Log    ${LogInfo}    console=yes
     Common Test Suite Setup
+    # prepare skip message in yellow for console log
+    ${skip}=  Evaluate  "\\033[33mSKIP\\033[0m"
+    ${skipped}=  Evaluate  "\\033[33m${SPACE*14} ===> Test case above was skipped! <=== ${SPACE*15}\\033[0m"
+    ${skip_message}    Catenate    ${skipped} | ${skip} |
+    Set Suite Variable    ${skip_message}
     Run Keyword If   ${num_onus}>4    Calculate Timeout
     ${techprofile}=    Set Variable If    "${techprofile}"=="1T1GEM"    default    ${techprofile}
     Run Keyword If    "${techprofile}"=="default"   Log To Console    \nTechProfile:default (1T1GEM)
