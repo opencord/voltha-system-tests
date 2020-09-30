@@ -250,6 +250,8 @@ Validate Device Port Types
         Should Be Equal    '${astate}'    'ENABLED'    Device ${device_id} port admin_state != ENABLED    values=False
         Run Keyword If    ${all_active}    Should Be Equal    '${opstatus}'    'ACTIVE'
         ...    Device ${device_id} port oper_status != ACTIVE    values=False
+        Run Keyword If    !${all_active}    Should Be Equal    '${opstatus}'    'INACTIVE'
+        ...    Device ${device_id} port oper_status != INACTIVE    values=False
         Should Be True    '${type}' == '${pon_type}' or '${type}' == '${ethernet_type}'
         ...    Device ${device_id} port type is neither ${pon_type} or ${ethernet_type}
     END
@@ -737,3 +739,24 @@ Wait for OpenOLT Devices flows
     ${targetFlows}=    Set Variable If  $provisioned=='true'    ${afterFlows}   ${beforeFlows}
     Log     ${targetFlows}
     Wait Until Keyword Succeeds     10m     5s  Count OpenOLT Device Flows     ${targetFlows}
+
+Validate Device EAPOL Flow removed
+    [Documentation]    Checks if EAPOL flow removed for the given device id
+    [Arguments]    ${device_id}    ${flow_count}=${EMPTY}
+    ${rc}    ${output}=    Run and Return Rc and Output
+    ...    ${VOLTCTL_CONFIG}; voltctl device flows ${device_id} -m 8MB -o json
+    Should Be Equal As Integers    ${rc}    0
+    ${jsondata}=    To Json    ${output}
+    Log    ${jsondata}
+    ${length}=    Get Length    ${jsondata}
+    FOR    ${INDEX}    IN RANGE    0    ${length}
+        ${value}=    Get From List    ${jsondata}    ${INDEX}
+        ${jsonCamelCaseFieldnames}=    Run Keyword And Return Status
+        ...    Dictionary Should Contain Key       ${value}      ETHTYPE
+        ${ethnettype}=    Run Keyword If     ${jsonCamelCaseFieldNames}
+        ...    Get From Dictionary    ${value}    ETHTYPE
+        ...    ELSE
+        ...    Get From Dictionary    ${value}    ethtype
+        Should Not Be True   '${ethnettype}'    '0x888e'    Device ${device_id} EAPOL flow removed    values=False
+    END   
+
