@@ -1,0 +1,7 @@
+Code-Review+2: Suchitra Vemuri <suchitra@opennetworking.org>
+Verified+1: Jenkins Technical User <do-not-reply@opennetworking.org>
+Submitted-by: Matteo Scandolo <teo@opennetworking.org>
+Submitted-at: Wed, 30 Sep 2020 22:58:53 +0000
+Reviewed-on: https://gerrit.opencord.org/c/voltha-system-tests/+/20816
+Project: voltha-system-tests
+Branch: refs/heads/master
