@@ -681,6 +681,60 @@ Test Disable and Enable OLT PON Port
         ...    Validate ONUs for PON OLT Enable    ${olt_peer_list}
     END
 
+Test device ports and flow entries when creation of the OLT
+    [Documentation]    Checks the device ports and flows entries in the following cases:
+    ...    The OLT device is created and before enabling the OLT the entries are empty
+    ...    Perform enable on the OLT and validate that the device ports and flow entries are there
+    ...    Perform disable on the OLT and validate that the device ports are disables and EAPOL
+    ...    flows are removed
+    ...    Perform delete device and validate that the device port and flow entries are empty
+    [Tags]    functional   DevicePortsandFlowEntries    VOL-2557    VOL-2558
+    [Setup]    Start Logging   DevicePortsandFlowEntries
+    [Teardown]    Run Keywords    Collect Logs
+    ...           AND    Stop Logging    DevicePortsandFlowEntries
+    #Creating olt device
+    ${olt_device_id}=    Create Device    ${olt_ip}    ${OLT_PORT}
+    Set Global Variable    ${olt_device_id}
+    Wait Until Keyword Succeeds    ${timeout}    5s    Validate OLT Device   PREPROVISIONED    UNKNOWN    UNKNOWN
+    ...    ${olt_device_id}
+    #Validate Device's Ports and Flows before enabling OLT
+    ${rc}    ${output}=    Run and Return Rc and Output
+    ...    ${VOLTCTL_CONFIG}; voltctl device flows ${olt_device_id} -m 8MB -o json
+    Should  Be Equal As Integers    ${rc}    0
+    Should Contain     ${output}     no flows    ignore_case=True
+    #here for ports the message is not known, for time being giving as empty
+    ${rc}    ${output}=    Run and Return Rc and Output
+    ...    ${VOLTCTL_CONFIG}; voltctl device port list ${olt_device_id} -m 8MB -o json
+    Should  Be Equal As Integers    ${rc}    0
+    Should Contain     ${output}     empty    ignore_case=True
+    #Enabling  Device and checking
+    Enable Device    ${olt_device_id}
+    Wait Until Keyword Succeeds    ${timeout}    5s    Validate OLT Device    ENABLED    ACTIVE    REACHABLE
+    ...    ${olt_serial_number}
+    #Validate Device's Ports and Flows after enabling OLT
+    Wait Until Keyword Succeeds    ${timeout}  5s  Validate OLT Flows
+    Wait Until Keyword Succeeds    ${timeout}  5s  Validate OLT Port Types     PON_OLT     ETHERNET_NNI
+    # Disable OLT and verify it
+    ${rc}    ${output}=    Run and Return Rc and Output    ${VOLTCTL_CONFIG}; voltctl device disable ${olt_device_id}
+    Should Be Equal As Integers    ${rc}    0
+    Wait Until Keyword Succeeds    ${timeout}    5s    Validate OLT Device    DISABLED    UNKNOWN    REACHABLE
+    ...    ${olt_serial_number}
+    #Checking device flows and ports
+    Wait Until Keyword Succeeds    ${timeout}    5s    Validate Device EAPOL Flow removed
+    Wait Until Keyword Succeeds    ${timeout}    5s    Validate Device Port Types     PON_OLT    ETHERNET_NNI    FALSE
+    #Delete OLT and check ports and flows
+    Delete Device    ${olt_device_id}
+    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s    Test Empty Device List
+    ${rc}    ${output}=    Run and Return Rc and Output
+    ...    ${VOLTCTL_CONFIG}; voltctl device port list ${device_id} -m 8MB -o json
+    Should Be Equal As Integers    ${rc}    0
+    Should Contain    ${output}    ERROR: NOTFOUND: ${device_id}    ignore_case=True
+    ${rc}    ${output}=    Run and Return Rc and Output
+    ...    ${VOLTCTL_CONFIG}; voltctl device flows ${device_id} -m 8MB -o json
+    Should Be Equal As Integers    ${rc}    0
+    Should Contain    ${output}    ERROR: NOTFOUND: device-${device_id}    ignore_case=True
+
+
 *** Keywords ***
 Setup Suite
     [Documentation]    Set up the test suite
