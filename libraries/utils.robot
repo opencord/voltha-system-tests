@@ -315,6 +315,7 @@ Sanity Test TT one ONU
     ...    ${dst['container_name']}
     Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
     ...    Validate Subscriber DHCP Allocation    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${onu_port}
+    ...    ${src['c_tag']}
     Run Keyword and Ignore Error    Get Device Output from Voltha    ${onu_device_id}
     Run Keyword and Ignore Error    Collect Logs
 
