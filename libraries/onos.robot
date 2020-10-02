@@ -399,11 +399,11 @@ Validate DHCP Allocations
     Should Be Equal As Integers    ${allocations}    ${count}
 
 Validate Subscriber DHCP Allocation
-    [Arguments]    ${ip}    ${port}    ${onu_port}
+    [Arguments]    ${ip}    ${port}    ${onu_port}   ${vlan}=None
     [Documentation]    Verifies that the specified subscriber is found in DHCP allocations
     ##TODO: Enhance the keyword to include DHCP allocated address is not 0.0.0.0
     ${allocations}=    Execute ONOS CLI Command    ${ip}    ${port}
-    ...    dhcpl2relay-allocations | grep DHCPACK | grep ${onu_port}
+    ...    dhcpl2relay-allocations | grep DHCPACK | grep ${onu_port} | grep ${vlan}
     Should Not Be Empty    ${allocations}    ONU port ${onu_port} not found in dhcpl2relay-allocations
 
 Device Is Available In ONOS
