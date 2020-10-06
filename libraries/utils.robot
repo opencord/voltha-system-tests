@@ -222,10 +222,10 @@ Perform Sanity Test DT
         ${src}=    Set Variable    ${hosts.src[${I}]}
         ${dst}=    Set Variable    ${hosts.dst[${I}]}
         ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
-        ${onu_port}=    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
+        ${onu_port}=    Wait Until Keyword Succeeds    ${timeout}    2s
         ...    Get ONU Port in ONOS    ${src['onu']}    ${of_id}
         # Check ONU port is Enabled in ONOS
-        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds   120s   2s
+        Wait Until Keyword Succeeds   120s   2s
         ...    Verify ONU Port Is Enabled   ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${src['onu']}
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2
         ...    Execute ONOS CLI Command    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}
