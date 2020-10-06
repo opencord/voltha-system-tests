@@ -314,7 +314,7 @@ Sanity Test TT one ONU
     ...    ${dst['dp_iface_name']}    ${dst['ip']}    ${dst['user']}    ${dst['pass']}    ${dst['container_type']}
     ...    ${dst['container_name']}
     Run Keyword IF    ${has_dataplane}
-    ...    ELSE IF    '${src['service_type']}'!='hsia'
+    ...    Run Keyword IF    '${src['service_type']}'!='hsia'
     ...    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
     ...    Validate Subscriber DHCP Allocation    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${onu_port}
     ...    ${src['c_tag']}
