@@ -18,17 +18,6 @@ Resource          ../../libraries/k8s.robot
 Resource          ../../variables/variables.robot
 
 *** Variables ***
-${POD_NAME}       flex-ocp-cord
-${KUBERNETES_CONF}    ${KUBERNETES_CONFIGS_DIR}/${POD_NAME}.conf
-${KUBERNETES_CONFIGS_DIR}    ~/pod-configs/kubernetes-configs
-#${KUBERNETES_CONFIGS_DIR}    ${KUBERNETES_CONFIGS_DIR}/${POD_NAME}.conf
-${KUBERNETES_YAML}    ${KUBERNETES_CONFIGS_DIR}/${POD_NAME}.yml
-${HELM_CHARTS_DIR}    ~/helm-charts
-${VOLTHA_POD_NUM}    8
-${NAMESPACE}      voltha
-# For below variable value, using deployment name as using grep for
-# parsing radius pod name, we can also use full radius pod name
-${RESTART_POD_NAME}    radius
 ${timeout}        180s
 ${of_id}          0
 ${logical_id}     0
@@ -64,10 +53,10 @@ ${porttest}    True
 ${flowtest}    False
 # flag for execute disable/enable onu device test, can be passed via the command line too
 # example: -v disableenabletest:True
-${disableenabletest}    False
+${disableenabletest}    True
 # flag for execute reconcile onu device test, can be passed via the command line too
 # example: -v reconciletest:True
-${reconciletest}    False
+${reconciletest}    True
 # flag debugmode is used, if true timeout calculation various, can be passed via the command line too
 # example: -v debugmode:True
 ${debugmode}    False
@@ -257,8 +246,8 @@ Do ONU Single State Test Time
     [Documentation]    This keyword performs SingleState Test with calculate running time
     ...    Only the passed state has to be checked and the duration each single onu adapter needed
     ...    will be calculated and printed out
-    ${ListfinishedONUs}    Create List
-    Set Global Variable    ${ListfinishedONUs}
+    #${ListfinishedONUs}    Create List
+    #Set Global Variable    ${ListfinishedONUs}
     Create File    ONU_Startup_Time.txt    This file contains the startup times of all ONUs.
     ${list_onus}    Create List
     Build ONU SN List    ${list_onus}
@@ -270,7 +259,7 @@ Do ONU Single State Test Time
 
 Do Onu Port Check
     [Documentation]    Check that all the UNI ports show up in ONOS
-    Wait for Ports in ONOS      ${onos_ssh_connection}  ${num_onus}   BBSM
+    Wait for Ports in ONOS    ${onos_ssh_connection}    ${num_onus}    BBSM
 
 Do Onu Flow Check
     [Documentation]    Check that all ONU flows show up in ONOS and Voltha
@@ -344,21 +333,18 @@ Do Check Tech Profile
 
 Do Disable Enable Onu Test
     [Documentation]    This keyword disables/enables all onus and checks the states.
-    FOR    ${I}    IN RANGE    0    ${num_onus}
-        ${src}=    Set Variable    ${hosts.src[${I}]}
-        ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
-        #check  for previous state is kept (normally omci-flows-pushed)
-        Do Current State Test    ${state2test}    ${src['onu']}
-        Disable Device    ${onu_device_id}
-        Wait Until Keyword Succeeds    20s    2s    Test Devices Disabled in VOLTHA    Id=${onu_device_id}
-        #check state for omci-admin-lock
-        Do Current State Test    omci-admin-lock    ${src['onu']}
-        Enable Device    ${onu_device_id}
-        #check state for onu-reenabled
-        Do Current State Test    onu-reenabled    ${src['onu']}
-        #check  for previous state is reached again (normally omci-flows-pushed)
-        Do Current State Test    ${state2test}    ${src['onu']}
-    END
+    [Arguments]    ${state2check}=${state2test}
+    Do Current State Test All Onus    ${state2check}
+    Do Disable Onu    ${state2check}
+    Do Current State Test All Onus    omci-admin-lock
+    Log Ports
+    #check no port is enabled in ONOS
+    Wait for Ports in ONOS    ${onos_ssh_connection}    0    BBSM
+    Do Enable Onu    tech-profile-config-download-success
+    Do Current State Test All Onus    ${state2check}
+    Log Ports    onlyenabled=True
+    #check that all the UNI ports show up in ONOS again
+    Wait for Ports in ONOS    ${onos_ssh_connection}    ${num_onus}    BBSM
 
 Do Reconcile Onu Device
     [Documentation]    This keyword reconciles ONU device and check the state afterwards.
@@ -373,18 +359,33 @@ Do Reconcile Onu Device
     ...    - wait some seconds
     ...    - check for state onu-reenabled
     ...    - port check
-    # set open-onu app name
     ${list_openonu_apps}   Create List    adapter-open-onu
     ${namespace}=    Set Variable    voltha
     ${adaptorname}=    Set Variable    open-onu
-    # restart openonu adapter
-    # Restart Pod    ${namespace}    ${adaptorname}
-    # use kill command instaed of libraries restart keyword (requested by Holger)
     Kill Adaptor    ${namespace}    ${adaptorname}
     Sleep    5s
     Wait For Pods Ready    ${namespace}    ${list_openonu_apps}
     Do Disable Enable Onu Test
     Run Keyword If    ${porttest}    Do Onu Port Check
+
+Do Disable Onu
+    [Documentation]    This keyword disables all onus and checks the states.
+    [Arguments]    ${state2check}
+    FOR    ${I}    IN RANGE    0    ${num_onus}
+        ${src}=    Set Variable    ${hosts.src[${I}]}
+        ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
+        Disable Device    ${onu_device_id}
+        Wait Until Keyword Succeeds    20s    2s    Test Devices Disabled in VOLTHA    Id=${onu_device_id}
+    END
+
+Do Enable Onu
+    [Documentation]    This keyword enables all onus and checks the states.
+    [Arguments]    ${state2check}
+    FOR    ${I}    IN RANGE    0    ${num_onus}
+        ${src}=    Set Variable    ${hosts.src[${I}]}
+        ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
+        Enable Device    ${onu_device_id}
+    END
 
 Do Current State Test
     [Documentation]    This keyword checks the passed state of the given onu.
@@ -393,6 +394,28 @@ Do Current State Test
     Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    50ms
     ...    Validate Device    ${admin_state}    ${oper_status}    ${connect_status}
     ...    ${onu}    onu=True    onu_reason=${onu_state}
+
+Do Current State Test All Onus
+    [Documentation]    This keyword checks the passed state of all onus.
+    ...                Hint: ${timeStart} will be not evaluated here!
+    [Arguments]    ${state}
+    ${list_onus}    Create List
+    Build ONU SN List    ${list_onus}
+    ${admin_state}    ${oper_status}    ${connect_status}    ${onu_state}=    Map State    ${state}
+    #Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    50ms
+    #...    Validate ONU Devices MIB State With Duration
+    #...    ${onu_state}    ${list_onus}    ${timeStart}
+    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    50ms
+    ...    Validate ONU Devices With Duration
+    ...    ${admin_state}    ${oper_status}    ${connect_status}
+    ...    ${onu_state}    ${list_onus}    ${timeStart}
+Log Ports
+    [Documentation]    This keyword logs all port data available in ONOS of first port per ONU
+    [Arguments]    ${onlyenabled}=False
+    ${cmd}    Set Variable If    ${onlyenabled}    ports -e    ports
+    ${onu_ports}=    Execute ONOS CLI Command on open connection    ${onos_ssh_connection}   ${cmd}
+    ${lines} =     Get Lines Matching Regexp    ${onu_ports}    .*portName=BBSM[0-9]{8}-1
+    Log    ${lines}
 
 Kill Adaptor
     [Documentation]    This keyword kills the passed adaptor.
@@ -414,7 +437,7 @@ Map State
     ${state4}    Create List      ENABLED     ACTIVE        REACHABLE      initial-mib-downloaded
     ${state5}    Create List      ENABLED     ACTIVE        REACHABLE      tech-profile-config-download-success
     ${state6}    Create List      ENABLED     ACTIVE        REACHABLE      omci-flows-pushed
-    ${state7}    Create List      DISABLED    UNKNOWN       UNREACHABLE    omci-admin-lock
+    ${state7}    Create List      DISABLED    UNKNOWN       REACHABLE      omci-admin-lock
     ${state8}    Create List      ENABLED     ACTIVE        REACHABLE      onu-reenabled
     ${admin_state}    ${oper_status}    ${connect_status}    ${onu_state}=    Set Variable If
     ...    '${state}'=='1' or '${state}'=='activating-onu'                          ${state1}
