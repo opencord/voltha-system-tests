@@ -34,6 +34,24 @@
       "revId": "e4ac4b1794d79d5540162f572fd7757c39467d51",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "712e47ba_e5ea5e04",
+        "filename": "tests/openonu-go-adapter/Voltha_ONUStateTests.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 341,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2020-10-12T08:40:29Z",
+      "side": 1,
+      "message": "this patch actually achieves the Disable/Enable functionality: https://gerrit.opencord.org/c/voltha-openonu-adapter-go/+/21066 \ngiven that is being merged I think we are fulfilling the implementation and we can adapt the tests.",
+      "parentUuid": "64f3698e_ca152274",
+      "revId": "e4ac4b1794d79d5540162f572fd7757c39467d51",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
     }
   ]
 }
