@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a3d6de97_a1cba4bb",
+        "filename": "tests/openonu-go-adapter/Voltha_ONUStateTests.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 341,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2020-10-12T08:03:07Z",
+      "side": 1,
+      "message": "this is only valid for the DT use case, I think it woudl be better to have a variable and two targets (omci-flows-pushed) for ATT and TT and tech-profile-config-download-success for DT. thoughts ?",
+      "revId": "e4ac4b1794d79d5540162f572fd7757c39467d51",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    }
+  ]
+}
