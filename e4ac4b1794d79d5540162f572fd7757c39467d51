@@ -52,6 +52,24 @@
       "revId": "e4ac4b1794d79d5540162f572fd7757c39467d51",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e2fb141c_facfb976",
+        "filename": "tests/openonu-go-adapter/Voltha_ONUStateTests.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 341,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2020-10-12T09:08:06Z",
+      "side": 1,
+      "message": "No, stories https://jira.opencord.org/browse/VOL-3330 and https://jira.opencord.org/browse/VOL-3437 are needed.",
+      "parentUuid": "712e47ba_e5ea5e04",
+      "revId": "e4ac4b1794d79d5540162f572fd7757c39467d51",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
     }
   ]
 }
