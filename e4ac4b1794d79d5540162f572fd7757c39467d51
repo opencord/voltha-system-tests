@@ -16,6 +16,24 @@
       "revId": "e4ac4b1794d79d5540162f572fd7757c39467d51",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "64f3698e_ca152274",
+        "filename": "tests/openonu-go-adapter/Voltha_ONUStateTests.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 341,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2020-10-12T08:36:17Z",
+      "side": 1,
+      "message": "Yes, you\u0027re right, principally. But the testsuite was created to test the actual reached implementation progress of the openuno-go-adapter and for default (ATT) workflow. Currently go adapter does not reach omci-flows-pushed again after disable/enable onu as Holger already explained. When go adapter implementation fullfills the requirement, testcase will be updated.\nDo you agree with it?",
+      "parentUuid": "a3d6de97_a1cba4bb",
+      "revId": "e4ac4b1794d79d5540162f572fd7757c39467d51",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
     }
   ]
 }
