@@ -137,6 +137,16 @@ Reconcile Onu Device
     [Teardown]    Run Keywords    Run Keyword If    ${logging}    Collect Logs
     ...    AND    Stop Logging    ReconcileONUDevice
 
+Power Off Power On Onu Device
+    [Documentation]    Power off and Power on of all ONU Devices and check state
+    ...    Assuming that ONU State Test was executed where all the ONUs are reached the expected state!
+    [Tags]    onutest
+    [Setup]    Start Logging    PowerOffPowerOnONUDevice
+    Run Keyword If    ${state2test}>=5    Do Power Off Power On Onu Device
+    ...    ELSE    Pass Execution    ${skip_message}    skipped
+    [Teardown]    Run Keywords    Run Keyword If    ${logging}    Collect Logs
+    ...    AND    Stop Logging    PowerOffPowerOnONUDevice
+
 *** Keywords ***
 Setup Suite
     [Documentation]    Set up the test suite
@@ -161,6 +171,8 @@ Setup Suite
     ...    ELSE    Fail    The TechProfile (${techprofile}) is not valid!
     ${onos_ssh_connection}    Open ONOS SSH Connection    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}
     Set Suite Variable  ${onos_ssh_connection}
+    # delete etcd MIB Template Data
+    Delete MIB Template Data
 
 Teardown Suite
     [Documentation]    Replaces the Suite Teardown in utils.robot.
@@ -335,12 +347,12 @@ Do Disable Enable Onu Test
     [Documentation]    This keyword disables/enables all onus and checks the states.
     [Arguments]    ${state2check}=${state2test}
     Do Current State Test All Onus    ${state2check}
-    Do Disable Onu    ${state2check}
+    Do Disable Onu Device
     Do Current State Test All Onus    omci-admin-lock
     Log Ports
     #check no port is enabled in ONOS
     Wait for Ports in ONOS    ${onos_ssh_connection}    0    BBSM
-    Do Enable Onu    tech-profile-config-download-success
+    Do Enable Onu Device
     Do Current State Test All Onus    ${state2check}
     Log Ports    onlyenabled=True
     #check that all the UNI ports show up in ONOS again
@@ -368,9 +380,16 @@ Do Reconcile Onu Device
     Do Disable Enable Onu Test
     Run Keyword If    ${porttest}    Do Onu Port Check
 
-Do Disable Onu
-    [Documentation]    This keyword disables all onus and checks the states.
-    [Arguments]    ${state2check}
+Do Power Off Power On Onu Device
+    [Documentation]    This keyword power off/on all onus and checks the states.
+    Do Power Off ONU Device
+    Sleep    5s
+    Do Current State Test All Onus    stopping-openomci
+    Do Power On ONU Device
+    Do Current State Test All Onus    ${state2test}
+
+Do Disable Onu Device
+    [Documentation]    This keyword disables all onus.
     FOR    ${I}    IN RANGE    0    ${num_onus}
         ${src}=    Set Variable    ${hosts.src[${I}]}
         ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
@@ -378,13 +397,30 @@ Do Disable Onu
         Wait Until Keyword Succeeds    20s    2s    Test Devices Disabled in VOLTHA    Id=${onu_device_id}
     END
 
-Do Enable Onu
-    [Documentation]    This keyword enables all onus and checks the states.
-    [Arguments]    ${state2check}
+Do Enable Onu Device
+    [Documentation]    This keyword enables all onus.
     FOR    ${I}    IN RANGE    0    ${num_onus}
         ${src}=    Set Variable    ${hosts.src[${I}]}
         ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
         Enable Device    ${onu_device_id}
+    END
+
+Do Power Off ONU Device
+    [Documentation]    This keyword power off all onus.
+    ${namespace}=    Set Variable    voltha
+    FOR    ${I}    IN RANGE    0    ${num_onus}
+        ${src}=    Set Variable    ${hosts.src[${I}]}
+        ${result}=    Exec Pod    ${namespace}    bbsim    bbsimctl onu shutdown ${src['onu']}
+        Should Contain    ${result}    successfully    msg=Can not shutdown ${src['onu']}    values=False
+    END
+
+Do Power On ONU Device
+    [Documentation]    This keyword power on all onus.
+    ${namespace}=    Set Variable    voltha
+    FOR    ${I}    IN RANGE    0    ${num_onus}
+        ${src}=    Set Variable    ${hosts.src[${I}]}
+        ${result}=    Exec Pod    ${namespace}    bbsim    bbsimctl onu poweron ${src['onu']}
+        Should Contain    ${result}    successfully    msg=Can not poweron ${src['onu']}    values=False
     END
 
 Do Current State Test
@@ -402,13 +438,11 @@ Do Current State Test All Onus
     ${list_onus}    Create List
     Build ONU SN List    ${list_onus}
     ${admin_state}    ${oper_status}    ${connect_status}    ${onu_state}=    Map State    ${state}
-    #Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    50ms
-    #...    Validate ONU Devices MIB State With Duration
-    #...    ${onu_state}    ${list_onus}    ${timeStart}
     Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    50ms
     ...    Validate ONU Devices With Duration
     ...    ${admin_state}    ${oper_status}    ${connect_status}
     ...    ${onu_state}    ${list_onus}    ${timeStart}
+
 Log Ports
     [Documentation]    This keyword logs all port data available in ONOS of first port per ONU
     [Arguments]    ${onlyenabled}=False
@@ -426,6 +460,19 @@ Kill Adaptor
     ${rc}    ${output}=    Run and Return Rc and Output    ${cmd}
     Log    ${output}
 
+Delete MIB Template Data
+    [Documentation]    This keyword deletes MIB Template Data stored in etcd
+    ${namespace}=    Set Variable    default
+    ${podname}=    Set Variable    etcd
+    ${commanddel}    Catenate
+    ...    /bin/sh -c 'ETCDCTL_API=3 etcdctl del --prefix service/voltha/omci_mibs/go_templates/'
+    ${result}=    Exec Pod    ${namespace}    ${podname}    ${commanddel}
+    Sleep    3s
+    ${commandget}    Catenate
+    ...    /bin/sh -c 'ETCDCTL_API=3 etcdctl get --prefix service/voltha/omci_mibs/go_templates/'
+    ${result}=    Exec Pod    ${namespace}    ${podname}    ${commandget}
+    Should Be Empty    ${result}    Could not delete MIB Template Data stored in etcd!
+
 Map State
     [Documentation]    This keyword converts the passed numeric value or name of a onu state to its state values.
     [Arguments]    ${state}
@@ -439,6 +486,7 @@ Map State
     ${state6}    Create List      ENABLED     ACTIVE        REACHABLE      omci-flows-pushed
     ${state7}    Create List      DISABLED    UNKNOWN       REACHABLE      omci-admin-lock
     ${state8}    Create List      ENABLED     ACTIVE        REACHABLE      onu-reenabled
+    ${state9}    Create List      ENABLED     DISCOVERED    UNREACHABLE    stopping-openomci
     ${admin_state}    ${oper_status}    ${connect_status}    ${onu_state}=    Set Variable If
     ...    '${state}'=='1' or '${state}'=='activating-onu'                          ${state1}
     ...    '${state}'=='2' or '${state}'=='starting-openomci'                       ${state2}
@@ -448,4 +496,5 @@ Map State
     ...    '${state}'=='6' or '${state}'=='omci-flows-pushed'                       ${state6}
     ...    '${state}'=='7' or '${state}'=='omci-admin-lock'                         ${state7}
     ...    '${state}'=='8' or '${state}'=='onu-reenabled'                           ${state8}
+    ...    '${state}'=='9' or '${state}'=='stopping-openomci'                       ${state9}
     [Return]    ${admin_state}    ${oper_status}    ${connect_status}    ${onu_state}
