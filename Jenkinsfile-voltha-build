@@ -247,9 +247,7 @@ node ("${TestNodeName}") {
                                     sshpass -p ${deployment_config.olts[i].pass} ssh -l ${deployment_config.olts[i].user} ${deployment_config.olts[i].ip} 'dpkg --list | grep asgvolt64 | wc -l'
                                 fi
                                 if (${deployment_config.olts[i].fortygig}); then
-                                    if [ "${deployment_config.olts[i].oltDebVersion}" == *"asfvolt16"* ]; then
                                         sshpass -p ${deployment_config.olts[i].pass} ssh -l ${deployment_config.olts[i].user} ${deployment_config.olts[i].ip} 'echo "port ce128 sp=40000 if=XLAUI" >> /broadcom/qax.soc'
-                                    fi
                                 fi
                                 """
                                 return olt_sw_present.toInteger() > 0
