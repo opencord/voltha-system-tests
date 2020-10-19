@@ -57,7 +57,7 @@ ONU MIB Template Data Test
     ...                - duration of second ONU should be at least 10 times faster than the first one
     ...                - MIB-Upload-Data should not requested via OMCI by second ONU
     ...                - MIB-Upload-Data should read from etcd
-    [Tags]    onutest
+    [Tags]    functionalOnuGo    MibTemplateOnuGo
     [Setup]    Run Keywords    Start Logging    ONUMibTemplateTest
     ...    AND    Setup
     Perform ONU MIB Template Data Test

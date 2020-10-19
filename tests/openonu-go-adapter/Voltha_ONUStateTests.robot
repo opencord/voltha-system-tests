@@ -39,31 +39,16 @@ ${state2test}    6
 # test mode variable, can be passed via the command line too, valid values: SingleState, Up2State, SingleStateTime
 # example: -v testmode:SingleStateTime
 ${testmode}    SingleState
-# flag for execute Tech Profile check, can be passed via the command line too
-# example: -v profiletest:False
-${profiletest}    True
 # used tech profile, can be passed via the command line too, valid values: default (=1T1GEM), 1T4GEM, 1T8GEM
 # example: -v techprofile:1T4GEM
 ${techprofile}    default
-# flag for execute port test, can be passed via the command line too
-# example: -v porttest:False
-${porttest}    True
-# flag for execute flow test, can be passed via the command line too
-# example: -v flowtest:True
-${flowtest}    False
-# flag for execute disable/enable onu device test, can be passed via the command line too
-# example: -v disableenabletest:True
-${disableenabletest}    True
-# flag for execute reconcile onu device test, can be passed via the command line too
-# example: -v reconciletest:True
-${reconciletest}    True
 # flag debugmode is used, if true timeout calculation various, can be passed via the command line too
 # example: -v debugmode:True
 ${debugmode}    False
 # logging flag to enable Collect Logs, can be passed via the command line too
 # example: -v logging:True
 ${logging}    False
-# if True execution will be paused before clean up
+# if True execution will be paused before clean up, only use in case of manual testing, do not use in ci pipeline!
 # example: -v pausebeforecleanup:True
 ${pausebeforecleanup}    False
 ${data_dir}    ../data
@@ -72,7 +57,7 @@ ${data_dir}    ../data
 *** Test Cases ***
 ONU State Test
     [Documentation]    Validates the ONU Go adapter states
-    [Tags]    statetest    onutest
+    [Tags]    sanityOnuGo    StateTestOnuGo
     [Setup]    Run Keywords    Start Logging    ONUStateTest
     ...    AND    Setup Test
     Run Keyword If    ${has_dataplane}    Clean Up Linux
@@ -90,9 +75,9 @@ Check Loaded Tech Profile
     [Documentation]    Validates the loaded Tech Profile
     ...    Assuming that ONU State Test was executed where all the ONUs are reached the expected state!
     ...    Check will be executed only the reached ONU state is 5 (tech-profile-config-download-success) or higher
-    [Tags]    onutest
+    [Tags]    functionalOnuGo   CheckTechProfileOnuGo
     [Setup]    Start Logging    ONUCheckTechProfile
-    Run Keyword If    ${state2test}>=5 and ${profiletest}    Do Check Tech Profile
+    Run Keyword If    ${state2test}>=5    Do Check Tech Profile
     ...    ELSE    Pass Execution    ${skip_message}    skipped
     [Teardown]    Run Keywords    Run Keyword If    ${logging}    Collect Logs
     ...    AND    Stop Logging    ONUCheckTechProfile
@@ -100,9 +85,9 @@ Check Loaded Tech Profile
 Onu Port Check
     [Documentation]    Validates that all the UNI ports show up in ONOS
     ...    Assuming that ONU State Test was executed where all the ONUs are reached the expected state!
-    [Tags]    onutest
+    [Tags]    functionalOnuGo    PortTestOnuGo
     [Setup]    Start Logging    ONUPortTest
-    Run Keyword If    ${porttest}    Do Onu Port Check
+    Run Keyword If    ${state2test}>=5    Do Onu Port Check
     ...    ELSE    Pass Execution    ${skip_message}    skipped
     [Teardown]    Run Keywords    Run Keyword If    ${logging}    Collect Logs
     ...    AND    Stop Logging    ONUPortTest
@@ -110,9 +95,9 @@ Onu Port Check
 Onu Flow Check
     [Documentation]    Validates the onu flows in ONOS and Voltha
     ...    Assuming that ONU State Test was executed where all the ONUs are reached the expected state!
-    [Tags]    onutest
+    [Tags]    functionalOnuGo    FlowTestOnuGo    notreadyOnuGo
     [Setup]    Start Logging    ONUFlowTest
-    Run Keyword If    ${state2test}>=6 and ${flowtest}    Do Onu Flow Check
+    Run Keyword If    ${state2test}>=6    Do Onu Flow Check
     ...    ELSE    Pass Execution    ${skip_message}    skipped
     [Teardown]    Run Keywords    Run Keyword If    ${logging}    Collect Logs
     ...    AND    Stop Logging    ONUFlowTest
@@ -120,9 +105,9 @@ Onu Flow Check
 Disable Enable Onu Device
     [Documentation]    Disables/enables ONU Device and check states
     ...    Assuming that ONU State Test was executed where all the ONUs are reached the expected state!
-    [Tags]    onutest
+    [Tags]    functionalOnuGo    DisableEnableOnuGo
     [Setup]    Start Logging    DisableEnableONUDevice
-    Run Keyword If    ${state2test}>=5 and ${disableenabletest}    Do Disable Enable Onu Test
+    Run Keyword If    ${state2test}>=5    Do Disable Enable Onu Test
     ...    ELSE    Pass Execution    ${skip_message}    skipped
     [Teardown]    Run Keywords    Run Keyword If    ${logging}    Collect Logs
     ...    AND    Stop Logging    DisableEnableONUDevice
@@ -130,9 +115,9 @@ Disable Enable Onu Device
 Reconcile Onu Device
     [Documentation]    Reconciles ONU Device and check state
     ...    Assuming that ONU State Test was executed where all the ONUs are reached the expected state!
-    [Tags]    onutest
+    [Tags]    functionalOnuGo    ReconcileOnuGo
     [Setup]    Start Logging    ReconcileONUDevice
-    Run Keyword If    ${state2test}>=5 and ${reconciletest}    Do Reconcile Onu Device
+    Run Keyword If    ${state2test}>=5    Do Reconcile Onu Device
     ...    ELSE    Pass Execution    ${skip_message}    skipped
     [Teardown]    Run Keywords    Run Keyword If    ${logging}    Collect Logs
     ...    AND    Stop Logging    ReconcileONUDevice
@@ -140,7 +125,7 @@ Reconcile Onu Device
 Power Off Power On Onu Device
     [Documentation]    Power off and Power on of all ONU Devices and check state
     ...    Assuming that ONU State Test was executed where all the ONUs are reached the expected state!
-    [Tags]    onutest
+    [Tags]    functionalOnuGo    PowerOffPowerOnOnuGo
     [Setup]    Start Logging    PowerOffPowerOnONUDevice
     Run Keyword If    ${state2test}>=5    Do Power Off Power On Onu Device
     ...    ELSE    Pass Execution    ${skip_message}    skipped
@@ -152,9 +137,7 @@ Setup Suite
     [Documentation]    Set up the test suite
     ${LogInfo}=    Catenate
     ...    \r\nPassed arguments:
-    ...    state2test:${state2test}, testmode:${testmode}, profiletest:${profiletest}, techprofile:${techprofile},
-    ...    porttest:${porttest}, flowtest:${flowtest}, reconciletest:${reconciletest},
-    ...    disableenabletest:${disableenabletest},
+    ...    state2test:${state2test}, testmode:${testmode}, techprofile:${techprofile},
     ...    debugmode:${debugmode}, logging:${logging}, pausebeforecleanup:${pausebeforecleanup},
     Log    ${LogInfo}    console=yes
     Common Test Suite Setup
@@ -378,7 +361,7 @@ Do Reconcile Onu Device
     Sleep    5s
     Wait For Pods Ready    ${namespace}    ${list_openonu_apps}
     Do Disable Enable Onu Test
-    Run Keyword If    ${porttest}    Do Onu Port Check
+    Do Onu Port Check
 
 Do Power Off Power On Onu Device
     [Documentation]    This keyword power off/on all onus and checks the states.
