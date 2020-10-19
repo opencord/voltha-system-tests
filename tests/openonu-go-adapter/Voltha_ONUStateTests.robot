@@ -35,35 +35,21 @@ ${container_log_dir}    ${None}
 # 5 -> tech-profile-config-download-success
 # 6 -> omci-flows-pushed
 # example: -v state2test:5
+# example: -v state2test:omci-flows-pushed
 ${state2test}    6
 # test mode variable, can be passed via the command line too, valid values: SingleState, Up2State, SingleStateTime
 # example: -v testmode:SingleStateTime
 ${testmode}    SingleState
-# flag for execute Tech Profile check, can be passed via the command line too
-# example: -v profiletest:False
-${profiletest}    True
 # used tech profile, can be passed via the command line too, valid values: default (=1T1GEM), 1T4GEM, 1T8GEM
 # example: -v techprofile:1T4GEM
 ${techprofile}    default
-# flag for execute port test, can be passed via the command line too
-# example: -v porttest:False
-${porttest}    True
-# flag for execute flow test, can be passed via the command line too
-# example: -v flowtest:True
-${flowtest}    False
-# flag for execute disable/enable onu device test, can be passed via the command line too
-# example: -v disableenabletest:True
-${disableenabletest}    True
-# flag for execute reconcile onu device test, can be passed via the command line too
-# example: -v reconciletest:True
-${reconciletest}    True
 # flag debugmode is used, if true timeout calculation various, can be passed via the command line too
 # example: -v debugmode:True
 ${debugmode}    False
 # logging flag to enable Collect Logs, can be passed via the command line too
 # example: -v logging:True
 ${logging}    False
-# if True execution will be paused before clean up
+# if True execution will be paused before clean up, only use in case of manual testing, do not use in ci pipeline!
 # example: -v pausebeforecleanup:True
 ${pausebeforecleanup}    False
 ${data_dir}    ../data
@@ -72,7 +58,7 @@ ${data_dir}    ../data
 *** Test Cases ***
 ONU State Test
     [Documentation]    Validates the ONU Go adapter states
-    [Tags]    statetest    onutest
+    [Tags]    sanityOnuGo    StateTestOnuGo
     [Setup]    Run Keywords    Start Logging    ONUStateTest
     ...    AND    Setup Test
     Run Keyword If    ${has_dataplane}    Clean Up Linux
@@ -90,9 +76,10 @@ Check Loaded Tech Profile
     [Documentation]    Validates the loaded Tech Profile
     ...    Assuming that ONU State Test was executed where all the ONUs are reached the expected state!
     ...    Check will be executed only the reached ONU state is 5 (tech-profile-config-download-success) or higher
-    [Tags]    onutest
+    [Tags]    functionalOnuGo   CheckTechProfileOnuGo
     [Setup]    Start Logging    ONUCheckTechProfile
-    Run Keyword If    ${state2test}>=5 and ${profiletest}    Do Check Tech Profile
+    Run Keyword If    '${onu_state}'=='tech-profile-config-download-success' or '${onu_state}'=='omci-flows-pushed'
+    ...    Do Check Tech Profile
     ...    ELSE    Pass Execution    ${skip_message}    skipped
     [Teardown]    Run Keywords    Run Keyword If    ${logging}    Collect Logs
     ...    AND    Stop Logging    ONUCheckTechProfile
@@ -100,9 +87,10 @@ Check Loaded Tech Profile
 Onu Port Check
     [Documentation]    Validates that all the UNI ports show up in ONOS
     ...    Assuming that ONU State Test was executed where all the ONUs are reached the expected state!
-    [Tags]    onutest
+    [Tags]    functionalOnuGo    PortTestOnuGo
     [Setup]    Start Logging    ONUPortTest
-    Run Keyword If    ${porttest}    Do Onu Port Check
+    Run Keyword If    '${onu_state}'=='tech-profile-config-download-success' or '${onu_state}'=='omci-flows-pushed'
+    ...    Do Onu Port Check
     ...    ELSE    Pass Execution    ${skip_message}    skipped
     [Teardown]    Run Keywords    Run Keyword If    ${logging}    Collect Logs
     ...    AND    Stop Logging    ONUPortTest
@@ -110,9 +98,9 @@ Onu Port Check
 Onu Flow Check
     [Documentation]    Validates the onu flows in ONOS and Voltha
     ...    Assuming that ONU State Test was executed where all the ONUs are reached the expected state!
-    [Tags]    onutest
+    [Tags]    functionalOnuGo    FlowTestOnuGo    notreadyOnuGo
     [Setup]    Start Logging    ONUFlowTest
-    Run Keyword If    ${state2test}>=6 and ${flowtest}    Do Onu Flow Check
+    Run Keyword If    '${onu_state}'=='omci-flows-pushed'    Do Onu Flow Check
     ...    ELSE    Pass Execution    ${skip_message}    skipped
     [Teardown]    Run Keywords    Run Keyword If    ${logging}    Collect Logs
     ...    AND    Stop Logging    ONUFlowTest
@@ -120,9 +108,10 @@ Onu Flow Check
 Disable Enable Onu Device
     [Documentation]    Disables/enables ONU Device and check states
     ...    Assuming that ONU State Test was executed where all the ONUs are reached the expected state!
-    [Tags]    onutest
+    [Tags]    functionalOnuGo    DisableEnableOnuGo
     [Setup]    Start Logging    DisableEnableONUDevice
-    Run Keyword If    ${state2test}>=5 and ${disableenabletest}    Do Disable Enable Onu Test
+    Run Keyword If    '${onu_state}'=='tech-profile-config-download-success' or '${onu_state}'=='omci-flows-pushed'
+    ...    Do Disable Enable Onu Test
     ...    ELSE    Pass Execution    ${skip_message}    skipped
     [Teardown]    Run Keywords    Run Keyword If    ${logging}    Collect Logs
     ...    AND    Stop Logging    DisableEnableONUDevice
@@ -130,9 +119,10 @@ Disable Enable Onu Device
 Reconcile Onu Device
     [Documentation]    Reconciles ONU Device and check state
     ...    Assuming that ONU State Test was executed where all the ONUs are reached the expected state!
-    [Tags]    onutest
+    [Tags]    functionalOnuGo    ReconcileOnuGo
     [Setup]    Start Logging    ReconcileONUDevice
-    Run Keyword If    ${state2test}>=5 and ${reconciletest}    Do Reconcile Onu Device
+    Run Keyword If    '${onu_state}'=='tech-profile-config-download-success' or '${onu_state}'=='omci-flows-pushed'
+    ...    Do Reconcile Onu Device
     ...    ELSE    Pass Execution    ${skip_message}    skipped
     [Teardown]    Run Keywords    Run Keyword If    ${logging}    Collect Logs
     ...    AND    Stop Logging    ReconcileONUDevice
@@ -140,9 +130,10 @@ Reconcile Onu Device
 Power Off Power On Onu Device
     [Documentation]    Power off and Power on of all ONU Devices and check state
     ...    Assuming that ONU State Test was executed where all the ONUs are reached the expected state!
-    [Tags]    onutest
+    [Tags]    functionalOnuGo    PowerOffPowerOnOnuGo
     [Setup]    Start Logging    PowerOffPowerOnONUDevice
-    Run Keyword If    ${state2test}>=5    Do Power Off Power On Onu Device
+    Run Keyword If    '${onu_state}'=='tech-profile-config-download-success' or '${onu_state}'=='omci-flows-pushed'
+    ...    Do Power Off Power On Onu Device
     ...    ELSE    Pass Execution    ${skip_message}    skipped
     [Teardown]    Run Keywords    Run Keyword If    ${logging}    Collect Logs
     ...    AND    Stop Logging    PowerOffPowerOnONUDevice
@@ -152,9 +143,7 @@ Setup Suite
     [Documentation]    Set up the test suite
     ${LogInfo}=    Catenate
     ...    \r\nPassed arguments:
-    ...    state2test:${state2test}, testmode:${testmode}, profiletest:${profiletest}, techprofile:${techprofile},
-    ...    porttest:${porttest}, flowtest:${flowtest}, reconciletest:${reconciletest},
-    ...    disableenabletest:${disableenabletest},
+    ...    state2test:${state2test}, testmode:${testmode}, techprofile:${techprofile},
     ...    debugmode:${debugmode}, logging:${logging}, pausebeforecleanup:${pausebeforecleanup},
     Log    ${LogInfo}    console=yes
     Common Test Suite Setup
@@ -171,6 +160,14 @@ Setup Suite
     ...    ELSE    Fail    The TechProfile (${techprofile}) is not valid!
     ${onos_ssh_connection}    Open ONOS SSH Connection    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}
     Set Suite Variable  ${onos_ssh_connection}
+    # map the passed onu state to reached and make it visible for test suite
+    ${admin_state}    ${oper_status}    ${connect_status}    ${onu_state_nb}    ${onu_state}=
+    ...    Map State    ${state2test}
+    Set Suite Variable    ${admin_state}
+    Set Suite Variable    ${oper_status}
+    Set Suite Variable    ${connect_status}
+    Set Suite Variable    ${onu_state_nb}
+    Set Suite Variable    ${onu_state}
     # delete etcd MIB Template Data
     Delete MIB Template Data
 
@@ -216,27 +213,27 @@ Do ONU Up To State Test
     FOR    ${I}    IN RANGE    0    ${num_onus}
         ${src}=    Set Variable    ${hosts.src[${I}]}
         ${dst}=    Set Variable    ${hosts.dst[${I}]}
-        Run Keyword If   ${state2test}>=1
+        Run Keyword If   ${onu_state_nb}>=1
         ...    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    50ms
         ...    Validate Device    ENABLED    ACTIVATING    REACHABLE
         ...    ${src['onu']}    onu=True    onu_reason=activating-onu
-        Run Keyword If   ${state2test}>=2
+        Run Keyword If   ${onu_state_nb}>=2
         ...    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    50ms
         ...    Validate Device    ENABLED    ACTIVATING    REACHABLE
         ...    ${src['onu']}    onu=True    onu_reason=starting-openomci
-        Run Keyword If   ${state2test}>=3
+        Run Keyword If   ${onu_state_nb}>=3
         ...    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    50ms
         ...    Validate Device    ENABLED    ACTIVATING    REACHABLE
         ...    ${src['onu']}    onu=True    onu_reason=discovery-mibsync-complete
-        Run Keyword If   ${state2test}>=4
+        Run Keyword If   ${onu_state_nb}>=4
         ...    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    50ms
         ...    Validate Device    ENABLED    ACTIVE    REACHABLE
         ...    ${src['onu']}    onu=True    onu_reason=initial-mib-downloaded
-        Run Keyword If   ${state2test}>=5
+        Run Keyword If   ${onu_state_nb}>=5
         ...    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    50ms
         ...    Validate Device    ENABLED    ACTIVE    REACHABLE
         ...    ${src['onu']}    onu=True    onu_reason=tech-profile-config-download-success
-        Run Keyword If   ${state2test}>=6
+        Run Keyword If   ${onu_state_nb}>=6
         ...    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    50ms
         ...    Validate Device    ENABLED    ACTIVE    REACHABLE
         ...    ${src['onu']}    onu=True    onu_reason=omci-flows-pushed
@@ -248,7 +245,6 @@ Do ONU Single State Test
     FOR    ${I}    IN RANGE    0    ${num_onus}
         ${src}=    Set Variable    ${hosts.src[${I}]}
         ${dst}=    Set Variable    ${hosts.dst[${I}]}
-        ${admin_state}    ${oper_status}    ${connect_status}    ${onu_state}=    Map State    ${state2test}
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    50ms
         ...    Validate Device    ${admin_state}    ${oper_status}    ${connect_status}
         ...    ${src['onu']}    onu=True    onu_reason=${onu_state}
@@ -263,7 +259,6 @@ Do ONU Single State Test Time
     Create File    ONU_Startup_Time.txt    This file contains the startup times of all ONUs.
     ${list_onus}    Create List
     Build ONU SN List    ${list_onus}
-    ${admin_state}    ${oper_status}    ${connect_status}    ${onu_state}=    Map State    ${state2test}
     Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    50ms
     ...    Validate ONU Devices MIB State With Duration
     ...    ${onu_state}    ${list_onus}    ${timeStart}    print2console=True
@@ -291,9 +286,9 @@ Do Onu Flow Check
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
         ...    Verify Subscriber Access Flows Added For ONU    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${of_id}
         ...    ${onu_port}    ${nni_port}    ${src['c_tag']}    ${src['s_tag']}
-        #check  for previous state is kept (normally omci-flows-pushed)
-        Do Current State Test    ${state2test}    ${src['onu']}
     END
+    #check  for previous state is kept (normally omci-flows-pushed)
+    Do Current State Test All Onus    ${state2test}
 
 Set Tech Profile
     [Documentation]    This keyword set the passed TechProfile for the test
@@ -378,7 +373,7 @@ Do Reconcile Onu Device
     Sleep    5s
     Wait For Pods Ready    ${namespace}    ${list_openonu_apps}
     Do Disable Enable Onu Test
-    Run Keyword If    ${porttest}    Do Onu Port Check
+    Do Onu Port Check
 
 Do Power Off Power On Onu Device
     [Documentation]    This keyword power off/on all onus and checks the states.
@@ -426,7 +421,7 @@ Do Power On ONU Device
 Do Current State Test
     [Documentation]    This keyword checks the passed state of the given onu.
     [Arguments]    ${state}    ${onu}
-    ${admin_state}    ${oper_status}    ${connect_status}    ${onu_state}=    Map State    ${state}
+    ${admin_state}    ${oper_status}    ${connect_status}    ${onu_state_nb}    ${onu_state}=    Map State    ${state}
     Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    50ms
     ...    Validate Device    ${admin_state}    ${oper_status}    ${connect_status}
     ...    ${onu}    onu=True    onu_reason=${onu_state}
@@ -437,7 +432,7 @@ Do Current State Test All Onus
     [Arguments]    ${state}
     ${list_onus}    Create List
     Build ONU SN List    ${list_onus}
-    ${admin_state}    ${oper_status}    ${connect_status}    ${onu_state}=    Map State    ${state}
+    ${admin_state}    ${oper_status}    ${connect_status}    ${onu_state_nb}    ${onu_state}=    Map State    ${state}
     Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    50ms
     ...    Validate ONU Devices With Duration
     ...    ${admin_state}    ${oper_status}    ${connect_status}
@@ -477,17 +472,17 @@ Map State
     [Documentation]    This keyword converts the passed numeric value or name of a onu state to its state values.
     [Arguments]    ${state}
     # create state lists with corresponding return values
-    #                             ADMIN-STATE OPER-STATUS   CONNECT-STATUS ONU-STATE
-    ${state1}    Create List      ENABLED     ACTIVATING    REACHABLE      activating-onu
-    ${state2}    Create List      ENABLED     ACTIVATING    REACHABLE      starting-openomci
-    ${state3}    Create List      ENABLED     ACTIVATING    REACHABLE      discovery-mibsync-complete
-    ${state4}    Create List      ENABLED     ACTIVE        REACHABLE      initial-mib-downloaded
-    ${state5}    Create List      ENABLED     ACTIVE        REACHABLE      tech-profile-config-download-success
-    ${state6}    Create List      ENABLED     ACTIVE        REACHABLE      omci-flows-pushed
-    ${state7}    Create List      DISABLED    UNKNOWN       REACHABLE      omci-admin-lock
-    ${state8}    Create List      ENABLED     ACTIVE        REACHABLE      onu-reenabled
-    ${state9}    Create List      ENABLED     DISCOVERED    UNREACHABLE    stopping-openomci
-    ${admin_state}    ${oper_status}    ${connect_status}    ${onu_state}=    Set Variable If
+    #                             ADMIN-STATE OPER-STATUS   CONNECT-STATUS ONU-STATE (number/name)
+    ${state1}    Create List      ENABLED     ACTIVATING    REACHABLE      1    activating-onu
+    ${state2}    Create List      ENABLED     ACTIVATING    REACHABLE      2    starting-openomci
+    ${state3}    Create List      ENABLED     ACTIVATING    REACHABLE      3    discovery-mibsync-complete
+    ${state4}    Create List      ENABLED     ACTIVE        REACHABLE      4    initial-mib-downloaded
+    ${state5}    Create List      ENABLED     ACTIVE        REACHABLE      5    tech-profile-config-download-success
+    ${state6}    Create List      ENABLED     ACTIVE        REACHABLE      6    omci-flows-pushed
+    ${state7}    Create List      DISABLED    UNKNOWN       REACHABLE      7    omci-admin-lock
+    ${state8}    Create List      ENABLED     ACTIVE        REACHABLE      8    onu-reenabled
+    ${state9}    Create List      ENABLED     DISCOVERED    UNREACHABLE    9    stopping-openomci
+    ${admin_state}    ${oper_status}    ${connect_status}    ${onu_state_nb}    ${onu_state}=    Set Variable If
     ...    '${state}'=='1' or '${state}'=='activating-onu'                          ${state1}
     ...    '${state}'=='2' or '${state}'=='starting-openomci'                       ${state2}
     ...    '${state}'=='3' or '${state}'=='discovery-mibsync-complete'              ${state3}
@@ -497,4 +492,4 @@ Map State
     ...    '${state}'=='7' or '${state}'=='omci-admin-lock'                         ${state7}
     ...    '${state}'=='8' or '${state}'=='onu-reenabled'                           ${state8}
     ...    '${state}'=='9' or '${state}'=='stopping-openomci'                       ${state9}
-    [Return]    ${admin_state}    ${oper_status}    ${connect_status}    ${onu_state}
+    [Return]    ${admin_state}    ${oper_status}    ${connect_status}    ${onu_state_nb}    ${onu_state}

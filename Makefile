@@ -88,61 +88,61 @@ functional-multi-olt: ROBOT_FILE := Voltha_multipleOLTTests.robot
 functional-multi-olt: voltha-test
 
 # target to invoke openonu go adapter
-openonu-go-adapter-test: ROBOT_MISC_ARGS += -v state2test:6 -v testmode:SingleStateTime -v timeout:180s
-openonu-go-adapter-test: ROBOT_MISC_ARGS += -v logging:True -i onutest $(ROBOT_DEBUG_LOG_OPT)
-openonu-go-adapter-test: ROBOT_MISC_ARGS += -X
+openonu-go-adapter-test: ROBOT_MISC_ARGS += -v state2test:omci-flows-pushed -v testmode:SingleStateTime
+openonu-go-adapter-test: ROBOT_MISC_ARGS += -v logging:True -i sanityOnuGo -i functionalOnuGo -v timeout:180s
+openonu-go-adapter-test: ROBOT_MISC_ARGS += -e notreadyOnuGo -X $(ROBOT_DEBUG_LOG_OPT)
 openonu-go-adapter-test: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_SINGLE_PON_FILE)
 openonu-go-adapter-test: ROBOT_FILE := Voltha_ONUStateTests.robot
 openonu-go-adapter-test: openonu-go-adapter-tests
 
 # target to invoke test with openonu go adapter applying 1T4GEM tech-profile at single ONU
-1t4gem-openonu-go-adapter-test: ROBOT_MISC_ARGS += -v state2test:6 -v testmode:SingleStateTime -v timeout:180s
-1t4gem-openonu-go-adapter-test: ROBOT_MISC_ARGS += -v techprofile:1T4GEM -v logging:True
-1t4gem-openonu-go-adapter-test: ROBOT_MISC_ARGS += -i onutest $(ROBOT_DEBUG_LOG_OPT)
-1t4gem-openonu-go-adapter-test: ROBOT_MISC_ARGS += -X
+1t4gem-openonu-go-adapter-test: ROBOT_MISC_ARGS += -v state2test:omci-flows-pushed -v testmode:SingleStateTime
+1t4gem-openonu-go-adapter-test: ROBOT_MISC_ARGS += -v techprofile:1T4GEM -v logging:True -v timeout:180s
+1t4gem-openonu-go-adapter-test: ROBOT_MISC_ARGS += -i sanityOnuGo -i functionalOnuGo
+1t4gem-openonu-go-adapter-test: ROBOT_MISC_ARGS += -e notreadyOnuGo -X $(ROBOT_DEBUG_LOG_OPT)
 1t4gem-openonu-go-adapter-test: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_SINGLE_PON_FILE)
 1t4gem-openonu-go-adapter-test: ROBOT_FILE := Voltha_ONUStateTests.robot
 1t4gem-openonu-go-adapter-test: openonu-go-adapter-tests
 
 # target to invoke test with openonu go adapter applying 1T8GEM tech-profile at single ONU
-1t8gem-openonu-go-adapter-test: ROBOT_MISC_ARGS += -v state2test:6 -v testmode:SingleStateTime -v timeout:180s
-1t8gem-openonu-go-adapter-test: ROBOT_MISC_ARGS += -v techprofile:1T8GEM -v logging:True
-1t8gem-openonu-go-adapter-test: ROBOT_MISC_ARGS += -i onutest $(ROBOT_DEBUG_LOG_OPT)
-1t8gem-openonu-go-adapter-test: ROBOT_MISC_ARGS += -X
+1t8gem-openonu-go-adapter-test: ROBOT_MISC_ARGS += -v state2test:omci-flows-pushed -v testmode:SingleStateTime
+1t8gem-openonu-go-adapter-test: ROBOT_MISC_ARGS += -v techprofile:1T8GEM -v logging:True -v timeout:180s
+1t8gem-openonu-go-adapter-test: ROBOT_MISC_ARGS += -i sanityOnuGo -i functionalOnuGo
+1t8gem-openonu-go-adapter-test: ROBOT_MISC_ARGS += -e notreadyOnuGo -X $(ROBOT_DEBUG_LOG_OPT)
 1t8gem-openonu-go-adapter-test: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_SINGLE_PON_FILE)
 1t8gem-openonu-go-adapter-test: ROBOT_FILE := Voltha_ONUStateTests.robot
 1t8gem-openonu-go-adapter-test: openonu-go-adapter-tests
 
 # target to invoke multiple openonu go adapter
-multi-openonu-go-adapter-test: ROBOT_MISC_ARGS += -v state2test:6 -v testmode:SingleStateTime -v timeout:180s
-multi-openonu-go-adapter-test: ROBOT_MISC_ARGS += -v logging:True -i onutest $(ROBOT_DEBUG_LOG_OPT)
-multi-openonu-go-adapter-test: ROBOT_MISC_ARGS += -X
+multi-openonu-go-adapter-test: ROBOT_MISC_ARGS += -v state2test:omci-flows-pushed -v testmode:SingleStateTime
+multi-openonu-go-adapter-test: ROBOT_MISC_ARGS += -v logging:True -i sanityOnuGo -i functionalOnuGo -v timeout:180s
+multi-openonu-go-adapter-test: ROBOT_MISC_ARGS += -e notreadyOnuGo -X $(ROBOT_DEBUG_LOG_OPT)
 multi-openonu-go-adapter-test: ROBOT_CONFIG_FILE := $(ROBOT_SCALE_MULT_ONU_FILE)
 multi-openonu-go-adapter-test: ROBOT_FILE := Voltha_ONUStateTests.robot
 multi-openonu-go-adapter-test: openonu-go-adapter-tests
 
 # target to invoke test with openonu go adapter applying 1T4GEM tech-profile at multiple ONU
-multi-1t4gem-openonu-go-adapter-test: ROBOT_MISC_ARGS += -v state2test:6 -v testmode:SingleStateTime -v timeout:180s
-multi-1t4gem-openonu-go-adapter-test: ROBOT_MISC_ARGS += -v techprofile:1T4GEM -v logging:True
-multi-1t4gem-openonu-go-adapter-test: ROBOT_MISC_ARGS += -i onutest $(ROBOT_DEBUG_LOG_OPT)
-multi-1t4gem-openonu-go-adapter-test: ROBOT_MISC_ARGS += -X
+multi-1t4gem-openonu-go-adapter-test: ROBOT_MISC_ARGS += -v state2test:omci-flows-pushed -v testmode:SingleStateTime
+multi-1t4gem-openonu-go-adapter-test: ROBOT_MISC_ARGS += -v techprofile:1T4GEM -v logging:True -v timeout:180s
+multi-1t4gem-openonu-go-adapter-test: ROBOT_MISC_ARGS += -i sanityOnuGo -i functionalOnuGo
+multi-1t4gem-openonu-go-adapter-test: ROBOT_MISC_ARGS += -e notreadyOnuGo -X $(ROBOT_DEBUG_LOG_OPT)
 multi-1t4gem-openonu-go-adapter-test: ROBOT_CONFIG_FILE := $(ROBOT_SCALE_MULT_ONU_FILE)
 multi-1t4gem-openonu-go-adapter-test: ROBOT_FILE := Voltha_ONUStateTests.robot
 multi-1t4gem-openonu-go-adapter-test: openonu-go-adapter-tests
 
 # target to invoke test with openonu go adapter applying 1T8GEM tech-profile at multiple ONU
-multi-1t8gem-openonu-go-adapter-test: ROBOT_MISC_ARGS += -v state2test:6 -v testmode:SingleStateTime -v timeout:180s
-multi-1t8gem-openonu-go-adapter-test: ROBOT_MISC_ARGS += -v techprofile:1T8GEM -v logging:True
-multi-1t8gem-openonu-go-adapter-test: ROBOT_MISC_ARGS += -i onutest $(ROBOT_DEBUG_LOG_OPT)
-multi-1t8gem-openonu-go-adapter-test: ROBOT_MISC_ARGS += -X
+multi-1t8gem-openonu-go-adapter-test: ROBOT_MISC_ARGS += -v state2test:omci-flows-pushed -v testmode:SingleStateTime
+multi-1t8gem-openonu-go-adapter-test: ROBOT_MISC_ARGS += -v techprofile:1T8GEM -v logging:True -v timeout:180s
+multi-1t8gem-openonu-go-adapter-test: ROBOT_MISC_ARGS += -i sanityOnuGo -i functionalOnuGo
+multi-1t8gem-openonu-go-adapter-test: ROBOT_MISC_ARGS += -e notreadyOnuGo -X $(ROBOT_DEBUG_LOG_OPT)
 multi-1t8gem-openonu-go-adapter-test: ROBOT_CONFIG_FILE := $(ROBOT_SCALE_MULT_ONU_FILE)
 multi-1t8gem-openonu-go-adapter-test: ROBOT_FILE := Voltha_ONUStateTests.robot
 multi-1t8gem-openonu-go-adapter-test: openonu-go-adapter-tests
 
 # target to invoke test with openonu go adapter applying MIB-Upload-Templating
 mib-upload-templating-openonu-go-adapter-test: ROBOT_MISC_ARGS += -v timeout:60s -v logging:True
-mib-upload-templating-openonu-go-adapter-test: ROBOT_MISC_ARGS += -i onutest $(ROBOT_DEBUG_LOG_OPT)
-mib-upload-templating-openonu-go-adapter-test: ROBOT_MISC_ARGS += -X
+mib-upload-templating-openonu-go-adapter-test: ROBOT_MISC_ARGS += -i functionalOnuGo
+mib-upload-templating-openonu-go-adapter-test: ROBOT_MISC_ARGS += -e notreadyOnuGo -X $(ROBOT_DEBUG_LOG_OPT)
 mib-upload-templating-openonu-go-adapter-test: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_MULT_PON_FILE)
 mib-upload-templating-openonu-go-adapter-test: ROBOT_FILE := Voltha_ONUTemplateTests.robot
 mib-upload-templating-openonu-go-adapter-test: openonu-go-adapter-tests

@@ -57,7 +57,7 @@ ONU MIB Template Data Test
     ...                - duration of second ONU should be at least 10 times faster than the first one
     ...                - MIB-Upload-Data should not requested via OMCI by second ONU
     ...                - MIB-Upload-Data should read from etcd
-    [Tags]    onutest
+    [Tags]    functionalOnuGo    MibTemplateOnuGo
     [Setup]    Run Keywords    Start Logging    ONUMibTemplateTest
     ...    AND    Setup
     Perform ONU MIB Template Data Test
@@ -93,24 +93,26 @@ Teardown Suite
 
 Perform ONU MIB Template Data Test
     [Documentation]    This keyword performs ONU MIB Template Data Test
-    ${firstonu}=    Set Variable    0
-    ${secondonu}=    Set Variable    1
-    ${state2test}=    Set Variable    6
+    ${firstonu}=      Set Variable    0
+    ${secondonu}=     Set Variable    1
+    ${state2test}=    Set Variable    omci-flows-pushed
     Set Global Variable    ${state2test}
     Run Keyword If    ${has_dataplane}    Clean Up Linux
     # Start first Onu
-    Log    \r\nONU BBSM00000001: startup with MIB upload cycle and storage of template data to etcd.    console=yes
-    ${result}=    Exec Pod    ${NAMESPACE}    bbsim    bbsimctl onu poweron BBSM00000001
-    Should Contain    ${result}    successfully    msg=Can not poweron BBSM00000001    values=False
+    ${src}=    Set Variable    ${hosts.src[${0}]}
+    Log    \r\nONU ${src['onu']}: startup with MIB upload cycle and storage of template data to etcd.    console=yes
+    ${result}=    Exec Pod    ${NAMESPACE}    bbsim    bbsimctl onu poweron ${src['onu']}
+    Should Contain    ${result}    successfully    msg=Can not poweron ${src['onu']}    values=False
     ${timeStart}=    Get Current Date
     ${firstonustartup}=    Get ONU Startup Duration    ${firstonu}    ${timeStart}
     # check MIB Template data stored in etcd
     Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    3s
     ...    Verify MIB Template Data Available
     # Start second Onu
-    Log    ONU BBSM00000002: startup without MIB upload cycle by using of template data of etcd.    console=yes
-    ${result}=    Exec Pod    ${NAMESPACE}    bbsim    bbsimctl onu poweron BBSM00000002
-    Should Contain    ${result}    successfully    msg=Can not poweron BBSM00000002    values=False
+    ${src}=    Set Variable    ${hosts.src[${1}]}
+    Log    ONU ${src['onu']}: startup without MIB upload cycle by using of template data of etcd.    console=yes
+    ${result}=    Exec Pod    ${NAMESPACE}    bbsim    bbsimctl onu poweron ${src['onu']}
+    Should Contain    ${result}    successfully    msg=Can not poweron ${src['onu']}    values=False
     ${timeStart}=    Get Current Date
     ${secondonustartup}=    Get ONU Startup Duration    ${secondonu}    ${timeStart}
     # compare both durations, second onu should be at least 3 times faster
@@ -122,7 +124,8 @@ Get ONU Startup Duration
     [Documentation]    This keyword delivers startup duration of onu
     [Arguments]    ${onu}    ${starttime}
     ${src}=    Set Variable    ${hosts.src[${onu}]}
-    ${admin_state}    ${oper_status}    ${connect_status}    ${onu_state}=    Map State    ${state2test}
+    ${admin_state}    ${oper_status}    ${connect_status}    ${onu_state_nb}    ${onu_state}=
+    ...    Map State    ${state2test}
     Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    50ms
     ...    Validate Device    ${admin_state}    ${oper_status}    ${connect_status}
     ...    ${src['onu']}    onu=True    onu_reason=${onu_state}
@@ -157,16 +160,17 @@ Map State
     [Documentation]    This keyword converts the passed numeric value or name of a onu state to its state values.
     [Arguments]    ${state}
     # create state lists with corresponding return values
-    #                             ADMIN-STATE OPER-STATUS   CONNECT-STATUS ONU-STATE
-    ${state1}    Create List      ENABLED     ACTIVATING    REACHABLE      activating-onu
-    ${state2}    Create List      ENABLED     ACTIVATING    REACHABLE      starting-openomci
-    ${state3}    Create List      ENABLED     ACTIVATING    REACHABLE      discovery-mibsync-complete
-    ${state4}    Create List      ENABLED     ACTIVE        REACHABLE      initial-mib-downloaded
-    ${state5}    Create List      ENABLED     ACTIVE        REACHABLE      tech-profile-config-download-success
-    ${state6}    Create List      ENABLED     ACTIVE        REACHABLE      omci-flows-pushed
-    ${state7}    Create List      DISABLED    UNKNOWN       REACHABLE      omci-admin-lock
-    ${state8}    Create List      ENABLED     ACTIVE        REACHABLE      onu-reenabled
-    ${admin_state}    ${oper_status}    ${connect_status}    ${onu_state}=    Set Variable If
+    #                             ADMIN-STATE OPER-STATUS   CONNECT-STATUS ONU-STATE (number/name)
+    ${state1}    Create List      ENABLED     ACTIVATING    REACHABLE      1    activating-onu
+    ${state2}    Create List      ENABLED     ACTIVATING    REACHABLE      2    starting-openomci
+    ${state3}    Create List      ENABLED     ACTIVATING    REACHABLE      3    discovery-mibsync-complete
+    ${state4}    Create List      ENABLED     ACTIVE        REACHABLE      4    initial-mib-downloaded
+    ${state5}    Create List      ENABLED     ACTIVE        REACHABLE      5    tech-profile-config-download-success
+    ${state6}    Create List      ENABLED     ACTIVE        REACHABLE      6    omci-flows-pushed
+    ${state7}    Create List      DISABLED    UNKNOWN       REACHABLE      7    omci-admin-lock
+    ${state8}    Create List      ENABLED     ACTIVE        REACHABLE      8    onu-reenabled
+    ${state9}    Create List      ENABLED     DISCOVERED    UNREACHABLE    9    stopping-openomci
+    ${admin_state}    ${oper_status}    ${connect_status}    ${onu_state_nb}    ${onu_state}=    Set Variable If
     ...    '${state}'=='1' or '${state}'=='activating-onu'                          ${state1}
     ...    '${state}'=='2' or '${state}'=='starting-openomci'                       ${state2}
     ...    '${state}'=='3' or '${state}'=='discovery-mibsync-complete'              ${state3}
@@ -175,4 +179,5 @@ Map State
     ...    '${state}'=='6' or '${state}'=='omci-flows-pushed'                       ${state6}
     ...    '${state}'=='7' or '${state}'=='omci-admin-lock'                         ${state7}
     ...    '${state}'=='8' or '${state}'=='onu-reenabled'                           ${state8}
-    [Return]    ${admin_state}    ${oper_status}    ${connect_status}    ${onu_state}
+    ...    '${state}'=='9' or '${state}'=='stopping-openomci'                       ${state9}
+    [Return]    ${admin_state}    ${oper_status}    ${connect_status}    ${onu_state_nb}    ${onu_state}
