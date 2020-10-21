@@ -232,9 +232,13 @@ node ("${TestNodeName}") {
                     for(int i=0; i < deployment_config.olts.size(); i++) {
                         sh returnStdout: true, script: """
                         if [ "${branch}" != "master" ]; then
-                            sshpass -p ${deployment_config.olts[i].pass} ssh -l ${deployment_config.olts[i].user} ${deployment_config.olts[i].ip} "dpkg --install ${deployment_config.olts[i].oltDebVersion23}"
+                            ssh-keyscan -H ${deployment_config.olts[i].sship} >> ~/.ssh/known_hosts
+                            sshpass -p ${deployment_config.olts[i].pass} ssh -l ${deployment_config.olts[i].user} ${deployment_config.olts[i].sship} 'kill -9 `pgrep -f "[b]ash /opt/openolt/openolt_dev_mgmt_daemon_process_watchdog"` || true'
+                            sshpass -p ${deployment_config.olts[i].pass} ssh -l ${deployment_config.olts[i].user} ${deployment_config.olts[i].sship} "dpkg --install ${deployment_config.olts[i].oltDebVersion23}"
                         else
-                            sshpass -p ${deployment_config.olts[i].pass} ssh -l ${deployment_config.olts[i].user} ${deployment_config.olts[i].ip} "dpkg --install ${deployment_config.olts[i].oltDebVersion}"
+                            ssh-keyscan -H ${deployment_config.olts[i].sship} >> ~/.ssh/known_hosts
+                            sshpass -p ${deployment_config.olts[i].pass} ssh -l ${deployment_config.olts[i].user} ${deployment_config.olts[i].sship} 'kill -9 `pgrep -f "[b]ash /opt/openolt/openolt_dev_mgmt_daemon_process_watchdog"` || true'
+                            sshpass -p ${deployment_config.olts[i].pass} ssh -l ${deployment_config.olts[i].user} ${deployment_config.olts[i].sship} "dpkg --install ${deployment_config.olts[i].oltDebVersion}"
                         fi
                         sleep 10
                         """
@@ -242,12 +246,16 @@ node ("${TestNodeName}") {
                             waitUntil {
                                 olt_sw_present = sh returnStdout: true, script: """
                                 if [ "${deployment_config.olts[i].oltDebVersion}" == *"asfvolt16"* ]; then
-                                    sshpass -p ${deployment_config.olts[i].pass} ssh -l ${deployment_config.olts[i].user} ${deployment_config.olts[i].ip} 'dpkg --list | grep asfvolt16 | wc -l'
+                                    sshpass -p ${deployment_config.olts[i].pass} ssh -l ${deployment_config.olts[i].user} ${deployment_config.olts[i].sship} 'dpkg --list | grep asfvolt16 | wc -l'
                                 else
-                                    sshpass -p ${deployment_config.olts[i].pass} ssh -l ${deployment_config.olts[i].user} ${deployment_config.olts[i].ip} 'dpkg --list | grep asgvolt64 | wc -l'
+                                    sshpass -p ${deployment_config.olts[i].pass} ssh -l ${deployment_config.olts[i].user} ${deployment_config.olts[i].sship} 'dpkg --list | grep asgvolt64 | wc -l'
                                 fi
                                 if (${deployment_config.olts[i].fortygig}); then
-                                        sshpass -p ${deployment_config.olts[i].pass} ssh -l ${deployment_config.olts[i].user} ${deployment_config.olts[i].ip} 'echo "port ce128 sp=40000 if=XLAUI" >> /broadcom/qax.soc'
+                                        ssh-keyscan -H ${deployment_config.olts[i].sship} >> ~/.ssh/known_hosts
+                                        sshpass -p ${deployment_config.olts[i].pass} ssh -l ${deployment_config.olts[i].user} ${deployment_config.olts[i].sship} 'mkdir -p /opt/openolt/'
+                                        sshpass -p ${deployment_config.olts[i].pass} ssh -l ${deployment_config.olts[i].user} ${deployment_config.olts[i].sship} 'cp /root/watchdog-script/* /opt/openolt/'
+                                        sshpass -p ${deployment_config.olts[i].pass} ssh -l ${deployment_config.olts[i].user} ${deployment_config.olts[i].sship} 'cp /root/bal_cli_appl/example_user_appl /broadcom'
+                                        sshpass -p ${deployment_config.olts[i].pass} ssh -l ${deployment_config.olts[i].user} ${deployment_config.olts[i].sship} 'echo "port ce128 sp=40000 if=XLAUI" >> /broadcom/qax.soc'
                                 fi
                                 """
                                 return olt_sw_present.toInteger() > 0
@@ -259,20 +267,20 @@ node ("${TestNodeName}") {
                     for(int i=0; i < deployment_config.olts.size(); i++) {
                         timeout(5) {
                             sh returnStdout: true, script: """
-                            ssh-keyscan -H ${deployment_config.olts[i].ip} >> ~/.ssh/known_hosts
-                            sshpass -p ${deployment_config.olts[i].pass} ssh -l ${deployment_config.olts[i].user} ${deployment_config.olts[i].ip} 'rm -f /var/log/openolt.log; rm -f /var/log/dev_mgmt_daemon.log; rm -f /var/log/openolt_process_watchdog.log; reboot' || true
+                            ssh-keyscan -H ${deployment_config.olts[i].sship} >> ~/.ssh/known_hosts
+                            sshpass -p ${deployment_config.olts[i].pass} ssh -l ${deployment_config.olts[i].user} ${deployment_config.olts[i].sship} 'rm -f /var/log/openolt.log; rm -f /var/log/dev_mgmt_daemon.log; rm -f /var/log/openolt_process_watchdog.log; reboot' || true
                             sleep 120
                             """
                         }
                         timeout(15) {
                             waitUntil {
-                                devprocess = sh returnStdout: true, script: "sshpass -p ${deployment_config.olts[i].pass} ssh -l ${deployment_config.olts[i].user} ${deployment_config.olts[i].ip} 'ps -ef | grep dev_mgmt_daemon | wc -l'"
+                                devprocess = sh returnStdout: true, script: "sshpass -p ${deployment_config.olts[i].pass} ssh -l ${deployment_config.olts[i].user} ${deployment_config.olts[i].sship} 'ps -ef | grep dev_mgmt_daemon | wc -l'"
                                 return devprocess.toInteger() > 0
                             }
                         }
                         timeout(15) {
                             waitUntil {
-                                openoltprocess = sh returnStdout: true, script: "sshpass -p ${deployment_config.olts[i].pass} ssh -l ${deployment_config.olts[i].user} ${deployment_config.olts[i].ip} 'ps -ef | grep openolt | wc -l'"
+                                openoltprocess = sh returnStdout: true, script: "sshpass -p ${deployment_config.olts[i].pass} ssh -l ${deployment_config.olts[i].user} ${deployment_config.olts[i].sship} 'ps -ef | grep openolt | wc -l'"
                                 return openoltprocess.toInteger() > 0
                             }
                         }
@@ -333,7 +341,7 @@ node ("${TestNodeName}") {
                     }
                 }
             }
-            if ( params.inBandManagement ) {
+            /*if ( params.inBandManagement ) {
                 stage('Reboot OLT') {
                     for(int i=0; i < deployment_config.olts.size(); i++) {
                         timeout(10) {
@@ -357,7 +365,7 @@ node ("${TestNodeName}") {
                         }
                     }
                 }
-            }
+            }*/
 
             currentBuild.result = 'SUCCESS'
         } catch (err) {
