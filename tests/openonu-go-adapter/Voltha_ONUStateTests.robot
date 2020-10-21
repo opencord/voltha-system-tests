@@ -138,6 +138,17 @@ Power Off Power On Onu Device
     [Teardown]    Run Keywords    Run Keyword If    ${logging}    Collect Logs
     ...    AND    Stop Logging    PowerOffPowerOnONUDevice
 
+Soft Reboot Onu Device
+    [Documentation]    Reboots softly all ONU Devices and check state
+    ...    Assuming that ONU State Test was executed where all the ONUs are reached the expected state!
+    [Tags]    functionalOnuGo    SoftRebootOnuGo
+    [Setup]    Start Logging    SoftRebootONUDevice
+    Run Keyword If    '${onu_state}'=='tech-profile-config-download-success' or '${onu_state}'=='omci-flows-pushed'
+    ...    Do Soft Reboot Onu Device
+    ...    ELSE    Pass Execution    ${skip_message}    skipped
+    [Teardown]    Run Keywords    Run Keyword If    ${logging}    Collect Logs
+    ...    AND    Stop Logging    SoftRebootONUDevice
+
 *** Keywords ***
 Setup Suite
     [Documentation]    Set up the test suite
@@ -340,8 +351,8 @@ Do Check Tech Profile
 
 Do Disable Enable Onu Test
     [Documentation]    This keyword disables/enables all onus and checks the states.
-    [Arguments]    ${state2check}=${state2test}
-    Do Current State Test All Onus    ${state2check}
+    [Arguments]    ${state2check}=${state2test}    ${checkstatebeforedisable}=True
+    Run Keyword If    ${checkstatebeforedisable}    Do Current State Test All Onus    ${state2check}
     Do Disable Onu Device
     Do Current State Test All Onus    omci-admin-lock
     Log Ports
@@ -382,6 +393,17 @@ Do Power Off Power On Onu Device
     Do Current State Test All Onus    stopping-openomci
     Do Power On ONU Device
     Do Current State Test All Onus    ${state2test}
+
+Do Soft Reboot Onu Device
+    [Documentation]    This keyword reboots softly all onus and checks the states.
+    ${namespace}=    Set Variable    voltha
+    FOR    ${I}    IN RANGE    0    ${num_onus}
+        ${src}=    Set Variable    ${hosts.src[${I}]}
+        ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
+        Reboot ONU    ${onu_device_id}
+    END
+    Do Disable Enable Onu Test    checkstatebeforedisable=False
+    Do Onu Port Check
 
 Do Disable Onu Device
     [Documentation]    This keyword disables all onus.
