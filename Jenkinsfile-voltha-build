@@ -297,7 +297,7 @@ node ("${TestNodeName}") {
                         fi
                         if [[ "${branch}" == "master" ]] && [[ "${params.inBandManagement}" == "true" ]]; then
                             ssh-keyscan -H ${deployment_config.olts[i].sship} >> ~/.ssh/known_hosts
-                            sshpass -p ${deployment_config.olts[i].pass} ssh -l ${deployment_config.olts[i].user} ${deployment_config.olts[i].sship} 'kill -9 `pgrep -f "bash /opt/openolt/openolt_dev_mgmt_daemon_process_watchdog"` || true'
+                            sshpass -p ${deployment_config.olts[i].pass} ssh -l ${deployment_config.olts[i].user} ${deployment_config.olts[i].sship} 'kill -9 `pgrep -f "[b]ash /opt/openolt/openolt_dev_mgmt_daemon_process_watchdog"` || true'
                             sshpass -p ${deployment_config.olts[i].pass} ssh -l ${deployment_config.olts[i].user} ${deployment_config.olts[i].sship} "dpkg --install ${deployment_config.olts[i].oltDebVersion}"
                         fi
                         if [[ "${branch}" == "master" ]] && [[ "${params.inBandManagement}" == "false" ]]; then
