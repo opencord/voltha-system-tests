@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a49821a_01114658",
+        "filename": "Jenkinsfile-voltha-build",
+        "patchSetId": 7
+      },
+      "lineNbr": 305,
+      "author": {
+        "id": 1000127
+      },
+      "writtenOn": "2020-10-22T01:01:19Z",
+      "side": 1,
+      "message": "Do you need this step when inBandManagement is false. I do not think so. It is not harmful if you do, but is not necessary.",
+      "revId": "8c578378d9d8f33fc61bfe63a6ef6d454aedeaf2",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3189b97b_3d0872bb",
+        "filename": "Jenkinsfile-voltha-build",
+        "patchSetId": 7
+      },
+      "lineNbr": 361,
+      "author": {
+        "id": 1000127
+      },
+      "writtenOn": "2020-10-22T01:01:19Z",
+      "side": 1,
+      "message": "you have commented this. So, where does OLT reboot happen.",
+      "revId": "8c578378d9d8f33fc61bfe63a6ef6d454aedeaf2",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    }
+  ]
+}
