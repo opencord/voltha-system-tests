@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "a0b2917d_4201dfee",
+        "filename": "Jenkinsfile-voltha-build",
+        "patchSetId": 7
+      },
+      "lineNbr": 305,
+      "author": {
+        "id": 1000064
+      },
+      "writtenOn": "2020-10-22T03:42:28Z",
+      "side": 1,
+      "message": "I can remove this step, if it is not required",
+      "parentUuid": "9a49821a_01114658",
+      "revId": "8c578378d9d8f33fc61bfe63a6ef6d454aedeaf2",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "3189b97b_3d0872bb",
         "filename": "Jenkinsfile-voltha-build",
         "patchSetId": 7
@@ -30,6 +48,24 @@
       "writtenOn": "2020-10-22T01:01:19Z",
       "side": 1,
       "message": "you have commented this. So, where does OLT reboot happen.",
+      "revId": "8c578378d9d8f33fc61bfe63a6ef6d454aedeaf2",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dd8b9219_63349886",
+        "filename": "Jenkinsfile-voltha-build",
+        "patchSetId": 7
+      },
+      "lineNbr": 361,
+      "author": {
+        "id": 1000064
+      },
+      "writtenOn": "2020-10-22T03:42:28Z",
+      "side": 1,
+      "message": "This happens right after OLT installation, I just left this block commented for now.  When we make sure that the pipelines run well in the nights with the new procedure,\n then I will remove this block",
+      "parentUuid": "3189b97b_3d0872bb",
       "revId": "8c578378d9d8f33fc61bfe63a6ef6d454aedeaf2",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
       "unresolved": true
