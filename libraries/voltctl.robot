@@ -702,12 +702,12 @@ Validate Device Removed
     List Should Not Contain Value    ${ids}    ${id}
 
 Reboot ONU
-    [Arguments]    ${onu_id}
+    [Arguments]    ${onu_id}    ${validate_device}=True
     [Documentation]   Using voltctl command reboot ONU and verify that ONU comes up to running state
     ${rc}    ${devices}=    Run and Return Rc and Output    ${VOLTCTL_CONFIG}; voltctl device reboot ${onu_id}
     Should Be Equal As Integers    ${rc}    0
-    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    60s   1s    Validate ONU Device By Device Id
-    ...    ENABLED    DISCOVERED    REACHABLE    rebooting   ${onu_id}
+    Run Keyword If    ${validate_device}    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds
+    ...    60s   1s    Validate ONU Device By Device Id    ENABLED    DISCOVERED    REACHABLE    rebooting   ${onu_id}
 
 Assert ONUs in Voltha
     [Arguments]    ${count}

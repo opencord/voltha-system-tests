@@ -400,10 +400,11 @@ Do Soft Reboot Onu Device
     FOR    ${I}    IN RANGE    0    ${num_onus}
         ${src}=    Set Variable    ${hosts.src[${I}]}
         ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
-        Reboot ONU    ${onu_device_id}
+        Reboot ONU    ${onu_device_id}   False
     END
-    Run Keyword If    ${has_dataplane}    Sleep    30s
-    Do Disable Enable Onu Test    checkstatebeforedisable=False
+    Run Keyword Unless    ${has_dataplane}    Do Current State Test All Onus    rebooting
+    Run Keyword Unless    ${has_dataplane}    Do Disable Enable Onu Test    checkstatebeforedisable=False
+    Run Keyword If    ${has_dataplane}    Do Current State Test All Onus    omci-flows-pushed
     Do Onu Port Check
 
 Do Disable Onu Device
@@ -496,15 +497,16 @@ Map State
     [Arguments]    ${state}
     # create state lists with corresponding return values
     #                             ADMIN-STATE OPER-STATUS   CONNECT-STATUS ONU-STATE (number/name)
-    ${state1}    Create List      ENABLED     ACTIVATING    REACHABLE      1    activating-onu
-    ${state2}    Create List      ENABLED     ACTIVATING    REACHABLE      2    starting-openomci
-    ${state3}    Create List      ENABLED     ACTIVATING    REACHABLE      3    discovery-mibsync-complete
-    ${state4}    Create List      ENABLED     ACTIVE        REACHABLE      4    initial-mib-downloaded
-    ${state5}    Create List      ENABLED     ACTIVE        REACHABLE      5    tech-profile-config-download-success
-    ${state6}    Create List      ENABLED     ACTIVE        REACHABLE      6    omci-flows-pushed
-    ${state7}    Create List      DISABLED    UNKNOWN       REACHABLE      7    omci-admin-lock
-    ${state8}    Create List      ENABLED     ACTIVE        REACHABLE      8    onu-reenabled
-    ${state9}    Create List      ENABLED     DISCOVERED    UNREACHABLE    9    stopping-openomci
+    ${state1}     Create List      ENABLED     ACTIVATING    REACHABLE       1    activating-onu
+    ${state2}     Create List      ENABLED     ACTIVATING    REACHABLE       2    starting-openomci
+    ${state3}     Create List      ENABLED     ACTIVATING    REACHABLE       3    discovery-mibsync-complete
+    ${state4}     Create List      ENABLED     ACTIVE        REACHABLE       4    initial-mib-downloaded
+    ${state5}     Create List      ENABLED     ACTIVE        REACHABLE       5    tech-profile-config-download-success
+    ${state6}     Create List      ENABLED     ACTIVE        REACHABLE       6    omci-flows-pushed
+    ${state7}     Create List      DISABLED    UNKNOWN       REACHABLE       7    omci-admin-lock
+    ${state8}     Create List      ENABLED     ACTIVE        REACHABLE       8    onu-reenabled
+    ${state9}     Create List      ENABLED     DISCOVERED    UNREACHABLE     9    stopping-openomci
+    ${state10}    Create List      ENABLED     DISCOVERED    REACHABLE      10    rebooting
     ${admin_state}    ${oper_status}    ${connect_status}    ${onu_state_nb}    ${onu_state}=    Set Variable If
     ...    '${state}'=='1' or '${state}'=='activating-onu'                          ${state1}
     ...    '${state}'=='2' or '${state}'=='starting-openomci'                       ${state2}
@@ -515,4 +517,5 @@ Map State
     ...    '${state}'=='7' or '${state}'=='omci-admin-lock'                         ${state7}
     ...    '${state}'=='8' or '${state}'=='onu-reenabled'                           ${state8}
     ...    '${state}'=='9' or '${state}'=='stopping-openomci'                       ${state9}
+    ...    '${state}'=='10' or '${state}'=='rebooting'                              ${state10}
     [Return]    ${admin_state}    ${oper_status}    ${connect_status}    ${onu_state_nb}    ${onu_state}
