@@ -68,26 +68,34 @@ Adding the same OLT before and after enabling the device
     Delete All Devices and Verify
     Run Keyword and Ignore Error   Collect Logs
     # Wait for the OLT to be reachable
-    Run Keyword If    ${has_dataplane}    Wait Until Keyword Succeeds    120s    10s
-    ...    Check Remote System Reachability    True    ${olt_ssh_ip}
-    ${olt_device_id}=    Create Device    ${olt_ip}    ${OLT_PORT}
-    Set Suite Variable    ${olt_device_id}
-    Wait Until Keyword Succeeds    ${timeout}    5s    Validate OLT Device    PREPROVISIONED    UNKNOWN    UNKNOWN
-    ...    ${olt_device_id}
-    ${rc}    ${output}=    Run and Return Rc and Output
-    ...    ${VOLTCTL_CONFIG}; voltctl device create -t openolt -H ${olt_ip}:${OLT_PORT}
-    Should Not Be Equal As Integers    ${rc}    0
-    Should Contain     ${output}     device is already pre-provisioned    ignore_case=True
-    #Enable the created OLT device
-    Enable Device    ${olt_device_id}
-    Wait Until Keyword Succeeds    ${timeout}    5s    Validate OLT Device    ENABLED    ACTIVE    REACHABLE
-    ...    ${olt_serial_number}
-    ${rc}    ${output}=    Run and Return Rc and Output
-    ...    ${VOLTCTL_CONFIG}; voltctl device create -t openolt -H ${olt_ip}:${OLT_PORT}
-    Should Not Be Equal As Integers    ${rc}    0
-    Log    ${output}
-    Should Contain     ${output}    device is already pre-provisioned    ignore_case=True
-    Log    "This OLT is added already and enabled"
+    FOR   ${I}    IN RANGE    0    ${olt_count}
+        ${olt_user}=    Get From Dictionary    ${list_olts}[${I}]    user
+        ${olt_pass}=    Get From Dictionary    ${list_olts}[${I}]    pass
+        ${olt_ssh_ip}=    Get From Dictionary    ${list_olts}[${I}]   sship
+        ${olt_ip}=    Get From Dictionary    ${list_olts}[${I}]   ip
+        ${olt_serial_number}=    Get From Dictionary    ${list_olts}[${I}]    sn
+        #${olt_device_id}=    Get OLTDeviceID From OLT List    ${olt_serial_number}
+        Run Keyword If    ${has_dataplane}    Wait Until Keyword Succeeds    120s    10s
+        ...    Check Remote System Reachability    True    ${olt_ssh_ip}
+        ${olt_device_id}=    Create Device    ${olt_ip}    ${OLT_PORT}
+        Set Suite Variable    ${olt_device_id}
+        Wait Until Keyword Succeeds    ${timeout}    5s    Validate OLT Device    PREPROVISIONED    UNKNOWN    UNKNOWN
+        ...    ${olt_device_id}
+        ${rc}    ${output}=    Run and Return Rc and Output
+        ...    ${VOLTCTL_CONFIG}; voltctl device create -t openolt -H ${olt_ip}:${OLT_PORT}
+        Should Not Be Equal As Integers    ${rc}    0
+        Should Contain     ${output}     device is already pre-provisioned    ignore_case=True
+        #Enable the created OLT device
+        Enable Device    ${olt_device_id}
+        Wait Until Keyword Succeeds    ${timeout}    5s    Validate OLT Device    ENABLED    ACTIVE    REACHABLE
+        ...    ${olt_serial_number}
+        ${rc}    ${output}=    Run and Return Rc and Output
+        ...    ${VOLTCTL_CONFIG}; voltctl device create -t openolt -H ${olt_ip}:${OLT_PORT}
+        Should Not Be Equal As Integers    ${rc}    0
+        Log    ${output}
+        Should Contain     ${output}    device is already pre-provisioned    ignore_case=True
+        Log    "This OLT is added already and enabled"
+    END
 
 Test Disable or Enable different device id which is not in the device list
     [Documentation]    Disable or Enable  a device id which is not listed in the voltctl device list
@@ -136,16 +144,24 @@ Check deletion of OLT/ONU before disabling
     #validate olt states
     Run Keyword If    ${has_dataplane}    Clean Up Linux
     Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test
-    Wait Until Keyword Succeeds    ${timeout}    5s    Validate OLT Device    ENABLED    ACTIVE    REACHABLE
-    ...    ${olt_serial_number}
-    ${rc}    ${output}=    Run and Return Rc and Output    ${VOLTCTL_CONFIG}; voltctl device delete ${olt_device_id}
-    Log    ${output}
-    Should Contain     ${output}     expected-admin-state:DISABLED
-    Wait Until Keyword Succeeds    ${timeout}    5s
-    ...    Validate OLT Device    ENABLED    ACTIVE    REACHABLE    ${olt_serial_number}
-    ${of_id}=    Wait Until Keyword Succeeds    ${timeout}    15s    Validate OLT Device in ONOS    ${olt_serial_number}
-    Set Global Variable    ${of_id}
-    FOR    ${I}    IN RANGE    0    ${num_onus}
+    FOR   ${I}    IN RANGE    0    ${olt_count}
+        ${olt_user}=    Get From Dictionary    ${list_olts}[${I}]    user
+        ${olt_pass}=    Get From Dictionary    ${list_olts}[${I}]    pass
+        ${olt_ssh_ip}=    Get From Dictionary    ${list_olts}[${I}]   sship
+        ${olt_ip}=    Get From Dictionary    ${list_olts}[${I}]   ip
+        ${olt_serial_number}=    Get From Dictionary    ${list_olts}[${I}]    sn
+        #${olt_device_id}=    Get OLTDeviceID From OLT List    ${olt_serial_number}
+        Wait Until Keyword Succeeds    ${timeout}    5s    Validate OLT Device    ENABLED    ACTIVE    REACHABLE
+        ...   REACHABLE    ${olt_serial_number}
+        ${rc}    ${output}=    Run and Return Rc and Output    ${VOLTCTL_CONFIG}; voltctl device delete ${olt_device_id}
+        Log    ${output}
+        Should Contain     ${output}     expected-admin-state:DISABLED
+        Wait Until Keyword Succeeds    ${timeout}    5s
+        ...    Validate OLT Device    ENABLED    ACTIVE    REACHABLE    ${olt_serial_number}
+        ${of_id}=    Wait Until Keyword Succeeds    ${timeout}    15s    Validate OLT Device in ONOS    ${olt_serial_number}
+        Set Global Variable    ${of_id}
+    END
+    FOR    ${I}    IN RANGE    0    ${num_all_onus}
 	${src}=    Set Variable    ${hosts.src[${I}]}
 	${dst}=    Set Variable    ${hosts.dst[${I}]}
 	${onu_device_id}=    Get Device ID From SN    ${src['onu']}
@@ -170,25 +186,33 @@ Check disabling of pre-provisioned OLT before enabling
     ...           AND             Stop Logging    DisablePreprovisionedOLTCheck
     Sleep    180s
     Run Keyword and Ignore Error    Collect Logs
-    #create/preprovision device
-    ${olt_device_id}=    Create Device    ${olt_ip}    ${OLT_PORT}
-    Set Suite Variable    ${olt_device_id}
-    #validate olt states
-    Wait Until Keyword Succeeds    ${timeout}    5s    Validate OLT Device    PREPROVISIONED    UNKNOWN    UNKNOWN
-    ...    ${olt_device_id}
-    #Try disabling pre-provisioned OLT
-    ${rc}    ${output}=    Run and Return Rc and Output    ${VOLTCTL_CONFIG}; voltctl device disable ${olt_device_id}
-    Should Not Be Equal As Integers    ${rc}    0
-    Log    ${output}
-    Should Contain     ${output}     invalid-admin-state:PREPROVISIONED
-    #Enable OLT
-    Enable Device    ${olt_device_id}
-    Wait Until Keyword Succeeds    ${timeout}    5s    Validate OLT Device    ENABLED    ACTIVE    REACHABLE
-    ...    ${olt_serial_number}
-    ${logical_id}=    Get Logical Device ID From SN    ${olt_serial_number}
-    Set Suite Variable    ${logical_id}
+    FOR   ${I}    IN RANGE    0    ${olt_count}
+        ${olt_user}=    Get From Dictionary    ${list_olts}[${I}]    user
+        ${olt_pass}=    Get From Dictionary    ${list_olts}[${I}]    pass
+        ${olt_ssh_ip}=    Get From Dictionary    ${list_olts}[${I}]   sship
+        ${olt_ip}=    Get From Dictionary    ${list_olts}[${I}]   ip
+        ${olt_serial_number}=    Get From Dictionary    ${list_olts}[${I}]    sn
+        #${olt_device_id}=    Get OLTDeviceID From OLT List    ${olt_serial_number}
+        #create/preprovision device
+        ${olt_device_id}=    Create Device    ${olt_ip}    ${OLT_PORT}
+        Set Suite Variable    ${olt_device_id}
+        #validate olt states
+        Wait Until Keyword Succeeds    ${timeout}    5s    Validate OLT Device    PREPROVISIONED    UNKNOWN
+        ...    UNKNOWN    ${olt_device_id}
+        #Try disabling pre-provisioned OLT
+        ${rc}    ${output}=    Run and Return Rc and Output    ${VOLTCTL_CONFIG}; voltctl device disable ${olt_device_id}
+        Should Not Be Equal As Integers    ${rc}    0
+        Log    ${output}
+        Should Contain     ${output}     invalid-admin-state:PREPROVISIONED
+        #Enable OLT
+        Enable Device    ${olt_device_id}
+        Wait Until Keyword Succeeds    ${timeout}    5s    Validate OLT Device    ENABLED    ACTIVE    REACHABLE
+        ...    ${olt_serial_number}
+        ${logical_id}=    Get Logical Device ID From SN    ${olt_serial_number}
+        Set Suite Variable    ${logical_id}
+    END
     ${onu_reason}=    Set Variable If    '${workflow}' == 'DT'    initial-mib-downloaded    omci-flows-pushed
-    FOR    ${I}    IN RANGE    0    ${num_onus}
+    FOR    ${I}    IN RANGE    0    ${num_all_onus}
 	${src}=    Set Variable    ${hosts.src[${I}]}
 	${dst}=    Set Variable    ${hosts.dst[${I}]}
 	Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s    Validate Device
@@ -206,33 +230,41 @@ Disable and Delete the logical device directly
     [Teardown]    Run Keywords    Collect Logs
     ...           AND             Stop Logging    DisableDelete_LogicalDevice
     Run Keyword If    ${has_dataplane}    Sleep    180s
-    #create/preprovision OLT device
-    ${olt_device_id}=    Create Device    ${olt_ip}    ${OLT_PORT}
-    Set Suite Variable    ${olt_device_id}
-    #validate olt states
-    Wait Until Keyword Succeeds    ${timeout}    5s    Validate OLT Device    PREPROVISIONED    UNKNOWN    UNKNOWN
-    ...    ${olt_device_id}
-    #Enable the created OLT device
-    Enable Device    ${olt_device_id}
-    Wait Until Keyword Succeeds    ${timeout}    5s    Validate OLT Device    ENABLED    ACTIVE    REACHABLE
-    ...    ${olt_serial_number}
-    #Check whether logical devices are also created
-    ${rc}    ${output}=    Run and Return Rc and Output
-    ...    ${VOLTCTL_CONFIG}; voltctl logicaldevice list
-    Should Be Equal As Integers    ${rc}    0
-    Log    ${output}
-    ${logical_id}=    Get Logical Device ID From SN    ${olt_serial_number}
-    Should Not Be Empty    ${logical_id}
-    ${rc}    ${output}=    Run and Return Rc and Output
-    ...    ${VOLTCTL_CONFIG}; voltctl logicaldevice disable ${logical_id}
-    Should Not Be Equal As Integers    ${rc}    0
-    Log    ${output}
-    Should Contain     '${output}'     Unknown command
-    ${rc}    ${output1}=    Run and Return Rc and Output
-    ...    ${VOLTCTL_CONFIG}; voltctl logicaldevice delete ${logical_id}
-    Should Not Be Equal As Integers    ${rc}    0
-    Log    ${output1}
-    Should Contain     '${output1}'     Unknown command
+    FOR   ${I}    IN RANGE    0    ${olt_count}
+        ${olt_user}=    Get From Dictionary    ${list_olts}[${I}]    user
+        ${olt_pass}=    Get From Dictionary    ${list_olts}[${I}]    pass
+        ${olt_ssh_ip}=    Get From Dictionary    ${list_olts}[${I}]   sship
+        ${olt_ip}=    Get From Dictionary    ${list_olts}[${I}]   ip
+        ${olt_serial_number}=    Get From Dictionary    ${list_olts}[${I}]    sn
+        #${olt_device_id}=    Get OLTDeviceID From OLT List    ${olt_serial_number}
+        #create/preprovision OLT device
+        ${olt_device_id}=    Create Device    ${olt_ip}    ${OLT_PORT}
+        Set Suite Variable    ${olt_device_id}
+        #validate olt states
+        Wait Until Keyword Succeeds    ${timeout}    5s    Validate OLT Device    PREPROVISIONED    UNKNOWN
+        ...    UNKOWN    ${olt_device_id}
+        #Enable the created OLT device
+        Enable Device    ${olt_device_id}
+        Wait Until Keyword Succeeds    ${timeout}    5s    Validate OLT Device    ENABLED    ACTIVE
+        ...    REACHABLE    ${olt_serial_number}
+        #Check whether logical devices are also created
+        ${rc}    ${output}=    Run and Return Rc and Output
+        ...    ${VOLTCTL_CONFIG}; voltctl logicaldevice list
+        Should Be Equal As Integers    ${rc}    0
+        Log    ${output}
+        ${logical_id}=    Get Logical Device ID From SN    ${olt_serial_number}
+        Should Not Be Empty    ${logical_id}
+        ${rc}    ${output}=    Run and Return Rc and Output
+        ...    ${VOLTCTL_CONFIG}; voltctl logicaldevice disable ${logical_id}
+        Should Not Be Equal As Integers    ${rc}    0
+        Log    ${output}
+        Should Contain     '${output}'     Unknown command
+        ${rc}    ${output1}=    Run and Return Rc and Output
+        ...    ${VOLTCTL_CONFIG}; voltctl logicaldevice delete ${logical_id}
+        Should Not Be Equal As Integers    ${rc}    0
+        Log    ${output1}
+        Should Contain     '${output1}'     Unknown command
+    END
 
 Check logical device creation and deletion
     [Documentation]    Deletes all devices, checks logical device, creates devices again and checks
@@ -243,28 +275,36 @@ Check logical device creation and deletion
     [Teardown]    Run Keywords    Collect Logs
     ...           AND             Stop Logging    LogicalDeviceCheck
     Delete All Devices and Verify
-    ${logical_id}=    Get Logical Device ID From SN    ${olt_serial_number}
-    Should Be Empty    ${logical_id}
-    Run Keyword If    ${has_dataplane}    Sleep    180s
-    ...    ELSE   Sleep    10s
-    ${olt_device_id}=    Create Device    ${olt_ip}    ${OLT_PORT}
-    Set Suite Variable    ${olt_device_id}
-    Wait Until Keyword Succeeds    ${timeout}    5s    Validate OLT Device    PREPROVISIONED    UNKNOWN    UNKNOWN
-    ...    ${olt_device_id}
-    Enable Device    ${olt_device_id}
-    Wait Until Keyword Succeeds    ${timeout}    5s    Validate OLT Device    ENABLED    ACTIVE    REACHABLE
-    ...    ${olt_serial_number}
-    ${logical_id}=    Get Logical Device ID From SN    ${olt_serial_number}
-    Should Not Be Empty    ${logical_id}
-    ${rc}    ${output}=    Run and Return Rc and Output
-    ...    ${VOLTCTL_CONFIG}; voltctl logicaldevice list
-    Should Be Equal As Integers    ${rc}    0
-    Log    ${output}
-    Should Contain     ${output}    ${olt_device_id}
-    Set Suite Variable    ${logical_id}
-    Wait Until Keyword Succeeds    ${timeout}    5s    Validate Logical Device Ports    ${logical_id}
-    Wait Until Keyword Succeeds    ${timeout}    5s    Validate Logical Device Flows    ${logical_id}
-    Run Keyword and Ignore Error    Collect Logs
+    FOR   ${I}    IN RANGE    0    ${olt_count}
+        ${olt_user}=    Get From Dictionary    ${list_olts}[${I}]    user
+        ${olt_pass}=    Get From Dictionary    ${list_olts}[${I}]    pass
+        ${olt_ssh_ip}=    Get From Dictionary    ${list_olts}[${I}]   sship
+        ${olt_ip}=    Get From Dictionary    ${list_olts}[${I}]   ip
+        ${olt_serial_number}=    Get From Dictionary    ${list_olts}[${I}]    sn
+        #${olt_device_id}=    Get OLTDeviceID From OLT List    ${olt_serial_number}
+        ${logical_id}=    Get Logical Device ID From SN    ${olt_serial_number}
+        Should Be Empty    ${logical_id}
+        Run Keyword If    ${has_dataplane}    Sleep    180s
+        ...    ELSE   Sleep    10s
+        ${olt_device_id}=    Create Device    ${olt_ip}    ${OLT_PORT}
+        Set Suite Variable    ${olt_device_id}
+        Wait Until Keyword Succeeds    ${timeout}    5s    Validate OLT Device    PREPROVISIONED    UNKNOWN
+        ...    UNKNOWN    ${olt_device_id}
+        Enable Device    ${olt_device_id}
+        Wait Until Keyword Succeeds    ${timeout}    5s    Validate OLT Device    ENABLED    ACTIVE    REACHABLE
+        ...    ${olt_serial_number}
+        ${logical_id}=    Get Logical Device ID From SN    ${olt_serial_number}
+        Should Not Be Empty    ${logical_id}
+        ${rc}    ${output}=    Run and Return Rc and Output
+        ...    ${VOLTCTL_CONFIG}; voltctl logicaldevice list
+        Should Be Equal As Integers    ${rc}    0
+        Log    ${output}
+        Should Contain     ${output}    ${olt_device_id}
+        Set Suite Variable    ${logical_id}
+        Wait Until Keyword Succeeds    ${timeout}    5s    Validate Logical Device Ports    ${logical_id}
+        Wait Until Keyword Succeeds    ${timeout}    5s    Validate Logical Device Flows    ${logical_id}
+        Run Keyword and Ignore Error    Collect Logs
+    END
 
 *** Keywords ***
 Setup Suite
