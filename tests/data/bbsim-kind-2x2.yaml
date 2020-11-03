@@ -35,15 +35,19 @@ olts:
 hosts:
   src:
     - onu: 'BBSM00000001'
+      olt: 'BBSIM_OLT_0'
       c_tag: '900'
       s_tag: '900'
     - onu: 'BBSM00000002'
+      olt: 'BBSIM_OLT_0'
       c_tag: '901'
       s_tag: '900'
     - onu: 'BBSM00000101'
+      olt: 'BBSIM_OLT_0'
       c_tag: '902'
       s_tag: '900'
     - onu: 'BBSM00000102'
+      olt: 'BBSIM_OLT_0'
       c_tag: '903'
       s_tag: '900'
 
