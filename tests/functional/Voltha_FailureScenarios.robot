@@ -66,16 +66,17 @@ Verify ONU after rebooting physically
     [Setup]    Start Logging    ONUreboot_PowerSwitch
     [Teardown]    Run Keywords    Collect Logs
     ...           AND             Stop Logging    ONUreboot_PowerSwitch
-    ...           AND             Delete Device and Verify
+    ...           AND             Delete All Devices and Verify
     # Add OLT device
     setup
     # Performing Sanity Test to make sure subscribers are all AUTH+DHCP and pingable
     Run Keyword If    ${has_dataplane}    Clean Up Linux
     Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test
     Power Switch Connection Suite    ${web_power_switch.ip}    ${web_power_switch.user}    ${web_power_switch.password}
-    FOR    ${I}    IN RANGE    0    ${num_onus}
+    FOR    ${I}    IN RANGE    0    ${num_all_onus}
         ${src}=    Set Variable    ${hosts.src[${I}]}
         ${dst}=    Set Variable    ${hosts.dst[${I}]}
+        ${of_id}=    Get ofID From OLT List    ${src['olt']}
         ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
         ${onu_port}=    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
         ...    Get ONU Port in ONOS    ${src['onu']}    ${of_id}
@@ -140,17 +141,24 @@ Verify OLT after rebooting physically
     [Setup]    Start Logging    PhysicalOLTReboot
     [Teardown]    Run Keywords    Collect Logs
     ...           AND             Stop Logging    PhysicalOLTReboot
-    ...           AND             Delete Device and Verify
+    ...           AND             Delete All Devices and Verify
     # Add OLT device
     setup
     # Performing Sanity Test to make sure subscribers are all AUTH+DHCP and pingable
     Run Keyword If    ${has_dataplane}    Clean Up Linux
     Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test
     # Reboot the OLT from the OLT CLI
-    Run Keyword If    ${has_dataplane}    Login And Run Command On Remote System
-    ...    sudo reboot    ${olt_ssh_ip}    ${olt_user}    ${olt_pass}   prompt=#
+    FOR   ${I}    IN RANGE    0    ${olt_count}
+        ${olt_user}=    Get From Dictionary    ${list_olts}[${I}]    user
+        ${olt_pass}=    Get From Dictionary    ${list_olts}[${I}]    pass
+        ${olt_ssh_ip}=    Get From Dictionary    ${list_olts}[${I}]   sship
+        ${olt_serial_number}=    Get From Dictionary    ${list_olts}[${I}]    sn
+        ${olt_device_id}=    Get OLTDeviceID From OLT List    ${olt_serial_number}
+        Run Keyword If    ${has_dataplane}    Login And Run Command On Remote System
+        ...    sudo reboot    ${olt_ssh_ip}    ${olt_user}    ${olt_pass}   prompt=#
+    END
     Run Keyword And Ignore Error    Collect Logs
-    FOR    ${I}    IN RANGE    0    ${num_onus}
+    FOR    ${I}    IN RANGE    0    ${num_all_onus}
         ${src}=    Set Variable    ${hosts.src[${I}]}
         ${dst}=    Set Variable    ${hosts.dst[${I}]}
         Run Keyword If    ${has_dataplane}    Run Keyword And Continue On Failure
@@ -158,19 +166,26 @@ Verify OLT after rebooting physically
         ...    Check Ping    False    ${dst['dp_iface_ip_qinq']}    ${src['dp_iface_name']}
         ...    ${src['ip']}    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
     END
-    # Wait for the OLT to come back up
-    Run Keyword If    ${has_dataplane}    Wait Until Keyword Succeeds    120s    10s
-    ...    Check Remote System Reachability    True    ${olt_ssh_ip}
-    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    360s    5s
-    ...    Validate OLT Device    ENABLED    ACTIVE
-    ...    REACHABLE    ${olt_serial_number}
+    # Wait for the OLTs to come back up
+    FOR   ${I}    IN RANGE    0    ${olt_count}
+        ${olt_serial_number}=    Get From Dictionary    ${olt_ids}[${I}]    sn
+        ${olt_user}=    Get From Dictionary    ${list_olts}[${I}]    user
+        ${olt_pass}=    Get From Dictionary    ${list_olts}[${I}]    pass
+        ${olt_ssh_ip}=    Get From Dictionary    ${list_olts}[${I}]   sship
+        ${olt_device_id}=    Get OLTDeviceID From OLT List    ${olt_serial_number}
+        Run Keyword If    ${has_dataplane}    Wait Until Keyword Succeeds    120s    10s
+        ...    Check Remote System Reachability    True    ${olt_ssh_ip}
+        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    360s    5s
+        ...    Validate OLT Device    ENABLED    ACTIVE
+        ...    REACHABLE    ${olt_serial_number}
+    END
     # Waiting extra time for the ONUs to come up
     Sleep    60s
     Run Keyword And Ignore Error    Collect Logs
     Run Keyword If    ${has_dataplane}    Clean Up Linux
     Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test
     # Deleting OLT after test completes
-    #Run Keyword If    ${has_dataplane}    Delete Device and Verify
+    #Run Keyword If    ${has_dataplane}    Delete All Devices and Verify
 
 Verify restart openolt-adapter container after subscriber provisioning
     [Documentation]    Restart openolt-adapter container after VOLTHA is operational.
@@ -195,7 +210,8 @@ Verify restart openolt-adapter container after subscriber provisioning
     ...    app    ${podName}    Running
     # Wait for 1min after openolt adapter is restarted
     Sleep    60s
-    Repeat Sanity Test
+    Run Keyword If    ${has_dataplane}    Clean Up Linux
+    Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test
     Run Keyword and Ignore Error    Collect Logs
     ${podStatusOutput}=    Run    kubectl get pods -n ${NAMESPACE}
     Log    ${podStatusOutput}
@@ -219,9 +235,10 @@ Check OLT/ONU Authentication After Radius Pod Restart
     Sleep    5s
     Wait Until Keyword Succeeds    ${waitforRestart}    2s    Validate Pods Status By Label    ${DEFAULTSPACE}
     ...    app    ${podName}    Running
-    FOR    ${I}    IN RANGE    0    ${num_onus}
+    FOR    ${I}    IN RANGE    0    ${num_all_onus}
         ${src}=    Set Variable    ${hosts.src[${I}]}
         ${dst}=    Set Variable    ${hosts.dst[${I}]}
+        ${of_id}=    Get ofID From OLT List    ${src['olt']}
         ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
         ${onu_port}=    Wait Until Keyword Succeeds    ${timeout}    2s
         ...    Get ONU Port in ONOS    ${src['onu']}    ${of_id}
@@ -261,11 +278,12 @@ Verify openolt adapter restart before subscriber provisioning
     #setup
     Run Keyword If    ${has_dataplane}    Clean Up Linux
     #Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test
-    Set Global Variable    ${of_id}
+    #Set Global Variable    ${of_id}
 
-    FOR    ${I}    IN RANGE    0    ${num_onus}
+    FOR    ${I}    IN RANGE    0    ${num_all_onus}
         ${src}=    Set Variable    ${hosts.src[${I}]}
         ${dst}=    Set Variable    ${hosts.dst[${I}]}
+        ${of_id}=    Get ofID From OLT List    ${src['olt']}
         ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
         ${onu_port}=    Wait Until Keyword Succeeds    ${timeout}    2s    Get ONU Port in ONOS    ${src['onu']}
         ...    ${of_id}
@@ -292,10 +310,21 @@ Verify openolt adapter restart before subscriber provisioning
     ...    Check Expected Available Deployment Replicas    voltha    open-olt-voltha-adapter-openolt    1
 
     # Ensure the device is available in ONOS, this represents system connectivity being restored
-    Wait Until Keyword Succeeds    ${timeout}    2s    Device Is Available In ONOS
-    ...    http://karaf:karaf@${ONOS_REST_IP}:${ONOS_REST_PORT}    ${of_id}
+    FOR   ${I}    IN RANGE    0    ${olt_count}
+        ${olt_serial_number}=    Get From Dictionary    ${olt_ids}[${I}]    sn
+        ${olt_device_id}=    Get OLTDeviceID From OLT List    ${olt_serial_number}
+        ${of_id}=    Wait Until Keyword Succeeds    ${timeout}    15s    Validate OLT Device in ONOS
+        ...    ${olt_serial_number}
+        Wait Until Keyword Succeeds    ${timeout}    2s    Device Is Available In ONOS
+        ...    http://karaf:karaf@${ONOS_REST_IP}:${ONOS_REST_PORT}    ${of_id}
+    END
 
-    FOR    ${I}    IN RANGE    0    ${num_onus}
+    FOR    ${I}    IN RANGE    0    ${num_all_onus}
+        ${src}=    Set Variable    ${hosts.src[${I}]}
+        ${dst}=    Set Variable    ${hosts.dst[${I}]}
+        ${of_id}=    Get ofID From OLT List    ${src['olt']}
+        ${onu_port}=    Wait Until Keyword Succeeds    ${timeout}    2s    Get ONU Port in ONOS    ${src['onu']}
+        ...    ${of_id}
         # Add subscriber access and verify that DHCP completes to ensure system is still functioning properly
         Wait Until Keyword Succeeds    ${timeout}    2s    Execute ONOS CLI Command    ${ONOS_SSH_IP}
         ...    ${ONOS_SSH_PORT}    volt-add-subscriber-access ${of_id} ${onu_port}
@@ -340,9 +369,10 @@ Verify restart ofagent container after subscriber is provisioned
     # Scale Down the Of-Agent Deployment
     Scale K8s Deployment    ${NAMESPACE}    voltha-voltha-ofagent    0
     Sleep    30s
-    FOR    ${I}    IN RANGE    0    ${num_onus}
+    FOR    ${I}    IN RANGE    0    ${num_all_onus}
         ${src}=    Set Variable    ${hosts.src[${I}]}
         ${dst}=    Set Variable    ${hosts.dst[${I}]}
+        ${of_id}=    Get ofID From OLT List    ${src['olt']}
         Run Keyword and Ignore Error    Collect Logs
         ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
         ${onu_port}=    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
@@ -397,9 +427,10 @@ Check ONU adapter crash not forcing authentication again
     ${podName}    Set Variable     adapter-open-onu
     Wait Until Keyword Succeeds    ${timeout}    15s    Delete K8s Pods By Label    ${NAMESPACE}    app    ${podName}
     # Validate ONU Ports
-    FOR    ${I}    IN RANGE    0    ${num_onus}
+    FOR    ${I}    IN RANGE    0    ${num_all_onus}
         ${src}=    Set Variable    ${hosts.src[${I}]}
         ${dst}=    Set Variable    ${hosts.dst[${I}]}
+        ${of_id}=    Get ofID From OLT List    ${src['olt']}
         ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
         ${onu_port}=    Wait Until Keyword Succeeds    ${timeout}    2s    Get ONU Port in ONOS    ${src['onu']}
         ...    ${of_id}
@@ -415,12 +446,18 @@ Check ONU adapter crash not forcing authentication again
     # Wait for adapter to resync
     Sleep    60s
     Run Keyword If    ${has_dataplane}    Clean Up Linux
+    # Validate OLTs are active in ONOS
+    FOR   ${I}    IN RANGE    0    ${olt_count}
+        ${olt_serial_number}=    Get From Dictionary    ${olt_ids}[${I}]    sn
+        ${olt_device_id}=    Get OLTDeviceID From OLT List    ${olt_serial_number}
+        ${of_id}=    Wait Until Keyword Succeeds    ${timeout}    15s    Validate OLT Device in ONOS
+        ...    ${olt_serial_number}
+    END
     # Perform all steps in Sanity Test except the subscriber addition
-    ${of_id}=    Wait Until Keyword Succeeds    ${timeout}    15s    Validate OLT Device in ONOS    ${olt_serial_number}
-    Set Global Variable    ${of_id}
-    FOR    ${I}    IN RANGE    0    ${num_onus}
+    FOR    ${I}    IN RANGE    0    ${num_all_onus}
         ${src}=    Set Variable    ${hosts.src[${I}]}
         ${dst}=    Set Variable    ${hosts.dst[${I}]}
+        ${of_id}=    Get ofID From OLT List    ${src['olt']}
         Run Keyword and Ignore Error    Collect Logs
         ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
         ${onu_port}=    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
@@ -477,14 +514,19 @@ Sanity E2E Test for OLT/ONU on POD With Core Fail and Restart
     #...          AND             Delete Device and Verify
     Run Keyword and Ignore Error    Collect Logs
     Run Keyword If    ${has_dataplane}    Clean Up Linux
-    ${of_id}=    Wait Until Keyword Succeeds    ${timeout}    15s    Validate OLT Device in ONOS    ${olt_serial_number}
-    Set Global Variable    ${of_id}
-    ${nni_port}=    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
-    ...    Get NNI Port in ONOS    ${of_id}
-    Set Global Variable    ${nni_port}
-    FOR    ${I}    IN RANGE    0    ${num_onus}
+    FOR   ${I}    IN RANGE    0    ${olt_count}
+        ${olt_serial_number}=    Get From Dictionary    ${olt_ids}[${I}]    sn
+        ${olt_device_id}=    Get OLTDeviceID From OLT List    ${olt_serial_number}
+        ${of_id}=    Wait Until Keyword Succeeds    ${timeout}    15s    Validate OLT Device in ONOS
+        ...    ${olt_serial_number}
+        ${nni_port}=    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
+        ...    Get NNI Port in ONOS    ${of_id}
+       # Set Global Variable    ${nni_port}
+    END
+    FOR    ${I}    IN RANGE    0    ${num_all_onus}
         ${src}=    Set Variable    ${hosts.src[${I}]}
         ${dst}=    Set Variable    ${hosts.dst[${I}]}
+        ${of_id}=    Get ofID From OLT List    ${src['olt']}
         ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
         ${onu_port}=    Wait Until Keyword Succeeds    ${timeout}    2s    Get ONU Port in ONOS    ${src['onu']}
         ...    ${of_id}
@@ -519,12 +561,19 @@ Sanity E2E Test for OLT/ONU on POD With Core Fail and Restart
     Restart VOLTHA Port Forward    voltha-api
     # Ensure that the ofagent pod is up and ready and the device is available in ONOS, this
     # represents system connectivity being restored
-    Wait Until Keyword Succeeds    ${timeout}    2s    Device Is Available In ONOS
-    ...    http://karaf:karaf@${ONOS_REST_IP}:${ONOS_REST_PORT}    ${of_id}
+    FOR   ${I}    IN RANGE    0    ${olt_count}
+        ${olt_serial_number}=    Get From Dictionary    ${olt_ids}[${I}]    sn
+        ${olt_device_id}=    Get OLTDeviceID From OLT List    ${olt_serial_number}
+        ${of_id}=    Wait Until Keyword Succeeds    ${timeout}    15s    Validate OLT Device in ONOS
+        ...    ${olt_serial_number}
+        Wait Until Keyword Succeeds    ${timeout}    2s    Device Is Available In ONOS
+        ...    http://karaf:karaf@${ONOS_REST_IP}:${ONOS_REST_PORT}    ${of_id}
+    END
 
-    FOR    ${I}    IN RANGE    0    ${num_onus}
+    FOR    ${I}    IN RANGE    0    ${num_all_onus}
         ${src}=    Set Variable    ${hosts.src[${I}]}
         ${dst}=    Set Variable    ${hosts.dst[${I}]}
+        ${of_id}=    Get ofID From OLT List    ${src['olt']}
         ${onu_port}=    Wait Until Keyword Succeeds    ${timeout}    2s    Get ONU Port in ONOS    ${src['onu']}
         ...    ${of_id}
         # Add subscriber access and verify that DHCP completes to ensure system is still functioning properly
@@ -554,14 +603,18 @@ Verify OLT Soft Reboot
     ## Performing Sanity Test to make sure subscribers are all AUTH+DHCP and pingable
     #Run Keyword If    ${has_dataplane}    Clean Up Linux
     #Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test
-    # Reboot the OLT using "voltctl device reboot" command
-    Wait Until Keyword Succeeds    360s    5s
-    ...    Validate OLT Device    ENABLED    ACTIVE
-    ...    REACHABLE    ${olt_serial_number}
-    Reboot Device    ${olt_device_id}
+    FOR   ${I}    IN RANGE    0    ${olt_count}
+        ${olt_serial_number}=    Get From Dictionary    ${olt_ids}[${I}]    sn
+        ${olt_device_id}=    Get OLTDeviceID From OLT List    ${olt_serial_number}
+        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    360s    5s
+        ...    Validate OLT Device    ENABLED    ACTIVE
+        ...    REACHABLE    ${olt_serial_number}
+        # Reboot the OLT using "voltctl device reboot" command
+        Reboot Device    ${olt_device_id}
+    END
     Run Keyword And Ignore Error    Collect Logs
     #Verify that ping fails
-    FOR    ${I}    IN RANGE    0    ${num_onus}
+    FOR    ${I}    IN RANGE    0    ${num_all_onus}
         ${src}=    Set Variable    ${hosts.src[${I}]}
         ${dst}=    Set Variable    ${hosts.dst[${I}]}
         Run Keyword If    ${has_dataplane}    Run Keyword And Continue On Failure
@@ -569,13 +622,30 @@ Verify OLT Soft Reboot
         ...    Check Ping    False    ${dst['dp_iface_ip_qinq']}    ${src['dp_iface_name']}
         ...    ${src['ip']}    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
     END
-    # Wait for the OLT to come back up
-    Run Keyword If    ${has_dataplane}    Wait Until Keyword Succeeds    120s    10s
-    ...    Check Remote System Reachability    True    ${olt_ssh_ip}
-    # Waiting extra time for the ONUs to come up
     # Check OLT states
-    Wait Until Keyword Succeeds    360s    5s    Validate OLT Device    ENABLED    ACTIVE    REACHABLE
-    ...    ${olt_serial_number}
+    FOR   ${I}    IN RANGE    0    ${olt_count}
+        ${olt_serial_number}=    Get From Dictionary    ${list_olts}[${I}]    sn
+        ${olt_ssh_ip}=    Get From Dictionary    ${list_olts}[${I}]    sship
+        ${olt_device_id}=    Get OLTDeviceID From OLT List    ${olt_serial_number}
+        # Wait for the OLT to come back up
+        Run Keyword If    ${has_dataplane}    Wait Until Keyword Succeeds    120s    10s
+        ...    Check Remote System Reachability    True    ${olt_ssh_ip}
+        # Check OLT states
+        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    360s    5s
+        ...    Validate OLT Device    ENABLED    ACTIVE
+        ...    REACHABLE    ${olt_serial_number}
+    END
+    # Waiting extra time for the ONUs to come up
+    Sleep    60s
+    #Verify that ping succeed
+    FOR    ${I}    IN RANGE    0    ${num_all_onus}
+        ${src}=    Set Variable    ${hosts.src[${I}]}
+        ${dst}=    Set Variable    ${hosts.dst[${I}]}
+        Run Keyword If    ${has_dataplane}    Run Keyword And Continue On Failure
+        ...    Wait Until Keyword Succeeds    60s    2s
+        ...    Check Ping    True    ${dst['dp_iface_ip_qinq']}    ${src['dp_iface_name']}
+        ...    ${src['ip']}    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
+    END
     Run Keyword And Ignore Error    Collect Logs
     #Check after reboot that ONUs are active, authenticated/DHCP/pingable
     Run Keyword If    ${has_dataplane}    Clean Up Linux
@@ -588,17 +658,21 @@ Verify restart ofagent container before subscriber is provisioned
     [Teardown]    Run Keywords    Collect Logs
     ...           AND             Stop Logging    ofagentRestart2
     ...           AND             Scale K8s Deployment    ${NAMESPACE}    voltha-voltha-ofagent    1
-    Delete Device And Verify
+    Delete All Devices And Verify
     setup
     Run Keyword If    ${has_dataplane}    Clean Up Linux
-    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    360s    5s
-    ...    Validate OLT Device    ENABLED    ACTIVE
-    ...    REACHABLE    ${olt_serial_number}
-    ${of_id}=    Wait Until Keyword Succeeds    ${timeout}    15s    Validate OLT Device in ONOS    ${olt_serial_number}
-    Set Global Variable    ${of_id}
-    FOR    ${I}    IN RANGE    0    ${num_onus}
+    FOR   ${I}    IN RANGE    0    ${olt_count}
+        ${olt_serial_number}=    Get From Dictionary    ${olt_ids}[${I}]    sn
+        ${olt_device_id}=    Get OLTDeviceID From OLT List    ${olt_serial_number}
+        ${of_id}=    Wait Until Keyword Succeeds    ${timeout}    15s    Validate OLT Device in ONOS
+        ...    ${olt_serial_number}
+        Wait Until Keyword Succeeds    ${timeout}    2s    Device Is Available In ONOS
+        ...    http://karaf:karaf@${ONOS_REST_IP}:${ONOS_REST_PORT}    ${of_id}
+    END
+    FOR    ${I}    IN RANGE    0    ${num_all_onus}
         ${src}=    Set Variable    ${hosts.src[${I}]}
         ${dst}=    Set Variable    ${hosts.dst[${I}]}
+        ${of_id}=    Get ofID From OLT List    ${src['olt']}
         ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
         ${onu_port}=    Wait Until Keyword Succeeds    ${timeout}    2s    Get ONU Port in ONOS    ${src['onu']}
         ...    ${of_id}
@@ -625,12 +699,13 @@ Verify restart ofagent container before subscriber is provisioned
     Sleep    60s
     Wait Until Keyword Succeeds    ${waitforRestart}    2s    Validate Pod Status    ofagent    ${NAMESPACE}
     ...    Running
-    FOR    ${I}    IN RANGE    0    ${num_onus}
+    FOR    ${I}    IN RANGE    0    ${num_all_onus}
         # Add subscriber access and verify that DHCP completes to ensure system is still functioning properly
         #Wait Until Keyword Succeeds    ${timeout}    2s    Execute ONOS CLI Command    ${ONOS_SSH_IP}
         #...    ${ONOS_SSH_PORT}    volt-add-subscriber-access ${of_id} ${onu_port}
         ${src}=    Set Variable    ${hosts.src[${I}]}
         ${dst}=    Set Variable    ${hosts.dst[${I}]}
+        ${of_id}=    Get ofID From OLT List    ${src['olt']}
         Run Keyword and Ignore Error    Collect Logs
         ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
         ${onu_port}=    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
@@ -651,7 +726,7 @@ Verify restart ofagent container before subscriber is provisioned
 
 Verify ONU Soft Reboot
     [Documentation]    Test soft reboot of the ONU using voltctl command
-    [Tags]    VOL-1957    ONUSoftReboot   functional
+    [Tags]    VOL-1957    ONUSoftReboot   functional   notready
     [Setup]    Start Logging    ONUSoftReboot
     #...        AND             Setup
     [Teardown]    Run Keywords    Collect Logs
@@ -661,9 +736,10 @@ Verify ONU Soft Reboot
     #Run Keyword If    ${has_dataplane}    Clean Up Linux
     #Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test
     #Reboot the ONU and verify that ping fails
-    FOR    ${I}    IN RANGE    0    ${num_onus}
+    FOR    ${I}    IN RANGE    0    ${num_all_onus}
         ${src}=    Set Variable    ${hosts.src[${I}]}
         ${dst}=    Set Variable    ${hosts.dst[${I}]}
+        ${of_id}=    Get ofID From OLT List    ${src['olt']}
         ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
         ${onu_port}=    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
         ...    Get ONU Port in ONOS    ${src['onu']}    ${of_id}
@@ -675,7 +751,7 @@ Verify ONU Soft Reboot
         # Remove Subscriber Access (To replicate ATT workflow)
         Wait Until Keyword Succeeds    ${timeout}    2s    Execute ONOS CLI Command    ${ONOS_SSH_IP}
         ...    ${ONOS_SSH_PORT}    volt-remove-subscriber-access ${of_id} ${onu_port}
-        Verify ping is succesful except for given device     ${num_onus}    ${onu_device_id}
+        Verify ping is succesful except for given device     ${num_all_onus}    ${onu_device_id}
         Sleep    40s
         # Check ONU port is Enabled in ONOS
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds   120s   2s
@@ -716,8 +792,10 @@ Verify ONU Soft Reboot
         Run Keyword and Ignore Error    Get Device Output from Voltha    ${onu_device_id}
         Run Keyword And Ignore Error    Collect Logs
     END
-    Run Keyword If    ${has_dataplane}    Clean Up Linux
-    Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test
+    #Delete All Devices And Verify
+    #Run Keyword If    ${has_dataplane}    Clean Up Linux
+    #Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test
+
 
 *** Keywords ***
 Setup Suite

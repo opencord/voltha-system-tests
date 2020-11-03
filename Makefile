@@ -20,12 +20,12 @@ ROOT_DIR  := $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
 
 # Configuration and lists of files for linting/testing
 VERSION   ?= $(shell cat ./VERSION)
-LINT_ARGS ?= --verbose --configure LineTooLong:120 -e LineTooLong \
+LINT_ARGS ?= --verbose --configure LineTooLong:130 -e LineTooLong \
              --configure TooManyTestSteps:50 -e TooManyTestSteps \
              --configure TooManyTestCases:50 -e TooManyTestCases \
              --configure TooFewTestSteps:1 \
              --configure TooFewKeywordSteps:1 \
-             --configure FileTooLong:1100 -e FileTooLong \
+             --configure FileTooLong:1300 -e FileTooLong \
              -e TrailingWhitespace
 
 PYTHON_FILES := $(wildcard libraries/*.py)
