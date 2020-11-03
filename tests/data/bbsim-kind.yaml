@@ -36,6 +36,7 @@ hosts:
   src:
     -
       onu: 'BBSM00000001'
+      olt: 'BBSIM_OLT_0'
       c_tag: '900'
       s_tag: '900'
 

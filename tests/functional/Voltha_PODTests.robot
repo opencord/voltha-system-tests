@@ -56,7 +56,7 @@ ${scripts}        ../../scripts
 
 # For dataplane bandwidth testing
 ${upper_margin_pct}      105     # Allow 5% over the limit
-${lower_margin_pct}      90      # Allow 10% under the limit
+${lower_margin_pct}      90      # Allow 8% under the limit
 ${udp_rate_multiplier}   1.10    # Send UDP at bw profile limit * rate_multiplier
 ${udp_packet_bytes}      1470    # UDP payload in bytes
 
@@ -73,7 +73,7 @@ Reboot ONUs Physically
     [Teardown]    Run Keywords    Collect Logs
     ...           AND             Stop Logging    RebootAllONUs
     Power Switch Connection Suite    ${web_power_switch.ip}    ${web_power_switch.user}    ${web_power_switch.password}
-    FOR    ${I}    IN RANGE    0    ${num_onus}
+    FOR    ${I}    IN RANGE    0    ${num_all_onus}
         ${src}=    Set Variable    ${hosts.src[${I}]}
         ${dst}=    Set Variable    ${hosts.dst[${I}]}
         Disable Switch Outlet    ${src['power_switch_port']}
@@ -102,9 +102,10 @@ Test Disable and Enable ONU
     [Setup]    Start Logging    DisableEnableONU
     [Teardown]    Run Keywords    Collect Logs
     ...           AND             Stop Logging    DisableEnableONU
-    FOR    ${I}    IN RANGE    0    ${num_onus}
+    FOR    ${I}    IN RANGE    0    ${num_all_onus}
         ${src}=    Set Variable    ${hosts.src[${I}]}
         ${dst}=    Set Variable    ${hosts.dst[${I}]}
+        ${of_id}=    Get ofID From OLT List    ${src['olt']}
         ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
         ${onu_port}=    Wait Until Keyword Succeeds    ${timeout}    2s    Get ONU Port in ONOS    ${src['onu']}
         ...    ${of_id}
@@ -138,9 +139,10 @@ Test Subscriber Delete and Add
     [Setup]    Start Logging     SubAddDelete
     [Teardown]    Run Keywords    Collect Logs
     ...           AND             Stop Logging    SubAddDelete
-    FOR    ${I}    IN RANGE    0    ${num_onus}
+    FOR    ${I}    IN RANGE    0    ${num_all_onus}
         ${src}=    Set Variable    ${hosts.src[${I}]}
         ${dst}=    Set Variable    ${hosts.dst[${I}]}
+        ${of_id}=    Get ofID From OLT List    ${src['olt']}
         ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
         ${onu_port}=    Wait Until Keyword Succeeds    ${timeout}    2s    Get ONU Port in ONOS    ${src['onu']}
         ...    ${of_id}
@@ -180,9 +182,10 @@ Check DHCP attempt fails when subscriber is not added
     [Setup]    Start Logging    SubsRemoveDHCP
     [Teardown]    Run Keywords    Collect Logs
     ...           AND             Stop Logging    SubsRemoveDHCP
-    FOR    ${I}    IN RANGE    0    ${num_onus}
+    FOR    ${I}    IN RANGE    0    ${num_all_onus}
         ${src}=    Set Variable    ${hosts.src[${I}]}
         ${dst}=    Set Variable    ${hosts.dst[${I}]}
+        ${of_id}=    Get ofID From OLT List    ${src['olt']}
         ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
         ${onu_port}=    Wait Until Keyword Succeeds    ${timeout}    2s    Get ONU Port in ONOS    ${src['onu']}
         ...    ${of_id}
@@ -234,9 +237,10 @@ Test Disable and Enable ONU scenario for ATT workflow
     [Setup]    Start Logging    ATT_DisableEnableONU
     [Teardown]    Run Keywords    Collect Logs
     ...           AND             Stop Logging    ATT_DisableEnableONU
-    FOR    ${I}    IN RANGE    0    ${num_onus}
+    FOR    ${I}    IN RANGE    0    ${num_all_onus}
         ${src}=    Set Variable    ${hosts.src[${I}]}
         ${dst}=    Set Variable    ${hosts.dst[${I}]}
+        ${of_id}=    Get ofID From OLT List    ${src['olt']}
         ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
         ${onu_port}=    Wait Until Keyword Succeeds    ${timeout}    2s    Get ONU Port in ONOS    ${src['onu']}
         ...    ${of_id}
@@ -286,15 +290,22 @@ Test Disable and Enable OLT
     [Setup]    Start Logging    DisableEnableOLT
     [Teardown]    Run Keywords    Collect Logs
     ...           AND             Stop Logging    DisableEnableOLT
-    #Disable the OLT and verify the OLT/ONUs are disabled properly
-    ${rc}    ${output}=    Run and Return Rc and Output    ${VOLTCTL_CONFIG}; voltctl device disable ${olt_device_id}
-    Should Be Equal As Integers    ${rc}    0
-    Wait Until Keyword Succeeds    ${timeout}    5s    Validate OLT Device    DISABLED    UNKNOWN    REACHABLE
-    ...    ${olt_serial_number}
-    FOR    ${I}    IN RANGE    0    ${num_onus}
+    #Disable the OLTs and verify the OLT/ONUs are disabled properly
+    FOR   ${I}    IN RANGE    0    ${olt_count}
+        ${olt_serial_number}=    Get From Dictionary    ${olt_ids}[${I}]    sn
+        ${olt_device_id}=    Get OLTDeviceID From OLT List    ${olt_serial_number}
+        ${rc}    ${output}=    Run and Return Rc and Output
+        ...    ${VOLTCTL_CONFIG}; voltctl device disable ${olt_device_id}
+        Should Be Equal As Integers    ${rc}    0
+        Wait Until Keyword Succeeds    ${timeout}    5s    Validate OLT Device    DISABLED    UNKNOWN    REACHABLE
+        ...    ${olt_serial_number}
+    END
+    # Validate the ONUs
+    FOR    ${I}    IN RANGE    0    ${num_all_onus}
         ${src}=    Set Variable    ${hosts.src[${I}]}
         ${dst}=    Set Variable    ${hosts.dst[${I}]}
         ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
+        ${of_id}=    Get ofID From OLT List    ${src['olt']}
         ${onu_port}=    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
         ...    Get ONU Port in ONOS    ${src['onu']}    ${of_id}
         Wait Until Keyword Succeeds    ${timeout}    5s    Validate Device    ENABLED    DISCOVERED
@@ -310,12 +321,17 @@ Test Disable and Enable OLT
         Sleep    10s
     END
     #Enable the OLT back and check ONU, OLT status are back to "ACTIVE"
-    Enable Device    ${olt_device_id}
-    Sleep    15s
-    Wait Until Keyword Succeeds    ${timeout}    5s    Validate OLT Device    ENABLED    ACTIVE    REACHABLE
-    ...    ${olt_serial_number}
-    Wait Until Keyword Succeeds    ${timeout}    5s    Validate OLT Port Types
-    ...    PON_OLT    ETHERNET_NNI
+    FOR   ${I}    IN RANGE    0    ${olt_count}
+        ${olt_serial_number}=    Get From Dictionary    ${olt_ids}[${I}]    sn
+        ${olt_device_id}=    Get OLTDeviceID From OLT List    ${olt_serial_number}
+        Enable Device    ${olt_device_id}
+        Sleep    15s
+        Wait Until Keyword Succeeds    ${timeout}    5s    Validate OLT Device    ENABLED    ACTIVE    REACHABLE
+        ...    ${olt_serial_number}
+        #TODO: Update for PON_OLT ETHERNET_NNI
+        #Wait Until Keyword Succeeds    ${timeout}    5s    Validate OLT Port Types
+        #...    PON_OLT    ETHERNET_NNI
+    END
     Run Keyword If    ${has_dataplane}    Clean Up Linux
     Wait Until Keyword Succeeds    ${timeout}    5s    Perform Sanity Test
 
@@ -324,15 +340,21 @@ Delete OLT, ReAdd OLT and Perform Sanity Test
     ...    Disable and Delete the OLT
     ...    Create/Enable the same OLT again
     ...    Validate authentication/DHCP/E2E pings succeed for all the ONUs connected to the OLT
-    [Tags]    functional    DeleteOLT    released
+    [Tags]    functional    DeleteOLT    released    notready
     [Setup]    Start Logging    DeleteOLT
     [Teardown]    Run Keywords    Collect Logs
     ...           AND             Stop Logging    DeleteOLT
+    #TODO: Update test with new framework changes
     Run Keyword If    ${has_dataplane}    Clean Up Linux
-    Delete Device and Verify
-    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
-    ...    Verify Device Flows Removed    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${of_id}
+    FOR    ${I}    IN RANGE    0    ${olt_count}
+        ${olt_serial_number}=    Get From Dictionary    ${olt_ids}[${I}]    sn
+        ${of_id}=    Get ofID From OLT List    ${olt_serial_number}
+        Delete Device and Verify    ${olt_serial_number}
+        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
+        ...    Verify Device Flows Removed    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${of_id}
+    END
     Run Keyword and Ignore Error    Collect Logs
+    Run Keyword If    ${has_dataplane}    Clean Up Linux
     # Recreate the OLT
     Setup
     Wait Until Keyword Succeeds    ${timeout}   2s    Perform Sanity Test
@@ -346,7 +368,7 @@ Check Mib State on OLT recreation after ONU, OLT deletion
     [Teardown]    Run Keywords    Collect Logs
     ...           AND             Stop Logging    CheckMibState
     #Disable and Delete the ONU
-    FOR    ${I}    IN RANGE    0    ${num_onus}
+    FOR    ${I}    IN RANGE    0    ${num_all_onus}
         ${src}=    Set Variable    ${hosts.src[${I}]}
         ${dst}=    Set Variable    ${hosts.dst[${I}]}
         ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
@@ -370,7 +392,7 @@ Check Mib State on OLT recreation after ONU, OLT deletion
     Wait Until Keyword Succeeds    ${timeout}    5s    Validate OLT Device    ENABLED    ACTIVE    REACHABLE
     ...    ${olt_serial_number}
     #Check for the ONU status and ONU Mib State should be "omci-flows-pushed"
-    FOR    ${I}    IN RANGE    0    ${num_onus}
+    FOR    ${I}    IN RANGE    0    ${num_all_onus}
         ${src}=    Set Variable    ${hosts.src[${I}]}
         ${dst}=    Set Variable    ${hosts.dst[${I}]}
         ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
@@ -389,17 +411,18 @@ Test disable ONUs and OLT then delete ONUs and OLT
     [Setup]    Start Logging    DisableDeleteONUandOLT
     [Teardown]    Run Keywords    Collect Logs
     ...           AND             Stop Logging    DisableDeleteONUandOLT
-    ${olt_device_id}=    Get Device ID From SN    ${olt_serial_number}
-    FOR    ${I}    IN RANGE    0    ${num_onus}
+    #${olt_device_id}=    Get Device ID From SN    ${olt_serial_number}
+    FOR    ${I}    IN RANGE    0    ${num_all_onus}
         ${src}=    Set Variable    ${hosts.src[${I}]}
         ${dst}=    Set Variable    ${hosts.dst[${I}]}
+        ${of_id}=    Get ofID From OLT List    ${src['olt']}
         ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    360s    5s
         ...    Validate Device    ENABLED    ACTIVE
         ...    REACHABLE    ${src['onu']}    onu=True    onu_reason=omci-flows-pushed
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
         ...    Validate OLT Device    ENABLED    ACTIVE
-        ...    REACHABLE    ${olt_serial_number}
+        ...    REACHABLE    ${src['olt']}
         ${rc}    ${output}=    Run and Return Rc and Output
         ...    ${VOLTCTL_CONFIG}; voltctl device disable ${onu_device_id}
         Should Be Equal As Integers    ${rc}    0
@@ -408,14 +431,20 @@ Test disable ONUs and OLT then delete ONUs and OLT
         ...    REACHABLE    ${src['onu']}    onu=false
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    360s    5s
         ...    Validate OLT Device    ENABLED    ACTIVE
-        ...    REACHABLE    ${olt_serial_number}
+        ...    REACHABLE    ${src['olt']}
     END
-    ${rc}    ${output}=    Run and Return Rc and Output    ${VOLTCTL_CONFIG}; voltctl device disable ${olt_device_id}
-    Should Be Equal As Integers    ${rc}    0
-    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
-    ...    Validate OLT Device    DISABLED    UNKNOWN    REACHABLE
-    ...    ${olt_serial_number}
-    FOR    ${I}    IN RANGE    0    ${num_onus}
+    # Disable all OLTs
+    FOR   ${I}    IN RANGE    0    ${olt_count}
+        ${olt_serial_number}=    Get From Dictionary    ${olt_ids}[${I}]    sn
+        ${olt_device_id}=    Get OLTDeviceID From OLT List    ${olt_serial_number}
+        ${rc}    ${output}=    Run and Return Rc and Output
+        ...    ${VOLTCTL_CONFIG}; voltctl device disable ${olt_device_id}
+        Should Be Equal As Integers    ${rc}    0
+        Wait Until Keyword Succeeds    ${timeout}    5s    Validate OLT Device    DISABLED    UNKNOWN    REACHABLE
+        ...    ${olt_serial_number}
+    END
+    # Validate ONUs after OLT disable
+    FOR    ${I}    IN RANGE    0    ${num_all_onus}
         ${src}=    Set Variable    ${hosts.src[${I}]}
         ${dst}=    Set Variable    ${hosts.dst[${I}]}
         ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
@@ -425,12 +454,14 @@ Test disable ONUs and OLT then delete ONUs and OLT
         Delete Device    ${onu_device_id}
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
         ...    Validate OLT Device    DISABLED    UNKNOWN
-        ...    REACHABLE    ${olt_serial_number}
+        ...    REACHABLE    ${src['olt']}
     END
-    Delete Device    ${olt_device_id}
-    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s    Test Empty Device List
-    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
-    ...    Verify Device Flows Removed    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${of_id}
+    # Delete all OLTs
+    Delete All Devices and Verify
+    #Delete Device    ${olt_device_id}
+    #Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s    Test Empty Device List
+    #Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
+    #...    Verify Device Flows Removed    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${of_id}
 
 Validate authentication on a disabled ONU
     [Documentation]    Assuming that test1 was executed where all the ONUs are authenticated/DHCP/pingable
@@ -442,15 +473,16 @@ Validate authentication on a disabled ONU
     ...        AND    Setup
     [Teardown]    Run Keywords    Collect Logs
     ...           AND             Stop Logging    DisableONU_AuthCheck
-    ...           AND             Delete Device and Verify
+    ...           AND             Delete All Devices and Verify
     Run Keyword and Ignore Error    Collect Logs
     Run Keyword If    ${has_dataplane}    Clean Up Linux
     Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test
     Clean WPA Process
-    FOR    ${I}    IN RANGE    0    ${num_onus}
+    FOR    ${I}    IN RANGE    0    ${num_all_onus}
         ${src}=    Set Variable    ${hosts.src[${I}]}
         ${dst}=    Set Variable    ${hosts.dst[${I}]}
         Run Keyword and Ignore Error    Collect Logs
+        ${of_id}=    Get ofID From OLT List    ${src['olt']}
         ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
         ${onu_port}=    Wait Until Keyword Succeeds    ${timeout}    2s    Get ONU Port in ONOS    ${src['onu']}
         ...    ${of_id}
@@ -484,10 +516,17 @@ Data plane verification using TCP
     ...           AND    Stop Logging    BandwidthProfileTCP
     Pass Execution If   '${has_dataplane}'=='False'
     ...    Bandwidth profile validation can be done only in physical pod.  Skipping this test in BBSIM.
-    ${of_id}=    Wait Until Keyword Succeeds    ${timeout}    15s    Validate OLT Device in ONOS    ${olt_serial_number}
-    FOR    ${I}    IN RANGE    0    ${num_onus}
+    Delete All Devices And Verify
+    Run Keyword If    ${has_dataplane}    Clean Up Linux
+    setup
+    Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test
+
+    #${of_id}=    Wait Until Keyword Succeeds    ${timeout}    15s    Validate OLT Device in ONOS
+    #...    ${olt_serial_number}
+    FOR    ${I}    IN RANGE    0    ${num_all_onus}
         ${src}=    Set Variable    ${hosts.src[${I}]}
         ${dst}=    Set Variable    ${hosts.dst[${I}]}
+        ${of_id}=    Get ofID From OLT List    ${src['olt']}
 
         # Check for iperf3 and jq tools
         ${stdout}    ${stderr}    ${rc}=    Execute Remote Command    which iperf3 jq
@@ -539,10 +578,11 @@ Data plane verification using UDP
     ...           AND    Stop Logging    BandwidthProfileUDP
     Pass Execution If   '${has_dataplane}'=='False'
     ...    Bandwidth profile validation can be done only in physical pod.  Skipping this test in BBSIM.
-    ${of_id}=    Wait Until Keyword Succeeds    ${timeout}    15s    Validate OLT Device in ONOS    ${olt_serial_number}
-    FOR    ${I}    IN RANGE    0    ${num_onus}
+    #${of_id}=    Wait Until Keyword Succeeds    ${timeout}    15s    Validate OLT Device in ONOS    ${olt_serial_number}
+    FOR    ${I}    IN RANGE    0    ${num_all_onus}
         ${src}=    Set Variable    ${hosts.src[${I}]}
         ${dst}=    Set Variable    ${hosts.dst[${I}]}
+        ${of_id}=    Get ofID From OLT List    ${src['olt']}
 
         # Check for iperf3 and jq tools
         ${stdout}    ${stderr}    ${rc}=    Execute Remote Command    which iperf3 jq
@@ -610,7 +650,7 @@ Validate parsing of data traffic through voltha using tech profile
     ...           AND    Stop Logging    TechProfile
     Pass Execution If   '${has_dataplane}'=='False'
     ...    Skipping test: Technology profile validation can be done only in physical pod
-    FOR    ${I}    IN RANGE    0    ${num_onus}
+    FOR    ${I}    IN RANGE    0    ${num_all_onus}
         ${src}=    Set Variable    ${hosts.src[${I}]}
         ${dst}=    Set Variable    ${hosts.dst[${I}]}
 
@@ -649,12 +689,13 @@ Test Disable and Enable OLT PON Port
     ...    Assuming that all the ONUs are DHCP/pingable (i.e. assuming sanityDt test was executed)
     ...    Perform disable on the OLT PON Port and validate that the pings do not succeed
     ...    Perform enable on the OLT PON Port and validate that the pings are successful
-    [Tags]    functional    DisableEnableOltPonPort    VOL-2577
+    [Tags]    functional    DisableEnableOltPonPort    VOL-2577    notready
     [Setup]    Run Keywords    Start Logging    DisableEnableOltPonPort
     ...        AND    Setup
     [Teardown]    Run Keywords    Collect Logs
     ...           AND             Stop Logging    DisableEnableOltPonPort
     ...           AND             Delete Device and Verify
+    #TODO: Update this test for new framework changes
     Run Keyword If    ${has_dataplane}    Clean Up Linux
     Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test
     ${olt_pon_port_list}=    Retrieve OLT PON Ports    ${olt_device_id}
@@ -686,7 +727,7 @@ Setup Suite
     [Documentation]    Set up the test suite
     Common Test Suite Setup
     #Restore all ONUs
-    #Run Keyword If    ${has_dataplane}    RestoreONUs    ${num_onus}
+    #Run Keyword If    ${has_dataplane}    RestoreONUs    ${num_all_onus}
     #power_switch.robot needs it to support different vendor's power switch
     ${switch_type}=    Get Variable Value    ${web_power_switch.type}
     Run Keyword If  "${switch_type}"!=""    Set Global Variable    ${powerswitch_type}    ${switch_type}
