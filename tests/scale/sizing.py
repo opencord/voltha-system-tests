@@ -41,6 +41,13 @@ EXCLUDED_POD_NAMES = [
 
 DATE_FORMATTER_FN = mdates.DateFormatter('%Y-%m-%d %H:%M:%S')
 
+KAFKA_TOPICS = [
+    "openolt",
+    "brcm_openomci_onu",
+    "voltha",
+    "adapters",
+    "rwcore"
+]
 
 def main(address, out_folder, since):
     """
@@ -87,6 +94,12 @@ def main(address, out_folder, since):
     plot_memory_consumption(containers, output="%s/memory.pdf" % out_folder)
     data_to_csv(containers, output="%s/memory.csv" % out_folder,
                 convert_values=lambda values: ["{:.2f}".format(bytesto(v, "m")) for v in values])
+
+    print("Downloading KAFKA stats")
+    get_kafka_stats(address, out_folder)
+    print("Downloading ETCD stats")
+    get_etcd_stats(address, out_folder)
+
 
 
 def data_to_csv(containers, output=None, convert_values=None):
@@ -259,6 +272,73 @@ def bytesto(b, to, bsize=1024):
 
     return r
 
+
+
+def get_etcd_stats(address, out_folder):
+    """
+    :param address: The prometheus address
+    :param out_folder: The folder in which store the output files
+    """
+
+    etcd_stats = {
+        "size":"etcd_debugging_mvcc_db_total_size_in_bytes",
+        "keys":"etcd_debugging_mvcc_keys_total"
+    }
+
+    etcd = {}
+
+    time_delta = 80
+    for  stat,query in etcd_stats.items():
+        now = time.time()
+        etcd_params = {
+            "query": "%s{}" % query,
+            "start": now - time_delta,
+            "end": now,
+            "step": "30",
+        }
+        r = requests.get("http://%s/api/v1/query_range" % address, etcd_params)
+
+        i = r.json()["data"]["result"][0]
+        etcd[stat] = i["values"][-1][1]
+
+    csv_file = open("%s/etcd_stats.csv" % out_folder, "w+")
+    csv_writer = csv.writer(csv_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
+
+    for k,v in etcd.items():
+        csv_writer.writerow([k, v])
+
+def get_kafka_stats(address, out_folder):
+    """
+    :param address: The prometheus address
+    :param out_folder: The folder in which store the output files
+    """
+    # get the last information for all topics, we only care about the last value so a short interval is fine
+    now = time.time()
+    time_delta = 80
+    kafka_params = {
+        "query": "kafka_topic_partition_current_offset{}",
+        "start": now - time_delta,
+        "end": now,
+        "step": "30",
+    }
+
+    r = requests.get("http://%s/api/v1/query_range" % address, kafka_params)
+
+    msg_per_topic = {}
+
+    for t  in r.json()["data"]["result"]:
+        # we only care about some topics
+        topic_name = t["metric"]["topic"]
+
+        if any(x in topic_name for x in KAFKA_TOPICS):
+            # get only the value at the last timestamp
+            msg_per_topic[t["metric"]["topic"]] = t["values"][-1][1]
+
+    csv_file = open("%s/kafka_msg_per_topic.csv" % out_folder, "w+")
+    csv_writer = csv.writer(csv_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
+
+    for k,v in msg_per_topic.items():
+        csv_writer.writerow([k, v])
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(prog="sizing")
