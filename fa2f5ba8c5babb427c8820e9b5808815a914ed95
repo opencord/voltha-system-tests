@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "e1e6ce77_87b3c1ed",
+        "filename": "libraries/utils.robot",
+        "patchSetId": 4
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1000064
+      },
+      "writtenOn": "2020-11-04T19:39:17Z",
+      "side": 1,
+      "message": "BTW, as discussed since multi-OLT work is still pending, we will remove the old framework once all work has been changed/merged.",
+      "parentUuid": "55e74e4f_01ba4422",
+      "revId": "fa2f5ba8c5babb427c8820e9b5808815a914ed95",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "fb50db56_22fe0df0",
         "filename": "libraries/utils.robot",
         "patchSetId": 4
@@ -53,6 +71,24 @@
     },
     {
       "key": {
+        "uuid": "5429391f_b98a4528",
+        "filename": "libraries/utils.robot",
+        "patchSetId": 4
+      },
+      "lineNbr": 210,
+      "author": {
+        "id": 1000064
+      },
+      "writtenOn": "2020-11-04T19:39:17Z",
+      "side": 1,
+      "message": "Meter tests may need rework, but the verifications have been moved in the above keyword (Perform Sanity Test -\u003e which iterates verifications for all OLTs)",
+      "parentUuid": "fb50db56_22fe0df0",
+      "revId": "fa2f5ba8c5babb427c8820e9b5808815a914ed95",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "0026a461_c0c2bf9e",
         "filename": "libraries/utils.robot",
         "patchSetId": 4
@@ -64,6 +100,24 @@
       "writtenOn": "2020-11-04T09:40:26Z",
       "side": 1,
       "message": "why is the flow verification commented out here ? is it completely substituted by the method below ?\n\nshouldn\u0027t be called before these lines ? something like\nRun Keyword    Wait Until Keyword Succeeds    ${timeout}    5s    Validate All OLT Flows",
+      "revId": "fa2f5ba8c5babb427c8820e9b5808815a914ed95",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d4079cc0_884ad1ff",
+        "filename": "libraries/utils.robot",
+        "patchSetId": 4
+      },
+      "lineNbr": 357,
+      "author": {
+        "id": 1000064
+      },
+      "writtenOn": "2020-11-04T19:39:17Z",
+      "side": 1,
+      "message": "Validate OLT flows has been moved up in the keyword \"Perform Sanity Test DT\" because we need to verify it per OLT. In some cases we may need to check \"Validate All OLT Flows\" So here the test works by validating flows per OLT (like before) but the place of verification has been changed.",
+      "parentUuid": "0026a461_c0c2bf9e",
       "revId": "fa2f5ba8c5babb427c8820e9b5808815a914ed95",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
       "unresolved": true
@@ -98,6 +152,24 @@
       "writtenOn": "2020-11-04T09:40:26Z",
       "side": 1,
       "message": "please leave to 90 to have 10%",
+      "revId": "fa2f5ba8c5babb427c8820e9b5808815a914ed95",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8af4ceed_c7ba3497",
+        "filename": "tests/dt-workflow/Voltha_DT_PODTests.robot",
+        "patchSetId": 4
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1000064
+      },
+      "writtenOn": "2020-11-04T19:39:17Z",
+      "side": 1,
+      "message": "updated in the new patch",
+      "parentUuid": "6f31b820_4700bda0",
       "revId": "fa2f5ba8c5babb427c8820e9b5808815a914ed95",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
       "unresolved": true
