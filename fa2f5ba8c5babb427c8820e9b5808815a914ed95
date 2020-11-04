@@ -1,0 +1,140 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "188194dc_1c0b110f",
+        "filename": "libraries/utils.robot",
+        "patchSetId": 4
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2020-11-04T09:40:26Z",
+      "side": 1,
+      "message": "I think you can remove these",
+      "revId": "fa2f5ba8c5babb427c8820e9b5808815a914ed95",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "55e74e4f_01ba4422",
+        "filename": "libraries/utils.robot",
+        "patchSetId": 4
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2020-11-04T09:40:26Z",
+      "side": 1,
+      "message": "here too.",
+      "revId": "fa2f5ba8c5babb427c8820e9b5808815a914ed95",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fb50db56_22fe0df0",
+        "filename": "libraries/utils.robot",
+        "patchSetId": 4
+      },
+      "lineNbr": 210,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2020-11-04T09:40:26Z",
+      "side": 1,
+      "message": "this is commented out because the Meter tests still needs refactoring ?",
+      "revId": "fa2f5ba8c5babb427c8820e9b5808815a914ed95",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0026a461_c0c2bf9e",
+        "filename": "libraries/utils.robot",
+        "patchSetId": 4
+      },
+      "lineNbr": 357,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2020-11-04T09:40:26Z",
+      "side": 1,
+      "message": "why is the flow verification commented out here ? is it completely substituted by the method below ?\n\nshouldn\u0027t be called before these lines ? something like\nRun Keyword    Wait Until Keyword Succeeds    ${timeout}    5s    Validate All OLT Flows",
+      "revId": "fa2f5ba8c5babb427c8820e9b5808815a914ed95",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "97932df7_7a683c0a",
+        "filename": "tests/dt-workflow/Voltha_DT_FailureScenarios.robot",
+        "patchSetId": 4
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2020-11-04T09:40:26Z",
+      "side": 1,
+      "message": "given lines 122 and 123 this can probably be removed.",
+      "revId": "fa2f5ba8c5babb427c8820e9b5808815a914ed95",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6f31b820_4700bda0",
+        "filename": "tests/dt-workflow/Voltha_DT_PODTests.robot",
+        "patchSetId": 4
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2020-11-04T09:40:26Z",
+      "side": 1,
+      "message": "please leave to 90 to have 10%",
+      "revId": "fa2f5ba8c5babb427c8820e9b5808815a914ed95",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f4b7bdba_5d9541ea",
+        "filename": "tests/dt-workflow/Voltha_DT_PODTests.robot",
+        "patchSetId": 4
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2020-11-04T09:40:26Z",
+      "side": 1,
+      "message": "remove",
+      "revId": "fa2f5ba8c5babb427c8820e9b5808815a914ed95",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "91206444_e89f5124",
+        "filename": "tests/functional/Voltha_PODTests.robot",
+        "patchSetId": 4
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2020-11-04T09:40:26Z",
+      "side": 1,
+      "message": "same, leave to 90",
+      "revId": "fa2f5ba8c5babb427c8820e9b5808815a914ed95",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    }
+  ]
+}
