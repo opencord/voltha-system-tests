@@ -113,6 +113,9 @@ def data_to_csv(containers, output=None, convert_values=None):
     csv_writer = csv.writer(csv_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
 
     # we assume all the containers have the same timestamps
+    # FIXME pods may have different timestamps depending on when the collection started
+    # - find the longest list in containers
+    # - add empty values at the beginning of the other list
     dates = [datetime.fromtimestamp(x[0]) for x in containers[0]["values"]]
     csv_writer.writerow([''] + dates)
 
