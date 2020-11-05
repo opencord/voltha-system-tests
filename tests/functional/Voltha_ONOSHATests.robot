@@ -73,13 +73,20 @@ Verify restart ONOS instace master of device after subscriber is provisioned
     Run Keyword If    ${has_dataplane}    Clean Up Linux
     Run Keyword If   '${workflow}' == 'ATT'    Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test
     Run Keyword If   '${workflow}' == 'DT'    Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test DT
-    ${of_id}=    Wait Until Keyword Succeeds    360s    15s    Validate OLT Device in ONOS    ${olt_serial_number}
-    ${node_id}=    Wait Until Keyword Succeeds    20s    5s    Get Master Instace in ONOS    ${of_id}
-    ${podName}    Set Variable     ${node_id}
-    Wait Until Keyword Succeeds    ${timeout}    15s    Delete K8s Pods By Name    ${NAMESPACE}    ${podName}
-    Sleep    60s
-    Wait Until Keyword Succeeds    ${timeout}    2s    Validate Pods Status By Name    ${NAMESPACE}
-    ...    ${podName}    Running
+    FOR   ${I}    IN RANGE    0    ${olt_count}
+        ${olt_user}=    Get From Dictionary    ${list_olts}[${I}]    user
+        ${olt_pass}=    Get From Dictionary    ${list_olts}[${I}]    pass
+        ${olt_ssh_ip}=    Get From Dictionary    ${list_olts}[${I}]   sship
+        ${olt_serial_number}=    Get From Dictionary    ${list_olts}[${I}]    sn
+        ${olt_device_id}=    Get OLTDeviceID From OLT List    ${olt_serial_number}
+        ${of_id}=    Wait Until Keyword Succeeds    360s    15s    Validate OLT Device in ONOS    ${olt_serial_number}
+        ${node_id}=    Wait Until Keyword Succeeds    20s    5s    Get Master Instace in ONOS    ${of_id}
+        ${podName}    Set Variable     ${node_id}
+        Wait Until Keyword Succeeds    ${timeout}    15s    Delete K8s Pods By Name    ${NAMESPACE}    ${podName}
+        Sleep    60s
+        Wait Until Keyword Succeeds    ${timeout}    2s    Validate Pods Status By Name    ${NAMESPACE}
+        ...    ${podName}    Running
+    END
     # Performing Sanity Test to make sure subscribers are all AUTH+DHCP and pingable
     Run Keyword If    ${has_dataplane}    Clean Up Linux
     Run Keyword If   '${workflow}' == 'ATT'    Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test

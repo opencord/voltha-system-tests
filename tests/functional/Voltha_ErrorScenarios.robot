@@ -244,7 +244,7 @@ Disable and Delete the logical device directly
         Set Suite Variable    ${olt_device_id}
         #validate olt states
         Wait Until Keyword Succeeds    ${timeout}    5s    Validate OLT Device    PREPROVISIONED    UNKNOWN
-        ...    UNKOWN    ${olt_device_id}
+        ...    UNKNOWN    ${olt_device_id}
         #Enable the created OLT device
         Enable Device    ${olt_device_id}
         Wait Until Keyword Succeeds    ${timeout}    5s    Validate OLT Device    ENABLED    ACTIVE

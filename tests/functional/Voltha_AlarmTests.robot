@@ -381,7 +381,7 @@ Teardown Suite
     ...    kills processes and cleans up interfaces on src+dst servers
     Get ONOS Status    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}
     Run Keyword If    ${has_dataplane}    Clean Up Linux
-    Run Keyword If    ${teardown_device}    Delete Device and Verify
+    Run Keyword If    ${teardown_device}    Delete All Devices and Verify
     Run Keyword If    ${teardown_device}    Test Empty Device List
     Run Keyword If    ${teardown_device}    Execute ONOS CLI Command    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}
     ...    device-remove ${of_id}
