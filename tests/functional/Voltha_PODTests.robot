@@ -56,7 +56,7 @@ ${scripts}        ../../scripts
 
 # For dataplane bandwidth testing
 ${upper_margin_pct}      105     # Allow 5% over the limit
-${lower_margin_pct}      92      # Allow 8% under the limit
+${lower_margin_pct}      90      # Allow 8% under the limit
 ${udp_rate_multiplier}   1.10    # Send UDP at bw profile limit * rate_multiplier
 ${udp_packet_bytes}      1470    # UDP payload in bytes
 
@@ -522,8 +522,8 @@ Data plane verification using TCP
         Should Be True    ${pct_limit_up} <= ${upper_margin_pct}
         ...    The upstream bandwidth exceeded the limit (${pct_limit_up}% of limit)
         # VOL-3125: downstream bw limit not enforced.  Uncomment when fixed.
-        #Should Be True    ${pct_limit_dn} <= ${upper_margin_pct}
-        #...    The downstream bandwidth exceeded the limit (${pct_limit_dn}% of limit)
+        Should Be True    ${pct_limit_dn} <= ${upper_margin_pct}
+        ...    The downstream bandwidth exceeded the limit (${pct_limit_dn}% of limit)
         Should Be True    ${pct_limit_up} >= ${lower_margin_pct}
         ...    The upstream bandwidth guarantee was not met (${pct_limit_up}% of resv)
         Should Be True    ${pct_limit_dn} >= ${lower_margin_pct}
@@ -589,8 +589,8 @@ Data plane verification using UDP
         Should Be True    ${pct_limit_up} <= ${upper_margin_pct}
         ...    The upstream bandwidth exceeded the limit (${pct_limit_up}% of limit)
         # VOL-3125: downstream bw limit not enforced.  Uncomment when fixed.
-        #Should Be True    ${pct_limit_dn} <= ${upper_margin_pct}
-        #...    The downstream bandwidth exceeded the limit (${pct_limit_dn}% of limit)
+        Should Be True    ${pct_limit_dn} <= ${upper_margin_pct}
+        ...    The downstream bandwidth exceeded the limit (${pct_limit_dn}% of limit)
         Should Be True    ${pct_limit_up} >= ${lower_margin_pct}
         ...    The upstream bandwidth guarantee was not met (${pct_limit_up}% of resv)
         Should Be True    ${pct_limit_dn} >= ${lower_margin_pct}
