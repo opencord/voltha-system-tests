@@ -316,6 +316,7 @@ Validate ONU Devices With Duration
     ...    states including MIB state.
     [Arguments]    ${admin_state}    ${oper_status}    ${connect_status}    ${onu_reason}
     ...    ${List_ONU_Serial}   ${startTime}    ${print2console}=False    ${output_file}=${EMPTY}
+    ...    ${alternate_reason}=${EMPTY}
     ${rc}    ${output}=    Run and Return Rc and Output    ${VOLTCTL_CONFIG}; voltctl device list -m 8MB -o json
     Should Be Equal As Integers    ${rc}    0
     ${timeCurrent} =    Get Current Date
@@ -349,7 +350,8 @@ Validate ONU Devices With Duration
         ${matched}=    Set Variable If    '${astate}' == '${admin_state}'    ${matched}    False
         ${matched}=    Set Variable If    '${opstatus}' == '${oper_status}'    ${matched}    False
         ${matched}=    Set Variable If    '${cstatus}' == '${connect_status}'    ${matched}    False
-        ${matched}=    Set Variable If    '${mib_state}' == '${onu_reason}'    ${matched}    False
+        ${matched}=    Set Variable If    '${mib_state}' == '${onu_reason}' or '${mib_state}' == '${alternate_reason}'
+        ...   ${matched}    False
         Run Keyword If    ${matched} and ${print2console}    Log
         ...    \r\nONU ${sn} reached the state ${onu_reason} after ${timeTotalMs} sec.    console=yes
         Run Keyword If    ${matched} and ('${output_file}'!='${EMPTY}')    Append To File    ${output_file}
@@ -387,6 +389,50 @@ Validate ONU Devices MIB State With Duration
         Remove Values From List    ${List_ONU_Serial}    ${sn}
     END
     Should Be Empty    ${List_ONU_Serial}    List ${List_ONU_Serial} not empty
+
+Validate ONU Device By Device Id
+    [Documentation]
+    ...    Parses the output of "voltctl device list" filtered by device id and inspects states including reason.
+    [Arguments]    ${admin_state}    ${oper_status}    ${connect_status}    ${onu_reason}    ${onu_id}
+    ${cmd}    Catenate    ${VOLTCTL_CONFIG}; voltctl device list --filter=Id=${onu_id} -m 8MB -o json
+    ${rc}    ${output}=    Run and Return Rc and Output    ${cmd}
+    Should Be Equal As Integers    ${rc}    0
+    ${jsondata}=    To Json    ${output}
+    ${length}=    Get Length    ${jsondata}
+    Should Be Equal As Integers    ${length}    1    No match found for ${onu_id} to validate device
+    ${value}=    Get From List    ${jsondata}    0
+    Log    ${value}
+    ${jsonCamelCaseFieldnames}=    Run Keyword And Return Status
+    ...    Dictionary Should Contain Key       ${value}      adminState
+    ${astate}=    Run Keyword If     ${jsonCamelCaseFieldNames}
+    ...    Get From Dictionary    ${value}    adminState
+    ...    ELSE
+    ...    Get From Dictionary    ${value}    adminstate
+    ${opstatus}=    Run Keyword If     ${jsonCamelCaseFieldNames}
+    ...    Get From Dictionary    ${value}    operStatus
+    ...    ELSE
+    ...    Get From Dictionary    ${value}    operstatus
+    ${cstatus}=    Run Keyword If     ${jsonCamelCaseFieldNames}
+    ...    Get From Dictionary    ${value}    connectStatus
+    ...    ELSE
+    ...    Get From Dictionary    ${value}    connectstatus
+    ${sn}=    Run Keyword If     ${jsonCamelCaseFieldNames}
+    ...    Get From Dictionary    ${value}    serialNumber
+    ...    ELSE
+    ...    Get From Dictionary    ${value}    serialnumber
+    ${devId}=    Get From Dictionary    ${value}    id
+    ${mib_state}=    Get From Dictionary    ${value}    reason
+    Should Be Equal    '${devId}'    '${onu_id}'    No match found for ${onu_id} to validate device
+    ...    values=False
+    Should Be Equal    '${astate}'    '${admin_state}'    Device ${sn} admin_state != ${admin_state}
+    ...    values=False
+    Should Be Equal    '${opstatus}'    '${oper_status}'    Device ${sn} oper_status != ${oper_status}
+    ...    values=False
+    Should Be Equal    '${cstatus}'    '${connect_status}'    Device ${sn} conn_status != ${connect_status}
+    ...    values=False
+    Should Be Equal    '${mib_state}'    '${onu_reason}'
+    ...    Device ${sn} mib_state incorrect (${mib_state}) values=False
+
 
 Compare Lists
     [Documentation]
@@ -668,12 +714,12 @@ Validate Device Removed
     List Should Not Contain Value    ${ids}    ${id}
 
 Reboot ONU
-    [Arguments]    ${onu_id}    ${src}   ${dst}
+    [Arguments]    ${onu_id}    ${validate_device}=True
     [Documentation]   Using voltctl command reboot ONU and verify that ONU comes up to running state
     ${rc}    ${devices}=    Run and Return Rc and Output    ${VOLTCTL_CONFIG}; voltctl device reboot ${onu_id}
     Should Be Equal As Integers    ${rc}    0
-    Run Keyword and Ignore Error    Wait Until Keyword Succeeds    60s   1s    Validate Device
-    ...    ENABLED    DISCOVERED    UNREACHABLE   ${onu_id}    onu=True
+    Run Keyword If    ${validate_device}    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds
+    ...    60s   1s    Validate ONU Device By Device Id    ENABLED    DISCOVERED    REACHABLE    rebooting   ${onu_id}
 
 Assert ONUs in Voltha
     [Arguments]    ${count}
