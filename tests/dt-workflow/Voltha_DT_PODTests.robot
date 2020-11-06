@@ -56,7 +56,7 @@ ${scripts}        ../../scripts
 
 # For dataplane bandwidth testing
 ${upper_margin_pct}      105     # Allow 5% over the limit
-${lower_margin_pct}      92      # Allow 8% under the limit
+${lower_margin_pct}      90      # Allow 8% under the limit
 ${udp_rate_multiplier}   1.10    # Send UDP at bw profile limit * rate_multiplier
 ${udp_packet_bytes}      1470    # UDP payload in bytes
 
