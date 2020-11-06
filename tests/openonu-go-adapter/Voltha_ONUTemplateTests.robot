@@ -18,6 +18,7 @@ Resource          ../../libraries/voltha.robot
 Resource          ../../libraries/utils.robot
 Resource          ../../libraries/k8s.robot
 Resource          ../../variables/variables.robot
+Resource          Voltha_ONUUtilities.robot
 
 *** Variables ***
 ${NAMESPACE}      voltha
@@ -133,51 +134,3 @@ Get ONU Startup Duration
     ${timeTotalMs} =    Subtract Date From Date    ${timeCurrent}    ${startTime}    result_format=number
     Log    ONU ${src['onu']}: reached the state ${onu_state} after ${timeTotalMs} sec.    console=yes
     [Return]    ${timeTotalMs}
-
-Verify MIB Template Data Available
-    [Documentation]    This keyword verifies MIB Template Data stored in etcd
-    ${namespace}=    Set Variable    default
-    ${podname}=    Set Variable    etcd
-    ${commandget}    Catenate
-    ...    /bin/sh -c 'ETCDCTL_API=3 etcdctl get --prefix service/voltha/omci_mibs/go_templates/'
-    ${result}=    Exec Pod    ${namespace}    ${podname}    ${commandget}
-    Should Not Be Empty    ${result}    No MIB Template Data stored in etcd!
-
-Delete MIB Template Data
-    [Documentation]    This keyword deletes MIB Template Data stored in etcd
-    ${namespace}=    Set Variable    default
-    ${podname}=    Set Variable    etcd
-    ${commanddel}    Catenate
-    ...    /bin/sh -c 'ETCDCTL_API=3 etcdctl del --prefix service/voltha/omci_mibs/go_templates/'
-    ${result}=    Exec Pod    ${namespace}    ${podname}    ${commanddel}
-    Sleep    3s
-    ${commandget}    Catenate
-    ...    /bin/sh -c 'ETCDCTL_API=3 etcdctl get --prefix service/voltha/omci_mibs/go_templates/'
-    ${result}=    Exec Pod    ${namespace}    ${podname}    ${commandget}
-    Should Be Empty    ${result}    Could not delete MIB Template Data stored in etcd!
-
-Map State
-    [Documentation]    This keyword converts the passed numeric value or name of a onu state to its state values.
-    [Arguments]    ${state}
-    # create state lists with corresponding return values
-    #                             ADMIN-STATE OPER-STATUS   CONNECT-STATUS ONU-STATE (number/name)
-    ${state1}    Create List      ENABLED     ACTIVATING    REACHABLE      1    activating-onu
-    ${state2}    Create List      ENABLED     ACTIVATING    REACHABLE      2    starting-openomci
-    ${state3}    Create List      ENABLED     ACTIVATING    REACHABLE      3    discovery-mibsync-complete
-    ${state4}    Create List      ENABLED     ACTIVE        REACHABLE      4    initial-mib-downloaded
-    ${state5}    Create List      ENABLED     ACTIVE        REACHABLE      5    tech-profile-config-download-success
-    ${state6}    Create List      ENABLED     ACTIVE        REACHABLE      6    omci-flows-pushed
-    ${state7}    Create List      DISABLED    UNKNOWN       REACHABLE      7    omci-admin-lock
-    ${state8}    Create List      ENABLED     ACTIVE        REACHABLE      8    onu-reenabled
-    ${state9}    Create List      ENABLED     DISCOVERED    UNREACHABLE    9    stopping-openomci
-    ${admin_state}    ${oper_status}    ${connect_status}    ${onu_state_nb}    ${onu_state}=    Set Variable If
-    ...    '${state}'=='1' or '${state}'=='activating-onu'                          ${state1}
-    ...    '${state}'=='2' or '${state}'=='starting-openomci'                       ${state2}
-    ...    '${state}'=='3' or '${state}'=='discovery-mibsync-complete'              ${state3}
-    ...    '${state}'=='4' or '${state}'=='initial-mib-downloaded'                  ${state4}
-    ...    '${state}'=='5' or '${state}'=='tech-profile-config-download-success'    ${state5}
-    ...    '${state}'=='6' or '${state}'=='omci-flows-pushed'                       ${state6}
-    ...    '${state}'=='7' or '${state}'=='omci-admin-lock'                         ${state7}
-    ...    '${state}'=='8' or '${state}'=='onu-reenabled'                           ${state8}
-    ...    '${state}'=='9' or '${state}'=='stopping-openomci'                       ${state9}
-    [Return]    ${admin_state}    ${oper_status}    ${connect_status}    ${onu_state_nb}    ${onu_state}
