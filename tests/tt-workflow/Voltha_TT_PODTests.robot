@@ -65,7 +65,7 @@ Reboot TT ONUs Physically - Clean Up
     [Teardown]    Run Keywords    Collect Logs
     ...           AND             Stop Logging    RebootAllTTONUs
     Power Switch Connection Suite    ${web_power_switch.ip}    ${web_power_switch.user}    ${web_power_switch.password}
-    FOR    ${I}    IN RANGE    0    ${num_onus}
+    FOR    ${I}    IN RANGE    0    ${num_all_onus}
         ${src}=    Set Variable    ${hosts.src[${I}]}
         ${dst}=    Set Variable    ${hosts.dst[${I}]}
         Disable Switch Outlet    ${src['power_switch_port']}
