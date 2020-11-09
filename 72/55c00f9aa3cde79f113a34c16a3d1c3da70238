@@ -1,0 +1,8 @@
+Code-Review+1: Girish Gowdra <girish@opennetworking.org>
+Code-Review+2: Suchitra Vemuri <suchitra@opennetworking.org>
+Verified+1: Jenkins Technical User <do-not-reply@opennetworking.org>
+Submitted-by: Suchitra Vemuri <suchitra@opennetworking.org>
+Submitted-at: Mon, 09 Nov 2020 22:08:18 +0000
+Reviewed-on: https://gerrit.opencord.org/c/voltha-system-tests/+/21526
+Project: voltha-system-tests
+Branch: refs/heads/master
