@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "523d2abc_9705805f",
+        "filename": "tests/openonu-go-adapter/Voltha_ONUUtilities.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1000666
+      },
+      "writtenOn": "2020-11-10T14:21:27Z",
+      "side": 1,
+      "message": "The checks look like my initial requirement. So generally it\u0027s fine. But looking at these tests now I would like to extend the requirements a bit - to tighten it: \nThe setVID from the initial state should be stored internally (e.g. 4091 in our tests) and should be used to check for equality after the subscriber has been removed again. So either you can add this test on top or you can also omit this test of this line at that point.",
+      "revId": "0b2d773f92f2ac6454138349a713ffcbc5e60a0c",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    }
+  ]
+}
