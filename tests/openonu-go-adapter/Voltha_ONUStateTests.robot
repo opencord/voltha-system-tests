@@ -296,7 +296,9 @@ Do Onu Port Check
     Wait for Ports in ONOS    ${onos_ssh_connection}    ${num_all_onus}    BBSM
 
 Do Onu Flow Check
-    [Documentation]    This keyword iterate all OLTs and performs Do Onu Flow Check Per OLT
+    [Documentation]    This keyword iterate all OLTs and performs Do Onu Flow Checks Per OLT
+    # Check and store vlan rules
+    ${firstvlanrules}=    Run Keyword And Continue On Failure    Validate Vlan Rules In Etcd
     FOR    ${J}    IN RANGE    0    ${num_olts}
         ${olt_serial_number}=    Set Variable    ${list_olts}[${J}][sn]
         ${onu_count}=    Set Variable    ${list_olts}[${J}][onucount]
@@ -307,10 +309,34 @@ Do Onu Flow Check
         ...    Get NNI Port in ONOS    ${of_id}
         Set Global Variable    ${nni_port}
         # Verify Default Meter in ONOS (valid only for ATT)
-        Do Onu Flow Check Per OLT    ${of_id}    ${nni_port}    ${olt_serial_number}   ${onu_count}
+        Do Onu Flow Add And Check Per OLT    ${of_id}    ${nni_port}    ${olt_serial_number}   ${onu_count}
     END
+    #log flows for verification
+    ${flowsresult}=    Execute ONOS CLI Command    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    flows -s
+    log     ${flowsresult}
+    #check  for previous state is kept (normally omci-flows-pushed)
+    Sleep    10s
+    Run Keyword And Continue On Failure    Do Current State Test All Onus    ${state2test}
+    ${secondvlanrules}=    Run Keyword And Continue On Failure    Validate Vlan Rules In Etcd    nbofcookieslice=3
+    ...    prevvlanrules=${firstvlanrules}
+    FOR    ${J}    IN RANGE    0    ${num_olts}
+        ${olt_serial_number}=    Set Variable    ${list_olts}[${J}][sn]
+        ${onu_count}=    Set Variable    ${list_olts}[${J}][onucount]
+        ${of_id}=    Wait Until Keyword Succeeds    ${timeout}    15s    Validate OLT Device in ONOS
+        ...    ${olt_serial_number}
+        Set Global Variable    ${of_id}
+        ${nni_port}=    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
+        ...    Get NNI Port in ONOS    ${of_id}
+        Set Global Variable    ${nni_port}
+        # Verify Default Meter in ONOS (valid only for ATT)
+        Do Onu Flow Remove And Check Per OLT    ${of_id}    ${nni_port}    ${olt_serial_number}   ${onu_count}
+    END
+    #check  for previous state is kept (normally omci-flows-pushed)
+    Sleep    10s
+    Run Keyword And Continue On Failure    Do Current State Test All Onus    ${state2test}
+    Run Keyword And Continue On Failure    Validate Vlan Rules In Etcd
 
-Do Onu Flow Check Per OLT
+Do Onu Flow Add And Check Per OLT
     [Documentation]    Check per OLT that all ONU flows show up in ONOS and Voltha
     [Arguments]    ${of_id}    ${nni_port}    ${olt_serial_number}    ${num_onus}
     FOR    ${I}    IN RANGE    0    ${num_all_onus}
@@ -328,8 +354,21 @@ Do Onu Flow Check Per OLT
         ...    Verify Subscriber Access Flows Added For ONU    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${of_id}
         ...    ${onu_port}    ${nni_port}    ${src['c_tag']}    ${src['s_tag']}
     END
-    #check  for previous state is kept (normally omci-flows-pushed)
-    Do Current State Test All Onus    ${state2test}
+
+Do Onu Flow Remove And Check Per OLT
+    [Documentation]    Check per OLT that all ONU flows show up in ONOS and Voltha
+    [Arguments]    ${of_id}    ${nni_port}    ${olt_serial_number}    ${num_onus}
+    FOR    ${I}    IN RANGE    0    ${num_all_onus}
+        ${src}=    Set Variable    ${hosts.src[${I}]}
+        ${dst}=    Set Variable    ${hosts.dst[${I}]}
+        Continue For Loop If    "${olt_serial_number}"!="${src['olt']}"
+        ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
+        ${onu_port}=    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
+        ...    Get ONU Port in ONOS    ${src['onu']}    ${of_id}
+        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2
+        ...    Execute ONOS CLI Command    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}
+        ...    volt-remove-subscriber-access ${of_id} ${onu_port}
+    END
 
 Set Tech Profile
     [Documentation]    This keyword set the passed TechProfile for the test
