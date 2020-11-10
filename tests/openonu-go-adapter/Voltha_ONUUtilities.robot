@@ -54,7 +54,7 @@ Do Current State Test All Onus
     Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    50ms
     ...    Validate ONU Devices With Duration
     ...    ${admin_state}    ${oper_status}    ${connect_status}
-    ...    ${onu_state}    ${list_onus}    ${timeStart}    alternate_reason=${alternativeonustate)
+    ...    ${onu_state}    ${list_onus}    ${timeStart}    alternate_reason=${alternativeonustate}
 
 Do Current Reason Test All Onus
     [Documentation]    This keyword checks the passed state of all onus.
@@ -105,6 +105,109 @@ Delete MIB Template Data
     ...    /bin/sh -c 'ETCDCTL_API=3 etcdctl get --prefix service/voltha/omci_mibs/go_templates/'
     ${result}=    Exec Pod    ${namespace}    ${podname}    ${commandget}
     Should Be Empty    ${result}    Could not delete MIB Template Data stored in etcd!
+
+Validate Vlan Rules In Etcd
+    [Documentation]    This keyword validates Vlan rules of openonu-go-adapter Data stored in etcd.
+    ...                It checks the given number of cookie_slice, match_vid (=4096) and set_vid.
+    ...                Furthermore it returns a list of all set_vid.
+    ...                In case of a passed dictionary containing set_vids these will be checked for to
+    ...                current set-vid depending on setvidequal (True=equal, False=not equal).
+    [Arguments]    ${nbofcookieslice}=1    ${reqmatchvid}=4096    ${prevvlanrules}=${NONE}    ${setvidequal}=False
+    ${etcddata}=    Get ONU Go Adapter ETCD Data
+    ${etcddata}=    Remove Lines Containing String    ${etcddata}    service/voltha/openonu    \n
+    #prepare result for json convert
+    ${result}=    Prepare ONU Go Adapter ETCD Data For Json    ${etcddata}
+    ${jsondata}=    To Json    ${result}
+    ${length}=    Get Length    ${jsondata}
+    log    ${jsondata}
+    ${vlan_rules}=    Create Dictionary
+    FOR    ${INDEX}    IN RANGE    0    ${length}
+        ${value}=    Get From List    ${jsondata}    ${INDEX}
+        ${tp_path}=    Get From Dictionary    ${value['uni_config'][0]}    tp_path
+        ${pononuuniid}=    Read Pon Onu Uni String    ${tp_path}
+        ${cookieslice}=    Get From Dictionary    ${value['uni_config'][0]['flow_params'][0]}    cookie_slice
+        #@{cookieslicelist}=    Split String    ${cookieslice}    ,
+        ${foundcookieslices}=    Get Length    ${cookieslice}
+        Should Be Equal As Integers    ${foundcookieslices}    ${nbofcookieslice}
+        ${matchvid}=    Get From Dictionary    ${value['uni_config'][0]['flow_params'][0]['vlan_rule_params']}
+        ...    match_vid
+        Should Be Equal As Integers    ${matchvid}    ${reqmatchvid}
+        ${setvid}=    Get From Dictionary    ${value['uni_config'][0]['flow_params'][0]['vlan_rule_params']}
+        ...    set_vid
+        ${evalresult}=    Evaluate    2 <= ${setvid} <= 4095
+        Should Be True    ${evalresult}    msg=set_vid out of range (${setvid})!
+        Set To Dictionary    ${vlan_rules}    ${pononuuniid}    ${setvid}
+        ${oldsetvidvalid}     Set Variable If    ${prevvlanrules} is ${NONE}    False    True
+        ${prevsetvid}=    Set Variable If    ${oldsetvidvalid}    ${prevvlanrules['${pononuuniid}']}
+        Run Keyword If    ${oldsetvidvalid} and ${setvidequal}
+        ...               Should Be Equal As Integers    ${prevsetvid}    ${setvid}
+        ...    ELSE IF    ${oldsetvidvalid} and not ${setvidequal}
+        ...               Should Not Be Equal As Integers    ${prevsetvid}    ${setvid}
+    END
+    log Many   ${vlan_rules}
+    [Return]    ${vlan_rules}
+
+Get ONU Go Adapter ETCD Data
+    [Documentation]    This keyword delivers openonu-go-adapter Data stored in etcd
+    ${namespace}=    Set Variable    default
+    ${podname}=    Set Variable    etcd
+    ${commandget}    Catenate
+    ...    /bin/sh -c 'ETCDCTL_API=3 etcdctl get --prefix --prefix service/voltha/openonu'
+    ${result}=    Exec Pod    ${namespace}    ${podname}    ${commandget}
+    log    ${result}
+    [Return]    ${result}
+
+Prepare ONU Go Adapter ETCD Data For Json
+    [Documentation]    This keyword prepares openonu-go-adapter Data stored in etcd for converting
+    ...                to json
+    [Arguments]    ${etcddata}
+    #prepare result for json convert
+    ${prepresult}=    Replace String    ${etcddata}   \n    ,
+    ${prepresult}=    Strip String    ${prepresult}    mode=right    characters=,
+    ${prepresult}=    Set Variable    [${prepresult}]
+    log    ${prepresult}
+    [Return]    ${prepresult}
+
+Remove Lines Containing String
+    [Documentation]    This keyword deletes all lines from given string containing passed remove string
+    [Arguments]    ${string}    ${toremove}    ${appendtoremoveline}
+    ${lines}=    Get Lines Containing String    ${string}    ${toremove}
+    ${length}=    Get Line Count    ${lines}
+    ${firstline}=    Set Variable    False
+    FOR    ${INDEX}    IN RANGE    0    ${length}
+        ${String2remove}    Get Line    ${lines}    ${INDEX}
+        ${String2remove}    Set Variable    ${String2remove}${appendtoremoveline}
+        ${string}=    Remove String    ${string}    ${String2remove}
+    END
+    log    ${string}
+    [Return]    ${string}
+
+Read Pon Onu Uni String
+    [Documentation]    This keyword builds a thre digit string using Pon, Onu and Uni value of given tp-path taken
+    ...                taken from etcd data of onu go adapter
+    [Arguments]    ${tp_path}
+    #@{tppathlist}=    Split String    ${tp_path}    /
+    #${length}=    Get Length    ${tppathlist}
+    #FOR    ${I}    IN RANGE    0    ${length}
+    #    ${value}=    Get From List    ${tppathlist}    ${I}
+    #END
+    ${tppathlines}=   Replace String    ${tp_path}    /    \n
+    ${pon}=    Get Value Of Tp Path Element    ${tppathlines}    pon
+    ${onu}=    Get Value Of Tp Path Element    ${tppathlines}    onu
+    ${uni}=    Get Value Of Tp Path Element    ${tppathlines}    uni
+    ${valuesid}=    Set Variable   ${pon}/${onu}/${uni}
+    log    ${valuesid}
+    [Return]    ${valuesid}
+
+Get Value Of Tp Path Element
+    [Documentation]    This keyword delivers numeric value of given tp path element
+    [Arguments]    ${tp_path_lines}    ${element}
+    ${value}=    Get Lines Containing String    ${tp_path_lines}    ${element}-\{
+    ${value}=    Remove String    ${value}    ${element}-\{
+    ${value}=    Remove String    ${value}    \}
+    log    ${value}
+    [Return]    ${value}
+
 
 Map State
     [Documentation]    This keyword converts the passed numeric value or name of a onu state to its state values.
