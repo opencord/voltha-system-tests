@@ -16,6 +16,24 @@
       "revId": "0b2d773f92f2ac6454138349a713ffcbc5e60a0c",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ae88ca28_5102412d",
+        "filename": "tests/openonu-go-adapter/Voltha_ONUUtilities.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2020-11-10T15:20:07Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "523d2abc_9705805f",
+      "revId": "0b2d773f92f2ac6454138349a713ffcbc5e60a0c",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
     }
   ]
 }
