@@ -1,3 +1,5 @@
+<<<<<<< HEAD   (9f1db0 Fixes required for dataplane tests)
+=======
 {
   "apps": {
     "org.opencord.sadis": {
@@ -14,6 +16,12 @@
             "id": "EC1912001814",
             "hardwareIdentifier": "80:a2:35:4d:24:c0",
             "nasId": "EC1912001814",
+            "uplinkPort": 1048576
+          },
+          {
+            "id": "EC1729003539",
+            "hardwareIdentifier": "a8:2b:b5:6d:1a:95",
+            "nasId": "EC1729003539",
             "uplinkPort": 1048576
           },
           {
@@ -42,8 +50,8 @@
                 "ponCTag": 4096,
                 "ponSTag": 32,
                 "technologyProfileId": 64,
-                "upstreamBandwidthProfile": "User_Bandwidth1",
-                "downstreamBandwidthProfile": "User_Bandwidth2",
+                "upstreamBandwidthProfile": "Default",
+                "downstreamBandwidthProfile": "Default",
                 "isDhcpRequired": false
               }]
           },
@@ -58,9 +66,38 @@
                 "ponCTag": 4096,
                 "ponSTag": 33,
                 "technologyProfileId": 64,
+                "upstreamBandwidthProfile": "Default",
+                "downstreamBandwidthProfile": "Default",
+                "isDhcpRequired": false
+              }]
+          },
+          {
+            "id": "ALPHe3d1cf5c-1",
+            "nasPortId": "ALPHe3d1cf5c-1",
+            "circuitId": "ALPHe3d1cf5c-1",
+            "remoteId": "EC1729003539",
+            "uniTagList": [{
+              "ponCTag": 11,
+              "ponSTag": 11,
+              "technologyProfileId": 64,
+              "upstreamBandwidthProfile": "User_Bandwidth1",
+              "downstreamBandwidthProfile": "User_Bandwidth2",
+              "isDhcpRequired": true
+            }]
+          },
+          {
+            "id": "ALPHe3a69d03-1",
+            "nasPortId": "ALPHe3a69d03-1",
+            "circuitId": "ALPHe3a69d03-1",
+            "remoteId": "EC1729003539",
+            "uniTagList": [
+              {
+                "ponCTag": 7,
+                "ponSTag": 11,
+                "technologyProfileId": 64,
                 "upstreamBandwidthProfile": "User_Bandwidth3",
                 "downstreamBandwidthProfile": "User_Bandwidth3",
-                "isDhcpRequired": false
+                "isDhcpRequired": true
               }]
           },
           {
@@ -127,3 +164,4 @@
     }
   }
 }
+>>>>>>> CHANGE (63a738 Lowering Berlin BWP requirements in sadis)
