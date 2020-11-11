@@ -1,6 +1,6 @@
 ---
 
-# Copyright 2017-present Open Networking Foundation
+# Copyright 2020-present Open Networking Foundation
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -68,39 +68,39 @@ hosts:
       olt: 'BBSIM_OLT_0'
     - onu: 'BBSM00010001'
       c_tag: '900'
-      s_tag: '900'
+      s_tag: '901'
       olt: 'BBSIM_OLT_1'
     - onu: 'BBSM00020001'
       c_tag: '900'
-      s_tag: '900'
+      s_tag: '902'
       olt: 'BBSIM_OLT_2'
     - onu: 'BBSM00030001'
       c_tag: '900'
-      s_tag: '900'
+      s_tag: '903'
       olt: 'BBSIM_OLT_3'
     - onu: 'BBSM00040001'
       c_tag: '900'
-      s_tag: '900'
+      s_tag: '904'
       olt: 'BBSIM_OLT_4'
     - onu: 'BBSM00050001'
       c_tag: '900'
-      s_tag: '900'
+      s_tag: '905'
       olt: 'BBSIM_OLT_5'
     - onu: 'BBSM00060001'
       c_tag: '900'
-      s_tag: '900'
+      s_tag: '906'
       olt: 'BBSIM_OLT_6'
     - onu: 'BBSM00070001'
       c_tag: '900'
-      s_tag: '900'
+      s_tag: '907'
       olt: 'BBSIM_OLT_7'
     - onu: 'BBSM00080001'
       c_tag: '900'
-      s_tag: '900'
+      s_tag: '908'
       olt: 'BBSIM_OLT_8'
     - onu: 'BBSM00090001'
       c_tag: '900'
-      s_tag: '900'
+      s_tag: '909'
       olt: 'BBSIM_OLT_9'
   dst:
     - ip: null
