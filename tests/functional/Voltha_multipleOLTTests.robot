@@ -67,7 +67,7 @@ Sanity E2E Test for OLTs/ONUs on POD
 Setup Suite
     [Documentation]    Setup the test suite
     Set Global Variable    ${KUBECTL_CONFIG}    export KUBECONFIG=%{KUBECONFIG}
-    Set Global Variable    ${VOLTCTL_CONFIG}    export VOLTCONFIG=%{VOLTCONFIG}
+    Set Global Variable    ${VOLTCTL_CONFIG}    %{VOLTCONFIG}
     ${k8s_node_ip}=    Evaluate    ${nodes}[0].get("ip")
     ${ONOS_REST_IP}=    Get Environment Variable    ONOS_REST_IP    ${k8s_node_ip}
     ${ONOS_SSH_IP}=     Get Environment Variable    ONOS_SSH_IP     ${k8s_node_ip}
