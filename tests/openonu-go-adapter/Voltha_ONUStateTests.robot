@@ -208,7 +208,7 @@ Teardown Suite
     Run Keyword If    ${pausebeforecleanup}    Pause Execution    Press OK to continue with clean up!
     Run Keyword If    ${pausebeforecleanup}    Log    Teardown will be continued...    console=yes
     Run Keyword If    ${teardown_device}    Delete All Devices and Verify
-    # Wait for Ports in ONOS      ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}  0   BBSM
+    Validate Onu Data In Etcd    0
     Wait for Ports in ONOS      ${onos_ssh_connection}  0   BBSM
     Close ONOS SSH Connection   ${onos_ssh_connection}
     Remove Tech Profile
