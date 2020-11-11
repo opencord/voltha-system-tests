@@ -36,7 +36,7 @@ JSON_FILES   := $(shell find ./tests -name *.json -print)
 # Robot config
 ROBOT_SANITY_SINGLE_PON_FILE    ?= $(ROOT_DIR)/tests/data/bbsim-kind.yaml
 ROBOT_SANITY_DT_SINGLE_PON_FILE    ?= $(ROOT_DIR)/tests/data/bbsim-kind-dt.yaml
-ROBOT_SANITY_MULTIPLE_OLT_FILE    ?= $(ROOT_DIR)/tests/data/multiple-bbsim-kind.yaml
+ROBOT_SANITY_MULTIPLE_OLT_FILE    ?= $(ROOT_DIR)/tests/data/bbsim-kind-multipleOLT-2x2.yaml
 ROBOT_FAIL_SINGLE_PON_FILE      ?= $(ROOT_DIR)/tests/data/bbsim-kind.yaml
 ROBOT_SANITY_MULT_PON_FILE      ?= $(ROOT_DIR)/tests/data/bbsim-kind-2x2.yaml
 ROBOT_SCALE_SINGLE_PON_FILE     ?= $(ROOT_DIR)/tests/data/bbsim-kind-16.yaml
@@ -81,10 +81,10 @@ functional-single-kind-tt: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_TT_SINGLE_PON_FIL
 functional-single-kind-tt: ROBOT_FILE := Voltha_TT_PODTests.robot
 functional-single-kind-tt: voltha-tt-test
 
-# target to invoke multiple OLTs Functional scenarios
-functional-multi-olt: ROBOT_MISC_ARGS += -i sanityMultiOLT $(ROBOT_DEBUG_LOG_OPT)
+# target to invoke multiple OLTs Functional scenarios - ATT
+functional-multi-olt: ROBOT_MISC_ARGS += -i sanityORfunctional -e PowerSwitch $(ROBOT_DEBUG_LOG_OPT)
 functional-multi-olt: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_MULTIPLE_OLT_FILE)
-functional-multi-olt: ROBOT_FILE := Voltha_multipleOLTTests.robot
+functional-multi-olt: ROBOT_FILE := Voltha_PODTests.robot
 functional-multi-olt: voltha-test
 
 # target to invoke openonu go adapter
@@ -211,10 +211,20 @@ bbsim-errorscenarios-dt: ROBOT_FILE := Voltha_ErrorScenarios.robot
 bbsim-errorscenarios-dt: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_DT_SINGLE_PON_FILE)
 bbsim-errorscenarios-dt: voltha-test
 
+bbsim-multi-olt-errorscenarios: ROBOT_MISC_ARGS += -X $(ROBOT_DEBUG_LOG_OPT)
+bbsim-multi-olt-errorscenarios: ROBOT_FILE := Voltha_ErrorScenarios.robot
+bbsim-multi-olt-errorscenarios: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_MULTIPLE_OLT_FILE)
+bbsim-multi-olt-errorscenarios: voltha-test
+
 bbsim-failurescenarios: ROBOT_MISC_ARGS += -X $(ROBOT_DEBUG_LOG_OPT) -e PowerSwitch -e PhysicalOLTReboot
 bbsim-failurescenarios: ROBOT_FILE := Voltha_FailureScenarios.robot
 bbsim-failurescenarios: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_SINGLE_PON_FILE)
 bbsim-failurescenarios: voltha-test
+
+bbsim-multi-olt-failurescenarios: ROBOT_MISC_ARGS += -X $(ROBOT_DEBUG_LOG_OPT) -e PowerSwitch -e PhysicalOLTReboot
+bbsim-multi-olt-failurescenarios: ROBOT_FILE := Voltha_FailureScenarios.robot
+bbsim-multi-olt-failurescenarios: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_MULTIPLE_OLT_FILE)
+bbsim-multi-olt-failurescenarios: voltha-test
 
 bbsim-failurescenarios-dt: ROBOT_MISC_ARGS += -X $(ROBOT_DEBUG_LOG_OPT) -e PowerSwitchOnuRebootDt -e PhysicalOltRebootDt
 bbsim-failurescenarios-dt: ROBOT_FILE := Voltha_DT_FailureScenarios.robot
