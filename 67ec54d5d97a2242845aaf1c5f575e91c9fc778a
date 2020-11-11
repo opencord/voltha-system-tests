@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9ba10478_341b459e",
+        "filename": "Makefile",
+        "patchSetId": 2
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2020-11-11T08:14:34Z",
+      "side": 1,
+      "message": "Should be named like 2 OLTs x 2 ONUs",
+      "range": {
+        "startLine": 84,
+        "startChar": 0,
+        "endLine": 88,
+        "endChar": 33
+      },
+      "revId": "67ec54d5d97a2242845aaf1c5f575e91c9fc778a",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3402a0a7_4e17fe1f",
+        "filename": "tests/data/bbsim-kind-multipleOLT-2x2.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2020-11-11T08:14:34Z",
+      "side": 1,
+      "message": "I prefer a file name like bbsim-kind-2OLT-1x2.yaml or bbsim-kind-multipleOLT-2x1x2.yaml or bbsim-kind-2x1x2.yaml or bbsim-kind-2oltx2onu.yaml (or something similar). 2x2 could lead to misunderstanding 2 pon, 2 onu like bbsim-kind-2x2.yaml",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 3,
+        "endChar": 0
+      },
+      "revId": "67ec54d5d97a2242845aaf1c5f575e91c9fc778a",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bc211b88_8d11c87a",
+        "filename": "tests/data/multiple-bbsim-kind.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2020-11-11T08:14:34Z",
+      "side": 1,
+      "message": "should be \"s_tag: \u0027903\u0027\"?! and so on for all further OLTs",
+      "range": {
+        "startLine": 79,
+        "startChar": 6,
+        "endLine": 79,
+        "endChar": 18
+      },
+      "revId": "67ec54d5d97a2242845aaf1c5f575e91c9fc778a",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    }
+  ]
+}
