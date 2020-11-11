@@ -295,7 +295,7 @@ Test Disable and Enable OLT
         ${olt_serial_number}=    Get From Dictionary    ${olt_ids}[${I}]    sn
         ${olt_device_id}=    Get OLTDeviceID From OLT List    ${olt_serial_number}
         ${rc}    ${output}=    Run and Return Rc and Output
-        ...    ${VOLTCTL_CONFIG}; voltctl device disable ${olt_device_id}
+        ...    voltctl -c ${VOLTCTL_CONFIG} device disable ${olt_device_id}
         Should Be Equal As Integers    ${rc}    0
         Wait Until Keyword Succeeds    ${timeout}    5s    Validate OLT Device    DISABLED    UNKNOWN    REACHABLE
         ...    ${olt_serial_number}
@@ -424,7 +424,7 @@ Test disable ONUs and OLT then delete ONUs and OLT
         ...    Validate OLT Device    ENABLED    ACTIVE
         ...    REACHABLE    ${src['olt']}
         ${rc}    ${output}=    Run and Return Rc and Output
-        ...    ${VOLTCTL_CONFIG}; voltctl device disable ${onu_device_id}
+        ...    voltctl -c ${VOLTCTL_CONFIG} device disable ${onu_device_id}
         Should Be Equal As Integers    ${rc}    0
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
         ...    Validate Device    DISABLED    UNKNOWN
@@ -433,12 +433,13 @@ Test disable ONUs and OLT then delete ONUs and OLT
         ...    Validate OLT Device    ENABLED    ACTIVE
         ...    REACHABLE    ${src['olt']}
     END
+
     # Disable all OLTs
     FOR   ${I}    IN RANGE    0    ${olt_count}
         ${olt_serial_number}=    Get From Dictionary    ${olt_ids}[${I}]    sn
         ${olt_device_id}=    Get OLTDeviceID From OLT List    ${olt_serial_number}
         ${rc}    ${output}=    Run and Return Rc and Output
-        ...    ${VOLTCTL_CONFIG}; voltctl device disable ${olt_device_id}
+        ...    voltctl -c ${VOLTCTL_CONFIG} device disable ${olt_device_id}
         Should Be Equal As Integers    ${rc}    0
         Wait Until Keyword Succeeds    ${timeout}    5s    Validate OLT Device    DISABLED    UNKNOWN    REACHABLE
         ...    ${olt_serial_number}

@@ -82,7 +82,7 @@ Adding the same OLT before and after enabling the device
         Wait Until Keyword Succeeds    ${timeout}    5s    Validate OLT Device    PREPROVISIONED    UNKNOWN    UNKNOWN
         ...    ${olt_device_id}
         ${rc}    ${output}=    Run and Return Rc and Output
-        ...    ${VOLTCTL_CONFIG}; voltctl device create -t openolt -H ${olt_ip}:${OLT_PORT}
+        ...    voltctl -c ${VOLTCTL_CONFIG} device create -t openolt -H ${olt_ip}:${OLT_PORT}
         Should Not Be Equal As Integers    ${rc}    0
         Should Contain     ${output}     device is already pre-provisioned    ignore_case=True
         #Enable the created OLT device
@@ -90,7 +90,7 @@ Adding the same OLT before and after enabling the device
         Wait Until Keyword Succeeds    ${timeout}    5s    Validate OLT Device    ENABLED    ACTIVE    REACHABLE
         ...    ${olt_serial_number}
         ${rc}    ${output}=    Run and Return Rc and Output
-        ...    ${VOLTCTL_CONFIG}; voltctl device create -t openolt -H ${olt_ip}:${OLT_PORT}
+        ...    voltctl -c ${VOLTCTL_CONFIG} device create -t openolt -H ${olt_ip}:${OLT_PORT}
         Should Not Be Equal As Integers    ${rc}    0
         Log    ${output}
         Should Contain     ${output}    device is already pre-provisioned    ignore_case=True
@@ -106,7 +106,7 @@ Test Disable or Enable different device id which is not in the device list
     [Teardown]    Run Keywords    Collect Logs
     ...           AND             Stop Logging    DisableInvalidDevice
     Run Keyword and Ignore Error   Collect Logs
-    ${rc}  ${output}=    Run and Return Rc and Output    ${VOLTCTL_CONFIG}; voltctl device list -o json
+    ${rc}  ${output}=    Run and Return Rc and Output    voltctl -c ${VOLTCTL_CONFIG} device list -o json
     Should Be Equal As Integers    ${rc}    0
     ${jsondata}=    To Json    ${output}
     Log    ${jsondata}
@@ -123,12 +123,12 @@ Test Disable or Enable different device id which is not in the device list
     #Ensure that the new id created is not in the device id list
     List Should Not Contain Value    ${ids}    ${fakeDeviceId}
     #Disable fake device id
-    ${rc}  ${output}=    Run and Return Rc and Output    ${VOLTCTL_CONFIG}; voltctl device disable ${fakeDeviceId}
+    ${rc}  ${output}=    Run and Return Rc and Output    voltctl -c ${VOLTCTL_CONFIG} device disable ${fakeDeviceId}
     Should Contain    ${output}     Error while disabling '${fakeDeviceId}'
     #Disable device for VOL-2413
     Disable Device    ${device_id}
     #Enable fake device id
-    ${rc}  ${output}=    Run and Return Rc and Output    ${VOLTCTL_CONFIG}; voltctl device enable ${fakeDeviceId}
+    ${rc}  ${output}=    Run and Return Rc and Output    voltctl -c ${VOLTCTL_CONFIG} device enable ${fakeDeviceId}
     Should Contain    ${output}     Error while enabling '${fakeDeviceId}'
 
 Check deletion of OLT/ONU before disabling
@@ -153,7 +153,7 @@ Check deletion of OLT/ONU before disabling
         #${olt_device_id}=    Get OLTDeviceID From OLT List    ${olt_serial_number}
         Wait Until Keyword Succeeds    ${timeout}    5s    Validate OLT Device    ENABLED    ACTIVE    REACHABLE
         ...   REACHABLE    ${olt_serial_number}
-        ${rc}    ${output}=    Run and Return Rc and Output    ${VOLTCTL_CONFIG}; voltctl device delete ${olt_device_id}
+        ${rc}    ${output}=    Run and Return Rc and Output    voltctl -c ${VOLTCTL_CONFIG} device delete ${olt_device_id}
         Log    ${output}
         Should Contain     ${output}     expected-admin-state:DISABLED
         Wait Until Keyword Succeeds    ${timeout}    5s
@@ -169,7 +169,7 @@ Check deletion of OLT/ONU before disabling
 	Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s    Validate Device
 	...    ENABLED    ACTIVE    REACHABLE
 	...    ${src['onu']}    onu=True    onu_reason=omci-flows-pushed
-	${rc}    ${output}=    Run and Return Rc and Output    ${VOLTCTL_CONFIG}; voltctl device delete ${onu_device_id}
+	${rc}    ${output}=    Run and Return Rc and Output    voltctl -c ${VOLTCTL_CONFIG} device delete ${onu_device_id}
 	Log    ${output}
 	Should Contain     ${output}     expected-admin-state:DISABLED
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s    Validate Device
@@ -202,7 +202,7 @@ Check disabling of pre-provisioned OLT before enabling
         ...    UNKNOWN    ${olt_device_id}
         #Try disabling pre-provisioned OLT
         ${rc}    ${output}=    Run and Return Rc and Output
-        ...    ${VOLTCTL_CONFIG}; voltctl device disable ${olt_device_id}
+        ...    voltctl -c ${VOLTCTL_CONFIG} device disable ${olt_device_id}
         Should Not Be Equal As Integers    ${rc}    0
         Log    ${output}
         Should Contain     ${output}     invalid-admin-state:PREPROVISIONED
@@ -251,18 +251,18 @@ Disable and Delete the logical device directly
         ...    REACHABLE    ${olt_serial_number}
         #Check whether logical devices are also created
         ${rc}    ${output}=    Run and Return Rc and Output
-        ...    ${VOLTCTL_CONFIG}; voltctl logicaldevice list
+        ...    voltctl -c ${VOLTCTL_CONFIG} logicaldevice list
         Should Be Equal As Integers    ${rc}    0
         Log    ${output}
         ${logical_id}=    Get Logical Device ID From SN    ${olt_serial_number}
         Should Not Be Empty    ${logical_id}
         ${rc}    ${output}=    Run and Return Rc and Output
-        ...    ${VOLTCTL_CONFIG}; voltctl logicaldevice disable ${logical_id}
+        ...    voltctl -c ${VOLTCTL_CONFIG} logicaldevice disable ${logical_id}
         Should Not Be Equal As Integers    ${rc}    0
         Log    ${output}
         Should Contain     '${output}'     Unknown command
         ${rc}    ${output1}=    Run and Return Rc and Output
-        ...    ${VOLTCTL_CONFIG}; voltctl logicaldevice delete ${logical_id}
+        ...    voltctl -c ${VOLTCTL_CONFIG} logicaldevice delete ${logical_id}
         Should Not Be Equal As Integers    ${rc}    0
         Log    ${output1}
         Should Contain     '${output1}'     Unknown command
@@ -298,7 +298,7 @@ Check logical device creation and deletion
         ${logical_id}=    Get Logical Device ID From SN    ${olt_serial_number}
         Should Not Be Empty    ${logical_id}
         ${rc}    ${output}=    Run and Return Rc and Output
-        ...    ${VOLTCTL_CONFIG}; voltctl logicaldevice list
+        ...    voltctl -c ${VOLTCTL_CONFIG} logicaldevice list
         Should Be Equal As Integers    ${rc}    0
         Log    ${output}
         Should Contain     ${output}    ${olt_device_id}

@@ -49,7 +49,7 @@ Send File To Onos
 Common Test Suite Setup
     [Documentation]    Setup the test suite
     Set Global Variable    ${KUBECTL_CONFIG}    export KUBECONFIG=%{KUBECONFIG}
-    Set Global Variable    ${VOLTCTL_CONFIG}    export VOLTCONFIG=%{VOLTCONFIG}
+    Set Global Variable    ${VOLTCTL_CONFIG}    %{VOLTCONFIG}
     ${k8s_node_ip}=    Evaluate    ${nodes}[0].get("ip")
     ${ONOS_REST_IP}=    Get Environment Variable    ONOS_REST_IP    ${k8s_node_ip}
     ${ONOS_SSH_IP}=     Get Environment Variable    ONOS_SSH_IP     ${k8s_node_ip}
@@ -632,13 +632,13 @@ Delete Device and Verify
     [Documentation]    Disable -> Delete devices via voltctl and verify its removed
     ${olt_device_id}=    Get Device ID From SN    ${olt_serial_number}
     ${rc}    ${output}=    Run and Return Rc and Output
-    ...    ${VOLTCTL_CONFIG}; voltctl device disable ${olt_device_id}
+    ...    voltctl -c ${VOLTCTL_CONFIG} device disable ${olt_device_id}
     Should Be Equal As Integers    ${rc}    0
     Sleep    5s
     Wait Until Keyword Succeeds    ${timeout}    5s
     ...    Validate OLT Device    DISABLED    UNKNOWN    REACHABLE    ${olt_serial_number}
     ${rc}    ${output}=    Run and Return Rc and Output
-    ...    ${VOLTCTL_CONFIG}; voltctl device delete ${olt_device_id}
+    ...    voltctl -c ${VOLTCTL_CONFIG} device delete ${olt_device_id}
     Run Keyword If    ${has_dataplane}    Sleep    50s
     Should Be Equal As Integers    ${rc}    0
     Wait Until Keyword Succeeds    ${timeout}    5s    Validate Device Removed    ${olt_device_id}

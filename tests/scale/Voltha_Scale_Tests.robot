@@ -172,6 +172,7 @@ Disable and Delete devices
     FOR    ${olt_device_id}    IN  @{olt_device_ids}
         Disable Device  ${olt_device_id}
         Delete Device  ${olt_device_id}
+        Remove Values From List     ${olt_device_ids}   ${olt_device_id}
     END
 
     Set Suite Variable    ${olt_device_ids}
@@ -180,7 +181,7 @@ Disable and Delete devices
 Setup Suite
     [Documentation]    Setup test global variables, open an SSH connection to ONOS and starts a timer
     Set Suite Variable    ${KUBECTL_CONFIG}    export KUBECONFIG=%{KUBECONFIG}
-    Set Suite Variable    ${VOLTCTL_CONFIG}    export VOLTCONFIG=%{VOLTCONFIG}
+    Set Suite Variable    ${VOLTCTL_CONFIG}    %{VOLTCONFIG}
 
     ${total_onus}=   Evaluate    ${olt} * ${pon} * ${onu}
     Set Suite Variable  ${total_onus}
