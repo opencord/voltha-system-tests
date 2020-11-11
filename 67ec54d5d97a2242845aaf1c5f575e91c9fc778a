@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "96bcc6ed_ff0dbac6",
+        "filename": "Makefile",
+        "patchSetId": 2
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1000007
+      },
+      "writtenOn": "2020-11-11T21:28:15Z",
+      "side": 1,
+      "message": "Another possibility is to have the pipeline exporting the \"ROBOT_MISC_ARGS\", \"ROBOT_CONFIG_FILE\" and \"ROBOT_FILE\" and simply invoke the \"voltha-test\" target.\n\nAlso if this is for the multiple BBSim test we should use the \"bbsim-kind\" target",
+      "parentUuid": "9ba10478_341b459e",
+      "range": {
+        "startLine": 84,
+        "startChar": 0,
+        "endLine": 88,
+        "endChar": 33
+      },
+      "revId": "67ec54d5d97a2242845aaf1c5f575e91c9fc778a",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "3402a0a7_4e17fe1f",
         "filename": "tests/data/bbsim-kind-multipleOLT-2x2.yaml",
         "patchSetId": 2
@@ -48,6 +72,29 @@
     },
     {
       "key": {
+        "uuid": "f539505d_7c535963",
+        "filename": "tests/data/bbsim-kind-multipleOLT-2x2.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1000007
+      },
+      "writtenOn": "2020-11-11T21:28:15Z",
+      "side": 1,
+      "message": "Should copyright be 2020?",
+      "range": {
+        "startLine": 3,
+        "startChar": 12,
+        "endLine": 3,
+        "endChar": 16
+      },
+      "revId": "67ec54d5d97a2242845aaf1c5f575e91c9fc778a",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "bc211b88_8d11c87a",
         "filename": "tests/data/multiple-bbsim-kind.yaml",
         "patchSetId": 2
@@ -59,6 +106,30 @@
       "writtenOn": "2020-11-11T08:14:34Z",
       "side": 1,
       "message": "should be \"s_tag: \u0027903\u0027\"?! and so on for all further OLTs",
+      "range": {
+        "startLine": 79,
+        "startChar": 6,
+        "endLine": 79,
+        "endChar": 18
+      },
+      "revId": "67ec54d5d97a2242845aaf1c5f575e91c9fc778a",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fa44c15a_db8998ee",
+        "filename": "tests/data/multiple-bbsim-kind.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1000007
+      },
+      "writtenOn": "2020-11-11T21:28:15Z",
+      "side": 1,
+      "message": "Yes it should be incremental for each OLT.",
+      "parentUuid": "bc211b88_8d11c87a",
       "range": {
         "startLine": 79,
         "startChar": 6,
