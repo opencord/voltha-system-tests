@@ -106,6 +106,40 @@ Delete MIB Template Data
     ${result}=    Exec Pod    ${namespace}    ${podname}    ${commandget}
     Should Be Empty    ${result}    Could not delete MIB Template Data stored in etcd!
 
+Validate Onu Data In Etcd
+    [Documentation]    This keyword validates openonu-go-adapter Data stored in etcd.
+    ...                It checks unique of  serial_number and combination of pon, onu and uni in tp_path.
+    ...                Furthermore it evaluates the values of onu_id and uni_id with values read from tp_path.
+    ...                Number of etcd entries has to match with the passed number.
+    [Arguments]    ${nbofetcddata}=${num_all_onus}
+    ${etcddata}=    Get ONU Go Adapter ETCD Data
+    ${etcddata}=    Remove Lines Containing String    ${etcddata}    service/voltha/openonu    \n
+    #prepare result for json convert
+    ${result}=    Prepare ONU Go Adapter ETCD Data For Json    ${etcddata}
+    ${jsondata}=    To Json    ${result}
+    ${length}=    Get Length    ${jsondata}
+    log    ${jsondata}
+    Run Keyword And Continue On Failure    Should Be Equal As Integers    ${length}    ${nbofetcddata}
+    ...    msg=Number etcd data (${length}) does not match required (${nbofetcddata})!
+    ${pononuuniidlist}=    Create List
+    ${serialnumberlist}=    Create List
+    FOR    ${INDEX}    IN RANGE    0    ${length}
+        ${value}=    Get From List    ${jsondata}    ${INDEX}
+        ${tp_path}=    Get From Dictionary    ${value['uni_config'][0]}    tp_path
+        ${pononuuniid}=    Read Pon Onu Uni String    ${tp_path}
+        ${list_id}=    Get Index From List    ${pononuuniidlist}   ${pononuuniid}
+        Should Be Equal As Integers    ${list_id}    -1
+        ...    msg=Combination of Pon, Onu and Uni (${pononuuniid}) exist multiple in etcd data!
+        Append To List    ${pononuuniidlist}    ${pononuuniid}
+        Validate Onu Id    ${value}
+        Validate Uni Id    ${value}
+        ${serial_number}=    Get From Dictionary    ${value}    serial_number
+        ${list_id}=    Get Index From List    ${serialnumberlist}   ${serial_number}
+        Should Be Equal As Integers    ${list_id}    -1
+        ...    msg=Serial number (${serial_number}) exists multiple in etcd data!
+        Append To List    ${serialnumberlist}    ${serial_number}
+    END
+
 Validate Vlan Rules In Etcd
     [Documentation]    This keyword validates Vlan rules of openonu-go-adapter Data stored in etcd.
     ...                It checks the given number of cookie_slice, match_vid (=4096) and set_vid.
@@ -186,11 +220,6 @@ Read Pon Onu Uni String
     [Documentation]    This keyword builds a thre digit string using Pon, Onu and Uni value of given tp-path taken
     ...                taken from etcd data of onu go adapter
     [Arguments]    ${tp_path}
-    #@{tppathlist}=    Split String    ${tp_path}    /
-    #${length}=    Get Length    ${tppathlist}
-    #FOR    ${I}    IN RANGE    0    ${length}
-    #    ${value}=    Get From List    ${tppathlist}    ${I}
-    #END
     ${tppathlines}=   Replace String    ${tp_path}    /    \n
     ${pon}=    Get Value Of Tp Path Element    ${tppathlines}    pon
     ${onu}=    Get Value Of Tp Path Element    ${tppathlines}    onu
@@ -200,7 +229,7 @@ Read Pon Onu Uni String
     [Return]    ${valuesid}
 
 Get Value Of Tp Path Element
-    [Documentation]    This keyword delivers numeric value of given tp path element
+    [Documentation]    This keyword delivers numeric value of given tp path element.
     [Arguments]    ${tp_path_lines}    ${element}
     ${value}=    Get Lines Containing String    ${tp_path_lines}    ${element}-\{
     ${value}=    Remove String    ${value}    ${element}-\{
@@ -208,6 +237,26 @@ Get Value Of Tp Path Element
     log    ${value}
     [Return]    ${value}
 
+Validate Onu Id
+    [Documentation]    This keyword validates ONU Id of passed etcd data.
+    [Arguments]    ${value}
+    ${tp_path}=    Get From Dictionary    ${value['uni_config'][0]}    tp_path
+    ${tppathlines}=   Replace String    ${tp_path}    /    \n
+    ${onu}=    Get Value Of Tp Path Element    ${tppathlines}    onu
+    ${onu_id}=    Get From Dictionary    ${value}    onu_id
+    Should Be Equal As Integers    ${onu}    ${onu_id}
+    ...    msg=Onu-Id (${onu_id}) does not match onu (${onu}) from tp_path in etcd data!
+    Should Be True    ${onu_id}>=1
+
+Validate Uni Id
+    [Documentation]    This keyword validates UNI Id of passed etcd data.
+    [Arguments]    ${value}
+    ${tp_path}=    Get From Dictionary    ${value['uni_config'][0]}    tp_path
+    ${tppathlines}=   Replace String    ${tp_path}    /    \n
+    ${uni}=    Get Value Of Tp Path Element    ${tppathlines}    uni
+    ${uni_id}=    Get From Dictionary    ${value['uni_config'][0]}    uni_id
+    Should Be Equal As Integers    ${uni}    ${uni_id}
+    ...    msg=Uni-Id (${uni_id}) does not match onu (${uni}) from tp_path in etcd data!
 
 Map State
     [Documentation]    This keyword converts the passed numeric value or name of a onu state to its state values.

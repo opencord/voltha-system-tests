@@ -102,6 +102,17 @@ Onu Port Check
     [Teardown]    Run Keywords    Run Keyword If    ${logging}    Collect Logs
     ...    AND    Stop Logging    ONUPortTest
 
+Onu Etcd Data Check
+    [Documentation]    Validates ONU data stored in ETCD
+    ...    Assuming that ONU State Test was executed where all the ONUs are reached the expected state!
+    [Tags]    functionalOnuGo    EtcdDataOnuGo
+    [Setup]    Start Logging    ONUEtcdDataTest
+    Run Keyword If    '${onu_state}'=='tech-profile-config-download-success' or '${onu_state}'=='omci-flows-pushed'
+    ...    Do Onu Etcd Data Check
+    ...    ELSE    Pass Execution    ${skip_message}    skipped
+    [Teardown]    Run Keywords    Run Keyword If    ${logging}    Collect Logs
+    ...    AND    Stop Logging    ONUEtcdDataTest
+
 Onu Flow Check
     [Documentation]    Validates the onu flows in ONOS and Voltha
     ...    Assuming that ONU State Test was executed where all the ONUs are reached the expected state!
@@ -294,6 +305,10 @@ Do ONU Single State Test Time
 Do Onu Port Check
     [Documentation]    Check that all the UNI ports show up in ONOS
     Wait for Ports in ONOS    ${onos_ssh_connection}    ${num_all_onus}    BBSM
+
+Do Onu Etcd Data Check
+    [Documentation]    Check Onu data stored in etcd
+    Validate Onu Data In Etcd
 
 Do Onu Flow Check
     [Documentation]    This keyword iterate all OLTs and performs Do Onu Flow Checks Per OLT
