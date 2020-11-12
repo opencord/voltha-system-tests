@@ -40,7 +40,7 @@ Execute ONOS CLI Command on open connection
     @{result_values}    SSHLibrary.Execute Command    ${cmd}    return_rc=True
     ...    return_stderr=True    return_stdout=True
     ${output}    Set Variable    @{result_values}[0]
-    Log    ${output}
+    Log    Command output: ${output}
     Should Be Empty    @{result_values}[1]
     Should Be Equal As Integers    @{result_values}[2]    0
     [Return]    ${output}
@@ -382,20 +382,22 @@ Verify ONU in AAA-Users
     Should Not Be Empty    ${aaa_users}    ONU port ${onu_port} not found in aaa-users
 
 Assert Number of AAA-Users
-    [Arguments]    ${onos_ssh_connection}    ${expected_onus}
+    [Arguments]    ${onos_ssh_connection}    ${expected_onus}   ${deviceId}
     [Documentation]    Matches for number of aaa-users authorized based on number of onus
     ${aaa_users}=    Execute ONOS CLI Command on open connection     ${onos_ssh_connection}
-    ...     aaa-users | grep AUTHORIZED | wc -l
+    ...     aaa-users | grep ${deviceId} | grep AUTHORIZED | wc -l
+    Log     Found ${aaa_users} of ${expected_onus} expected authenticated users on device ${deviceId}
     Should Be Equal As Integers    ${aaa_users}    ${expected_onus}
 
 Validate DHCP Allocations
-    [Arguments]    ${onos_ssh_connection}    ${count}   ${workflow}
+    [Arguments]    ${onos_ssh_connection}    ${count}   ${workflow}     ${deviceId}
     [Documentation]    Matches for number of dhcpacks based on number of onus
     ${allocations}=    Execute ONOS CLI Command on open connection     ${onos_ssh_connection}
-    ...     dhcpl2relay-allocations | grep DHCPACK | wc -l
+    ...     dhcpl2relay-allocations | grep ${deviceId} | grep DHCPACK | wc -l
     # if the workflow is TT we'll have 2 allocations for each ONU
     ${ttAllocations}=     Evaluate   (${count} * 2)
     ${count}=    Set Variable If  $workflow=='tt'    ${ttAllocations}   ${count}
+    Log     Found ${allocations} of ${count} expected DHCPACK on device ${deviceId}
     Should Be Equal As Integers    ${allocations}    ${count}
 
 Validate Subscriber DHCP Allocation
@@ -431,28 +433,30 @@ Remove All Devices From ONOS
     END
 
 Assert Ports in ONOS
-    [Arguments]    ${onos_ssh_connection}     ${count}     ${filter}
+    [Arguments]    ${onos_ssh_connection}     ${count}     ${deviceId}  ${filter}
     [Documentation]    Check that a certain number of ports are enabled in ONOS
     ${ports}=    Execute ONOS CLI Command on open connection     ${onos_ssh_connection}
-        ...    ports -e | grep ${filter} | wc -l
+        ...    ports -e ${deviceId} | grep ${filter} | wc -l
+    Log     Found ${ports} of ${count} expected ports on device ${deviceId}
     Should Be Equal As Integers    ${ports}    ${count}
 
 Wait for Ports in ONOS
-    [Arguments]    ${onos_ssh_connection}     ${count}     ${filter}
-    [Documentation]    Waits untill a certain number of ports are enabled in ONOS
+    [Arguments]    ${onos_ssh_connection}     ${count}     ${deviceId}  ${filter}
+    [Documentation]    Waits untill a certain number of ports are enabled in ONOS for a particular deviceId
     Wait Until Keyword Succeeds     10m     5s      Assert Ports in ONOS
-    ...     ${onos_ssh_connection}     ${count}     ${filter}
+    ...     ${onos_ssh_connection}     ${count}     ${deviceId}     ${filter}
 
 Wait for AAA Authentication
-    [Arguments]    ${onos_ssh_connection}     ${count}
+    [Arguments]    ${onos_ssh_connection}     ${count}  ${deviceId}
     [Documentation]    Waits untill a certain number of subscribers are authenticated in ONOS
-    Wait Until Keyword Succeeds     10m     5s      Assert Number of AAA-Users      ${onos_ssh_connection}     ${count}
+    Wait Until Keyword Succeeds     10m     5s      Assert Number of AAA-Users
+    ...     ${onos_ssh_connection}     ${count}     ${deviceId}
 
 Wait for DHCP Ack
-    [Arguments]    ${onos_ssh_connection}     ${count}  ${workflow}
+    [Arguments]    ${onos_ssh_connection}     ${count}  ${workflow}     ${deviceId}
     [Documentation]    Waits untill a certain number of subscribers have received a DHCP_ACK
     Wait Until Keyword Succeeds     10m     5s      Validate DHCP Allocations
-        ...     ${onos_ssh_connection}     ${count}  ${workflow}
+        ...     ${onos_ssh_connection}     ${count}  ${workflow}    ${deviceId}
 
 Provision subscriber
     [Documentation]  Calls volt-add-subscriber-access in ONOS
@@ -496,7 +500,8 @@ Provision all subscribers on device
     END
 
 List OLTs
-    [Documentation]  Returns a list of OLTs known to ONOS
+    # NOTE this method is not currently used but it can come useful in the future
+    [Documentation]  Returns a list of all OLTs known to ONOS
     [Arguments]  ${onos_ssh_connection}
     [Return]  ['of:00000a0a0a0a0a00', 'of:00000a0a0a0a0a01']
     ${result}=      Create List
@@ -515,19 +520,20 @@ List OLTs
 
 Count ADDED flows
     [Documentation]  Count the flows in ADDED state in ONOS
-    [Arguments]  ${onos_ssh_connection}    ${targetFlows}
+    [Arguments]  ${onos_ssh_connection}    ${targetFlows}   ${deviceId}
     ${flows}=    Execute ONOS CLI Command on open connection     ${onos_ssh_connection}
-    ...     flows -s | grep ADDED | wc -l
+    ...     flows -s any ${deviceId} | grep ADDED | wc -l
+    Log     Found ${flows} of ${targetFlows} expected flows on device ${deviceId}
     Should Be Equal As Integers    ${targetFlows}    ${flows}
 
 Wait for all flows to in ADDED state
     [Documentation]  Waits until the flows have been provisioned
-    [Arguments]  ${onos_ssh_connection}     ${workflow}    ${uni_count}    ${olt_count}    ${provisioned}
+    [Arguments]  ${onos_ssh_connection}     ${deviceId}     ${workflow}    ${uni_count}    ${olt_count}    ${provisioned}
     ...     ${withEapol}    ${withDhcp}     ${withIgmp}     ${withLldp}
     ${targetFlows}=     Calculate flows by workflow     ${workflow}    ${uni_count}    ${olt_count}     ${provisioned}
     ...     ${withEapol}    ${withDhcp}     ${withIgmp}     ${withLldp}
     Wait Until Keyword Succeeds     10m     5s      Count ADDED flows
-    ...     ${onos_ssh_connection}  ${targetFlows}
+    ...     ${onos_ssh_connection}  ${targetFlows}  ${deviceId}
 
 Get Bandwidth Details
     [Arguments]    ${bandwidth_profile_name}
