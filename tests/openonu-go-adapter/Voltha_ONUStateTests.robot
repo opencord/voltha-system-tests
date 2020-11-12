@@ -116,7 +116,7 @@ Onu Etcd Data Check
 Onu Flow Check
     [Documentation]    Validates the onu flows in ONOS and Voltha
     ...    Assuming that ONU State Test was executed where all the ONUs are reached the expected state!
-    [Tags]    functionalOnuGo    FlowTestOnuGo    notreadyOnuGo
+    [Tags]    functionalOnuGo    FlowTestOnuGo
     [Setup]    Start Logging    ONUFlowTest
     Run Keyword If    '${onu_state}'=='omci-flows-pushed'    Do Onu Flow Check
     ...    ELSE    Pass Execution    ${skip_message}    skipped
