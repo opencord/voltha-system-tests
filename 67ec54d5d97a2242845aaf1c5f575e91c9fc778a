@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "22ffefcd_7cc8b457",
+        "filename": "Makefile",
+        "patchSetId": 2
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1000064
+      },
+      "writtenOn": "2020-11-12T19:11:13Z",
+      "side": 1,
+      "message": "\"bbsim-kind\" target only uses functional tests suite, but we want other test suites (Failure/Restart), Error based etc",
+      "parentUuid": "96bcc6ed_ff0dbac6",
+      "range": {
+        "startLine": 84,
+        "startChar": 0,
+        "endLine": 88,
+        "endChar": 33
+      },
+      "revId": "67ec54d5d97a2242845aaf1c5f575e91c9fc778a",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "3402a0a7_4e17fe1f",
         "filename": "tests/data/bbsim-kind-multipleOLT-2x2.yaml",
         "patchSetId": 2
@@ -83,6 +107,54 @@
       "writtenOn": "2020-11-11T21:28:15Z",
       "side": 1,
       "message": "Should copyright be 2020?",
+      "range": {
+        "startLine": 3,
+        "startChar": 12,
+        "endLine": 3,
+        "endChar": 16
+      },
+      "revId": "67ec54d5d97a2242845aaf1c5f575e91c9fc778a",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5bdd9e4e_93da0b09",
+        "filename": "tests/data/bbsim-kind-multipleOLT-2x2.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1000064
+      },
+      "writtenOn": "2020-11-12T19:11:13Z",
+      "side": 1,
+      "message": "I understand, yeah we should change it.",
+      "parentUuid": "3402a0a7_4e17fe1f",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 3,
+        "endChar": 0
+      },
+      "revId": "67ec54d5d97a2242845aaf1c5f575e91c9fc778a",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5ad33862_2782b1ad",
+        "filename": "tests/data/bbsim-kind-multipleOLT-2x2.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1000064
+      },
+      "writtenOn": "2020-11-12T19:11:13Z",
+      "side": 1,
+      "message": "Yes, you are correct",
+      "parentUuid": "f539505d_7c535963",
       "range": {
         "startLine": 3,
         "startChar": 12,
@@ -130,6 +202,30 @@
       "side": 1,
       "message": "Yes it should be incremental for each OLT.",
       "parentUuid": "bc211b88_8d11c87a",
+      "range": {
+        "startLine": 79,
+        "startChar": 6,
+        "endLine": 79,
+        "endChar": 18
+      },
+      "revId": "67ec54d5d97a2242845aaf1c5f575e91c9fc778a",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "832562a6_55b91de2",
+        "filename": "tests/data/multiple-bbsim-kind.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1000064
+      },
+      "writtenOn": "2020-11-12T19:11:13Z",
+      "side": 1,
+      "message": "Yes, we should change. Actually this file is obsoleted now because I created a new file.  I will checkout and remove from this patch",
+      "parentUuid": "fa44c15a_db8998ee",
       "range": {
         "startLine": 79,
         "startChar": 6,
