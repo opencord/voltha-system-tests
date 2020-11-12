@@ -73,6 +73,54 @@
     },
     {
       "key": {
+        "uuid": "d387b4ea_d1103e27",
+        "filename": "tests/data/bbsim-kind-2oltx2onux1pon.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1000007
+      },
+      "writtenOn": "2020-11-12T22:44:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5ad33862_2782b1ad",
+      "range": {
+        "startLine": 3,
+        "startChar": 12,
+        "endLine": 3,
+        "endChar": 16
+      },
+      "revId": "67ec54d5d97a2242845aaf1c5f575e91c9fc778a",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6f6592e5_5b28b5a3",
+        "filename": "tests/data/bbsim-kind-2oltx2onux1pon.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1000007
+      },
+      "writtenOn": "2020-11-12T22:44:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5bdd9e4e_93da0b09",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 3,
+        "endChar": 0
+      },
+      "revId": "67ec54d5d97a2242845aaf1c5f575e91c9fc778a",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3402a0a7_4e17fe1f",
         "filename": "tests/data/bbsim-kind-multipleOLT-2x2.yaml",
         "patchSetId": 2
