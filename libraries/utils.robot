@@ -109,7 +109,7 @@ Get ONU Count For OLT
     ${count}=    Set Variable    0
     FOR    ${I}    IN RANGE    0     ${src_length}
         ${sn}    Evaluate    ${src}[${I}].get("olt")
-        ${count}=    Run Keyword If    '${serial_number}' == '${sn}'    Evaluate    ${count} + 1    ELSE    Evaluate    ${count}
+        ${count}=    Run Keyword If    '${serial_number}' == '${sn}'    Evaluate    ${count} + 1    ELSE  Set Variable  ${count}
     END
     [Return]    ${count}
 
