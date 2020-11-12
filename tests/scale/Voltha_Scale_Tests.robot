@@ -58,6 +58,7 @@ ${ONOS_SSH_PORT}    8101
 ${ONOS_REST_PORT}    8181
 
 # Scale pipeline values
+${stackId}  1
 ${olt}  1
 ${pon}  1
 ${onu}  1
@@ -97,7 +98,10 @@ Onu Activation in VOLTHA
 Port Discovery in ONOS
     [Documentation]    Check that all the UNI ports show up in ONOS
     [Tags]      non-critical    activation    plot-onos-ports
-    Wait for Ports in ONOS      ${onos_ssh_connection}  ${total_onus}   BBSM
+    ${onos_devices}=    Compute Device IDs
+    FOR     ${deviceId}     IN  @{onos_devices}
+        Wait for Ports in ONOS      ${onos_ssh_connection}  ${total_onus_per_olt}   ${deviceId}     BBSM
+    END
 
 Flows validation in VOLTHA before subscriber provisioning
     [Documentation]    Check that all the flows has been stored in the logical device
@@ -119,21 +123,29 @@ Flows validation in ONOS before subscriber provisioning
     [Tags]      non-critical    flow-before   plot-onos-flows-before
     # NOTE fail the test immediately if we're trying to check flows without provisioning them
     Should Be Equal   ${enableFlowProvisioning}     true
-    Wait for all flows to in ADDED state    ${onos_ssh_connection}
-    ...     ${workflow}    ${total_onus}    ${olt}    false     ${withEapol}    ${withDhcp}
-    ...     ${withIgmp}   ${withLLDP}
+
+    ${onos_devices}=    Compute Device IDs
+    FOR     ${deviceId}     IN  @{onos_devices}
+        Wait for all flows to in ADDED state    ${onos_ssh_connection}
+        ...     ${deviceId}     ${workflow}    ${total_onus_per_olt}    1    false
+        ...     ${withEapol}    ${withDhcp}     ${withIgmp}   ${withLLDP}
+    END
 
 Wait for subscribers to be Authenticated
     [Documentation]    Check that all subscribers have successfully authenticated
     [Tags]      non-critical    authentication    plot-onos-auth
-    Wait for AAA Authentication     ${onos_ssh_connection}  ${total_onus}
+
+    ${onos_devices}=    Compute Device IDs
+    FOR     ${deviceId}     IN  @{onos_devices}
+        Wait for AAA Authentication     ${onos_ssh_connection}  ${total_onus_per_olt}   ${deviceId}
+    END
 
 Provision subscribers
     [Documentation]    Provision data plane flows for all the subscribers
     [Tags]      non-critical    provision
     Should Be Equal   ${enableSubscriberProvisioning}     true
-    ${olts}=    List OLTs   ${onos_ssh_connection}
-    FOR     ${olt}  IN  @{olts}
+    ${onos_devices}=    Compute Device IDs
+    FOR     ${olt}  IN  @{onos_devices}
         Provision all subscribers on device  ${onos_ssh_connection}     ${ONOS_SSH_IP}     ${ONOS_REST_PORT}  ${olt}
     END
 
@@ -142,6 +154,7 @@ Flows validation in VOLTHA after subscriber provisioning
     [Tags]      non-critical    flow-after    plot-voltha-flows-after
     # NOTE fail the test immediately if we're trying to check flows without provisioning them
     Should Be Equal   ${enableFlowProvisioning}     true
+
     Wait for Logical Devices flows   ${workflow}    ${total_onus}    ${olt}    true
     ...     ${withEapol}    ${withDhcp}     ${withIgmp}    ${withLLDP}
 
@@ -157,14 +170,21 @@ Flows validation in ONOS after subscriber provisioning
     [Tags]      non-critical    flow-after    plot-onos-flows-after
     # NOTE fail the test immediately if we're trying to check flows without provisioning them
     Should Be Equal   ${enableFlowProvisioning}     true
-    Wait for all flows to in ADDED state    ${onos_ssh_connection}
-    ...     ${workflow}    ${total_onus}    ${olt}    true      ${withEapol}    ${withDhcp}
-    ...     ${withIgmp}   ${withLLDP}
+
+    ${onos_devices}=    Compute Device IDs
+    FOR     ${deviceId}     IN  @{onos_devices}
+        Wait for all flows to in ADDED state    ${onos_ssh_connection}
+        ...     ${deviceId}     ${workflow}    ${total_onus_per_olt}    1    true
+        ...     ${withEapol}    ${withDhcp}     ${withIgmp}   ${withLLDP}
+    END
 
 Wait for subscribers to have an IP
     [Documentation]    Check that all subscribers have received a DHCP_ACK
     [Tags]      non-critical    dhcp  plot-onos-dhcp
-    Wait for DHCP Ack     ${onos_ssh_connection}  ${total_onus}     ${workflow}
+    ${onos_devices}=    Compute Device IDs
+    FOR     ${deviceId}     IN  @{onos_devices}
+        Wait for DHCP Ack     ${onos_ssh_connection}  ${total_onus_per_olt}     ${workflow}     ${deviceId}
+    END
 
 Disable and Delete devices
     [Documentation]  Disable and delete the OLTs in VOLTHA
@@ -186,9 +206,26 @@ Setup Suite
     ${total_onus}=   Evaluate    ${olt} * ${pon} * ${onu}
     Set Suite Variable  ${total_onus}
 
+    ${total_onus_per_olt}=   Evaluate    ${pon} * ${onu}
+    Set Suite Variable  ${total_onus_per_olt}
+
     ${onos_ssh_connection}    Open ONOS SSH Connection    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}
     Set Suite Variable  ${onos_ssh_connection}
 
 Teardown Suite
    [Documentation]    Close the SSH connection to ONOS
     Close ONOS SSH Connection   ${onos_ssh_connection}
+
+Compute device IDs
+    [Documentation]  Creates a list of ONOS device ID based on the test configuration
+    # TODO read ${olt} and ${stackid} from parameters
+    ${base}=    Set Variable    of:00000a0a0a0a0a
+    ${device_ids}=      Create List
+    FOR    ${olt_id}    IN RANGE    0    ${olt}
+        ${decimal_id}=  Catenate    SEPARATOR=  ${stackid}  ${olt_id}
+        ${piece}=   Convert To Hex  ${decimal_id}  length=2    lowercase=yes
+        ${id}=  Catenate    SEPARATOR=  ${base}     ${piece}
+        Append To List  ${device_ids}    ${id}
+    END
+
+    [Return]    ${device_ids}
