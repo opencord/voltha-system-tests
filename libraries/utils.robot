@@ -569,7 +569,7 @@ Get ofID From OLT List
     [Arguments]      ${serial_number}
     FOR    ${I}    IN RANGE    0    ${olt_count}
         ${sn}=    Get From Dictionary    ${olt_ids}[${I}]    sn
-        ${of_id}=    Run Keyword IF    "${serial_number}"=="${sn}"    Get From Dictionary    ${olt_ids}[${I}]    of_id
+        ${of_id}=    Run Keyword IF    "${serial_number}"=="${sn}"    Get From Dictionary    ${olt_ids}[${I}]    of_id    ELSE    Set Variable    ${of_id}
     END
     [Return]    ${of_id}
 
@@ -578,7 +578,7 @@ Get OLTDeviceID From OLT List
     [Arguments]      ${serial_number}
     FOR    ${I}    IN RANGE    0    ${olt_count}
         ${sn}=    Get From Dictionary    ${olt_ids}[${I}]    sn
-        ${olt_device_id}=    Run Keyword IF    "${serial_number}"=="${sn}"    Get From Dictionary    ${olt_ids}[${I}]    device_id
+        ${olt_device_id}=    Run Keyword IF    "${serial_number}"=="${sn}"    Get From Dictionary    ${olt_ids}[${I}]    device_id    ELSE    Set Variable    ${olt_device_id}
     END
     [Return]    ${olt_device_id}
 
