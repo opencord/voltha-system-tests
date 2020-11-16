@@ -1,0 +1,7 @@
+Code-Review+2: Andrea Campanella <andrea@opennetworking.org>
+Verified+1: Jenkins Technical User <do-not-reply@opennetworking.org>
+Submitted-by: Girish Gowdra <girish@opennetworking.org>
+Submitted-at: Mon, 16 Nov 2020 21:19:08 +0000
+Reviewed-on: https://gerrit.opencord.org/c/voltha-system-tests/+/21678
+Project: voltha-system-tests
+Branch: refs/heads/master
