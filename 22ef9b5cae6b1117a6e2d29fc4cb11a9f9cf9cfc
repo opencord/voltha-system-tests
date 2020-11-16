@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1ff09173_bb39e5e7",
+        "filename": "libraries/k8s.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1000007
+      },
+      "writtenOn": "2020-11-16T19:59:32Z",
+      "side": 1,
+      "message": "Not all the POD have this label, eg ONOS:\nLabels:       app\u003donos-onos-classic\n              controller-revision-hash\u003donos-onos-classic-5cdf67855f\n              statefulset.kubernetes.io/pod-name\u003donos-onos-classic-0",
+      "revId": "22ef9b5cae6b1117a6e2d29fc4cb11a9f9cf9cfc",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    }
+  ]
+}
