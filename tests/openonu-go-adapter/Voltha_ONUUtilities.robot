@@ -45,7 +45,7 @@ Do Current State Test All Onus
     [Arguments]    ${state}    ${reqadminstate}=${EMPTY}    ${reqoperstatus}=${EMPTY}    ${reqconnectstatus}=${EMPTY}
     ...    ${alternativeonustate}=${EMPTY}
     ${list_onus}    Create List
-    Build ONU SN List    ${list_onus}
+    Build ONU SN List    ${list_onus}    ${olt_serial_number}
     ${admin_state}    ${oper_status}    ${connect_status}    ${onu_state_nb}    ${onu_state}=    Map State    ${state}
     ${admin_state}=       Set Variable If    '${reqadminstate}'!='${EMPTY}'       ${reqadminstate}       ${admin_state}
     ${oper_status}=       Set Variable If    '${reqoperstatus}'!='${EMPTY}'       ${reqoperstatus}       ${oper_status}
@@ -61,7 +61,7 @@ Do Current Reason Test All Onus
     ...                Hint: ${timeStart} will be not evaluated here!
     [Arguments]    ${state}
     ${list_onus}    Create List
-    Build ONU SN List    ${list_onus}
+    Build ONU SN List    ${list_onus}    ${olt_serial_number}
     ${admin_state}    ${oper_status}    ${connect_status}    ${onu_state_nb}    ${onu_state}=    Map State    ${state}
     Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    50ms
     ...    Validate ONU Devices MIB State With Duration

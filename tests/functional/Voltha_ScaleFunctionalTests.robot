@@ -63,7 +63,7 @@ ONU Discovery
     #build onu sn list
     ${List_ONU_Serial}    Create List
     Set Suite Variable    ${List_ONU_Serial}
-    Build ONU SN List    ${List_ONU_Serial}
+    Build ONU SN List    ${List_ONU_Serial}    ${olt_serial_number}
     #validate onu states
     Wait Until Keyword Succeeds    ${long_timeout}    20s    Validate ONU Devices    ENABLED    ACTIVE    REACHABLE
     ...    ${List_ONU_Serial}
@@ -74,7 +74,7 @@ Verify AAA-Users Authentication
     #build onu sn list
     ${List_ONU_Serial}    Create List
     Set Suite Variable    ${List_ONU_Serial}
-    Build ONU SN List    ${List_ONU_Serial}
+    Build ONU SN List    ${List_ONU_Serial}    ${olt_serial_number}
     Wait Until Keyword Succeeds    ${long_timeout}    60s   Verify Number of AAA-Users    ${ONOS_SSH_IP}
     ...    ${ONOS_SSH_PORT}    16
 

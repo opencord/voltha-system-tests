@@ -674,10 +674,10 @@ Get Logical Device ID From SN
     [Return]    ${id}
 
 Build ONU SN List
-    [Arguments]    ${serial_numbers}    ${num_onus}=${num_all_onus}
-    [Documentation]    Appends all ONU SNs to the ${serial_numbers} list
+    [Arguments]    ${serial_numbers}    ${olt_serial_number}    ${num_onus}=${num_all_onus}
+    [Documentation]    Appends all ONU SNs for the given OLT to the ${serial_numbers} list
     FOR    ${INDEX}    IN RANGE    0    ${num_onus}
-        Append To List    ${serial_numbers}    ${hosts.src[${INDEX}].onu}
+    Run Keyword IF  "${olt_serial_number}"=="${hosts.src[${INDEX}].olt"    Append To List    ${serial_numbers}    ${hosts.src[${INDEX}].onu}
     END
 
 Get SN From Device ID

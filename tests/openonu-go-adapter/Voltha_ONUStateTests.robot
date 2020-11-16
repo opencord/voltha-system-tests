@@ -296,7 +296,7 @@ Do ONU Single State Test Time
     #Set Global Variable    ${ListfinishedONUs}
     Create File    ONU_Startup_Time.txt    This file contains the startup times of all ONUs.
     ${list_onus}    Create List
-    Build ONU SN List    ${list_onus}
+    Build ONU SN List    ${list_onus}    ${olt_serial_number}
     Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    50ms
     ...    Validate ONU Devices MIB State With Duration
     ...    ${onu_state}    ${list_onus}    ${timeStart}    print2console=True

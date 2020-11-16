@@ -135,7 +135,7 @@ Verify ONU after Rebooting Physically for DT
     #Run Keyword    Wait Until Keyword Succeeds    ${timeout}    5s    Validate OLT Flows    ${olt_flows}
     #${List_ONU_Serial}    Create List
     #Set Suite Variable    ${List_ONU_Serial}
-    #Build ONU SN List    ${List_ONU_Serial}
+    #Build ONU SN List    ${List_ONU_Serial}    ${olt_serial_number}
     #Log    ${List_ONU_Serial}
     #Run Keyword    Wait Until Keyword Succeeds    ${timeout}    5s    Validate ONU Flows
     #...    ${List_ONU_Serial}    ${onu_flows}
@@ -536,7 +536,7 @@ Verify ONU Soft Reboot for DT
     Run Keyword    Wait Until Keyword Succeeds    ${timeout}    5s    Validate OLT Flows    ${olt_flows}
     ${List_ONU_Serial}    Create List
     Set Suite Variable    ${List_ONU_Serial}
-    Build ONU SN List    ${List_ONU_Serial}
+    Build ONU SN List    ${List_ONU_Serial}    ${olt_serial_number}
     Log    ${List_ONU_Serial}
     Run Keyword    Wait Until Keyword Succeeds    ${timeout}    5s    Validate ONU Flows
     ...    ${List_ONU_Serial}    ${onu_flows}
