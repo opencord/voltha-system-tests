@@ -22,7 +22,7 @@ Do Power On ONU Device
     ${namespace}=    Set Variable    voltha
     FOR    ${I}    IN RANGE    0    ${num_all_onus}
         ${src}=    Set Variable    ${hosts.src[${I}]}
-        ${result}=    Exec Pod    ${namespace}    bbsim    bbsimctl onu poweron ${src['onu']}
+        ${result}=    Exec Pod In Kube    ${namespace}    bbsim    bbsimctl onu poweron ${src['onu']}
         Should Contain    ${result}    successfully    msg=Can not poweron ${src['onu']}    values=False
     END
 
@@ -90,7 +90,7 @@ Verify MIB Template Data Available
     ${podname}=    Set Variable    etcd
     ${commandget}    Catenate
     ...    /bin/sh -c 'ETCDCTL_API=3 etcdctl get --prefix service/voltha/omci_mibs/go_templates/'
-    ${result}=    Exec Pod    ${namespace}    ${podname}    ${commandget}
+    ${result}=    Exec Pod In Kube    ${namespace}    ${podname}    ${commandget}
     Should Not Be Empty    ${result}    No MIB Template Data stored in etcd!
 
 Delete MIB Template Data
@@ -99,11 +99,11 @@ Delete MIB Template Data
     ${podname}=    Set Variable    etcd
     ${commanddel}    Catenate
     ...    /bin/sh -c 'ETCDCTL_API=3 etcdctl del --prefix service/voltha/omci_mibs/go_templates/'
-    ${result}=    Exec Pod    ${namespace}    ${podname}    ${commanddel}
+    ${result}=    Exec Pod In Kube    ${namespace}    ${podname}    ${commanddel}
     Sleep    3s
     ${commandget}    Catenate
     ...    /bin/sh -c 'ETCDCTL_API=3 etcdctl get --prefix service/voltha/omci_mibs/go_templates/'
-    ${result}=    Exec Pod    ${namespace}    ${podname}    ${commandget}
+    ${result}=    Exec Pod In Kube    ${namespace}    ${podname}    ${commandget}
     Should Be Empty    ${result}    Could not delete MIB Template Data stored in etcd!
 
 Validate Onu Data In Etcd
@@ -187,7 +187,7 @@ Get ONU Go Adapter ETCD Data
     ${podname}=    Set Variable    etcd
     ${commandget}    Catenate
     ...    /bin/sh -c 'ETCDCTL_API=3 etcdctl get --prefix --prefix service/voltha/openonu'
-    ${result}=    Exec Pod    ${namespace}    ${podname}    ${commandget}
+    ${result}=    Exec Pod In Kube    ${namespace}    ${podname}    ${commandget}
     log    ${result}
     [Return]    ${result}
 

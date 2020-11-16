@@ -397,10 +397,10 @@ Set Tech Profile
     ${command}    Catenate
     ...    /bin/sh -c 'cat    ${dest} | ETCDCTL_API=3 etcdctl put service/voltha/technology_profiles/XGS-PON/64'
     Copy File To Pod    ${namespace}    ${podname}    ${src}    ${dest}
-    Exec Pod    ${namespace}    ${podname}    ${command}
+    Exec Pod In Kube    ${namespace}    ${podname}    ${command}
     ${commandget}    Catenate
     ...    /bin/sh -c 'ETCDCTL_API=3 etcdctl get --prefix service/voltha/technology_profiles/XGS-PON/64'
-    Exec Pod    ${namespace}    ${podname}    ${commandget}
+    Exec Pod In Kube    ${namespace}    ${podname}    ${commandget}
 
 Remove Tech Profile
     [Documentation]    This keyword removes TechProfile
@@ -409,10 +409,10 @@ Remove Tech Profile
     ${podname}=    Set Variable    etcd
     ${command}    Catenate
     ...    /bin/sh -c 'ETCDCTL_API=3 etcdctl del --prefix service/voltha/technology_profiles/XGS-PON/64'
-    Exec Pod    ${namespace}    ${podname}    ${command}
+    Exec Pod In Kube    ${namespace}    ${podname}    ${command}
     ${commandget}    Catenate
     ...    /bin/sh -c 'ETCDCTL_API=3 etcdctl get --prefix service/voltha/technology_profiles/XGS-PON/64'
-    Exec Pod    ${namespace}    ${podname}    ${commandget}
+    Exec Pod In Kube    ${namespace}    ${podname}    ${commandget}
 
 Do Check Tech Profile
     [Documentation]    This keyword checks the loaded TechProfile
@@ -420,7 +420,7 @@ Do Check Tech Profile
     ${podname}=    Set Variable    etcd
     ${commandget}    Catenate
     ...    /bin/sh -c 'ETCDCTL_API=3 etcdctl get --prefix service/voltha/technology_profiles/XGS-PON/64'
-    ${result}=    Exec Pod    ${namespace}    ${podname}    ${commandget}
+    ${result}=    Exec Pod In Kube    ${namespace}    ${podname}    ${commandget}
     ${num_gem_ports}=    Set Variable    1
     ${num_gem_ports}=    Set Variable If
     ...    "${techprofile}"=="default"   1
@@ -521,6 +521,6 @@ Do Power Off ONU Device
     ${namespace}=    Set Variable    voltha
     FOR    ${I}    IN RANGE    0    ${num_all_onus}
         ${src}=    Set Variable    ${hosts.src[${I}]}
-        ${result}=    Exec Pod    ${namespace}    bbsim    bbsimctl onu shutdown ${src['onu']}
+        ${result}=    Exec Pod In Kube    ${namespace}    bbsim    bbsimctl onu shutdown ${src['onu']}
         Should Contain    ${result}    successfully    msg=Can not shutdown ${src['onu']}    values=False
     END

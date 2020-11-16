@@ -102,7 +102,7 @@ Perform ONU MIB Template Data Test
     # Start first Onu
     ${src}=    Set Variable    ${hosts.src[${0}]}
     Log    \r\nONU ${src['onu']}: startup with MIB upload cycle and storage of template data to etcd.    console=yes
-    ${result}=    Exec Pod    ${NAMESPACE}    bbsim    bbsimctl onu poweron ${src['onu']}
+    ${result}=    Exec Pod In Kube    ${NAMESPACE}    bbsim    bbsimctl onu poweron ${src['onu']}
     Should Contain    ${result}    successfully    msg=Can not poweron ${src['onu']}    values=False
     ${timeStart}=    Get Current Date
     ${firstonustartup}=    Get ONU Startup Duration    ${firstonu}    ${timeStart}
@@ -112,7 +112,7 @@ Perform ONU MIB Template Data Test
     # Start second Onu
     ${src}=    Set Variable    ${hosts.src[${1}]}
     Log    ONU ${src['onu']}: startup without MIB upload cycle by using of template data of etcd.    console=yes
-    ${result}=    Exec Pod    ${NAMESPACE}    bbsim    bbsimctl onu poweron ${src['onu']}
+    ${result}=    Exec Pod In Kube    ${NAMESPACE}    bbsim    bbsimctl onu poweron ${src['onu']}
     Should Contain    ${result}    successfully    msg=Can not poweron ${src['onu']}    values=False
     ${timeStart}=    Get Current Date
     ${secondonustartup}=    Get ONU Startup Duration    ${secondonu}    ${timeStart}

@@ -63,6 +63,19 @@ Exec Pod
     Log    ${output}
     [return]    ${output}
 
+Exec Pod In Kube
+    [Arguments]    ${namespace}    ${name}    ${command}
+    [Documentation]    Uses kubectl to execute a command in the pod and return the output
+    ${rc}    ${exec_pod_name}=    Run and Return Rc and Output
+    ...    kubectl -n ${namespace} get pods -l app.kubernetes.io/name=${name} -o name
+    Log    ${exec_pod_name}
+    Should Not Be Empty    ${exec_pod_name}    Unable to parse pod name
+    ${rc}    ${output}=    Run and Return Rc and Output
+    ...    kubectl exec -i ${exec_pod_name} -n ${namespace} -- ${command}
+    Log    ${output}
+    [return]    ${output}
+
+
 Exec Pod Separate Stderr
     [Arguments]    ${namespace}    ${name}    ${command}
     [Documentation]    Uses kubectl to execute a command in the pod and return the stderr and stdout
