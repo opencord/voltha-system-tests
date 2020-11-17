@@ -125,7 +125,7 @@ Validate Onu Data In Etcd
     ${serialnumberlist}=    Create List
     FOR    ${INDEX}    IN RANGE    0    ${length}
         ${value}=    Get From List    ${jsondata}    ${INDEX}
-        ${tp_path}=    Get From Dictionary    ${value['uni_config'][0]}    tp_path
+        ${tp_path}=    Get From Dictionary    ${value['uni_config'][0]['PersTpPathMap']}    64
         ${pononuuniid}=    Read Pon Onu Uni String    ${tp_path}
         ${list_id}=    Get Index From List    ${pononuuniidlist}   ${pononuuniid}
         Should Be Equal As Integers    ${list_id}    -1
