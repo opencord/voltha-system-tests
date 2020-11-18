@@ -82,9 +82,9 @@ functional-single-kind-tt: ROBOT_FILE := Voltha_TT_PODTests.robot
 functional-single-kind-tt: voltha-tt-test
 
 # target to invoke multiple OLTs Functional scenarios
-functional-multi-olt: ROBOT_MISC_ARGS += -i sanityMultiOLT $(ROBOT_DEBUG_LOG_OPT)
+functional-multi-olt: ROBOT_MISC_ARGS += -i sanityORfunctional $(ROBOT_DEBUG_LOG_OPT)
 functional-multi-olt: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_MULTIPLE_OLT_FILE)
-functional-multi-olt: ROBOT_FILE := Voltha_multipleOLTTests.robot
+functional-multi-olt: ROBOT_FILE := Voltha_PODTests.robot
 functional-multi-olt: voltha-test
 
 # target to invoke openonu go adapter
@@ -206,6 +206,11 @@ bbsim-errorscenarios: ROBOT_FILE := Voltha_ErrorScenarios.robot
 bbsim-errorscenarios: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_SINGLE_PON_FILE)
 bbsim-errorscenarios: voltha-test
 
+bbsim-multiolt-errorscenarios: ROBOT_MISC_ARGS += -X $(ROBOT_DEBUG_LOG_OPT)
+bbsim-multiolt-errorscenarios: ROBOT_FILE := Voltha_ErrorScenarios.robot
+bbsim-multiolt-errorscenarios: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_MULTIPLE_OLT_FILE)
+bbsim-multiolt-errorscenarios: voltha-test
+
 bbsim-errorscenarios-dt: ROBOT_MISC_ARGS += -X $(ROBOT_DEBUG_LOG_OPT)
 bbsim-errorscenarios-dt: ROBOT_FILE := Voltha_ErrorScenarios.robot
 bbsim-errorscenarios-dt: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_DT_SINGLE_PON_FILE)
@@ -215,6 +220,11 @@ bbsim-failurescenarios: ROBOT_MISC_ARGS += -X $(ROBOT_DEBUG_LOG_OPT) -e PowerSwi
 bbsim-failurescenarios: ROBOT_FILE := Voltha_FailureScenarios.robot
 bbsim-failurescenarios: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_SINGLE_PON_FILE)
 bbsim-failurescenarios: voltha-test
+
+bbsim-multiolt-failurescenarios: ROBOT_MISC_ARGS += -X $(ROBOT_DEBUG_LOG_OPT) -e PowerSwitch -e PhysicalOLTReboot
+bbsim-multiolt-failurescenarios: ROBOT_FILE := Voltha_FailureScenarios.robot
+bbsim-multiolt-failurescenarios: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_MULTIPLE_OLT_FILE)
+bbsim-multiolt-failurescenarios: voltha-test
 
 bbsim-failurescenarios-dt: ROBOT_MISC_ARGS += -X $(ROBOT_DEBUG_LOG_OPT) -e PowerSwitchOnuRebootDt -e PhysicalOltRebootDt
 bbsim-failurescenarios-dt: ROBOT_FILE := Voltha_DT_FailureScenarios.robot
