@@ -268,7 +268,7 @@ Test Disable and Delete OLT for DT
         ...    ${olt_device_id}
         ${List_ONU_Serial}    Create List
         Set Suite Variable    ${List_ONU_Serial}
-        Build ONU SN List    ${List_ONU_Serial}    ${num_onus}    ${olt_serial_number}
+        Build ONU SN List    ${List_ONU_Serial}    ${olt_serial_number}    ${num_onus}
         Log    ${List_ONU_Serial}
         Run Keyword    Wait Until Keyword Succeeds    ${timeout}    5s    Validate ONU Flows
         ...    ${List_ONU_Serial}    ${onu_flows}
