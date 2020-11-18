@@ -264,6 +264,7 @@ Perform Sanity Test DT
         ${olt_serial_number}=    Set Variable    ${list_olts}[${J}][sn]
         ${num_onus}=    Set Variable    ${list_olts}[${J}][onucount]
         ${olt_device_id}=    Get OLTDeviceID From OLT List    ${olt_serial_number}
+        Run Keyword and Ignore Error    Collect Logs
         ${of_id}=    Wait Until Keyword Succeeds    ${timeout}    15s    Validate OLT Device in ONOS
         ...    ${olt_serial_number}
         Set Global Variable    ${of_id}
@@ -308,6 +309,7 @@ Perform Sanity Test DT Per OLT
         ${src}=    Set Variable    ${hosts.src[${I}]}
         ${dst}=    Set Variable    ${hosts.dst[${I}]}
         Continue For Loop If    "${olt_serial_number}"!="${src['olt']}"
+        Run Keyword and Ignore Error    Collect Logs
         ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
         ${onu_port}=    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
         ...    Get ONU Port in ONOS    ${src['onu']}    ${of_id}
@@ -577,6 +579,7 @@ Get ofID From OLT List
 Get OLTDeviceID From OLT List
     [Documentation]    Retrieves the corresponding olt_device_id  for the OLT serial number specified
     [Arguments]      ${serial_number}
+    ${olt_device_id}=    Set Variable    0
     FOR    ${I}    IN RANGE    0    ${olt_count}
         ${sn}=    Get From Dictionary    ${olt_ids}[${I}]    sn
         ${olt_device_id}=    Run Keyword IF    "${serial_number}"=="${sn}"
