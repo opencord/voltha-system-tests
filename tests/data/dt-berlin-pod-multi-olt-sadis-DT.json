@@ -74,13 +74,15 @@
             "nasPortId": "ALPHe3d1cf5c-1",
             "circuitId": "ALPHe3d1cf5c-1",
             "remoteId": "EC1729003539",
-            "uniTagList": [{
-              "ponCTag": 11,
-              "ponSTag": 11,
-              "technologyProfileId": 64,
-              "upstreamBandwidthProfile": "User_Bandwidth1",
-              "downstreamBandwidthProfile": "User_Bandwidth2",
-              "isDhcpRequired": true
+            "uniTagList": [
+               {
+                "uniTagMatch": 4096,
+                "ponCTag": 4096,
+                "ponSTag": 11,
+                "technologyProfileId": 64,
+                "upstreamBandwidthProfile": "User_Bandwidth1",
+                "downstreamBandwidthProfile": "User_Bandwidth2",
+                "isDhcpRequired": false
             }]
           },
           {
@@ -90,12 +92,13 @@
             "remoteId": "EC1729003539",
             "uniTagList": [
               {
-                "ponCTag": 7,
+                "uniTagMatch": 4096,
+                "ponCTag": 4096,
                 "ponSTag": 11,
                 "technologyProfileId": 64,
                 "upstreamBandwidthProfile": "User_Bandwidth3",
                 "downstreamBandwidthProfile": "User_Bandwidth3",
-                "isDhcpRequired": true
+                "isDhcpRequired": false
               }]
           },
           {
