@@ -159,7 +159,9 @@ Validate Vlan Rules In Etcd
     ${vlan_rules}=    Create Dictionary
     FOR    ${INDEX}    IN RANGE    0    ${length}
         ${value}=    Get From List    ${jsondata}    ${INDEX}
-        ${tp_path}=    Get From Dictionary    ${value['uni_config'][0]}    tp_path
+        # TODO: The TP ID is hardcoded to 64 below. It is fine when testing single-tcont workflow.
+        # When testing multi-tcont this may need some adjustment.
+        ${tp_path}=    Get From Dictionary    ${value['uni_config'][0]['PersTpPathMap']}    64
         ${pononuuniid}=    Read Pon Onu Uni String    ${tp_path}
         ${cookieslice}=    Get From Dictionary    ${value['uni_config'][0]['flow_params'][0]}    cookie_slice
         #@{cookieslicelist}=    Split String    ${cookieslice}    ,
@@ -242,7 +244,9 @@ Get Value Of Tp Path Element
 Validate Onu Id
     [Documentation]    This keyword validates ONU Id of passed etcd data.
     [Arguments]    ${value}
-    ${tp_path}=    Get From Dictionary    ${value['uni_config'][0]}    tp_path
+    # TODO: The TP ID is hardcoded to 64 below. It is fine when testing single-tcont workflow.
+    # When testing multi-tcont this may need some adjustment.
+    ${tp_path}=    Get From Dictionary    ${value['uni_config'][0]['PersTpPathMap']}    64
     ${tppathlines}=   Replace String    ${tp_path}    /    \n
     ${onu}=    Get Value Of Tp Path Element    ${tppathlines}    onu
     ${onu_id}=    Get From Dictionary    ${value}    onu_id
@@ -253,7 +257,9 @@ Validate Onu Id
 Validate Uni Id
     [Documentation]    This keyword validates UNI Id of passed etcd data.
     [Arguments]    ${value}
-    ${tp_path}=    Get From Dictionary    ${value['uni_config'][0]}    tp_path
+    # TODO: The TP ID is hardcoded to 64 below. It is fine when testing single-tcont workflow.
+    # When testing multi-tcont this may need some adjustment.
+    ${tp_path}=    Get From Dictionary    ${value['uni_config'][0]['PersTpPathMap']}    64
     ${tppathlines}=   Replace String    ${tp_path}    /    \n
     ${uni}=    Get Value Of Tp Path Element    ${tppathlines}    uni
     ${uni_id}=    Get From Dictionary    ${value['uni_config'][0]}    uni_id
