@@ -123,6 +123,3 @@ hosts:
     - ip: null
     - ip: null
     - ip: null
-
-sadis:
-  file: ${CURDIR}/../../data/onos-sadis-multiple-bbsim.json
