@@ -78,7 +78,7 @@
                {
                 "uniTagMatch": 4096,
                 "ponCTag": 4096,
-                "ponSTag": 11,
+                "ponSTag": 12,
                 "technologyProfileId": 64,
                 "upstreamBandwidthProfile": "User_Bandwidth1",
                 "downstreamBandwidthProfile": "User_Bandwidth2",
