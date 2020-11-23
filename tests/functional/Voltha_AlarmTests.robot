@@ -462,7 +462,7 @@ Get Device Event
     [Documentation]    Get the most recent alarm event from voltha.events
     [Arguments]    ${deviceEventName}    ${since}
     ${output}    ${raiseErr}    Exec Pod Separate Stderr   ${VOLTCTL_NAMESPACE}     ${VOLTCTL_POD_NAME}
-    ...    voltctl event listen --show-body -t 1 -o json -f Titles=${deviceEventName} -s ${since}
+    ...    voltctl event listen --show-body -t 1 -o json -f Titles=${deviceEventName}
     ${json}    To Json    ${output}
     ${count}    Get Length    ${json}
     # If there is more than one event (which could happen if we quickly do a raise and a clear),
