@@ -1,0 +1,378 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9e08f1a3_e3858ef4",
+        "filename": "libraries/dmi-basics.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2020-11-23T14:01:18Z",
+      "side": 1,
+      "message": "why are there 2 of these ?\nif I understand this correctly 1 is enough nd you can rename it just dmi",
+      "revId": "75e2aff6670819a6a6440634d6af6794fd136575",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c13019c1_6dd074e2",
+        "filename": "libraries/dmi-basics.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2020-11-23T14:01:18Z",
+      "side": 1,
+      "message": "I\u0027d rename this method Get Managed Devices to be more aligned with the API and more easily understandable.",
+      "revId": "75e2aff6670819a6a6440634d6af6794fd136575",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "423486f4_4a9e4005",
+        "filename": "libraries/dmi-basics.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2020-11-23T14:01:18Z",
+      "side": 1,
+      "message": "useless tab",
+      "revId": "75e2aff6670819a6a6440634d6af6794fd136575",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "65bff639_90d988fb",
+        "filename": "libraries/dmi-basics.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2020-11-23T14:01:18Z",
+      "side": 1,
+      "message": "useless space",
+      "revId": "75e2aff6670819a6a6440634d6af6794fd136575",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3f897b59_66b48322",
+        "filename": "libraries/dmi-basics.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2020-11-23T14:01:18Z",
+      "side": 1,
+      "message": "Same here, I\u0027d rename to Stop Managing Devices",
+      "revId": "75e2aff6670819a6a6440634d6af6794fd136575",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "77f41b7d_bd7ee7af",
+        "filename": "libraries/dmi-basics.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2020-11-23T14:01:18Z",
+      "side": 1,
+      "message": "Rename: Search for managed devices and stop managing it",
+      "revId": "75e2aff6670819a6a6440634d6af6794fd136575",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7e5b54dc_10c71434",
+        "filename": "libraries/dmi-basics.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2020-11-23T14:01:18Z",
+      "side": 1,
+      "message": "rename: Start Managing Device",
+      "revId": "75e2aff6670819a6a6440634d6af6794fd136575",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "84202752_1eb5cd4d",
+        "filename": "libraries/dmi-basics.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2020-11-23T14:01:18Z",
+      "side": 1,
+      "message": "Stop Managing Device",
+      "revId": "75e2aff6670819a6a6440634d6af6794fd136575",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3c7ebaaf_8bca6211",
+        "filename": "libraries/dmi-basics.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2020-11-23T14:01:18Z",
+      "side": 1,
+      "message": "Stop Managing Device",
+      "revId": "75e2aff6670819a6a6440634d6af6794fd136575",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2083b297_0e2dd6d3",
+        "filename": "libraries/utility.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2020-11-23T14:01:18Z",
+      "side": 1,
+      "message": "missing copyright, please add",
+      "revId": "75e2aff6670819a6a6440634d6af6794fd136575",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8f1eb234_259ac3bb",
+        "filename": "libraries/utility.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2020-11-23T14:01:18Z",
+      "side": 1,
+      "message": "remove space",
+      "revId": "75e2aff6670819a6a6440634d6af6794fd136575",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b233ca2b_39e6ae03",
+        "filename": "libraries/utility.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2020-11-23T14:01:18Z",
+      "side": 1,
+      "message": "Please remove these prints containing \u0027otti\u0027 or random the string to something move valuable.",
+      "revId": "75e2aff6670819a6a6440634d6af6794fd136575",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "75d38bf0_4c8fda4d",
+        "filename": "libraries/utility.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2020-11-23T14:01:18Z",
+      "side": 1,
+      "message": "you might want to extract these strings such as \"description\" and \"name\" as constants at the top of the file. This has the benefit of re-usability and that if and when a change happens you only need to change one place.",
+      "revId": "75e2aff6670819a6a6440634d6af6794fd136575",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8cd47d0f_4645cf71",
+        "filename": "libraries/utility.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2020-11-23T14:01:18Z",
+      "side": 1,
+      "message": "remove space",
+      "revId": "75e2aff6670819a6a6440634d6af6794fd136575",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ad3d77ea_791cd3aa",
+        "filename": "libraries/utility.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2020-11-23T14:01:18Z",
+      "side": 1,
+      "message": "remove tab",
+      "revId": "75e2aff6670819a6a6440634d6af6794fd136575",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0637a85f_6c3338b2",
+        "filename": "tests/dmi-interface/dmi-components.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2020-11-23T14:01:18Z",
+      "side": 1,
+      "message": "space",
+      "revId": "75e2aff6670819a6a6440634d6af6794fd136575",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5ae1e5df_2b82b80e",
+        "filename": "tests/dmi-interface/dmi-hw-management.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2020-11-23T14:01:18Z",
+      "side": 1,
+      "message": "remove redundant space, you can see them in pink here.",
+      "revId": "75e2aff6670819a6a6440634d6af6794fd136575",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d683151c_e8e777f7",
+        "filename": "tests/dmi-interface/dmi-hw-management.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2020-11-23T14:01:18Z",
+      "side": 1,
+      "message": "Start and stop managing device in device manager",
+      "revId": "75e2aff6670819a6a6440634d6af6794fd136575",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "70c5da87_ad224be7",
+        "filename": "tests/dmi-interface/dmi-hw-management.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2020-11-23T14:01:18Z",
+      "side": 1,
+      "message": "Get inventory data",
+      "revId": "75e2aff6670819a6a6440634d6af6794fd136575",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "43f26ae1_e71bb8a4",
+        "filename": "tests/dmi-interface/dmi-hw-management.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2020-11-23T14:01:18Z",
+      "side": 1,
+      "message": "remove spaces",
+      "revId": "75e2aff6670819a6a6440634d6af6794fd136575",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ce990dc4_7ea87df5",
+        "filename": "tests/dmi-interface/dmi-hw-management.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2020-11-23T14:01:18Z",
+      "side": 1,
+      "message": "remove space",
+      "revId": "75e2aff6670819a6a6440634d6af6794fd136575",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "380023be_e584da95",
+        "filename": "tests/dmi-interface/dmi-hw-management.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2020-11-23T14:01:18Z",
+      "side": 1,
+      "message": "Get configurable component inventory info",
+      "revId": "75e2aff6670819a6a6440634d6af6794fd136575",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    }
+  ]
+}
