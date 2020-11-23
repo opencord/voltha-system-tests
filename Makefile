@@ -45,6 +45,7 @@ ROBOT_SCALE_MULT_ONU_FILE       ?= $(ROOT_DIR)/tests/data/bbsim-kind-8x8.yaml
 ROBOT_DEBUG_LOG_OPT             ?=
 ROBOT_MISC_ARGS                 ?=
 ROBOT_SANITY_TT_SINGLE_PON_FILE    ?= $(ROOT_DIR)/tests/data/bbsim-kind-tt.yaml
+ROBOT_DMI_SINGLE_BBSIM_FILE     ?= $(ROOT_DIR)/tests/data/dmi-components-bbsim.yaml
 
 # for backwards compatibility
 sanity-kind: sanity-single-kind
@@ -236,6 +237,15 @@ voltha-test: ROBOT_MISC_ARGS += -e notready
 voltha-test: vst_venv
 	source ./$</bin/activate ; set -u ;\
 	cd tests/functional ;\
+	robot -V $(ROBOT_CONFIG_FILE) $(ROBOT_MISC_ARGS) $(ROBOT_FILE)
+
+voltha-dmi-hw-management-test: ROBOT_MISC_ARGS += -e notreadyDMI -i functionalDMI
+voltha-dmi-hw-management-test: ROBOT_FILE := dmi-hw-management.robot
+voltha-dmi-hw-management-test: ROBOT_CONFIG_FILE := $(ROBOT_DMI_SINGLE_BBSIM_FILE)
+
+voltha-dmi-hw-management-test: vst_venv
+	source ./$</bin/activate ; set -u ;\
+	cd tests/dmi-interface ;\
 	robot -V $(ROBOT_CONFIG_FILE) $(ROBOT_MISC_ARGS) $(ROBOT_FILE)
 
 voltha-dt-test: ROBOT_MISC_ARGS += -e notready

@@ -13,3 +13,6 @@ cord-robot==2.1.3
 virtualenv
 matplotlib==3.0.3
 requests==2.24.0
+grpc-robot>=2.0.0
+kafka-robot>=2.0.0
+device-management-interface>=0.9.4
