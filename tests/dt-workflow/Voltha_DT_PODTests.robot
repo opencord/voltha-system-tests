@@ -118,7 +118,6 @@ Test Subscriber Delete and Add for DT
         Wait Until Keyword Succeeds    ${timeout}    2s    Execute ONOS CLI Command    ${ONOS_SSH_IP}
         ...    ${ONOS_SSH_PORT}    volt-remove-subscriber-access ${of_id} ${onu_port}
         Sleep    10s
-        # TODO: Yet to Verify on the GPON based Physical POD (VOL-2652)
         Run Keyword If    ${has_dataplane}    Run Keyword And Continue On Failure
         ...    Wait Until Keyword Succeeds    60s    2s
         ...    Check Ping    False    ${dst['dp_iface_ip_qinq']}    ${src['dp_iface_name']}
@@ -128,7 +127,7 @@ Test Subscriber Delete and Add for DT
         ${onos_flows_count}=    Evaluate    4 * ( ${num_all_onus} - 1 )
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
         ...    Verify Subscriber Access Flows Added Count DT    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}
-        ...    ${of_id}    ${onos_flows_count}
+        ...    ${EMPTY}    ${onos_flows_count}
         # Verify VOLTHA flows for OLT equals twice the number of ONUS (minus ONU under test) + 1 for LLDP
         ${olt_flows}=    Evaluate    2 * ( ${num_all_onus} - 1 ) + 1
         Run Keyword    Wait Until Keyword Succeeds    ${timeout}    5s    Validate OLT Flows    ${olt_flows}
