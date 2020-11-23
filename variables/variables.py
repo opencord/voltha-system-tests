@@ -1,0 +1,30 @@
+# Copyright 2020 Open Networking Foundation
+# delivered by ADTRAN, Inc.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#    http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+def get_variables():
+    ########################################################################
+    # if dynamic variables need to be fetched and loaded please do so here #
+    ########################################################################
+
+    # connection parameter needed for device manager interface tests
+    variables = {
+        'GIVEN_DM_IP': '127.0.0.1'
+        ,'GIVEN_DM_PORT': '50075'
+        ,'GIVEN_OLT_IP': 'bbsim0'
+
+    # Change default values in tests
+        ,'DMI_PORT': 50075
+    }
+    return variables
