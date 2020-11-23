@@ -36,7 +36,7 @@ JSON_FILES   := $(shell find ./tests -name *.json -print)
 # Robot config
 ROBOT_SANITY_SINGLE_PON_FILE    ?= $(ROOT_DIR)/tests/data/bbsim-kind.yaml
 ROBOT_SANITY_DT_SINGLE_PON_FILE    ?= $(ROOT_DIR)/tests/data/bbsim-kind-dt.yaml
-ROBOT_SANITY_MULTIPLE_OLT_FILE    ?= $(ROOT_DIR)/tests/data/multiple-bbsim-kind.yaml
+ROBOT_SANITY_MULTIPLE_OLT_FILE    ?= $(ROOT_DIR)/tests/data/bbsim-kind-2OLTx2ONUx2PON.yaml
 ROBOT_FAIL_SINGLE_PON_FILE      ?= $(ROOT_DIR)/tests/data/bbsim-kind.yaml
 ROBOT_SANITY_MULT_PON_FILE      ?= $(ROOT_DIR)/tests/data/bbsim-kind-2x2.yaml
 ROBOT_SCALE_SINGLE_PON_FILE     ?= $(ROOT_DIR)/tests/data/bbsim-kind-16.yaml
