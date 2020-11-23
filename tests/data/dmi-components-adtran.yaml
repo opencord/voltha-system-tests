@@ -1,0 +1,61 @@
+# Change default values in tests
+dm_components:
+  -
+    name: cpu 0/1
+    elements: 
+      -
+        element: description
+        value: CPU
+
+        element: data_type
+        value: METRIC_CPU_USAGE_PERCENTAGE
+  -
+    name: storage-resource 0/1
+    elements: 
+      -
+        element: description
+        value: storage
+
+        element: data_type
+        value: METRIC_DISK_USAGE_PERCENTAGE
+  -
+    name: temperature 0/1
+    elements: 
+      -
+        element: description
+        value: temperature sensor
+
+        element: data_type
+        value: METRIC_INNER_SURROUNDING_TEMP
+  -
+    name: pluggable-fan 0/1/1
+    elements: 
+      -
+        element: description
+        value: fan
+
+        element: data_type
+        value: METRIC_FAN_SPEED
+  -
+    name: power-supply 0/1
+    elements: 
+      -
+        element: description
+        value: power supply
+
+        element: data_type
+        value: METRIC_POWER_USAGE_PERCENTAGE
+  -
+    name: main 0
+    elements: 
+      -
+        element: description
+        value: mainboard
+
+
+
+    
+
+    
+    
+
