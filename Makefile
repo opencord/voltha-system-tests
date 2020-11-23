@@ -238,6 +238,15 @@ voltha-test: vst_venv
 	cd tests/functional ;\
 	robot -V $(ROBOT_CONFIG_FILE) $(ROBOT_MISC_ARGS) $(ROBOT_FILE)
 
+voltha-dmi-hw-management-test: ROBOT_MISC_ARGS += -e notready
+voltha-dmi-hw-management-test: ROBOT_FILE := dmi-hw-management.robot
+voltha-dmi-hw-management-test: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_SINGLE_PON_FILE)
+
+voltha-dmi-hw-management-test: vst_venv
+	source ./$</bin/activate ; set -u ;\
+	cd tests/dmi-interface ;\
+	robot -V $(ROBOT_CONFIG_FILE) $(ROBOT_MISC_ARGS) $(ROBOT_FILE)
+
 voltha-dt-test: ROBOT_MISC_ARGS += -e notready
 
 voltha-dt-test: vst_venv
