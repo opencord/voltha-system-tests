@@ -63,12 +63,12 @@ olts:
 hosts:
   src:
     -
-      onu: 'BBSM00000001'
+      onu: 'BBSM000a0001'
       c_tag: '900'
       s_tag: '900'
       olt: 'BBSIM_OLT_0'
     -
-      onu: 'BBSM00010001'
+      onu: 'BBSM000b0001'
       c_tag: '900'
       s_tag: '900'
       olt: 'BBSIM_OLT_1'
