@@ -587,6 +587,17 @@ Get OLTDeviceID From OLT List
     END
     [Return]    ${olt_device_id}
 
+Get Num of Onus From OLT SN
+    [Documentation]    Retrieves the corresponding number of ONUs for a given OLT based on serial number specified
+    [Arguments]      ${serial_number}
+    ${num_of_olt_onus}=    Set Variable    0
+    FOR    ${I}    IN RANGE    0    ${olt_count}
+        ${sn}=    Get From Dictionary    ${olt_ids}[${I}]    sn
+        ${num_of_olt_onus}=    Run Keyword IF    "${serial_number}"=="${sn}"
+        ...    Get From Dictionary    ${list_olts}[${I}]    onucount    ELSE    Set Variable    ${num_of_olt_onus}
+    END
+    [Return]    ${num_of_olt_onus}
+
 Validate ONUs After OLT Disable
     [Documentation]    Validates the ONUs state in Voltha, ONUs port state in ONOS
     ...    and that pings do not succeed After corresponding OLT is Disabled

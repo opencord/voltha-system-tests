@@ -112,6 +112,7 @@ Test Subscriber Delete and Add for DT
         ${of_id}=    Get ofID From OLT List    ${src['olt']}
         ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
         ${olt_device_id}=    Get OLTDeviceID From OLT List    ${src['olt']}
+        ${num_of_olt_onus}=    Get Num of Onus From OLT SN    ${src['olt']}
         ${onu_port}=    Wait Until Keyword Succeeds    ${timeout}    2s    Get ONU Port in ONOS    ${src['onu']}
         ...    ${of_id}
         # Remove Subscriber Access
@@ -122,14 +123,14 @@ Test Subscriber Delete and Add for DT
         ...    Wait Until Keyword Succeeds    60s    2s
         ...    Check Ping    False    ${dst['dp_iface_ip_qinq']}    ${src['dp_iface_name']}
         ...    ${src['ip']}    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
-        # TODO: Enhance the test to validate flows per OLT
+
         # Number of Access Flows on ONOS equals 4 * the Number of Active ONUs (2 for each downstream and upstream)
-        ${onos_flows_count}=    Evaluate    4 * ( ${num_all_onus} - 1 )
+        ${onos_flows_count}=    Evaluate    4 * ( ${num_of_olt_onus} - 1 )
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
         ...    Verify Subscriber Access Flows Added Count DT    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}
         ...    ${of_id}    ${onos_flows_count}
         # Verify VOLTHA flows for OLT equals twice the number of ONUS (minus ONU under test) + 1 for LLDP
-        ${olt_flows}=    Evaluate    2 * ( ${num_all_onus} - 1 ) + 1
+        ${olt_flows}=    Evaluate    2 * ( ${num_of_olt_onus} - 1 ) + 1
         Run Keyword    Wait Until Keyword Succeeds    ${timeout}    5s    Validate OLT Flows    ${olt_flows}
         ...    ${olt_device_id}
         # Verify VOLTHA flows for ONU under test is Zero
