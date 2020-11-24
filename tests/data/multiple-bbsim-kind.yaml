@@ -31,36 +31,37 @@ nodes:
 olts:
   -
     ip: bbsim0.voltha.svc
-    serial: BBSIM_OLT_0
+    serial: BBSIM_OLT_10
   -
     ip: bbsim1.voltha.svc
-    serial: BBSIM_OLT_1
+    serial: BBSIM_OLT_11
   -
     ip: bbsim2.voltha.svc
-    serial: BBSIM_OLT_2
+    serial: BBSIM_OLT_12
   -
     ip: bbsim3.voltha.svc
-    serial: BBSIM_OLT_3
+    serial: BBSIM_OLT_13
   -
     ip: bbsim4.voltha.svc
-    serial: BBSIM_OLT_4
+    serial: BBSIM_OLT_14
   -
     ip: bbsim5.voltha.svc
-    serial: BBSIM_OLT_5
+    serial: BBSIM_OLT_15
   -
     ip: bbsim6.voltha.svc
-    serial: BBSIM_OLT_6
+    serial: BBSIM_OLT_16
   -
     ip: bbsim7.voltha.svc
-    serial: BBSIM_OLT_7
+    serial: BBSIM_OLT_17
   -
     ip: bbsim8.voltha.svc
-    serial: BBSIM_OLT_8
+    serial: BBSIM_OLT_18
   -
     ip: bbsim9.voltha.svc
-    serial: BBSIM_OLT_9
+    serial: BBSIM_OLT_19
 
 hosts:
+<<<<<<< HEAD   (04af8e Drop the "--since" option on the "voltctl event listen" comm)
   -
     src:
       - onu: 'BBSM00000001'
@@ -134,3 +135,67 @@ hosts:
 
 sadis:
   file: ${CURDIR}/../../data/onos-sadis-multiple-bbsim.json
+=======
+  src:
+    -
+      onu: 'BBSM000a0001'
+      c_tag: '900'
+      s_tag: '900'
+      olt: 'BBSIM_OLT_10'
+    -
+      onu: 'BBSM000b0001'
+      c_tag: '900'
+      s_tag: '901'
+      olt: 'BBSIM_OLT_11'
+    -
+      onu: 'BBSM000c0001'
+      c_tag: '900'
+      s_tag: '902'
+      olt: 'BBSIM_OLT_12'
+    -
+      onu: 'BBSM000d0001'
+      c_tag: '900'
+      s_tag: '903'
+      olt: 'BBSIM_OLT_13'
+    -
+      onu: 'BBSM000e0001'
+      c_tag: '900'
+      s_tag: '904'
+      olt: 'BBSIM_OLT_14'
+    -
+      onu: 'BBSM000f0001'
+      c_tag: '900'
+      s_tag: '905'
+      olt: 'BBSIM_OLT_15'
+    -
+      onu: 'BBSM00100001'
+      c_tag: '900'
+      s_tag: '906'
+      olt: 'BBSIM_OLT_16'
+    -
+      onu: 'BBSM00110001'
+      c_tag: '900'
+      s_tag: '907'
+      olt: 'BBSIM_OLT_17'
+    -
+      onu: 'BBSM00120001'
+      c_tag: '900'
+      s_tag: '908'
+      olt: 'BBSIM_OLT_18'
+    -
+      onu: 'BBSM00130001'
+      c_tag: '900'
+      s_tag: '909'
+      olt: 'BBSIM_OLT_19'
+  dst:
+    - ip: null
+    - ip: null
+    - ip: null
+    - ip: null
+    - ip: null
+    - ip: null
+    - ip: null
+    - ip: null
+    - ip: null
+    - ip: null
+>>>>>>> CHANGE (044a19 [VOL-3634] Changing the BBSIM OLT IDs to comply with kind-vo)

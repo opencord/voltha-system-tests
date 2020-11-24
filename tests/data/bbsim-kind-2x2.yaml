@@ -30,20 +30,40 @@ nodes:
 olts:
   -
     ip: bbsim0
-    serial: BBSIM_OLT_0
+    serial: BBSIM_OLT_10
 
 hosts:
   src:
+<<<<<<< HEAD   (04af8e Drop the "--since" option on the "voltctl event listen" comm)
     - onu: 'BBSM00000001'
+=======
+    - onu: 'BBSM000a0001'
+      olt: 'BBSIM_OLT_10'
+>>>>>>> CHANGE (044a19 [VOL-3634] Changing the BBSIM OLT IDs to comply with kind-vo)
       c_tag: '900'
       s_tag: '900'
+<<<<<<< HEAD   (04af8e Drop the "--since" option on the "voltctl event listen" comm)
     - onu: 'BBSM00000002'
+=======
+    - onu: 'BBSM000a0002'
+      olt: 'BBSIM_OLT_10'
+>>>>>>> CHANGE (044a19 [VOL-3634] Changing the BBSIM OLT IDs to comply with kind-vo)
       c_tag: '901'
       s_tag: '900'
+<<<<<<< HEAD   (04af8e Drop the "--since" option on the "voltctl event listen" comm)
     - onu: 'BBSM00000101'
+=======
+    - onu: 'BBSM000a0101'
+      olt: 'BBSIM_OLT_10'
+>>>>>>> CHANGE (044a19 [VOL-3634] Changing the BBSIM OLT IDs to comply with kind-vo)
       c_tag: '902'
       s_tag: '900'
+<<<<<<< HEAD   (04af8e Drop the "--since" option on the "voltctl event listen" comm)
     - onu: 'BBSM00000102'
+=======
+    - onu: 'BBSM000a0102'
+      olt: 'BBSIM_OLT_10'
+>>>>>>> CHANGE (044a19 [VOL-3634] Changing the BBSIM OLT IDs to comply with kind-vo)
       c_tag: '903'
       s_tag: '900'
 

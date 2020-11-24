@@ -31,10 +31,11 @@ nodes:
 olts:
   -
     ip: bbsim0
-    serial: BBSIM_OLT_0
+    serial: BBSIM_OLT_10
 
 hosts:
   src:
+<<<<<<< HEAD   (04af8e Drop the "--since" option on the "voltctl event listen" comm)
     - onu: 'BBSM00000001'
     - onu: 'BBSM00000002'
     - onu: 'BBSM00000101'
@@ -51,6 +52,40 @@ hosts:
     - onu: 'BBSM00000602'
     - onu: 'BBSM00000701'
     - onu: 'BBSM00000702'
+=======
+    - onu: 'BBSM000a0001'
+      olt: 'BBSIM_OLT_10'
+    - onu: 'BBSM000a0002'
+      olt: 'BBSIM_OLT_10'
+    - onu: 'BBSM000a0101'
+      olt: 'BBSIM_OLT_10'
+    - onu: 'BBSM000a0102'
+      olt: 'BBSIM_OLT_10'
+    - onu: 'BBSM000a0201'
+      olt: 'BBSIM_OLT_10'
+    - onu: 'BBSM000a0202'
+      olt: 'BBSIM_OLT_10'
+    - onu: 'BBSM000a0301'
+      olt: 'BBSIM_OLT_10'
+    - onu: 'BBSM000a0302'
+      olt: 'BBSIM_OLT_10'
+    - onu: 'BBSM000a0401'
+      olt: 'BBSIM_OLT_10'
+    - onu: 'BBSM000a0402'
+      olt: 'BBSIM_OLT_10'
+    - onu: 'BBSM000a0501'
+      olt: 'BBSIM_OLT_10'
+    - onu: 'BBSM000a0502'
+      olt: 'BBSIM_OLT_10'
+    - onu: 'BBSM000a0601'
+      olt: 'BBSIM_OLT_10'
+    - onu: 'BBSM000a0602'
+      olt: 'BBSIM_OLT_10'
+    - onu: 'BBSM000a0701'
+      olt: 'BBSIM_OLT_10'
+    - onu: 'BBSM000a0702'
+      olt: 'BBSIM_OLT_10'
+>>>>>>> CHANGE (044a19 [VOL-3634] Changing the BBSIM OLT IDs to comply with kind-vo)
 
   dst:
     - ip: null

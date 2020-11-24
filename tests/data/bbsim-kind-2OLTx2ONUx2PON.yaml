@@ -1,3 +1,5 @@
+<<<<<<< HEAD   (04af8e Drop the "--since" option on the "voltctl event listen" comm)
+=======
 ---
 
 # Copyright 2017-present Open Networking Foundation
@@ -18,6 +20,7 @@
 
 # Change default values in tests
 has_dataplane: false
+external_libs: false
 teardown_device: true
 ONOS_REST_PORT: 8181
 ONOS_SSH_PORT: 8101
@@ -29,20 +32,37 @@ nodes:
 
 olts:
   -
-    ip: bbsim0
+    ip: bbsim0.voltha.svc
     serial: BBSIM_OLT_10
+  -
+    ip: bbsim1.voltha.svc
+    serial: BBSIM_OLT_11
 
 hosts:
   src:
     -
-<<<<<<< HEAD   (04af8e Drop the "--since" option on the "voltctl event listen" comm)
-      onu: 'BBSM00000001'
-=======
       onu: 'BBSM000a0001'
-      olt: 'BBSIM_OLT_10'
->>>>>>> CHANGE (044a19 [VOL-3634] Changing the BBSIM OLT IDs to comply with kind-vo)
       c_tag: '900'
       s_tag: '900'
-
+      olt: 'BBSIM_OLT_10'
+    -
+      onu: 'BBSM000a0002'
+      c_tag: '901'
+      s_tag: '900'
+      olt: 'BBSIM_OLT_10'
+    -
+      onu: 'BBSM000b0001'
+      c_tag: '900'
+      s_tag: '901'
+      olt: 'BBSIM_OLT_11'
+    -
+      onu: 'BBSM000b0002'
+      c_tag: '901'
+      s_tag: '901'
+      olt: 'BBSIM_OLT_11'
   dst:
     - ip: null
+    - ip: null
+    - ip: null
+    - ip: null
+>>>>>>> CHANGE (044a19 [VOL-3634] Changing the BBSIM OLT IDs to comply with kind-vo)
