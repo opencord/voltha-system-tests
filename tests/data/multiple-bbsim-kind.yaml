@@ -31,87 +31,87 @@ nodes:
 olts:
   -
     ip: bbsim0.voltha.svc
-    serial: BBSIM_OLT_0
+    serial: BBSIM_OLT_10
   -
     ip: bbsim1.voltha.svc
-    serial: BBSIM_OLT_1
+    serial: BBSIM_OLT_11
   -
     ip: bbsim2.voltha.svc
-    serial: BBSIM_OLT_2
+    serial: BBSIM_OLT_12
   -
     ip: bbsim3.voltha.svc
-    serial: BBSIM_OLT_3
+    serial: BBSIM_OLT_13
   -
     ip: bbsim4.voltha.svc
-    serial: BBSIM_OLT_4
+    serial: BBSIM_OLT_14
   -
     ip: bbsim5.voltha.svc
-    serial: BBSIM_OLT_5
+    serial: BBSIM_OLT_15
   -
     ip: bbsim6.voltha.svc
-    serial: BBSIM_OLT_6
+    serial: BBSIM_OLT_16
   -
     ip: bbsim7.voltha.svc
-    serial: BBSIM_OLT_7
+    serial: BBSIM_OLT_17
   -
     ip: bbsim8.voltha.svc
-    serial: BBSIM_OLT_8
+    serial: BBSIM_OLT_18
   -
     ip: bbsim9.voltha.svc
-    serial: BBSIM_OLT_9
+    serial: BBSIM_OLT_19
 
 hosts:
   src:
     -
-      onu: 'BBSM00000001'
+      onu: 'BBSM000a0001'
       c_tag: '900'
       s_tag: '900'
-      olt: 'BBSIM_OLT_0'
+      olt: 'BBSIM_OLT_10'
     -
-      onu: 'BBSM00010001'
+      onu: 'BBSM000b0001'
       c_tag: '900'
       s_tag: '900'
-      olt: 'BBSIM_OLT_1'
+      olt: 'BBSIM_OLT_11'
     -
-      onu: 'BBSM00020001'
+      onu: 'BBSM000c0001'
       c_tag: '900'
       s_tag: '900'
-      olt: 'BBSIM_OLT_2'
+      olt: 'BBSIM_OLT_12'
     -
-      onu: 'BBSM00030001'
+      onu: 'BBSM000d0001'
       c_tag: '900'
       s_tag: '900'
-      olt: 'BBSIM_OLT_3'
+      olt: 'BBSIM_OLT_13'
     -
-      onu: 'BBSM00040001'
+      onu: 'BBSM000e0001'
       c_tag: '900'
       s_tag: '900'
-      olt: 'BBSIM_OLT_4'
+      olt: 'BBSIM_OLT_14'
     -
-      onu: 'BBSM00050001'
+      onu: 'BBSM000f0001'
       c_tag: '900'
       s_tag: '900'
-      olt: 'BBSIM_OLT_5'
+      olt: 'BBSIM_OLT_15'
     -
-      onu: 'BBSM00060001'
+      onu: 'BBSM00100001'
       c_tag: '900'
       s_tag: '900'
-      olt: 'BBSIM_OLT_6'
+      olt: 'BBSIM_OLT_16'
     -
-      onu: 'BBSM00070001'
+      onu: 'BBSM00110001'
       c_tag: '900'
       s_tag: '900'
-      olt: 'BBSIM_OLT_7'
+      olt: 'BBSIM_OLT_17'
     -
-      onu: 'BBSM00080001'
+      onu: 'BBSM00120001'
       c_tag: '900'
       s_tag: '900'
-      olt: 'BBSIM_OLT_8'
+      olt: 'BBSIM_OLT_18'
     -
-      onu: 'BBSM00090001'
+      onu: 'BBSM00130001'
       c_tag: '900'
       s_tag: '900'
-      olt: 'BBSIM_OLT_9'
+      olt: 'BBSIM_OLT_19'
   dst:
     - ip: null
     - ip: null
