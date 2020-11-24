@@ -124,12 +124,13 @@ Test Subscriber Delete and Add for DT
         ...    ${src['ip']}    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
         # TODO: Enhance the test to validate flows per OLT
         # Number of Access Flows on ONOS equals 4 * the Number of Active ONUs (2 for each downstream and upstream)
-        ${onos_flows_count}=    Evaluate    4 * ( ${num_all_onus} - 1 )
+        ${num_of_olt_onus}=    Set Variable    ${list_olts}[${I}][onucount]
+        ${onos_flows_count}=    Evaluate    4 * ( ${num_of_olt_onus} - 1 )
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
         ...    Verify Subscriber Access Flows Added Count DT    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}
-        ...    ${EMPTY}    ${onos_flows_count}
+        ...    ${of_id}    ${onos_flows_count}
         # Verify VOLTHA flows for OLT equals twice the number of ONUS (minus ONU under test) + 1 for LLDP
-        ${olt_flows}=    Evaluate    2 * ( ${num_all_onus} - 1 ) + 1
+        ${olt_flows}=    Evaluate    2 * ( ${num_of_olt_onus} - 1 ) + 1
         Run Keyword    Wait Until Keyword Succeeds    ${timeout}    5s    Validate OLT Flows    ${olt_flows}
         ...    ${olt_device_id}
         # Verify VOLTHA flows for ONU under test is Zero
