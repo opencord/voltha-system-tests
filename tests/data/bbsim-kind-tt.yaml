@@ -31,13 +31,13 @@ nodes:
 olts:
   -
     ip: bbsim0
-    serial: BBSIM_OLT_0
+    serial: BBSIM_OLT_10
 
 hosts:
   src:
     -
-      onu: 'BBSM00000001'
-      olt: 'BBSIM_OLT_0'
+      onu: 'BBSM000a0001'
+      olt: 'BBSIM_OLT_10'
       c_tag: '900'
       s_tag: '900'
 
