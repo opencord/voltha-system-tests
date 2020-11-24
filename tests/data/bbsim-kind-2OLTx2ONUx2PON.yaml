@@ -50,12 +50,12 @@ hosts:
       olt: 'BBSIM_OLT_0'
     -
       onu: 'BBSM00010001'
-      c_tag: '900'
+      c_tag: '901'
       s_tag: '900'
       olt: 'BBSIM_OLT_1'
     -
-      onu: 'BBSM00010001'
-      c_tag: '901'
+      onu: 'BBSM00010002'
+      c_tag: '903'
       s_tag: '900'
       olt: 'BBSIM_OLT_1'
   dst:
