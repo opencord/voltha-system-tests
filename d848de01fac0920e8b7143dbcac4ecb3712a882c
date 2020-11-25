@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2922528a_7fc27508",
+        "filename": "libraries/utils.robot",
+        "patchSetId": 3
+      },
+      "lineNbr": 590,
+      "author": {
+        "id": 1000064
+      },
+      "writtenOn": "2020-11-25T19:12:46Z",
+      "side": 1,
+      "message": "We already have onu_counts already calculated during the `Suite Setup` as part of ${list_olts} variable\n${list_olts} \u003d [{\u0027ip\u0027: \u002710.34.90.50\u0027, \u0027user\u0027: \u0027root\u0027, \u0027pass\u0027: \u0027onl\u0027, \u0027sn\u0027: \u0027EC1912001814\u0027, \u0027onucount\u0027: 3, \u0027sship\u0027: \u002710.34.90.50\u0027}, \nWe should be utilizing this as part of the test",
+      "revId": "d848de01fac0920e8b7143dbcac4ecb3712a882c",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    }
+  ]
+}
