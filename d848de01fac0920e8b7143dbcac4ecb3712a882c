@@ -16,6 +16,24 @@
       "revId": "d848de01fac0920e8b7143dbcac4ecb3712a882c",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3f474537_b9de2df6",
+        "filename": "libraries/utils.robot",
+        "patchSetId": 3
+      },
+      "lineNbr": 590,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2020-11-25T21:29:59Z",
+      "side": 1,
+      "message": "I think that is what I\u0027m doing at line 597, the issue I have where this method is called is that I can\u0027t access the right index of the list_olts, thus I created this method to get that value based on the olt_id which I have.",
+      "parentUuid": "2922528a_7fc27508",
+      "revId": "d848de01fac0920e8b7143dbcac4ecb3712a882c",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
     }
   ]
 }
