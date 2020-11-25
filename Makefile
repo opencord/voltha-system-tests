@@ -82,7 +82,7 @@ functional-single-kind-tt: ROBOT_FILE := Voltha_TT_PODTests.robot
 functional-single-kind-tt: voltha-tt-test
 
 # target to invoke multiple OLTs Functional scenarios
-functional-multi-olt: ROBOT_MISC_ARGS += -i sanityORfunctional $(ROBOT_DEBUG_LOG_OPT)
+functional-multi-olt: ROBOT_MISC_ARGS += -i sanityORfunctional -e PowerSwitch $(ROBOT_DEBUG_LOG_OPT)
 functional-multi-olt: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_MULTIPLE_OLT_FILE)
 functional-multi-olt: ROBOT_FILE := Voltha_PODTests.robot
 functional-multi-olt: voltha-test
