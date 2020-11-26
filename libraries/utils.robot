@@ -601,10 +601,11 @@ Get Num of Onus From OLT SN
 Validate ONUs After OLT Disable
     [Documentation]    Validates the ONUs state in Voltha, ONUs port state in ONOS
     ...    and that pings do not succeed After corresponding OLT is Disabled
-    [Arguments]      ${num_onus}
+    [Arguments]      ${num_onus}    ${olt_serial_number}
     FOR    ${I}    IN RANGE    0    ${num_onus}
         ${src}=    Set Variable    ${hosts.src[${I}]}
         ${dst}=    Set Variable    ${hosts.dst[${I}]}
+        Continue For Loop If    "${olt_serial_number}"!="${src['olt']}"
         ${of_id}=    Get ofID From OLT List    ${src['olt']}
         ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
         ${onu_port}=    Wait Until Keyword Succeeds    ${timeout}    2s    Get ONU Port in ONOS    ${src['onu']}
