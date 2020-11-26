@@ -715,6 +715,16 @@ Validate Device Removed
     END
     List Should Not Contain Value    ${ids}    ${id}
 
+Validate all ONUS for OLT Removed
+    [Arguments]    ${num_all_onus}    ${hosts}    ${olt_serial_number}    ${timeout}
+    [Documentation]    Verifys that all the ONUS for OLT ${serial_number}, has been removed
+    FOR    ${J}    IN RANGE    0    ${num_all_onus}
+        ${src}=    Set Variable    ${hosts.src[${J}]}
+        Continue For Loop If    "${olt_serial_number}"!="${src['olt']}"
+        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
+        ...    Validate Device Removed    ${src['onu']}
+    END
+
 Reboot ONU
     [Arguments]    ${onu_id}    ${validate_device}=True
     [Documentation]   Using voltctl command reboot ONU and verify that ONU comes up to running state
