@@ -252,7 +252,7 @@ Test Disable and Delete OLT for DT
         ${num_onus}=    Set Variable    ${list_olts}[${I}][onucount]
         # Validate ONUs
         Run Keyword    Wait Until Keyword Succeeds    ${timeout}    5s    Validate ONUs After OLT Disable
-        ...    ${num_onus}
+        ...    ${num_onus}    ${olt_serial_number}
         # Verify ONOS Flows
         # Number of Access Flows on ONOS equals 4 * the Number of Active ONUs (2 for each downstream and upstream)
         ${onos_flows_count}=    Evaluate    4 * ${num_onus}
@@ -274,7 +274,11 @@ Test Disable and Delete OLT for DT
         ...    ${List_ONU_Serial}    ${onu_flows}
         # Delete OLT and Validate Empty Device List
         Delete Device    ${olt_device_id}
-        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s    Test Empty Device List
+        # Check that the OLT and the ONUs are actually removed from the system
+        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s    Validate Device Removed
+        ...    ${olt_serial_number}
+        Run Keyword and Continue On Failure    Validate all ONUS for OLT Removed    ${num_all_onus}    ${hosts}
+        ...    ${olt_serial_number}    ${timeout}
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
         ...    Verify Device Flows Removed    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${of_id}
         Run Keyword and Ignore Error    Collect Logs
