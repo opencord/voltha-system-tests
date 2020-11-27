@@ -86,11 +86,20 @@ Verify restart ONOS instace master of device after subscriber is provisioned
         Sleep    60s
         Wait Until Keyword Succeeds    ${timeout}    2s    Validate Pods Status By Name    ${NAMESPACE}
         ...    ${podName}    Running
+        # Performing Sanity Test to make sure subscribers are all AUTH+DHCP and pingable
+        Run Keyword If    ${has_dataplane}    Clean Up Linux
+        ${of_id}=    Wait Until Keyword Succeeds    ${timeout}    15s    Validate OLT Device in ONOS
+        ...    ${olt_serial_number}
+        Set Global Variable    ${of_id}
+        ${nni_port}=    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
+        ...    Get NNI Port in ONOS    ${of_id}
+        Set Global Variable    ${nni_port}
+        ${num_onus}=    Set Variable    ${list_olts}[${I}][onucount]
+        Run Keyword If   '${workflow}' == 'ATT'    Wait Until Keyword Succeeds    ${timeout}    2s
+        ...    Perform Sanity Test Per OLT    ${of_id}    ${nni_port}    ${olt_serial_number}    ${num_onus}
+        Run Keyword If   '${workflow}' == 'DT'    Wait Until Keyword Succeeds    ${timeout}    2s
+        ...    Perform Sanity Test DT Per OLT    ${of_id}    ${nni_port}    ${olt_serial_number}    ${num_onus}
     END
-    # Performing Sanity Test to make sure subscribers are all AUTH+DHCP and pingable
-    Run Keyword If    ${has_dataplane}    Clean Up Linux
-    Run Keyword If   '${workflow}' == 'ATT'    Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test
-    Run Keyword If   '${workflow}' == 'DT'    Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test DT
     Log to console    Pod ${podName} deleted and sanity checks passed successfully
 
 *** Keywords ***
