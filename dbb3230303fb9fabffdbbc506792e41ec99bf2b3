@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "16b18b8e_604a1585",
+        "filename": "tests/dmi-interface/dmi-hw-management.robot",
+        "patchSetId": 13
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1000064
+      },
+      "writtenOn": "2020-11-30T17:39:47Z",
+      "side": 1,
+      "message": "How is the olt_ip assigned to the test case? Is there any input file or just passing it as a value during execution?\nIs this test valid only for BBSim?",
+      "revId": "dbb3230303fb9fabffdbbc506792e41ec99bf2b3",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    }
+  ]
+}
