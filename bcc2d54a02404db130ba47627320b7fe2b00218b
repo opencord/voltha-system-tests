@@ -1,0 +1,303 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0a379bdc_1bb32073",
+        "filename": "tests/data/bbsim-kind-16.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2020-11-30T11:04:50Z",
+      "side": 1,
+      "message": "should be BBDM000a0010",
+      "range": {
+        "startLine": 68,
+        "startChar": 12,
+        "endLine": 68,
+        "endChar": 24
+      },
+      "revId": "bcc2d54a02404db130ba47627320b7fe2b00218b",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4ef72dc6_5426e3d0",
+        "filename": "tests/data/bbsim-kind-2x2.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2020-11-30T11:04:50Z",
+      "side": 1,
+      "message": "should be BBSIM_OLT_10",
+      "range": {
+        "startLine": 38,
+        "startChar": 12,
+        "endLine": 38,
+        "endChar": 23
+      },
+      "revId": "bcc2d54a02404db130ba47627320b7fe2b00218b",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f09f1c37_51725afa",
+        "filename": "tests/data/bbsim-kind-2x2.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2020-11-30T11:04:50Z",
+      "side": 1,
+      "message": "should be BBDM000a0101",
+      "range": {
+        "startLine": 45,
+        "startChar": 12,
+        "endLine": 45,
+        "endChar": 24
+      },
+      "revId": "bcc2d54a02404db130ba47627320b7fe2b00218b",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0dd65024_93f821b6",
+        "filename": "tests/data/bbsim-kind-2x2.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2020-11-30T11:04:50Z",
+      "side": 1,
+      "message": "should be BBSIM_OLT_10",
+      "range": {
+        "startLine": 46,
+        "startChar": 12,
+        "endLine": 46,
+        "endChar": 23
+      },
+      "revId": "bcc2d54a02404db130ba47627320b7fe2b00218b",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "925868bb_5aad5cdf",
+        "filename": "tests/data/bbsim-kind-2x2.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2020-11-30T11:04:50Z",
+      "side": 1,
+      "message": "should be BBDM000a0102",
+      "range": {
+        "startLine": 49,
+        "startChar": 12,
+        "endLine": 49,
+        "endChar": 24
+      },
+      "revId": "bcc2d54a02404db130ba47627320b7fe2b00218b",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8a155011_d0ca3f98",
+        "filename": "tests/data/bbsim-kind-2x2.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2020-11-30T11:04:50Z",
+      "side": 1,
+      "message": "should be BBSIM_OLT_10",
+      "range": {
+        "startLine": 50,
+        "startChar": 12,
+        "endLine": 50,
+        "endChar": 23
+      },
+      "revId": "bcc2d54a02404db130ba47627320b7fe2b00218b",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bb15052c_f1a1914d",
+        "filename": "tests/data/bbsim-kind-8x2.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2020-11-30T11:04:50Z",
+      "side": 1,
+      "message": "should be BBDM000a0101",
+      "range": {
+        "startLine": 42,
+        "startChar": 12,
+        "endLine": 42,
+        "endChar": 24
+      },
+      "revId": "bcc2d54a02404db130ba47627320b7fe2b00218b",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b5ee67a1_8c0a2c1a",
+        "filename": "tests/data/bbsim-kind-8x2.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2020-11-30T11:04:50Z",
+      "side": 1,
+      "message": "should be BBSM000a0102",
+      "range": {
+        "startLine": 44,
+        "startChar": 12,
+        "endLine": 44,
+        "endChar": 24
+      },
+      "revId": "bcc2d54a02404db130ba47627320b7fe2b00218b",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bb4bb86d_222c1e26",
+        "filename": "tests/data/bbsim-kind-8x2.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2020-11-30T11:04:50Z",
+      "side": 1,
+      "message": "all onus should be BBSM000a0x01",
+      "range": {
+        "startLine": 46,
+        "startChar": 6,
+        "endLine": 68,
+        "endChar": 24
+      },
+      "revId": "bcc2d54a02404db130ba47627320b7fe2b00218b",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "512c41b2_efb16f15",
+        "filename": "tests/data/bbsim-kind-8x8.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2020-11-30T11:04:50Z",
+      "side": 1,
+      "message": "slould all the following onus contain a \u0027a\u0027 (BBSM000a....)?\nWhat is the rule?",
+      "range": {
+        "startLine": 69,
+        "startChar": 12,
+        "endLine": 69,
+        "endChar": 24
+      },
+      "revId": "bcc2d54a02404db130ba47627320b7fe2b00218b",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "810eee0f_ef163cdf",
+        "filename": "tests/data/multiple-bbsim-kind.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2020-11-30T11:04:50Z",
+      "side": 1,
+      "message": "should all the OLTs in format BBSIM_OLT_10, BBSIM_OLT_11, and so on, with two digits?",
+      "range": {
+        "startLine": 34,
+        "startChar": 12,
+        "endLine": 34,
+        "endChar": 23
+      },
+      "revId": "bcc2d54a02404db130ba47627320b7fe2b00218b",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7dce046e_fc8d6f3e",
+        "filename": "tests/data/multiple-bbsim-kind.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2020-11-30T11:04:50Z",
+      "side": 1,
+      "message": "Should contain two digit number (see above).\nSame for all other OLTs",
+      "range": {
+        "startLine": 69,
+        "startChar": 12,
+        "endLine": 69,
+        "endChar": 23
+      },
+      "revId": "bcc2d54a02404db130ba47627320b7fe2b00218b",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e9d93b6e_a8c7ceeb",
+        "filename": "tests/data/multiple-bbsim-kind.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2020-11-30T11:04:50Z",
+      "side": 1,
+      "message": "Is it really BBSM00020001 or BBSM000c0001?\nSame for all following ONUs",
+      "range": {
+        "startLine": 76,
+        "startChar": 12,
+        "endLine": 76,
+        "endChar": 24
+      },
+      "revId": "bcc2d54a02404db130ba47627320b7fe2b00218b",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    }
+  ]
+}
