@@ -322,9 +322,6 @@ node ("${TestNodeName}") {
                                         sshpass -p ${deployment_config.olts[i].pass} ssh -l ${deployment_config.olts[i].user} ${deployment_config.olts[i].sship} 'cp /root/watchdog-script/* /opt/openolt/'
                                         sshpass -p ${deployment_config.olts[i].pass} ssh -l ${deployment_config.olts[i].user} ${deployment_config.olts[i].sship} 'cp /root/bal_cli_appl/example_user_appl /broadcom'
                                         sshpass -p ${deployment_config.olts[i].pass} ssh -l ${deployment_config.olts[i].user} ${deployment_config.olts[i].sship} 'cp in-band-startup-script/* /etc/init.d/'
-                                        sshpass -p ${deployment_config.olts[i].pass} ssh -l ${deployment_config.olts[i].user} ${deployment_config.olts[i].sship} 'echo "port ce128 sp=40000 if=XLAUI" >> /broadcom/qax.soc'
-                                    else
-                                        sshpass -p ${deployment_config.olts[i].pass} ssh -l ${deployment_config.olts[i].user} ${deployment_config.olts[i].sship} 'echo "port ce128 sp=40000 if=XLAUI" >> /broadcom/qax.soc'
                                     fi
                                 fi
                                 """
