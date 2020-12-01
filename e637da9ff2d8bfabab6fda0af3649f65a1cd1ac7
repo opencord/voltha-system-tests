@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dac74748_8088d747",
+        "filename": "tests/data/bbsim-kind-8x2.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2020-12-01T08:40:15Z",
+      "side": 1,
+      "message": "There is one \u0027a\u0027 too much.",
+      "range": {
+        "startLine": 38,
+        "startChar": 3,
+        "endLine": 40,
+        "endChar": 26
+      },
+      "revId": "e637da9ff2d8bfabab6fda0af3649f65a1cd1ac7",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e2c0de64_746ea895",
+        "filename": "tests/data/bbsim-kind-8x2.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2020-12-01T08:40:15Z",
+      "side": 1,
+      "message": "There is one \u00270\u0027 after the \u0027a\u0027 too much.",
+      "range": {
+        "startLine": 42,
+        "startChar": 6,
+        "endLine": 69,
+        "endChar": 25
+      },
+      "revId": "e637da9ff2d8bfabab6fda0af3649f65a1cd1ac7",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8d1abcb9_23964eb3",
+        "filename": "tests/data/bbsim-kind-8x8.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2020-12-01T08:40:15Z",
+      "side": 1,
+      "message": "from here to the end: Should the OLT Id in \u0027 (like: \u0027BBSIM_OLT_10\u0027 and not only: BBSIM_OLT_10?)",
+      "range": {
+        "startLine": 40,
+        "startChar": 11,
+        "endLine": 40,
+        "endChar": 23
+      },
+      "revId": "e637da9ff2d8bfabab6fda0af3649f65a1cd1ac7",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5ec52644_1f6921b5",
+        "filename": "tests/data/multiple-bbsim-kind.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2020-12-01T08:40:15Z",
+      "side": 1,
+      "message": "Not sure, but should the s_tag incremented for each OLT? so here should it 901 according to 2OLT yaml -file. All the following s-tag should be adapted too.",
+      "range": {
+        "startLine": 73,
+        "startChar": 6,
+        "endLine": 73,
+        "endChar": 18
+      },
+      "revId": "e637da9ff2d8bfabab6fda0af3649f65a1cd1ac7",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    }
+  ]
+}
