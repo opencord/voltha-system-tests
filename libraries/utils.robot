@@ -75,9 +75,10 @@ Common Test Suite Setup
         ${serial_number}    Evaluate    ${olts}[${I}].get("serial")
         ${olt_ssh_ip}    Evaluate    ${olts}[${I}].get("sship")
         ${onu_count}=    Get ONU Count For OLT    ${hosts.src}    ${serial_number}
+        ${onu_list}=    Get ONU List For OLT    ${hosts.src}    ${serial_number}
         ${olt}    Create Dictionary    ip    ${ip}    user    ${user}    pass
         ...    ${pass}    sn    ${serial_number}   onucount   ${onu_count}
-        ...    sship    ${olt_ssh_ip}
+        ...    sship    ${olt_ssh_ip}    onus    ${onu_list}
         Append To List    ${list_olts}    ${olt}
     END
     ${num_all_onus}=    Get Length    ${hosts.src}
@@ -112,6 +113,18 @@ Get ONU Count For OLT
         ${count}=    Run Keyword If    '${serial_number}' == '${sn}'    Evaluate    ${count} + 1    ELSE  Set Variable  ${count}
     END
     [Return]    ${count}
+
+Get ONU List For OLT
+    [Arguments]    ${src}    ${serial_number}
+    [Documentation]    Gets ONU List for the specified OLT
+    ${src_length}=    Get Length    ${src}
+    ${onu_list}=    Create List
+    FOR    ${I}    IN RANGE    0     ${src_length}
+        ${sn}    Evaluate    ${src}[${I}].get("olt")
+        Run Keyword If    '${serial_number}' == '${sn}'    Append To List     ${onu_list}    ${src}[${I}].get("onu")
+        ...  ELSE  Set Variable  ${onu_list}
+    END
+    [Return]    ${onu_list}
 
 WPA Reassociate
     [Documentation]    Executes a particular wpa_cli reassociate, which performs force reassociation
@@ -920,6 +933,20 @@ Verify ping is succesful except for given device
         ${dst}=    Set Variable    ${hosts.dst[${I}]}
         ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
         ${pingStatus}     Run Keyword If    '${onu_device_id}' == '${exceptional_onu_id}'    Set Variable     False
+        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    60s    2s
+        ...    Check Ping    ${pingStatus}    ${dst['dp_iface_ip_qinq']}    ${src['dp_iface_name']}
+        ...    ${src['ip']}    ${src['user']}    ${src['pass']}   ${src['container_type']}    ${src['container_name']}
+    END
+
+Verify ping is successful for ONUs not on this OLT
+    [Arguments]    ${num_onus}    ${exceptional_olt_id}
+    [Documentation]    Checks that pings work for all the ONUs except for the ONUs on the given OLT.
+    ${pingStatus}     Set Variable    True
+    FOR    ${I}    IN RANGE    0    ${num_all_onus}
+        ${src}=    Set Variable    ${hosts.src[${I}]}
+        ${dst}=    Set Variable    ${hosts.dst[${I}]}
+        ${olt_device_id}=    Get Device ID From SN    ${src['olt']}
+        ${pingStatus}     Run Keyword If    '${olt_device_id}' == '${exceptional_olt_id}'    Set Variable     False
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    60s    2s
         ...    Check Ping    ${pingStatus}    ${dst['dp_iface_ip_qinq']}    ${src['dp_iface_name']}
         ...    ${src['ip']}    ${src['user']}    ${src['pass']}   ${src['container_type']}    ${src['container_name']}
