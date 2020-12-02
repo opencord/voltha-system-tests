@@ -1,0 +1,16 @@
+#!/bin/bash
+
+python3 -m pip install device-management-interface
+
+# start HelloWorld and RouteGuide services and catch their pids for terminating
+cd ./tests/servers/dmi
+python3 dmi_server.py &
+dmi_pid=$!
+
+cd ../../..
+
+# run tests ...
+python3 -m robot -N "test" -d $OUTPUT_DIR --nostatusrc tests/test.robot
+
+# terminate the services
+kill -9 $dmi_pid
