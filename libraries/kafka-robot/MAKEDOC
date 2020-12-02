@@ -1,0 +1,1 @@
+python3 -m robot.libdoc -P . kafka_robot.KafkaClient docs/kafka_client.html

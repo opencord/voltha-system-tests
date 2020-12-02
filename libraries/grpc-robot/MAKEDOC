@@ -1,0 +1,20 @@
+#!/bin/bash
+
+for version in $(curl -s https://pypi.org/pypi/device-management-interface/json | jq '.releases | keys' | jq '.[]'); do
+    version=${version//\"/}
+    filename=dmi_${version//\./\_}
+
+    python3 -m pip install -q device-management-interface==$version
+
+    if [ -d "./grpc_robot/services/dmi/$filename" ]; then
+
+        python3 -m robot.libdoc -P . grpc_robot.Dmi docs/$filename.html
+        python3 -m robot.libdoc -P . grpc_robot.Dmi docs/$filename.xml
+    fi
+
+done
+
+python3 -m robot.libdoc -P . grpc_robot.Collections docs/collections.html
+python3 -m robot.libdoc -P . grpc_robot.Collections docs/collections.xml
+python3 -m robot.libdoc -P . grpc_robot.DmiTools docs/dmi_tools.html
+python3 -m robot.libdoc -P . grpc_robot.DmiTools docs/dmi_tools.xml
