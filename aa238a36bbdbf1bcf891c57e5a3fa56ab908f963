@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c0e2dc7b_0b47914e",
+        "filename": "tests/data/bbsim-kind-8x8.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2020-12-02T06:30:54Z",
+      "side": 1,
+      "message": "As I saw in tests the c-tags are also wrong. They should be incremented by one for all onus in a single OLT. So here c-tag should be 908, next onu 909 etc.",
+      "range": {
+        "startLine": 70,
+        "startChar": 13,
+        "endLine": 70,
+        "endChar": 17
+      },
+      "revId": "aa238a36bbdbf1bcf891c57e5a3fa56ab908f963",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    }
+  ]
+}
