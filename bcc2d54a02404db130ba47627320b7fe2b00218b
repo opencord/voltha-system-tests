@@ -519,6 +519,30 @@
     },
     {
       "key": {
+        "uuid": "7c9b5ff2_b3c7f683",
+        "filename": "tests/data/multiple-bbsim-kind.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1000007
+      },
+      "writtenOn": "2020-12-02T22:28:50Z",
+      "side": 1,
+      "message": "Yes, one https://gerrit.opencord.org/c/kind-voltha/+/21485 merges the BBSim ID will be a two digit ID, in order to differentiate between different stacks",
+      "parentUuid": "7201bc19_84a2a339",
+      "range": {
+        "startLine": 34,
+        "startChar": 12,
+        "endLine": 34,
+        "endChar": 23
+      },
+      "revId": "bcc2d54a02404db130ba47627320b7fe2b00218b",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7dce046e_fc8d6f3e",
         "filename": "tests/data/multiple-bbsim-kind.yaml",
         "patchSetId": 1
