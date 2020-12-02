@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "d4a1f1f9_7a6a0b05",
+        "filename": "tests/data/bbsim-kind-8x2.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1000007
+      },
+      "writtenOn": "2020-12-02T22:26:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dac74748_8088d747",
+      "range": {
+        "startLine": 38,
+        "startChar": 3,
+        "endLine": 40,
+        "endChar": 26
+      },
+      "revId": "e637da9ff2d8bfabab6fda0af3649f65a1cd1ac7",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e2c0de64_746ea895",
         "filename": "tests/data/bbsim-kind-8x2.yaml",
         "patchSetId": 2
@@ -45,6 +69,30 @@
       "revId": "e637da9ff2d8bfabab6fda0af3649f65a1cd1ac7",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "58ea4e17_50b1d4c3",
+        "filename": "tests/data/bbsim-kind-8x2.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1000007
+      },
+      "writtenOn": "2020-12-02T22:26:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e2c0de64_746ea895",
+      "range": {
+        "startLine": 42,
+        "startChar": 6,
+        "endLine": 69,
+        "endChar": 25
+      },
+      "revId": "e637da9ff2d8bfabab6fda0af3649f65a1cd1ac7",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "f21dfcd8_e61d5dc4",
+        "filename": "tests/data/bbsim-kind-8x8.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1000007
+      },
+      "writtenOn": "2020-12-02T22:26:59Z",
+      "side": 1,
+      "message": "As far as I know in YAML it\u0027s not required to wrap the sting in \u0027\nI left it as it was in the previous version.",
+      "parentUuid": "8d1abcb9_23964eb3",
+      "range": {
+        "startLine": 40,
+        "startChar": 11,
+        "endLine": 40,
+        "endChar": 23
+      },
+      "revId": "e637da9ff2d8bfabab6fda0af3649f65a1cd1ac7",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5ec52644_1f6921b5",
         "filename": "tests/data/multiple-bbsim-kind.yaml",
         "patchSetId": 2
@@ -91,6 +163,30 @@
       "revId": "e637da9ff2d8bfabab6fda0af3649f65a1cd1ac7",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "36fa2ea4_d8fc0607",
+        "filename": "tests/data/multiple-bbsim-kind.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1000007
+      },
+      "writtenOn": "2020-12-02T22:26:59Z",
+      "side": 1,
+      "message": "Good point",
+      "parentUuid": "5ec52644_1f6921b5",
+      "range": {
+        "startLine": 73,
+        "startChar": 6,
+        "endLine": 73,
+        "endChar": 18
+      },
+      "revId": "e637da9ff2d8bfabab6fda0af3649f65a1cd1ac7",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
     }
   ]
 }
