@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "7407b7df_134ade6c",
+        "filename": "libraries/utils.robot",
+        "patchSetId": 7
+      },
+      "lineNbr": 940,
+      "author": {
+        "id": 1000064
+      },
+      "writtenOn": "2020-12-03T20:17:22Z",
+      "side": 1,
+      "message": "Thanks for reviewing the patch! I haven\u0027t test the patch yet. I implemented your comments.. This is Done",
+      "parentUuid": "8cd92b7a_97d4cc6c",
+      "range": {
+        "startLine": 940,
+        "startChar": 15,
+        "endLine": 940,
+        "endChar": 24
+      },
+      "revId": "cbfcc74d68afa9d4e8517342e424985a258b72ad",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "751e4067_e145cc27",
         "filename": "libraries/utils.robot",
         "patchSetId": 7
@@ -36,6 +60,30 @@
       "writtenOn": "2020-12-03T08:20:53Z",
       "side": 1,
       "message": "Which value has ${pingStatus} if condition does not match?\nI prefer following:\n${pingStatus}\u003d     Set Variable If    \u0027${olt_device_id}\u0027 !\u003d \u0027${exceptional_olt_id}\u0027    True    False",
+      "range": {
+        "startLine": 948,
+        "startChar": 8,
+        "endLine": 948,
+        "endChar": 115
+      },
+      "revId": "cbfcc74d68afa9d4e8517342e424985a258b72ad",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b1109b01_6c7080d1",
+        "filename": "libraries/utils.robot",
+        "patchSetId": 7
+      },
+      "lineNbr": 948,
+      "author": {
+        "id": 1000064
+      },
+      "writtenOn": "2020-12-03T20:17:22Z",
+      "side": 1,
+      "message": "I didn\u0027t get your point on this comment",
+      "parentUuid": "751e4067_e145cc27",
       "range": {
         "startLine": 948,
         "startChar": 8,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "424f4924_c1ceede5",
+        "filename": "tests/functional/Voltha_MultiOLT_Tests.robot",
+        "patchSetId": 7
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1000064
+      },
+      "writtenOn": "2020-12-03T20:17:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "77b95576_ffdcb3f5",
+      "range": {
+        "startLine": 75,
+        "startChar": 4,
+        "endLine": 75,
+        "endChar": 72
+      },
+      "revId": "cbfcc74d68afa9d4e8517342e424985a258b72ad",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "10dd056f_3051c1cf",
         "filename": "tests/functional/Voltha_MultiOLT_Tests.robot",
         "patchSetId": 7
@@ -82,6 +154,30 @@
       "writtenOn": "2020-12-03T08:20:53Z",
       "side": 1,
       "message": "# validate that the other OLTs still running   (or something similar)",
+      "range": {
+        "startLine": 84,
+        "startChar": 4,
+        "endLine": 84,
+        "endChar": 34
+      },
+      "revId": "cbfcc74d68afa9d4e8517342e424985a258b72ad",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3d841c62_2d64b1bc",
+        "filename": "tests/functional/Voltha_MultiOLT_Tests.robot",
+        "patchSetId": 7
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1000064
+      },
+      "writtenOn": "2020-12-03T20:17:22Z",
+      "side": 1,
+      "message": "Updated the comment sections accordingly",
+      "parentUuid": "10dd056f_3051c1cf",
       "range": {
         "startLine": 84,
         "startChar": 4,
@@ -140,6 +236,30 @@
     },
     {
       "key": {
+        "uuid": "af5f326a_6a3ac9dc",
+        "filename": "tests/functional/Voltha_MultiOLT_Tests.robot",
+        "patchSetId": 7
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1000064
+      },
+      "writtenOn": "2020-12-03T20:17:22Z",
+      "side": 1,
+      "message": "the OLT we get is the one that is rebooted",
+      "parentUuid": "7f61c593_21a3665c",
+      "range": {
+        "startLine": 85,
+        "startChar": 4,
+        "endLine": 89,
+        "endChar": 7
+      },
+      "revId": "cbfcc74d68afa9d4e8517342e424985a258b72ad",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ecbf0d49_97763554",
         "filename": "tests/functional/Voltha_MultiOLT_Tests.robot",
         "patchSetId": 7
@@ -151,6 +271,30 @@
       "writtenOn": "2020-12-03T08:20:53Z",
       "side": 1,
       "message": "What for is thie Loop? I do not understand, Please can you explain?\nWhen I understand it right, you check Ping will not work for all ONUs, except the ONUs of the rebooted OLT, and only on real HW POD. That the oposite of the For Loop above. I Think this can be removed?!",
+      "range": {
+        "startLine": 91,
+        "startChar": 4,
+        "endLine": 99,
+        "endChar": 119
+      },
+      "revId": "cbfcc74d68afa9d4e8517342e424985a258b72ad",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0d88041c_052bb4c3",
+        "filename": "tests/functional/Voltha_MultiOLT_Tests.robot",
+        "patchSetId": 7
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1000064
+      },
+      "writtenOn": "2020-12-03T20:17:22Z",
+      "side": 1,
+      "message": "This is to similar verification as we do for PhysicalReboot test case.  This loop is needed to make sure that ONUs are not functional when the OLT gets rebooted. Hence this is needed",
+      "parentUuid": "ecbf0d49_97763554",
       "range": {
         "startLine": 91,
         "startChar": 4,
@@ -186,6 +330,30 @@
     },
     {
       "key": {
+        "uuid": "150a3bda_11efd911",
+        "filename": "tests/functional/Voltha_MultiOLT_Tests.robot",
+        "patchSetId": 7
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1000064
+      },
+      "writtenOn": "2020-12-03T20:17:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8d2f5f91_83defbb3",
+      "range": {
+        "startLine": 135,
+        "startChar": 4,
+        "endLine": 135,
+        "endChar": 72
+      },
+      "revId": "cbfcc74d68afa9d4e8517342e424985a258b72ad",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "952ed986_1bea758f",
         "filename": "tests/functional/Voltha_MultiOLT_Tests.robot",
         "patchSetId": 7
@@ -209,6 +377,30 @@
     },
     {
       "key": {
+        "uuid": "1cfe65af_73bffe50",
+        "filename": "tests/functional/Voltha_MultiOLT_Tests.robot",
+        "patchSetId": 7
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1000064
+      },
+      "writtenOn": "2020-12-03T20:17:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "952ed986_1bea758f",
+      "range": {
+        "startLine": 149,
+        "startChar": 23,
+        "endLine": 149,
+        "endChar": 32
+      },
+      "revId": "cbfcc74d68afa9d4e8517342e424985a258b72ad",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f68cb381_75302294",
         "filename": "tests/functional/Voltha_MultiOLT_Tests.robot",
         "patchSetId": 7
@@ -220,6 +412,30 @@
       "writtenOn": "2020-12-03T08:20:53Z",
       "side": 1,
       "message": "same as above:\nWhat for is thie Loop? I do not understand, Please can you explain?\nWhen I understand it right, you check Ping will not work for all ONUs, except the ONUs of the rebooted OLT, and only on real HW POD. That the oposite of the For Loop above. I Think this can be removed?!",
+      "range": {
+        "startLine": 146,
+        "startChar": 4,
+        "endLine": 150,
+        "endChar": 7
+      },
+      "revId": "cbfcc74d68afa9d4e8517342e424985a258b72ad",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4fb2fa3e_eb42f06f",
+        "filename": "tests/functional/Voltha_MultiOLT_Tests.robot",
+        "patchSetId": 7
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1000064
+      },
+      "writtenOn": "2020-12-03T20:17:22Z",
+      "side": 1,
+      "message": "Same as above explanation",
+      "parentUuid": "f68cb381_75302294",
       "range": {
         "startLine": 146,
         "startChar": 4,
