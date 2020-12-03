@@ -1,0 +1,395 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8befc8fd_b62fe041",
+        "filename": "libraries/dmi-basics.robot",
+        "patchSetId": 19
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2020-12-03T14:36:47Z",
+      "side": 1,
+      "message": "License Header is missing:\n# Copyright 2020-present Open Networking Foundation\n#\n# Licensed under the Apache License, Version 2.0 (the \"License\");\n# you may not use this file except in compliance with the License.\n# You may obtain a copy of the License at\n#\n# http://www.apache.org/licenses/LICENSE-2.0\n#\n# Unless required by applicable law or agreed to in writing, software\n# distributed under the License is distributed on an \"AS IS\" BASIS,\n# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n# See the License for the specific language governing permissions and\n# limitations under the License.",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 1,
+        "endChar": 16
+      },
+      "revId": "ec7c0da5fb6bb096115ba10520326c0519930a4e",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "be46ebed_ce458f2f",
+        "filename": "libraries/dmi-basics.robot",
+        "patchSetId": 19
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2020-12-03T14:36:47Z",
+      "side": 1,
+      "message": "Not used actually. Remove it?",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 16
+      },
+      "revId": "ec7c0da5fb6bb096115ba10520326c0519930a4e",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6d6e1789_6f64d912",
+        "filename": "libraries/dmi-basics.robot",
+        "patchSetId": 19
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2020-12-03T14:36:47Z",
+      "side": 1,
+      "message": "Not used actually. Remove it?",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 24,
+        "endChar": 25
+      },
+      "revId": "ec7c0da5fb6bb096115ba10520326c0519930a4e",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2121b0d7_293d2125",
+        "filename": "tests/data/dmi-components-adtran.yaml",
+        "patchSetId": 19
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2020-12-03T14:36:47Z",
+      "side": 1,
+      "message": "should be 2020",
+      "range": {
+        "startLine": 3,
+        "startChar": 12,
+        "endLine": 3,
+        "endChar": 16
+      },
+      "revId": "ec7c0da5fb6bb096115ba10520326c0519930a4e",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "878ba0df_dd43d497",
+        "filename": "tests/data/dmi-components-adtran.yaml",
+        "patchSetId": 19
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2020-12-03T14:36:47Z",
+      "side": 1,
+      "message": "Missing something like this here:\n# connection parameter needed for device manager interface tests\nGIVEN_DM_IP: 127.0.0.1\nGIVEN_DM_PORT: 50075\nGIVEN_OLT_IP: \u003cip\u003e",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 3
+      },
+      "revId": "ec7c0da5fb6bb096115ba10520326c0519930a4e",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e086b325_a2f7166f",
+        "filename": "tests/data/dmi-components-adtran.yaml",
+        "patchSetId": 19
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2020-12-03T14:36:47Z",
+      "side": 1,
+      "message": "A short remark what for this file is, would be helpful e.g:\nContains all dm components of ADTRAN Device Manager to be checked",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 32
+      },
+      "revId": "ec7c0da5fb6bb096115ba10520326c0519930a4e",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "db840419_bd334d79",
+        "filename": "tests/data/dmi-components-bbsim.yaml",
+        "patchSetId": 19
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2020-12-03T14:36:47Z",
+      "side": 1,
+      "message": "Should be 2020",
+      "range": {
+        "startLine": 3,
+        "startChar": 12,
+        "endLine": 3,
+        "endChar": 16
+      },
+      "revId": "ec7c0da5fb6bb096115ba10520326c0519930a4e",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "af297079_9367da4c",
+        "filename": "tests/dmi-interface/dmi-hw-management.robot",
+        "patchSetId": 19
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2020-12-03T14:36:47Z",
+      "side": 1,
+      "message": "License Header is missing:\n# Copyright 2020-present Open Networking Foundation\n#\n# Licensed under the Apache License, Version 2.0 (the \"License\");\n# you may not use this file except in compliance with the License.\n# You may obtain a copy of the License at\n#\n# http://www.apache.org/licenses/LICENSE-2.0\n#\n# Unless required by applicable law or agreed to in writing, software\n# distributed under the License is distributed on an \"AS IS\" BASIS,\n# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n# See the License for the specific language governing permissions and\n# limitations under the License.",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 1,
+        "endChar": 16
+      },
+      "revId": "ec7c0da5fb6bb096115ba10520326c0519930a4e",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a7dda3ab_318c3e0f",
+        "filename": "tests/dmi-interface/dmi-hw-management.robot",
+        "patchSetId": 19
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2020-12-03T14:36:47Z",
+      "side": 1,
+      "message": "will be already loaded in dmi-basics.robot resource",
+      "range": {
+        "startLine": 4,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 0
+      },
+      "revId": "ec7c0da5fb6bb096115ba10520326c0519930a4e",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "590fa29b_e8035f27",
+        "filename": "tests/dmi-interface/dmi-hw-management.robot",
+        "patchSetId": 19
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2020-12-03T14:36:47Z",
+      "side": 1,
+      "message": "from my point of view this should be encapsulate in a library or resource.\nIt is same code in line 43 ff",
+      "range": {
+        "startLine": 31,
+        "startChar": 4,
+        "endLine": 34,
+        "endChar": 49
+      },
+      "revId": "ec7c0da5fb6bb096115ba10520326c0519930a4e",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "02a4fe1a_b2728115",
+        "filename": "tests/dmi-interface/dmi-hw-management.robot",
+        "patchSetId": 19
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2020-12-03T14:36:47Z",
+      "side": 1,
+      "message": "from my point of view this should be encapsulate in a library or resource.\nIt is same code in line 31 ff",
+      "range": {
+        "startLine": 43,
+        "startChar": 3,
+        "endLine": 46,
+        "endChar": 51
+      },
+      "revId": "ec7c0da5fb6bb096115ba10520326c0519930a4e",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "832a6abb_100aece2",
+        "filename": "tests/dmi-interface/dmi-hw-management.robot",
+        "patchSetId": 19
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2020-12-03T14:36:47Z",
+      "side": 1,
+      "message": "from my point of view this should be encapsulate in a library or resource.",
+      "range": {
+        "startLine": 49,
+        "startChar": 8,
+        "endLine": 60,
+        "endChar": 121
+      },
+      "revId": "ec7c0da5fb6bb096115ba10520326c0519930a4e",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "592ce854_64bfb119",
+        "filename": "tests/dmi-interface/dmi-hw-management.robot",
+        "patchSetId": 19
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2020-12-03T14:36:47Z",
+      "side": 1,
+      "message": "from my point of view this should be encapsulate in a library or resource.",
+      "range": {
+        "startLine": 75,
+        "startChar": 5,
+        "endLine": 79,
+        "endChar": 40
+      },
+      "revId": "ec7c0da5fb6bb096115ba10520326c0519930a4e",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4deb1ef6_5a43311a",
+        "filename": "tests/dmi-interface/dmi-hw-management.robot",
+        "patchSetId": 19
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2020-12-03T14:36:47Z",
+      "side": 1,
+      "message": "from my point of view this should be encapsulate in a library or resource.",
+      "range": {
+        "startLine": 81,
+        "startChar": 4,
+        "endLine": 84,
+        "endChar": 40
+      },
+      "revId": "ec7c0da5fb6bb096115ba10520326c0519930a4e",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "af610791_db8e1926",
+        "filename": "tests/dmi-interface/dmi-hw-management.robot",
+        "patchSetId": 19
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2020-12-03T14:36:47Z",
+      "side": 1,
+      "message": "Will this running with ADTRAN or other vendor OLT too? Especially name BBSim-BBSIM_OLT_0. Maybe this would be a further variable in yaml file.",
+      "range": {
+        "startLine": 100,
+        "startChar": 4,
+        "endLine": 101,
+        "endChar": 67
+      },
+      "revId": "ec7c0da5fb6bb096115ba10520326c0519930a4e",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f59c6078_38aefa6c",
+        "filename": "tests/dmi-interface/dmi-hw-management.robot",
+        "patchSetId": 19
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2020-12-03T14:36:47Z",
+      "side": 1,
+      "message": "from my point of view this should be encapsulate in a library or resource.",
+      "range": {
+        "startLine": 99,
+        "startChar": 4,
+        "endLine": 103,
+        "endChar": 44
+      },
+      "revId": "ec7c0da5fb6bb096115ba10520326c0519930a4e",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f0084990_a7ab5cab",
+        "filename": "tests/dmi-interface/dmi-hw-management.robot",
+        "patchSetId": 19
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2020-12-03T14:36:47Z",
+      "side": 1,
+      "message": "from my point of view this should be encapsulate in a library or resource.",
+      "range": {
+        "startLine": 107,
+        "startChar": 4,
+        "endLine": 109,
+        "endChar": 60
+      },
+      "revId": "ec7c0da5fb6bb096115ba10520326c0519930a4e",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    }
+  ]
+}
