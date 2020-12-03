@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "13c78dd5_9e4c8299",
+        "filename": "tests/data/bbsim-kind-16.yaml",
+        "patchSetId": 3
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2020-12-03T07:31:11Z",
+      "side": 1,
+      "message": "Don\u0027t know, if it is important, but I miss the s- and c-tags here. Please clarify, because using this flow test will not work. Maybe it\u0027s another issue?",
+      "range": {
+        "startLine": 38,
+        "startChar": 1,
+        "endLine": 69,
+        "endChar": 24
+      },
+      "revId": "a2fa9f4ce4ad4ba43d1bcfff19beb9f0b84de1ff",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2270e60a_fd657f4b",
+        "filename": "tests/data/bbsim-kind-8x2.yaml",
+        "patchSetId": 3
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2020-12-03T07:31:11Z",
+      "side": 1,
+      "message": "Don\u0027t know, if it is important, but I miss the s- and c-tags here. Please clarify, because using this flow test will not work.Maybe it\u0027s another issue?",
+      "revId": "a2fa9f4ce4ad4ba43d1bcfff19beb9f0b84de1ff",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d391c3a0_0af70001",
+        "filename": "tests/data/multiple-bbsim-kind.yaml",
+        "patchSetId": 3
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2020-12-03T07:31:11Z",
+      "side": 1,
+      "message": "should be 909",
+      "range": {
+        "startLine": 113,
+        "startChar": 6,
+        "endLine": 113,
+        "endChar": 18
+      },
+      "revId": "a2fa9f4ce4ad4ba43d1bcfff19beb9f0b84de1ff",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    }
+  ]
+}
