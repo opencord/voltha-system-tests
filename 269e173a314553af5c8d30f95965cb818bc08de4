@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "84940115_510d6d24",
+        "filename": "tests/data/dmi-components-adtran.yaml",
+        "patchSetId": 18
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2020-12-03T10:17:03Z",
+      "side": 1,
+      "message": "you can see the pink wrong objects here. just remove the additional spaces and lines",
+      "revId": "269e173a314553af5c8d30f95965cb818bc08de4",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    }
+  ]
+}
