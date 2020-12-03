@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "6787d5c8_87ec4fa2",
+        "filename": "tests/data/bbsim-kind-16.yaml",
+        "patchSetId": 3
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1000007
+      },
+      "writtenOn": "2020-12-03T22:32:12Z",
+      "side": 1,
+      "message": "Honestly I have no idea what this file is used for (if used at all).\nI just updated all the references the BBSIM IDs I found in the repo",
+      "parentUuid": "13c78dd5_9e4c8299",
+      "range": {
+        "startLine": 38,
+        "startChar": 1,
+        "endLine": 69,
+        "endChar": 24
+      },
+      "revId": "a2fa9f4ce4ad4ba43d1bcfff19beb9f0b84de1ff",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2270e60a_fd657f4b",
         "filename": "tests/data/bbsim-kind-8x2.yaml",
         "patchSetId": 3
@@ -39,6 +63,24 @@
       "revId": "a2fa9f4ce4ad4ba43d1bcfff19beb9f0b84de1ff",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5d271c1e_feedd59f",
+        "filename": "tests/data/bbsim-kind-8x2.yaml",
+        "patchSetId": 3
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1000007
+      },
+      "writtenOn": "2020-12-03T22:32:12Z",
+      "side": 1,
+      "message": "Same as per the other file",
+      "parentUuid": "2270e60a_fd657f4b",
+      "revId": "a2fa9f4ce4ad4ba43d1bcfff19beb9f0b84de1ff",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
     },
     {
       "key": {
@@ -62,6 +104,30 @@
       "revId": "a2fa9f4ce4ad4ba43d1bcfff19beb9f0b84de1ff",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ed2e4299_61015c29",
+        "filename": "tests/data/multiple-bbsim-kind.yaml",
+        "patchSetId": 3
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1000007
+      },
+      "writtenOn": "2020-12-03T22:32:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d391c3a0_0af70001",
+      "range": {
+        "startLine": 113,
+        "startChar": 6,
+        "endLine": 113,
+        "endChar": 18
+      },
+      "revId": "a2fa9f4ce4ad4ba43d1bcfff19beb9f0b84de1ff",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
     }
   ]
 }
