@@ -16,6 +16,24 @@
       "revId": "6bb0ecca9c41e185d9fe347bfad969cc497a203f",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c1a8397c_7c2e4324",
+        "filename": "variables/variables.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1000656
+      },
+      "writtenOn": "2020-12-03T10:20:03Z",
+      "side": 1,
+      "message": "Yes it is possbile, I thought the variables are in good hands here. I will change it back.",
+      "parentUuid": "1f66a3ce_ab046d56",
+      "revId": "6bb0ecca9c41e185d9fe347bfad969cc497a203f",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
     }
   ]
 }

@@ -34,6 +34,24 @@
       "revId": "dbb3230303fb9fabffdbbc506792e41ec99bf2b3",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1bdf1e0f_3f1fa158",
+        "filename": "tests/dmi-interface/dmi-hw-management.robot",
+        "patchSetId": 13
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1000656
+      },
+      "writtenOn": "2020-12-03T10:20:03Z",
+      "side": 1,
+      "message": "this variable is stored in file \"dmi-components.yaml\". I have tested this only against BBSIM in an ONF environment. But the same file run in out environment agains a real OLT",
+      "parentUuid": "16b18b8e_604a1585",
+      "revId": "dbb3230303fb9fabffdbbc506792e41ec99bf2b3",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
     }
   ]
 }

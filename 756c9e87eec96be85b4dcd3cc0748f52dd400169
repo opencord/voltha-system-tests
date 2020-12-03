@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "0848983d_0ef90cb6",
+        "filename": "libraries/utility.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1000656
+      },
+      "writtenOn": "2020-12-03T10:20:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bf65b86e_d0b99a73",
+      "revId": "756c9e87eec96be85b4dcd3cc0748f52dd400169",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a955e0c7_ab0ab395",
         "filename": "tests/dmi-interface/dmi-hw-management.robot",
         "patchSetId": 4
@@ -33,6 +51,24 @@
       "revId": "756c9e87eec96be85b4dcd3cc0748f52dd400169",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "61dd14de_11523649",
+        "filename": "tests/dmi-interface/dmi-hw-management.robot",
+        "patchSetId": 4
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1000656
+      },
+      "writtenOn": "2020-12-03T10:20:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a955e0c7_ab0ab395",
+      "revId": "756c9e87eec96be85b4dcd3cc0748f52dd400169",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
     }
   ]
 }
