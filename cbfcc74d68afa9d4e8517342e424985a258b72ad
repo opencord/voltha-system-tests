@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "f158a1ef_dab0a349",
+        "filename": "libraries/utils.robot",
+        "patchSetId": 7
+      },
+      "lineNbr": 940,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2020-12-04T08:23:11Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "7407b7df_134ade6c",
+      "range": {
+        "startLine": 940,
+        "startChar": 15,
+        "endLine": 940,
+        "endChar": 24
+      },
+      "revId": "cbfcc74d68afa9d4e8517342e424985a258b72ad",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "751e4067_e145cc27",
         "filename": "libraries/utils.robot",
         "patchSetId": 7
@@ -84,6 +108,30 @@
       "side": 1,
       "message": "I didn\u0027t get your point on this comment",
       "parentUuid": "751e4067_e145cc27",
+      "range": {
+        "startLine": 948,
+        "startChar": 8,
+        "endLine": 948,
+        "endChar": 115
+      },
+      "revId": "cbfcc74d68afa9d4e8517342e424985a258b72ad",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ac33d964_b1193bd2",
+        "filename": "libraries/utils.robot",
+        "patchSetId": 7
+      },
+      "lineNbr": 948,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2020-12-04T08:23:11Z",
+      "side": 1,
+      "message": "OK, you declare the variable ${pingStatus} here, but it gets the value \u0027False\u0027 only in case of the current OLT is the rebooted OLT. The variable gets no value (so it is undefined) in all other cases. So you should take over my suggestion (or something similar) e.g. you insert following line before your statement:\n${pingStatus}    Set Variable    True\n\nAnd please remind the functionality of this keyword for further comments by me in Voltha-MultiOLT_Test.robot. Here you check ALL ONUs except the ONUs of the rebooted OLT!",
+      "parentUuid": "b1109b01_6c7080d1",
       "range": {
         "startLine": 948,
         "startChar": 8,
@@ -143,6 +191,30 @@
     },
     {
       "key": {
+        "uuid": "a9e8d67f_12670f6b",
+        "filename": "tests/functional/Voltha_MultiOLT_Tests.robot",
+        "patchSetId": 7
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2020-12-04T08:23:11Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "424f4924_c1ceede5",
+      "range": {
+        "startLine": 75,
+        "startChar": 4,
+        "endLine": 75,
+        "endChar": 72
+      },
+      "revId": "cbfcc74d68afa9d4e8517342e424985a258b72ad",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "10dd056f_3051c1cf",
         "filename": "tests/functional/Voltha_MultiOLT_Tests.robot",
         "patchSetId": 7
@@ -190,6 +262,30 @@
     },
     {
       "key": {
+        "uuid": "188c3903_16b8d558",
+        "filename": "tests/functional/Voltha_MultiOLT_Tests.robot",
+        "patchSetId": 7
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2020-12-04T08:23:11Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "3d841c62_2d64b1bc",
+      "range": {
+        "startLine": 84,
+        "startChar": 4,
+        "endLine": 84,
+        "endChar": 34
+      },
+      "revId": "cbfcc74d68afa9d4e8517342e424985a258b72ad",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "492d3ce3_4abebadd",
         "filename": "tests/functional/Voltha_MultiOLT_Tests.robot",
         "patchSetId": 7
@@ -210,6 +306,30 @@
       "revId": "cbfcc74d68afa9d4e8517342e424985a258b72ad",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1e43fc2b_b6486fe7",
+        "filename": "tests/functional/Voltha_MultiOLT_Tests.robot",
+        "patchSetId": 7
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2020-12-04T08:23:11Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "492d3ce3_4abebadd",
+      "range": {
+        "startLine": 88,
+        "startChar": 23,
+        "endLine": 88,
+        "endChar": 32
+      },
+      "revId": "cbfcc74d68afa9d4e8517342e424985a258b72ad",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
     },
     {
       "key": {
@@ -260,6 +380,30 @@
     },
     {
       "key": {
+        "uuid": "ba176071_16809214",
+        "filename": "tests/functional/Voltha_MultiOLT_Tests.robot",
+        "patchSetId": 7
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2020-12-04T08:23:11Z",
+      "side": 1,
+      "message": "As I already mentioned the line \"Verify ping is succesful for ONUs not on this OLT     ${num_all_onus}    ${olt_device_id}\" with ${olt_device_id} from line 81 fullfill your required functionality here. Else \"Verify ping is succesful for ONUs not on this OLT\" will be failed for all cases, because you pass a running OLT as exceptional OLT. Please remind the functionality of the keyword \"Verify ping is succesful for ONUs not on this OLT\"",
+      "parentUuid": "af5f326a_6a3ac9dc",
+      "range": {
+        "startLine": 85,
+        "startChar": 4,
+        "endLine": 89,
+        "endChar": 7
+      },
+      "revId": "cbfcc74d68afa9d4e8517342e424985a258b72ad",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ecbf0d49_97763554",
         "filename": "tests/functional/Voltha_MultiOLT_Tests.robot",
         "patchSetId": 7
@@ -295,6 +439,30 @@
       "side": 1,
       "message": "This is to similar verification as we do for PhysicalReboot test case.  This loop is needed to make sure that ONUs are not functional when the OLT gets rebooted. Hence this is needed",
       "parentUuid": "ecbf0d49_97763554",
+      "range": {
+        "startLine": 91,
+        "startChar": 4,
+        "endLine": 99,
+        "endChar": 119
+      },
+      "revId": "cbfcc74d68afa9d4e8517342e424985a258b72ad",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b2cb812f_f5b46ce1",
+        "filename": "tests/functional/Voltha_MultiOLT_Tests.robot",
+        "patchSetId": 7
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2020-12-04T08:23:11Z",
+      "side": 1,
+      "message": "OK, lets explain the Loop... the loop runs over all ONUs, ok. Then the OLT ID the ONU belongs to will be compared with the OLT ID which is rebooted. If both IDs don\u0027t match, rest of Loop will be skipped and the next ONU will take. If the OLT IDs match (that means, it is the rebooted OLT) Check Ping for the current ONU wil be executed with expected state \u0027False\u0027, And it will be done only in case of existing real HW POD. So far so good, but the same check was already done in keyword \"Verify ping is succesful for ONUs not on this OLT\" in line 88. So from my point of view it is double checked and superfluous.",
+      "parentUuid": "0d88041c_052bb4c3",
       "range": {
         "startLine": 91,
         "startChar": 4,
@@ -441,6 +609,53 @@
         "startChar": 4,
         "endLine": 150,
         "endChar": 7
+      },
+      "revId": "cbfcc74d68afa9d4e8517342e424985a258b72ad",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f4ea713c_47400cb8",
+        "filename": "tests/functional/Voltha_MultiOLT_Tests.robot",
+        "patchSetId": 7
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2020-12-04T08:23:11Z",
+      "side": 1,
+      "message": "See my explanations above.",
+      "parentUuid": "4fb2fa3e_eb42f06f",
+      "range": {
+        "startLine": 146,
+        "startChar": 4,
+        "endLine": 150,
+        "endChar": 7
+      },
+      "revId": "cbfcc74d68afa9d4e8517342e424985a258b72ad",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bbb00c5b_a1eaf542",
+        "filename": "tests/functional/Voltha_MultiOLT_Tests.robot",
+        "patchSetId": 7
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2020-12-04T08:23:11Z",
+      "side": 1,
+      "message": "See my explanations above.",
+      "range": {
+        "startLine": 152,
+        "startChar": 4,
+        "endLine": 160,
+        "endChar": 119
       },
       "revId": "cbfcc74d68afa9d4e8517342e424985a258b72ad",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",

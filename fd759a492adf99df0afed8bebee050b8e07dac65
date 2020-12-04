@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "270d4203_556bd058",
+        "filename": "tests/dt-workflow/Voltha_DT_MultiOLT_Tests.robot",
+        "patchSetId": 15
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2020-12-04T08:23:11Z",
+      "side": 1,
+      "message": "See my comments in Voltha_MultiOLT_Test.robot accordingly.",
+      "range": {
+        "startLine": 86,
+        "startChar": 1,
+        "endLine": 90,
+        "endChar": 0
+      },
+      "revId": "fd759a492adf99df0afed8bebee050b8e07dac65",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e6c956e2_598e9ab3",
+        "filename": "tests/dt-workflow/Voltha_DT_MultiOLT_Tests.robot",
+        "patchSetId": 15
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2020-12-04T08:23:11Z",
+      "side": 1,
+      "message": "See my comments in Voltha_MultiOLT_Test.robot accordingly.",
+      "range": {
+        "startLine": 93,
+        "startChar": 3,
+        "endLine": 102,
+        "endChar": 7
+      },
+      "revId": "fd759a492adf99df0afed8bebee050b8e07dac65",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8de4d9ba_5a4cf2a6",
+        "filename": "tests/dt-workflow/Voltha_DT_MultiOLT_Tests.robot",
+        "patchSetId": 15
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2020-12-04T08:23:11Z",
+      "side": 1,
+      "message": "See my comments in Voltha_MultiOLT_Test.robot accordingly.",
+      "range": {
+        "startLine": 144,
+        "startChar": 4,
+        "endLine": 149,
+        "endChar": 7
+      },
+      "revId": "fd759a492adf99df0afed8bebee050b8e07dac65",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8ac0266b_0a8cda69",
+        "filename": "tests/dt-workflow/Voltha_DT_MultiOLT_Tests.robot",
+        "patchSetId": 15
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2020-12-04T08:23:11Z",
+      "side": 1,
+      "message": "See my comments in Voltha_MultiOLT_Test.robot accordingly.",
+      "range": {
+        "startLine": 150,
+        "startChar": 1,
+        "endLine": 160,
+        "endChar": 7
+      },
+      "revId": "fd759a492adf99df0afed8bebee050b8e07dac65",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    }
+  ]
+}
