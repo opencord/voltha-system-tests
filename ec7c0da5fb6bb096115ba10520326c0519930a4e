@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "58d87089_130244b8",
+        "filename": "libraries/dmi-basics.robot",
+        "patchSetId": 19
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1000656
+      },
+      "writtenOn": "2020-12-04T11:23:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8befc8fd_b62fe041",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 1,
+        "endChar": 16
+      },
+      "revId": "ec7c0da5fb6bb096115ba10520326c0519930a4e",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "be46ebed_ce458f2f",
         "filename": "libraries/dmi-basics.robot",
         "patchSetId": 19
@@ -45,6 +69,30 @@
       "revId": "ec7c0da5fb6bb096115ba10520326c0519930a4e",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e0c3ae9c_9493e935",
+        "filename": "libraries/dmi-basics.robot",
+        "patchSetId": 19
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1000656
+      },
+      "writtenOn": "2020-12-04T11:23:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "be46ebed_ce458f2f",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 16
+      },
+      "revId": "ec7c0da5fb6bb096115ba10520326c0519930a4e",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "cc99fbec_9378539f",
+        "filename": "libraries/dmi-basics.robot",
+        "patchSetId": 19
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1000656
+      },
+      "writtenOn": "2020-12-04T11:23:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6d6e1789_6f64d912",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 24,
+        "endChar": 25
+      },
+      "revId": "ec7c0da5fb6bb096115ba10520326c0519930a4e",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2121b0d7_293d2125",
         "filename": "tests/data/dmi-components-adtran.yaml",
         "patchSetId": 19
@@ -91,6 +163,30 @@
       "revId": "ec7c0da5fb6bb096115ba10520326c0519930a4e",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "12264473_78dd60d6",
+        "filename": "tests/data/dmi-components-adtran.yaml",
+        "patchSetId": 19
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1000656
+      },
+      "writtenOn": "2020-12-04T11:23:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2121b0d7_293d2125",
+      "range": {
+        "startLine": 3,
+        "startChar": 12,
+        "endLine": 3,
+        "endChar": 16
+      },
+      "revId": "ec7c0da5fb6bb096115ba10520326c0519930a4e",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
     },
     {
       "key": {
@@ -140,6 +236,54 @@
     },
     {
       "key": {
+        "uuid": "98b49164_234565f8",
+        "filename": "tests/data/dmi-components-adtran.yaml",
+        "patchSetId": 19
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1000656
+      },
+      "writtenOn": "2020-12-04T11:23:33Z",
+      "side": 1,
+      "message": "No because, this values comes out of variables.py, please note: this file is used by ADTRAN internel test too. \nMaybe we should think about the moving of this varaibles out of the bbsim-yaml file.",
+      "parentUuid": "878ba0df_dd43d497",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 3
+      },
+      "revId": "ec7c0da5fb6bb096115ba10520326c0519930a4e",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "118c0826_0f230d4d",
+        "filename": "tests/data/dmi-components-adtran.yaml",
+        "patchSetId": 19
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1000656
+      },
+      "writtenOn": "2020-12-04T11:23:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e086b325_a2f7166f",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 32
+      },
+      "revId": "ec7c0da5fb6bb096115ba10520326c0519930a4e",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "db840419_bd334d79",
         "filename": "tests/data/dmi-components-bbsim.yaml",
         "patchSetId": 19
@@ -160,6 +304,30 @@
       "revId": "ec7c0da5fb6bb096115ba10520326c0519930a4e",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "55702213_7b67f69b",
+        "filename": "tests/data/dmi-components-bbsim.yaml",
+        "patchSetId": 19
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1000656
+      },
+      "writtenOn": "2020-12-04T11:23:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "db840419_bd334d79",
+      "range": {
+        "startLine": 3,
+        "startChar": 12,
+        "endLine": 3,
+        "endChar": 16
+      },
+      "revId": "ec7c0da5fb6bb096115ba10520326c0519930a4e",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
     },
     {
       "key": {
@@ -186,6 +354,30 @@
     },
     {
       "key": {
+        "uuid": "ec0cbfa5_2c2d0b38",
+        "filename": "tests/dmi-interface/dmi-hw-management.robot",
+        "patchSetId": 19
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1000656
+      },
+      "writtenOn": "2020-12-04T11:23:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "af297079_9367da4c",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 1,
+        "endChar": 16
+      },
+      "revId": "ec7c0da5fb6bb096115ba10520326c0519930a4e",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7dda3ab_318c3e0f",
         "filename": "tests/dmi-interface/dmi-hw-management.robot",
         "patchSetId": 19
@@ -206,6 +398,30 @@
       "revId": "ec7c0da5fb6bb096115ba10520326c0519930a4e",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e39537cd_cdf8c33c",
+        "filename": "tests/dmi-interface/dmi-hw-management.robot",
+        "patchSetId": 19
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1000656
+      },
+      "writtenOn": "2020-12-04T11:23:33Z",
+      "side": 1,
+      "message": "this is the test suite, the beginning of the test, the first entry point for the test, here it will be determined which interfaces are used (e.g. dmi1, kafka), furthermore all libraries which are used in this suite should be included on this place where it is used.\nI think, the interfaces dmi1 and kafka can be removed out of the \"Resource\" dmi-basic",
+      "parentUuid": "a7dda3ab_318c3e0f",
+      "range": {
+        "startLine": 4,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 0
+      },
+      "revId": "ec7c0da5fb6bb096115ba10520326c0519930a4e",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
     },
     {
       "key": {
@@ -232,6 +448,30 @@
     },
     {
       "key": {
+        "uuid": "86a074ae_5fd0f98f",
+        "filename": "tests/dmi-interface/dmi-hw-management.robot",
+        "patchSetId": 19
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1000656
+      },
+      "writtenOn": "2020-12-04T11:23:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "590fa29b_e8035f27",
+      "range": {
+        "startLine": 31,
+        "startChar": 4,
+        "endLine": 34,
+        "endChar": 49
+      },
+      "revId": "ec7c0da5fb6bb096115ba10520326c0519930a4e",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "02a4fe1a_b2728115",
         "filename": "tests/dmi-interface/dmi-hw-management.robot",
         "patchSetId": 19
@@ -252,6 +492,30 @@
       "revId": "ec7c0da5fb6bb096115ba10520326c0519930a4e",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "85c5b855_7e2bbf88",
+        "filename": "tests/dmi-interface/dmi-hw-management.robot",
+        "patchSetId": 19
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1000656
+      },
+      "writtenOn": "2020-12-04T11:23:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "02a4fe1a_b2728115",
+      "range": {
+        "startLine": 43,
+        "startChar": 3,
+        "endLine": 46,
+        "endChar": 51
+      },
+      "revId": "ec7c0da5fb6bb096115ba10520326c0519930a4e",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
     },
     {
       "key": {
@@ -278,6 +542,30 @@
     },
     {
       "key": {
+        "uuid": "3b7b3a2b_ab870330",
+        "filename": "tests/dmi-interface/dmi-hw-management.robot",
+        "patchSetId": 19
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1000656
+      },
+      "writtenOn": "2020-12-04T11:23:33Z",
+      "side": 1,
+      "message": "Why ? this is not double used. What I should encapsulate is the sequence \n\"${status}\u003d  Get From Dictionary  ${hwComInfoRes}  status\n        Should Be Equal  ${status}  OK_STATUS\"\nThis is repeated more as one time ;)",
+      "parentUuid": "832a6abb_100aece2",
+      "range": {
+        "startLine": 49,
+        "startChar": 8,
+        "endLine": 60,
+        "endChar": 121
+      },
+      "revId": "ec7c0da5fb6bb096115ba10520326c0519930a4e",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "592ce854_64bfb119",
         "filename": "tests/dmi-interface/dmi-hw-management.robot",
         "patchSetId": 19
@@ -298,6 +586,30 @@
       "revId": "ec7c0da5fb6bb096115ba10520326c0519930a4e",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "44ccdb25_7b31c8bf",
+        "filename": "tests/dmi-interface/dmi-hw-management.robot",
+        "patchSetId": 19
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1000656
+      },
+      "writtenOn": "2020-12-04T11:23:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "592ce854_64bfb119",
+      "range": {
+        "startLine": 75,
+        "startChar": 5,
+        "endLine": 79,
+        "endChar": 40
+      },
+      "revId": "ec7c0da5fb6bb096115ba10520326c0519930a4e",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
     },
     {
       "key": {
@@ -324,6 +636,30 @@
     },
     {
       "key": {
+        "uuid": "8de00259_b926a180",
+        "filename": "tests/dmi-interface/dmi-hw-management.robot",
+        "patchSetId": 19
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1000656
+      },
+      "writtenOn": "2020-12-04T11:23:33Z",
+      "side": 1,
+      "message": "this is used only one time, therefore I dont think so.",
+      "parentUuid": "4deb1ef6_5a43311a",
+      "range": {
+        "startLine": 81,
+        "startChar": 4,
+        "endLine": 84,
+        "endChar": 40
+      },
+      "revId": "ec7c0da5fb6bb096115ba10520326c0519930a4e",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "af610791_db8e1926",
         "filename": "tests/dmi-interface/dmi-hw-management.robot",
         "patchSetId": 19
@@ -344,6 +680,30 @@
       "revId": "ec7c0da5fb6bb096115ba10520326c0519930a4e",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "06267aa3_9d3b41c1",
+        "filename": "tests/dmi-interface/dmi-hw-management.robot",
+        "patchSetId": 19
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1000656
+      },
+      "writtenOn": "2020-12-04T11:23:33Z",
+      "side": 1,
+      "message": "it is only a name. In an ADTRAN environment will this work too.",
+      "parentUuid": "af610791_db8e1926",
+      "range": {
+        "startLine": 100,
+        "startChar": 4,
+        "endLine": 101,
+        "endChar": 67
+      },
+      "revId": "ec7c0da5fb6bb096115ba10520326c0519930a4e",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
     },
     {
       "key": {
@@ -390,6 +750,30 @@
       "revId": "ec7c0da5fb6bb096115ba10520326c0519930a4e",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c2c7f4bc_b349bad0",
+        "filename": "tests/dmi-interface/dmi-hw-management.robot",
+        "patchSetId": 19
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1000656
+      },
+      "writtenOn": "2020-12-04T11:23:33Z",
+      "side": 1,
+      "message": "This is already encapsulate! \"Stop Managing Device\" and \"Search For Managed Devices And Stop Managing It\" is defined in dmi-basics.robot and \"dmi1.Connection Close\" comes only one time in this suite",
+      "parentUuid": "f0084990_a7ab5cab",
+      "range": {
+        "startLine": 107,
+        "startChar": 4,
+        "endLine": 109,
+        "endChar": 60
+      },
+      "revId": "ec7c0da5fb6bb096115ba10520326c0519930a4e",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
     }
   ]
 }
