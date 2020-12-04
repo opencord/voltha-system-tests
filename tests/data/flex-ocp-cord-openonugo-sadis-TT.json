@@ -1,0 +1,257 @@
+{
+  "ports" : { },
+  "devices" : { },
+  "hosts" : { },
+  "apps" : {
+    "org.onosproject.provider.lldp" : {
+      "suppression" : {
+        "deviceTypes" : [ "ROADM", "OTN", "FIBER_SWITCH", "OPTICAL_AMPLIFIER" ],
+        "annotation" : "{\"no-lldp\":null}"
+      }
+    },
+    "org.opencord.kafka" : { },
+    "org.onosproject.core" : {
+      "multicast" : {
+        "ingressVlan" : 550,
+        "egressVlan" : 550,
+        "egressInnerVlan" : 55
+      }
+    },
+    "org.opencord.sadis" : {
+      "bandwidthprofile" : {
+        "integration" : {
+          "cache" : {
+            "enabled" : true,
+            "maxsize" : 40,
+            "ttl" : "PT1m"
+          }
+        },
+        "entries" : [ {
+          "id" : "High-Speed-Internet",
+          "cir" : 500000,
+          "cbs" : 10000,
+          "eir" : 500000,
+          "ebs" : 10000,
+          "air" : 100000
+        }, {
+          "id" : "VOIP",
+          "cir" : 400000,
+          "cbs" : 10000,
+          "eir" : 400000,
+          "ebs" : 10000,
+          "air" : 100000
+        }, {
+          "id" : "User1-Specific",
+          "cir" : 60000,
+          "cbs" : 10000,
+          "eir" : 40000,
+          "ebs" : 10000
+        }, {
+          "id" : "User1-Specific2",
+          "cir" : 500000,
+          "cbs" : 10000,
+          "eir" : 300000,
+          "ebs" : 10000
+        } ]
+      },
+      "sadis" : {
+        "integration" : {
+          "cache" : {
+            "enabled" : true,
+            "maxsize" : 50,
+            "ttl" : "PT1m"
+          }
+        },
+        "entries" : [ {
+          "id" : "ALPHe3d1cfa7-1",
+          "nasPortId" : "ALPHe3d1cfa7-1",
+          "uniTagList" : [ {
+            "uniTagMatch" : 35,
+            "ponCTag" : 901,
+            "ponSTag" : 111,
+            "usPonCTagPriority" : 0,
+            "usPonSTagPriority" : 0,
+            "dsPonCTagPriority" : 0,
+            "dsPonSTagPriority" : 0,
+            "technologyProfileId" : 64,
+            "downstreamBandwidthProfile" : "High-Speed-Internet",
+            "upstreamBandwidthProfile" : "User1-Specific",
+            "isDhcpRequired" : "true",
+            "serviceName" : "HSIA"
+          }, {
+            "uniTagMatch" : 65,
+            "ponCTag" : 444,
+            "ponSTag" : 333,
+            "usPonCTagPriority" : 7,
+            "usPonSTagPriority" : 7,
+            "dsPonCTagPriority" : 7,
+            "dsPonSTagPriority" : 7,
+            "technologyProfileId" : 65,
+            "downstreamBandwidthProfile" : "VOIP",
+            "upstreamBandwidthProfile" : "User1-Specific2",
+            "isDhcpRequired" : "true",
+            "configuredMacAddress" : "b4:96:91:0c:4f:e5",
+            "serviceName" : "VOIP"
+          }, {
+            "uniTagMatch" : 55,
+            "ponCTag" : 55,
+            "ponSTag" : 555,
+            "usPonCTagPriority" : 5,
+            "usPonSTagPriority" : 5,
+            "dsPonCTagPriority" : 5,
+            "dsPonSTagPriority" : 5,
+            "technologyProfileId" : 66,
+            "downstreamBandwidthProfile" : "High-Speed-Internet",
+            "upstreamBandwidthProfile" : "User1-Specific",
+            "configuredMacAddress" : "b4:96:91:0c:4f:e5",
+            "serviceName" : "VOD",
+            "isDhcpRequired" : "true",
+            "isIgmpRequired" : "true"
+          }, {
+            "ponCTag" : 55,
+            "ponSTag" : 550,
+            "dsPonCTagPriority" : 5,
+            "dsPonSTagPriority" : 5,
+            "technologyProfileId" : 66,
+            "serviceName" : "MC"
+          } ]
+        }, {
+          "id" : "ALPHe3d1cea3-1",
+          "nasPortId" : "ALPHe3d1cea3-1",
+          "uniTagList" : [ {
+            "uniTagMatch" : 35,
+            "ponCTag" : 801,
+            "ponSTag" : 111,
+            "usPonCTagPriority" : 0,
+            "usPonSTagPriority" : 0,
+            "dsPonCTagPriority" : 0,
+            "dsPonSTagPriority" : 0,
+            "technologyProfileId" : 64,
+            "downstreamBandwidthProfile" : "High-Speed-Internet",
+            "upstreamBandwidthProfile" : "User1-Specific",
+            "isDhcpRequired" : "true",
+            "serviceName" : "HSIA"
+          }, {
+            "uniTagMatch" : 65,
+            "ponCTag" : 444,
+            "ponSTag" : 333,
+            "usPonCTagPriority" : 7,
+            "usPonSTagPriority" : 7,
+            "dsPonCTagPriority" : 7,
+            "dsPonSTagPriority" : 7,
+            "technologyProfileId" : 65,
+            "downstreamBandwidthProfile" : "VOIP",
+            "upstreamBandwidthProfile" : "User1-Specific2",
+            "isDhcpRequired" : "true",
+            "configuredMacAddress" : "b4:96:91:0c:4f:e4",
+            "serviceName" : "VOIP"
+          }, {
+            "uniTagMatch" : 55,
+            "ponCTag" : 55,
+            "ponSTag" : 555,
+            "usPonCTagPriority" : 5,
+            "usPonSTagPriority" : 5,
+            "dsPonCTagPriority" : 5,
+            "dsPonSTagPriority" : 5,
+            "technologyProfileId" : 66,
+            "downstreamBandwidthProfile" : "High-Speed-Internet",
+            "upstreamBandwidthProfile" : "User1-Specific",
+            "configuredMacAddress" : "b4:96:91:0c:4f:e4",
+            "serviceName" : "VOD",
+            "isDhcpRequired" : "true",
+            "isIgmpRequired" : "true"
+          }, {
+            "ponCTag" : 55,
+            "ponSTag" : 550,
+            "dsPonCTagPriority" : 5,
+            "dsPonSTagPriority" : 5,
+            "technologyProfileId" : 66,
+            "serviceName" : "MC"
+          } ]
+        }, {
+          "id" : "ALPHe3d1ceb7-1",
+          "nasPortId" : "ALPHe3d1ceb7-1",
+          "uniTagList" : [ {
+            "uniTagMatch" : 35,
+            "ponCTag" : 101,
+            "ponSTag" : 222,
+            "usPonCTagPriority" : 0,
+            "usPonSTagPriority" : 0,
+            "dsPonCTagPriority" : 0,
+            "dsPonSTagPriority" : 0,
+            "technologyProfileId" : 64,
+            "downstreamBandwidthProfile" : "High-Speed-Internet",
+            "upstreamBandwidthProfile" : "User1-Specific",
+            "isDhcpRequired" : "true",
+            "serviceName" : "HSIA"
+          }, {
+            "uniTagMatch" : 65,
+            "ponCTag" : 444,
+            "ponSTag" : 333,
+            "usPonCTagPriority" : 7,
+            "usPonSTagPriority" : 7,
+            "dsPonCTagPriority" : 7,
+            "dsPonSTagPriority" : 7,
+            "technologyProfileId" : 65,
+            "downstreamBandwidthProfile" : "VOIP",
+            "upstreamBandwidthProfile" : "User1-Specific2",
+            "isDhcpRequired" : "true",
+            "configuredMacAddress" : "b4:96:91:0c:4f:c9",
+            "serviceName" : "VOIP"
+          }, {
+            "uniTagMatch" : 55,
+            "ponCTag" : 55,
+            "ponSTag" : 555,
+            "usPonCTagPriority" : 5,
+            "usPonSTagPriority" : 5,
+            "dsPonCTagPriority" : 5,
+            "dsPonSTagPriority" : 5,
+            "technologyProfileId" : 66,
+            "downstreamBandwidthProfile" : "High-Speed-Internet",
+            "upstreamBandwidthProfile" : "User1-Specific",
+            "configuredMacAddress" : "b4:96:91:0c:4f:c9",
+            "serviceName" : "VOD",
+            "isDhcpRequired" : "true",
+            "isIgmpRequired" : "true"
+          }, {
+            "ponCTag" : 55,
+            "ponSTag" : 550,
+            "dsPonCTagPriority" : 5,
+            "dsPonSTagPriority" : 5,
+            "technologyProfileId" : 66,
+            "serviceName" : "MC"
+          } ]
+        }, {
+          "id" : "EC1838000853",
+          "hardwareIdentifier" : "00:00:00:00:00:01",
+          "ipAddress" : "10.192.20.206",
+          "uplinkPort" : "1048576"
+        } ]
+      }
+    },
+    "org.opencord.igmpproxy" : {
+        "igmpproxy":{
+           "FastLeave":"true",
+           "LastQueryInterval":1,
+           "MaxResp":1,
+           "enableIgmpProvisioning":"false",
+           "globalConnectPointMode":"true",
+           "globalConnectPoint" : "of:0000000000000001/3",
+           "sourceDeviceAndPort":"of:0000000000000001/3",
+           "outgoingIgmpVlanId":550,
+           "outgoingIgmpInnerVlanId":55,
+           "outgoingIgmpWithV3":"true",
+           "IgmpCos":5,
+           "IgmpUniCos":5,
+           "PeriodicQuery":"true",
+           "KeepAliveInterval":60,
+           "KeepAliveCount":5,
+           "requestDsIgmpPackets":false
+        }
+    }
+  },
+  "regions" : { },
+  "links" : { },
+  "layouts" : { }
+}
+
