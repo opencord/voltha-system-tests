@@ -144,6 +144,30 @@
     },
     {
       "key": {
+        "uuid": "dbe346e8_38703711",
+        "filename": "libraries/utils.robot",
+        "patchSetId": 7
+      },
+      "lineNbr": 948,
+      "author": {
+        "id": 1000064
+      },
+      "writtenOn": "2020-12-04T20:02:46Z",
+      "side": 1,
+      "message": "since checking the `pingStatus` and setting the variable is confusing.  I updated the keyword to use another approach which is much cleaner and simpler.",
+      "parentUuid": "ac33d964_b1193bd2",
+      "range": {
+        "startLine": 948,
+        "startChar": 8,
+        "endLine": 948,
+        "endChar": 115
+      },
+      "revId": "cbfcc74d68afa9d4e8517342e424985a258b72ad",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "77b95576_ffdcb3f5",
         "filename": "tests/functional/Voltha_MultiOLT_Tests.robot",
         "patchSetId": 7
@@ -404,6 +428,30 @@
     },
     {
       "key": {
+        "uuid": "20e4ea2e_0a94643d",
+        "filename": "tests/functional/Voltha_MultiOLT_Tests.robot",
+        "patchSetId": 7
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1000064
+      },
+      "writtenOn": "2020-12-04T20:02:46Z",
+      "side": 1,
+      "message": "I understand... we don\u0027t need a loop here actually.  I will pass the entire ONU list anyways to test with the exceptional olt id. Changed the code",
+      "parentUuid": "ba176071_16809214",
+      "range": {
+        "startLine": 85,
+        "startChar": 4,
+        "endLine": 89,
+        "endChar": 7
+      },
+      "revId": "cbfcc74d68afa9d4e8517342e424985a258b72ad",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ecbf0d49_97763554",
         "filename": "tests/functional/Voltha_MultiOLT_Tests.robot",
         "patchSetId": 7
@@ -463,6 +511,30 @@
       "side": 1,
       "message": "OK, lets explain the Loop... the loop runs over all ONUs, ok. Then the OLT ID the ONU belongs to will be compared with the OLT ID which is rebooted. If both IDs don\u0027t match, rest of Loop will be skipped and the next ONU will take. If the OLT IDs match (that means, it is the rebooted OLT) Check Ping for the current ONU wil be executed with expected state \u0027False\u0027, And it will be done only in case of existing real HW POD. So far so good, but the same check was already done in keyword \"Verify ping is succesful for ONUs not on this OLT\" in line 88. So from my point of view it is double checked and superfluous.",
       "parentUuid": "0d88041c_052bb4c3",
+      "range": {
+        "startLine": 91,
+        "startChar": 4,
+        "endLine": 99,
+        "endChar": 119
+      },
+      "revId": "cbfcc74d68afa9d4e8517342e424985a258b72ad",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1dfb8130_42d993c5",
+        "filename": "tests/functional/Voltha_MultiOLT_Tests.robot",
+        "patchSetId": 7
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1000064
+      },
+      "writtenOn": "2020-12-04T20:02:46Z",
+      "side": 1,
+      "message": "I understand your concern here, but I have changed the \"Verify ping is successful for ONUs not on this OLT\" now, it won\u0027t check the validity of the ONUs for the rebooted OLT.  It\u0027s better to check it like an assertion here. Also, above keyword got changed hence there will not be any overlap.",
+      "parentUuid": "b2cb812f_f5b46ce1",
       "range": {
         "startLine": 91,
         "startChar": 4,
@@ -640,6 +712,30 @@
     },
     {
       "key": {
+        "uuid": "58616032_6101b86e",
+        "filename": "tests/functional/Voltha_MultiOLT_Tests.robot",
+        "patchSetId": 7
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1000064
+      },
+      "writtenOn": "2020-12-04T20:02:46Z",
+      "side": 1,
+      "message": "this has been taken care",
+      "parentUuid": "f4ea713c_47400cb8",
+      "range": {
+        "startLine": 146,
+        "startChar": 4,
+        "endLine": 150,
+        "endChar": 7
+      },
+      "revId": "cbfcc74d68afa9d4e8517342e424985a258b72ad",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "bbb00c5b_a1eaf542",
         "filename": "tests/functional/Voltha_MultiOLT_Tests.robot",
         "patchSetId": 7
@@ -651,6 +747,30 @@
       "writtenOn": "2020-12-04T08:23:11Z",
       "side": 1,
       "message": "See my explanations above.",
+      "range": {
+        "startLine": 152,
+        "startChar": 4,
+        "endLine": 160,
+        "endChar": 119
+      },
+      "revId": "cbfcc74d68afa9d4e8517342e424985a258b72ad",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0436ba30_c8ade74d",
+        "filename": "tests/functional/Voltha_MultiOLT_Tests.robot",
+        "patchSetId": 7
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1000064
+      },
+      "writtenOn": "2020-12-04T20:02:46Z",
+      "side": 1,
+      "message": "Since the keywords are changed now, I would like to keep this check for the existing rebooted OLT.  There are no repetition in the verifications. Hope the explanations clarify.  Also, I will run these tests on the POD",
+      "parentUuid": "bbb00c5b_a1eaf542",
       "range": {
         "startLine": 152,
         "startChar": 4,
