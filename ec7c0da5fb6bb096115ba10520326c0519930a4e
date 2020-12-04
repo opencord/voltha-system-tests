@@ -190,6 +190,30 @@
     },
     {
       "key": {
+        "uuid": "2267bff8_dd1cf41a",
+        "filename": "tests/data/dmi-components-adtran.yaml",
+        "patchSetId": 19
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2020-12-04T11:50:08Z",
+      "side": 1,
+      "message": "\u003e Done",
+      "parentUuid": "12264473_78dd60d6",
+      "range": {
+        "startLine": 3,
+        "startChar": 12,
+        "endLine": 3,
+        "endChar": 16
+      },
+      "revId": "ec7c0da5fb6bb096115ba10520326c0519930a4e",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "878ba0df_dd43d497",
         "filename": "tests/data/dmi-components-adtran.yaml",
         "patchSetId": 19
@@ -272,6 +296,54 @@
       "side": 1,
       "message": "Done",
       "parentUuid": "e086b325_a2f7166f",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 32
+      },
+      "revId": "ec7c0da5fb6bb096115ba10520326c0519930a4e",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "05fc95d8_5dd5de34",
+        "filename": "tests/data/dmi-components-adtran.yaml",
+        "patchSetId": 19
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2020-12-04T11:50:08Z",
+      "side": 1,
+      "message": "\u003e No because, this values comes out of variables.py, please note: this file is used by ADTRAN internel test too. \n\u003e Maybe we should think about the moving of this varaibles out of the bbsim-yaml file.\n\nNot sure it will work, but for the first time is ok.",
+      "parentUuid": "98b49164_234565f8",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 3
+      },
+      "revId": "ec7c0da5fb6bb096115ba10520326c0519930a4e",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9bfef668_53c3a34c",
+        "filename": "tests/data/dmi-components-adtran.yaml",
+        "patchSetId": 19
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2020-12-04T11:50:08Z",
+      "side": 1,
+      "message": "\u003e Done",
+      "parentUuid": "118c0826_0f230d4d",
       "range": {
         "startLine": 17,
         "startChar": 0,
@@ -425,6 +497,30 @@
     },
     {
       "key": {
+        "uuid": "342cede9_a2f2d417",
+        "filename": "tests/dmi-interface/dmi-hw-management.robot",
+        "patchSetId": 19
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2020-12-04T11:50:08Z",
+      "side": 1,
+      "message": "As long as you use the same aliases there will be no problem. But my intention is to encapsulate all grpc or kafka calls into libraries/resources. For the time beeing it\u0027s ok.",
+      "parentUuid": "e39537cd_cdf8c33c",
+      "range": {
+        "startLine": 4,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 0
+      },
+      "revId": "ec7c0da5fb6bb096115ba10520326c0519930a4e",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "590fa29b_e8035f27",
         "filename": "tests/dmi-interface/dmi-hw-management.robot",
         "patchSetId": 19
@@ -566,6 +662,30 @@
     },
     {
       "key": {
+        "uuid": "02e184a5_95784b68",
+        "filename": "tests/dmi-interface/dmi-hw-management.robot",
+        "patchSetId": 19
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2020-12-04T11:50:08Z",
+      "side": 1,
+      "message": "But my intention is to encapsulate all grpc or kafka calls into libraries/resources. For the time beeing it\u0027s ok.",
+      "parentUuid": "3b7b3a2b_ab870330",
+      "range": {
+        "startLine": 49,
+        "startChar": 8,
+        "endLine": 60,
+        "endChar": 121
+      },
+      "revId": "ec7c0da5fb6bb096115ba10520326c0519930a4e",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "592ce854_64bfb119",
         "filename": "tests/dmi-interface/dmi-hw-management.robot",
         "patchSetId": 19
@@ -660,6 +780,30 @@
     },
     {
       "key": {
+        "uuid": "9692e257_96bb2f66",
+        "filename": "tests/dmi-interface/dmi-hw-management.robot",
+        "patchSetId": 19
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2020-12-04T11:50:08Z",
+      "side": 1,
+      "message": "But my intention is to encapsulate all grpc or kafka calls into libraries/resources. For the time beeing it\u0027s ok.",
+      "parentUuid": "8de00259_b926a180",
+      "range": {
+        "startLine": 81,
+        "startChar": 4,
+        "endLine": 84,
+        "endChar": 40
+      },
+      "revId": "ec7c0da5fb6bb096115ba10520326c0519930a4e",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "af610791_db8e1926",
         "filename": "tests/dmi-interface/dmi-hw-management.robot",
         "patchSetId": 19
@@ -707,6 +851,30 @@
     },
     {
       "key": {
+        "uuid": "22889714_24e87682",
+        "filename": "tests/dmi-interface/dmi-hw-management.robot",
+        "patchSetId": 19
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2020-12-04T11:50:08Z",
+      "side": 1,
+      "message": "Ok, its only a name but it was confusing me. For the time beeing it\u0027s OK.",
+      "parentUuid": "06267aa3_9d3b41c1",
+      "range": {
+        "startLine": 100,
+        "startChar": 4,
+        "endLine": 101,
+        "endChar": 67
+      },
+      "revId": "ec7c0da5fb6bb096115ba10520326c0519930a4e",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f59c6078_38aefa6c",
         "filename": "tests/dmi-interface/dmi-hw-management.robot",
         "patchSetId": 19
@@ -727,6 +895,30 @@
       "revId": "ec7c0da5fb6bb096115ba10520326c0519930a4e",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "339f378e_4e741e2e",
+        "filename": "tests/dmi-interface/dmi-hw-management.robot",
+        "patchSetId": 19
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2020-12-04T11:50:08Z",
+      "side": 1,
+      "message": "But my intention is to encapsulate all grpc or kafka calls into libraries/resources. For the time beeing it\u0027s ok.",
+      "parentUuid": "f59c6078_38aefa6c",
+      "range": {
+        "startLine": 99,
+        "startChar": 4,
+        "endLine": 103,
+        "endChar": 44
+      },
+      "revId": "ec7c0da5fb6bb096115ba10520326c0519930a4e",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
     },
     {
       "key": {
@@ -765,6 +957,30 @@
       "side": 1,
       "message": "This is already encapsulate! \"Stop Managing Device\" and \"Search For Managed Devices And Stop Managing It\" is defined in dmi-basics.robot and \"dmi1.Connection Close\" comes only one time in this suite",
       "parentUuid": "f0084990_a7ab5cab",
+      "range": {
+        "startLine": 107,
+        "startChar": 4,
+        "endLine": 109,
+        "endChar": 60
+      },
+      "revId": "ec7c0da5fb6bb096115ba10520326c0519930a4e",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ae0bbfd8_d23a7f9b",
+        "filename": "tests/dmi-interface/dmi-hw-management.robot",
+        "patchSetId": 19
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2020-12-04T11:50:08Z",
+      "side": 1,
+      "message": "But my intention is to encapsulate all grpc or kafka calls into libraries/resources. For the time beeing it\u0027s ok.",
+      "parentUuid": "c2c7f4bc_b349bad0",
       "range": {
         "startLine": 107,
         "startChar": 4,
