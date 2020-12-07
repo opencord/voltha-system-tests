@@ -96,9 +96,12 @@ Onu Port Check
     ...    Assuming that ONU State Test was executed where all the ONUs are reached the expected state!
     [Tags]    functionalOnuGo    PortTestOnuGo
     [Setup]    Start Logging    ONUPortTest
-    Run Keyword If    '${onu_state}'=='tech-profile-config-download-success' or '${onu_state}'=='omci-flows-pushed'
-    ...    Do Onu Port Check
-    ...    ELSE    Pass Execution    ${skip_message}    skipped
+    FOR    ${I}    IN RANGE    0    ${num_olts}
+        ${olt_serial_number}=    Set Variable    ${list_olts}[${I}][sn]
+        Run Keyword If    '${onu_state}'=='tech-profile-config-download-success' or '${onu_state}'=='omci-flows-pushed'
+        ...    Do Onu Port Check    ${olt_serial_number}
+        ...    ELSE    Pass Execution    ${skip_message}    skipped
+    END
     [Teardown]    Run Keywords    Run Keyword If    ${logging}    Collect Logs
     ...    AND    Stop Logging    ONUPortTest
 
@@ -304,7 +307,8 @@ Do ONU Single State Test Time
 
 Do Onu Port Check
     [Documentation]    Check that all the UNI ports show up in ONOS
-    Wait for Ports in ONOS    ${onos_ssh_connection}    ${num_all_onus}    BBSM
+    [Arguments]     ${olt_serial_number}
+    Wait for Ports in ONOS    ${onos_ssh_connection}    ${num_all_onus}    ${olt_serial_number}     BBSM
 
 Do Onu Etcd Data Check
     [Documentation]    Check Onu data stored in etcd
