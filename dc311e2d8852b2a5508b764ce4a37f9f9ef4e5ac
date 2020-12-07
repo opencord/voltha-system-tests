@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b003345e_87e00db6",
+        "filename": "tests/functional/Voltha_ScaleFunctionalTests.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2020-12-07T22:29:02Z",
+      "side": 1,
+      "message": "6 minutes seems a bit excessive for a BBsim base test, maybe make it 60 sec ?",
+      "revId": "dc311e2d8852b2a5508b764ce4a37f9f9ef4e5ac",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f15e471f_19fc7669",
+        "filename": "tests/openonu-go-adapter/Voltha_ONUStateTests.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2020-12-07T22:29:02Z",
+      "side": 1,
+      "message": "same",
+      "revId": "dc311e2d8852b2a5508b764ce4a37f9f9ef4e5ac",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cce6189c_2734d222",
+        "filename": "tests/openonu-go-adapter/Voltha_ONUStateTests.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2020-12-07T22:29:02Z",
+      "side": 1,
+      "message": "same, valid for all other occurrences",
+      "revId": "dc311e2d8852b2a5508b764ce4a37f9f9ef4e5ac",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    }
+  ]
+}
