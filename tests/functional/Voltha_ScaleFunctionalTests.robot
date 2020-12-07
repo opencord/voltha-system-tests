@@ -123,8 +123,9 @@ Validate Total Number Of DHCP Allocations
     #validate total number of DHCP allocations
     FOR    ${I}    IN RANGE    0    ${num_olts}
         ${olt_serial_number}=    Set Variable    ${list_olts}[${I}][sn]
+        ${of_id}=    Wait Until Keyword Succeeds    360s    15s    Validate OLT Device in ONOS    ${olt_serial_number}
         Wait Until Keyword Succeeds  ${long_timeout}  20s  Validate DHCP Allocations  ${onos_ssh_connection}
-        ...    16   ${olt_serial_number}    BBSM
+        ...    16   ${of_id}    BBSM
     END
     #validate DHCP allocation for each port
     FOR    ${I}    IN RANGE    0    ${num_onus}
