@@ -89,7 +89,7 @@ Verify MIB Template Data Available
     ${namespace}=    Set Variable    default
     ${podname}=    Set Variable    etcd
     ${commandget}    Catenate
-    ...    /bin/sh -c 'ETCDCTL_API=3 etcdctl get --prefix service/voltha/omci_mibs/go_templates/'
+    ...    /bin/sh -c 'ETCDCTL_API=3 etcdctl get --prefix service/${NAME}/omci_mibs/go_templates/'
     ${result}=    Exec Pod In Kube    ${namespace}    ${podname}    ${commandget}
     Should Not Be Empty    ${result}    No MIB Template Data stored in etcd!
 
@@ -98,11 +98,11 @@ Delete MIB Template Data
     ${namespace}=    Set Variable    default
     ${podname}=    Set Variable    etcd
     ${commanddel}    Catenate
-    ...    /bin/sh -c 'ETCDCTL_API=3 etcdctl del --prefix service/voltha/omci_mibs/go_templates/'
+    ...    /bin/sh -c 'ETCDCTL_API=3 etcdctl del --prefix service/${NAME}/omci_mibs/go_templates/'
     ${result}=    Exec Pod In Kube    ${namespace}    ${podname}    ${commanddel}
     Sleep    3s
     ${commandget}    Catenate
-    ...    /bin/sh -c 'ETCDCTL_API=3 etcdctl get --prefix service/voltha/omci_mibs/go_templates/'
+    ...    /bin/sh -c 'ETCDCTL_API=3 etcdctl get --prefix service/${NAME}/omci_mibs/go_templates/'
     ${result}=    Exec Pod In Kube    ${namespace}    ${podname}    ${commandget}
     Should Be Empty    ${result}    Could not delete MIB Template Data stored in etcd!
 
@@ -113,7 +113,7 @@ Validate Onu Data In Etcd
     ...                Number of etcd entries has to match with the passed number.
     [Arguments]    ${nbofetcddata}=${num_all_onus}
     ${etcddata}=    Get ONU Go Adapter ETCD Data
-    ${etcddata}=    Remove Lines Containing String    ${etcddata}    service/voltha/openonu    \n
+    ${etcddata}=    Remove Lines Containing String    ${etcddata}    service/${NAME}/openonu    \n
     #prepare result for json convert
     ${result}=    Prepare ONU Go Adapter ETCD Data For Json    ${etcddata}
     ${jsondata}=    To Json    ${result}
@@ -150,7 +150,7 @@ Validate Vlan Rules In Etcd
     ...                current set-vid depending on setvidequal (True=equal, False=not equal).
     [Arguments]    ${nbofcookieslice}=1    ${reqmatchvid}=4096    ${prevvlanrules}=${NONE}    ${setvidequal}=False
     ${etcddata}=    Get ONU Go Adapter ETCD Data
-    ${etcddata}=    Remove Lines Containing String    ${etcddata}    service/voltha/openonu    \n
+    ${etcddata}=    Remove Lines Containing String    ${etcddata}    service/${NAME}/openonu    \n
     #prepare result for json convert
     ${result}=    Prepare ONU Go Adapter ETCD Data For Json    ${etcddata}
     ${jsondata}=    To Json    ${result}
@@ -190,7 +190,7 @@ Get ONU Go Adapter ETCD Data
     ${namespace}=    Set Variable    default
     ${podname}=    Set Variable    etcd
     ${commandget}    Catenate
-    ...    /bin/sh -c 'ETCDCTL_API=3 etcdctl get --prefix --prefix service/voltha/openonu'
+    ...    /bin/sh -c 'ETCDCTL_API=3 etcdctl get --prefix --prefix service/${NAME}/openonu'
     ${result}=    Exec Pod In Kube    ${namespace}    ${podname}    ${commandget}
     log    ${result}
     [Return]    ${result}
