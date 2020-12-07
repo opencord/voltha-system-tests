@@ -89,7 +89,8 @@ Teardown Suite
     Run Keyword If    ${teardown_device}    Delete All Devices and Verify
     FOR    ${I}    IN RANGE    0    ${num_olts}
         ${olt_serial_number}=    Set Variable    ${list_olts}[${I}][sn]
-        Wait for Ports in ONOS    ${onos_ssh_connection}    0    ${olt_serial_number}    BBSM
+        ${of_id}=    Wait Until Keyword Succeeds    60s    5s    Validate OLT Device in ONOS    ${olt_serial_number}
+        Wait for Ports in ONOS    ${onos_ssh_connection}    0    ${of_id}    BBSM
     END
     # delete etcd MIB Template Data (for repeating test)
     Delete MIB Template Data

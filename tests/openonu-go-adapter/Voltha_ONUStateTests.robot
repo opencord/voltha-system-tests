@@ -98,8 +98,9 @@ Onu Port Check
     [Setup]    Start Logging    ONUPortTest
     FOR    ${I}    IN RANGE    0    ${num_olts}
         ${olt_serial_number}=    Set Variable    ${list_olts}[${I}][sn]
+        ${of_id}=    Wait Until Keyword Succeeds    60s    5s    Validate OLT Device in ONOS    ${olt_serial_number}
         Run Keyword If    '${onu_state}'=='tech-profile-config-download-success' or '${onu_state}'=='omci-flows-pushed'
-        ...    Do Onu Port Check    ${olt_serial_number}
+        ...    Do Onu Port Check    ${of_id}
         ...    ELSE    Pass Execution    ${skip_message}    skipped
     END
     [Teardown]    Run Keywords    Run Keyword If    ${logging}    Collect Logs
@@ -214,7 +215,8 @@ Teardown Suite
     Validate Onu Data In Etcd    0
     FOR    ${I}    IN RANGE    0    ${num_olts}
         ${olt_serial_number}=    Set Variable    ${list_olts}[${I}][sn]
-        Wait for Ports in ONOS    ${onos_ssh_connection}    0    ${olt_serial_number}    BBSM
+        ${of_id}=    Wait Until Keyword Succeeds    60s    5s    Validate OLT Device in ONOS    ${olt_serial_number}
+        Wait for Ports in ONOS    ${onos_ssh_connection}    0    ${of_id}    BBSM
     END
     Close ONOS SSH Connection   ${onos_ssh_connection}
     Remove Tech Profile
@@ -454,7 +456,8 @@ Do Disable Enable Onu Test
     #check no port is enabled in ONOS
     FOR    ${I}    IN RANGE    0    ${num_olts}
         ${olt_serial_number}=    Set Variable    ${list_olts}[${I}][sn]
-        Wait for Ports in ONOS    ${onos_ssh_connection}    0    ${olt_serial_number}    BBSM
+        ${of_id}=    Wait Until Keyword Succeeds    60s    5s    Validate OLT Device in ONOS    ${olt_serial_number}
+        Wait for Ports in ONOS    ${onos_ssh_connection}    0    ${of_id}    BBSM
     END
     Do Enable Onu Device
     Do Current State Test All Onus    ${state2check}
@@ -462,7 +465,8 @@ Do Disable Enable Onu Test
     #check that all the UNI ports show up in ONOS again
     FOR    ${I}    IN RANGE    0    ${num_olts}
         ${olt_serial_number}=    Set Variable    ${list_olts}[${I}][sn]
-        Wait for Ports in ONOS    ${onos_ssh_connection}    ${num_all_onus}     ${olt_serial_number}    BBSM
+        ${of_id}=    Wait Until Keyword Succeeds    60s    5s    Validate OLT Device in ONOS    ${olt_serial_number}
+        Wait for Ports in ONOS    ${onos_ssh_connection}    ${num_all_onus}     ${of_id}    BBSM
     END
 
 Do Reconcile Onu Device
@@ -487,7 +491,8 @@ Do Reconcile Onu Device
     Do Disable Enable Onu Test
     FOR    ${I}    IN RANGE    0    ${num_olts}
         ${olt_serial_number}=    Set Variable    ${list_olts}[${I}][sn]
-        Do Onu Port Check   ${olt_serial_number}
+        ${of_id}=    Wait Until Keyword Succeeds    60s    5s    Validate OLT Device in ONOS    ${olt_serial_number}
+        Do Onu Port Check   ${of_id}
     END
 
 Do Power Off Power On Onu Device
@@ -515,7 +520,8 @@ Do Soft Reboot Onu Device
     Run Keyword If    ${has_dataplane}    Do Current State Test All Onus    omci-flows-pushed
     FOR    ${I}    IN RANGE    0    ${num_olts}
         ${olt_serial_number}=    Set Variable    ${list_olts}[${I}][sn]
-        Do Onu Port Check   ${olt_serial_number}
+        ${of_id}=    Wait Until Keyword Succeeds    60s    5s    Validate OLT Device in ONOS    ${olt_serial_number}
+        Do Onu Port Check   ${of_id}
     END
 
 Do Disable Onu Device
