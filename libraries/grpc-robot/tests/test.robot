@@ -30,6 +30,9 @@ keywords
     dmi    hw_management_service_set_msg_bus_endpoint
     dmi    hw_management_service_start_managing_device
     dmi    hw_management_service_stop_managing_device
+    dmi    hw_management_service_get_loggable_entities
+    dmi    hw_management_service_set_log_level
+    dmi    hw_management_service_get_log_level
     dmi    hw_metrics_mgmt_service_get_metric
     dmi    hw_metrics_mgmt_service_list_metrics
     dmi    hw_metrics_mgmt_service_update_metrics_configuration
@@ -58,6 +61,29 @@ connection_params
     ${settings_after}    dmi.Connection Parameters Get
     Should Be Equal    ${settings_before}    ${settings_while_set}
     Should Be Equal As Integers     ${settings_after}[timeout]    ${new_timeout}
+
+enum_and_default_values
+    [Setup]    dmi.Connection Open    host=127.0.0.1    port=50051
+    ${params}   Get From Dictionary    ${param_dicts}    hw_management_service_get_log_level
+    ${return}   hw_management_service_get_log_level     ${params}
+    Should Be Equal As Strings    ${return}[status]    OK_STATUS
+    Dictionary Should Not Contain Key     ${return}    reason
+    ${return}   hw_management_service_get_log_level     ${params}    return_enum_integer=true
+    Should Be Equal As Integers    ${return}[status]    1
+    Dictionary Should Not Contain Key     ${return}    reason
+    ${return}   hw_management_service_get_log_level     ${params}    return_enum_integer=${TRUE}
+    Should Be Equal As Integers    ${return}[status]    1
+    Dictionary Should Not Contain Key     ${return}    reason
+    ${return}   hw_management_service_get_log_level     ${params}    return_defaults=true
+    Should Be Equal As Strings    ${return}[status]    OK_STATUS
+    Should Be Equal As Strings    ${return}[reason]    UNDEFINED_REASON
+    ${return}   hw_management_service_get_log_level     ${params}    return_defaults=${TRUE}
+    Should Be Equal As Strings    ${return}[status]    OK_STATUS
+    Should Be Equal As Strings    ${return}[reason]    UNDEFINED_REASON
+    ${return}   hw_management_service_get_log_level     ${params}    return_enum_integer=true    return_defaults=true
+    Should Be Equal As Integers    ${return}[status]    1
+    Should Be Equal As Integers    ${return}[reason]    0
+    [Teardown]    dmi.Connection Close
 
 tools
     ${dict_1}    Create Dictionary    name=abc    type=123

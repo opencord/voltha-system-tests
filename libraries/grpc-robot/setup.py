@@ -35,7 +35,6 @@ setup(
         'robotframework>=3.1.2',
         'grpcio',
         'decorator',
-        'protobuf3-to-dict',
         'attrs',
         'parsy'
     ],

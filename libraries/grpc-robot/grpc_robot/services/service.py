@@ -2,7 +2,7 @@ import grpc
 from grpc import _channel, ChannelConnectivity
 from decorator import decorator
 
-from protobuf_to_dict import protobuf_to_dict, dict_to_protobuf
+from ..tools.protobuf_to_dict import protobuf_to_dict, dict_to_protobuf
 from ..tools.robot_tools import Collections
 from google.protobuf import empty_pb2
 
@@ -28,6 +28,7 @@ kw_name_mapping = {
 one_of_note = """*Note*: Bold dictionary keys are cases of an ONEOF type that is not transmitted in gRPC.\n"""
 named_parameters_note = """*Named parameters*:\n
 - return_enum_integer: <bool> or <string>; Whether or not to return the enum values as integer values rather than their labels. Default: _${FALSE}_ or _false_.\n
+- return_defaults: <bool> or <string>; Whether or not to return the default values. Default: _${FALSE}_ or _false_.\n
 - timeout: <int> or <string>; Number of seconds to wait for the response. Default: The timeout value set by keywords _Connection Open_ and _Connection Parameters Set_."""
 
 
@@ -191,8 +192,9 @@ class Service(object):
         debug_text = 'RESPONSE' if index is None else 'RESPONSE-NEXT  ' if index else 'RESPONSE-STREAM'
 
         return_enum_integer = bool(str(kwargs.get('return_enum_integer', False)).lower() == 'true')
+        return_defaults = bool(str(kwargs.get('return_defaults', False)).lower() == 'true')
 
-        _response = protobuf_to_dict(response, use_enum_labels=not return_enum_integer)
+        _response = protobuf_to_dict(response, use_enum_labels=not return_enum_integer, including_default_value_fields=return_defaults)
         self.ctx.logger.debug('%s : data=%s' % (debug_text, response))
 
         return _response
