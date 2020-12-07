@@ -121,6 +121,7 @@ Validate Total Number Of DHCP Allocations
     [Documentation]    Verify dhcp allocation for multiple ONU user
     [Tags]    VOL-1824    active
     #validate total number of DHCP allocations
+    # NOTE is this test still used? seems like the parameters are completely off
     Wait Until Keyword Succeeds  ${long_timeout}  20s  Validate DHCP Allocations  ${ONOS_SSH_IP}
     ...    ${ONOS_SSH_PORT}        16
     #validate DHCP allocation for each port
