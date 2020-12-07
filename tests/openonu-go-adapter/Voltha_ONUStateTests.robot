@@ -96,9 +96,12 @@ Onu Port Check
     ...    Assuming that ONU State Test was executed where all the ONUs are reached the expected state!
     [Tags]    functionalOnuGo    PortTestOnuGo
     [Setup]    Start Logging    ONUPortTest
-    Run Keyword If    '${onu_state}'=='tech-profile-config-download-success' or '${onu_state}'=='omci-flows-pushed'
-    ...    Do Onu Port Check
-    ...    ELSE    Pass Execution    ${skip_message}    skipped
+    FOR    ${I}    IN RANGE    0    ${num_olts}
+        ${olt_serial_number}=    Set Variable    ${list_olts}[${I}][sn]
+        Run Keyword If    '${onu_state}'=='tech-profile-config-download-success' or '${onu_state}'=='omci-flows-pushed'
+        ...    Do Onu Port Check    ${olt_serial_number}
+        ...    ELSE    Pass Execution    ${skip_message}    skipped
+    END
     [Teardown]    Run Keywords    Run Keyword If    ${logging}    Collect Logs
     ...    AND    Stop Logging    ONUPortTest
 
@@ -209,7 +212,10 @@ Teardown Suite
     Run Keyword If    ${pausebeforecleanup}    Log    Teardown will be continued...    console=yes
     Run Keyword If    ${teardown_device}    Delete All Devices and Verify
     Validate Onu Data In Etcd    0
-    Wait for Ports in ONOS      ${onos_ssh_connection}  0   BBSM
+    FOR    ${I}    IN RANGE    0    ${num_olts}
+        ${olt_serial_number}=    Set Variable    ${list_olts}[${I}][sn]
+        Wait for Ports in ONOS    ${onos_ssh_connection}    0    ${olt_serial_number}    BBSM
+    END
     Close ONOS SSH Connection   ${onos_ssh_connection}
     Remove Tech Profile
 
@@ -304,7 +310,8 @@ Do ONU Single State Test Time
 
 Do Onu Port Check
     [Documentation]    Check that all the UNI ports show up in ONOS
-    Wait for Ports in ONOS    ${onos_ssh_connection}    ${num_all_onus}    BBSM
+    [Arguments]     ${olt_serial_number}
+    Wait for Ports in ONOS    ${onos_ssh_connection}    ${num_all_onus}    ${olt_serial_number}     BBSM
 
 Do Onu Etcd Data Check
     [Documentation]    Check Onu data stored in etcd
@@ -445,12 +452,18 @@ Do Disable Enable Onu Test
     Do Current State Test All Onus    ${state2checkafterdisable}    alternativeonustate=${alternative_onu_reason}
     Log Ports
     #check no port is enabled in ONOS
-    Wait for Ports in ONOS    ${onos_ssh_connection}    0    BBSM
+    FOR    ${I}    IN RANGE    0    ${num_olts}
+        ${olt_serial_number}=    Set Variable    ${list_olts}[${I}][sn]
+        Wait for Ports in ONOS    ${onos_ssh_connection}    0    ${olt_serial_number}    BBSM
+    END
     Do Enable Onu Device
     Do Current State Test All Onus    ${state2check}
     Log Ports    onlyenabled=True
     #check that all the UNI ports show up in ONOS again
-    Wait for Ports in ONOS    ${onos_ssh_connection}    ${num_all_onus}    BBSM
+    FOR    ${I}    IN RANGE    0    ${num_olts}
+        ${olt_serial_number}=    Set Variable    ${list_olts}[${I}][sn]
+        Wait for Ports in ONOS    ${onos_ssh_connection}    ${num_all_onus}     ${olt_serial_number}    BBSM
+    END
 
 Do Reconcile Onu Device
     [Documentation]    This keyword reconciles ONU device and check the state afterwards.
@@ -472,7 +485,10 @@ Do Reconcile Onu Device
     Sleep    5s
     Wait For Pods Ready    ${namespace}    ${list_openonu_apps}
     Do Disable Enable Onu Test
-    Do Onu Port Check
+    FOR    ${I}    IN RANGE    0    ${num_olts}
+        ${olt_serial_number}=    Set Variable    ${list_olts}[${I}][sn]
+        Do Onu Port Check   ${olt_serial_number}
+    END
 
 Do Power Off Power On Onu Device
     [Documentation]    This keyword power off/on all onus and checks the states.
@@ -497,7 +513,10 @@ Do Soft Reboot Onu Device
     Run Keyword Unless    ${has_dataplane}    Do Disable Enable Onu Test    checkstatebeforedisable=False
     ...    state2checkafterdisable=omci-admin-lock
     Run Keyword If    ${has_dataplane}    Do Current State Test All Onus    omci-flows-pushed
-    Do Onu Port Check
+    FOR    ${I}    IN RANGE    0    ${num_olts}
+        ${olt_serial_number}=    Set Variable    ${list_olts}[${I}][sn]
+        Do Onu Port Check   ${olt_serial_number}
+    END
 
 Do Disable Onu Device
     [Documentation]    This keyword disables all onus.

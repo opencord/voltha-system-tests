@@ -121,8 +121,11 @@ Validate Total Number Of DHCP Allocations
     [Documentation]    Verify dhcp allocation for multiple ONU user
     [Tags]    VOL-1824    active
     #validate total number of DHCP allocations
-    Wait Until Keyword Succeeds  ${long_timeout}  20s  Validate DHCP Allocations  ${ONOS_SSH_IP}
-    ...    ${ONOS_SSH_PORT}        16
+    FOR    ${I}    IN RANGE    0    ${num_olts}
+        ${olt_serial_number}=    Set Variable    ${list_olts}[${I}][sn]
+        Wait Until Keyword Succeeds  ${long_timeout}  20s  Validate DHCP Allocations  ${onos_ssh_connection}
+        ...    16   ${olt_serial_number}    BBSM
+    END
     #validate DHCP allocation for each port
     FOR    ${I}    IN RANGE    0    ${num_onus}
         ${src}=    Set Variable    ${hosts.src[${I}]}
@@ -181,6 +184,7 @@ Test Disable and Enable ONU
 Setup Suite
     [Documentation]    Set up the test suite
     Common Test Suite Setup
+    ${onos_ssh_connection}    Open ONOS SSH Connection    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}
 
 Teardown Suite
     [Documentation]    Clean up devices if desired
