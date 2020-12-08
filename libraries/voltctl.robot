@@ -205,7 +205,7 @@ Validate Device
     ...    values=False
     Should Be Equal    '${cstatus}'    '${connect_status}'    Device ${sn} conn_status != ${connect_status}
     ...    values=False
-    Run Keyword If    '${onu}' == 'True'    Should Be Equal    '${mib_state}'    '${onu_reason}'
+    Run Keyword If    '${onu}' == 'True'    Should Contain    '${onu_reason}'   '${mib_state}'
     ...    Device ${sn} mib_state incorrect (${mib_state}) values=False
 
 Validate OLT Device
