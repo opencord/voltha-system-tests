@@ -1,3 +1,17 @@
+# Copyright 2020 - present Open Networking Foundation
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+# http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
 *** Settings ***
 Documentation     Test Template handling of ONU Go adapter with BBSIM controlledActivation: only-onu only!
 ...               Values.yaml must contain 'onu: 2' and 'controlledActivation: only-onu' under BBSIM!
@@ -22,7 +36,7 @@ Resource          Voltha_ONUUtilities.robot
 
 *** Variables ***
 ${NAMESPACE}      voltha
-${timeout}        180s
+${timeout}        60s
 ${of_id}          0
 ${logical_id}     0
 ${has_dataplane}    True
@@ -51,7 +65,7 @@ ONU MIB Template Data Test
     ...                - request MIB-Upload-Data by ONU via OMCI
     ...                - storage MIB-Upload-Data in etcd
     ...                - store setup duration of ONU
-    ...                - check Template-Data in etcd stored (service/voltha/omci_mibs/go_templates/)
+    ...                - check Template-Data in etcd stored (service/%{NAME}/omci_mibs/go_templates/)
     ...                - setup second ONU
     ...                - collect setup durationof second ONU
     ...                - compare both duration
@@ -87,11 +101,7 @@ Teardown Suite
     Run Keyword If    ${pausebeforecleanup}    Pause Execution    Press OK to continue with clean up!
     Run Keyword If    ${pausebeforecleanup}    Log    Teardown will be continued...    console=yes
     Run Keyword If    ${teardown_device}    Delete All Devices and Verify
-    FOR    ${I}    IN RANGE    0    ${num_olts}
-        ${olt_serial_number}=    Set Variable    ${list_olts}[${I}][sn]
-        ${of_id}=    Wait Until Keyword Succeeds    60s    5s    Validate OLT Device in ONOS    ${olt_serial_number}
-        Wait for Ports in ONOS    ${onos_ssh_connection}    0    ${of_id}    BBSM
-    END
+    Wait for Ports in ONOS for all OLTs      ${onos_ssh_connection}  0   BBSM
     # delete etcd MIB Template Data (for repeating test)
     Delete MIB Template Data
     Close ONOS SSH Connection   ${onos_ssh_connection}
