@@ -433,7 +433,7 @@ Remove All Devices From ONOS
     END
 
 Assert Ports in ONOS
-    [Arguments]    ${onos_ssh_connection}     ${count}     ${deviceId}  ${filter}
+    [Arguments]    ${onos_ssh_connection}     ${count}     ${deviceId}    ${filter}
     [Documentation]    Check that a certain number of ports are enabled in ONOS
     ${ports}=    Execute ONOS CLI Command on open connection     ${onos_ssh_connection}
         ...    ports -e ${deviceId} | grep ${filter} | wc -l
@@ -441,22 +441,22 @@ Assert Ports in ONOS
     Should Be Equal As Integers    ${ports}    ${count}
 
 Wait for Ports in ONOS
-    [Arguments]    ${onos_ssh_connection}     ${count}     ${deviceId}  ${filter}
+    [Arguments]    ${onos_ssh_connection}    ${count}    ${deviceId}    ${filter}    ${max_wait_time}=10m
     [Documentation]    Waits untill a certain number of ports are enabled in ONOS for a particular deviceId
-    Wait Until Keyword Succeeds     10m     5s      Assert Ports in ONOS
+    Wait Until Keyword Succeeds     ${max_wait_time}     5s      Assert Ports in ONOS
     ...     ${onos_ssh_connection}     ${count}     ${deviceId}     ${filter}
 
 Wait for AAA Authentication
-    [Arguments]    ${onos_ssh_connection}     ${count}  ${deviceId}
+    [Arguments]    ${onos_ssh_connection}    ${count}    ${deviceId}    ${max_wait_time}=10m
     [Documentation]    Waits untill a certain number of subscribers are authenticated in ONOS
-    Wait Until Keyword Succeeds     10m     5s      Assert Number of AAA-Users
+    Wait Until Keyword Succeeds     ${max_wait_time}     5s      Assert Number of AAA-Users
     ...     ${onos_ssh_connection}     ${count}     ${deviceId}
 
 Wait for DHCP Ack
-    [Arguments]    ${onos_ssh_connection}     ${count}  ${workflow}     ${deviceId}
+    [Arguments]    ${onos_ssh_connection}    ${count}    ${workflow}    ${deviceId}    ${max_wait_time}=10m
     [Documentation]    Waits untill a certain number of subscribers have received a DHCP_ACK
-    Wait Until Keyword Succeeds     10m     5s      Validate DHCP Allocations
-        ...     ${onos_ssh_connection}     ${count}  ${workflow}    ${deviceId}
+    Wait Until Keyword Succeeds     ${max_wait_time}     5s      Validate DHCP Allocations
+        ...     ${onos_ssh_connection}     ${count}    ${workflow}    ${deviceId}
 
 Provision subscriber
     [Documentation]  Calls volt-add-subscriber-access in ONOS
