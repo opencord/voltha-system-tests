@@ -1,4 +1,4 @@
-# Copyright 2020-present Open Networking Foundation
+# Copyright 2020 - present Open Networking Foundation
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -11,7 +11,6 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-# voltctl common functions
 
 *** Settings ***
 Documentation     Library for various openonu-go-adpter utilities
@@ -87,9 +86,10 @@ Kill Adaptor
 Verify MIB Template Data Available
     [Documentation]    This keyword verifies MIB Template Data stored in etcd
     ${namespace}=    Set Variable    default
-    ${podname}=    Set Variable    etcd
+    ${podname}=      Set Variable    etcd
+    ${stackname}=    Get Stack Name
     ${commandget}    Catenate
-    ...    /bin/sh -c 'ETCDCTL_API=3 etcdctl get --prefix service/voltha/omci_mibs/go_templates/'
+    ...    /bin/sh -c 'ETCDCTL_API=3 etcdctl get --prefix service/${stackname}/omci_mibs/go_templates/'
     ${result}=    Exec Pod In Kube    ${namespace}    ${podname}    ${commandget}
     Should Not Be Empty    ${result}    No MIB Template Data stored in etcd!
 
@@ -97,12 +97,13 @@ Delete MIB Template Data
     [Documentation]    This keyword deletes MIB Template Data stored in etcd
     ${namespace}=    Set Variable    default
     ${podname}=    Set Variable    etcd
+    ${stackname}=    Get Stack Name
     ${commanddel}    Catenate
-    ...    /bin/sh -c 'ETCDCTL_API=3 etcdctl del --prefix service/%{NAME}/omci_mibs/go_templates/'
+    ...    /bin/sh -c 'ETCDCTL_API=3 etcdctl del --prefix service/${stackname}/omci_mibs/go_templates/'
     ${result}=    Exec Pod In Kube    ${namespace}    ${podname}    ${commanddel}
     Sleep    3s
     ${commandget}    Catenate
-    ...    /bin/sh -c 'ETCDCTL_API=3 etcdctl get --prefix service/%{NAME}/omci_mibs/go_templates/'
+    ...    /bin/sh -c 'ETCDCTL_API=3 etcdctl get --prefix service/${stackname}/omci_mibs/go_templates/'
     ${result}=    Exec Pod In Kube    ${namespace}    ${podname}    ${commandget}
     Should Be Empty    ${result}    Could not delete MIB Template Data stored in etcd!
 
@@ -112,8 +113,9 @@ Validate Onu Data In Etcd
     ...                Furthermore it evaluates the values of onu_id and uni_id with values read from tp_path.
     ...                Number of etcd entries has to match with the passed number.
     [Arguments]    ${nbofetcddata}=${num_all_onus}
+    ${stackname}=    Get Stack Name
     ${etcddata}=    Get ONU Go Adapter ETCD Data
-    ${etcddata}=    Remove Lines Containing String    ${etcddata}    service/%{NAME}/openonu    \n
+    ${etcddata}=    Remove Lines Containing String    ${etcddata}    service/${stackname}/openonu    \n
     #prepare result for json convert
     ${result}=    Prepare ONU Go Adapter ETCD Data For Json    ${etcddata}
     ${jsondata}=    To Json    ${result}
@@ -149,8 +151,9 @@ Validate Vlan Rules In Etcd
     ...                In case of a passed dictionary containing set_vids these will be checked for to
     ...                current set-vid depending on setvidequal (True=equal, False=not equal).
     [Arguments]    ${nbofcookieslice}=1    ${reqmatchvid}=4096    ${prevvlanrules}=${NONE}    ${setvidequal}=False
+    ${stackname}=    Get Stack Name
     ${etcddata}=    Get ONU Go Adapter ETCD Data
-    ${etcddata}=    Remove Lines Containing String    ${etcddata}    service/%{NAME}/openonu    \n
+    ${etcddata}=    Remove Lines Containing String    ${etcddata}    service/${stackname}/openonu    \n
     #prepare result for json convert
     ${result}=    Prepare ONU Go Adapter ETCD Data For Json    ${etcddata}
     ${jsondata}=    To Json    ${result}
@@ -189,8 +192,9 @@ Get ONU Go Adapter ETCD Data
     [Documentation]    This keyword delivers openonu-go-adapter Data stored in etcd
     ${namespace}=    Set Variable    default
     ${podname}=    Set Variable    etcd
+    ${stackname}=    Get Stack Name
     ${commandget}    Catenate
-    ...    /bin/sh -c 'ETCDCTL_API=3 etcdctl get --prefix --prefix service/%{NAME}/openonu'
+    ...    /bin/sh -c 'ETCDCTL_API=3 etcdctl get --prefix --prefix service/${stackname}/openonu'
     ${result}=    Exec Pod In Kube    ${namespace}    ${podname}    ${commandget}
     log    ${result}
     [Return]    ${result}
@@ -265,6 +269,25 @@ Validate Uni Id
     ${uni_id}=    Get From Dictionary    ${value['uni_config'][0]}    uni_id
     Should Be Equal As Integers    ${uni}    ${uni_id}
     ...    msg=Uni-Id (${uni_id}) does not match onu (${uni}) from tp_path in etcd data!
+
+Get Stack Name
+    [Documentation]    This keyword delivers the stack name read from environment variable NAME if present.
+    ${env_name}=    Get Environment Variable    NAME    default=minimal
+    # while Get Environment Variable does not work correctly, a manual correction follows
+    ${env_name}=    Set Variable If    "${env_name}"=="${EMPTY}"    minimal    ${env_name}
+    [Return]    ${env_name}
+
+Wait for Ports in ONOS for all OLTs
+    [Documentation]    Waits untill a certain number of ports are enabled in all ONOS
+    [Arguments]    ${onos_ssh_connection}    ${count}    ${filter}    ${max_wait_time}=10m
+    FOR    ${J}    IN RANGE    0    ${num_olts}
+        ${olt_serial_number}=    Set Variable    ${list_olts}[${J}][sn]
+        ${onu_count}=    Set Variable    ${list_olts}[${J}][onucount]
+        ${of_id}=    Wait Until Keyword Succeeds    ${timeout}    15s    Validate OLT Device in ONOS
+        ...    ${olt_serial_number}
+        Set Global Variable    ${of_id}
+        Wait for Ports in ONOS    ${onos_ssh_connection}    ${count}    ${of_id}    BBSM    ${max_wait_time}
+    END
 
 Map State
     [Documentation]    This keyword converts the passed numeric value or name of a onu state to its state values.
