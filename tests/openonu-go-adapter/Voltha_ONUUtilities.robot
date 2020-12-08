@@ -89,7 +89,7 @@ Verify MIB Template Data Available
     ${namespace}=    Set Variable    default
     ${podname}=    Set Variable    etcd
     ${commandget}    Catenate
-    ...    /bin/sh -c 'ETCDCTL_API=3 etcdctl get --prefix service/%{NAME}/omci_mibs/go_templates/'
+    ...    /bin/sh -c 'ETCDCTL_API=3 etcdctl get --prefix service/voltha/omci_mibs/go_templates/'
     ${result}=    Exec Pod In Kube    ${namespace}    ${podname}    ${commandget}
     Should Not Be Empty    ${result}    No MIB Template Data stored in etcd!
 
