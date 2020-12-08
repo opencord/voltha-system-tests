@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "58ab8e63_dc6b2c24",
+        "filename": "tests/openonu-go-adapter/Voltha_ONUStateTests.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2020-12-08T12:53:11Z",
+      "side": 0,
+      "message": "of_id is determined inside my new own keyword \u0027Wait for Ports in ONOS for all OLTs\u0027.",
+      "parentUuid": "0a7a90a7_11621020",
+      "revId": "a6825a3e056994acb9c0a36b5c106db806ca9782",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2702ecf4_250e51da",
         "filename": "tests/openonu-go-adapter/Voltha_ONUStateTests.robot",
         "patchSetId": 1
