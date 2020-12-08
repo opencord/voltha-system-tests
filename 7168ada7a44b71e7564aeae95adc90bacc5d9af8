@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "90679802_1c738a11",
+        "filename": "tests/openonu-go-adapter/Voltha_ONUStateTests.robot",
+        "patchSetId": 4
+      },
+      "lineNbr": 411,
+      "author": {
+        "id": 1000007
+      },
+      "writtenOn": "2020-12-08T22:35:20Z",
+      "side": 1,
+      "message": "I think the Add and Check have been split",
+      "range": {
+        "startLine": 411,
+        "startChar": 23,
+        "endLine": 411,
+        "endChar": 49
+      },
+      "revId": "7168ada7a44b71e7564aeae95adc90bacc5d9af8",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    }
+  ]
+}
