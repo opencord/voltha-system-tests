@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0a7a90a7_11621020",
+        "filename": "tests/openonu-go-adapter/Voltha_ONUStateTests.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2020-12-08T12:35:50Z",
+      "side": 0,
+      "message": "this has to be brought in again otherwise you\u0027ll fail the test due to missing of ${of_id}\n\na combination of this code and yours is needed",
+      "revId": "a6825a3e056994acb9c0a36b5c106db806ca9782",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2702ecf4_250e51da",
+        "filename": "tests/openonu-go-adapter/Voltha_ONUStateTests.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 461,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2020-12-08T12:35:50Z",
+      "side": 0,
+      "message": "this has to be brought in again",
+      "revId": "a6825a3e056994acb9c0a36b5c106db806ca9782",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b879d0d5_5150afd8",
+        "filename": "tests/openonu-go-adapter/Voltha_ONUStateTests.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 470,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2020-12-08T12:35:50Z",
+      "side": 0,
+      "message": "this has to be brought in again",
+      "revId": "a6825a3e056994acb9c0a36b5c106db806ca9782",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "be98b5a0_694d4199",
+        "filename": "tests/openonu-go-adapter/Voltha_ONUStateTests.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 496,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2020-12-08T12:35:50Z",
+      "side": 0,
+      "message": "this has to be brought in again",
+      "revId": "a6825a3e056994acb9c0a36b5c106db806ca9782",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "943c2b98_3468c98e",
+        "filename": "tests/openonu-go-adapter/Voltha_ONUStateTests.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 525,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2020-12-08T12:35:50Z",
+      "side": 0,
+      "message": "this has to be brought in again",
+      "revId": "a6825a3e056994acb9c0a36b5c106db806ca9782",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e32e82a1_3e1b08da",
+        "filename": "tests/openonu-go-adapter/Voltha_ONUTemplateTests.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2020-12-08T12:35:50Z",
+      "side": 0,
+      "message": "this has to be brought in again",
+      "revId": "a6825a3e056994acb9c0a36b5c106db806ca9782",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    }
+  ]
+}

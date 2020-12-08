@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "81eabf4c_6a412d82",
+        "filename": "tests/openonu-go-adapter/Voltha_ONUStateTests.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2020-12-08T12:35:50Z",
+      "side": 1,
+      "message": "useless space",
+      "revId": "fc0e8097805577690fb8ccf635f4b95b49395430",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    }
+  ]
+}
