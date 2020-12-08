@@ -66,7 +66,7 @@ Verify OLT after Rebooting Physically for DT - Multiple OLT
     [Setup]    Start Logging    MultiOlt_Physical_Dt
     [Teardown]    Run Keywords    Collect Logs
     ...           AND             Stop Logging    MultiOlt_Physical_Dt
-    ...           AND             Delete All Devices and Verify
+    #...           AND             Delete All Devices and Verify
     # Add OLT device
     Setup
     # Performing Sanity Test to make sure subscribers are all DHCP and pingable
@@ -124,6 +124,7 @@ Verify OLT Soft Reboot for DT - Multiple OLT
     #...        AND             Setup
     [Teardown]    Run Keywords    Collect Logs
     ...           AND             Stop Logging    MultiOLTSoftRebootDt
+    ...           AND             Delete All Devices and Verify
     #...           AND             Delete Device and Verify
     Pass Execution If    ${olt_count} == 1    Skipping test: just one OLT
     # Reboot the first OLT
