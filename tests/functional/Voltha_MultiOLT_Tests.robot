@@ -65,7 +65,7 @@ Verify OLT after rebooting physically - MultipleOLT
     [Setup]    Start Logging    MultipleOlt-PhysicalOLTReboot
     [Teardown]    Run Keywords    Collect Logs
     ...           AND             Stop Logging    MultipleOlt-PhysicalOLTReboot
-    ...           AND             Delete All Devices and Verify
+    #...           AND             Delete All Devices and Verify
     # Add OLT device
     setup
     # Performing Sanity Test to make sure subscribers are all AUTH+DHCP and pingable
@@ -123,6 +123,7 @@ Verify OLT Soft Reboot - MultipleOLT
     [Setup]    Start Logging    MultiOlt-OLTSoftReboot
     [Teardown]    Run Keywords    Collect Logs
     ...           AND             Stop Logging    MultiOlt-OLTSoftReboot
+    ...           AND             Delete All Devices and Verify
     #Delete All Devices and Verify
     #Setup
     ## Performing Sanity Test to make sure subscribers are all AUTH+DHCP and pingable
