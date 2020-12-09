@@ -22,6 +22,30 @@
       "revId": "74bd5c354ce47c0d5fd80f87f10421482e45b35c",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "824a1bd3_019880fe",
+        "filename": "libraries/utils.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2020-12-09T08:19:36Z",
+      "side": 1,
+      "message": "agreed, it generates error \n[ ERROR ] Error in file \u0027/w/workspace/verify_voltha-openonu-adapter-go_sanity-test/voltha-system-tests/libraries/utils.robot\u0027: Resource file \u0027libraries/voltctl.robot\u0027 does not exist.",
+      "parentUuid": "b765a502_305f0bcf",
+      "range": {
+        "startLine": 27,
+        "startChar": 0,
+        "endLine": 27,
+        "endChar": 43
+      },
+      "revId": "74bd5c354ce47c0d5fd80f87f10421482e45b35c",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
     }
   ]
 }
