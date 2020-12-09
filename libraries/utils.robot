@@ -938,7 +938,8 @@ Verify ping is succesful except for given device
         ${dst}=    Set Variable    ${hosts.dst[${I}]}
         ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
         ${pingStatus}     Run Keyword If    '${onu_device_id}' == '${exceptional_onu_id}'    Set Variable     False
-        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    60s    2s
+        Run Keyword If    ${has_dataplane}    Run Keyword And Continue On Failure
+        ...    Wait Until Keyword Succeeds    60s    2s
         ...    Check Ping    ${pingStatus}    ${dst['dp_iface_ip_qinq']}    ${src['dp_iface_name']}
         ...    ${src['ip']}    ${src['user']}    ${src['pass']}   ${src['container_type']}    ${src['container_name']}
     END
@@ -953,7 +954,8 @@ Verify ping is successful for ONUs not on this OLT
         ${olt_device_id}=    Get Device ID From SN    ${src['olt']}
         Continue For Loop If    "${olt_device_id}"=="${exceptional_olt_id}"
         #${pingStatus}     Run Keyword If    '${olt_device_id}' == '${exceptional_olt_id}'    Set Variable     False
-        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    60s    2s
+        Run Keyword If    ${has_dataplane}    Run Keyword And Continue On Failure
+        ...    Wait Until Keyword Succeeds    60s    2s
         ...    Check Ping    True    ${dst['dp_iface_ip_qinq']}    ${src['dp_iface_name']}
         ...    ${src['ip']}    ${src['user']}    ${src['pass']}   ${src['container_type']}    ${src['container_name']}
     END
