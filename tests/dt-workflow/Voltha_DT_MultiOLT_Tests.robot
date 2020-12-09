@@ -66,7 +66,7 @@ Verify OLT after Rebooting Physically for DT - Multiple OLT
     [Setup]    Start Logging    MultiOlt_Physical_Dt
     [Teardown]    Run Keywords    Collect Logs
     ...           AND             Stop Logging    MultiOlt_Physical_Dt
-    #...           AND             Delete All Devices and Verify
+    Delete All Devices and Verify
     # Add OLT device
     Setup
     # Performing Sanity Test to make sure subscribers are all DHCP and pingable
