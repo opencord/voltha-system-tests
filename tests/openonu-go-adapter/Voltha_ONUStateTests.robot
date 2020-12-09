@@ -450,13 +450,12 @@ Set Tech Profile
     ${podname}=    Set Variable    etcd
     ${src}=    Set Variable    ${data_dir}/TechProfile-${TechProfile}.json
     ${dest}=    Set Variable    /tmp/flexpod.json
-    ${stackname}=    Get Stack Name
     ${command}    Catenate
-    ...    /bin/sh -c 'cat    ${dest} | ETCDCTL_API=3 etcdctl put service/${stackname}/technology_profiles/XGS-PON/64'
+    ...    /bin/sh -c 'cat    ${dest} | ETCDCTL_API=3 etcdctl put service/voltha/technology_profiles/XGS-PON/64'
     Copy File To Pod    ${namespace}    ${podname}    ${src}    ${dest}
     Exec Pod In Kube    ${namespace}    ${podname}    ${command}
     ${commandget}    Catenate
-    ...    /bin/sh -c 'ETCDCTL_API=3 etcdctl get --prefix service/${stackname}/technology_profiles/XGS-PON/64'
+    ...    /bin/sh -c 'ETCDCTL_API=3 etcdctl get --prefix service/voltha/technology_profiles/XGS-PON/64'
     Exec Pod In Kube    ${namespace}    ${podname}    ${commandget}
 
 Remove Tech Profile
@@ -464,12 +463,11 @@ Remove Tech Profile
     Log To Console    \nTechProfile:${TechProfile}
     ${namespace}=    Set Variable    default
     ${podname}=    Set Variable    etcd
-    ${stackname}=    Get Stack Name
     ${command}    Catenate
-    ...    /bin/sh -c 'ETCDCTL_API=3 etcdctl del --prefix service/${stackname}/technology_profiles/XGS-PON/64'
+    ...    /bin/sh -c 'ETCDCTL_API=3 etcdctl del --prefix service/voltha/technology_profiles/XGS-PON/64'
     Exec Pod In Kube    ${namespace}    ${podname}    ${command}
     ${commandget}    Catenate
-    ...    /bin/sh -c 'ETCDCTL_API=3 etcdctl get --prefix service/${stackname}/technology_profiles/XGS-PON/64'
+    ...    /bin/sh -c 'ETCDCTL_API=3 etcdctl get --prefix service/voltha/technology_profiles/XGS-PON/64'
     Exec Pod In Kube    ${namespace}    ${podname}    ${commandget}
 
 Do Check Tech Profile
@@ -488,10 +486,11 @@ Do Check Tech Profile
     @{resultList}    Split String    ${result}     separator=,
     ${num_of_count_matches}=    Get Match Count    ${resultList}    "num_gem_ports": ${num_gem_ports}
     ...    whitespace_insensitive=True
-    ${num_of_expected_matches}=    Run Keyword If    "${techprofile}"=="default"    Evaluate    ${num_all_onus}
-    ...    ELSE     Evaluate    ${num_all_onus}+1
+    ${num_of_expected_matches}=    Evaluate    ${num_all_onus}
     Run Keyword If    ${num_of_expected_matches}!=${num_of_count_matches}    Log To Console
     ...    \nTechProfile (${TechProfile}) not loaded correctly:${num_of_count_matches} of ${num_of_expected_matches}
+    Should Be Equal As Integers    ${num_of_expected_matches}    ${num_of_count_matches}
+    ...    TechProfile (${TechProfile}) not loaded correctly:${num_of_count_matches} of ${num_of_expected_matches}
 
 Do Disable Enable Onu Test
     [Documentation]    This keyword disables/enables all onus and checks the states.
