@@ -90,9 +90,8 @@ Verify MIB Template Data Available
     [Documentation]    This keyword verifies MIB Template Data stored in etcd
     ${namespace}=    Set Variable    default
     ${podname}=      Set Variable    etcd
-    ${stackname}=    Get Stack Name
     ${commandget}    Catenate
-    ...    /bin/sh -c 'ETCDCTL_API=3 etcdctl get --prefix service/${stackname}/omci_mibs/go_templates/'
+    ...    /bin/sh -c 'ETCDCTL_API=3 etcdctl get --prefix service/voltha/omci_mibs/go_templates/'
     ${result}=    Exec Pod In Kube    ${namespace}    ${podname}    ${commandget}
     Should Not Be Empty    ${result}    No MIB Template Data stored in etcd!
 
@@ -100,13 +99,12 @@ Delete MIB Template Data
     [Documentation]    This keyword deletes MIB Template Data stored in etcd
     ${namespace}=    Set Variable    default
     ${podname}=    Set Variable    etcd
-    ${stackname}=    Get Stack Name
     ${commanddel}    Catenate
-    ...    /bin/sh -c 'ETCDCTL_API=3 etcdctl del --prefix service/${stackname}/omci_mibs/go_templates/'
+    ...    /bin/sh -c 'ETCDCTL_API=3 etcdctl del --prefix service/voltha/omci_mibs/go_templates/'
     ${result}=    Exec Pod In Kube    ${namespace}    ${podname}    ${commanddel}
     Sleep    3s
     ${commandget}    Catenate
-    ...    /bin/sh -c 'ETCDCTL_API=3 etcdctl get --prefix service/${stackname}/omci_mibs/go_templates/'
+    ...    /bin/sh -c 'ETCDCTL_API=3 etcdctl get --prefix service/voltha/omci_mibs/go_templates/'
     ${result}=    Exec Pod In Kube    ${namespace}    ${podname}    ${commandget}
     Should Be Empty    ${result}    Could not delete MIB Template Data stored in etcd!
 
