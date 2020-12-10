@@ -202,6 +202,7 @@ Setup Suite
     Set Suite Variable    ${all_onu_timeout}    ${timeout}
     Run Keyword If   ${num_all_onus}>4    Calculate Timeout
     ${techprofile}=    Set Variable If    "${techprofile}"=="1T1GEM"    default    ${techprofile}
+	Set Suite Variable    ${techprofile}
     Run Keyword If    "${techprofile}"=="default"   Log To Console    \nTechProfile:default (1T1GEM)
     ...    ELSE IF    "${techprofile}"=="1T4GEM"    Set Tech Profile    1T4GEM
     ...    ELSE IF    "${techprofile}"=="1T8GEM"    Set Tech Profile    1T8GEM
@@ -487,8 +488,6 @@ Do Check Tech Profile
     ${num_of_count_matches}=    Get Match Count    ${resultList}    "num_gem_ports": ${num_gem_ports}
     ...    whitespace_insensitive=True
     ${num_of_expected_matches}=    Evaluate    ${num_all_onus}
-    Run Keyword If    ${num_of_expected_matches}!=${num_of_count_matches}    Log To Console
-    ...    \nTechProfile (${TechProfile}) not loaded correctly:${num_of_count_matches} of ${num_of_expected_matches}
     Should Be Equal As Integers    ${num_of_expected_matches}    ${num_of_count_matches}
     ...    TechProfile (${TechProfile}) not loaded correctly:${num_of_count_matches} of ${num_of_expected_matches}
 
