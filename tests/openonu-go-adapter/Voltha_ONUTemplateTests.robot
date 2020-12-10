@@ -101,6 +101,10 @@ Teardown Suite
     Run Keyword If    ${pausebeforecleanup}    Pause Execution    Press OK to continue with clean up!
     Run Keyword If    ${pausebeforecleanup}    Log    Teardown will be continued...    console=yes
     Run Keyword If    ${teardown_device}    Delete All Devices and Verify
+    # Re-open ssh connection to onos since no keep alive is implemented in  SSH library
+    Close ONOS SSH Connection   ${onos_ssh_connection}
+    ${onos_ssh_connection}    Open ONOS SSH Connection    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}
+    Set Suite Variable  ${onos_ssh_connection}
     Wait for Ports in ONOS for all OLTs      ${onos_ssh_connection}  0   BBSM
     # delete etcd MIB Template Data (for repeating test)
     Delete MIB Template Data
