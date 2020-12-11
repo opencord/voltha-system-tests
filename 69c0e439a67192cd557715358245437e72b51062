@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0aff8b54_f77643ab",
+        "filename": "tests/openonu-go-adapter/Voltha_ONUTemplateTests.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1000666
+      },
+      "writtenOn": "2020-12-11T11:28:10Z",
+      "side": 1,
+      "message": "there were comments from Matteo/Andrea in this respect in Slack. Are they clarified?",
+      "revId": "69c0e439a67192cd557715358245437e72b51062",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    }
+  ]
+}

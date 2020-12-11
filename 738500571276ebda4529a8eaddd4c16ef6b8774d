@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "57645bf5_28621336",
+        "filename": "tests/openonu-go-adapter/Voltha_ONUStateTests.robot",
+        "patchSetId": 3
+      },
+      "lineNbr": 491,
+      "author": {
+        "id": 1000666
+      },
+      "writtenOn": "2020-12-11T11:28:10Z",
+      "side": 1,
+      "message": "No console output anymore? What a pity.",
+      "revId": "738500571276ebda4529a8eaddd4c16ef6b8774d",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    }
+  ]
+}
