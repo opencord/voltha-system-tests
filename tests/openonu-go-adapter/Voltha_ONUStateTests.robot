@@ -30,7 +30,7 @@ Resource          ../../libraries/voltha.robot
 Resource          ../../libraries/utils.robot
 Resource          ../../libraries/k8s.robot
 Resource          ../../variables/variables.robot
-Resource          Voltha_ONUUtilities.robot
+Resource          ../../libraries/Voltha_ONUUtilities.robot
 
 *** Variables ***
 ${timeout}        60s
