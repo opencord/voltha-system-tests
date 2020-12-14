@@ -24,32 +24,75 @@ Library           RequestsLibrary
 Library           OperatingSystem
 Resource          ./flows.robot
 
+*** Variables ***
+@{connection_list}
+
 *** Keywords ***
 
 Open ONOS SSH Connection
     [Documentation]    Establishes an ssh connection to ONOS contoller
     [Arguments]    ${host}    ${port}    ${user}=karaf    ${pass}=karaf
+    Log    ${connection_list}    console=yes
     ${conn_id}=    SSHLibrary.Open Connection    ${host}    port=${port}    timeout=300s    alias=ONOS_SSH
     SSHLibrary.Login    ${user}    ${pass}
-    [Return]    ${conn_id}
+    ${conn_list_entry}=    Create Dictionary    conn_id=${conn_id}    user=${user}    pass=${pass}
+    Append To List    ${connection_list}    ${conn_list_entry}
+    ${conn_list_id}=    Get Index From List    ${connection_list}    ${conn_list_entry}
+    Set Global Variable    ${connection_list}
+    Log    ${connection_list}    console=yes
+    [Return]    ${conn_list_id}
 
 Execute ONOS CLI Command on open connection
     [Documentation]    Execute ONOS CLI Command On an Open Connection
-    [Arguments]    ${connection_alias}  ${cmd}
-    SSHLibrary.Switch Connection   ${connection_alias}
-    @{result_values}    SSHLibrary.Execute Command    ${cmd}    return_rc=True
-    ...    return_stderr=True    return_stdout=True
+    [Arguments]    ${connection_list_id}  ${cmd}
+    Log    ${connection_list}    console=yes
+    ${connection_entry}=    Get From List   ${connection_list}    ${connection_list_id}
+    SSHLibrary.Switch Connection   ${connection_entry.conn_id}
+    ${PassOrFail}    @{result_values}    Run Keyword And Ignore Error    SSHLibrary.Execute Command    ${cmd}
+    ...    return_rc=True    return_stderr=True    return_stdout=True
+	Run Keyword If    '${PassOrFail}'=='FAIL'    Reconnect ONOS SSH Connection    ${connection_list_id}
+    @{result_values}=    Run Keyword If    '${PassOrFail}'=='FAIL'
+    ...    SSHLibrary.Execute Command    ${cmd}    return_rc=True    return_stderr=True    return_stdout=True
+    ...    ELSE    Set Variable    @{result_values}
     ${output}    Set Variable    @{result_values}[0]
     Log    Command output: ${output}
     Should Be Empty    @{result_values}[1]
     Should Be Equal As Integers    @{result_values}[2]    0
+    Log    ${connection_list}    console=yes
     [Return]    ${output}
+
+Reconnect ONOS SSH Connection
+    [Documentation]    Reconnect an SSH Connection
+    [Arguments]    ${connection_list_id}
+    ${length} =    Get Length    ${connection_list}
+    Log    ${connection_list}    console=yes
+    ${connection_entry}=    Get From List   ${connection_list}    ${connection_list_id}
+    ${user}=    Get From Dictionary    ${connection_entry}    user
+    ${pass}=    Get From Dictionary    ${connection_entry}    pass
+	${oldconndata}=    Get Connection    ${connection_entry.conn_id}
+    SSHLibrary.Switch Connection   ${connection_entry.conn_id}
+    SSHLibrary.Close Connection
+    ${conn_id}=    SSHLibrary.Open Connection    ${oldconndata.host}    port=${oldconndata.port}
+    ...    timeout=300s    alias=ONOS_SSH
+    SSHLibrary.Login    ${user}    ${pass}
+    ${conn_list_entry}=    Create Dictionary    conn_id=${conn_id}    user=${user}    pass=${pass}
+	Set List Value    ${connection_list}    ${connection_list_id}    ${conn_list_entry}
+    Set Global Variable    ${connection_list}
+    Log    ${connection_list}    console=yes
 
 Close ONOS SSH Connection
     [Documentation]    Close an SSH Connection
-    [Arguments]    ${connection_alias}
+    [Arguments]    ${connection_list_id}
+    ${length} =    Get Length    ${connection_list}
+    Log    ${connection_list}    console=yes
+    ${connection_entry}=    Get From List   ${connection_list}    ${connection_list_id}
+    ${connection_alias}=    Get From Dictionary    ${connection_entry}    conn_id
+	${oldconndata}=    Get Connection    ${connection_entry.conn_id}
     SSHLibrary.Switch Connection   ${connection_alias}
     SSHLibrary.Close Connection
+    Remove From List    ${connection_list}    ${connection_list_id}
+    Set Global Variable    ${connection_list}
+    Log    ${connection_list}    console=yes
 
 Validate OLT Device in ONOS
     #    FIXME use volt-olts to check that the OLT is ONOS
