@@ -1,0 +1,8 @@
+Code-Review+1: Suchitra Vemuri <suchitra@opennetworking.org>
+Code-Review+2: Andrea Campanella <andrea@opennetworking.org>
+Verified+1: Jenkins Technical User <do-not-reply@opennetworking.org>
+Submitted-by: Andrea Campanella <andrea@opennetworking.org>
+Submitted-at: Tue, 15 Dec 2020 20:57:39 +0000
+Reviewed-on: https://gerrit.opencord.org/c/voltha-system-tests/+/22145
+Project: voltha-system-tests
+Branch: refs/heads/voltha-2.6
