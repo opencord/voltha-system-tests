@@ -60,27 +60,28 @@ Get Configurable Component Inventory Info
         Log  ${component}
         ${component_name}=  Convert To String  ${component['name']}
         ${component_uuid}=  Get Component Uuid From Inventory  ${inventory}  ${component_name}
-        ${hwComInfoReq}=  Evaluate
-        ...  {'device_uuid':${suite_device_uuid}, 'component_uuid':${component_uuid}, 'component_name':'${component_name}'}
+        ${hwComInfoReq}=    Create Dictionary    device_uuid=${suite_device_uuid}    component_uuid=${component_uuid}
+        Set To Dictionary    ${hwComInfoReq}    component_name=${component_name}
         ${hwComInfoRes}=  dmi1.Hw Management Service Get Hw Component Info  ${hwComInfoReq}
         ${hwComInfoRes}=  Get From List  ${hwComInfoRes}  0
         Check Dmi Status  ${hwComInfoRes}  OK_STATUS
         ${res_component}=  Get From Dictionary  ${hwComInfoRes}  component
         ${value_name}=  Get From Dictionary  ${res_component}  name
         Should be Equal  ${value_name}  ${component_name}
-        Set Component Inventory Info Unimplemented  ${suite_device_uuid}  ${component_uuid}  ${component_name}  new-value
+        Set Component Inventory Info Unimplemented  ${suite_device_uuid}  ${component_uuid}  ${component_name}
+        ...    new-value
     END
 
 Get Loggable Entities
     [Documentation]  get the loggable entities of the device
-    [Tags]  functionalDMI  GetLoggableEntitiesDMI
+    [Tags]  functionalDMI  GetLoggableEntitiesDMI  bbsimUnimplementedDMI
     ${loggable_entities}=  Loggable Entities  dmi1  ${suite_device_uuid}
     ${size_loggable_entities}=  Get Length  ${loggable_entities}
     Should Be True  ${size_loggable_entities} > 5
 
 Set Get Logging Endpoint
     [Documentation]  set/get the loggable endpoint of a device
-    [Tags]  functionalDMI  SetGetLoggingEndpointDMI
+    [Tags]  functionalDMI  SetGetLoggingEndpointDMI  bbsimUnimplementedDMI
     ${defined_endpoint}=  Set Variable  127.0.0.1
     ${defined_protocol}=  Set Variable  udp
     Set Log Endpoint  dmi1  ${suite_device_uuid}  ${defined_endpoint}  ${defined_protocol}
@@ -98,7 +99,7 @@ Set Get Logging Endpoint
 
 Set Get LogLevel
     [Documentation]  set and get the log level of a device
-    [Tags]  functionalDMI  SetGetLogLevelDMI  skipped
+    [Tags]  functionalDMI  SetGetLogLevelDMI  skipped  bbsimUnimplementedDMI
     ${loggable_entities}=  Get X Loggable Entities  dmi1  ${suite_device_uuid}  2
     ${size}=  GetLength  ${loggable_entities}
     Should Be True  ${size} >= 2
@@ -152,8 +153,8 @@ Check Inventory Element
     [Arguments]  ${inventory_element}  ${component}
     FOR  ${component_element}  IN  @{component['elements']}
         log    ${component_element}
-        ${result}=  utility.check_Inventory_Element  ${inventory_element}  ${component['name']}  ${component_element['element']}
-        ...   ${component_element['value']}
+        ${result}=  utility.check_Inventory_Element  ${inventory_element}  ${component['name']}
+        ...    ${component_element['element']}  ${component_element['value']}
         Should be True  ${result}
     END
 
@@ -220,7 +221,7 @@ Set Logging Level
 Set Log Endpoint
     [Documentation]  set the given logging endpoint in device
     [Arguments]  ${lib_instance}  ${uuid}  ${defined_endpoint}  ${defined_protocol}
-    ${set_endpoint}=  Evaluate
-    ...  {'device_uuid':${suite_device_uuid},'logging_endpoint':'${defined_endpoint}','logging_protocol':'${defined_protocol}'}
+    ${set_endpoint}=    Create Dictionary    device_uuid=${suite_device_uuid}    logging_endpoint=${defined_endpoint}
+    Set To Dictionary    ${set_endpoint}    logging_protocol=${defined_protocol}
     ${response}=  Run Keyword  ${lib_instance}.Hw Management Service Set Logging Endpoint  ${set_endpoint}
     Check Dmi Status  ${response}  OK_STATUS
