@@ -46,6 +46,7 @@ ROBOT_DEBUG_LOG_OPT             ?=
 ROBOT_MISC_ARGS                 ?=
 ROBOT_SANITY_TT_SINGLE_PON_FILE    ?= $(ROOT_DIR)/tests/data/bbsim-kind-tt.yaml
 ROBOT_DMI_SINGLE_BBSIM_FILE     ?= $(ROOT_DIR)/tests/data/dmi-components-bbsim.yaml
+ROBOT_DMI_SINGLE_ADTRAN_FILE     ?= $(ROOT_DIR)/tests/data/dmi-components-adtran.yaml
 
 # for backwards compatibility
 sanity-kind: sanity-single-kind
@@ -253,11 +254,17 @@ voltha-test: vst_venv
 	cd tests/functional ;\
 	robot -V $(ROBOT_CONFIG_FILE) $(ROBOT_MISC_ARGS) $(ROBOT_FILE)
 
-voltha-dmi-hw-management-test: ROBOT_MISC_ARGS += -e notreadyDMI -i functionalDMI
-voltha-dmi-hw-management-test: ROBOT_FILE := dmi-hw-management.robot
-voltha-dmi-hw-management-test: ROBOT_CONFIG_FILE := $(ROBOT_DMI_SINGLE_BBSIM_FILE)
+bbsim-dmi-hw-management-test: ROBOT_MISC_ARGS +=  -e notreadyDMI -i functionalDMI -e bbsimUnimplementedDMI
+bbsim-dmi-hw-management-test: ROBOT_FILE := dmi-hw-management.robot
+bbsim-dmi-hw-management-test: ROBOT_CONFIG_FILE := $(ROBOT_DMI_SINGLE_BBSIM_FILE)
+bbsim-dmi-hw-management-test: voltha-dmi-test
 
-voltha-dmi-hw-management-test: vst_venv
+voltha-dmi-hw-management-test: ROBOT_MISC_ARGS +=  -e notreadyDMI -i functionalDMI
+voltha-dmi-hw-management-test: ROBOT_FILE := dmi-hw-management.robot
+voltha-dmi-hw-management-test: ROBOT_CONFIG_FILE := $(ROBOT_DMI_SINGLE_ADTRAN_FILE)
+voltha-dmi-hw-management-test: voltha-dmi-test
+
+voltha-dmi-test: vst_venv
 	source ./$</bin/activate ; set -u ;\
 	cd tests/dmi-interface ;\
 	robot -V $(ROBOT_CONFIG_FILE) $(ROBOT_MISC_ARGS) $(ROBOT_FILE)
