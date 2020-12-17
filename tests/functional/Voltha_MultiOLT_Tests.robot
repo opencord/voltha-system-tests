@@ -113,7 +113,6 @@ Verify OLT after rebooting physically - MultipleOLT
     Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test
     # Deleting OLT after test completes
     #Run Keyword If    ${has_dataplane}    Delete All Devices and Verify
-    END
 
 Verify OLT Soft Reboot - MultipleOLT
     [Documentation]    Test soft reboot of the OLT using voltctl command
