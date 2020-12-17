@@ -65,7 +65,7 @@ Verify OLT after rebooting physically - MultipleOLT
     [Setup]    Start Logging    MultipleOlt-PhysicalOLTReboot
     [Teardown]    Run Keywords    Collect Logs
     ...           AND             Stop Logging    MultipleOlt-PhysicalOLTReboot
-    Delete All Devices and Verify
+    Run Keyword And Ignore Error    Delete All Devices and Verify
     # Add OLT device
     setup
     # Performing Sanity Test to make sure subscribers are all AUTH+DHCP and pingable
@@ -113,7 +113,6 @@ Verify OLT after rebooting physically - MultipleOLT
     Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test
     # Deleting OLT after test completes
     #Run Keyword If    ${has_dataplane}    Delete All Devices and Verify
-    END
 
 Verify OLT Soft Reboot - MultipleOLT
     [Documentation]    Test soft reboot of the OLT using voltctl command
@@ -124,11 +123,6 @@ Verify OLT Soft Reboot - MultipleOLT
     [Teardown]    Run Keywords    Collect Logs
     ...           AND             Stop Logging    MultiOlt-OLTSoftReboot
     ...           AND             Delete All Devices and Verify
-    #Delete All Devices and Verify
-    #Setup
-    ## Performing Sanity Test to make sure subscribers are all AUTH+DHCP and pingable
-    #Run Keyword If    ${has_dataplane}    Clean Up Linux
-    #Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test
     # Execute the test when the number of OLTs are greater than one
     Pass Execution If    ${olt_count} == 1    Skipping test: just one OLT
     # Reboot the first OLT
