@@ -29,10 +29,11 @@ Resource          ../../libraries/voltctl.robot
 Resource          ../../libraries/voltha.robot
 Resource          ../../libraries/utils.robot
 Resource          ../../libraries/k8s.robot
+Resource          ../../libraries/onu_utilities.robot
 Resource          ../../variables/variables.robot
-Resource          ../../libraries/Voltha_ONUUtilities.robot
 
 *** Variables ***
+${namespace}      voltha
 ${timeout}        60s
 ${of_id}          0
 ${logical_id}     0
@@ -151,17 +152,6 @@ Disable Enable Onu Device
     [Teardown]    Run Keywords    Run Keyword If    ${logging}    Collect Logs
     ...    AND    Stop Logging    DisableEnableONUDevice
 
-Reconcile Onu Device
-    [Documentation]    Reconciles ONU Device and check state
-    ...    Assuming that ONU State Test was executed where all the ONUs are reached the expected state!
-    [Tags]    functionalOnuGo    ReconcileOnuGo
-    [Setup]    Start Logging    ReconcileONUDevice
-    Run Keyword If    '${onu_state}'=='tech-profile-config-download-success' or '${onu_state}'=='omci-flows-pushed'
-    ...    Do Reconcile Onu Device
-    ...    ELSE    Pass Execution    ${skip_message}    skipped
-    [Teardown]    Run Keywords    Run Keyword If    ${logging}    Collect Logs
-    ...    AND    Stop Logging    ReconcileONUDevice
-
 Power Off Power On Onu Device
     [Documentation]    Power off and Power on of all ONU Devices and check state
     ...    Assuming that ONU State Test was executed where all the ONUs are reached the expected state!
@@ -199,8 +189,9 @@ Setup Suite
     ${skipped}=  Evaluate  "\\033[33m${SPACE*14} ===> Test case above was skipped! <=== ${SPACE*15}\\033[0m"
     ${skip_message}    Catenate    ${skipped} | ${skip} |
     Set Suite Variable    ${skip_message}
-    Set Suite Variable    ${all_onu_timeout}    ${timeout}
-    Run Keyword If   ${num_all_onus}>4    Calculate Timeout
+    ${all_onu_timeout}=    Run Keyword If   ${num_all_onus}>4    Calculate Timeout   ${timeout}
+    ...    ELSE    Set Variable    ${timeout}
+    Set Suite Variable    ${all_onu_timeout}
     ${techprofile}=    Set Variable If    "${techprofile}"=="1T1GEM"    default    ${techprofile}
     Set Suite Variable    ${techprofile}
     Run Keyword If    "${techprofile}"=="default"   Log To Console    \nTechProfile:default (1T1GEM)
@@ -229,12 +220,8 @@ Teardown Suite
     Run Keyword If    ${pausebeforecleanup}    Log    Teardown will be continued...    console=yes
     Run Keyword If    ${teardown_device}    Delete All Devices and Verify
     Validate Onu Data In Etcd    0
-    # Re-open ssh connection to onos since no keep alive is implemented in  SSH library
-    Close ONOS SSH Connection   ${onos_ssh_connection}
-    ${onos_ssh_connection}    Open ONOS SSH Connection    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}
-    Set Suite Variable  ${onos_ssh_connection}
     Wait for Ports in ONOS for all OLTs      ${onos_ssh_connection}  0   BBSM    ${timeout}
-    Close ONOS SSH Connection   ${onos_ssh_connection}
+    Close All ONOS SSH Connections
     Remove Tech Profile
 
 Setup Test
@@ -260,15 +247,6 @@ Setup Test
         Append To List    ${olt_ids}    ${olt}
     END
     Set Global Variable    ${olt_ids}
-
-Calculate Timeout
-    [Documentation]    Calculates the timeout regarding num-onus in case of more than 4 onus
-    ${all_onu_timeout}    Fetch From Left    ${all_onu_timeout}    s
-    ${all_onu_timeout}=    evaluate    ${all_onu_timeout}+((${num_all_onus}-4)*10)
-    ${all_onu_timeout}=    Set Variable If    (not ${debugmode}) and (${all_onu_timeout}>300)
-    ...    300   ${all_onu_timeout}
-    ${all_onu_timeout}=    Catenate    SEPARATOR=    ${all_onu_timeout}    s
-    Set Suite Variable    ${all_onu_timeout}
 
 Do ONU Up To State Test
     [Documentation]    This keyword performs Up2State Test
@@ -365,7 +343,7 @@ Do Onu Flow Check
     log     ${flowsresult}
     #check  for previous state is kept (normally omci-flows-pushed)
     Sleep    10s
-    Run Keyword And Continue On Failure    Do Current State Test All Onus    ${state2test}
+    Run Keyword And Continue On Failure    Current State Test All Onus    ${state2test}
     ${secondvlanrules}=    Run Keyword And Continue On Failure    Validate Vlan Rules In Etcd    nbofcookieslice=3
     ...    prevvlanrules=${firstvlanrules}
     FOR    ${J}    IN RANGE    0    ${num_olts}
@@ -383,14 +361,10 @@ Do Onu Flow Check
     #check  for previous state is kept (normally omci-flows-pushed)
     Sleep    10s
     Run Keyword If    ${print2console}    Log    \r\nStart State Test All Onus.    console=yes
-    Run Keyword And Continue On Failure    Do Current State Test All Onus    ${state2test}
+    Run Keyword And Continue On Failure    Current State Test All Onus    ${state2test}
     Run Keyword If    ${print2console}    Log    \r\nFinished State Test All Onus.    console=yes
     Run Keyword And Continue On Failure    Validate Vlan Rules In Etcd    prevvlanrules=${firstvlanrules}
     ...                                    setvidequal=True
-    # Re-open ssh connection to onos since no keep alive is implemented in  SSH library
-    Close ONOS SSH Connection   ${onos_ssh_connection}
-    ${onos_ssh_connection}    Open ONOS SSH Connection    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}
-    Set Suite Variable  ${onos_ssh_connection}
 
 Do Onu Subscriber Add Per OLT
     [Documentation]    Add Subscriber per OLT
@@ -443,34 +417,6 @@ Do Onu Subscriber Remove Per OLT
         ...    console=yes
     END
 
-Set Tech Profile
-    [Documentation]    This keyword set the passed TechProfile for the test
-    [Arguments]    ${TechProfile}
-    Log To Console    \nTechProfile:${TechProfile}
-    ${namespace}=    Set Variable    default
-    ${podname}=    Set Variable    etcd
-    ${src}=    Set Variable    ${data_dir}/TechProfile-${TechProfile}.json
-    ${dest}=    Set Variable    /tmp/flexpod.json
-    ${command}    Catenate
-    ...    /bin/sh -c 'cat    ${dest} | ETCDCTL_API=3 etcdctl put service/voltha/technology_profiles/XGS-PON/64'
-    Copy File To Pod    ${namespace}    ${podname}    ${src}    ${dest}
-    Exec Pod In Kube    ${namespace}    ${podname}    ${command}
-    ${commandget}    Catenate
-    ...    /bin/sh -c 'ETCDCTL_API=3 etcdctl get --prefix service/voltha/technology_profiles/XGS-PON/64'
-    Exec Pod In Kube    ${namespace}    ${podname}    ${commandget}
-
-Remove Tech Profile
-    [Documentation]    This keyword removes TechProfile
-    Log To Console    \nTechProfile:${TechProfile}
-    ${namespace}=    Set Variable    default
-    ${podname}=    Set Variable    etcd
-    ${command}    Catenate
-    ...    /bin/sh -c 'ETCDCTL_API=3 etcdctl del --prefix service/voltha/technology_profiles/XGS-PON/64'
-    Exec Pod In Kube    ${namespace}    ${podname}    ${command}
-    ${commandget}    Catenate
-    ...    /bin/sh -c 'ETCDCTL_API=3 etcdctl get --prefix service/voltha/technology_profiles/XGS-PON/64'
-    Exec Pod In Kube    ${namespace}    ${podname}    ${commandget}
-
 Do Check Tech Profile
     [Documentation]    This keyword checks the loaded TechProfile
     ${namespace}=    Set Variable    default
@@ -495,91 +441,41 @@ Do Disable Enable Onu Test
     [Documentation]    This keyword disables/enables all onus and checks the states.
     [Arguments]    ${state2check}=${state2test}    ${checkstatebeforedisable}=True
     ...    ${state2checkafterdisable}=tech-profile-config-delete-success
-    Run Keyword If    ${checkstatebeforedisable}    Do Current State Test All Onus    ${state2check}
-    Do Disable Onu Device
+    Run Keyword If    ${checkstatebeforedisable}    Current State Test All Onus    ${state2check}
+    Disable Onu Device
     ${alternative_onu_reason}=    Set Variable If
     ...    '${state2checkafterdisable}'=='tech-profile-config-delete-success'    omci-flows-deleted
     ...    '${state2checkafterdisable}'=='omci-admin-lock'    tech-profile-config-delete-success    ${EMPTY}
-    Do Current State Test All Onus    ${state2checkafterdisable}    alternativeonustate=${alternative_onu_reason}
+    Current State Test All Onus    ${state2checkafterdisable}    alternativeonustate=${alternative_onu_reason}
     Log Ports
     #check no port is enabled in ONOS
     Wait for Ports in ONOS for all OLTs    ${onos_ssh_connection}    0    BBSM
-    Do Enable Onu Device
-    Do Current State Test All Onus    ${state2check}
+    Enable Onu Device
+    Current State Test All Onus    ${state2check}
     Log Ports    onlyenabled=True
     #check that all the UNI ports show up in ONOS again
     Wait for Ports in ONOS for all OLTs    ${onos_ssh_connection}    ${num_all_onus}    BBSM
 
-Do Reconcile Onu Device
-    [Documentation]    This keyword reconciles ONU device and check the state afterwards.
-    ...    Following steps will be executed:
-    ...    - restart openonu adaptor
-    ...    - check openonu adaptor is ready again
-    ...    - check previous state is kept
-    ...    - ONU-Disable
-    ...    - wait some seconds
-    ...    - check for state omci-admin-lock
-    ...    - ONU-Enable
-    ...    - wait some seconds
-    ...    - check for state onu-reenabled
-    ...    - port check
-    ${list_openonu_apps}   Create List    adapter-open-onu
-    ${namespace}=    Set Variable    voltha
-    ${adaptorname}=    Set Variable    open-onu
-    Kill Adaptor    ${namespace}    ${adaptorname}
-    Sleep    5s
-    Wait For Pods Ready    ${namespace}    ${list_openonu_apps}
-    Do Disable Enable Onu Test
-    Do Onu Port Check
-
 Do Power Off Power On Onu Device
     [Documentation]    This keyword power off/on all onus and checks the states.
-    Do Power Off ONU Device
+    Power Off ONU Device    ${namespace}
     Sleep    5s
-    #Do Current State Test All Onus    stopping-openomci
-    Do Current State Test All Onus    tech-profile-config-delete-success
+    Current State Test All Onus    tech-profile-config-delete-success
     ...    ENABLED    DISCOVERED    UNREACHABLE    alternativeonustate=omci-flows-deleted
-    Do Power On ONU Device
-    Do Current State Test All Onus    ${state2test}
+    Power On ONU Device    ${namespace}
+    Current State Test All Onus    ${state2test}
 
 Do Soft Reboot Onu Device
     [Documentation]    This keyword reboots softly all onus and checks the states.
-    ${namespace}=    Set Variable    voltha
     FOR    ${I}    IN RANGE    0    ${num_all_onus}
         ${src}=    Set Variable    ${hosts.src[${I}]}
         ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
         Reboot ONU    ${onu_device_id}   False
     END
-    Run Keyword Unless    ${has_dataplane}    Do Current State Test All Onus    tech-profile-config-delete-success
+    Run Keyword Unless    ${has_dataplane}    Current State Test All Onus    tech-profile-config-delete-success
     ...   ENABLED    DISCOVERED    REACHABLE    alternativeonustate=omci-flows-deleted
     Sleep    5s
     Run Keyword Unless    ${has_dataplane}    Do Disable Enable Onu Test    checkstatebeforedisable=False
     ...    state2checkafterdisable=omci-admin-lock
-    Run Keyword If    ${has_dataplane}    Do Current State Test All Onus    omci-flows-pushed
+    Run Keyword If    ${has_dataplane}    Current State Test All Onus    omci-flows-pushed
     Do Onu Port Check
-
-Do Disable Onu Device
-    [Documentation]    This keyword disables all onus.
-    FOR    ${I}    IN RANGE    0    ${num_all_onus}
-        ${src}=    Set Variable    ${hosts.src[${I}]}
-        ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
-        Disable Device    ${onu_device_id}
-        Wait Until Keyword Succeeds    20s    2s    Test Devices Disabled in VOLTHA    Id=${onu_device_id}
-    END
-
-Do Enable Onu Device
-    [Documentation]    This keyword enables all onus.
-    FOR    ${I}    IN RANGE    0    ${num_all_onus}
-        ${src}=    Set Variable    ${hosts.src[${I}]}
-        ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
-        Enable Device    ${onu_device_id}
-    END
-
-Do Power Off ONU Device
-    [Documentation]    This keyword power off all onus.
-    ${namespace}=    Set Variable    voltha
-    FOR    ${I}    IN RANGE    0    ${num_all_onus}
-        ${src}=    Set Variable    ${hosts.src[${I}]}
-        ${result}=    Exec Pod In Kube    ${namespace}    bbsim    bbsimctl onu shutdown ${src['onu']}
-        Should Contain    ${result}    successfully    msg=Can not shutdown ${src['onu']}    values=False
-    END
