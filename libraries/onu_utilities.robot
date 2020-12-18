@@ -19,7 +19,17 @@ Documentation     Library for various openonu-go-adpter utilities
 ${defaultstackname}    minimal
 
 *** Keywords ***
-Do Power On ONU Device
+Calculate Timeout
+    [Documentation]    Calculates the timeout regarding num-onus in case of more than 4 onus
+    [Arguments]    ${basetimeout}=60s
+    ${new_timeout}    Fetch From Left    ${basetimeout}    s
+    ${new_timeout}=    evaluate    ${new_timeout}+((${num_all_onus}-4)*10)
+    ${new_timeout}=    Set Variable If    (not ${debugmode}) and (${new_timeout}>300)
+    ...    300   ${new_timeout}
+    ${new_timeout}=    Catenate    SEPARATOR=    ${new_timeout}    s
+    [Return]    ${new_timeout}
+
+Power On ONU Device
     [Documentation]    This keyword power on all onus.
     ${namespace}=    Set Variable    voltha
     FOR    ${I}    IN RANGE    0    ${num_all_onus}
@@ -28,7 +38,16 @@ Do Power On ONU Device
         Should Contain    ${result}    successfully    msg=Can not poweron ${src['onu']}    values=False
     END
 
-Do Current State Test
+Power Off ONU Device
+    [Documentation]    This keyword power off all onus.
+    ${namespace}=    Set Variable    voltha
+    FOR    ${I}    IN RANGE    0    ${num_all_onus}
+        ${src}=    Set Variable    ${hosts.src[${I}]}
+        ${result}=    Exec Pod In Kube    ${namespace}    bbsim    bbsimctl onu shutdown ${src['onu']}
+        Should Contain    ${result}    successfully    msg=Can not shutdown ${src['onu']}    values=False
+    END
+
+Current State Test
     [Documentation]    This keyword checks the passed state of the given onu.
     [Arguments]    ${state}    ${onu}    ${reqadminstate}=${EMPTY}    ${reqoperstatus}=${EMPTY}
     ...    ${reqconnectstatus}=${EMPTY}
@@ -41,11 +60,12 @@ Do Current State Test
     ...    Validate Device    ${admin_state}    ${oper_status}    ${connect_status}
     ...    ${onu}    onu=True    onu_reason=${onu_state}
 
-Do Current State Test All Onus
+Current State Test All Onus
     [Documentation]    This keyword checks the passed state of all onus.
     ...                Hint: ${timeStart} will be not evaluated here!
     [Arguments]    ${state}    ${reqadminstate}=${EMPTY}    ${reqoperstatus}=${EMPTY}    ${reqconnectstatus}=${EMPTY}
     ...    ${alternativeonustate}=${EMPTY}
+    ${timeStart}=    Get Current Date
     ${list_onus}    Create List
     Build ONU SN List    ${list_onus}
     ${admin_state}    ${oper_status}    ${connect_status}    ${onu_state_nb}    ${onu_state}=    Map State    ${state}
@@ -57,17 +77,6 @@ Do Current State Test All Onus
     ...    Validate ONU Devices With Duration
     ...    ${admin_state}    ${oper_status}    ${connect_status}
     ...    ${onu_state}    ${list_onus}    ${timeStart}    alternate_reason=${alternativeonustate}
-
-Do Current Reason Test All Onus
-    [Documentation]    This keyword checks the passed state of all onus.
-    ...                Hint: ${timeStart} will be not evaluated here!
-    [Arguments]    ${state}
-    ${list_onus}    Create List
-    Build ONU SN List    ${list_onus}
-    ${admin_state}    ${oper_status}    ${connect_status}    ${onu_state_nb}    ${onu_state}=    Map State    ${state}
-    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    50ms
-    ...    Validate ONU Devices MIB State With Duration
-    ...    ${onu_state}    ${list_onus}    ${timeStart}
 
 Log Ports
     [Documentation]    This keyword logs all port data available in ONOS of first port per ONU
@@ -85,6 +94,41 @@ Kill Adaptor
     ...     -- /bin/sh -c "kill 1"
     ${rc}    ${output}=    Run and Return Rc and Output    ${cmd}
     Log    ${output}
+
+Kill And Check Onu Adaptor
+    [Documentation]    This keyword kills ONU Adaptor and waits adaptor is up again.
+    ...    Following steps will be executed:
+    ...    - restart (kill) openonu adaptor
+    ...    - check openonu adaptor is ready again
+    ${list_openonu_apps}   Create List    adapter-open-onu
+    ${namespace}=    Set Variable    voltha
+    ${adaptorname}=    Set Variable    open-onu
+    Kill Adaptor    ${namespace}    ${adaptorname}
+    Sleep    5s
+    # sometimes restart of onu adapter takes up to 4 minutes!
+    ${prevtimeout}=    Set Variable    ${timeout}
+    ${timeout}=    Set Variable If    '${timeout}'<'300s'    300s    ${timeout}
+    Set Global Variable    ${timeout}
+    Wait For Pods Ready    ${namespace}    ${list_openonu_apps}
+    ${timeout}=    Set Variable    ${prevtimeout}
+    Set Global Variable    ${timeout}
+
+Disable Onu Device
+    [Documentation]    This keyword disables all onus.
+    FOR    ${I}    IN RANGE    0    ${num_all_onus}
+        ${src}=    Set Variable    ${hosts.src[${I}]}
+        ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
+        Disable Device    ${onu_device_id}
+        Wait Until Keyword Succeeds    20s    2s    Test Devices Disabled in VOLTHA    Id=${onu_device_id}
+    END
+
+Enable Onu Device
+    [Documentation]    This keyword enables all onus.
+    FOR    ${I}    IN RANGE    0    ${num_all_onus}
+        ${src}=    Set Variable    ${hosts.src[${I}]}
+        ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
+        Enable Device    ${onu_device_id}
+    END
 
 Verify MIB Template Data Available
     [Documentation]    This keyword verifies MIB Template Data stored in etcd
@@ -107,6 +151,34 @@ Delete MIB Template Data
     ...    /bin/sh -c 'ETCDCTL_API=3 etcdctl get --prefix service/voltha/omci_mibs/go_templates/'
     ${result}=    Exec Pod In Kube    ${namespace}    ${podname}    ${commandget}
     Should Be Empty    ${result}    Could not delete MIB Template Data stored in etcd!
+
+Set Tech Profile
+    [Documentation]    This keyword set the passed TechProfile for the test
+    [Arguments]    ${TechProfile}
+    Log To Console    \nTechProfile:${TechProfile}
+    ${namespace}=    Set Variable    default
+    ${podname}=    Set Variable    etcd
+    ${src}=    Set Variable    ${data_dir}/TechProfile-${TechProfile}.json
+    ${dest}=    Set Variable    /tmp/flexpod.json
+    ${command}    Catenate
+    ...    /bin/sh -c 'cat    ${dest} | ETCDCTL_API=3 etcdctl put service/voltha/technology_profiles/XGS-PON/64'
+    Copy File To Pod    ${namespace}    ${podname}    ${src}    ${dest}
+    Exec Pod In Kube    ${namespace}    ${podname}    ${command}
+    ${commandget}    Catenate
+    ...    /bin/sh -c 'ETCDCTL_API=3 etcdctl get --prefix service/voltha/technology_profiles/XGS-PON/64'
+    Exec Pod In Kube    ${namespace}    ${podname}    ${commandget}
+
+Remove Tech Profile
+    [Documentation]    This keyword removes TechProfile
+    Log To Console    \nTechProfile:${TechProfile}
+    ${namespace}=    Set Variable    default
+    ${podname}=    Set Variable    etcd
+    ${command}    Catenate
+    ...    /bin/sh -c 'ETCDCTL_API=3 etcdctl del --prefix service/voltha/technology_profiles/XGS-PON/64'
+    Exec Pod In Kube    ${namespace}    ${podname}    ${command}
+    ${commandget}    Catenate
+    ...    /bin/sh -c 'ETCDCTL_API=3 etcdctl get --prefix service/voltha/technology_profiles/XGS-PON/64'
+    Exec Pod In Kube    ${namespace}    ${podname}    ${commandget}
 
 Validate Onu Data In Etcd
     [Documentation]    This keyword validates openonu-go-adapter Data stored in etcd.
@@ -186,7 +258,7 @@ Validate Vlan Rules In Etcd
         ...    ELSE IF    ${oldsetvidvalid} and not ${setvidequal}
         ...               Should Not Be Equal As Integers    ${prevsetvid}    ${setvid}
     END
-    log Many   ${vlan_rules}
+    log Many    ${vlan_rules}
     [Return]    ${vlan_rules}
 
 Get ONU Go Adapter ETCD Data

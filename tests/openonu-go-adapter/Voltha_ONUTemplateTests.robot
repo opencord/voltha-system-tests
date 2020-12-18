@@ -31,8 +31,8 @@ Resource          ../../libraries/voltctl.robot
 Resource          ../../libraries/voltha.robot
 Resource          ../../libraries/utils.robot
 Resource          ../../libraries/k8s.robot
+Resource          ../../libraries/onu_utilities.robot
 Resource          ../../variables/variables.robot
-Resource          ../../libraries/Voltha_ONUUtilities.robot
 
 *** Variables ***
 ${NAMESPACE}      voltha
@@ -108,7 +108,7 @@ Teardown Suite
     Wait for Ports in ONOS for all OLTs      ${onos_ssh_connection}  0   BBSM
     # delete etcd MIB Template Data (for repeating test)
     Delete MIB Template Data
-    Close ONOS SSH Connection   ${onos_ssh_connection}
+    Close All ONOS SSH Connections
 
 Perform ONU MIB Template Data Test
     [Documentation]    This keyword performs ONU MIB Template Data Test
