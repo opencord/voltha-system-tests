@@ -470,6 +470,14 @@ Remove All Devices From ONOS
         ...    Should Be Equal As Integers    ${rc}    0
     END
 
+Assert ONU Port Is Disabled
+    [Arguments]    ${onos_ssh_connection}    ${deviceId}    ${onu_port}
+    [Documentation]    Verifies if the ONU port is disabled in ONOS
+    ${onu_port_disabled}=    Execute ONOS CLI Command on open connection     ${onos_ssh_connection}
+    ...    ports -d ${deviceId} | grep port=${onu_port}
+    Log    ${onu_port_disabled}
+    Should Not Be Empty    ${onu_port_disabled}
+
 Assert Ports in ONOS
     [Arguments]    ${onos_ssh_connection}     ${count}     ${deviceId}    ${filter}
     [Documentation]    Check that a certain number of ports are enabled in ONOS

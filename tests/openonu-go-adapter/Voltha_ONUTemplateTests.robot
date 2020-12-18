@@ -31,11 +31,11 @@ Resource          ../../libraries/voltctl.robot
 Resource          ../../libraries/voltha.robot
 Resource          ../../libraries/utils.robot
 Resource          ../../libraries/k8s.robot
+Resource          ../../libraries/onu_utilities.robot
 Resource          ../../variables/variables.robot
-Resource          ../../libraries/Voltha_ONUUtilities.robot
 
 *** Variables ***
-${NAMESPACE}      voltha
+${namespace}      voltha
 ${timeout}        60s
 ${of_id}          0
 ${logical_id}     0
@@ -108,7 +108,7 @@ Teardown Suite
     Wait for Ports in ONOS for all OLTs      ${onos_ssh_connection}  0   BBSM
     # delete etcd MIB Template Data (for repeating test)
     Delete MIB Template Data
-    Close ONOS SSH Connection   ${onos_ssh_connection}
+    Close All ONOS SSH Connections
 
 Perform ONU MIB Template Data Test
     [Documentation]    This keyword performs ONU MIB Template Data Test
@@ -120,7 +120,7 @@ Perform ONU MIB Template Data Test
     # Start first Onu
     ${src}=    Set Variable    ${hosts.src[${0}]}
     Log    \r\nONU ${src['onu']}: startup with MIB upload cycle and storage of template data to etcd.    console=yes
-    ${result}=    Exec Pod In Kube    ${NAMESPACE}    bbsim    bbsimctl onu poweron ${src['onu']}
+    ${result}=    Exec Pod In Kube    ${namespace}    bbsim    bbsimctl onu poweron ${src['onu']}
     Should Contain    ${result}    successfully    msg=Can not poweron ${src['onu']}    values=False
     ${timeStart}=    Get Current Date
     ${firstonustartup}=    Get ONU Startup Duration    ${firstonu}    ${timeStart}
@@ -130,7 +130,7 @@ Perform ONU MIB Template Data Test
     # Start second Onu
     ${src}=    Set Variable    ${hosts.src[${1}]}
     Log    ONU ${src['onu']}: startup without MIB upload cycle by using of template data of etcd.    console=yes
-    ${result}=    Exec Pod In Kube    ${NAMESPACE}    bbsim    bbsimctl onu poweron ${src['onu']}
+    ${result}=    Exec Pod In Kube    ${namespace}    bbsim    bbsimctl onu poweron ${src['onu']}
     Should Contain    ${result}    successfully    msg=Can not poweron ${src['onu']}    values=False
     ${timeStart}=    Get Current Date
     ${secondonustartup}=    Get ONU Startup Duration    ${secondonu}    ${timeStart}
