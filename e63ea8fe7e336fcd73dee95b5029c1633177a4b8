@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2d13a132_8ecf19b5",
+        "filename": "libraries/onu_utilities.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2020-12-18T15:59:52Z",
+      "side": 1,
+      "message": "if the base timeout for 4 ONUS is 60 seconds, why don\u0027t you multiply for 15 ? Also what I woudl do is not to have a base timeout but always calculate num_onus * 15 secs, this helps generalise this keyword.",
+      "revId": "e63ea8fe7e336fcd73dee95b5029c1633177a4b8",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "25b5b808_5476f7a5",
+        "filename": "libraries/onu_utilities.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2020-12-18T15:59:52Z",
+      "side": 1,
+      "message": "I\u0027d make this as a parameter (the scale jobs deploy everything in the default namespace)",
+      "revId": "e63ea8fe7e336fcd73dee95b5029c1633177a4b8",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "39c28e3d_6d002567",
+        "filename": "tests/openonu-go-adapter/Voltha_ONUReconcileTests.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2020-12-18T15:59:52Z",
+      "side": 1,
+      "message": "different",
+      "revId": "e63ea8fe7e336fcd73dee95b5029c1633177a4b8",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0e98de38_4b479524",
+        "filename": "tests/openonu-go-adapter/Voltha_ONUReconcileTests.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2020-12-18T15:59:52Z",
+      "side": 1,
+      "message": "why are you skipping if there is more than 1 ONU ?\nvalid for all the tests",
+      "revId": "e63ea8fe7e336fcd73dee95b5029c1633177a4b8",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    }
+  ]
+}
