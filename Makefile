@@ -188,7 +188,7 @@ bbsim-scale-kind: voltha-test
 
 #Only supported in full mode
 system-scale-test: ROBOT_FILE := K8S_SystemTest.robot
-system-scale-test: ROBOT_MISC_ARGS += -X -i functional $(ROBOT_DEBUG_LOG_OPT) -v teardown_device:true
+system-scale-test: ROBOT_MISC_ARGS += -X -i functional $(ROBOT_DEBUG_LOG_OPT) -v teardown_device:True
 system-scale-test: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_MULT_PON_FILE)
 system-scale-test: voltha-test
 
