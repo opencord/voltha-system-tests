@@ -35,11 +35,26 @@ olts:
 
 hosts:
   src:
-    -
-      onu: 'BBSM000a0001'
+    - onu: 'BBSM000a0001'
       olt: 'BBSIM_OLT_10'
       c_tag: '900'
       s_tag: '900'
+      service_type: 'hsia'
+    - onu: 'BBSM000a0001'
+      olt: 'BBSIM_OLT_10'
+      c_tag: '333'
+      s_tag: '444'
+      service_type: 'voip'
+    - onu: 'BBSM000a0001'
+      olt: 'BBSIM_OLT_10'
+      c_tag: '555'
+      s_tag: '55'
+      service_type: 'vod'
+    - onu: 'BBSM000a0001'
+      olt: 'BBSIM_OLT_10'
+      c_tag: '550'
+      s_tag: '55'
+      service_type: 'MC'
 
   dst:
     - ip: null
