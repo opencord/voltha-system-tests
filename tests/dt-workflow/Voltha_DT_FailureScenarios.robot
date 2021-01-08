@@ -121,24 +121,6 @@ Verify ONU after Rebooting Physically for DT
     END
     # Verify flows for all OLTs
     Run Keyword    Wait Until Keyword Succeeds    ${timeout}    5s    Validate All OLT Flows
-    # Verify ONOS Flows
-    # Number of Access Flows on ONOS equals 4 * the Number of Active ONUs (2 for each downstream and upstream)
-    #${onos_flows_count}=    Evaluate    4 * ${num_onus}
-    #Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
-    #...    Verify Subscriber Access Flows Added Count DT    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}
-    #...    ${of_id}    ${onos_flows_count}
-    # Verify VOLTHA Flows
-    # Number of per OLT Flows equals Twice the Number of Active ONUs (each for downstream and upstream) + 1 for LLDP
-    #${olt_flows}=    Evaluate    2 * ${num_onus} + 1
-    # Number of per ONU Flows equals 2 (one each for downstream and upstream)
-    #${onu_flows}=    Set Variable    2
-    #Run Keyword    Wait Until Keyword Succeeds    ${timeout}    5s    Validate OLT Flows    ${olt_flows}
-    #${List_ONU_Serial}    Create List
-    #Set Suite Variable    ${List_ONU_Serial}
-    #Build ONU SN List    ${List_ONU_Serial}    ${olt_serial_number}
-    #Log    ${List_ONU_Serial}
-    #Run Keyword    Wait Until Keyword Succeeds    ${timeout}    5s    Validate ONU Flows
-    #...    ${List_ONU_Serial}    ${onu_flows}
 
 Verify OLT after Rebooting Physically for DT
     [Documentation]    Test the physical reboot of the OLT
@@ -442,9 +424,6 @@ Verify OLT Soft Reboot for DT
     [Teardown]    Run Keywords    Collect Logs
     ...           AND             Stop Logging    OLTSoftRebootDt
     #...           AND             Delete Device and Verify
-    ## Performing Sanity Test to make sure subscribers are all DHCP and pingable
-    #Run Keyword If    ${has_dataplane}    Clean Up Linux
-    #Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test DT
     # Reboot the OLT using "voltctl device reboot" command
     Reboot Device    ${olt_device_id}
     Run Keyword And Ignore Error    Collect Logs
@@ -478,9 +457,6 @@ Verify ONU Soft Reboot for DT
     [Teardown]    Run Keywords    Collect Logs
     ...           AND             Stop Logging    ONUSoftRebootDt
     #...           AND             Delete Device and Verify
-    # Performing Sanity Test to make sure subscribers are all DHCP and pingable
-    #Run Keyword If    ${has_dataplane}    Clean Up Linux
-    #Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test DT
     #Reboot the ONU and verify that ping fails
     FOR    ${I}    IN RANGE    0    ${num_onus}
         ${src}=    Set Variable    ${hosts.src[${I}]}

@@ -598,11 +598,6 @@ Verify OLT Soft Reboot
     [Setup]    Start Logging    OLTSoftReboot
     [Teardown]    Run Keywords    Collect Logs
     ...           AND             Stop Logging    OLTSoftReboot
-    #Delete All Devices and Verify
-    #Setup
-    ## Performing Sanity Test to make sure subscribers are all AUTH+DHCP and pingable
-    #Run Keyword If    ${has_dataplane}    Clean Up Linux
-    #Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test
     FOR   ${I}    IN RANGE    0    ${olt_count}
         ${olt_serial_number}=    Get From Dictionary    ${olt_ids}[${I}]    sn
         ${olt_device_id}=    Get OLTDeviceID From OLT List    ${olt_serial_number}
@@ -723,10 +718,6 @@ Verify ONU Soft Reboot
     [Teardown]    Run Keywords    Collect Logs
     ...           AND             Stop Logging    ONUSoftReboot
     #...           AND             Delete Device and Verify
-    # Performing Sanity Test to make sure subscribers are all AUTH+DHCP and pingable
-    #Run Keyword If    ${has_dataplane}    Clean Up Linux
-    #Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test
-    #Reboot the ONU and verify that ping fails
     FOR    ${I}    IN RANGE    0    ${num_all_onus}
         ${src}=    Set Variable    ${hosts.src[${I}]}
         ${dst}=    Set Variable    ${hosts.dst[${I}]}
@@ -783,9 +774,6 @@ Verify ONU Soft Reboot
         Run Keyword and Ignore Error    Get Device Output from Voltha    ${onu_device_id}
         Run Keyword And Ignore Error    Collect Logs
     END
-    #Delete All Devices And Verify
-    #Run Keyword If    ${has_dataplane}    Clean Up Linux
-    #Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test
 
 
 *** Keywords ***

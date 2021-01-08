@@ -62,13 +62,9 @@ Common Test Suite Setup
     ${onos_auth}=    Create List    karaf    karaf
     ${HEADERS}    Create Dictionary    Content-Type=application/json
     Create Session    ONOS    http://${ONOS_REST_IP}:${ONOS_REST_PORT}    auth=${ONOS_AUTH}
-    #${olt_ip}=    Evaluate    ${olts}[0].get("ip")
-    #${olt_ssh_ip}=    Evaluate    ${olts}[0].get("sship")
-    #${olt_user}=    Evaluate    ${olts}[0].get("user")
-    #${olt_pass}=    Evaluate    ${olts}[0].get("pass")
-    #${olt_serial_number}=    Evaluate    ${olts}[0].get("serial")
     ${num_olts}    Get Length    ${olts}
     ${list_olts}    Create List
+    # Create olt list from the configuration file
     FOR    ${I}    IN RANGE    0    ${num_olts}
         ${ip}    Evaluate    ${olts}[${I}].get("ip")
         ${user}    Evaluate    ${olts}[${I}].get("user")
@@ -93,11 +89,6 @@ Common Test Suite Setup
     Set Suite Variable    ${list_olts}
     ${olt_count}=    Get Length    ${list_olts}
     Set Suite Variable    ${olt_count}
-    #Set Suite Variable    ${olt_serial_number}
-    #Set Suite Variable    ${olt_ip}
-    #Set Suite Variable    ${olt_ssh_ip}
-    #Set Suite Variable    ${olt_user}
-    #Set Suite Variable    ${olt_pass}
     @{container_list}=    Create List    adapter-open-olt    adapter-open-onu    voltha-api-server
     ...    voltha-ro-core    voltha-rw-core-11    voltha-rw-core-12    voltha-ofagent
     Set Suite Variable    ${container_list}
@@ -215,15 +206,6 @@ Perform Sanity Test Per OLT
     ...    Sanity test performs authentication, dhcp and pings for all the ONUs given for the POD
     ...    This keyword can be used to call in any other tests where sanity check is required
     ...    and avoids duplication of code. - ATT workflow
-    #${of_id}=    Wait Until Keyword Succeeds    ${timeout}    15s
-    #...    Validate OLT Device in ONOS    ${olt_serial_number}
-    #Set Global Variable    ${of_id}
-    #${nni_port}=    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
-    #...    Get NNI Port in ONOS    ${of_id}
-    #Set Global Variable    ${nni_port}
-    # Verify Default Meter in ONOS (valid only for ATT)
-    #Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
-    #...    Verify Default Meter Present in ONOS    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${of_id}
     FOR    ${I}    IN RANGE    0    ${num_all_onus}
         ${src}=    Set Variable    ${hosts.src[${I}]}
         ${dst}=    Set Variable    ${hosts.dst[${I}]}
@@ -316,11 +298,6 @@ Perform Sanity Test DT Per OLT
     ...    Sanity test performs dhcp and pings (without EAPOL and DHCP flows) for all the ONUs given for the POD
     ...    This keyword can be used to call in any other tests where sanity check is required
     ...    and avoids duplication of code.
-    #${of_id}=    Wait Until Keyword Succeeds    360s    15s    Validate OLT Device in ONOS    ${olt_serial_number}
-    #Set Global Variable    ${of_id}
-    #${nni_port}=    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
-    #...    Get NNI Port in ONOS    ${of_id}
-    #Set Global Variable    ${nni_port}
     FOR    ${I}    IN RANGE    0    ${num_all_onus}
         ${src}=    Set Variable    ${hosts.src[${I}]}
         ${dst}=    Set Variable    ${hosts.dst[${I}]}
@@ -355,24 +332,6 @@ Perform Sanity Test DT Per OLT
         Run Keyword and Ignore Error    Get Device Output from Voltha    ${onu_device_id}
         Run Keyword and Ignore Error    Collect Logs
     END
-    # Verify ONOS Flows
-    # Number of Access Flows on ONOS equals 4 * the Number of Active ONUs (2 for each downstream and upstream)
-    #${onos_flows_count}=    Evaluate    4 * ${num_onus}
-    #Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
-    #...    Verify Subscriber Access Flows Added Count DT    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${of_id}
-    #...    ${onos_flows_count}
-    # Verify VOLTHA Flows
-    # Number of per OLT Flows equals Twice the Number of Active ONUs (each for downstream and upstream) + 1 for LLDP
-    #${olt_flows}=    Evaluate    2 * ${num_onus} + 1
-    # Number of per ONU Flows equals 2 (one each for downstream and upstream)
-    #${onu_flows}=    Set Variable    2
-    #Run Keyword    Wait Until Keyword Succeeds    ${timeout}    5s    Validate OLT Flows    ${olt_flows}
-    #${List_ONU_Serial}    Create List
-    #Set Suite Variable    ${List_ONU_Serial}
-    #Build ONU SN List    ${List_ONU_Serial}    ${olt_serial_number}
-    #Log    ${List_ONU_Serial}
-    #Run Keyword    Wait Until Keyword Succeeds    ${timeout}    5s    Validate ONU Flows
-    #...    ${List_ONU_Serial}    ${onu_flows}
 
 Validate All OLT Flows
     [Documentation]    This keyword iterate all OLTs and performs Sanity Test Procedure for DT workflow
@@ -557,8 +516,6 @@ Setup
     [Documentation]    Pre-test Setup
     #test for empty device list
     Test Empty Device List
-    #Run Keyword If    ${has_dataplane}    Wait Until Keyword Succeeds    120s    10s    Openolt is Up
-    #...    ${olt_ip}    ${olt_user}    ${olt_pass}
     Run Keyword If    ${has_dataplane}    Sleep    230s
     # Create a list of olt ids (logical and device_id)
     ${olt_ids}    Create List

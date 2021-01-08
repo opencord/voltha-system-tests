@@ -459,10 +459,6 @@ Test disable ONUs and OLT then delete ONUs and OLT
     END
     # Delete all OLTs
     Delete All Devices and Verify
-    #Delete Device    ${olt_device_id}
-    #Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s    Test Empty Device List
-    #Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
-    #...    Verify Device Flows Removed    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${of_id}
 
 Validate authentication on a disabled ONU
     [Documentation]    Assuming that test1 was executed where all the ONUs are authenticated/DHCP/pingable
@@ -522,8 +518,6 @@ Data plane verification using TCP
     setup
     Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test
 
-    #${of_id}=    Wait Until Keyword Succeeds    ${timeout}    15s    Validate OLT Device in ONOS
-    #...    ${olt_serial_number}
     FOR    ${I}    IN RANGE    0    ${num_all_onus}
         ${src}=    Set Variable    ${hosts.src[${I}]}
         ${dst}=    Set Variable    ${hosts.dst[${I}]}
@@ -579,7 +573,6 @@ Data plane verification using UDP
     ...           AND    Stop Logging    BandwidthProfileUDP
     Pass Execution If   '${has_dataplane}'=='False'
     ...    Bandwidth profile validation can be done only in physical pod.  Skipping this test in BBSIM.
-    #${of_id}=    Wait Until Keyword Succeeds    ${timeout}    15s    Validate OLT Device in ONOS    ${olt_serial_number}
     FOR    ${I}    IN RANGE    0    ${num_all_onus}
         ${src}=    Set Variable    ${hosts.src[${I}]}
         ${dst}=    Set Variable    ${hosts.dst[${I}]}
