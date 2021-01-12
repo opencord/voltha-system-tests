@@ -923,6 +923,8 @@ Echo Message to OLT Logs
         ${olt_user}    Evaluate    ${olts}[${I}].get("user")
         ${olt_pass}    Evaluate    ${olts}[${I}].get("pass")
         ${olt_ssh_ip}    Evaluate    ${olts}[${I}].get("sship")
+        Continue For Loop If    "${olt_user}" == "${None}"
+        Continue For Loop If    "${olt_pass}" == "${None}"
         Wait Until Keyword Succeeds    180s    10s    Execute Remote Command
         ...    printf '%s\n' '' '' '${message}' '' >> /var/log/openolt.log
         ...    ${olt_ssh_ip}    ${olt_user}    ${olt_pass}
