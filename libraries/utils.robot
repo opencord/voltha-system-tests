@@ -679,15 +679,46 @@ Repeat Sanity Test
         Run Keyword and Ignore Error   Collect Logs
     END
 
+Disable Enable PON Port Per OLT
+    [Arguments]    ${olt_serial_number}
+    [Documentation]    This keyword disables and then enables OLT PON port and
+    ...    also validate ONUs for each corresponding case
+    ${olt_device_id}=    Get OLTDeviceID From OLT List    ${olt_serial_number}
+    ${olt_pon_port_list}=    Retrieve OLT PON Ports    ${olt_device_id}
+    ${olt_pon_port_list_len}=    Get Length    ${olt_pon_port_list}
+    FOR    ${INDEX0}    IN RANGE    0    ${olt_pon_port_list_len}
+        ${olt_pon_port}=    Get From List    ${olt_pon_port_list}    ${INDEX0}
+        ${olt_peer_list}=    Retrieve Peer List From OLT PON Port    ${olt_device_id}    ${olt_pon_port}
+        # Disable the OLT PON Port and Validate OLT Device
+        DisableOrEnable OLT PON Port    disable    ${olt_device_id}    ${olt_pon_port}
+        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
+        ...    Validate OLT PON Port Status    ${olt_device_id}    ${olt_pon_port}
+        ...    DISABLED    DISCOVERED
+        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
+        ...    Validate OLT Device    ENABLED    ACTIVE    REACHABLE
+        ...    ${olt_serial_number}
+        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
+        ...    Validate ONUs for PON OLT Disable    ${olt_serial_number}    ${olt_peer_list}
+        # Enable the OLT PON Port back, and check ONU status are back to "ACTIVE"
+        DisableOrEnable OLT PON Port    enable    ${olt_device_id}    ${olt_pon_port}
+        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
+        ...    Validate OLT PON Port Status    ${olt_device_id}    ${olt_pon_port}
+        ...    ENABLED    ACTIVE
+        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
+        ...    Validate ONUs for PON OLT Enable    ${olt_serial_number}    ${olt_peer_list}
+    END
+
 Validate ONUs for PON OLT Disable
-    [Arguments]    ${olt_peer_list}
+    [Arguments]    ${olt_sn}    ${olt_peer_list}
     [Documentation]     This keyword validates that Ping fails for ONUs connected to Disabled OLT PON port
     ...    And Pings succeed for other Active OLT PON port ONUs
     ...    Also it removes subscriber for Disabled OLT PON port ONUs to replicate ATT workflow
-    FOR    ${I}    IN RANGE    0    ${num_all_nus}
+    FOR    ${I}    IN RANGE    0    ${num_all_onus}
         ${src}=    Set Variable    ${hosts.src[${I}]}
         ${dst}=    Set Variable    ${hosts.dst[${I}]}
+        Continue For Loop If    "${olt_sn}"!="${src['olt']}"
         ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
+        ${of_id}=    Wait Until Keyword Succeeds    ${timeout}    15s    Validate OLT Device in ONOS    ${src['olt']}
         ${onu_port}=    Wait Until Keyword Succeeds    ${timeout}    2s    Get ONU Port in ONOS    ${src['onu']}
         ...    ${of_id}
         ${matched}=    Match ONU in PON OLT Peer List    ${olt_peer_list}    ${onu_device_id}
@@ -695,7 +726,7 @@ Validate ONUs for PON OLT Disable
         ...    Run Keywords
         ...    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
         ...    Validate Device    ENABLED    DISCOVERED
-        ...    UNREACHABLE    ${src['onu']}    onu=True    onu_reason=stopping-openomci
+        ...    UNREACHABLE    ${src['onu']}    onu=True    onu_reason=omci-flows-deleted
         ...    AND    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds   ${timeout}    2s
         ...    Verify ONU Port Is Disabled   ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${src['onu']}
         ...    AND    Run Keyword If    ${has_dataplane}    Run Keyword And Continue On Failure
@@ -716,13 +747,15 @@ Validate ONUs for PON OLT Disable
     END
 
 Validate ONUs for PON OLT Enable
-    [Arguments]    ${olt_peer_list}
+    [Arguments]    ${olt_sn}    ${olt_peer_list}
     [Documentation]    This keyword validates Ping succeeds for all Enabled/Acitve OLT PON ports
     ...    Also performs Auth/subscriberAdd/DHCP/Ping for the ONUs on Re-Enabled OLT PON port
     FOR    ${I}    IN RANGE    0    ${num_all_onus}
         ${src}=    Set Variable    ${hosts.src[${I}]}
         ${dst}=    Set Variable    ${hosts.dst[${I}]}
+        Continue For Loop If    "${olt_sn}"!="${src['olt']}"
         ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
+        ${of_id}=    Wait Until Keyword Succeeds    ${timeout}    15s    Validate OLT Device in ONOS    ${src['olt']}
         ${onu_port}=    Wait Until Keyword Succeeds    ${timeout}    2s    Get ONU Port in ONOS    ${src['onu']}
         ...    ${of_id}
         ${matched}=    Match ONU in PON OLT Peer List    ${olt_peer_list}    ${onu_device_id}
@@ -778,15 +811,50 @@ Validate ONUs for PON OLT Enable
         Run Keyword and Ignore Error    Collect Logs
     END
 
+Disable Enable PON Port Per OLT DT
+    [Arguments]    ${olt_serial_number}
+    [Documentation]    This keyword disables and then enables OLT PON port and
+    ...    also validate ONUs for each corresponding case
+    ${olt_device_id}=    Get OLTDeviceID From OLT List    ${olt_serial_number}
+    ${olt_pon_port_list}=    Retrieve OLT PON Ports    ${olt_device_id}
+    ${olt_pon_port_list_len}=    Get Length    ${olt_pon_port_list}
+    FOR    ${INDEX0}    IN RANGE    0    ${olt_pon_port_list_len}
+        ${olt_pon_port}=    Get From List    ${olt_pon_port_list}    ${INDEX0}
+        ${olt_peer_list}=    Retrieve Peer List From OLT PON Port    ${olt_device_id}    ${olt_pon_port}
+        # Disable the OLT PON Port and Validate OLT Device
+        DisableOrEnable OLT PON Port    disable    ${olt_device_id}    ${olt_pon_port}
+        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
+        ...    Validate OLT PON Port Status    ${olt_device_id}    ${olt_pon_port}
+        ...    DISABLED    DISCOVERED
+        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
+        ...    Validate OLT Device    ENABLED    ACTIVE    REACHABLE
+        ...    ${olt_serial_number}
+        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
+        ...    Validate ONUs for PON OLT Disable DT    ${olt_serial_number}    ${olt_peer_list}
+        Sleep    15s
+        # Enable the OLT PON Port back, and check ONU status are back to "ACTIVE"
+        DisableOrEnable OLT PON Port    enable    ${olt_device_id}    ${olt_pon_port}
+        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
+        ...    Validate OLT PON Port Status    ${olt_device_id}    ${olt_pon_port}
+        ...    ENABLED    ACTIVE
+        # Waiting extra time for the ONUs to come up
+        Sleep    60s
+        ${olt_peer_list_new}=    Retrieve Peer List From OLT PON Port    ${olt_device_id}    ${olt_pon_port}
+        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
+        ...    Validate ONUs for PON OLT Enable DT    ${olt_serial_number}    ${olt_peer_list_new}
+    END
+
 Validate ONUs for PON OLT Disable DT
-    [Arguments]    ${olt_peer_list}
+    [Arguments]    ${olt_sn}    ${olt_peer_list}
     [Documentation]     This keyword validates that Ping fails for ONUs connected to Disabled OLT PON port
     ...    And Pings succeed for other Active OLT PON port ONUs
     ...    Also it removes subscriber and deletes ONUs for Disabled OLT PON port to replicate DT workflow
     FOR    ${I}    IN RANGE    0    ${num_all_onus}
         ${src}=    Set Variable    ${hosts.src[${I}]}
         ${dst}=    Set Variable    ${hosts.dst[${I}]}
+        Continue For Loop If    "${olt_sn}"!="${src['olt']}"
         ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
+        ${of_id}=    Wait Until Keyword Succeeds    ${timeout}    15s    Validate OLT Device in ONOS    ${src['olt']}
         ${onu_port}=    Wait Until Keyword Succeeds    ${timeout}    2s    Get ONU Port in ONOS    ${src['onu']}
         ...    ${of_id}
         ${matched}=    Match ONU in PON OLT Peer List    ${olt_peer_list}    ${onu_device_id}
@@ -819,13 +887,15 @@ Validate ONUs for PON OLT Disable DT
     END
 
 Validate ONUs for PON OLT Enable DT
-    [Arguments]    ${olt_peer_list}
+    [Arguments]    ${olt_sn}    ${olt_peer_list}
     [Documentation]    This keyword validates Ping succeeds for all Enabled/Acitve OLT PON ports
     ...    Also performs subscriberAdd/DHCP/Ping for the ONUs on Re-Enabled OLT PON port
     FOR    ${I}    IN RANGE    0    ${num_all_onus}
         ${src}=    Set Variable    ${hosts.src[${I}]}
         ${dst}=    Set Variable    ${hosts.dst[${I}]}
+        Continue For Loop If    "${olt_sn}"!="${src['olt']}"
         ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
+        ${of_id}=    Wait Until Keyword Succeeds    ${timeout}    15s    Validate OLT Device in ONOS    ${src['olt']}
         ${onu_port}=    Wait Until Keyword Succeeds    ${timeout}    2s    Get ONU Port in ONOS    ${src['onu']}
         ...    ${of_id}
         ${matched}=    Match ONU in PON OLT Peer List    ${olt_peer_list}    ${onu_device_id}
@@ -1016,7 +1086,7 @@ Clean Up Linux Per OLT
 
 Clean dhclient
     [Documentation]    Kills dhclient processes only for all RGs
-    FOR    ${I}    IN RANGE    0    ${num_all_nus}
+    FOR    ${I}    IN RANGE    0    ${num_all_onus}
         ${src}=    Set Variable    ${hosts.src[${I}]}
         ${dst}=    Set Variable    ${hosts.dst[${I}]}
         Execute Remote Command    sudo pkill dhclient    ${src['ip']}

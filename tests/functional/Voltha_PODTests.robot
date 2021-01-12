@@ -683,37 +683,18 @@ Test Disable and Enable OLT PON Port
     ...    Assuming that all the ONUs are DHCP/pingable (i.e. assuming sanityDt test was executed)
     ...    Perform disable on the OLT PON Port and validate that the pings do not succeed
     ...    Perform enable on the OLT PON Port and validate that the pings are successful
-    [Tags]    functional    DisableEnableOltPonPort    VOL-2577    notready
+    [Tags]    functional    DisableEnableOltPonPort    VOL-2577
     [Setup]    Run Keywords    Start Logging    DisableEnableOltPonPort
     ...        AND    Setup
     [Teardown]    Run Keywords    Collect Logs
     ...           AND             Stop Logging    DisableEnableOltPonPort
-    ...           AND             Delete Device and Verify
-    #TODO: Update this test for new framework changes
+    ...           AND             Delete All Devices and Verify
     Run Keyword If    ${has_dataplane}    Clean Up Linux
     Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test
-    ${olt_pon_port_list}=    Retrieve OLT PON Ports    ${olt_device_id}
-    ${olt_pon_port_list_len}=    Get Length    ${olt_pon_port_list}
-    FOR    ${INDEX0}    IN RANGE    0    ${olt_pon_port_list_len}
-        ${olt_pon_port}=    Get From List    ${olt_pon_port_list}    ${INDEX0}
-        ${olt_peer_list}=    Retrieve Peer List From OLT PON Port    ${olt_device_id}    ${olt_pon_port}
-        # Disable the OLT PON Port and Validate OLT Device
-        DisableOrEnable OLT PON Port    disable    ${olt_device_id}    ${olt_pon_port}
-        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
-        ...    Validate OLT PON Port Status    ${olt_device_id}    ${olt_pon_port}
-        ...    DISABLED    DISCOVERED
-        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
-        ...    Validate OLT Device    ENABLED    ACTIVE    REACHABLE
-        ...    ${olt_serial_number}
-        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
-        ...    Validate ONUs for PON OLT Disable    ${olt_peer_list}
-        # Enable the OLT PON Port back, and check ONU status are back to "ACTIVE"
-        DisableOrEnable OLT PON Port    enable    ${olt_device_id}    ${olt_pon_port}
-        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
-        ...    Validate OLT PON Port Status    ${olt_device_id}    ${olt_pon_port}
-        ...    ENABLED    ACTIVE
-        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
-        ...    Validate ONUs for PON OLT Enable    ${olt_peer_list}
+    # Multi-OLTs
+    FOR   ${I}    IN RANGE    0    ${olt_count}
+        ${olt_serial_number}=    Get From Dictionary    ${olt_ids}[${I}]    sn
+        Disable Enable PON Port Per OLT    ${olt_serial_number}
     END
 
 *** Keywords ***
