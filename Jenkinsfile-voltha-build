@@ -175,7 +175,8 @@ node ("${TestNodeName}") {
                 stage('Push Tech-Profile') {
                     for(int i=0; i < deployment_config.olts.size(); i++) {
                         def tech_prof_directory = "XGS-PON"
-                        if (deployment_config.olts[i].oltDebVersion.contains("asgvolt64")){
+                        // If no debian package is specified we default to GPON for the ADTRAN OLT. 
+                        if (!deployment_config.olts[i].containsKey("oltDebVersion") || deployment_config.olts[i].oltDebVersion.contains("asgvolt64")){
                             tech_prof_directory = "GPON"
                         }
                         timeout(1) {
