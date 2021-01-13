@@ -351,7 +351,11 @@ Validate ONU Devices With Duration
         ${matched}=    Set Variable If    '${astate}' == '${admin_state}'    ${matched}    False
         ${matched}=    Set Variable If    '${opstatus}' == '${oper_status}'    ${matched}    False
         ${matched}=    Set Variable If    '${cstatus}' == '${connect_status}'    ${matched}    False
-        ${matched}=    Set Variable If    '${mib_state}' == '${onu_reason}' or '${mib_state}' == '${alternate_reason}'
+        ${len}=    Get Length    ${alternate_reason}
+		${matches}=    Run Keyword If     ${len} >= 1    Get Match Count    ${alternate_reason}    ${mib_state}
+        ...            ELSE    Set Variable    1
+        #${matched}=    Set Variable If    '${mib_state}' == '${onu_reason}' or '${mib_state}' == '${alternate_reason}'
+        ${matched}=    Set Variable If    '${mib_state}' == '${onu_reason}' or ${matches} >= 1
         ...   ${matched}    False
         Run Keyword If    ${matched} and ${print2console}    Log
         ...    \r\nONU ${sn} reached the state ${onu_reason} after ${timeTotalMs} sec.    console=yes

@@ -446,7 +446,8 @@ Do Disable Enable Onu Test
     ${alternative_onu_reason}=    Set Variable If
     ...    '${state2checkafterdisable}'=='tech-profile-config-delete-success'    omci-flows-deleted
     ...    '${state2checkafterdisable}'=='omci-admin-lock'    tech-profile-config-delete-success    ${EMPTY}
-    Current State Test All Onus    ${state2checkafterdisable}    alternativeonustate=${alternative_onu_reason}
+    ${alternativeonustates}=  Create List     ${alternative_onu_reason}
+    Current State Test All Onus    ${state2checkafterdisable}    alternativeonustate=${alternativeonustates}
     Log Ports
     #check no port is enabled in ONOS
     Wait for Ports in ONOS for all OLTs    ${onos_ssh_connection}    0    BBSM
@@ -460,8 +461,9 @@ Do Power Off Power On Onu Device
     [Documentation]    This keyword power off/on all onus and checks the states.
     Power Off ONU Device    ${namespace}
     Sleep    5s
+    ${alternativeonustates}=  Create List     omci-flows-deleted
     Current State Test All Onus    tech-profile-config-delete-success
-    ...    ENABLED    DISCOVERED    UNREACHABLE    alternativeonustate=omci-flows-deleted
+    ...    ENABLED    DISCOVERED    UNREACHABLE    alternativeonustate=${alternativeonustates}
     Power On ONU Device    ${namespace}
     Current State Test All Onus    ${state2test}
 
@@ -472,8 +474,9 @@ Do Soft Reboot Onu Device
         ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
         Reboot ONU    ${onu_device_id}   False
     END
+    ${alternativeonustates}=  Create List     omci-flows-deleted
     Run Keyword Unless    ${has_dataplane}    Current State Test All Onus    tech-profile-config-delete-success
-    ...   ENABLED    DISCOVERED    REACHABLE    alternativeonustate=omci-flows-deleted
+    ...   ENABLED    DISCOVERED    REACHABLE    alternativeonustate=${alternativeonustates}
     Sleep    5s
     Run Keyword Unless    ${has_dataplane}    Do Disable Enable Onu Test    checkstatebeforedisable=False
     ...    state2checkafterdisable=omci-admin-lock

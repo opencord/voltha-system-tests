@@ -13,7 +13,7 @@
 # limitations under the License.
 
 *** Settings ***
-Documentation     Test deifferent Reconcile scenarios of ONU Go adapter with ATT workflows only
+Documentation     Test different Reconcile scenarios of ONU Go adapter with all three workflows ATT, DT and TT.
 ...               Test suite is dedicated for only one ONU! Run robot with bbsim-kind.yaml only!
 ...               Not for DT/TT workflow!
 ...               Hint: default timeout in BBSim to mimic OLT reboot is 60 seconds!
@@ -50,6 +50,9 @@ ${scripts}        ../../scripts
 ${container_log_dir}    ${None}
 # flag for first test, needed due default timeout in BBSim to mimic OLT reboot of 60 seconds
 ${firsttest}    True
+# determines the environment workflow: DT, TT or ATT (default)
+# example: -v workflow:DT
+${workflow}    ATT
 # flag debugmode is used, if true timeout calculation various, can be passed via the command line too
 # example: -v debugmode:True
 ${debugmode}    False
@@ -73,11 +76,10 @@ Reconcile In Starting-OpenOmci
     [Documentation]    Validates the Reconcile in Starting-OpenOmci
     ...    Reconcile test during “starting-openomci” in AT&T-workflow:
     ...    - create and enable one BBSIM-ONU (no MIB-template should be available in KV-store)
-    ...    -- wait for device reason “starting-openomci”
+    ...    - wait for device reason “starting-openomci”
     ...    - kill the open-onu-adapter-go
-    ...    -- wait for open-onu-adapter-go to restart
-    ...    -- wait for device reason “omci-flows-pushed”
-    ...    --- check for default EAPOL-flow and enabled UNI-port in ONOS
+    ...    - wait for open-onu-adapter-go to restart
+    ...    - perform sanity test include add subscriber
     ...    - delete ONU and MIB-template in KV-store
     [Tags]    functionalOnuGo    ReconcileStartingOpenOmciOnuGo
     [Setup]    Run Keywords    Start Logging    ReconcileStartingOpenOmciOnuGo
@@ -94,11 +96,10 @@ Reconcile In Initial-Mib-Downloaded
     [Documentation]    Validates the Reconcile in initial-mib-downloaded
     ...    Reconcile test during “initial-mib-downloaded” in AT&T-workflow:
     ...    - create and enable one BBSIM-ONU (no MIB-template should be available in KV-store)
-    ...    -- wait for device reason “initial-mib-downloaded”
+    ...    - wait for device reason “initial-mib-downloaded”
     ...    - kill the open-onu-adapter-go
-    ...    -- wait for open-onu-adapter-go to restart
-    ...    -- wait for device reason “omci-flows-pushed”
-    ...    --- check for default EAPOL-flow and enabled UNI-port in ONOS
+    ...    - wait for open-onu-adapter-go to restart
+    ...    - perform sanity test include add subscriber
     ...    - delete ONU and MIB-template in KV-store
     [Tags]    functionalOnuGo    ReconcileInitialMibDownloadedOnuGo
     [Setup]    Run Keywords    Start Logging    ReconcileInitialMibDownloadedOnuGo
@@ -116,16 +117,15 @@ Reconcile In Omci-Flows-Pushed
     ...    Former testcase: Reconcile Onu Device in Testsuite Voltha_ONUStateTest.robot
     ...    Reconcile test during “omci-flows-pushed” in AT&T-workflow:
     ...    - create and enable one BBSIM-ONU (no MIB-template should be available in KV-store)
-    ...    -- wait for device reason “omci-flows-pushed”
+    ...    - perform sanity test include add subscriber
     ...    - kill the open-onu-adapter-go
-    ...    -- wait for open-onu-adapter-go to restart
-    ...    -- wait for device reason “omci-flows-pushed”
+    ...    - wait for open-onu-adapter-go to restart
+    ...    - perform sanity test suppress add subscriber
     ...    - disable onu device
-    ...    -- wait for device reason “tech-profile-config-delete-success”
-    ...    -- check UNI-ports disabled in ONOS
+    ...    - wait for device corresponding onu reason e.g. “tech-profile-config-delete-success”
+    ...    - check UNI-ports disabled in ONOS
     ...    - enable onu device
-    ...    -- wait for device reason “omci-flows-pushed”
-    ...    --- check for default EAPOL-flow and enabled UNI-port in ONOS
+    ...    - perform sanity test suppress add subscriber
     ...    - delete ONU and MIB-template in KV-store
     [Tags]    functionalOnuGo    ReconcileOmciFlowsPushedOnuGo
     [Setup]    Run Keywords    Start Logging    ReconcileOmciFlowsPushedOnuGo
@@ -142,16 +142,15 @@ Reconcile For Disabled Onu Device
     [Documentation]    Validates the Reconcile for disabled Onu device
     ...    Reconcile test for disabled Onu device in AT&T-workflow:
     ...    - create and enable one BBSIM-ONU (no MIB-template should be available in KV-store)
-    ...    -- wait for device reason “omci-flows-pushed”
+    ...    - perform sanity test include add subscriber
     ...    - disable onu device
-    ...    -- wait for device reason “tech-profile-config-delete-success”
-    ...    -- check UNI-ports disabled in ONOS
-   ...    - kill the open-onu-adapter-go
-    ...    -- wait for open-onu-adapter-go to restart
-    ...    -- check device reason is still “tech-profile-config-delete-success”
+    ...    - wait for device corresponding onu reason e.g. “tech-profile-config-delete-success”
+    ...    - check UNI-ports disabled in ONOS
+    ...    - kill the open-onu-adapter-go
+    ...    - wait for open-onu-adapter-go to restart
+    ...    - check device reason is still the same before restart
     ...    - enable onu device
-    ...    -- wait for device reason “onu-reenabled”
-    ...    --- check for default EAPOL-flow and enabled UNI-port in ONOS
+    ...    - perform sanity test suppress add subscriber
     ...    - delete ONU and MIB-template in KV-store
     [Tags]    functionalOnuGo    ReconcileDisabledOnuDeviceOnuGo
     [Setup]    Run Keywords    Start Logging    ReconcileDisabledOnuDeviceOnuGo
@@ -170,7 +169,7 @@ Setup Suite
     ${LogInfo}=    Catenate
     ...    \r\nPassed arguments:
     ...    debugmode:${debugmode}, logging:${logging}, pausebeforecleanup:${pausebeforecleanup},
-    ...    print2console:${print2console}
+    ...    print2console:${print2console}, usekill2restart:${usekill2restart}, workflow:${workflow}
     Log    ${LogInfo}    console=yes
     Common Test Suite Setup
     # prepare skip message in yellow for console log
@@ -239,11 +238,12 @@ Do Reconcile In Determined State
     ...    - enable OLT device
     ...    - wait for passed openonu reason
     ...    - restart openonu adaptor
-    ...    - check openonu adaptor is ready again
-    ...    - wait for openonu reason 'omci-flows-pushed'
-    ...    - check default (eapol) flow
-    ...    - port check
+    ...    - perform sanity test include add subscriber
     [Arguments]    ${expected_onu_reason}
+    ${admin_state}    ${oper_status}    ${connect_status}    ${onu_state_nb}    ${onu_state}=    Map State
+    ...    ${expected_onu_reason}
+    Should Be True    ${onu_state_nb}<=5
+    ...    Wrong expected onu reason ${expected_onu_reason}, must be lower than 'omci-flows-pushed'!
     FOR    ${I}    IN RANGE    0    ${num_olts}
         #get olt serial number
         ${olt_serial_number}=    Set Variable    ${list_olts}[${I}][sn]
@@ -254,29 +254,24 @@ Do Reconcile In Determined State
     Current State Test All Onus    ${expected_onu_reason}
     Run Keyword If    ${usekill2restart}    Kill And Check Onu Adaptor    ${namespace}
     ...    ELSE    Restart And Check Onu Adaptor    ${namespace}
-    Current State Test All Onus    omci-flows-pushed
-    Wait for Ports in ONOS for all OLTs    ${onos_ssh_connection}    ${num_all_onus}    BBSM    ${timeout}
-    Wait Until Keyword Succeeds    ${timeout}    2s    Verify Eapol Flows Added    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}
-    ...    ${num_all_onus}
-    ${flowsresult}=    Execute ONOS CLI Command    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    flows -s
-    log     ${flowsresult}
+    Run Keyword If    "${workflow}"=="DT"    Perform Sanity Test DT
+    ...    ELSE IF    "${workflow}"=="TT"    Perform Sanity Test TT
+    ...    ELSE       Perform Sanity Test
 
 Do Reconcile For Disabled Onu Device
     [Documentation]    This keyword reconciles ONU device for a disabled onu device and
     ...    check the state afterwards.
     ...    Following steps will be executed:
     ...    - enable OLT device
-    ...    - wait for openonu reason 'omci-flows-pushed'
+    ...    - perform sanity test include add subscriber
     ...    - disable onu device
-    ...    - wait for openonu reason 'tech-profile-config-delete-success'
+    ...    - wait for corresponding openonu reason
     ...    - check UNI-ports disabled in ONOS
     ...    - restart openonu adaptor
     ...    - check openonu adaptor is ready again
-    ...    - check device reason is still 'tech-profile-config-delete-success'
+    ...    - check device reason is still before restart
     ...    - enable onu device
-    ...    - wait for openonu reason 'onu-reenabled'
-    ...    - check default (eapol) flow
-    ...    - port check
+    ...    - perform sanity test suppress add subscriber
     FOR    ${I}    IN RANGE    0    ${num_olts}
         #get olt serial number
         ${olt_serial_number}=    Set Variable    ${list_olts}[${I}][sn]
@@ -284,36 +279,34 @@ Do Reconcile For Disabled Onu Device
         ${olt_device_id}=    Get OLTDeviceID From OLT List    ${olt_serial_number}
         Enable Device    ${olt_device_id}
     END
-    Current State Test All Onus    omci-flows-pushed
+    Run Keyword If    "${workflow}"=="DT"    Perform Sanity Test DT
+    ...    ELSE IF    "${workflow}"=="TT"    Perform Sanity Test TT
+    ...    ELSE       Perform Sanity Test
     Disable Onu Device
-    Current State Test All Onus    tech-profile-config-delete-success
+    ${alternativeonustates}=  Create List     omci-flows-deleted    omci-admin-lock
+    Current State Test All Onus    tech-profile-config-delete-success    alternativeonustate=${alternativeonustates}
     Run Keyword If    ${usekill2restart}    Kill And Check Onu Adaptor    ${namespace}
     ...    ELSE    Restart And Check Onu Adaptor    ${namespace}
-    Current State Test All Onus    tech-profile-config-delete-success
+    Current State Test All Onus    tech-profile-config-delete-success    alternativeonustate=${alternativeonustates}
     Wait for all ONU Ports in ONOS Disabled    ${onos_ssh_connection}
     Enable Onu Device
-    Current State Test All Onus    onu-reenabled    alternativeonustate=omci-flows-pushed
-    Wait for Ports in ONOS for all OLTs    ${onos_ssh_connection}    ${num_all_onus}    BBSM    ${timeout}
-    Wait Until Keyword Succeeds    ${timeout}    2s    Verify Eapol Flows Added    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}
-    ...    ${num_all_onus}
-    ${flowsresult}=    Execute ONOS CLI Command    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    flows -s
-    log     ${flowsresult}
+    Run Keyword If    "${workflow}"=="DT"    Perform Sanity Test DT    True
+    ...    ELSE IF    "${workflow}"=="TT"    Perform Sanity Test TT    True
+    ...    ELSE       Perform Sanity Test    True
 
 Do Reconcile In Omci-Flows-Pushed
     [Documentation]    This keyword reconciles ONU device in omci-flows-pushed and check the state afterwards.
     ...    Reconcile test during “omci-flows-pushed” in AT&T-workflow:
     ...    - create and enable one BBSIM-ONU (no MIB-template should be available in KV-store)
-    ...    -- wait for device reason “omci-flows-pushed”
+    ...    - perform sanity test include add subscriber
     ...    - kill the open-onu-adapter-go
-    ...    -- wait for open-onu-adapter-go to restart
-    ...    -- wait for device reason “omci-flows-pushed”
+    ...    - wait for open-onu-adapter-go to restart
+    ...    - perform sanity test suppress add subscriber
     ...    - disable onu device
-    ...    -- wait for device reason “tech-profile-config-delete-success”
-    ...    -- check UNI-ports disabled in ONOS
+    ...    - wait for corresponding device reason
+    ...    - check UNI-ports disabled in ONOS
     ...    - enable onu device
-    ...    -- wait for device reason “omci-flows-pushed”
-    ...    --- check for default EAPOL-flow and enabled UNI-port in ONOS
-    ...    - delete ONU and MIB-template in KV-store
+    ...    - perform sanity test supress add subscriber
     FOR    ${I}    IN RANGE    0    ${num_olts}
         #get olt serial number
         ${olt_serial_number}=    Set Variable    ${list_olts}[${I}][sn]
@@ -321,23 +314,19 @@ Do Reconcile In Omci-Flows-Pushed
         ${olt_device_id}=    Get OLTDeviceID From OLT List    ${olt_serial_number}
         Enable Device    ${olt_device_id}
     END
-    Current State Test All Onus    omci-flows-pushed
+    Run Keyword If    "${workflow}"=="DT"    Perform Sanity Test DT
+    ...    ELSE IF    "${workflow}"=="TT"    Perform Sanity Test TT
+    ...    ELSE       Perform Sanity Test
     Run Keyword If    ${usekill2restart}    Kill And Check Onu Adaptor    ${namespace}
     ...    ELSE    Restart And Check Onu Adaptor    ${namespace}
-    Current State Test All Onus    omci-flows-pushed
-    Wait for Ports in ONOS for all OLTs    ${onos_ssh_connection}    ${num_all_onus}    BBSM    ${timeout}
-    Wait Until Keyword Succeeds    ${timeout}    2s    Verify Eapol Flows Added    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}
-    ...    ${num_all_onus}
-    ${flowsresult}=    Execute ONOS CLI Command    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    flows -s
-    log     ${flowsresult}
+    Run Keyword If    "${workflow}"=="DT"    Perform Sanity Test DT    True
+    ...    ELSE IF    "${workflow}"=="TT"    Perform Sanity Test TT    True
+    ...    ELSE       Perform Sanity Test    True
     Disable Onu Device
-    Current State Test All Onus    tech-profile-config-delete-success
+    ${alternativeonustates}=  Create List     omci-flows-deleted    omci-admin-lock
+    Current State Test All Onus    tech-profile-config-delete-success    alternativeonustate=${alternativeonustates}
     Wait for all ONU Ports in ONOS Disabled    ${onos_ssh_connection}
-    # Wait for Ports in ONOS for all OLTs    ${onos_ssh_connection}    0    BBSM    ${timeout}
     Enable Onu Device
-    Current State Test All Onus    omci-flows-pushed
-    Wait for Ports in ONOS for all OLTs    ${onos_ssh_connection}    ${num_all_onus}    BBSM    ${timeout}
-    Wait Until Keyword Succeeds    ${timeout}    2s    Verify Eapol Flows Added    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}
-    ...    ${num_all_onus}
-    ${flowsresult}=    Execute ONOS CLI Command    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    flows -s
-    log     ${flowsresult}
+    Run Keyword If    "${workflow}"=="DT"    Perform Sanity Test DT    True
+    ...    ELSE IF    "${workflow}"=="TT"    Perform Sanity Test TT    True
+    ...    ELSE       Perform Sanity Test    True
