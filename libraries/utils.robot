@@ -185,6 +185,9 @@ Check Remote File Contents For WPA Logs
 Perform Sanity Test
     [Documentation]    This keyword iterate all OLTs and performs Sanity Test Procedure
     ...    for all the ONUs connected to each OLT - ATT workflow
+    ...    For repeating sanity test without subscriber changes set flag supress_add_subscriber=True.
+    ...    In all other (common) cases flag has to be set False (default).
+    [Arguments]    ${supress_add_subscriber}=False
     FOR    ${J}    IN RANGE    0    ${num_olts}
         ${olt_serial_number}=    Set Variable    ${list_olts}[${J}][sn]
         ${onu_count}=    Set Variable    ${list_olts}[${J}][onucount]
@@ -198,14 +201,17 @@ Perform Sanity Test
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
         ...    Verify Default Meter Present in ONOS    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${of_id}
         Perform Sanity Test Per OLT    ${of_id}    ${nni_port}    ${olt_serial_number}   ${onu_count}
+        ...    ${supress_add_subscriber}
     END
 
 Perform Sanity Test Per OLT
-    [Arguments]    ${of_id}    ${nni_port}    ${olt_serial_number}    ${num_onus}
+    [Arguments]    ${of_id}    ${nni_port}    ${olt_serial_number}    ${num_onus}    ${supress_add_subscriber}=False
     [Documentation]    This keyword performs Sanity Test Procedure
     ...    Sanity test performs authentication, dhcp and pings for all the ONUs given for the POD
     ...    This keyword can be used to call in any other tests where sanity check is required
     ...    and avoids duplication of code. - ATT workflow
+    ...    For repeating sanity test without subscriber changes set flag supress_add_subscriber=True.
+    ...    In all other (common) cases flag has to be set False (default).
     FOR    ${I}    IN RANGE    0    ${num_all_onus}
         ${src}=    Set Variable    ${hosts.src[${I}]}
         ${dst}=    Set Variable    ${hosts.dst[${I}]}
@@ -218,7 +224,8 @@ Perform Sanity Test Per OLT
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds   120s   2s
         ...    Verify ONU Port Is Enabled   ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${src['onu']}
         # Verify EAPOL flows are added for the ONU port
-        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
+        Run Keyword Unless    ${supress_add_subscriber}
+        ...    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
         ...    Verify Eapol Flows Added For ONU    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${onu_port}
         # Verify ONU state in voltha
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s    Validate Device
@@ -232,7 +239,8 @@ Perform Sanity Test Per OLT
         ...    ${src['container_type']}    ${src['container_name']}    ${wpa_log}
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2
         ...    Verify ONU in AAA-Users    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${onu_port}
-        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2
+        Run Keyword Unless    ${supress_add_subscriber}
+        ...    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2
         ...    Execute ONOS CLI Command    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}
         ...    volt-add-subscriber-access ${of_id} ${onu_port}
         # Verify that no pending flows exist for the ONU port
@@ -258,6 +266,9 @@ Perform Sanity Test Per OLT
 
 Perform Sanity Test DT
     [Documentation]    This keyword iterate all OLTs and performs Sanity Test Procedure for DT workflow
+    ...    For repeating sanity test without subscriber changes set flag supress_add_subscriber=True.
+    ...    In all other (common) cases flag has to be set False (default).
+    [Arguments]    ${supress_add_subscriber}=False
     FOR    ${J}    IN RANGE    0    ${num_olts}
         ${olt_serial_number}=    Set Variable    ${list_olts}[${J}][sn]
         ${num_onus}=    Set Variable    ${list_olts}[${J}][onucount]
@@ -270,6 +281,7 @@ Perform Sanity Test DT
         ...    Get NNI Port in ONOS    ${of_id}
         Set Global Variable    ${nni_port}
         Perform Sanity Test DT Per OLT    ${of_id}    ${nni_port}    ${olt_serial_number}    ${num_onus}
+        ...    ${supress_add_subscriber}
         # Verify ONOS Flows
         # Number of Access Flows on ONOS equals 4 * the Number of Active ONUs (2 for each downstream and upstream)
         ${onos_flows_count}=    Evaluate    4 * ${num_onus}
@@ -293,11 +305,13 @@ Perform Sanity Test DT
 
 
 Perform Sanity Test DT Per OLT
-    [Arguments]    ${of_id}    ${nni_port}    ${olt_serial_number}    ${num_onus}
+    [Arguments]    ${of_id}    ${nni_port}    ${olt_serial_number}    ${num_onus}    ${supress_add_subscriber}=False
     [Documentation]    This keyword performs Sanity Test Procedure for DT Workflow
     ...    Sanity test performs dhcp and pings (without EAPOL and DHCP flows) for all the ONUs given for the POD
     ...    This keyword can be used to call in any other tests where sanity check is required
     ...    and avoids duplication of code.
+    ...    For repeating sanity test without subscriber changes set flag supress_add_subscriber=True.
+    ...    In all other (common) cases flag has to be set False (default).
     FOR    ${I}    IN RANGE    0    ${num_all_onus}
         ${src}=    Set Variable    ${hosts.src[${I}]}
         ${dst}=    Set Variable    ${hosts.dst[${I}]}
@@ -309,17 +323,19 @@ Perform Sanity Test DT Per OLT
         # Check ONU port is Enabled in ONOS
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds   120s   2s
         ...    Verify ONU Port Is Enabled   ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${src['onu']}
-        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2
+        Run Keyword Unless    ${supress_add_subscriber}
+        ...    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2
         ...    Execute ONOS CLI Command    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}
         ...    volt-add-subscriber-access ${of_id} ${onu_port}
         # Verify subscriber access flows are added for the ONU port
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
         ...    Verify Subscriber Access Flows Added For ONU DT    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${of_id}
         ...    ${onu_port}    ${nni_port}    ${src['s_tag']}
-        # Verify ONU state in voltha
+        # Verify ONU state in voltha, in case of previous dis- and enable of ONU state will be onu-reenabled
+        ${onu_reasons}=  Create List     omci-flows-pushed    onu-reenabled
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s    Validate Device
         ...    ENABLED    ACTIVE    REACHABLE
-        ...    ${src['onu']}    onu=True    onu_reason=omci-flows-pushed
+        ...    ${src['onu']}    onu=True    onu_reason=${onu_reasons}
         # Verify Meters in ONOS
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
         ...    Verify Meters in ONOS    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${of_id}    ${onu_port}
