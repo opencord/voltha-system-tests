@@ -77,7 +77,9 @@ Adding the same OLT before and after enabling the device
         #${olt_device_id}=    Get OLTDeviceID From OLT List    ${olt_serial_number}
         Run Keyword If    ${has_dataplane}    Wait Until Keyword Succeeds    120s    10s
         ...    Check Remote System Reachability    True    ${olt_ssh_ip}
-        ${olt_device_id}=    Create Device    ${olt_ip}    ${OLT_PORT}
+        ${olt_device_id}=    Run Keyword If    "${list_olts}[${I}][type]" == "${None}"
+        ...    Create Device    ${olt_ip}    ${OLT_PORT}
+        ...    ELSE    Create Device    ${olt_ip}    ${OLT_PORT}    ${list_olts}[${I}][type]
         Set Suite Variable    ${olt_device_id}
         Wait Until Keyword Succeeds    ${timeout}    5s    Validate OLT Device    PREPROVISIONED    UNKNOWN    UNKNOWN
         ...    ${olt_device_id}
@@ -195,7 +197,9 @@ Check disabling of pre-provisioned OLT before enabling
         ${olt_serial_number}=    Get From Dictionary    ${list_olts}[${I}]    sn
         #${olt_device_id}=    Get OLTDeviceID From OLT List    ${olt_serial_number}
         #create/preprovision device
-        ${olt_device_id}=    Create Device    ${olt_ip}    ${OLT_PORT}
+        ${olt_device_id}=    Run Keyword If    "${list_olts}[${I}][type]" == "${None}"
+        ...    Create Device    ${olt_ip}    ${OLT_PORT}
+        ...    ELSE    Create Device    ${olt_ip}    ${OLT_PORT}    ${list_olts}[${I}][type]
         Set Suite Variable    ${olt_device_id}
         #validate olt states
         Wait Until Keyword Succeeds    ${timeout}    5s    Validate OLT Device    PREPROVISIONED    UNKNOWN
@@ -240,7 +244,9 @@ Disable and Delete the logical device directly
         ${olt_serial_number}=    Get From Dictionary    ${list_olts}[${I}]    sn
         #${olt_device_id}=    Get OLTDeviceID From OLT List    ${olt_serial_number}
         #create/preprovision OLT device
-        ${olt_device_id}=    Create Device    ${olt_ip}    ${OLT_PORT}
+        ${olt_device_id}=    Run Keyword If    "${list_olts}[${I}][type]" == "${None}"
+        ...    Create Device    ${olt_ip}    ${OLT_PORT}
+        ...    ELSE    Create Device    ${olt_ip}    ${OLT_PORT}    ${list_olts}[${I}][type]
         Set Suite Variable    ${olt_device_id}
         #validate olt states
         Wait Until Keyword Succeeds    ${timeout}    5s    Validate OLT Device    PREPROVISIONED    UNKNOWN
@@ -288,7 +294,9 @@ Check logical device creation and deletion
         Should Be Empty    ${logical_id}
         Run Keyword If    ${has_dataplane}    Sleep    180s
         ...    ELSE   Sleep    10s
-        ${olt_device_id}=    Create Device    ${olt_ip}    ${OLT_PORT}
+        ${olt_device_id}=    Run Keyword If    "${list_olts}[${I}][type]" == "${None}"
+        ...    Create Device    ${olt_ip}    ${OLT_PORT}
+        ...    ELSE    Create Device    ${olt_ip}    ${OLT_PORT}    ${list_olts}[${I}][type]
         Set Suite Variable    ${olt_device_id}
         Wait Until Keyword Succeeds    ${timeout}    5s    Validate OLT Device    PREPROVISIONED    UNKNOWN
         ...    UNKNOWN    ${olt_device_id}
