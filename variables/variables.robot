@@ -21,3 +21,4 @@ ${OLT_PORT}       9191
 @{PODLIST1}       voltha-kafka    voltha-ofagent
 @{PODLIST2}       bbsim    etcd-operator-etcd-operator-etcd-operator    radius    voltha-api-server
 ...               voltha-cli-server    voltha-ro-core    voltha-rw-core-11
+${OLT_ADAPTER_APP_LABEL}    adapter-open-olt
