@@ -131,7 +131,9 @@ Setup Test
     Should Not Be Equal As Integers    ${num_bbsims}    0
     Run Keyword Unless    ${has_dataplane}    Set Suite Variable    ${num_olts}    ${num_bbsims}
     FOR    ${I}    IN RANGE    0    ${num_olts}
-        ${olt_device_id}=    Create Device    ${list_olts}[${I}][ip]    ${OLT_PORT}
+        ${olt_device_id}=    Run Keyword If    "${list_olts}[${I}][type]" == "${None}"
+        ...    Create Device    ${list_olts}[${I}][ip]    ${OLT_PORT}
+        ...    ELSE    Create Device    ${list_olts}[${I}][ip]    ${OLT_PORT}    ${list_olts}[${I}][type]
         Set Suite Variable    ${olt_device_id}
         #validate olt states
         Wait Until Keyword Succeeds    ${timeout}    5s    Validate OLT Device    PREPROVISIONED    UNKNOWN    UNKNOWN
