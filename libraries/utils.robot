@@ -75,10 +75,11 @@ Common Test Suite Setup
         ${pass}    Evaluate    ${olts}[${I}].get("pass")
         ${serial_number}    Evaluate    ${olts}[${I}].get("serial")
         ${olt_ssh_ip}    Evaluate    ${olts}[${I}].get("sship")
+        ${type}    Evaluate    ${olts}[${I}].get("type")
         ${onu_count}=    Get ONU Count For OLT    ${hosts.src}    ${serial_number}
         ${onu_list}=    Get ONU List For OLT    ${hosts.src}    ${serial_number}
         ${olt}    Create Dictionary    ip    ${ip}    user    ${user}    pass
-        ...    ${pass}    sn    ${serial_number}   onucount   ${onu_count}
+        ...    ${pass}    sn    ${serial_number}   onucount   ${onu_count}    type    ${type}
         ...    sship    ${olt_ssh_ip}    onus    ${onu_list}
         Append To List    ${list_olts}    ${olt}
     END
@@ -98,7 +99,7 @@ Common Test Suite Setup
     #Set Suite Variable    ${olt_ssh_ip}
     #Set Suite Variable    ${olt_user}
     #Set Suite Variable    ${olt_pass}
-    @{container_list}=    Create List    adapter-open-olt    adapter-open-onu    voltha-api-server
+    @{container_list}=    Create List    ${OLT_ADAPTER_APP_LABEL}    adapter-open-onu    voltha-api-server
     ...    voltha-ro-core    voltha-rw-core-11    voltha-rw-core-12    voltha-ofagent
     Set Suite Variable    ${container_list}
     ${datetime}=    Get Current Date
@@ -564,7 +565,9 @@ Setup
     ${olt_ids}    Create List
     FOR    ${I}    IN RANGE    0    ${num_olts}
         #create/preprovision device
-        ${olt_device_id}=    Create Device    ${list_olts}[${I}][ip]    ${OLT_PORT}
+        ${olt_device_id}=    Run Keyword If    "${list_olts}[${I}][type]" == "${None}"
+        ...    Create Device    ${list_olts}[${I}][ip]    ${OLT_PORT}
+        ...    ELSE    Create Device    ${list_olts}[${I}][ip]    ${OLT_PORT}    ${list_olts}[${I}][type]
         ${olt_serial_number}=    Set Variable    ${list_olts}[${I}][sn]
         #Set Suite Variable    ${olt_device_id}
         #validate olt states

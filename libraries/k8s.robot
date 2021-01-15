@@ -326,6 +326,20 @@ Scale K8s Deployment
     ...    kubectl scale --replicas=${count} -n ${namespace} deploy/${name}
     Should Be Equal as Integers    ${rc}    0
 
+Get K8s Deployment by Pod Label
+    [Arguments]    ${namespace}    ${key}    ${value}
+    [Documentation]    Uses kubectl to scale a deployment given the app name of the pod
+    ${rc}    ${name}    Run And Return Rc And Output
+    ...    kubectl describe rs -n ${namespace} -l ${key}=${value} | grep "Controlled By" | awk -F'/' '{print $2}'
+    Should Be Equal as Integers    ${rc}    0
+    [Return]    ${name}
+
+Scale K8s Deployment by Pod Label
+    [Arguments]    ${namespace}    ${key}    ${value}    ${count}
+    [Documentation]    Uses kubectl to scale a deployment given the app name of the pod
+    ${name}    Get K8s Deployment by Pod Label    ${namespace}    ${key}    ${value}
+    Scale K8s Deployment    ${namespace}    ${name}    ${count}
+
 Pod Exists
     [Arguments]    ${namespace}    ${name}
     [Documentation]    Succeeds it the named POD exists
@@ -365,6 +379,12 @@ Get Available Deployment Replicas
     ${result}=    Run Keyword If    '${count}' == ''    Set Variable    0
     ...    ELSE    Set Variable    ${count}
     [Return]    ${result}
+
+Check Expected Available Deployment Replicas By Pod Label
+    [Arguments]    ${namespace}    ${key}    ${value}    ${expected}
+    [Documentation]    Succeeds if the named deployment has the expected number of available replicas
+    ${name}    Get K8s Deployment by Pod Label    ${namespace}    ${key}    ${value}
+    Check Expected Available Deployment Replicas    ${namespace}    ${name}    ${expected}
 
 Check Expected Available Deployment Replicas
     [Arguments]    ${namespace}    ${name}    ${expected}

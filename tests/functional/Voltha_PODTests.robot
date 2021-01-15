@@ -384,7 +384,10 @@ Check Mib State on OLT recreation after ONU, OLT deletion
     ...    Verify Device Flows Removed    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${of_id}
     # Recreate the OLT
     Run Keyword If    ${has_dataplane}    Sleep    180s
-    ${olt_device_id}=    Create Device    ${olt_ip}    ${OLT_PORT}
+    # This dneeds to be done in for loop, test is not ready
+    ${olt_device_id}=    Run Keyword If    "${list_olts}[${I}][type]" == "${None}"
+    ...    Create Device    ${list_olts}[${I}][ip]    ${OLT_PORT}
+    ...    ELSE    Create Device    ${list_olts}[${I}][ip]    ${OLT_PORT}    ${list_olts}[${I}][type]
     Set Suite Variable    ${olt_device_id}
     Wait Until Keyword Succeeds    ${timeout}    5s    Validate OLT Device    PREPROVISIONED
     ...    UNKNOWN    UNKNOWN    ${olt_device_id}

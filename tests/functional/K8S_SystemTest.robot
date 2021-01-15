@@ -36,7 +36,9 @@ ${ETCD_pod_label_key}    app
 ${common_pod_label_key}    app
 ${rwcore_pod_label_value}    rw-core
 ${ofagent_pod_label_value}    ofagent
-${adapter_openolt_pod_label_value}    adapter-open-olt
+${adapter_openolt_pod_label_value}    ${OLT_ADAPTER_APP_LABEL}
+${teardown_device}      false
+${has_dataplane}        false
 
 # Per-test logging on failure is turned off by default; set this variable to enable
 ${container_log_dir}    ${None}
