@@ -104,7 +104,7 @@ Start voltha containers in a specific order and run sanity test
     ${list_sim_names}   Create List    sim-voltha-adapter-simulated-olt    sim-voltha-adapter-simulated-onu
     ${sim}    CreateDictionary    helmchart=sim    namespace=voltha
     ...    apps=${list_sim_apps}    names=${list_sim_names}
-    ${list_openolt_apps}   Create List    adapter-open-olt
+    ${list_openolt_apps}   Create List    ${oltAdapterAppLabel}
     ${list_openolt_names}   Create List    open-olt-voltha-adapter-openolt
     ${open-olt}    CreateDictionary    helmchart=open-olt    namespace=voltha
     ...    apps=${list_openolt_apps}    names=${list_openolt_names}

@@ -52,6 +52,9 @@ ${has_dataplane}    True
 ${teardown_device}    False
 ${scripts}        ../../scripts
 
+# default appl label for the olt adapter
+${oltAdapterAppLabel}    adapter-open-olt
+
 # Per-test logging on failure is turned off by default; set this variable to enable
 ${container_log_dir}    ${None}
 
@@ -203,7 +206,7 @@ Verify restart openolt-adapter container after subscriber provisioning
     ${podStatusOutput}=    Run    kubectl get pods -n ${NAMESPACE}
     Log    ${podStatusOutput}
     ${countBforRestart}=    Run    kubectl get pods -n ${NAMESPACE} | grep Running | wc -l
-    ${podName}    Set Variable     adapter-open-olt
+    ${podName}    Set Variable     ${oltAdapterAppLabel}
     Wait Until Keyword Succeeds    ${timeout}    15s    Delete K8s Pods By Label    ${NAMESPACE}    app    ${podName}
     Sleep    5s
     Wait Until Keyword Succeeds    ${timeout}    2s    Validate Pods Status By Label    ${NAMESPACE}
@@ -302,12 +305,12 @@ Verify openolt adapter restart before subscriber provisioning
         ...    ${ONOS_SSH_PORT}     ${onu_port}
     END
     # Scale down the open OLT adapter deployment to 0 PODs and once confirmed, scale it back to 1
-    Scale K8s Deployment    voltha    open-olt-voltha-adapter-openolt    0
-    Wait Until Keyword Succeeds    ${timeout}    2s    Pod Does Not Exist    voltha    open-olt-voltha-adapter-openolt
+    Scale K8s Deployment by Pod Label    ${NAMESPACE}    app    ${oltAdapterAppLabel}    0
+    Wait Until Keyword Succeeds    ${timeout}    2s    Pods Do Not Exist By Label    app    ${oltAdapterAppLabel}
     # Scale up the open OLT adapter deployment and make sure both it and the ofagent deployment are back
-    Scale K8s Deployment    voltha   open-olt-voltha-adapter-openolt    1
+    Scale K8s Deployment by Pod Label    ${NAMESPACE}    app    ${oltAdapterAppLabel}    1
     Wait Until Keyword Succeeds    ${timeout}    2s
-    ...    Check Expected Available Deployment Replicas    voltha    open-olt-voltha-adapter-openolt    1
+    ...    Check Expected Available Deployment Replicas By Pod Label     ${NAMESPACE}    app    ${oltAdapterAppLabel}    1
 
     # Ensure the device is available in ONOS, this represents system connectivity being restored
     FOR   ${I}    IN RANGE    0    ${olt_count}
