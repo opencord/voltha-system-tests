@@ -512,7 +512,7 @@ Verify ONU Soft Reboot for DT
         ...    Wait Until Keyword Succeeds    60s    2s
         ...    Check Ping    False    ${dst['dp_iface_ip_qinq']}    ${src['dp_iface_name']}
         ...    ${src['ip']}    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
-        Verify ping is succesful except for given device     ${num_onus}    ${onu_device_id}
+        Verify ping is successful except for given device     ${num_onus}    ${src['onu']}
         # Remove Subscriber Access (To replicate DT workflow)
         Wait Until Keyword Succeeds    ${timeout}    2s    Execute ONOS CLI Command use single connection    ${ONOS_SSH_IP}
         ...    ${ONOS_SSH_PORT}    volt-remove-subscriber-access ${of_id} ${onu_port}

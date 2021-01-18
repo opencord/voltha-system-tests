@@ -752,7 +752,7 @@ Verify ONU Soft Reboot
         # Remove Subscriber Access (To replicate ATT workflow)
         Wait Until Keyword Succeeds    ${timeout}    2s    Execute ONOS CLI Command use single connection    ${ONOS_SSH_IP}
         ...    ${ONOS_SSH_PORT}    volt-remove-subscriber-access ${of_id} ${onu_port}
-        Verify ping is succesful except for given device     ${num_all_onus}    ${onu_device_id}
+        Verify ping is successful except for given device     ${num_all_onus}    ${src['onu']}
         Sleep    40s
         # Check ONU port is Enabled in ONOS
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds   120s   2s
