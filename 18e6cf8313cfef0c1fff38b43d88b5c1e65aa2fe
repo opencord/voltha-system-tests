@@ -16,6 +16,24 @@
       "revId": "18e6cf8313cfef0c1fff38b43d88b5c1e65aa2fe",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6fcdc4b1_28a1c21d",
+        "filename": "libraries/utils.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 327,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2021-01-18T09:55:27Z",
+      "side": 1,
+      "message": "Due I will not remove the subscriber(s), I suppress a further add of subscriber(s). So everything is like before restart of onu (omci-flows-pushed), but in case of disable and enable of onu the reason becomes onu-reenabled. I do a Sanity Test also after dis-/enable onu.",
+      "parentUuid": "d725043f_748a2eda",
+      "revId": "18e6cf8313cfef0c1fff38b43d88b5c1e65aa2fe",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
     }
   ]
 }
