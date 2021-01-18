@@ -769,6 +769,62 @@ Data plane Bandwidth profile update verification for DT
         ...    The downstream bandwidth guarantee was not met (${pct_limit_dn}% of resv)
     END
 
+
+Test ONU Delete and Auto-Discovery for DT
+    [Documentation]    Tests the voltctl delete and Auto-Discovery of the ONU
+    [Tags]    functionalDt    VOL-3098    ONUAutoDiscoveryDt
+    [Setup]    Start Logging    ONUAutoDiscoveryDt
+    [Teardown]    Run Keywords    Run Keyword If    ${logging}    Collect Logs
+    ...           AND             Stop Logging    ONUAutoDiscoveryDt
+    Clear All Devices Then Create New Device
+    # Performing Sanity Test to make sure subscribers are all AUTH+DHCP and pingable
+    Run Keyword If    ${has_dataplane}    Clean Up Linux
+    Perform Sanity Test DT
+    FOR    ${I}    IN RANGE    0    ${num_all_onus}
+        ${src}=    Set Variable    ${hosts.src[${I}]}
+        ${dst}=    Set Variable    ${hosts.dst[${I}]}
+        ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
+        ${of_id}=    Get ofID From OLT List    ${src['olt']}
+        ${nni_port}=    Wait Until Keyword Succeeds    ${timeout}    2s    Get NNI Port in ONOS    ${of_id}
+        # Delete ONU and Verify Ping Fails
+        Delete Device    ${onu_device_id}
+        Run Keyword If    ${has_dataplane}    Verify ping is successful except for given device
+        ...    ${num_all_onus}    ${src['onu']}
+        # Verify that no pending flows exist for the ONU port
+        Wait Until Keyword Succeeds    ${timeout}    2s
+        ...    Verify No Pending Flows For ONU    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${onu_port}
+        # ONU Auto-Discovery
+        ${onu_port}=    Wait Until Keyword Succeeds    ${timeout}    2s
+        ...    Get ONU Port in ONOS    ${src['onu']}    ${of_id}
+        # Check ONU port is Enabled in ONOS
+        Wait Until Keyword Succeeds    ${timeout}    2s
+        ...    Verify UNI Port Is Enabled   ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${src['onu']}
+        ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
+        Run Keyword If    ${has_dataplane}    Clean Up Linux    ${onu_device_id}
+        # Verify ONU state in voltha
+        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
+        ...    Validate Device    ENABLED    ACTIVE    REACHABLE
+        ...    ${src['onu']}    onu=True    onu_reason=omci-flows-pushed
+        # Verify that no pending flows exist for the ONU port
+        Wait Until Keyword Succeeds    ${timeout}    2s
+        ...    Verify No Pending Flows For ONU    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${onu_port}
+        # Verify subscriber access flows are added for the ONU port
+        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
+        ...    Verify Subscriber Access Flows Added For ONU DT    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${of_id}
+        ...    ${onu_port}    ${nni_port}    ${src['s_tag']}
+        # Verify Meters in ONOS
+        Wait Until Keyword Succeeds    ${timeout}    5s
+        ...    Verify Meters in ONOS Ietf    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${of_id}    ${onu_port}
+        Run Keyword If    ${has_dataplane}    Validate DHCP and Ping    True
+        ...    True    ${src['dp_iface_name']}    ${src['s_tag']}    ${src['c_tag']}    ${dst['dp_iface_ip_qinq']}
+        ...    ${src['ip']}    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
+        ...    ${dst['dp_iface_name']}    ${dst['ip']}    ${dst['user']}    ${dst['pass']}    ${dst['container_type']}
+        ...    ${dst['container_name']}
+    END
+    # Verify flows for all OLTs
+    Wait Until Keyword Succeeds    ${timeout}    5s    Validate All OLT Flows
+
+
 *** Keywords ***
 Setup Suite
     [Documentation]    Set up the test suite
