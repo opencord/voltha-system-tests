@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b81426a9_163c2c49",
+        "filename": "tests/functional/Voltha_PODTests.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 720,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2021-01-18T17:02:31Z",
+      "side": 1,
+      "message": "after this you can actually check that the flows are not in ONOS anymore, the remove subscriber step is just an extra one. not in ADDED nor in PENDING_REMOVE",
+      "revId": "94a9db394c10ca4eaaa134bc71448f9982d0026d",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "33e8a067_5fad2381",
+        "filename": "tests/functional/Voltha_PODTests.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 726,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2021-01-18T17:02:31Z",
+      "side": 1,
+      "message": "for the ATT workflow the removal is not actually done by the NEM.",
+      "revId": "94a9db394c10ca4eaaa134bc71448f9982d0026d",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6ef0ae16_80a38073",
+        "filename": "tests/functional/Voltha_PODTests.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 729,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2021-01-18T17:02:31Z",
+      "side": 1,
+      "message": "why is 45 here ?",
+      "revId": "94a9db394c10ca4eaaa134bc71448f9982d0026d",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    }
+  ]
+}
