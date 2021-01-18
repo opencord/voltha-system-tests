@@ -1,0 +1,136 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "856dadee_4f1c79ab",
+        "filename": "tests/functional/Voltha_PODTests.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 710,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2021-01-18T09:27:37Z",
+      "side": 1,
+      "message": "In normal case test 1 \u0027Sanity E2E Test for OLT/ONU on POD\u0027 is precondition of all following tests in this testsuite. If this is here the same, repeating Sanity test is not necessary.",
+      "revId": "d5b1a5c8232d8d041aea08284aeb899dfed94ba8",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d3e08fc5_0709a834",
+        "filename": "tests/functional/Voltha_PODTests.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 725,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2021-01-18T09:27:37Z",
+      "side": 1,
+      "message": "For me it is a double check. With first check (Check Ping) you check Ping fails for the current onu, with second check (Verify ping is ...) you check ping is successfully for all other onus but failed for current onu. From my point of view Check Ping can be removed.\nJust for clarification: How many time the auto-discovery takes to enable the onu device again?",
+      "range": {
+        "startLine": 720,
+        "startChar": 8,
+        "endLine": 725,
+        "endChar": 50
+      },
+      "revId": "d5b1a5c8232d8d041aea08284aeb899dfed94ba8",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4445bc0e_1461d10b",
+        "filename": "tests/functional/Voltha_PODTests.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 726,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2021-01-18T09:27:37Z",
+      "side": 1,
+      "message": "Is it for ATT workflow only, or for both, ATT and DT as described in VOL-3098 (To do this for both ATT and DT)?",
+      "range": {
+        "startLine": 726,
+        "startChar": 8,
+        "endLine": 726,
+        "endChar": 62
+      },
+      "revId": "d5b1a5c8232d8d041aea08284aeb899dfed94ba8",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2c757d90_db76a20a",
+        "filename": "tests/functional/Voltha_PODTests.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 728,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2021-01-18T09:27:37Z",
+      "side": 1,
+      "message": "Could be removed, see comment according \u0027Perform Sanity Test\u0027 below.",
+      "range": {
+        "startLine": 727,
+        "startChar": 8,
+        "endLine": 728,
+        "endChar": 85
+      },
+      "revId": "d5b1a5c8232d8d041aea08284aeb899dfed94ba8",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8b0d6ff2_e9a8a34b",
+        "filename": "tests/functional/Voltha_PODTests.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 731,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2021-01-18T09:27:37Z",
+      "side": 1,
+      "message": "What for is it needed? To activate Auto-Discovery?",
+      "range": {
+        "startLine": 731,
+        "startChar": 8,
+        "endLine": 731,
+        "endChar": 80
+      },
+      "revId": "d5b1a5c8232d8d041aea08284aeb899dfed94ba8",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fddad64b_94dc7727",
+        "filename": "tests/functional/Voltha_PODTests.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 768,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2021-01-18T09:27:37Z",
+      "side": 1,
+      "message": "This all looks very similar to \u0027Sanity Test\u0027 (ATT workflow). Why don\u0027t you call \u0027Perform Sanity Test\u0027 again?\nFurthermore with patch https://gerrit.opencord.org/c/voltha-system-tests/+/22381 I give the possibility of multiple calls of \u0027Perfom Sanity Test\u0027 with passing argument \u0027suppress_add_subscriber\u003dTrue\u0027. Using this option you can also remove line 727/728.",
+      "range": {
+        "startLine": 732,
+        "startChar": 0,
+        "endLine": 768,
+        "endChar": 52
+      },
+      "revId": "d5b1a5c8232d8d041aea08284aeb899dfed94ba8",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    }
+  ]
+}
