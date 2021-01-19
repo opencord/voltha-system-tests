@@ -46,6 +46,30 @@
       "revId": "070a815c5e9d3113a916f2feb06f3991f54902ae",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "59503c77_8b82187d",
+        "filename": "tests/openonu-go-adapter/Voltha_ONUReconcileTests.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2021-01-19T14:24:58Z",
+      "side": 1,
+      "message": "I understand your point as there is no built-in keyword like PASS as required in this case but still I don\u0027t feel it is okay to Fail the suite for the above condition (also for later when this will be included in Jenkins run). In my opinion, what you were doing earlier If-Else and Pass Execution (or use Pass Execution If) in each TC is still better. May be @Suchitra can also advise on this.",
+      "parentUuid": "09134ab7_37d09cea",
+      "range": {
+        "startLine": 182,
+        "startChar": 46,
+        "endLine": 182,
+        "endChar": 50
+      },
+      "revId": "070a815c5e9d3113a916f2feb06f3991f54902ae",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
     }
   ]
 }
