@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bd3244ca_810ff5f5",
+        "filename": "libraries/utils.robot",
+        "patchSetId": 3
+      },
+      "lineNbr": 335,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2021-01-19T08:30:29Z",
+      "side": 1,
+      "message": "Above documentation for suppress_add_subscriber seem fine now, but yes one has to be careful while calling Perform Sanity Test keyword especially in case of DT. I think we can go ahead with this.",
+      "range": {
+        "startLine": 335,
+        "startChar": 41,
+        "endLine": 335,
+        "endChar": 75
+      },
+      "revId": "c3c2323883144033520ea53ec5d3cff82f0d09a1",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    }
+  ]
+}
