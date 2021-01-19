@@ -22,6 +22,30 @@
       "revId": "070a815c5e9d3113a916f2feb06f3991f54902ae",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "09134ab7_37d09cea",
+        "filename": "tests/openonu-go-adapter/Voltha_ONUReconcileTests.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2021-01-19T13:04:57Z",
+      "side": 1,
+      "message": "I don\u0027t find anothe way. Pass Execution - what I prefered - leads to errornous behaviour in following routines. So I decide to use FAIL. But if you have a better suggestion, it is welcome.",
+      "parentUuid": "94d23d6e_8e05b5cf",
+      "range": {
+        "startLine": 182,
+        "startChar": 46,
+        "endLine": 182,
+        "endChar": 50
+      },
+      "revId": "070a815c5e9d3113a916f2feb06f3991f54902ae",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
     }
   ]
 }
