@@ -70,6 +70,30 @@
       "revId": "070a815c5e9d3113a916f2feb06f3991f54902ae",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b3d4e46b_25286776",
+        "filename": "tests/openonu-go-adapter/Voltha_ONUReconcileTests.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2021-01-19T14:37:55Z",
+      "side": 1,
+      "message": "Yes, my first solution to do Pass Execution in each test case, looks much better but this leads to errornous behaviour in Teardown, so at the end all test cases were failed. But I\u0027m open for any suggestion/idea. I will also check to find a smarter solution.",
+      "parentUuid": "59503c77_8b82187d",
+      "range": {
+        "startLine": 182,
+        "startChar": 46,
+        "endLine": 182,
+        "endChar": 50
+      },
+      "revId": "070a815c5e9d3113a916f2feb06f3991f54902ae",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
     }
   ]
 }
