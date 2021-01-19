@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "94d23d6e_8e05b5cf",
+        "filename": "tests/openonu-go-adapter/Voltha_ONUReconcileTests.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2021-01-19T12:49:19Z",
+      "side": 1,
+      "message": "Is it right to mark FAIL the execution because of this? Any other graceful way to Exit the test suite?",
+      "range": {
+        "startLine": 182,
+        "startChar": 46,
+        "endLine": 182,
+        "endChar": 50
+      },
+      "revId": "070a815c5e9d3113a916f2feb06f3991f54902ae",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    }
+  ]
+}
