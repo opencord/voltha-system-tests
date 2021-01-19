@@ -25,7 +25,7 @@ LINT_ARGS ?= --verbose --configure LineTooLong:130 -e LineTooLong \
              --configure TooManyTestCases:50 -e TooManyTestCases \
              --configure TooFewTestSteps:1 \
              --configure TooFewKeywordSteps:1 \
-             --configure FileTooLong:1500 -e FileTooLong \
+             --configure FileTooLong:1300 -e FileTooLong \
              -e TrailingWhitespace
 
 PYTHON_FILES := $(wildcard libraries/*.py)
@@ -161,6 +161,13 @@ reconcile-openonu-go-adapter-test-dt: ROBOT_MISC_ARGS += -e notreadyOnuGo -X $(R
 reconcile-openonu-go-adapter-test-dt: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_DT_SINGLE_PON_FILE)
 reconcile-openonu-go-adapter-test-dt: ROBOT_FILE := Voltha_ONUReconcileTests.robot
 reconcile-openonu-go-adapter-test-dt: openonu-go-adapter-tests
+
+# target to invoke reconcile tests with openonu go adapter at single ONU with TT workflow
+reconcile-openonu-go-adapter-test-tt: ROBOT_MISC_ARGS += -v logging:True -i functionalOnuGo -v workflow:TT
+reconcile-openonu-go-adapter-test-tt: ROBOT_MISC_ARGS += -e notreadyOnuGo -X $(ROBOT_DEBUG_LOG_OPT)
+reconcile-openonu-go-adapter-test-tt: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_TT_SINGLE_PON_FILE)
+reconcile-openonu-go-adapter-test-tt: ROBOT_FILE := Voltha_ONUReconcileTests.robot
+reconcile-openonu-go-adapter-test-tt: openonu-go-adapter-tests
 
 sanity-single-kind: ROBOT_MISC_ARGS += -i sanity $(ROBOT_DEBUG_LOG_OPT)
 sanity-single-kind: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_SINGLE_PON_FILE)

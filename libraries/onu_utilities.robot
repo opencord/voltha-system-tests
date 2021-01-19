@@ -121,18 +121,26 @@ Restart And Check Onu Adaptor
 
 Disable Onu Device
     [Documentation]    This keyword disables all onus.
+    ${onu_list}    Create List
     FOR    ${I}    IN RANGE    0    ${num_all_onus}
         ${src}=    Set Variable    ${hosts.src[${I}]}
         ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
+        ${onu_id}=    Get Index From List    ${onu_list}   ${onu_device_id}
+        Continue For Loop If    -1 != ${onu_id}
+        Append To List    ${onu_list}    ${onu_device_id}
         Disable Device    ${onu_device_id}
         Wait Until Keyword Succeeds    20s    2s    Test Devices Disabled in VOLTHA    Id=${onu_device_id}
     END
 
 Enable Onu Device
     [Documentation]    This keyword enables all onus.
+    ${onu_list}    Create List
     FOR    ${I}    IN RANGE    0    ${num_all_onus}
         ${src}=    Set Variable    ${hosts.src[${I}]}
         ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
+        ${onu_id}=    Get Index From List    ${onu_list}   ${onu_device_id}
+        Continue For Loop If    -1 != ${onu_id}
+        Append To List    ${onu_list}    ${onu_device_id}
         Enable Device    ${onu_device_id}
     END
 
