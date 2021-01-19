@@ -162,6 +162,13 @@ reconcile-openonu-go-adapter-test-dt: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_DT_SIN
 reconcile-openonu-go-adapter-test-dt: ROBOT_FILE := Voltha_ONUReconcileTests.robot
 reconcile-openonu-go-adapter-test-dt: openonu-go-adapter-tests
 
+# target to invoke reconcile tests with openonu go adapter at single ONU with TT workflow
+reconcile-openonu-go-adapter-test-tt: ROBOT_MISC_ARGS += -v logging:True -i functionalOnuGo -v workflow:TT
+reconcile-openonu-go-adapter-test-tt: ROBOT_MISC_ARGS += -e notreadyOnuGo -X $(ROBOT_DEBUG_LOG_OPT)
+reconcile-openonu-go-adapter-test-tt: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_TT_SINGLE_PON_FILE)
+reconcile-openonu-go-adapter-test-tt: ROBOT_FILE := Voltha_ONUReconcileTests.robot
+reconcile-openonu-go-adapter-test-tt: openonu-go-adapter-tests
+
 sanity-single-kind: ROBOT_MISC_ARGS += -i sanity $(ROBOT_DEBUG_LOG_OPT)
 sanity-single-kind: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_SINGLE_PON_FILE)
 sanity-single-kind: bbsim-kind
