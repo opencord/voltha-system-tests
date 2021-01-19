@@ -69,6 +69,7 @@ ${print2console}    False
 # example: -v usekill2restart:True
 ${usekill2restart}    False
 ${data_dir}    ../data
+${suppressaddsubscriber}    True
 
 
 *** Test Cases ***
@@ -85,7 +86,7 @@ Reconcile In Starting-OpenOmci
     [Setup]    Run Keywords    Start Logging    ReconcileStartingOpenOmciOnuGo
     ...    AND    Setup Test
     Run Keyword If    ${has_dataplane}    Clean Up Linux
-    Run Keyword If    '${num_all_onus}'=='1'
+    Run Keyword If    ${no_skip}
     ...    Do Reconcile In Determined State    starting-openomci
     ...    ELSE    Pass Execution    ${skip_message}    skipped
     [Teardown]    Run Keywords    Run Keyword If    ${logging}    Collect Logs
@@ -105,7 +106,7 @@ Reconcile In Initial-Mib-Downloaded
     [Setup]    Run Keywords    Start Logging    ReconcileInitialMibDownloadedOnuGo
     ...    AND    Setup Test
     Run Keyword If    ${has_dataplane}    Clean Up Linux
-    Run Keyword If    '${num_all_onus}'=='1'
+    Run Keyword If    ${no_skip}
     ...    Do Reconcile In Determined State    initial-mib-downloaded
     ...    ELSE    Pass Execution    ${skip_message}    skipped
     [Teardown]    Run Keywords    Run Keyword If    ${logging}    Collect Logs
@@ -131,7 +132,7 @@ Reconcile In Omci-Flows-Pushed
     [Setup]    Run Keywords    Start Logging    ReconcileOmciFlowsPushedOnuGo
     ...    AND    Setup Test
     Run Keyword If    ${has_dataplane}    Clean Up Linux
-    Run Keyword If    '${num_all_onus}'=='1'
+    Run Keyword If    ${no_skip}
     ...    Do Reconcile In Omci-Flows-Pushed
     ...    ELSE    Pass Execution    ${skip_message}    skipped
     [Teardown]    Run Keywords    Run Keyword If    ${logging}    Collect Logs
@@ -156,7 +157,7 @@ Reconcile For Disabled Onu Device
     [Setup]    Run Keywords    Start Logging    ReconcileDisabledOnuDeviceOnuGo
     ...    AND    Setup Test
     Run Keyword If    ${has_dataplane}    Clean Up Linux
-    Run Keyword If    '${num_all_onus}'=='1'
+    Run Keyword If    ${no_skip}
     ...    Do Reconcile For Disabled Onu Device
     ...    ELSE    Pass Execution    ${skip_message}    skipped
     [Teardown]    Run Keywords    Run Keyword If    ${logging}    Collect Logs
@@ -172,15 +173,21 @@ Setup Suite
     ...    print2console:${print2console}, usekill2restart:${usekill2restart}, workflow:${workflow}
     Log    ${LogInfo}    console=yes
     Common Test Suite Setup
+    # determine real number of onus
+    ${num_real_onus}=    Determine Number Of ONU
+    ${no_skip}=    Set Variable If   '${num_real_onus}'=='1'    True    False
+    Set Suite Variable    ${no_skip}
     # prepare skip message in yellow for console log
     ${skip}=  Evaluate  "\\033[33mSKIP\\033[0m"
-    ${skipped}=  Evaluate  "\\033[33m${SPACE*14} ===> Test case above was skipped! <=== ${SPACE*15}\\033[0m"
-    ${skip_message}    Catenate    ${skipped} | ${skip} |
+    ${skipping}=  Evaluate
+    ...    "\\033[33m${SPACE*5} ===> Test case above was skipped! Too much ONUs (${num_real_onus})! <=== ${SPACE*5}\\033[0m"
+    ${skip_message}    Catenate    ${skipping} | ${skip} |
     Set Suite Variable    ${skip_message}
     ${onos_ssh_connection}    Open ONOS SSH Connection    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}
     Set Suite Variable  ${onos_ssh_connection}
     # delete etcd MIB Template Data
     Delete MIB Template Data
+
 
 Teardown Suite
     [Documentation]    Replaces the Suite Teardown in utils.robot.
@@ -226,7 +233,8 @@ Setup Test
 
 Teardown Test
     [Documentation]    Post-test Teardown
-    Run Keyword If    ${teardown_device}    Delete All Devices and Verify
+    Run Keyword If    ${teardown_device} and ${no_skip}    Delete All Devices and Verify
+    ...    ELSE IF    ${teardown_device}    Delete Devices In Voltha    Root=true
     # delete etcd MIB Template Data
     Delete MIB Template Data
     Sleep    5s
@@ -255,7 +263,7 @@ Do Reconcile In Determined State
     Run Keyword If    ${usekill2restart}    Kill And Check Onu Adaptor    ${namespace}
     ...    ELSE    Restart And Check Onu Adaptor    ${namespace}
     Run Keyword If    "${workflow}"=="DT"    Perform Sanity Test DT
-    ...    ELSE IF    "${workflow}"=="TT"    Perform Sanity Test TT
+    ...    ELSE IF    "${workflow}"=="TT"    Perform Sanity Tests TT
     ...    ELSE       Perform Sanity Test
 
 Do Reconcile For Disabled Onu Device
@@ -280,7 +288,7 @@ Do Reconcile For Disabled Onu Device
         Enable Device    ${olt_device_id}
     END
     Run Keyword If    "${workflow}"=="DT"    Perform Sanity Test DT
-    ...    ELSE IF    "${workflow}"=="TT"    Perform Sanity Test TT
+    ...    ELSE IF    "${workflow}"=="TT"    Perform Sanity Tests TT
     ...    ELSE       Perform Sanity Test
     Disable Onu Device
     ${alternativeonustates}=  Create List     omci-flows-deleted    omci-admin-lock
@@ -290,9 +298,9 @@ Do Reconcile For Disabled Onu Device
     Current State Test All Onus    tech-profile-config-delete-success    alternativeonustate=${alternativeonustates}
     Wait for all ONU Ports in ONOS Disabled    ${onos_ssh_connection}
     Enable Onu Device
-    Run Keyword If    "${workflow}"=="DT"    Perform Sanity Test DT    True
-    ...    ELSE IF    "${workflow}"=="TT"    Perform Sanity Test TT    True
-    ...    ELSE       Perform Sanity Test    True
+    Run Keyword If    "${workflow}"=="DT"    Perform Sanity Test DT     ${suppressaddsubscriber}
+    ...    ELSE IF    "${workflow}"=="TT"    Perform Sanity Tests TT    ${suppressaddsubscriber}
+    ...    ELSE       Perform Sanity Test    ${suppressaddsubscriber}
 
 Do Reconcile In Omci-Flows-Pushed
     [Documentation]    This keyword reconciles ONU device in omci-flows-pushed and check the state afterwards.
@@ -315,18 +323,18 @@ Do Reconcile In Omci-Flows-Pushed
         Enable Device    ${olt_device_id}
     END
     Run Keyword If    "${workflow}"=="DT"    Perform Sanity Test DT
-    ...    ELSE IF    "${workflow}"=="TT"    Perform Sanity Test TT
+    ...    ELSE IF    "${workflow}"=="TT"    Perform Sanity Tests TT
     ...    ELSE       Perform Sanity Test
     Run Keyword If    ${usekill2restart}    Kill And Check Onu Adaptor    ${namespace}
     ...    ELSE    Restart And Check Onu Adaptor    ${namespace}
-    Run Keyword If    "${workflow}"=="DT"    Perform Sanity Test DT    True
-    ...    ELSE IF    "${workflow}"=="TT"    Perform Sanity Test TT    True
-    ...    ELSE       Perform Sanity Test    True
+    Run Keyword If    "${workflow}"=="DT"    Perform Sanity Test DT     ${suppressaddsubscriber}
+    ...    ELSE IF    "${workflow}"=="TT"    Perform Sanity Tests TT    ${suppressaddsubscriber}
+    ...    ELSE       Perform Sanity Test    ${suppressaddsubscriber}
     Disable Onu Device
     ${alternativeonustates}=  Create List     omci-flows-deleted    omci-admin-lock
     Current State Test All Onus    tech-profile-config-delete-success    alternativeonustate=${alternativeonustates}
     Wait for all ONU Ports in ONOS Disabled    ${onos_ssh_connection}
     Enable Onu Device
-    Run Keyword If    "${workflow}"=="DT"    Perform Sanity Test DT    True
-    ...    ELSE IF    "${workflow}"=="TT"    Perform Sanity Test TT    True
-    ...    ELSE       Perform Sanity Test    True
+    Run Keyword If    "${workflow}"=="DT"    Perform Sanity Test DT     ${suppressaddsubscriber}
+    ...    ELSE IF    "${workflow}"=="TT"    Perform Sanity Tests TT    ${suppressaddsubscriber}
+    ...    ELSE       Perform Sanity Test    ${suppressaddsubscriber}

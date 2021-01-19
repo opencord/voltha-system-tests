@@ -379,11 +379,23 @@ Validate All OLT Flows
         ...    ${List_ONU_Serial}    ${onu_flows}
     END
 
+Perform Sanity Tests TT
+    [Documentation]    This keyword performs both Sanity Test Procedure for TT Workflow
+    ...    Sanity Test TT for HSIA, VoD, VoIP services and Sanity Test TT for MCAST
+    ...    For repeating sanity tests without subscriber changes set flag supress_add_subscriber=True.
+    ...    In all other (common) cases flag has to be set False (default).
+    [Arguments]    ${supress_add_subscriber}=False
+    Perform Sanity Test TT    ${supress_add_subscriber}
+    Perform Sanity Test TT MCAST    ${supress_add_subscriber}
+
 Perform Sanity Test TT
     [Documentation]    This keyword performs Sanity Test Procedure for TT Workflow
     ...    Sanity test performs dhcp and pings (without EAPOL and DHCP flows) for all the ONUs given for the POD
     ...    This keyword can be used to call in any other tests where sanity check is required
     ...    and avoids duplication of code.
+    ...    For repeating sanity test without subscriber changes set flag supress_add_subscriber=True.
+    ...    In all other (common) cases flag has to be set False (default).
+    [Arguments]    ${supress_add_subscriber}=False
     FOR    ${I}    IN RANGE    0    ${num_all_onus}
         ${src}=    Set Variable    ${hosts.src[${I}]}
         ${dst}=    Set Variable    ${hosts.dst[${I}]}
@@ -397,7 +409,9 @@ Sanity Test TT one ONU
     [Documentation]    This keyword performs sanity test for a single ONU for TT workflow
     ...       Tests for one ONU
     ...       Assertions apply to HSIA, VoD, VoIP services
-    [Arguments]    ${src}    ${dst}
+    ...       For repeating sanity test without subscriber changes set flag supress_add_subscriber=True.
+    ...       In all other (common) cases flag has to be set False (default).
+    [Arguments]    ${src}    ${dst}    ${supress_add_subscriber}=False
     ${of_id}=    Wait Until Keyword Succeeds    ${timeout}    15s    Validate OLT Device in ONOS    ${src['olt']}
     Set Global Variable    ${of_id}
     ${nni_port}=    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
@@ -413,8 +427,8 @@ Sanity Test TT one ONU
     ...    Execute ONOS CLI Command    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}
     ...    volt-add-subscriber-access ${of_id} ${onu_port}
     Sleep    30s
-    # Verify ONU state in voltha
-    ${onu_reasons}=  Create List     tech-profile-config-download-success    omci-flows-pushed
+    # Verify ONU state in voltha, in case of previous dis- and enable of ONU state will be onu-reenabled
+    ${onu_reasons}=  Create List     tech-profile-config-download-success    omci-flows-pushed    onu-reenabled
     Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s    Validate Device
     ...    ENABLED    ACTIVE    REACHABLE
     ...    ${src['onu']}    onu=True    onu_reason=${onu_reasons}
@@ -435,6 +449,9 @@ Perform Sanity Test TT MCAST
     [Documentation]    This keyword performs Sanity Test Procedure for TT Workflow
     ...    Adds subscribers
     ...    Validates  for MCAST
+    ...    For repeating sanity test without subscriber changes set flag supress_add_subscriber=True.
+    ...    In all other (common) cases flag has to be set False (default).
+    [Arguments]    ${supress_add_subscriber}=False
     FOR    ${I}    IN RANGE    0    ${num_all_onus}
         ${src}=    Set Variable    ${hosts.src[${I}]}
         ${dst}=    Set Variable    ${hosts.dst[${I}]}
@@ -449,7 +466,9 @@ Sanity Test TT MCAST one ONU
     [Documentation]    This keyword performs sanity test for a single ONU for TT workflow
     ...       Tests for one ONU
     ...       Assertions apply to MCAST services
-    [Arguments]    ${src}    ${dst}
+    ...       For repeating sanity test without subscriber changes set flag supress_add_subscriber=True.
+    ...       In all other (common) cases flag has to be set False (default).
+    [Arguments]    ${src}    ${dst}    ${supress_add_subscriber}=False
     # Check for iperf and jq tools
     ${stdout}    ${stderr}    ${rc}=    Execute Remote Command    which iperf jq
     ...    ${src['ip']}    ${src['user']}    ${src['pass']}    ${src['container_type']}
@@ -489,8 +508,8 @@ Sanity Test TT MCAST one ONU
     ...    Execute ONOS CLI Command    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}
     ...    volt-add-subscriber-access ${of_id} ${onu_port}
     Sleep    30s
-    # Verify ONU state in voltha
-    ${onu_reasons}=  Create List     tech-profile-config-download-success    omci-flows-pushed
+    # Verify ONU state in voltha, in case of previous dis- and enable of ONU state will be onu-reenabled
+    ${onu_reasons}=  Create List     tech-profile-config-download-success    omci-flows-pushed    onu-reenabled
     Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s    Validate Device
     ...    ENABLED    ACTIVE    REACHABLE
     ...    ${src['onu']}    onu=True    onu_reason=${onu_reasons}
@@ -1262,7 +1281,7 @@ AlphaONURestoreDefault
     ...    ${onu_user}    ${onu_pass}    ${container_type}=${None}    ${container_name}=${None}
     ${output}=    Login And Run Command On Remote System    sudo ifconfig ${onu_ifname} 192.168.1.3/24
     ...    ${rg_ip}    ${rg_user}    ${rg_pass}    ${container_type}    ${container_name}
-    ${cmd}	Catenate
+    ${cmd}    Catenate
     ...    (echo open "192.168.1.1"; sleep 1;
     ...    echo "${onu_user}"; sleep 1;
     ...    echo "${onu_pass}"; sleep 1;
@@ -1300,3 +1319,15 @@ Create traffic with each pbit and capture at other end
         ...    Should Match Regexp    ${output}    \\.${target_port}: UDP,
         ...    ELSE    Should Match Regexp    ${output}    , p ${pbit},.*\\.${target_port}: UDP,
     END
+
+Determine Number Of ONU
+    [Arguments]    ${olt_serial_number}=${EMPTY}    ${num_onus}=${num_all_onus}
+    [Documentation]    Determine the number of different ONUs for the given OLT taken from host.src
+    ${onu_list}    Create List
+    FOR    ${INDEX}    IN RANGE    0    ${num_onus}
+        Continue For Loop If    "${olt_serial_number}"!="${hosts.src[${INDEX}].olt}" and "${olt_serial_number}"!="${EMPTY}"
+        ${onu_id}=    Get Index From List    ${onu_list}   ${hosts.src[${INDEX}].onu}
+        Run Keyword If    -1 == ${onu_id}    Append To List    ${onu_list}    ${hosts.src[${INDEX}].onu}
+    END
+    ${real_num_onus}=    Get Length    ${onu_list}
+    [Return]    ${real_num_onus}
