@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3876433e_27f062ef",
+        "filename": "libraries/utils.robot",
+        "patchSetId": 4
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2021-01-21T14:01:18Z",
+      "side": 1,
+      "message": "Variable is not yet defined.",
+      "range": {
+        "startLine": 93,
+        "startChar": 43,
+        "endLine": 93,
+        "endChar": 61
+      },
+      "revId": "98807fdb89db95c55046692ba3475e79709b81c5",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9366df3f_e41ea914",
+        "filename": "tests/dt-workflow/Voltha_DT_FailureScenarios.robot",
+        "patchSetId": 4
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2021-01-21T14:01:18Z",
+      "side": 1,
+      "message": "Variable is not yet defined (for all occurences!)",
+      "range": {
+        "startLine": 193,
+        "startChar": 37,
+        "endLine": 193,
+        "endChar": 55
+      },
+      "revId": "98807fdb89db95c55046692ba3475e79709b81c5",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fd39c805_b78d7b0a",
+        "filename": "tests/functional/Voltha_FailureScenarios.robot",
+        "patchSetId": 4
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2021-01-21T14:01:18Z",
+      "side": 1,
+      "message": "Is this missing in all other test suites? And would it be better to put it into utils.robot Common Suite Setup?",
+      "range": {
+        "startLine": 56,
+        "startChar": 0,
+        "endLine": 56,
+        "endChar": 41
+      },
+      "revId": "98807fdb89db95c55046692ba3475e79709b81c5",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f67bcbd9_61cc0a90",
+        "filename": "tests/functional/Voltha_multipleOLTTests.robot",
+        "patchSetId": 4
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2021-01-21T14:01:18Z",
+      "side": 1,
+      "message": "I thought this test suite is superflous since multiple OLT handling is introduced in common and all other test suites. Should be discussed with Suchitra!",
+      "range": {
+        "startLine": 2,
+        "startChar": 0,
+        "endLine": 2,
+        "endChar": 70
+      },
+      "revId": "98807fdb89db95c55046692ba3475e79709b81c5",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    }
+  ]
+}
