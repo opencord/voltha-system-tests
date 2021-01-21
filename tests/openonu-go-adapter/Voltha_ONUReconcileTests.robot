@@ -291,11 +291,15 @@ Do Reconcile For Disabled Onu Device
     ...    ELSE IF    "${workflow}"=="TT"    Perform Sanity Tests TT
     ...    ELSE       Perform Sanity Test
     Disable Onu Device
-    ${alternativeonustates}=  Create List     omci-flows-deleted    omci-admin-lock
-    Current State Test All Onus    tech-profile-config-delete-success    alternativeonustate=${alternativeonustates}
+    ${alternativeonustates}=  Create List     omci-flows-deleted
+    Run Keyword If    "${workflow}"=="DT"    Current State Test All Onus    omci-admin-lock
+    ...    ELSE IF    "${workflow}"=="TT"    Current State Test All Onus    omci-admin-lock
+    ...    ELSE       Current State Test All Onus    omci-admin-lock    alternativeonustate=${alternativeonustates}
     Run Keyword If    ${usekill2restart}    Kill And Check Onu Adaptor    ${namespace}
     ...    ELSE    Restart And Check Onu Adaptor    ${namespace}
-    Current State Test All Onus    tech-profile-config-delete-success    alternativeonustate=${alternativeonustates}
+    Run Keyword If    "${workflow}"=="DT"    Current State Test All Onus    omci-admin-lock
+    ...    ELSE IF    "${workflow}"=="TT"    Current State Test All Onus    omci-admin-lock
+    ...    ELSE       Current State Test All Onus    omci-admin-lock    alternativeonustate=${alternativeonustates}
     Wait for all ONU Ports in ONOS Disabled    ${onos_ssh_connection}
     Enable Onu Device
     Run Keyword If    "${workflow}"=="DT"    Perform Sanity Test DT     ${suppressaddsubscriber}
@@ -331,8 +335,10 @@ Do Reconcile In Omci-Flows-Pushed
     ...    ELSE IF    "${workflow}"=="TT"    Perform Sanity Tests TT    ${suppressaddsubscriber}
     ...    ELSE       Perform Sanity Test    ${suppressaddsubscriber}
     Disable Onu Device
-    ${alternativeonustates}=  Create List     omci-flows-deleted    omci-admin-lock
-    Current State Test All Onus    tech-profile-config-delete-success    alternativeonustate=${alternativeonustates}
+    ${alternativeonustates}=  Create List     omci-flows-deleted
+    Run Keyword If    "${workflow}"=="DT"    Current State Test All Onus    omci-admin-lock
+    ...    ELSE IF    "${workflow}"=="TT"    Current State Test All Onus    omci-admin-lock
+    ...    ELSE       Current State Test All Onus    omci-admin-lock    alternativeonustate=${alternativeonustates}
     Wait for all ONU Ports in ONOS Disabled    ${onos_ssh_connection}
     Enable Onu Device
     Run Keyword If    "${workflow}"=="DT"    Perform Sanity Test DT     ${suppressaddsubscriber}
