@@ -385,6 +385,8 @@ Sanity E2E Test for OLT/ONU on POD With Core Fail and Restart for DT
     # For some reason scaling down and up the POD behind a service causes the port forward to stop working,
     # so restart the port forwarding for the API service
     Restart VOLTHA Port Forward    voltha-api
+    #cleaning up linux before performing another dhcp/ping test.
+    Run Keyword If    ${has_dataplane}    Clean Up Linux
     # Ensure that the ofagent pod is up and ready and the device is available in ONOS, this
     # represents system connectivity being restored
     FOR   ${I}    IN RANGE    0    ${olt_count}
