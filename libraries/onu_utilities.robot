@@ -16,7 +16,7 @@
 Documentation     Library for various openonu-go-adpter utilities
 
 *** Variables ***
-${defaultstackname}    minimal
+${defaultstackname}    voltha_voltha
 
 *** Keywords ***
 Calculate Timeout
