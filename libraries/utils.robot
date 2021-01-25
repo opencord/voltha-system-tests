@@ -641,6 +641,11 @@ Delete All Devices and Verify
     Delete Devices In Voltha    Root=true
     Run Keyword If    ${has_dataplane}    Sleep    30s
     Wait Until Keyword Succeeds    ${timeout}    2s    Test Empty Device List
+    FOR    ${I}    IN RANGE    0    ${num_olts}
+        ${olt_serial_number}=    Set Variable    ${list_olts}[${I}][sn]
+        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    15s
+        ...    Validate Deleted Device Cleanup In ONOS    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${olt_serial_number}
+    END
     # Clear devices from ONOS
     #Remove All Devices From ONOS
     #...    http://karaf:karaf@${ONOS_REST_IP}:${ONOS_REST_PORT}
@@ -668,6 +673,8 @@ Delete Device and Verify
     Run Keyword If    ${has_dataplane}    Sleep    50s
     Should Be Equal As Integers    ${rc}    0
     Wait Until Keyword Succeeds    ${timeout}    5s    Validate Device Removed    ${olt_device_id}
+    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    15s
+    ...    Validate Deleted Device Cleanup In ONOS    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${olt_serial_number}
 
 Repeat Sanity Test
     [Documentation]    This keyword performs Sanity Test Procedure

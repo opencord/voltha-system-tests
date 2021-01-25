@@ -607,3 +607,37 @@ Get Bandwidth Details
     ${ebs_value}    Run Keyword If    '${bandwidthparameter}' == ' exceededBurstSize'    Set Variable    ${value}
     ${limiting_BW}=    Evaluate    ${cir_value}+${eir_value}
     [Return]    ${limiting_BW}
+
+Validate Deleted Device Cleanup In ONOS
+    [Arguments]    ${ip}    ${port}    ${olt_serial_number}
+    [Documentation]    The keyword verifies that ports, flows, meters, subscribers, dhcp are all cleared in ONOS
+    # Fetch OF Id for OLT
+    ${olt_of_id}=    Wait Until Keyword Succeeds    ${timeout}    5s    Validate OLT Device in ONOS    ${olt_serial_number}
+    # Open ONOS SSH Connection
+    ${onos_ssh_connection}    Open ONOS SSH Connection    ${ip}    ${port}
+    # Verify Ports are Removed
+    ${port_count}=    Execute ONOS CLI Command on open connection     ${onos_ssh_connection}
+    ...    ports ${olt_of_id} | grep -v ${olt_of_id} | wc -l
+    Should Be Equal As Integers    ${port_count}    0
+    # Verify Subscribers are Removed
+    ${sub_count}=    Execute ONOS CLI Command on open connection     ${onos_ssh_connection}
+    ...    volt-programmed-subscribers | grep ${olt_of_id} | wc -l
+    Should Be Equal As Integers    ${sub_count}    0
+    # Verify Flows are Removed
+    ${flow_count}=    Execute ONOS CLI Command on open connection     ${onos_ssh_connection}
+    ...    flows -s -f ${olt_of_id} | grep -v deviceId | wc -l
+    Should Be Equal As Integers    ${flow_count}    0
+    # Verify Meters are Removed
+    ${meter_count}=    Execute ONOS CLI Command on open connection     ${onos_ssh_connection}
+    ...    meters ${olt_of_id} | wc -l
+    Should Be Equal As Integers    ${meter_count}    0
+    # Verify AAA-Users are Removed
+    ${aaa_count}=    Execute ONOS CLI Command on open connection     ${onos_ssh_connection}
+    ...    aaa-users ${olt_of_id} | wc -l
+    Should Be Equal As Integers    ${aaa_count}    0
+    # Verify Dhcp-Allocations are Removed
+    ${dhcp_count}=    Execute ONOS CLI Command on open connection     ${onos_ssh_connection}
+    ...    dhcpl2relay-allocations ${olt_of_id} | wc -l
+    Should Be Equal As Integers    ${dhcp_count}    0
+    # Close ONOS SSH Connection
+    Close ONOS SSH Connection    ${onos_ssh_connection}
