@@ -607,3 +607,61 @@ Get Bandwidth Details
     ${ebs_value}    Run Keyword If    '${bandwidthparameter}' == ' exceededBurstSize'    Set Variable    ${value}
     ${limiting_BW}=    Evaluate    ${cir_value}+${eir_value}
     [Return]    ${limiting_BW}
+
+Verify Ports Removed
+    [Arguments]    ${ip}    ${port}    ${olt_of_id}
+    [Documentation]    Verifies all ports are removed from the device
+    ${port_count}=    Execute ONOS CLI Command    ${ip}    ${port}
+    ...    ports ${olt_of_id} | grep -v ${olt_of_id} | wc -l
+    Should Be Equal As Integers    ${port_count}    0
+
+Verify Programmed Subscribers Removed
+    [Arguments]    ${ip}    ${port}    ${olt_of_id}
+    [Documentation]    Verifies all subscribers are removed from the device
+    ${sub_count}=    Execute ONOS CLI Command    ${ip}    ${port}
+    ...    volt-programmed-subscribers | grep ${olt_of_id} | wc -l
+    Should Be Equal As Integers    ${sub_count}    0
+
+Verify Meters Removed
+    [Arguments]    ${ip}    ${port}    ${olt_of_id}
+    [Documentation]    Verifies all meters are removed from the device
+    ${meter_count}=    Execute ONOS CLI Command    ${ip}    ${port}
+    ...    meters ${olt_of_id} | wc -l
+    Should Be Equal As Integers    ${meter_count}    0
+
+Verify AAA-Users Removed
+    [Arguments]    ${ip}    ${port}    ${olt_of_id}
+    [Documentation]    Verifies all aaa-users are removed from the device
+    ${aaa_count}=    Execute ONOS CLI Command    ${ip}    ${port}
+    ...    aaa-users ${olt_of_id} | wc -l
+    Should Be Equal As Integers    ${aaa_count}    0
+
+Verify Dhcp-Allocations Removed
+    [Arguments]    ${ip}    ${port}    ${olt_of_id}
+    [Documentation]    Verifies all dhcp-allocations are removed from the device
+    ${dhcp_count}=    Execute ONOS CLI Command    ${ip}    ${port}
+    ...    dhcpl2relay-allocations ${olt_of_id} | wc -l
+    Should Be Equal As Integers    ${dhcp_count}    0
+
+Validate Deleted Device Cleanup In ONOS
+    [Arguments]    ${ip}    ${port}    ${olt_serial_number}
+    [Documentation]    The keyword verifies that ports, flows, meters, subscribers, dhcp are all cleared in ONOS
+    ${of_id}=    Wait Until Keyword Succeeds    ${timeout}    5s    Validate OLT Device in ONOS    ${olt_serial_number}
+    # Verify Ports are Removed
+    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
+    ...    Verify Ports Removed    ${ip}    ${port}    ${of_id}
+    # Verify Subscribers are Removed
+    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
+    ...    Verify Programmed Subscribers Removed    ${ip}    ${port}    ${of_id}
+    # Verify Flows are Removed
+    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
+    ...    Verify Device Flows Removed    ${ip}    ${port}    ${of_id}
+    # Verify Meters are Removed
+    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
+    ...    Verify Meters Removed    ${ip}    ${port}    ${of_id}
+    # Verify AAA-Users are Removed
+    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
+    ...    Verify AAA-Users Removed    ${ip}    ${port}    ${of_id}
+    # Verify Dhcp-Allocations are Removed
+    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
+    ...    Verify Dhcp-Allocations Removed    ${ip}    ${port}    ${of_id}
