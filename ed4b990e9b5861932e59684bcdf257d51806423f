@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2801580d_52501481",
+        "filename": "libraries/utils.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 647,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2021-01-25T10:28:56Z",
+      "side": 1,
+      "message": "In general I would like to prefer usage of an already opened ssh connection to onos with onos_ssh_connection_id instead everytime reopen a ssh connection with onos_ip and onos_port. I thought with introduction of the feature uses already opened onos ssh connection this is the prefered one.\nElse everything looks good for me.",
+      "range": {
+        "startLine": 647,
+        "startChar": 15,
+        "endLine": 647,
+        "endChar": 116
+      },
+      "revId": "ed4b990e9b5861932e59684bcdf257d51806423f",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    }
+  ]
+}
