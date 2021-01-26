@@ -51,6 +51,9 @@ ROBOT_DMI_SINGLE_ADTRAN_FILE     ?= $(ROOT_DIR)/tests/data/dmi-components-adtran
 # for backwards compatibility
 sanity-kind: sanity-single-kind
 
+# to simplify ci
+sanity-kind-att: sanity-single-kind
+
 # for scale pipeline
 voltha-scale: ROBOT_MISC_ARGS += -i activation $(ROBOT_DEBUG_LOG_OPT)
 voltha-scale: voltha-scale-test
@@ -64,6 +67,9 @@ sanity-kind-dt: voltha-dt-test
 functional-single-kind: ROBOT_MISC_ARGS += -i sanityORfunctional -e PowerSwitch $(ROBOT_DEBUG_LOG_OPT)
 functional-single-kind: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_SINGLE_PON_FILE)
 functional-single-kind: bbsim-kind
+
+# to simplify ci
+functional-single-kind-att: functional-single-kind
 
 # target to invoke DT Workflow Functional scenarios
 functional-single-kind-dt: ROBOT_MISC_ARGS += -i sanityDtORfunctionalDt -e PowerSwitch $(ROBOT_DEBUG_LOG_OPT)
