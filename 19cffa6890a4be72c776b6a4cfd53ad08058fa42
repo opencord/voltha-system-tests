@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ef9a42d8_da3ec2a3",
+        "filename": "libraries/utils.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 676,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2021-01-27T08:43:04Z",
+      "side": 1,
+      "message": "I\u0027d leave 50 here.",
+      "revId": "19cffa6890a4be72c776b6a4cfd53ad08058fa42",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    }
+  ]
+}
