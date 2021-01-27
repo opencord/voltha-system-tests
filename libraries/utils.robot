@@ -642,7 +642,7 @@ Delete All Devices and Verify
     Sleep    5s
     Wait Until Keyword Succeeds    ${timeout}    2s    Test Devices Disabled In Voltha    Root=true
     Delete Devices In Voltha    Root=true
-    Run Keyword If    ${has_dataplane}    Sleep    30s
+    Sleep    30s
     Wait Until Keyword Succeeds    ${timeout}    2s    Test Empty Device List
     FOR    ${I}    IN RANGE    0    ${num_olts}
         ${olt_serial_number}=    Set Variable    ${list_olts}[${I}][sn]
@@ -673,7 +673,7 @@ Delete Device and Verify
     ...    Validate OLT Device    DISABLED    UNKNOWN    REACHABLE    ${olt_serial_number}
     ${rc}    ${output}=    Run and Return Rc and Output
     ...    voltctl -c ${VOLTCTL_CONFIG} device delete ${olt_device_id}
-    Run Keyword If    ${has_dataplane}    Sleep    50s
+    Sleep    30s
     Should Be Equal As Integers    ${rc}    0
     Wait Until Keyword Succeeds    ${timeout}    5s    Validate Device Removed    ${olt_device_id}
     Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    15s
