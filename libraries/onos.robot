@@ -65,7 +65,7 @@ Reconnect ONOS SSH Connection
     ${pass}=    Get From Dictionary    ${connection_entry}    pass
     ${oldconndata}=    Get Connection    ${connection_entry.conn_id}
     SSHLibrary.Switch Connection   ${connection_entry.conn_id}
-    SSHLibrary.Close Connection
+    Run Keyword And Ignore Error    SSHLibrary.Close Connection
     ${conn_id}=    SSHLibrary.Open Connection    ${oldconndata.host}    port=${oldconndata.port}
     ...    timeout=300s    alias=ONOS_SSH
     SSHLibrary.Login    ${user}    ${pass}
@@ -80,7 +80,7 @@ Close ONOS SSH Connection
     ${connection_alias}=    Get From Dictionary    ${connection_entry}    conn_id
     ${oldconndata}=    Get Connection    ${connection_entry.conn_id}
     SSHLibrary.Switch Connection   ${connection_alias}
-    SSHLibrary.Close Connection
+    Run Keyword And Ignore Error    SSHLibrary.Close Connection
     Remove From List    ${connection_list}    ${connection_list_id}
     Set Global Variable    ${connection_list}
 
