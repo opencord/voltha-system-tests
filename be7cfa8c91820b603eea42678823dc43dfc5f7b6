@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "62443dcd_ce4f007c",
+        "filename": "libraries/bbsim.robot",
+        "patchSetId": 5
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2021-01-28T16:14:47Z",
+      "side": 1,
+      "message": "@Teo: Is this hard-coded value okay or need something dynamic?",
+      "range": {
+        "startLine": 57,
+        "startChar": 44,
+        "endLine": 57,
+        "endChar": 54
+      },
+      "revId": "be7cfa8c91820b603eea42678823dc43dfc5f7b6",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0008aa09_d2e4e836",
+        "filename": "libraries/onos.robot",
+        "patchSetId": 5
+      },
+      "lineNbr": 422,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2021-01-28T16:14:47Z",
+      "side": 1,
+      "message": "TODO: Need more refinement",
+      "range": {
+        "startLine": 422,
+        "startChar": 0,
+        "endLine": 422,
+        "endChar": 20
+      },
+      "revId": "be7cfa8c91820b603eea42678823dc43dfc5f7b6",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2f629a13_3ea41809",
+        "filename": "tests/bbsim/Voltha_BBSimTests.robot",
+        "patchSetId": 5
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2021-01-28T16:14:47Z",
+      "side": 1,
+      "message": "For now, tested only for single ONU",
+      "range": {
+        "startLine": 54,
+        "startChar": 0,
+        "endLine": 54,
+        "endChar": 25
+      },
+      "revId": "be7cfa8c91820b603eea42678823dc43dfc5f7b6",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    }
+  ]
+}
