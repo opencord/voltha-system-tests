@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0645a3e0_416d28d5",
+        "filename": "tests/bbsim/Voltha_BBSimTests.robot",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2021-01-28T17:35:32Z",
+      "side": 1,
+      "message": "how does this file integrate with the existing BBSIM based per patchset verification ?",
+      "revId": "8da044658460f52de85d9ae729be72abf1fdead2",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    }
+  ]
+}
