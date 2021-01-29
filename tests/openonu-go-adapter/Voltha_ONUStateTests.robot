@@ -309,7 +309,7 @@ Do ONU Single State Test Time
 
 Do Onu Port Check
     [Documentation]    Check that all the UNI ports show up in ONOS
-    Wait for Ports in ONOS for all OLTs    ${onos_ssh_connection}    ${num_all_onus}    BBSM
+    Wait for Ports in ONOS for all OLTs    ${onos_ssh_connection}    ${num_all_onus}    BBSM    ${timeout}
 
 Do Onu Etcd Data Check
     [Documentation]    Check Onu data stored in etcd

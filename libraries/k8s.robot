@@ -64,10 +64,12 @@ Exec Pod
     [return]    ${output}
 
 Exec Pod In Kube
-    [Arguments]    ${namespace}    ${name}    ${command}
+    [Arguments]    ${namespace}    ${name}    ${command}    ${grep}=${EMPTY}
     [Documentation]    Uses kubectl to execute a command in the pod and return the output
-    ${rc}    ${exec_pod_name}=    Run and Return Rc and Output
-    ...    kubectl -n ${namespace} get pods -l app.kubernetes.io/name=${name} -o name
+    ${rc}    ${exec_pod_name}=    Run Keyword If     '${grep}'=='${EMPTY}'
+    ...    Run and Return Rc and Output    kubectl -n ${namespace} get pods -l app.kubernetes.io/name=${name} -o name
+    ...    ELSE    Run and Return Rc and Output
+    ...    kubectl -n ${namespace} get pods -l app.kubernetes.io/name=${name} -o name \| grep ${grep}
     Log    ${exec_pod_name}
     Should Not Be Empty    ${exec_pod_name}    Unable to parse pod name
     ${rc}    ${output}=    Run and Return Rc and Output
