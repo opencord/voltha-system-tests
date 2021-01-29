@@ -49,6 +49,16 @@ hosts:
       s_tag: '900'
       olt: 'BBSIM_OLT_10'
     -
+      onu: 'BBSM000a0101'
+      olt: 'BBSIM_OLT_10'
+      c_tag: '902'
+      s_tag: '900'
+    -
+      onu: 'BBSM000a0102'
+      olt: 'BBSIM_OLT_10'
+      c_tag: '903'
+      s_tag: '900'
+    -
       onu: 'BBSM000b0001'
       c_tag: '900'
       s_tag: '901'
@@ -58,7 +68,21 @@ hosts:
       c_tag: '901'
       s_tag: '901'
       olt: 'BBSIM_OLT_11'
+    -
+      onu: 'BBSM000b0101'
+      olt: 'BBSIM_OLT_11'
+      c_tag: '902'
+      s_tag: '901'
+    -
+      onu: 'BBSM000b0102'
+      olt: 'BBSIM_OLT_11'
+      c_tag: '903'
+      s_tag: '901'
   dst:
+    - ip: null
+    - ip: null
+    - ip: null
+    - ip: null
     - ip: null
     - ip: null
     - ip: null

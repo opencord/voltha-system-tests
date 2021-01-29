@@ -57,3 +57,17 @@ JoinOrLeave Igmp
     ...    bbsimctl onu igmp ${onu} ${task} ${group_address}
     Log     ${res}
     Should Be Equal as Integers    ${rc}    0
+
+Power On ONU
+    [Documentation]    This keyword turns on the power for onu device.
+    [Arguments]    ${namespace}    ${bbsim_pod_name}    ${onu}
+    ${result}    ${rc}=    Exec Pod And Return Output And RC    ${namespace}    ${bbsim_pod_name}
+    ...    bbsimctl onu poweron ${onu}
+    Should Contain    ${result}    successfully    msg=Can not poweron ${onu}    values=False
+
+Power Off ONU
+    [Documentation]    This keyword turns off the power for onu device.
+    [Arguments]    ${namespace}    ${bbsim_pod_name}    ${onu}
+    ${result}    ${rc}=    Exec Pod And Return Output And RC    ${namespace}    ${bbsim_pod_name}
+    ...    bbsimctl onu shutdown ${onu}
+    Should Contain    ${result}    successfully    msg=Can not shutdown ${onu}    values=False
