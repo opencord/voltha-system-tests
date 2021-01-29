@@ -175,6 +175,32 @@ reconcile-openonu-go-adapter-test-tt: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_TT_SIN
 reconcile-openonu-go-adapter-test-tt: ROBOT_FILE := Voltha_ONUReconcileTests.robot
 reconcile-openonu-go-adapter-test-tt: openonu-go-adapter-tests
 
+# target to invoke test with openonu go adapter applying 1T1GEM tech-profile with multiple OLTs scenarios with ATT workflow
+openonu-go-adapter-multi-olt-test: ROBOT_MISC_ARGS += -v state2test:omci-flows-pushed -v testmode:SingleStateTime
+openonu-go-adapter-multi-olt-test: ROBOT_MISC_ARGS += -v logging:True -i sanityOnuGo -i functionalOnuGo
+openonu-go-adapter-multi-olt-test: ROBOT_MISC_ARGS += -e notreadyOnuGo -X $(ROBOT_DEBUG_LOG_OPT)
+openonu-go-adapter-multi-olt-test: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_MULTIPLE_OLT_FILE)
+openonu-go-adapter-multi-olt-test: ROBOT_FILE := Voltha_ONUStateTests.robot
+openonu-go-adapter-multi-olt-test: openonu-go-adapter-tests
+
+# target to invoke test with openonu go adapter applying 1T4GEM tech-profile with multiple OLTs scenarios with ATT workflow
+1t4gem-openonu-go-adapter-multi-olt-test: ROBOT_MISC_ARGS += -v state2test:omci-flows-pushed -v testmode:SingleStateTime
+1t4gem-openonu-go-adapter-multi-olt-test: ROBOT_MISC_ARGS += -v techprofile:1T4GEM -v logging:True
+1t4gem-openonu-go-adapter-multi-olt-test: ROBOT_MISC_ARGS += -i sanityOnuGo -i functionalOnuGo
+1t4gem-openonu-go-adapter-multi-olt-test: ROBOT_MISC_ARGS += -e notreadyOnuGo -X $(ROBOT_DEBUG_LOG_OPT)
+1t4gem-openonu-go-adapter-multi-olt-test: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_MULTIPLE_OLT_FILE)
+1t4gem-openonu-go-adapter-multi-olt-test: ROBOT_FILE := Voltha_ONUStateTests.robot
+1t4gem-openonu-go-adapter-multi-olt-test: openonu-go-adapter-tests
+
+# target to invoke test with openonu go adapter applying 1T8GEM tech-profile with multiple OLTs scenarios with ATT workflow
+1t8gem-openonu-go-adapter-multi-olt-test: ROBOT_MISC_ARGS += -v state2test:omci-flows-pushed -v testmode:SingleStateTime
+1t8gem-openonu-go-adapter-multi-olt-test: ROBOT_MISC_ARGS += -v techprofile:1T8GEM -v logging:True
+1t8gem-openonu-go-adapter-multi-olt-test: ROBOT_MISC_ARGS += -i sanityOnuGo -i functionalOnuGo
+1t8gem-openonu-go-adapter-multi-olt-test: ROBOT_MISC_ARGS += -e notreadyOnuGo -X $(ROBOT_DEBUG_LOG_OPT)
+1t8gem-openonu-go-adapter-multi-olt-test: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_MULTIPLE_OLT_FILE)
+1t8gem-openonu-go-adapter-multi-olt-test: ROBOT_FILE := Voltha_ONUStateTests.robot
+1t8gem-openonu-go-adapter-multi-olt-test: openonu-go-adapter-tests
+
 sanity-single-kind: ROBOT_MISC_ARGS += -i sanity $(ROBOT_DEBUG_LOG_OPT)
 sanity-single-kind: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_SINGLE_PON_FILE)
 sanity-single-kind: bbsim-kind
