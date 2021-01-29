@@ -32,6 +32,7 @@ Resource          ../../libraries/voltha.robot
 Resource          ../../libraries/utils.robot
 Resource          ../../libraries/k8s.robot
 Resource          ../../libraries/onu_utilities.robot
+Resource          ../../libraries/bbsim.robot
 Resource          ../../variables/variables.robot
 
 *** Variables ***
@@ -116,8 +117,8 @@ Perform ONU MIB Template Data Test
     # Start first Onu
     ${src}=    Set Variable    ${hosts.src[${0}]}
     Log    \r\nONU ${src['onu']}: startup with MIB upload cycle and storage of template data to etcd.    console=yes
-    ${result}=    Exec Pod In Kube    ${namespace}    bbsim    bbsimctl onu poweron ${src['onu']}
-    Should Contain    ${result}    successfully    msg=Can not poweron ${src['onu']}    values=False
+    ${bbsim_pod}=    Get Pod Name By Label    ${namespace}    release     bbsim0
+    Power On ONU    ${namespace}    ${bbsim_pod}    ${src['onu']}
     ${timeStart}=    Get Current Date
     ${firstonustartup}=    Get ONU Startup Duration    ${firstonu}    ${timeStart}
     # check MIB Template data stored in etcd
@@ -126,8 +127,8 @@ Perform ONU MIB Template Data Test
     # Start second Onu
     ${src}=    Set Variable    ${hosts.src[${1}]}
     Log    ONU ${src['onu']}: startup without MIB upload cycle by using of template data of etcd.    console=yes
-    ${result}=    Exec Pod In Kube    ${namespace}    bbsim    bbsimctl onu poweron ${src['onu']}
-    Should Contain    ${result}    successfully    msg=Can not poweron ${src['onu']}    values=False
+    ${bbsim_pod}=    Get Pod Name By Label    ${namespace}    release     bbsim0
+    Power On ONU    ${namespace}    ${bbsim_pod}    ${src['onu']}
     ${timeStart}=    Get Current Date
     ${secondonustartup}=    Get ONU Startup Duration    ${secondonu}    ${timeStart}
     # compare both durations, second onu should be at least 3 times faster

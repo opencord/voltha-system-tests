@@ -32,19 +32,39 @@ Calculate Timeout
 Power On ONU Device
     [Documentation]    This keyword turns on the power for all onus.
     [Arguments]    ${namespace}
+    FOR    ${J}    IN RANGE    0    ${num_olts}
+        ${olt_serial_number}=    Set Variable    ${list_olts}[${J}][sn]
+        ${bbsim}=    Catenate    SEPARATOR=    bbsim    ${J}
+        ${bbsim_pod}=    Get Pod Name By Label    ${namespace}    release     ${bbsim}
+        Power On ONU Device per OLT    ${namespace}   ${olt_serial_number}    ${bbsim_pod}
+    END
+
+Power On ONU Device per OLT
+    [Documentation]    This keyword turns on the power for all onus.
+    [Arguments]    ${namespace}    ${olt_serial_number}    ${bbsim_pod}
     FOR    ${I}    IN RANGE    0    ${num_all_onus}
         ${src}=    Set Variable    ${hosts.src[${I}]}
-        ${result}=    Exec Pod In Kube    ${namespace}    bbsim    bbsimctl onu poweron ${src['onu']}
-        Should Contain    ${result}    successfully    msg=Can not poweron ${src['onu']}    values=False
+        Continue For Loop If    "${olt_serial_number}"!="${src['olt']}"
+        Power On ONU    ${namespace}    ${bbsim_pod}    ${src['onu']}
     END
 
 Power Off ONU Device
-    [Documentation]    This keyword turns off the power for all onus.
+    [Documentation]    This keyword turns off the power for all onus per olt.
     [Arguments]    ${namespace}
+    FOR    ${J}    IN RANGE    0    ${num_olts}
+        ${olt_serial_number}=    Set Variable    ${list_olts}[${J}][sn]
+        ${bbsim}=    Catenate    SEPARATOR=    bbsim    ${J}
+        ${bbsim_pod}=    Get Pod Name By Label    ${namespace}    release     ${bbsim}
+        Power Off ONU Device per OLT    ${namespace}   ${olt_serial_number}    ${bbsim_pod}
+    END
+
+Power Off ONU Device per OLT
+    [Documentation]    This keyword turns off the power for all onus per olt.
+    [Arguments]    ${namespace}    ${olt_serial_number}    ${bbsim_pod}
     FOR    ${I}    IN RANGE    0    ${num_all_onus}
         ${src}=    Set Variable    ${hosts.src[${I}]}
-        ${result}=    Exec Pod In Kube    ${namespace}    bbsim    bbsimctl onu shutdown ${src['onu']}
-        Should Contain    ${result}    successfully    msg=Can not shutdown ${src['onu']}    values=False
+        Continue For Loop If    "${olt_serial_number}"!="${src['olt']}"
+        Power Off ONU    ${namespace}    ${bbsim_pod}    ${src['onu']}
     END
 
 Current State Test
@@ -210,18 +230,18 @@ Validate Onu Data In Etcd
     log    ${jsondata}
     Run Keyword And Continue On Failure    Should Be Equal As Integers    ${length}    ${nbofetcddata}
     ...    msg=Number etcd data (${length}) does not match required (${nbofetcddata})!
-    ${pononuuniidlist}=    Create List
+    ${oltpononuuniidlist}=    Create List
     ${serialnumberlist}=    Create List
     FOR    ${INDEX}    IN RANGE    0    ${length}
         ${value}=    Get From List    ${jsondata}    ${INDEX}
         # TODO: The TP ID is hardcoded to 64 below. It is fine when testing single-tcont workflow.
         # When testing multi-tcont this may need some adjustment.
         ${tp_path}=    Get From Dictionary    ${value['uni_config'][0]['PersTpPathMap']}    64
-        ${pononuuniid}=    Read Pon Onu Uni String    ${tp_path}
-        ${list_id}=    Get Index From List    ${pononuuniidlist}   ${pononuuniid}
+        ${oltpononuuniid}=    Read Pon Onu Uni String    ${tp_path}
+        ${list_id}=    Get Index From List    ${oltpononuuniidlist}   ${oltpononuuniid}
         Should Be Equal As Integers    ${list_id}    -1
-        ...    msg=Combination of Pon, Onu and Uni (${pononuuniid}) exist multiple in etcd data!
-        Append To List    ${pononuuniidlist}    ${pononuuniid}
+        ...    msg=Combination of Pon, Onu and Uni (${oltpononuuniid}) exist multiple in etcd data!
+        Append To List    ${oltpononuuniidlist}    ${oltpononuuniid}
         Validate Onu Id    ${value}
         Validate Uni Id    ${value}
         ${serial_number}=    Get From Dictionary    ${value}    serial_number
@@ -252,7 +272,7 @@ Validate Vlan Rules In Etcd
         # TODO: The TP ID is hardcoded to 64 below. It is fine when testing single-tcont workflow.
         # When testing multi-tcont this may need some adjustment.
         ${tp_path}=    Get From Dictionary    ${value['uni_config'][0]['PersTpPathMap']}    64
-        ${pononuuniid}=    Read Pon Onu Uni String    ${tp_path}
+        ${oltpononuuniid}=    Read Pon Onu Uni String    ${tp_path}
         ${cookieslice}=    Get From Dictionary    ${value['uni_config'][0]['flow_params'][0]}    cookie_slice
         #@{cookieslicelist}=    Split String    ${cookieslice}    ,
         ${foundcookieslices}=    Get Length    ${cookieslice}
@@ -264,9 +284,9 @@ Validate Vlan Rules In Etcd
         ...    set_vid
         ${evalresult}=    Evaluate    2 <= ${setvid} <= 4095
         Should Be True    ${evalresult}    msg=set_vid out of range (${setvid})!
-        Set To Dictionary    ${vlan_rules}    ${pononuuniid}    ${setvid}
+        Set To Dictionary    ${vlan_rules}    ${oltpononuuniid}    ${setvid}
         ${oldsetvidvalid}     Set Variable If    ${prevvlanrules} is ${NONE}    False    True
-        ${prevsetvid}=    Set Variable If    ${oldsetvidvalid}    ${prevvlanrules['${pononuuniid}']}
+        ${prevsetvid}=    Set Variable If    ${oldsetvidvalid}    ${prevvlanrules['${oltpononuuniid}']}
         Run Keyword If    ${oldsetvidvalid} and ${setvidequal}
         ...               Should Be Equal As Integers    ${prevsetvid}    ${setvid}
         ...    ELSE IF    ${oldsetvidvalid} and not ${setvidequal}
@@ -312,14 +332,15 @@ Remove Lines Containing String
     [Return]    ${string}
 
 Read Pon Onu Uni String
-    [Documentation]    This keyword builds a thre digit string using Pon, Onu and Uni value of given tp-path taken
+    [Documentation]    This keyword builds a four digit string using Olt, Pon, Onu and Uni value of given tp-path taken
     ...                taken from etcd data of onu go adapter
     [Arguments]    ${tp_path}
     ${tppathlines}=   Replace String    ${tp_path}    /    \n
+    ${olt}=    Get Value Of Tp Path Element    ${tppathlines}    olt
     ${pon}=    Get Value Of Tp Path Element    ${tppathlines}    pon
     ${onu}=    Get Value Of Tp Path Element    ${tppathlines}    onu
     ${uni}=    Get Value Of Tp Path Element    ${tppathlines}    uni
-    ${valuesid}=    Set Variable   ${pon}/${onu}/${uni}
+    ${valuesid}=    Set Variable   ${olt}/${pon}/${onu}/${uni}
     log    ${valuesid}
     [Return]    ${valuesid}
 
@@ -373,7 +394,8 @@ Wait for Ports in ONOS for all OLTs
         ${of_id}=    Wait Until Keyword Succeeds    ${timeout}    15s    Validate OLT Device in ONOS
         ...    ${olt_serial_number}
         Set Global Variable    ${of_id}
-        Wait for Ports in ONOS    ${onos_ssh_connection}    ${count}    ${of_id}    BBSM    ${max_wait_time}
+        ${count2check}    Set Variable If    ${count}==${num_all_onus}    ${onu_count}    ${count}
+        Wait for Ports in ONOS    ${onos_ssh_connection}    ${count2check}    ${of_id}    BBSM    ${max_wait_time}
     END
 
 Wait for all ONU Ports in ONOS Disabled

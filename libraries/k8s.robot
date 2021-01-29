@@ -64,10 +64,12 @@ Exec Pod
     [return]    ${output}
 
 Exec Pod In Kube
-    [Arguments]    ${namespace}    ${name}    ${command}
+    [Arguments]    ${namespace}    ${name}    ${command}    ${grep}=${EMPTY}
     [Documentation]    Uses kubectl to execute a command in the pod and return the output
-    ${rc}    ${exec_pod_name}=    Run and Return Rc and Output
-    ...    kubectl -n ${namespace} get pods -l app.kubernetes.io/name=${name} -o name
+    ${rc}    ${exec_pod_name}=    Run Keyword If     '${grep}'=='${EMPTY}'
+    ...    Run and Return Rc and Output    kubectl -n ${namespace} get pods -l app.kubernetes.io/name=${name} -o name
+    ...    ELSE    Run and Return Rc and Output
+    ...    kubectl -n ${namespace} get pods -l app.kubernetes.io/name=${name} -o name \| grep ${grep}
     Log    ${exec_pod_name}
     Should Not Be Empty    ${exec_pod_name}    Unable to parse pod name
     ${rc}    ${output}=    Run and Return Rc and Output
@@ -377,9 +379,9 @@ Pod Does Not Exist
 Wait For Pods Not Exist
     [Arguments]    ${namespace}    ${list_names}
     [Documentation]    Checks the passed PODs are no longer existing
-	FOR    ${pod_name}    IN    @{list_names}
+    FOR    ${pod_name}    IN    @{list_names}
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    3s
-    	...    Pod Does Not Exist    ${namespace}    ${pod_name}
+        ...    Pod Does Not Exist    ${namespace}    ${pod_name}
     END
 
 Pods Do Not Exist By Label
@@ -441,9 +443,9 @@ Pods Are Ready By Label
 Wait For Pods Ready
     [Arguments]    ${namespace}    ${list_apps}
     [Documentation]    Checks the passed PODs are ready
-	FOR    ${app_name}    IN    @{list_apps}
+    FOR    ${app_name}    IN    @{list_apps}
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    3s
-    	...    Pods Are Ready By Label    ${namespace}    app    ${app_name}
+        ...    Pods Are Ready By Label    ${namespace}    app    ${app_name}
     END
 
 Check Expected Running Pods Number By Label
