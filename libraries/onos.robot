@@ -28,7 +28,7 @@ Resource          ./flows.robot
 @{connection_list}
 
 *** Keywords ***
-
+# open ssh
 Open ONOS SSH Connection
     [Documentation]    Establishes an ssh connection to ONOS contoller
     [Arguments]    ${host}    ${port}    ${user}=karaf    ${pass}=karaf
