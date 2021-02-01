@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "3c1ec93f_9de57641",
+        "filename": "Makefile",
+        "patchSetId": 1
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2021-02-01T04:47:13Z",
+      "side": 1,
+      "message": "Too much redundancy. Create a common target/keyword with all the common stuff. All the tech-profile specific targets with only the difference and calling this common keyword.",
+      "range": {
+        "startLine": 178,
+        "startChar": 0,
+        "endLine": 202,
+        "endChar": 66
+      },
+      "revId": "7edfc834032c1955c576fe32dfd18ef741b28ac3",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "170710b7_92965568",
         "filename": "libraries/onu_utilities.robot",
         "patchSetId": 1
