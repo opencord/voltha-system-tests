@@ -1,0 +1,165 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fa4c4e19_eed352d5",
+        "filename": "tests/bbsim/Voltha_BBSimTests.robot",
+        "patchSetId": 8
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2021-02-02T08:39:15Z",
+      "side": 1,
+      "message": "that looks very familiar to me:-)",
+      "range": {
+        "startLine": 43,
+        "startChar": 0,
+        "endLine": 45,
+        "endChar": 18
+      },
+      "revId": "a2b197c9f555bcabe892619ae99a39853de6157f",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fae03c12_b72bc3d6",
+        "filename": "tests/bbsim/Voltha_BBSimTests.robot",
+        "patchSetId": 8
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2021-02-02T08:39:15Z",
+      "side": 1,
+      "message": "Avoid global variables as far as possible. Add ${bbsim_pod} as argument in Perform BBSim Sanity Test Per OLT.",
+      "range": {
+        "startLine": 74,
+        "startChar": 8,
+        "endLine": 74,
+        "endChar": 43
+      },
+      "revId": "a2b197c9f555bcabe892619ae99a39853de6157f",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ae800424_b9fa13ee",
+        "filename": "tests/bbsim/Voltha_BBSimTests.robot",
+        "patchSetId": 8
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2021-02-02T08:39:15Z",
+      "side": 1,
+      "message": "Add argument ${bbsim_pod}",
+      "range": {
+        "startLine": 75,
+        "startChar": 8,
+        "endLine": 75,
+        "endChar": 107
+      },
+      "revId": "a2b197c9f555bcabe892619ae99a39853de6157f",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2499ae62_05b152be",
+        "filename": "tests/bbsim/Voltha_BBSimTests.robot",
+        "patchSetId": 8
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2021-02-02T08:39:15Z",
+      "side": 1,
+      "message": "add argument ${bbsim_pod}",
+      "range": {
+        "startLine": 84,
+        "startChar": 4,
+        "endLine": 84,
+        "endChar": 52
+      },
+      "revId": "a2b197c9f555bcabe892619ae99a39853de6157f",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d06124ac_9ddb4ce5",
+        "filename": "tests/bbsim/Voltha_BBSimTests.robot",
+        "patchSetId": 8
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2021-02-02T08:39:15Z",
+      "side": 1,
+      "message": "In genaral: Would it be not enough to call the existing corresponding sanity check of the set workflow and afterwards to do some additional checks?",
+      "range": {
+        "startLine": 102,
+        "startChar": 0,
+        "endLine": 102,
+        "endChar": 33
+      },
+      "revId": "a2b197c9f555bcabe892619ae99a39853de6157f",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c21f4bb9_ed5d0b62",
+        "filename": "tests/bbsim/Voltha_BBSimTests.robot",
+        "patchSetId": 8
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2021-02-02T08:39:15Z",
+      "side": 1,
+      "message": "add argument ${bbsim_pod}",
+      "range": {
+        "startLine": 105,
+        "startChar": 4,
+        "endLine": 105,
+        "endChar": 80
+      },
+      "revId": "a2b197c9f555bcabe892619ae99a39853de6157f",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4f6ea825_581ac0ea",
+        "filename": "tests/bbsim/Voltha_BBSimTests.robot",
+        "patchSetId": 8
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2021-02-02T08:39:15Z",
+      "side": 1,
+      "message": "same above",
+      "range": {
+        "startLine": 138,
+        "startChar": 8,
+        "endLine": 148,
+        "endChar": 63
+      },
+      "revId": "a2b197c9f555bcabe892619ae99a39853de6157f",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    }
+  ]
+}

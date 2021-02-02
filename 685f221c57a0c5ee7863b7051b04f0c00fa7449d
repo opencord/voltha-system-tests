@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8bc54b75_1898f68f",
+        "filename": "libraries/onos.robot",
+        "patchSetId": 7
+      },
+      "lineNbr": 425,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2021-02-02T08:39:15Z",
+      "side": 1,
+      "message": "I prefer \u0027Execute ONOS CLI Command on open connection    ${onos_ssh_connection}\u0027",
+      "range": {
+        "startLine": 425,
+        "startChar": 18,
+        "endLine": 425,
+        "endChar": 72
+      },
+      "revId": "685f221c57a0c5ee7863b7051b04f0c00fa7449d",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    }
+  ]
+}
