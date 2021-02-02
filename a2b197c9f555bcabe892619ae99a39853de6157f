@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "099b4597_676da242",
+        "filename": "tests/bbsim/Voltha_BBSimTests.robot",
+        "patchSetId": 8
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2021-02-02T09:31:54Z",
+      "side": 1,
+      "message": "😉",
+      "parentUuid": "fa4c4e19_eed352d5",
+      "range": {
+        "startLine": 43,
+        "startChar": 0,
+        "endLine": 45,
+        "endChar": 18
+      },
+      "revId": "a2b197c9f555bcabe892619ae99a39853de6157f",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "fae03c12_b72bc3d6",
         "filename": "tests/bbsim/Voltha_BBSimTests.robot",
         "patchSetId": 8
@@ -45,6 +69,30 @@
       "revId": "a2b197c9f555bcabe892619ae99a39853de6157f",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8b06680a_a2c9f2a6",
+        "filename": "tests/bbsim/Voltha_BBSimTests.robot",
+        "patchSetId": 8
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2021-02-02T09:31:54Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "fae03c12_b72bc3d6",
+      "range": {
+        "startLine": 74,
+        "startChar": 8,
+        "endLine": 74,
+        "endChar": 43
+      },
+      "revId": "a2b197c9f555bcabe892619ae99a39853de6157f",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
     },
     {
       "key": {
@@ -105,6 +153,30 @@
       "writtenOn": "2021-02-02T08:39:15Z",
       "side": 1,
       "message": "In genaral: Would it be not enough to call the existing corresponding sanity check of the set workflow and afterwards to do some additional checks?",
+      "range": {
+        "startLine": 102,
+        "startChar": 0,
+        "endLine": 102,
+        "endChar": 33
+      },
+      "revId": "a2b197c9f555bcabe892619ae99a39853de6157f",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cdd87900_b6ef717d",
+        "filename": "tests/bbsim/Voltha_BBSimTests.robot",
+        "patchSetId": 8
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2021-02-02T09:31:54Z",
+      "side": 1,
+      "message": "This is not exactly validating the workflow sanity but bbsim functionality and hence verifying few generic sanity keywords and more bbsim related stuff. I would prefer to keep it the same.",
+      "parentUuid": "d06124ac_9ddb4ce5",
       "range": {
         "startLine": 102,
         "startChar": 0,
