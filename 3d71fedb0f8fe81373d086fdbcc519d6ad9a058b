@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4b8c6c80_1c83a5a6",
+        "filename": "tests/dt-workflow/Voltha_DT_FailureScenarios.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2021-02-02T13:40:51Z",
+      "side": 1,
+      "message": "where is this used ? should this be used instead of the timeout in line 197 ? or at one 200 ?",
+      "revId": "3d71fedb0f8fe81373d086fdbcc519d6ad9a058b",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    }
+  ]
+}
