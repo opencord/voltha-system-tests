@@ -155,7 +155,7 @@ Verify OLT after rebooting physically
         ${olt_serial_number}=    Get From Dictionary    ${list_olts}[${I}]    sn
         ${olt_device_id}=    Get OLTDeviceID From OLT List    ${olt_serial_number}
         Run Keyword If    ${has_dataplane}    Login And Run Command On Remote System
-        ...    sudo reboot    ${olt_ssh_ip}    ${olt_user}    ${olt_pass}   prompt=#
+        ...    reboot    ${olt_ssh_ip}    ${olt_user}    ${olt_pass}   prompt=#
     END
     Run Keyword And Ignore Error    Collect Logs
     FOR    ${I}    IN RANGE    0    ${num_all_onus}
