@@ -477,10 +477,8 @@ Do Soft Reboot Onu Device
         Reboot ONU    ${onu_device_id}   False
     END
     ${alternativeonustates}=  Create List     omci-flows-deleted
-    Run Keyword Unless    ${has_dataplane}    Current State Test All Onus    tech-profile-config-delete-success
-    ...   ENABLED    DISCOVERED    REACHABLE    alternativeonustate=${alternativeonustates}
+    Current State Test All Onus    tech-profile-config-delete-success
+    ...   ENABLED    DISCOVERED    UNREACHABLE    alternativeonustate=${alternativeonustates}
     Sleep    5s
-    Run Keyword Unless    ${has_dataplane}    Do Disable Enable Onu Test    checkstatebeforedisable=False
-    ...    state2checkafterdisable=omci-admin-lock
     Run Keyword If    ${has_dataplane}    Current State Test All Onus    omci-flows-pushed
     Do Onu Port Check
