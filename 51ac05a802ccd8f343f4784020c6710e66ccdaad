@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e6d38193_7f629d4f",
+        "filename": "tests/bbsim/Voltha_BBSimTests.robot",
+        "patchSetId": 9
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2021-02-02T09:56:23Z",
+      "side": 1,
+      "message": "why this sleep here ?",
+      "revId": "51ac05a802ccd8f343f4784020c6710e66ccdaad",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4df9855d_ac6d9baa",
+        "filename": "tests/data/onos-igmp.json",
+        "patchSetId": 9
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2021-02-02T09:56:23Z",
+      "side": 1,
+      "message": "remove useless tab/space",
+      "revId": "51ac05a802ccd8f343f4784020c6710e66ccdaad",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    }
+  ]
+}
