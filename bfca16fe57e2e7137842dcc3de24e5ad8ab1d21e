@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a9015620_808a7809",
+        "filename": "tests/openonu-go-adapter/Voltha_ONUStateTests.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 481,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2021-02-02T18:01:12Z",
+      "side": 1,
+      "message": "Does it mean, ONU reason will always come with CONNECT-STATUS UNREACHABLE?",
+      "range": {
+        "startLine": 481,
+        "startChar": 10,
+        "endLine": 481,
+        "endChar": 46
+      },
+      "revId": "bfca16fe57e2e7137842dcc3de24e5ad8ab1d21e",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    }
+  ]
+}
