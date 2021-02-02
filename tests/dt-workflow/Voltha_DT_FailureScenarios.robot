@@ -174,6 +174,39 @@ Verify OLT after Rebooting Physically for DT
     Run Keyword If    ${has_dataplane}    Clean Up Linux
     Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test DT
 
+Verify restart openonu-adapter container after subscriber provisioning for DT
+    [Documentation]    Restart openonu-adapter container after VOLTHA is operational.
+    ...    Prerequisite : ONUs are authenticated and pingable.
+    [Tags]    functionalDt   Restart-OpenOnu-Dt
+    [Setup]    Start Logging    Restart-OpenOnu-Dt
+    [Teardown]    Run Keywords    Collect Logs
+    ...           AND             Stop Logging    Restart-OpenOnu-Dt
+    ...           AND             Delete All Devices and Verify
+    # Add OLT device
+    Setup
+    # Performing Sanity Test to make sure subscribers are all DHCP and pingable
+    Run Keyword If    ${has_dataplane}    Clean Up Linux
+    Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test DT
+    ${waitforRestart}    Set Variable    120s
+    ${podStatusOutput}=    Run    kubectl get pods -n ${NAMESPACE}
+    Log    ${podStatusOutput}
+    ${countBeforeRestart}=    Run    kubectl get pods -n ${NAMESPACE} | grep Running | wc -l
+    ${podName}    Set Variable     adapter-open-onu
+    Wait Until Keyword Succeeds    ${timeout}    15s    Delete K8s Pods By Label    ${NAMESPACE}    app    ${podName}
+    Sleep    5s
+    Wait Until Keyword Succeeds    ${timeout}    2s    Validate Pods Status By Label    ${NAMESPACE}
+    ...    app    ${podName}    Running
+    # Wait for 1min after openonu adapter is restarted
+    Sleep    60s
+    Run Keyword If    ${has_dataplane}    Clean Up Linux
+    Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test DT
+    Run Keyword and Ignore Error    Collect Logs
+    ${podStatusOutput}=    Run    kubectl get pods -n ${NAMESPACE}
+    Log    ${podStatusOutput}
+    ${countAfterRestart}=    Run    kubectl get pods -n ${NAMESPACE} | grep Running | wc -l
+    Should Be Equal As Strings    ${countAfterRestart}    ${countBeforeRestart}
+    Log to console    Pod ${podName} restarted and sanity checks passed successfully
+
 Verify restart openolt-adapter container after subscriber provisioning for DT
     [Documentation]    Restart openolt-adapter container after VOLTHA is operational.
     ...    Prerequisite : ONUs are authenticated and pingable.
@@ -190,7 +223,7 @@ Verify restart openolt-adapter container after subscriber provisioning for DT
     ${podStatusOutput}=    Run    kubectl get pods -n ${NAMESPACE}
     Log    ${podStatusOutput}
     ${countBforRestart}=    Run    kubectl get pods -n ${NAMESPACE} | grep Running | wc -l
-    ${podName}    Set Variable     ${OLT_ADAPTER_APP_LABEL}
+    ${podName}    Set Variable     adapter-open-olt
     Wait Until Keyword Succeeds    ${timeout}    15s    Delete K8s Pods By Label    ${NAMESPACE}    app    ${podName}
     Sleep    5s
     Wait Until Keyword Succeeds    ${timeout}    2s    Validate Pods Status By Label    ${NAMESPACE}
@@ -235,13 +268,12 @@ Verify openolt adapter restart before subscriber provisioning for DT
         ...    ${onu_device_id}    onu=True    onu_reason=omci-flows-pushed
     END
     # Scale down the open OLT adapter deployment to 0 PODs and once confirmed, scale it back to 1
-    Scale K8s Deployment by Pod Label    ${NAMESPACE}    app    ${OLT_ADAPTER_APP_LABEL}    0
-    Wait Until Keyword Succeeds    ${timeout}    2s    Pods Do Not Exist By Label    ${NAMESPACE}    app
-    ...    ${OLT_ADAPTER_APP_LABEL}
+    Scale K8s Deployment    voltha    open-olt-voltha-adapter-openolt    0
+    Wait Until Keyword Succeeds    ${timeout}    2s    Pod Does Not Exist    voltha   open-olt-voltha-adapter-openolt
     # Scale up the open OLT adapter deployment and make sure both it and the ofagent deployment are back
-    Scale K8s Deployment by Pod Label    ${NAMESPACE}    app    ${OLT_ADAPTER_APP_LABEL}    1
+    Scale K8s Deployment    voltha   open-olt-voltha-adapter-openolt    1
     Wait Until Keyword Succeeds    ${timeout}    2s
-    ...    Check Expected Available Deployment Replicas By Pod Label     ${NAMESPACE}    app    ${OLT_ADAPTER_APP_LABEL}    1
+    ...    Check Expected Available Deployment Replicas    voltha    open-olt-voltha-adapter-openolt    1
 
     # Ensure the device is available in ONOS, this represents system connectivity being restored
     FOR   ${I}    IN RANGE    0    ${olt_count}
