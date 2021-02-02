@@ -22,6 +22,30 @@
       "revId": "685f221c57a0c5ee7863b7051b04f0c00fa7449d",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aeab8f2b_4ec95b05",
+        "filename": "libraries/onos.robot",
+        "patchSetId": 7
+      },
+      "lineNbr": 425,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2021-02-02T10:04:55Z",
+      "side": 1,
+      "message": "For now, this is a generic keyword and should be able to call in all the cases not just where there is an existing open onos connection. But I agree sometime in future an activity to open onos ssh connection at the suite setup and use the same everywhere can be planned. Thanks.",
+      "parentUuid": "8bc54b75_1898f68f",
+      "range": {
+        "startLine": 425,
+        "startChar": 18,
+        "endLine": 425,
+        "endChar": 72
+      },
+      "revId": "685f221c57a0c5ee7863b7051b04f0c00fa7449d",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
     }
   ]
 }

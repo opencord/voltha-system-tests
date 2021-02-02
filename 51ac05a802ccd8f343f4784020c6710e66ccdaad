@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "a532ed10_0968e40e",
+        "filename": "tests/bbsim/Voltha_BBSimTests.robot",
+        "patchSetId": 9
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2021-02-02T10:04:55Z",
+      "side": 1,
+      "message": "Something I have kept to debug. Will remove in next patch iteration. Thanks.",
+      "parentUuid": "e6d38193_7f629d4f",
+      "revId": "51ac05a802ccd8f343f4784020c6710e66ccdaad",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "4df9855d_ac6d9baa",
         "filename": "tests/data/onos-igmp.json",
         "patchSetId": 9
@@ -30,6 +48,24 @@
       "writtenOn": "2021-02-02T09:56:23Z",
       "side": 1,
       "message": "remove useless tab/space",
+      "revId": "51ac05a802ccd8f343f4784020c6710e66ccdaad",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "321e1ca5_5250fcfa",
+        "filename": "tests/data/onos-igmp.json",
+        "patchSetId": 9
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2021-02-02T10:04:55Z",
+      "side": 1,
+      "message": "I saw it and still missed. Thanks. Will Update.",
+      "parentUuid": "4df9855d_ac6d9baa",
       "revId": "51ac05a802ccd8f343f4784020c6710e66ccdaad",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
       "unresolved": true
