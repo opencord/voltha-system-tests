@@ -81,7 +81,7 @@ Verify OLT after Rebooting Physically for DT - Multiple OLT
     ${olt_serial_number}=    Get From Dictionary    ${list_olts}[0]    sn
     ${olt_device_id}=    Get OLTDeviceID From OLT List    ${olt_serial_number}
     Run Keyword If    ${has_dataplane}    Login And Run Command On Remote System
-    ...    sudo reboot    ${olt_ssh_ip}    ${olt_user}    ${olt_pass}   prompt=#
+    ...    reboot    ${olt_ssh_ip}    ${olt_user}    ${olt_pass}   prompt=#
     # validate that the ONUs on the other OLTs are still functional
     Verify ping is successful for ONUs not on this OLT     ${num_all_onus}    ${olt_device_id}
     Run Keyword And Ignore Error    Collect Logs
