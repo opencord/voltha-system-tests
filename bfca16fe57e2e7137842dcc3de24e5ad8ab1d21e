@@ -22,6 +22,30 @@
       "revId": "bfca16fe57e2e7137842dcc3de24e5ad8ab1d21e",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2dc6c1df_5ae3df79",
+        "filename": "tests/openonu-go-adapter/Voltha_ONUStateTests.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 481,
+      "author": {
+        "id": 1000007
+      },
+      "writtenOn": "2021-02-02T18:56:39Z",
+      "side": 1,
+      "message": "Yes, when you reboot the ONU the CONNECT-STATUS will go to UNREACHABLE while the ONU is rebooting, then it will go back to REACHABLE once it\u0027s back online.",
+      "parentUuid": "a9015620_808a7809",
+      "range": {
+        "startLine": 481,
+        "startChar": 10,
+        "endLine": 481,
+        "endChar": 46
+      },
+      "revId": "bfca16fe57e2e7137842dcc3de24e5ad8ab1d21e",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
     }
   ]
 }
