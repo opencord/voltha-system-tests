@@ -50,12 +50,17 @@ Resource          ../../libraries/voltctl.robot
 Resource          ../../libraries/voltha.robot
 Resource          ../../libraries/flows.robot
 Resource          ../../libraries/k8s.robot
+Resource          ../../libraries/utils.robot
+Resource          ../../libraries/bbsim.robot
 Resource          ../../variables/variables.robot
 
 *** Variables ***
 ${ONOS_SSH_IP}  127.0.0.1
 ${ONOS_SSH_PORT}    8101
+${ONOS_REST_IP}  127.0.0.1
 ${ONOS_REST_PORT}    8181
+
+${NAMESPACE}      default
 
 # Scale pipeline values
 ${stackId}  1
@@ -186,6 +191,16 @@ Wait for subscribers to have an IP
         Wait for DHCP Ack     ${onos_ssh_connection}  ${total_onus_per_olt}     ${workflow}     ${deviceId}
     END
 
+Perform Igmp Join
+    [Documentation]    Performs Igmp Join for all the ONUs of all the OLTs
+    [Tags]    non-critical    igmp    igmp-join
+    FOR    ${INDEX}    IN RANGE    0    ${olt}
+        ${bbsim_rel}=    Catenate    SEPARATOR=    bbsim    ${INDEX}
+        ${bbsim_pod}=    Get Pod Name By Label    ${NAMESPACE}    release     ${bbsim_rel}
+        ${onu_list}=    Get ONUs List    ${NAMESPACE}    ${bbsim_pod}
+        Perform Igmp Join Per OLT    ${bbsim_pod}    ${onu_list}
+    END
+
 Disable and Delete devices
     [Documentation]  Disable and delete the OLTs in VOLTHA
     [Tags]      non-critical    teardown
@@ -209,6 +224,11 @@ Setup Suite
     ${total_onus_per_olt}=   Evaluate    ${pon} * ${onu}
     Set Suite Variable  ${total_onus_per_olt}
 
+    ${onos_auth}=    Create List    karaf    karaf
+    Create Session    ONOS    http://${ONOS_REST_IP}:${ONOS_REST_PORT}    auth=${ONOS_AUTH}
+    Run Keyword If    '${workflow}'=='tt'
+    ...    Send File To Onos    ${CURDIR}/../../tests/data/onos-igmp.json    apps/
+
     ${onos_ssh_connection}    Open ONOS SSH Connection    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}
     Set Suite Variable  ${onos_ssh_connection}
 
@@ -229,3 +249,10 @@ Compute device IDs
     END
 
     [Return]    ${device_ids}
+
+Perform Igmp Join Per OLT
+    [Documentation]    Performs Igmp Join for all the ONUs of an OLT
+    [Arguments]    ${bbsim_pod}    ${onu_list}
+    FOR    ${onu}    IN    @{onu_list}
+        JoinOrLeave Igmp    ${NAMESPACE}    ${bbsim_pod}    ${onu}    join
+    END
