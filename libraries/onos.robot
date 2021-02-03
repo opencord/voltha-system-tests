@@ -419,6 +419,58 @@ Verify ONU in AAA-Users
     ${aaa_users}=    Execute ONOS CLI Command    ${ip}    ${port}    aaa-users | grep AUTHORIZED | grep ${onu_port}
     Should Not Be Empty    ${aaa_users}    ONU port ${onu_port} not found in aaa-users
 
+Verify Empty Group in ONOS
+    [Documentation]    Verifies zero group count on the device
+    [Arguments]    ${onos_ssh_connection}    ${deviceId}
+    ${groups}=    Execute ONOS CLI Command on open connection    ${onos_ssh_connection}    groups | grep ${deviceId}
+    @{groups_arr}=    Split String    ${groups}    ,
+    @{group_count_arr}=    Split String    ${groups_arr[1]}    =
+    ${group_count}=    Set Variable    ${group_count_arr[1]}
+    Should Be Equal As Integers    ${group_count}    0
+
+Verify ONUs in Group Count in ONOS
+    [Documentation]    Verifies there exists a group bucket list with certain entries/count
+    ...    Note: Currently, this validates only if all ONUs of an OLT joined the same igmp group
+    [Arguments]    ${onos_ssh_connection}    ${count}    ${deviceId}
+    ${result}=    Execute ONOS CLI Command on open connection    ${onos_ssh_connection}    groups -j
+    Log    Groups: ${result}
+    ${groups}=    To Json    ${result}
+    ${length}=    Get Length    ${groups}
+    ${buckets}=    Create List
+    ${matched}=    Set Variable    False
+    FOR    ${INDEX}    IN RANGE    0    ${length}
+        ${value}=    Get From List    ${groups}    ${INDEX}
+        ${devId}=    Get From Dictionary    ${value}    deviceId
+        ${bucket}=    Get From Dictionary    ${value}    buckets
+        Run Keyword If    '${devId}'=='${deviceId}'
+        ...    Append To List    ${buckets}    ${bucket}
+    END
+    ${bucket_len}=    Get Length    ${buckets}
+    ${bucket_vals_len}=    Evaluate    0
+    FOR    ${INDEX_1}    IN RANGE    0    ${bucket_len}
+        ${value}=    Get From List    ${buckets}    ${INDEX_1}
+        ${bucket_vals_len}=    Get Length    ${value}
+        ${matched}=    Set Variable If    ${bucket_vals_len}==${count}    True    False
+        Exit For Loop If    ${matched}
+    END
+    Should Be True    ${matched}    Bucket list count for a group: Found:${bucket_vals_len} Expected:${count}
+
+Verify ONU in Group Bucket
+    [Documentation]    Matches if ONU port in Group Bucket
+    [Arguments]    ${group_bucket_values}    ${onu_port}
+    ${len}=    Get Length    ${group_bucket_values}
+    ${matched}=    Set Variable    False
+    FOR    ${INDEX}    IN RANGE    0    ${len}
+        ${value_bucket}=    Get From List    ${group_bucket_values}    ${INDEX}
+        ${treatment}=    Get From Dictionary    ${value_bucket}    treatment
+        ${instructions}=    Get From Dictionary    ${treatment}    instructions
+        ${instructions_val}=    Get From List    ${instructions}    0
+        ${port}=    Get From Dictionary    ${instructions_val}    port
+        ${matched}=    Set Variable If    '${port}'=='${onu_port}'    True    False
+        Exit For Loop If    ${matched}
+    END
+    [Return]    ${matched}
+
 Verify ONU in Groups
     [Arguments]    ${ip_onos}    ${port_onos}    ${deviceId}    ${onu_port}    ${group_exist}=True
     [Documentation]    Verifies that the specified onu_port exists in groups output
@@ -436,14 +488,9 @@ Verify ONU in Groups
         ...    Append To List    ${buckets}    ${bucket}
     END
     ${bucket_len}=    Get Length    ${buckets}
-    FOR    ${INDEX1}    IN RANGE    0    ${bucket_len}
-        ${value}=    Get From List    ${buckets}    ${INDEX}
-        ${value_bucket}=    Get From List    ${value}    0
-        ${treatment}=    Get From Dictionary    ${value_bucket}    treatment
-        ${instructions}=    Get From Dictionary    ${treatment}    instructions
-        ${instructions_val}=    Get From List    ${instructions}    0
-        ${port}=    Get From Dictionary    ${instructions_val}    port
-        ${matched}=    Set Variable If    '${port}'=='${onu_port}'    True    False
+    FOR    ${INDEX_1}    IN RANGE    0    ${bucket_len}
+        ${value}=    Get From List    ${buckets}    ${INDEX_1}
+        ${matched}=    Verify ONU in Group Bucket    ${value}    ${onu_port}
         Exit For Loop If    ${matched}
     END
     Run Keyword If    ${group_exist}

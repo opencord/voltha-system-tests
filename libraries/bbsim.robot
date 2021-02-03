@@ -71,3 +71,12 @@ Power Off ONU
     ${result}    ${rc}=    Exec Pod And Return Output And RC    ${namespace}    ${bbsim_pod_name}
     ...    bbsimctl onu shutdown ${onu}
     Should Contain    ${result}    successfully    msg=Can not shutdown ${onu}    values=False
+
+Get ONUs List
+    [Documentation]    Fetches ONUs via BBSimctl
+    [Arguments]    ${namespace}    ${bbsim_pod_name}
+    ${onus}    ${rc}=    Exec Pod And Return Output And RC    ${namespace}    ${bbsim_pod_name}
+    ...    bbsimctl onu list | awk 'NR>1 {print $4}'
+    @{onuList}=    Split To Lines    ${onus}
+    Should Be Equal as Integers    ${rc}    0
+    [Return]    ${onuList}

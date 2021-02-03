@@ -55,7 +55,7 @@ sanity-kind: sanity-single-kind
 sanity-kind-att: sanity-single-kind
 
 # for scale pipeline
-voltha-scale: ROBOT_MISC_ARGS += -i activation $(ROBOT_DEBUG_LOG_OPT)
+voltha-scale: ROBOT_MISC_ARGS += -i activation -v NAMESPACE:voltha $(ROBOT_DEBUG_LOG_OPT)
 voltha-scale: voltha-scale-test
 
 # target to invoke DT Workflow Sanity
