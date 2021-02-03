@@ -17,6 +17,9 @@
 Documentation     Library for BBSimCtl interactions
 Resource          ./k8s.robot
 
+*** Variables ***
+&{IGMP_TASK_DICT}          join=0    leave=1    joinv3=2
+
 *** Keywords ***
 List ONUs
     [Documentation]  Lists ONUs via BBSimctl
@@ -50,6 +53,13 @@ List Service
     Log     ${service}
     Should Be Equal as Integers    ${rc}    0
 
+JoinOrLeave Igmp Rest Based
+    [Documentation]  Joins or Leaves Igmp on a BBSim ONU (based on Rest Endpoint)
+    [Arguments]    ${bbsim_rel_session}    ${onu}    ${task}    ${group_address}
+    ${resp}=    Post Request    ${bbsim_rel_session}
+    ...    /v1/olt/onus/${onu}/igmp/${IGMP_TASK_DICT}[${task}]/${group_address}
+    Log    ${resp}
+
 JoinOrLeave Igmp
     [Documentation]  Joins or Leaves Igmp on a BBSim ONU
     [Arguments]    ${namespace}    ${bbsim_pod_name}    ${onu}    ${task}    ${group_address}=224.0.0.22
@@ -71,3 +81,12 @@ Power Off ONU
     ${result}    ${rc}=    Exec Pod And Return Output And RC    ${namespace}    ${bbsim_pod_name}
     ...    bbsimctl onu shutdown ${onu}
     Should Contain    ${result}    successfully    msg=Can not shutdown ${onu}    values=False
+
+Get ONUs List
+    [Documentation]    Fetches ONUs via BBSimctl
+    [Arguments]    ${namespace}    ${bbsim_pod_name}
+    ${onus}    ${rc}=    Exec Pod And Return Output And RC    ${namespace}    ${bbsim_pod_name}
+    ...    bbsimctl onu list | awk 'NR>1 {print $4}'
+    @{onuList}=    Split To Lines    ${onus}
+    Should Be Equal as Integers    ${rc}    0
+    [Return]    ${onuList}
