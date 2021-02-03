@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a5a22819_64d30abd",
+        "filename": "tests/scale/Voltha_Scale_Tests.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2021-02-03T15:40:09Z",
+      "side": 1,
+      "message": "$ instead of @",
+      "revId": "452b5ad22f438d785fdc11d5a866b848cf391639",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    }
+  ]
+}
