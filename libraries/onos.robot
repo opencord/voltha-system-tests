@@ -419,6 +419,22 @@ Verify ONU in AAA-Users
     ${aaa_users}=    Execute ONOS CLI Command    ${ip}    ${port}    aaa-users | grep AUTHORIZED | grep ${onu_port}
     Should Not Be Empty    ${aaa_users}    ONU port ${onu_port} not found in aaa-users
 
+Verify ONU in Group Bucket
+    [Documentation]    Matches if ONU port in Group Bucket
+    [Arguments]    ${group_bucket_values}    ${onu_port}
+    ${len}=    Get Length    ${group_bucket_values}
+    ${matched}=    Set Variable    False
+    FOR    ${INDEX}    IN RANGE    0    ${len}
+        ${value_bucket}=    Get From List    ${group_bucket_values}    ${INDEX}
+        ${treatment}=    Get From Dictionary    ${value_bucket}    treatment
+        ${instructions}=    Get From Dictionary    ${treatment}    instructions
+        ${instructions_val}=    Get From List    ${instructions}    0
+        ${port}=    Get From Dictionary    ${instructions_val}    port
+        ${matched}=    Set Variable If    '${port}'=='${onu_port}'    True    False
+        Exit For Loop If    ${matched}
+    END
+    [Return]    ${matched}
+
 Verify ONU in Groups
     [Arguments]    ${ip_onos}    ${port_onos}    ${deviceId}    ${onu_port}    ${group_exist}=True
     [Documentation]    Verifies that the specified onu_port exists in groups output
@@ -436,14 +452,9 @@ Verify ONU in Groups
         ...    Append To List    ${buckets}    ${bucket}
     END
     ${bucket_len}=    Get Length    ${buckets}
-    FOR    ${INDEX1}    IN RANGE    0    ${bucket_len}
-        ${value}=    Get From List    ${buckets}    ${INDEX}
-        ${value_bucket}=    Get From List    ${value}    0
-        ${treatment}=    Get From Dictionary    ${value_bucket}    treatment
-        ${instructions}=    Get From Dictionary    ${treatment}    instructions
-        ${instructions_val}=    Get From List    ${instructions}    0
-        ${port}=    Get From Dictionary    ${instructions_val}    port
-        ${matched}=    Set Variable If    '${port}'=='${onu_port}'    True    False
+    FOR    ${INDEX_1}    IN RANGE    0    ${bucket_len}
+        ${value}=    Get From List    ${buckets}    ${INDEX_1}
+        ${matched}=    Verify ONU in Group Bucket    ${value}    ${onu_port}
         Exit For Loop If    ${matched}
     END
     Run Keyword If    ${group_exist}
