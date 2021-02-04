@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "80d46366_457b6c81",
+        "filename": "libraries/bbsim.robot",
+        "patchSetId": 3
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1000007
+      },
+      "writtenOn": "2021-02-04T19:25:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4d92837e_3983b10e",
+      "revId": "626847eb65ed0705729bcee5a48a89277366865d",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4dd35807_d4dbf002",
         "filename": "libraries/onos.robot",
         "patchSetId": 3
@@ -66,6 +84,29 @@
       "side": 1,
       "message": "Sure.. Will look into it after this..",
       "parentUuid": "4dd35807_d4dbf002",
+      "revId": "626847eb65ed0705729bcee5a48a89277366865d",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "800f617e_4e683f99",
+        "filename": "tests/scale/Voltha_Scale_Tests.robot",
+        "patchSetId": 3
+      },
+      "lineNbr": 299,
+      "author": {
+        "id": 1000007
+      },
+      "writtenOn": "2021-02-04T19:25:09Z",
+      "side": 1,
+      "message": "I am a little concerned that when running with 1K onus this could get a little slow,\nall the other tests are based on a count for that reason.",
+      "range": {
+        "startLine": 299,
+        "startChar": 4,
+        "endLine": 299,
+        "endChar": 38
+      },
       "revId": "626847eb65ed0705729bcee5a48a89277366865d",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
       "unresolved": true
