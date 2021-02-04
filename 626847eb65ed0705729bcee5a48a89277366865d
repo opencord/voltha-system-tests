@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "4d92837e_3983b10e",
+        "filename": "libraries/bbsim.robot",
+        "patchSetId": 3
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2021-02-04T13:35:46Z",
+      "side": 1,
+      "message": "If the variable value is like a list, it is possible to use it like @{x}",
+      "parentUuid": "3b57db8e_dd7fcc3f",
+      "revId": "626847eb65ed0705729bcee5a48a89277366865d",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "4dd35807_d4dbf002",
         "filename": "libraries/onos.robot",
         "patchSetId": 3
@@ -30,6 +48,24 @@
       "writtenOn": "2021-02-04T13:12:10Z",
       "side": 1,
       "message": "another interesting test to make woudl be to ensure that the buckets in a group is the same number of the ONUS that joined it. having a keyword for this would enable us to test that nothing is spilled over during addition first and then deletion later",
+      "revId": "626847eb65ed0705729bcee5a48a89277366865d",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d569134b_9e702d97",
+        "filename": "libraries/onos.robot",
+        "patchSetId": 3
+      },
+      "lineNbr": 455,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2021-02-04T13:35:46Z",
+      "side": 1,
+      "message": "Sure.. Will look into it after this..",
+      "parentUuid": "4dd35807_d4dbf002",
       "revId": "626847eb65ed0705729bcee5a48a89277366865d",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
       "unresolved": true
