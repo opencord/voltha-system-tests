@@ -30,6 +30,7 @@ Resource          ../../libraries/voltha.robot
 Resource          ../../libraries/utils.robot
 Resource          ../../libraries/k8s.robot
 Resource          ../../libraries/onu_utilities.robot
+Resource          ../../libraries/bbsim.robot
 Resource          ../../variables/variables.robot
 
 *** Variables ***
@@ -43,6 +44,9 @@ ${teardown_device}    True
 ${scripts}        ../../scripts
 # Per-test logging on failure is turned off by default; set this variable to enable
 ${container_log_dir}    ${None}
+# KV Store Prefix
+# example: -v kvstoreprefix:voltha_voltha
+${kvstoreprefix}    voltha_voltha
 # state to test variable, can be passed via the command line too, valid values: 1-6
 # 1 -> activating-onu
 # 2 -> starting-openomci
@@ -309,7 +313,7 @@ Do ONU Single State Test Time
 
 Do Onu Port Check
     [Documentation]    Check that all the UNI ports show up in ONOS
-    Wait for Ports in ONOS for all OLTs    ${onos_ssh_connection}    ${num_all_onus}    BBSM
+    Wait for Ports in ONOS for all OLTs    ${onos_ssh_connection}    ${num_all_onus}    BBSM    ${timeout}
 
 Do Onu Etcd Data Check
     [Documentation]    Check Onu data stored in etcd
@@ -423,9 +427,9 @@ Do Check Tech Profile
     [Documentation]    This keyword checks the loaded TechProfile
     ${namespace}=    Set Variable    default
     ${podname}=    Set Variable    etcd
-    ${stackname}=    Get Stack Name
+    ${kvstoreprefix}=    Get Kv Store Prefix
     ${commandget}    Catenate
-    ...    /bin/sh -c 'ETCDCTL_API=3 etcdctl get --prefix service/${stackname}/technology_profiles/XGS-PON/64'
+    ...    /bin/sh -c 'ETCDCTL_API=3 etcdctl get --prefix service/${kvstoreprefix}/technology_profiles/XGS-PON/64'
     ${result}=    Exec Pod In Kube    ${namespace}    ${podname}    ${commandget}
     ${num_gem_ports}=    Set Variable    1
     ${num_gem_ports}=    Set Variable If
