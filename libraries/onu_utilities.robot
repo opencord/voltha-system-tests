@@ -15,8 +15,6 @@
 *** Settings ***
 Documentation     Library for various openonu-go-adpter utilities
 
-*** Variables ***
-${defaultstackname}    voltha_voltha
 
 *** Keywords ***
 Calculate Timeout
@@ -219,10 +217,10 @@ Validate Onu Data In Etcd
     ...                It checks unique of  serial_number and combination of pon, onu and uni in tp_path.
     ...                Furthermore it evaluates the values of onu_id and uni_id with values read from tp_path.
     ...                Number of etcd entries has to match with the passed number.
-    [Arguments]    ${nbofetcddata}=${num_all_onus}
-    ${stackname}=    Get Stack Name
-    ${etcddata}=    Get ONU Go Adapter ETCD Data
-    ${etcddata}=    Remove Lines Containing String    ${etcddata}    service/${stackname}/openonu    \n
+    [Arguments]    ${nbofetcddata}=${num_all_onus}    ${defaultkvstoreprefix}=voltha_voltha
+    ${kvstoreprefix}=    Get Kv Store Prefix    ${defaultkvstoreprefix}
+    ${etcddata}=    Get ONU Go Adapter ETCD Data    ${kvstoreprefix}
+    ${etcddata}=    Remove Lines Containing String    ${etcddata}    service/${kvstoreprefix}/openonu    \n
     #prepare result for json convert
     ${result}=    Prepare ONU Go Adapter ETCD Data For Json    ${etcddata}
     ${jsondata}=    To Json    ${result}
@@ -258,9 +256,10 @@ Validate Vlan Rules In Etcd
     ...                In case of a passed dictionary containing set_vids these will be checked for to
     ...                current set-vid depending on setvidequal (True=equal, False=not equal).
     [Arguments]    ${nbofcookieslice}=1    ${reqmatchvid}=4096    ${prevvlanrules}=${NONE}    ${setvidequal}=False
-    ${stackname}=    Get Stack Name
-    ${etcddata}=    Get ONU Go Adapter ETCD Data
-    ${etcddata}=    Remove Lines Containing String    ${etcddata}    service/${stackname}/openonu    \n
+    ...            ${defaultkvstoreprefix}=voltha_voltha
+    ${kvstoreprefix}=    Get Kv Store Prefix    ${defaultkvstoreprefix}
+    ${etcddata}=    Get ONU Go Adapter ETCD Data    ${kvstoreprefix}
+    ${etcddata}=    Remove Lines Containing String    ${etcddata}    service/${kvstoreprefix}/openonu    \n
     #prepare result for json convert
     ${result}=    Prepare ONU Go Adapter ETCD Data For Json    ${etcddata}
     ${jsondata}=    To Json    ${result}
@@ -297,11 +296,12 @@ Validate Vlan Rules In Etcd
 
 Get ONU Go Adapter ETCD Data
     [Documentation]    This keyword delivers openonu-go-adapter Data stored in etcd
+    [Arguments]    ${defaultkvstoreprefix}=voltha_voltha
     ${namespace}=    Set Variable    default
     ${podname}=    Set Variable    etcd
-    ${stackname}=    Get Stack Name
+    ${kvstoreprefix}=    Get Kv Store Prefix    ${defaultkvstoreprefix}
     ${commandget}    Catenate
-    ...    /bin/sh -c 'ETCDCTL_API=3 etcdctl get --prefix --prefix service/${stackname}/openonu'
+    ...    /bin/sh -c 'ETCDCTL_API=3 etcdctl get --prefix --prefix service/${kvstoreprefix}/openonu'
     ${result}=    Exec Pod In Kube    ${namespace}    ${podname}    ${commandget}
     log    ${result}
     [Return]    ${result}
@@ -377,13 +377,6 @@ Validate Uni Id
     ${uni_id}=    Get From Dictionary    ${value['uni_config'][0]}    uni_id
     Should Be Equal As Integers    ${uni}    ${uni_id}
     ...    msg=Uni-Id (${uni_id}) does not match onu (${uni}) from tp_path in etcd data!
-
-Get Stack Name
-    [Documentation]    This keyword delivers the stack name read from environment variable NAME if present.
-    ${env_name}=    Get Environment Variable    NAME    default=${defaultstackname}
-    # while Get Environment Variable does not work correctly, a manual correction follows
-    ${env_name}=    Set Variable If    "${env_name}"=="${EMPTY}"    ${defaultstackname}    ${env_name}
-    [Return]    ${env_name}
 
 Wait for Ports in ONOS for all OLTs
     [Documentation]    Waits untill a certain number of ports are enabled in all OLTs

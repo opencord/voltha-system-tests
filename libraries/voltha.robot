@@ -53,3 +53,12 @@ Restart VOLTHA Port Forward
     Should Be Equal as Integers    ${rc}    0
     Run Keyword If    '${pid}' != ''    Run And Return Rc    kill -9 ${pid}
     Should Be Equal as Integers    ${rc}    0
+
+Get Kv Store Prefix
+    [Documentation]    This keyword delivers the KV Store Prefix read from environment variable KVSTOREPREFIX if present.
+    [Arguments]    ${defaultkvstoreprefix}=voltha_voltha
+    ${kv_store_prefix}=    Get Environment Variable    KVSTOREPREFIX    default=${defaultkvstoreprefix}
+    # while Get Environment Variable does not work correctly, a manual correction follows
+    ${kv_store_prefix}=    Set Variable If    "${kv_store_prefix}"=="${EMPTY}"    ${defaultkvstoreprefix}    ${kv_store_prefix}
+    [Return]    ${kv_store_prefix}
+
