@@ -30,6 +30,7 @@ Resource          ../../libraries/voltha.robot
 Resource          ../../libraries/utils.robot
 Resource          ../../libraries/k8s.robot
 Resource          ../../libraries/onu_utilities.robot
+Resource          ../../libraries/bbsim.robot
 Resource          ../../variables/variables.robot
 
 *** Variables ***
@@ -43,6 +44,9 @@ ${teardown_device}    True
 ${scripts}        ../../scripts
 # Per-test logging on failure is turned off by default; set this variable to enable
 ${container_log_dir}    ${None}
+# KV Store Prefix
+# example: -v kvstoreprefix:voltha_voltha
+${kvstoreprefix}    voltha_voltha
 # state to test variable, can be passed via the command line too, valid values: 1-6
 # 1 -> activating-onu
 # 2 -> starting-openomci
@@ -219,7 +223,7 @@ Teardown Suite
     Run Keyword If    ${pausebeforecleanup}    Pause Execution    Press OK to continue with clean up!
     Run Keyword If    ${pausebeforecleanup}    Log    Teardown will be continued...    console=yes
     Run Keyword If    ${teardown_device}    Delete All Devices and Verify
-    Validate Onu Data In Etcd    0
+    Validate Onu Data In Etcd    0    ${kvstoreprefix}
     Wait for Ports in ONOS for all OLTs      ${onos_ssh_connection}  0   BBSM    ${timeout}
     Close All ONOS SSH Connections
     Remove Tech Profile
@@ -309,16 +313,17 @@ Do ONU Single State Test Time
 
 Do Onu Port Check
     [Documentation]    Check that all the UNI ports show up in ONOS
-    Wait for Ports in ONOS for all OLTs    ${onos_ssh_connection}    ${num_all_onus}    BBSM
+    Wait for Ports in ONOS for all OLTs    ${onos_ssh_connection}    ${num_all_onus}    BBSM    ${timeout}
 
 Do Onu Etcd Data Check
     [Documentation]    Check Onu data stored in etcd
-    Validate Onu Data In Etcd
+    Validate Onu Data In Etcd    defaultkvstoreprefix=${kvstoreprefix}
 
 Do Onu Flow Check
     [Documentation]    This keyword iterate all OLTs and performs Do Onu Flow Checks Per OLT
     # Check and store vlan rules
     ${firstvlanrules}=    Run Keyword And Continue On Failure    Validate Vlan Rules In Etcd
+    ...    defaultkvstoreprefix=${kvstoreprefix}
     FOR    ${J}    IN RANGE    0    ${num_olts}
         ${olt_serial_number}=    Set Variable    ${list_olts}[${J}][sn]
         ${onu_count}=    Set Variable    ${list_olts}[${J}][onucount]
@@ -347,7 +352,7 @@ Do Onu Flow Check
     Sleep    10s
     Run Keyword And Continue On Failure    Current State Test All Onus    ${state2test}
     ${secondvlanrules}=    Run Keyword And Continue On Failure    Validate Vlan Rules In Etcd    nbofcookieslice=3
-    ...    prevvlanrules=${firstvlanrules}
+    ...    prevvlanrules=${firstvlanrules}    defaultkvstoreprefix=${kvstoreprefix}
     FOR    ${J}    IN RANGE    0    ${num_olts}
         ${olt_serial_number}=    Set Variable    ${list_olts}[${J}][sn]
         ${onu_count}=    Set Variable    ${list_olts}[${J}][onucount]
@@ -366,7 +371,7 @@ Do Onu Flow Check
     Run Keyword And Continue On Failure    Current State Test All Onus    ${state2test}
     Run Keyword If    ${print2console}    Log    \r\nFinished State Test All Onus.    console=yes
     Run Keyword And Continue On Failure    Validate Vlan Rules In Etcd    prevvlanrules=${firstvlanrules}
-    ...                                    setvidequal=True
+    ...                                    setvidequal=True    defaultkvstoreprefix=${kvstoreprefix}
 
 Do Onu Subscriber Add Per OLT
     [Documentation]    Add Subscriber per OLT
@@ -423,9 +428,9 @@ Do Check Tech Profile
     [Documentation]    This keyword checks the loaded TechProfile
     ${namespace}=    Set Variable    default
     ${podname}=    Set Variable    etcd
-    ${stackname}=    Get Stack Name
+    ${kvstoreprefix}=    Get Kv Store Prefix
     ${commandget}    Catenate
-    ...    /bin/sh -c 'ETCDCTL_API=3 etcdctl get --prefix service/${stackname}/technology_profiles/XGS-PON/64'
+    ...    /bin/sh -c 'ETCDCTL_API=3 etcdctl get --prefix service/${kvstoreprefix}/technology_profiles/XGS-PON/64'
     ${result}=    Exec Pod In Kube    ${namespace}    ${podname}    ${commandget}
     ${num_gem_ports}=    Set Variable    1
     ${num_gem_ports}=    Set Variable If
