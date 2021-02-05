@@ -182,6 +182,11 @@ sanity-bbsim: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_SINGLE_PON_FILE)
 sanity-bbsim: ROBOT_FILE := Voltha_BBSimTests.robot
 sanity-bbsim: voltha-bbsim-test
 
+voltha-bbsim-test: vst_venv
+	source ./$</bin/activate ; set -u ;\
+	cd tests/bbsim ;\
+	robot -V $(ROBOT_CONFIG_FILE) $(ROBOT_MISC_ARGS) $(ROBOT_FILE)
+
 rwcore-restart-single-kind: ROBOT_MISC_ARGS += -X -i functionalANDrwcore-restart $(ROBOT_DEBUG_LOG_OPT)
 rwcore-restart-single-kind: ROBOT_CONFIG_FILE := $(ROBOT_FAIL_SINGLE_PON_FILE)
 rwcore-restart-single-kind: ROBOT_FILE := Voltha_FailureScenarios.robot
