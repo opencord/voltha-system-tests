@@ -110,6 +110,30 @@
       "revId": "626847eb65ed0705729bcee5a48a89277366865d",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1c2525d1_372989a4",
+        "filename": "tests/scale/Voltha_Scale_Tests.robot",
+        "patchSetId": 3
+      },
+      "lineNbr": 299,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2021-02-05T05:56:24Z",
+      "side": 1,
+      "message": "Yes, I understand your point. Will work on this.",
+      "parentUuid": "800f617e_4e683f99",
+      "range": {
+        "startLine": 299,
+        "startChar": 4,
+        "endLine": 299,
+        "endChar": 38
+      },
+      "revId": "626847eb65ed0705729bcee5a48a89277366865d",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
     }
   ]
 }
