@@ -3,6 +3,7 @@
     "org.opencord.sadis": {
       "sadis": {
         "integration": {
+          "url" : "http://bbsim-sadis-server.infra.svc:58080/subscribers/%s",
           "cache": {
             "enabled": false,
             "maxsize": 50,
@@ -51,6 +52,7 @@
       },
       "bandwidthprofile":{
           "integration":{
+              "url" : "http://bbsim-sadis-server.infra.svc:58080/profiles/%s",
               "cache":{
                   "enabled":true,
                   "maxsize":40,
