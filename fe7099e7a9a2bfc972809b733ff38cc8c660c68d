@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9f4c4ff0_b0b045b1",
+        "filename": "tests/openonu-go-adapter/Voltha_ONUTemplateTests.robot",
+        "patchSetId": 5
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2021-02-05T10:53:40Z",
+      "side": 1,
+      "message": "This test suite runs only for single OLT always?",
+      "range": {
+        "startLine": 120,
+        "startChar": 74,
+        "endLine": 120,
+        "endChar": 80
+      },
+      "revId": "fe7099e7a9a2bfc972809b733ff38cc8c660c68d",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    }
+  ]
+}
