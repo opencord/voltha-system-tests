@@ -22,6 +22,30 @@
       "revId": "fe7099e7a9a2bfc972809b733ff38cc8c660c68d",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "46016854_0690f7e7",
+        "filename": "tests/openonu-go-adapter/Voltha_ONUTemplateTests.robot",
+        "patchSetId": 5
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2021-02-05T11:12:36Z",
+      "side": 1,
+      "message": "Ack\nYes it is designed for usage of only the first OLT. An extension to run in multiple OLT scenario could be possible but is not forseen so far.",
+      "parentUuid": "9f4c4ff0_b0b045b1",
+      "range": {
+        "startLine": 120,
+        "startChar": 74,
+        "endLine": 120,
+        "endChar": 80
+      },
+      "revId": "fe7099e7a9a2bfc972809b733ff38cc8c660c68d",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
     }
   ]
 }
