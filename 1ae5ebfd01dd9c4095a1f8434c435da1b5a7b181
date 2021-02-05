@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "97dc342e_49a8356c",
+        "filename": "tests/data/onf-soak-pod-sadis.json",
+        "patchSetId": 1
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1000007
+      },
+      "writtenOn": "2021-02-05T22:16:39Z",
+      "side": 1,
+      "message": "are you deploying \"bbsim-sadis-server\" in the \"infra\" namespace or in the \"default\" one?",
+      "range": {
+        "startLine": 6,
+        "startChar": 45,
+        "endLine": 6,
+        "endChar": 50
+      },
+      "revId": "1ae5ebfd01dd9c4095a1f8434c435da1b5a7b181",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    }
+  ]
+}
