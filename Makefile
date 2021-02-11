@@ -268,12 +268,12 @@ bbsim-multiolt-failurescenarios: ROBOT_FILE := Voltha_FailureScenarios.robot
 bbsim-multiolt-failurescenarios: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_MULTIPLE_OLT_FILE)
 bbsim-multiolt-failurescenarios: voltha-test
 
-bbsim-multiolt-kind: ROBOT_MISC_ARGS += -X $(ROBOT_DEBUG_LOG_OPT) -e PowerSwitch -e PhysicalOLTReboot
+bbsim-multiolt-kind: ROBOT_MISC_ARGS += -X $(ROBOT_DEBUG_LOG_OPT) -e PowerSwitch -e MultiOLTPhysicalReboot
 bbsim-multiolt-kind: ROBOT_FILE := Voltha_MultiOLT_Tests.robot
 bbsim-multiolt-kind: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_MULTIPLE_OLT_FILE)
 bbsim-multiolt-kind: voltha-test
 
-bbsim-multiolt-kind-dt: ROBOT_MISC_ARGS += -X $(ROBOT_DEBUG_LOG_OPT) -e PowerSwitch -e PhysicalOLTReboot
+bbsim-multiolt-kind-dt: ROBOT_MISC_ARGS += -X $(ROBOT_DEBUG_LOG_OPT) -e PowerSwitch -e MultiOLTPhysicalRebootDt
 bbsim-multiolt-kind-dt: ROBOT_FILE := Voltha_DT_MultiOLT_Tests.robot
 bbsim-multiolt-kind-dt: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_MULTIPLE_OLT_FILE)
 bbsim-multiolt-kind-dt: voltha-dt-test

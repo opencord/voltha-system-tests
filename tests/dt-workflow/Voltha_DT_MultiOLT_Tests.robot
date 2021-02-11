@@ -62,7 +62,7 @@ Verify OLT after Rebooting Physically for DT - Multiple OLT
     ...    Test runs when more than one OLT exists
     ...    Only one OLT is rebooted in the test, while verifying if the ONUs on the
     ...    the other ONUs are still functional
-    [Tags]    functionalDt   MultiOltRebootDt
+    [Tags]    functionalDt   MultiOLTPhysicalRebootDt
     [Setup]    Start Logging    MultiOlt_Physical_Dt
     [Teardown]    Run Keywords    Collect Logs
     ...           AND             Stop Logging    MultiOlt_Physical_Dt

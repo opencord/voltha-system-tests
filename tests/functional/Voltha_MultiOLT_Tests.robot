@@ -61,7 +61,7 @@ Verify OLT after rebooting physically - MultipleOLT
     ...    Prerequisite : Subscriber are authenticated/DHCP/pingable state
     ...    Test performs a physical reboot on one of the OLTs, performs "reboot" from the OLT CLI
     ...    Validates that ONU on other OLTs are still functional
-    [Tags]    functional   MultiOlt-PhysicalOLTReboot
+    [Tags]    functional   MultiOLTPhysicalReboot
     [Setup]    Start Logging    MultipleOlt-PhysicalOLTReboot
     [Teardown]    Run Keywords    Collect Logs
     ...           AND             Stop Logging    MultipleOlt-PhysicalOLTReboot
@@ -118,7 +118,7 @@ Verify OLT Soft Reboot - MultipleOLT
     [Documentation]    Test soft reboot of the OLT using voltctl command
     ...     Verifies that when one OLT is rebooted other ONUs on other OLTs are
     ...     still functional
-    [Tags]    MultiOlt-OLTSoftReboot    functional
+    [Tags]    MultiOLTSoftReboot    functional
     [Setup]    Start Logging    MultiOlt-OLTSoftReboot
     [Teardown]    Run Keywords    Collect Logs
     ...           AND             Stop Logging    MultiOlt-OLTSoftReboot
