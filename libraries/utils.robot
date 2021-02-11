@@ -72,11 +72,13 @@ Common Test Suite Setup
         ${serial_number}    Evaluate    ${olts}[${I}].get("serial")
         ${olt_ssh_ip}    Evaluate    ${olts}[${I}].get("sship")
         ${type}    Evaluate    ${olts}[${I}].get("type")
+        ${orig_olt_port}    Evaluate    ${olts}[${I}].get("olt_port")
+        ${port}=    Set Variable If    "${orig_olt_port}" == "None"    ${OLT_PORT}    ${orig_olt_port}
         ${onu_count}=    Get ONU Count For OLT    ${hosts.src}    ${serial_number}
         ${onu_list}=    Get ONU List For OLT    ${hosts.src}    ${serial_number}
         ${olt}    Create Dictionary    ip    ${ip}    user    ${user}    pass
         ...    ${pass}    sn    ${serial_number}   onucount   ${onu_count}    type    ${type}
-        ...    sship    ${olt_ssh_ip}    onus    ${onu_list}
+        ...    sship    ${olt_ssh_ip}    oltport    ${port}    onus    ${onu_list}
         Append To List    ${list_olts}    ${olt}
     END
     ${num_all_onus}=    Get Length    ${hosts.src}
@@ -557,8 +559,8 @@ Setup
     FOR    ${I}    IN RANGE    0    ${num_olts}
         #create/preprovision device
         ${olt_device_id}=    Run Keyword If    "${list_olts}[${I}][type]" == "${None}"
-        ...    Create Device    ${list_olts}[${I}][ip]    ${OLT_PORT}
-        ...    ELSE    Create Device    ${list_olts}[${I}][ip]    ${OLT_PORT}    ${list_olts}[${I}][type]
+        ...    Create Device    ${list_olts}[${I}][ip]    ${list_olts}[${I}][oltport]
+        ...    ELSE    Create Device    ${list_olts}[${I}][ip]    ${list_olts}[${I}][oltport]    ${list_olts}[${I}][type]
         ${olt_serial_number}=    Set Variable    ${list_olts}[${I}][sn]
         #Set Suite Variable    ${olt_device_id}
         #validate olt states
