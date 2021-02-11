@@ -386,8 +386,8 @@ Check Mib State on OLT recreation after ONU, OLT deletion
     Run Keyword If    ${has_dataplane}    Sleep    180s
     # This dneeds to be done in for loop, test is not ready
     ${olt_device_id}=    Run Keyword If    "${list_olts}[${I}][type]" == "${None}"
-    ...    Create Device    ${list_olts}[${I}][ip]    ${OLT_PORT}
-    ...    ELSE    Create Device    ${list_olts}[${I}][ip]    ${OLT_PORT}    ${list_olts}[${I}][type]
+    ...    Create Device    ${list_olts}[${I}][ip]    ${list_olts}[${I}][oltport]
+    ...    ELSE    Create Device    ${list_olts}[${I}][ip]    ${list_olts}[${I}][oltport]    ${list_olts}[${I}][type]
     Set Suite Variable    ${olt_device_id}
     Wait Until Keyword Succeeds    ${timeout}    5s    Validate OLT Device    PREPROVISIONED
     ...    UNKNOWN    UNKNOWN    ${olt_device_id}
