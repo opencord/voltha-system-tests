@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "caeeb3b8_0acbb2e3",
+        "filename": "tests/functional/Voltha_ErrorScenarios.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2021-02-11T13:02:33Z",
+      "side": 1,
+      "message": "Please remove extra space.",
+      "range": {
+        "startLine": 76,
+        "startChar": 75,
+        "endLine": 76,
+        "endChar": 76
+      },
+      "revId": "94cb860494b854312a77d1e08365204000bce566",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d8883874_b468b56e",
+        "filename": "tests/functional/Voltha_multipleOLTTests.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2021-02-11T13:02:33Z",
+      "side": 1,
+      "message": "Not sure if this file is getting used anywhere. Can we remove it? Else, please update the above `Setup Suite` keyword to have `type` and `oltport` parameters in `olts` in `list_olts` since it does not use `Common Test Suite Setup`.\nAlso, (may be in future) need to check other test suites that don\u0027t use this common suite setup keyword.",
+      "range": {
+        "startLine": 135,
+        "startChar": 58,
+        "endLine": 135,
+        "endChar": 85
+      },
+      "revId": "94cb860494b854312a77d1e08365204000bce566",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    }
+  ]
+}
