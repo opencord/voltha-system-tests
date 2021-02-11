@@ -45,6 +45,30 @@
       "revId": "94cb860494b854312a77d1e08365204000bce566",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "00d8ea41_6e4eccde",
+        "filename": "tests/functional/Voltha_multipleOLTTests.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1000064
+      },
+      "writtenOn": "2021-02-11T19:52:11Z",
+      "side": 1,
+      "message": "Agree, we can remove this file now.",
+      "parentUuid": "d8883874_b468b56e",
+      "range": {
+        "startLine": 135,
+        "startChar": 58,
+        "endLine": 135,
+        "endChar": 85
+      },
+      "revId": "94cb860494b854312a77d1e08365204000bce566",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
     }
   ]
 }
