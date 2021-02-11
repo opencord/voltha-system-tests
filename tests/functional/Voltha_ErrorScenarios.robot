@@ -73,18 +73,19 @@ Adding the same OLT before and after enabling the device
         ${olt_pass}=    Get From Dictionary    ${list_olts}[${I}]    pass
         ${olt_ssh_ip}=    Get From Dictionary    ${list_olts}[${I}]   sship
         ${olt_ip}=    Get From Dictionary    ${list_olts}[${I}]   ip
+        ${olt_port}=    Get From Dictionary    ${list_olts}[${I}]   oltport 
         ${olt_serial_number}=    Get From Dictionary    ${list_olts}[${I}]    sn
         #${olt_device_id}=    Get OLTDeviceID From OLT List    ${olt_serial_number}
         Run Keyword If    ${has_dataplane}    Wait Until Keyword Succeeds    120s    10s
         ...    Check Remote System Reachability    True    ${olt_ssh_ip}
         ${olt_device_id}=    Run Keyword If    "${list_olts}[${I}][type]" == "${None}"
-        ...    Create Device    ${olt_ip}    ${OLT_PORT}
-        ...    ELSE    Create Device    ${olt_ip}    ${OLT_PORT}    ${list_olts}[${I}][type]
+        ...    Create Device    ${olt_ip}    ${olt_port}
+        ...    ELSE    Create Device    ${olt_ip}    ${olt_port}    ${list_olts}[${I}][type]
         Set Suite Variable    ${olt_device_id}
         Wait Until Keyword Succeeds    ${timeout}    5s    Validate OLT Device    PREPROVISIONED    UNKNOWN    UNKNOWN
         ...    ${olt_device_id}
         ${rc}    ${output}=    Run and Return Rc and Output
-        ...    voltctl -c ${VOLTCTL_CONFIG} device create -t openolt -H ${olt_ip}:${OLT_PORT}
+        ...    voltctl -c ${VOLTCTL_CONFIG} device create -t openolt -H ${olt_ip}:${olt_port}
         Should Not Be Equal As Integers    ${rc}    0
         Should Contain     ${output}     device is already pre-provisioned    ignore_case=True
         #Enable the created OLT device
@@ -92,7 +93,7 @@ Adding the same OLT before and after enabling the device
         Wait Until Keyword Succeeds    ${timeout}    5s    Validate OLT Device    ENABLED    ACTIVE    REACHABLE
         ...    ${olt_serial_number}
         ${rc}    ${output}=    Run and Return Rc and Output
-        ...    voltctl -c ${VOLTCTL_CONFIG} device create -t openolt -H ${olt_ip}:${OLT_PORT}
+        ...    voltctl -c ${VOLTCTL_CONFIG} device create -t openolt -H ${olt_ip}:${olt_port}
         Should Not Be Equal As Integers    ${rc}    0
         Log    ${output}
         Should Contain     ${output}    device is already pre-provisioned    ignore_case=True
@@ -194,12 +195,13 @@ Check disabling of pre-provisioned OLT before enabling
         ${olt_pass}=    Get From Dictionary    ${list_olts}[${I}]    pass
         ${olt_ssh_ip}=    Get From Dictionary    ${list_olts}[${I}]   sship
         ${olt_ip}=    Get From Dictionary    ${list_olts}[${I}]   ip
+        ${olt_port}=    Get From Dictionary    ${list_olts}[${I}]   oltport
         ${olt_serial_number}=    Get From Dictionary    ${list_olts}[${I}]    sn
         #${olt_device_id}=    Get OLTDeviceID From OLT List    ${olt_serial_number}
         #create/preprovision device
         ${olt_device_id}=    Run Keyword If    "${list_olts}[${I}][type]" == "${None}"
-        ...    Create Device    ${olt_ip}    ${OLT_PORT}
-        ...    ELSE    Create Device    ${olt_ip}    ${OLT_PORT}    ${list_olts}[${I}][type]
+        ...    Create Device    ${olt_ip}    ${olt_port}
+        ...    ELSE    Create Device    ${olt_ip}    ${olt_port}    ${list_olts}[${I}][type]
         Set Suite Variable    ${olt_device_id}
         #validate olt states
         Wait Until Keyword Succeeds    ${timeout}    5s    Validate OLT Device    PREPROVISIONED    UNKNOWN
@@ -241,12 +243,13 @@ Disable and Delete the logical device directly
         ${olt_pass}=    Get From Dictionary    ${list_olts}[${I}]    pass
         ${olt_ssh_ip}=    Get From Dictionary    ${list_olts}[${I}]   sship
         ${olt_ip}=    Get From Dictionary    ${list_olts}[${I}]   ip
+        ${olt_port}=    Get From Dictionary    ${list_olts}[${I}]   oltport
         ${olt_serial_number}=    Get From Dictionary    ${list_olts}[${I}]    sn
         #${olt_device_id}=    Get OLTDeviceID From OLT List    ${olt_serial_number}
         #create/preprovision OLT device
         ${olt_device_id}=    Run Keyword If    "${list_olts}[${I}][type]" == "${None}"
-        ...    Create Device    ${olt_ip}    ${OLT_PORT}
-        ...    ELSE    Create Device    ${olt_ip}    ${OLT_PORT}    ${list_olts}[${I}][type]
+        ...    Create Device    ${olt_ip}    ${olt_port}
+        ...    ELSE    Create Device    ${olt_ip}    ${olt_port}    ${list_olts}[${I}][type]
         Set Suite Variable    ${olt_device_id}
         #validate olt states
         Wait Until Keyword Succeeds    ${timeout}    5s    Validate OLT Device    PREPROVISIONED    UNKNOWN
@@ -288,6 +291,7 @@ Check logical device creation and deletion
         ${olt_pass}=    Get From Dictionary    ${list_olts}[${I}]    pass
         ${olt_ssh_ip}=    Get From Dictionary    ${list_olts}[${I}]   sship
         ${olt_ip}=    Get From Dictionary    ${list_olts}[${I}]   ip
+        ${olt_port}=    Get From Dictionary    ${list_olts}[${I}]   oltport
         ${olt_serial_number}=    Get From Dictionary    ${list_olts}[${I}]    sn
         #${olt_device_id}=    Get OLTDeviceID From OLT List    ${olt_serial_number}
         ${logical_id}=    Get Logical Device ID From SN    ${olt_serial_number}
@@ -295,8 +299,8 @@ Check logical device creation and deletion
         Run Keyword If    ${has_dataplane}    Sleep    180s
         ...    ELSE   Sleep    10s
         ${olt_device_id}=    Run Keyword If    "${list_olts}[${I}][type]" == "${None}"
-        ...    Create Device    ${olt_ip}    ${OLT_PORT}
-        ...    ELSE    Create Device    ${olt_ip}    ${OLT_PORT}    ${list_olts}[${I}][type]
+        ...    Create Device    ${olt_ip}    ${olt_port}
+        ...    ELSE    Create Device    ${olt_ip}    ${olt_port}    ${list_olts}[${I}][type]
         Set Suite Variable    ${olt_device_id}
         Wait Until Keyword Succeeds    ${timeout}    5s    Validate OLT Device    PREPROVISIONED    UNKNOWN
         ...    UNKNOWN    ${olt_device_id}
