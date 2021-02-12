@@ -151,6 +151,10 @@ node ("${TestNodeName}") {
                     else
                        ./voltha up
                     fi
+                    # Install BBSim when the parameter is checked
+                    if ( ${installBBSim} ); then
+                       helm upgrade --install -n voltha bbsim0 onf/bbsim --set olt_id=1 --set onu=${onuNumber},pon=${ponNumber}
+                    fi
 
                     kubectl get pods --all-namespaces -o jsonpath="{range .items[*].status.containerStatuses[*]}{.image}{'\\t'}{.image}{'\\n'}" | sort | uniq
                     kubectl get pods --all-namespaces -o jsonpath="{range .items[*].status.containerStatuses[*]}{.image}{'\\t'}{.imageID}{'\\n'}" | sort | uniq
