@@ -240,8 +240,8 @@ Setup Test
     FOR    ${I}    IN RANGE    0    ${num_olts}
         #create/preprovision device
         ${olt_device_id}=    Run Keyword If    "${list_olts}[${I}][type]" == "${None}"
-        ...    Create Device    ${list_olts}[${I}][ip]    ${OLT_PORT}
-        ...    ELSE    Create Device    ${list_olts}[${I}][ip]    ${OLT_PORT}    ${list_olts}[${I}][type]
+        ...    Create Device    ${list_olts}[${I}][ip]    ${list_olts}[${I}][oltport]
+        ...    ELSE    Create Device    ${list_olts}[${I}][ip]    ${list_olts}[${I}][oltport]    ${list_olts}[${I}][type]
         ${olt_serial_number}=    Set Variable    ${list_olts}[${I}][sn]
         #validate olt states
         Wait Until Keyword Succeeds    ${timeout}    5s
