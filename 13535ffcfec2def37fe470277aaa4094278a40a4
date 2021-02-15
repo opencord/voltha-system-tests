@@ -1,0 +1,303 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2d645c00_8b11dccc",
+        "filename": "tests/dt-workflow/Voltha_DT_MultiOLT_Tests.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2021-02-15T10:12:05Z",
+      "side": 1,
+      "message": "Why don\u0027t you use keyword \u0027Clear All Devices Then Create New Device\u0027? Maybe it has to be modified a little bit, but what for is the keyword?\nMaybe extend the keyword by:\n    Run Keyword If    ${has_dataplane}    Clean Up Linux\n    Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test DT",
+      "range": {
+        "startLine": 69,
+        "startChar": 4,
+        "endLine": 71,
+        "endChar": 9
+      },
+      "revId": "13535ffcfec2def37fe470277aaa4094278a40a4",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "37ae731e_009b6790",
+        "filename": "tests/dt-workflow/Voltha_DT_MultiOLT_Tests.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2021-02-15T10:12:05Z",
+      "side": 1,
+      "message": "Put this at first statement to avoid uneneeded test steps.",
+      "range": {
+        "startLine": 75,
+        "startChar": 4,
+        "endLine": 76,
+        "endChar": 73
+      },
+      "revId": "13535ffcfec2def37fe470277aaa4094278a40a4",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b8d13681_ebe87220",
+        "filename": "tests/dt-workflow/Voltha_DT_MultiOLT_Tests.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2021-02-15T10:12:05Z",
+      "side": 1,
+      "message": "It is no functional comment, but please correct the Documentation. Thanks",
+      "range": {
+        "startLine": 120,
+        "startChar": 4,
+        "endLine": 121,
+        "endChar": 46
+      },
+      "revId": "13535ffcfec2def37fe470277aaa4094278a40a4",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "54a41130_19d89613",
+        "filename": "tests/dt-workflow/Voltha_DT_MultiOLT_Tests.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2021-02-15T10:12:05Z",
+      "side": 1,
+      "message": "Please remove.",
+      "range": {
+        "startLine": 124,
+        "startChar": 4,
+        "endLine": 124,
+        "endChar": 37
+      },
+      "revId": "13535ffcfec2def37fe470277aaa4094278a40a4",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3a256a47_77249cad",
+        "filename": "tests/dt-workflow/Voltha_DT_MultiOLT_Tests.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2021-02-15T10:12:05Z",
+      "side": 1,
+      "message": "Please remove.",
+      "range": {
+        "startLine": 128,
+        "startChar": 1,
+        "endLine": 128,
+        "endChar": 59
+      },
+      "revId": "13535ffcfec2def37fe470277aaa4094278a40a4",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dd64cea9_c328dc16",
+        "filename": "tests/dt-workflow/Voltha_DT_MultiOLT_Tests.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2021-02-15T10:12:05Z",
+      "side": 1,
+      "message": "Same above:\nWhy don\u0027t you use keyword \u0027Clear All Devices Then Create New Device\u0027? Maybe it has to be modified a little bit, but what for is the keyword?\nMaybe extend the keyword by:\n    Run Keyword If    ${has_dataplane}    Clean Up Linux\n    Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test DT",
+      "range": {
+        "startLine": 129,
+        "startChar": 4,
+        "endLine": 131,
+        "endChar": 9
+      },
+      "revId": "13535ffcfec2def37fe470277aaa4094278a40a4",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "882f8bc0_69489fbf",
+        "filename": "tests/dt-workflow/Voltha_DT_MultiOLT_Tests.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2021-02-15T10:12:05Z",
+      "side": 1,
+      "message": "Same above:\nPut this at first statement to avoid uneeded test steps.",
+      "range": {
+        "startLine": 134,
+        "startChar": 4,
+        "endLine": 134,
+        "endChar": 73
+      },
+      "revId": "13535ffcfec2def37fe470277aaa4094278a40a4",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "be20f5f5_6d963c02",
+        "filename": "tests/dt-workflow/Voltha_DT_MultiOLT_Tests.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2021-02-15T10:12:05Z",
+      "side": 1,
+      "message": "To use it as described in comments above, extend/modify keyword and maybe rename it:\n    Run Keyword and Ignore Error      Delete All Devices and Verify\n    # Execute normal test Setup Keyword\n    Setup\n    Run Keyword If    ${has_dataplane}    Clean Up Linux\n    Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test",
+      "range": {
+        "startLine": 186,
+        "startChar": 0,
+        "endLine": 191,
+        "endChar": 9
+      },
+      "revId": "13535ffcfec2def37fe470277aaa4094278a40a4",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8eb8b093_68ef70e2",
+        "filename": "tests/functional/Voltha_MultiOLT_Tests.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2021-02-15T10:12:05Z",
+      "side": 1,
+      "message": "Why don\u0027t you use keyword \u0027Clear All Devices Then Create New Device\u0027? Maybe it has to be modified a little bit, but what for is the keyword?\nMaybe extend the keyword by:\n    Run Keyword If    ${has_dataplane}    Clean Up Linux\n    Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test",
+      "range": {
+        "startLine": 68,
+        "startChar": 4,
+        "endLine": 73,
+        "endChar": 74
+      },
+      "revId": "13535ffcfec2def37fe470277aaa4094278a40a4",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d0e3cf1f_9a6c4e98",
+        "filename": "tests/functional/Voltha_MultiOLT_Tests.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2021-02-15T10:12:05Z",
+      "side": 1,
+      "message": "Put this at first statement to avoid unneeded test steps.",
+      "range": {
+        "startLine": 75,
+        "startChar": 4,
+        "endLine": 75,
+        "endChar": 73
+      },
+      "revId": "13535ffcfec2def37fe470277aaa4094278a40a4",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2d2c430d_f1643049",
+        "filename": "tests/functional/Voltha_MultiOLT_Tests.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2021-02-15T10:12:05Z",
+      "side": 1,
+      "message": "same above:\nWhy don\u0027t you use keyword \u0027Clear All Devices Then Create New Device\u0027? Maybe it has to be modified a little bit, but what for is the keyword?\nMaybe extend the keyword by:\n    Run Keyword If    ${has_dataplane}    Clean Up Linux\n    Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test",
+      "range": {
+        "startLine": 126,
+        "startChar": 4,
+        "endLine": 130,
+        "endChar": 74
+      },
+      "revId": "13535ffcfec2def37fe470277aaa4094278a40a4",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b10476d6_97ccf027",
+        "filename": "tests/functional/Voltha_MultiOLT_Tests.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2021-02-15T10:12:05Z",
+      "side": 1,
+      "message": "same above:\nPut this at first statement to avoid unneeded test steps.",
+      "range": {
+        "startLine": 132,
+        "startChar": 4,
+        "endLine": 132,
+        "endChar": 73
+      },
+      "revId": "13535ffcfec2def37fe470277aaa4094278a40a4",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8d17bab0_5b89e44a",
+        "filename": "tests/functional/Voltha_MultiOLT_Tests.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2021-02-15T10:12:05Z",
+      "side": 1,
+      "message": "To use it as described in comments above, extend/modify keyword and maybe rename it:\n    Run Keyword and Ignore Error      Delete All Devices and Verify\n    # Execute normal test Setup Keyword\n    Setup\n    Run Keyword If    ${has_dataplane}    Clean Up Linux\n    Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test",
+      "range": {
+        "startLine": 185,
+        "startChar": 0,
+        "endLine": 190,
+        "endChar": 9
+      },
+      "revId": "13535ffcfec2def37fe470277aaa4094278a40a4",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    }
+  ]
+}
