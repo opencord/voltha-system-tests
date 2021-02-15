@@ -126,6 +126,11 @@ Verify OLT Soft Reboot for DT - Multiple OLT
     ...           AND             Stop Logging    MultiOLTSoftRebootDt
     ...           AND             Delete All Devices and Verify
     #...           AND             Delete Device and Verify
+    Run Keyword and Ignore Error    Delete All Devices and Verify
+    # Add OLT device
+    Setup
+    Run Keyword If    ${has_dataplane}    Clean Up Linux
+    Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test DT
     Pass Execution If    ${olt_count} == 1    Skipping test: just one OLT
     # Reboot the first OLT
     ${olt_user}=    Get From Dictionary    ${list_olts}[0]    user
