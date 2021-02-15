@@ -65,14 +65,9 @@ Verify OLT after rebooting physically - MultipleOLT
     [Setup]    Start Logging    MultipleOlt-PhysicalOLTReboot
     [Teardown]    Run Keywords    Collect Logs
     ...           AND             Stop Logging    MultipleOlt-PhysicalOLTReboot
-    Run Keyword and Ignore Error    Delete All Devices and Verify
-    # Add OLT device
-    setup
-    # Performing Sanity Test to make sure subscribers are all AUTH+DHCP and pingable
-    Run Keyword If    ${has_dataplane}    Clean Up Linux
-    Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test
     # Execute the test when the number of OLTs are greater than one
     Pass Execution If    ${olt_count} == 1    Skipping test: just one OLT
+    Clear All Devices Then Perform Setup And Sanity
     # Reboot the first OLT from the list of olts - rebooting from the OLT CLI
     ${olt_user}=    Get From Dictionary    ${list_olts}[0]    user
     ${olt_pass}=    Get From Dictionary    ${list_olts}[0]    pass
@@ -123,13 +118,9 @@ Verify OLT Soft Reboot - MultipleOLT
     [Teardown]    Run Keywords    Collect Logs
     ...           AND             Stop Logging    MultiOlt-OLTSoftReboot
     ...           AND             Delete All Devices and Verify
-    #Delete All Devices and Verify
-    #Setup
-    ## Performing Sanity Test to make sure subscribers are all AUTH+DHCP and pingable
-    #Run Keyword If    ${has_dataplane}    Clean Up Linux
-    #Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test
     # Execute the test when the number of OLTs are greater than one
     Pass Execution If    ${olt_count} == 1    Skipping test: just one OLT
+    Clear All Devices Then Perform Setup And Sanity
     # Reboot the first OLT
     ${olt_user}=    Get From Dictionary    ${list_olts}[0]    user
     ${olt_pass}=    Get From Dictionary    ${list_olts}[0]    pass
@@ -182,9 +173,13 @@ Setup Suite
     ${switch_type}=    Get Variable Value    ${web_power_switch.type}
     Run Keyword If  "${switch_type}"!=""    Set Global Variable    ${powerswitch_type}    ${switch_type}
 
-Clear All Devices Then Create New Device
-    [Documentation]    Remove any devices from VOLTHA and ONOS
-    # Remove all devices from voltha and nos
-    Delete All Devices and Verify
+Clear All Devices Then Perform Setup And Sanity
+    [Documentation]    Remove any devices from VOLTHA and Verify in ONOS
+    ...    Create New Device through Setup and Perform Sanity
+    # Remove all devices from voltha and onos
+    Run Keyword and Ignore Error    Delete All Devices and Verify
     # Execute normal test Setup Keyword
     Setup
+    # Performing Sanity Test to make sure subscribers are all AUTH+DHCP and pingable
+    Run Keyword If    ${has_dataplane}    Clean Up Linux
+    Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test
