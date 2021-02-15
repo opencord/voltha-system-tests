@@ -61,19 +61,14 @@ Verify OLT after Rebooting Physically for DT - Multiple OLT
     ...    Test performs a physical reboot, performs "reboot" from the OLT CLI
     ...    Test runs when more than one OLT exists
     ...    Only one OLT is rebooted in the test, while verifying if the ONUs on the
-    ...    the other ONUs are still functional
+    ...    other OLT are still functional
     [Tags]    functionalDt   MultiOLTPhysicalRebootDt
     [Setup]    Start Logging    MultiOlt_Physical_Dt
     [Teardown]    Run Keywords    Collect Logs
     ...           AND             Stop Logging    MultiOlt_Physical_Dt
-    Run Keyword and Ignore Error    Delete All Devices and Verify
-    # Add OLT device
-    Setup
-    # Performing Sanity Test to make sure subscribers are all DHCP and pingable
-    Run Keyword If    ${has_dataplane}    Clean Up Linux
-    Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test DT
     # Execute the test when the number of OLTs are greater than one
     Pass Execution If    ${olt_count} == 1    Skipping test: just one OLT
+    Clear All Devices Then Perform Setup And Sanity
     # Reboot the first OLT from the list of olts - rebooting from the OLT CLI
     ${olt_user}=    Get From Dictionary    ${list_olts}[0]    user
     ${olt_pass}=    Get From Dictionary    ${list_olts}[0]    pass
@@ -118,15 +113,14 @@ Verify OLT Soft Reboot for DT - Multiple OLT
     [Documentation]    Test soft reboot of the OLT using voltctl command
     ...    Test runs when more than one OLT exists
     ...    Only one OLT is rebooted in the test, while verifying if the ONUs on the
-    ...    the other ONUs are still functional
+    ...    other ONUs are still functional
     [Tags]    MultiOLTSoftRebootDt    functionalDt
     [Setup]    Start Logging    MultiOLTSoftRebootDt
-    #...        AND             Setup
     [Teardown]    Run Keywords    Collect Logs
     ...           AND             Stop Logging    MultiOLTSoftRebootDt
     ...           AND             Delete All Devices and Verify
-    #...           AND             Delete Device and Verify
     Pass Execution If    ${olt_count} == 1    Skipping test: just one OLT
+    Clear All Devices Then Perform Setup And Sanity
     # Reboot the first OLT
     ${olt_user}=    Get From Dictionary    ${list_olts}[0]    user
     ${olt_pass}=    Get From Dictionary    ${list_olts}[0]    pass
@@ -178,10 +172,13 @@ Setup Suite
     ${switch_type}=    Get Variable Value    ${web_power_switch.type}
     Run Keyword If  "${switch_type}"!=""    Set Global Variable    ${powerswitch_type}    ${switch_type}
 
-Clear All Devices Then Create New Device
-    [Documentation]    Remove any devices from VOLTHA and ONOS
+Clear All Devices Then Perform Setup And Sanity
+    [Documentation]    Remove any devices from VOLTHA and Verify in ONOS
+    ...    Create New Device through Setup and Perform Sanity
     # Remove all devices from voltha and nos
-    Delete All Devices and Verify
+    Run Keyword and Ignore Error    Delete All Devices and Verify
     # Execute normal test Setup Keyword
     Setup
-
+    # Performing Sanity Test to make sure subscribers are all DHCP and pingable
+    Run Keyword If    ${has_dataplane}    Clean Up Linux
+    Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test DT
