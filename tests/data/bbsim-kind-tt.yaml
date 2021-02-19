@@ -54,7 +54,7 @@ hosts:
       olt: 'BBSIM_OLT_10'
       c_tag: '55'
       s_tag: '550'
-      service_type: 'MC'
+      service_type: 'mcast'
 
   dst:
     - ip: null
