@@ -16,6 +16,24 @@
       "revId": "a119a10912ee4c197cd595d3eb2edfdb9aa45926",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c5f640de_38974e26",
+        "filename": "libraries/utils.robot",
+        "patchSetId": 3
+      },
+      "lineNbr": 434,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2021-02-19T12:55:45Z",
+      "side": 0,
+      "message": "Yes, in a discussion with Holger and Michael we decide to remove tech-profile-config-download-success completly, because omci-flows-pushed has to be reached always (and in our tests it did). onu-reeanabled will be set as further possible reason only in case of ${supress_add_subscriber} \u003d true, that means in case of no subscriber as well as flow actions where done the reason is expected e.g. after disable/enable onu device.",
+      "parentUuid": "276eab37_09f5aba5",
+      "revId": "a119a10912ee4c197cd595d3eb2edfdb9aa45926",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
     }
   ]
 }
