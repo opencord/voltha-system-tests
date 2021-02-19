@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f641663b_f28fbeae",
+        "filename": "tests/data/bbsim-kind-tt.yaml",
+        "patchSetId": 3
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2021-02-19T14:36:24Z",
+      "side": 1,
+      "message": "I would like to keep it as MC considering the TC: https://github.com/opencord/voltha-system-tests/blob/master/tests/tt-workflow/Voltha_TT_PODTests.robot#L92 for mcast service type is not supported on bbsim. Also, currently, this will not affect anything as there is no bbsim make target for this TC. May be we can add a comment why this value. Let me know if I am missing something here.",
+      "range": {
+        "startLine": 57,
+        "startChar": 21,
+        "endLine": 57,
+        "endChar": 26
+      },
+      "revId": "a36068c0b3da1968cb73803f978dbf678ae01fb2",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    }
+  ]
+}
