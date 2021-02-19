@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "276eab37_09f5aba5",
+        "filename": "libraries/utils.robot",
+        "patchSetId": 3
+      },
+      "lineNbr": 434,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2021-02-19T12:44:44Z",
+      "side": 0,
+      "message": "this has been removed, is it correct ?",
+      "revId": "a119a10912ee4c197cd595d3eb2edfdb9aa45926",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    }
+  ]
+}
