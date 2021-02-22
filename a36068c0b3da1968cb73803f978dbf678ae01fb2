@@ -46,6 +46,30 @@
       "revId": "a36068c0b3da1968cb73803f978dbf678ae01fb2",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d7220547_635cf671",
+        "filename": "tests/data/bbsim-kind-tt.yaml",
+        "patchSetId": 3
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2021-02-22T08:52:24Z",
+      "side": 1,
+      "message": "Had a talk with Andrea regarding this and looks like we are still missing the target intended with this change here. We can look into it later. Also, as this might not affect the current bbsim run for TT, I am okay to merge it as is.",
+      "parentUuid": "b79fbab6_e3cfeb5c",
+      "range": {
+        "startLine": 57,
+        "startChar": 21,
+        "endLine": 57,
+        "endChar": 26
+      },
+      "revId": "a36068c0b3da1968cb73803f978dbf678ae01fb2",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
     }
   ]
 }
