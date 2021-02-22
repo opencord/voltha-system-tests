@@ -22,6 +22,30 @@
       "revId": "a36068c0b3da1968cb73803f978dbf678ae01fb2",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b79fbab6_e3cfeb5c",
+        "filename": "tests/data/bbsim-kind-tt.yaml",
+        "patchSetId": 3
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2021-02-22T08:05:33Z",
+      "side": 1,
+      "message": "There was a comment by Andrea and a discussion outside this patch. Andrea gave me the hint that \u0027mcast\u0027 is set by https://github.com/opencord/pod-configs/blob/master/deployment-configs/flex-ocp-cord-TT.yaml which is used in https://jenkins.opencord.org/view/VOLTHA-2.X-Tests/job/build_flex-ocp-cord_TP_voltha_TT_master_test/  (see comment by Andrea). So both of us decide to keep it \u0027mcast\u0027 to do not endanger the named tests.",
+      "parentUuid": "f641663b_f28fbeae",
+      "range": {
+        "startLine": 57,
+        "startChar": 21,
+        "endLine": 57,
+        "endChar": 26
+      },
+      "revId": "a36068c0b3da1968cb73803f978dbf678ae01fb2",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
     }
   ]
 }
