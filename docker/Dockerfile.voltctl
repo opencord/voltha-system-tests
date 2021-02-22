@@ -15,7 +15,7 @@
 FROM busybox:1.31.1-glibc
 
 RUN mkdir -p /usr/bin
-RUN wget -O - https://github.com/opencord/voltctl/releases/download/v1.0.9/voltctl-1.0.9-linux-amd64 > /usr/bin/voltctl
+RUN wget -O - https://github.com/opencord/voltctl/releases/download/v1.4.3/voltctl-1.4.3-linux-amd64 > /usr/bin/voltctl
 COPY volt.config /root/.volt/config
 RUN chmod a+x /usr/bin/voltctl && sync && voltctl completion bash >> /root/.bashrc
 CMD ["sh", "-c", "sleep infinity"]
