@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "89c44187_91dc134f",
+        "filename": "libraries/onos.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 744,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2021-02-23T15:42:28Z",
+      "side": 1,
+      "message": "Needs fix to pass \"make lint\" 120 chars. Above ${cmd} currently has some issues. WIP.",
+      "range": {
+        "startLine": 744,
+        "startChar": 0,
+        "endLine": 744,
+        "endChar": 150
+      },
+      "revId": "35c2b3d8cd0beff4d2552f7dd6e0b1ef3ad8798e",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    }
+  ]
+}
