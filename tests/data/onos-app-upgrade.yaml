@@ -1,0 +1,56 @@
+---
+
+# Copyright 2017-present Open Networking Foundation
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+# http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+# Automated deployment configuration for kind-voltha running BBSim
+
+# Change default values in tests
+has_dataplane: false
+# teardown_device: true
+ONOS_REST_PORT: 8181
+ONOS_SSH_PORT: 8101
+OLT_PORT: 50060
+
+nodes:
+  -
+    ip: '127.0.0.1'
+
+olts:
+  -
+    ip: bbsim0
+    serial: BBSIM_OLT_10
+
+hosts:
+  src:
+    -
+      onu: 'BBSM000a0001'
+      olt: 'BBSIM_OLT_10'
+      c_tag: '900'
+      s_tag: '900'
+
+  dst:
+    - ip: null
+
+# add the apps to test here and
+# add the corresponding OAR files in `test/data/onos-files` directory
+# in format <app-name>-<version>.oar
+onos_apps_under_test:
+  -
+    app: 'org.opencord.aaa'
+    version: '2.3.0.SNAPSHOT'
+
+onos_apps:
+  - org.opencord.aaa
+  - org.opencord.olt
