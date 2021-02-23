@@ -81,7 +81,8 @@ Verify restart ONOS instace master of device after subscriber is provisioned
         ${olt_device_id}=    Get OLTDeviceID From OLT List    ${olt_serial_number}
         ${of_id}=    Wait Until Keyword Succeeds    360s    15s    Validate OLT Device in ONOS    ${olt_serial_number}
         ${node_id}=    Wait Until Keyword Succeeds    20s    5s    Get Master Instace in ONOS    ${of_id}
-        ${podName}    Set Variable     ${node_id}
+        @{onos_id}=    Split String    ${node_id}    -
+        ${podName}=    Catenate    SEPARATOR=-    onos-onos-classic    ${onos_id[1]}
         Wait Until Keyword Succeeds    ${timeout}    15s    Delete K8s Pods By Name    ${NAMESPACE}    ${podName}
         Sleep    60s
         Wait Until Keyword Succeeds    ${timeout}    2s    Validate Pods Status By Name    ${NAMESPACE}
