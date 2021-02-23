@@ -351,7 +351,7 @@ Get K8s Deployment by Pod Label
     [Arguments]    ${namespace}    ${key}    ${value}
     [Documentation]    Uses kubectl to scale a deployment given the app name of the pod
     ${rc}    ${name}    Run And Return Rc And Output
-    ...    kubectl describe rs -n ${namespace} -l ${key}=${value} | grep "Controlled By" | awk -F'/' '{print $2}'
+    ...    kubectl describe rs -n ${namespace} -l ${key}=${value} | grep "Controlled By" | awk -F'/' '{print $2}' | awk 'FNR == 1'
     Should Be Equal as Integers    ${rc}    0
     [Return]    ${name}
 
@@ -461,3 +461,38 @@ Get Number of Running Pods Number By Label
     ${rc}    ${count}    Run and Return Rc and Output
     ...    kubectl -n ${namespace} get pods -l ${key}=${value} -o name | wc -l
     [Return]    ${count}
+
+Get Pod Restart Count
+    [Arguments]    ${namespace}    ${name}
+    [Documentation]    Returns the restart count for the given Pod
+    ${rc}    ${count}=    Run and Return Rc and Output
+    ...    kubectl get pods -n ${namespace} | grep ${name} | awk 'NR==1{print $4}'
+    [Return]    ${count}
+
+Verify ONOS Pod Restart
+    [Arguments]    ${restarted}=True
+    [Documentation]    Verifies if any of the given ONOS instances restarted
+    ${num_onos}=    Wait Until Keyword Succeeds    20s    5s    Get Number of Running Pods Number By Label    default
+    ...    app    onos-onos-classic
+    FOR    ${I}    IN RANGE    0    ${num_onos}
+         ${onos_pod}=    Catenate    SEPARATOR=-    onos-onos-classic    ${I}
+         ${count}=    Get Pod Restart Count    default    ${onos_pod}
+         Run Keyword If    ${restarted}
+         ...    Should Not Be Equal As Integers    ${count}    0    ONOS Pod ${onos_pod} Not Restarted
+         ...    ELSE
+         ...    Should Be Equal As Integers    ${count}    0    ONOS Pod ${onos_pod} Restarted
+    END
+
+Deploy Pod New Image
+    [Arguments]    ${namespace}    ${deployment}    ${container}    ${image}
+    [Documentation]   Deploys the Pod given image
+    ${rc}    Run and Return Rc
+    ...    kubectl -n ${namespace} set image deployment/${deployment} ${container}=${image}
+    Should Be Equal as Integers    ${rc}    0
+
+Verify Pod Image
+    [Arguments]    ${namespace}    ${key}    ${value}    ${image}
+    [Documentation]    Verifies the Pod Image
+    ${output}=    Run
+    ...    kubectl -n ${namespace} get pods -l ${key}=${value} -o=jsonpath="{.items[].status.containerStatuses[].image}"
+    Should Be Equal    '${output}'    'docker.io/${image}'
