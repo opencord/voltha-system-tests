@@ -720,3 +720,31 @@ Validate Deleted Device Cleanup In ONOS
     Should Be Equal As Integers    ${dhcp_count}    0
     # Close ONOS SSH Connection
     Close ONOS SSH Connection    ${onos_ssh_connection}
+
+Delete ONOS App
+    [Arguments]    ${url}    ${app_name}
+    [Documentation]    This keyword deactivates and uninstalls the given ONOS App
+    ${rc}=    Run And Return Rc    curl --fail -sSL -X DELETE ${url}/onos/v1/applications/${app_name}
+    Should Be Equal As Integers    ${rc}    0
+
+Verify ONOS App Active
+    [Arguments]    ${url}    ${app_name}    ${app_version}=${EMPTY}
+    [Documentation]    This keyword verifies that the given ONOS App status is Active
+    ${rc}    ${output}    Run And Return Rc And Output    curl --fail -sSL ${url}/onos/v1/applications/${app_name} | jq -r .state
+    Should Be Equal As Integers    ${rc}    0
+    Should Be Equal    '${output}'    'ACTIVE'
+    ${rc1}    ${output1}    Run And Return Rc And Output    curl --fail -sSL ${url}/onos/v1/applications/${app_name} | jq -r .version
+    Run Keyword If    '${app_version}'!='${EMPTY}'
+    ...    Run Keywords
+    ...    Should Be Equal As Integers    ${rc1}    0
+    ...    AND    Should Be Equal    '${output1}'    '${app_version}'
+
+Install And Activate ONOS App
+    [Arguments]    ${url}    ${app_oar_file}
+    [Documentation]    This keyword installs and activates the given ONOS App
+    ${cmd}=    Catenate    SEPARATOR=
+    ...    curl --fail -sSL -H Content-Type:application/octet-stream -
+    ...    X POST ${url}/onos/v1/applications?activate=true --data-binary \@${app_oar_file}
+    ${rc}    ${output}    Run And Return Rc And Output    ${cmd}
+    Should Be Equal As Integers    ${rc}    0
+    Log    ${output}
