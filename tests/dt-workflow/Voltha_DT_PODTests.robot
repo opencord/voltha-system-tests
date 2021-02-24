@@ -68,7 +68,7 @@ Reboot DT ONUs Physically
     [Documentation]   This test reboots ONUs physically before execution all the tests
     ...    Test case runs only on the PODs that are configured with PowerSwitch that
     ...    controls the power off/on ONUs/OLT remotely (simulating a physical reboot)
-    [Tags]    functionalDt   PowerSwitch    RebootAllDTONUs
+    [Tags]    functionalDt   PowerSwitch    RebootAllDTONUs    soak
     [Setup]    Start Logging    RebootAllDTONUs
     [Teardown]    Run Keywords    Collect Logs
     ...           AND             Stop Logging    RebootAllDTONUs
@@ -88,7 +88,7 @@ Sanity E2E Test for OLT/ONU on POD for DT
     ...    Traffic sent with same vlan from different RGs,
     ...    should reach the NNI port on the OLT with the expected double tagged vlan ids
     ...    Inner vlans from the RG should not change
-    [Tags]    sanityDt
+    [Tags]    sanityDt   soak
     [Setup]    Run Keywords    Start Logging    SanityTestDt
     ...        AND             Setup
     [Teardown]    Run Keywords    Collect Logs
@@ -102,7 +102,7 @@ Test Subscriber Delete and Add for DT
     ...    Delete a subscriber and validate that the pings do not succeed and state is purged
     ...    Disable and Enable the ONU (This is to replicate the existing DT behaviour)
     ...    Re-add the subscriber, and validate that the flows are present and pings are successful
-    [Tags]    functionalDt    SubAddDeleteDt
+    [Tags]    functionalDt    SubAddDeleteDt    soak
     [Setup]    Start Logging     SubAddDeleteDt
     [Teardown]    Run Keywords    Collect Logs
     ...           AND             Stop Logging    SubAddDeleteDt
@@ -171,7 +171,7 @@ Test Disable and Enable ONU for DT
     ...    Assuming that all the ONUs are DHCP/pingable (i.e. assuming sanityDt test was executed)
     ...    Perform disable on the ONUs and validate that the pings do not succeed
     ...    Perform enable on the ONUs and validate that the pings are successful
-    [Tags]    functionalDt    DisableEnableONUDt
+    [Tags]    functionalDt    DisableEnableONUDt    soak
     [Setup]    Start Logging    DisableEnableONUDt
     [Teardown]    Run Keywords    Collect Logs
     ...           AND             Stop Logging    DisableEnableONUDt
@@ -212,7 +212,7 @@ Test Disable and Delete OLT for DT
     ...    Assuming that all the ONUs are DHCP/pingable (i.e. assuming sanityDt test was executed)
     ...    Perform disable on the OLT and validate ONUs state and that the pings do not succeed
     ...    Perform delete on the OLT, Re-do Setup (Recreate the OLT) and Perform Sanity Test DT
-    [Tags]    functionalDt    DisableDeleteOLTDt
+    [Tags]    functionalDt    DisableDeleteOLTDt    soak
     [Setup]    Start Logging    DisableDeleteOLTDt
     [Teardown]    Run Keywords    Collect Logs
     ...           AND             Stop Logging    DisableDeleteOLTDt
@@ -271,7 +271,7 @@ Test Disable and Enable OLT for DT
     ...    Assuming that all the ONUs are DHCP/pingable (i.e. assuming sanityDt test was executed)
     ...    Perform disable on the OLT and validate that the pings do not succeed
     ...    Perform enable on the OLT and validate that the pings are successful
-    [Tags]    functionalDt    DisableEnableOLTDt
+    [Tags]    functionalDt    DisableEnableOLTDt    soak
     [Setup]    Start Logging    DisableEnableOLTDt
     [Teardown]    Run Keywords    Collect Logs
     ...           AND             Stop Logging    DisableEnableOLTDt
@@ -331,7 +331,7 @@ Test Delete and ReAdd OLT for DT
     ...    Disable and Delete the OLT
     ...    Create/Enable the same OLT again
     ...    Validate DHCP/E2E pings succeed for all the ONUs connected to the OLT
-    [Tags]    functionalDt    DeleteReAddOLTDt
+    [Tags]    functionalDt    DeleteReAddOLTDt   soak
     [Setup]    Start Logging    DeleteReAddOLTDt
     [Teardown]    Run Keywords    Collect Logs
     ...           AND             Stop Logging    DeleteReAddOLTDt
@@ -475,7 +475,7 @@ Data plane verification using TCP for DT
 Data plane verification using UDP for DT
     [Documentation]    Test bandwidth profile is met and not exceeded for each subscriber.
     ...    Assumes iperf3 and jq installed on client and iperf -s running on DHCP server
-    [Tags]    dataplaneDt    BandwidthProfileUDPDt    VOL-3061
+    [Tags]    dataplaneDt    BandwidthProfileUDPDt    VOL-3061    soak
     [Setup]    Start Logging    BandwidthProfileUDPDt
     [Teardown]    Run Keywords    Collect Logs
     ...           AND    Stop Logging    BandwidthProfileUDPDt
@@ -547,7 +547,7 @@ Validate parsing of data traffic through voltha using tech profile
     ...    Make sure 9999 port is enabled or forwarded for both upsteam and downstream direction
     ...    This test sends UDP packets on port 9999 with pbits between 0 and 7 and validates that
     ...    the pbits are preserved by the PON.
-    [Tags]    dataplaneDt    TechProfileDt    VOL-3291
+    [Tags]    dataplaneDt    TechProfileDt    VOL-3291    soak
     [Setup]    Start Logging    TechProfileDt
     [Teardown]    Run Keywords    Collect Logs
     ...           AND    Stop Logging    TechProfileDt

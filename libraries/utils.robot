@@ -87,11 +87,11 @@ Common Test Suite Setup
     ${sadis_file}=    Get Variable Value    ${sadis.file}
     Log To Console    \nSadis File:${sadis_file}
     Run Keyword Unless    '${sadis_file}' is '${None}'    Send File To Onos    ${sadis_file}    apps/
-    Set Suite Variable    ${num_all_onus}
-    Set Suite Variable    ${num_olts}
-    Set Suite Variable    ${list_olts}
+    Set Global Variable    ${num_all_onus}
+    Set Global Variable    ${num_olts}
+    Set Global Variable    ${list_olts}
     ${olt_count}=    Get Length    ${list_olts}
-    Set Suite Variable    ${olt_count}
+    Set Global Variable    ${olt_count}
     @{container_list}=    Create List    ${OLT_ADAPTER_APP_LABEL}    adapter-open-onu    voltha-api-server
     ...    voltha-ro-core    voltha-rw-core-11    voltha-rw-core-12    voltha-ofagent
     Set Suite Variable    ${container_list}

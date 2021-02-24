@@ -175,10 +175,9 @@ Verify restart openonu-adapter container after subscriber provisioning for DT
     [Documentation]    Restart openonu-adapter container after VOLTHA is operational.
     ...    Prerequisite : ONUs are authenticated and pingable.
     [Tags]    functionalDt   Restart-OpenOnu-Dt
-    [Setup]    Start Logging    Restart-OpenOnu-Dt
+    [Setup]    Start Logging    Restart-OpenOnu-Dt    soak
     [Teardown]    Run Keywords    Collect Logs
     ...           AND             Stop Logging    Restart-OpenOnu-Dt
-    ...           AND             Delete All Devices and Verify
     # Add OLT device
     Setup
     # Performing Sanity Test to make sure subscribers are all DHCP and pingable
@@ -206,14 +205,9 @@ Verify restart openolt-adapter container after subscriber provisioning for DT
     [Documentation]    Restart openolt-adapter container after VOLTHA is operational.
     ...    Prerequisite : ONUs are authenticated and pingable.
     [Tags]    functionalDt   Restart-OpenOlt-Dt
-    [Setup]    Start Logging    Restart-OpenOlt-Dt
+    [Setup]    Start Logging    Restart-OpenOlt-Dt    soak
     [Teardown]    Run Keywords    Collect Logs
     ...           AND             Stop Logging    Restart-OpenOlt-Dt
-    # Add OLT device
-    setup
-    # Performing Sanity Test to make sure subscribers are all DHCP and pingable
-    Run Keyword If    ${has_dataplane}    Clean Up Linux
-    Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test DT
     ${podStatusOutput}=    Run    kubectl get pods -n ${NAMESPACE}
     Log    ${podStatusOutput}
     ${countBforRestart}=    Run    kubectl get pods -n ${NAMESPACE} | grep Running | wc -l
@@ -238,7 +232,7 @@ Verify openolt adapter restart before subscriber provisioning for DT
     ...    simulate a POD crash. The test then scales the rw-core back to a single instance
     ...    and configures ONOS for access. The test succeeds if the device is able to
     ...    complete the DHCP sequence.
-    [Tags]    functionalDt    olt-adapter-restart-Dt
+    [Tags]    functionalDt    olt-adapter-restart-Dt    soak
     [Setup]    Start Logging    OltAdapterRestart-Dt
     #...        AND             Clear All Devices Then Create New Device
     [Teardown]   Run Keywords    Collect Logs
@@ -302,7 +296,7 @@ Verify openolt adapter restart before subscriber provisioning for DT
 Verify restart ofagent container after subscriber is provisioned for DT
     [Documentation]    Restart ofagent container after VOLTHA is operational.
     ...    Prerequisite : ONUs are authenticated and pingable.
-    [Tags]    functionalDt   ofagentRestart-Dt
+    [Tags]    functionalDt   ofagentRestart-Dt    soak
     [Setup]    Start Logging    ofagentRestart-Dt
     [Teardown]    Run Keywords    Collect Logs
     ...           AND             Stop Logging    ofagentRestart-Dt
