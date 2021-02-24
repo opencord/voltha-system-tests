@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "b716e413_8516d578",
+        "filename": "tests/dt-workflow/Voltha_DT_FailureScenarios.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1000064
+      },
+      "writtenOn": "2021-02-24T22:13:28Z",
+      "side": 1,
+      "message": "Yeah we can give a try with `teardown_device` variable passing during test execution",
+      "parentUuid": "10975da6_86648380",
+      "range": {
+        "startLine": 66,
+        "startChar": 31,
+        "endLine": 66,
+        "endChar": 60
+      },
+      "revId": "e119ec82d4e0a1de2bcb3086a7d338f142ccd3de",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "282674f3_67e45969",
         "filename": "tests/dt-workflow/Voltha_DT_FailureScenarios.robot",
         "patchSetId": 2
@@ -71,6 +95,30 @@
     },
     {
       "key": {
+        "uuid": "8e872e42_33c766ae",
+        "filename": "tests/dt-workflow/Voltha_DT_FailureScenarios.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1000064
+      },
+      "writtenOn": "2021-02-24T22:13:28Z",
+      "side": 1,
+      "message": "that\u0027s correct.",
+      "parentUuid": "48809e88_37c80ce3",
+      "range": {
+        "startLine": 187,
+        "startChar": 1,
+        "endLine": 191,
+        "endChar": 78
+      },
+      "revId": "e119ec82d4e0a1de2bcb3086a7d338f142ccd3de",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "37d0b0cc_4d857eaa",
         "filename": "tests/dt-workflow/Voltha_DT_FailureScenarios.robot",
         "patchSetId": 2
@@ -82,6 +130,30 @@
       "writtenOn": "2021-02-24T13:38:48Z",
       "side": 1,
       "message": "May be this can also be added to `soak` run.",
+      "range": {
+        "startLine": 378,
+        "startChar": 4,
+        "endLine": 378,
+        "endChar": 47
+      },
+      "revId": "e119ec82d4e0a1de2bcb3086a7d338f142ccd3de",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c0163405_6e4f1369",
+        "filename": "tests/dt-workflow/Voltha_DT_FailureScenarios.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 378,
+      "author": {
+        "id": 1000064
+      },
+      "writtenOn": "2021-02-24T22:13:28Z",
+      "side": 1,
+      "message": "We cannot add this test to soak because setup involves clearing all the devices",
+      "parentUuid": "37d0b0cc_4d857eaa",
       "range": {
         "startLine": 378,
         "startChar": 4,
