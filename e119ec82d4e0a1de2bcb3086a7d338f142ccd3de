@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "10975da6_86648380",
+        "filename": "tests/dt-workflow/Voltha_DT_FailureScenarios.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2021-02-24T13:38:48Z",
+      "side": 1,
+      "message": "In reference to the comment on Voltha_DT_PODTests robot file for `teardown_device` variable, I think we can work without this change.",
+      "range": {
+        "startLine": 66,
+        "startChar": 31,
+        "endLine": 66,
+        "endChar": 60
+      },
+      "revId": "e119ec82d4e0a1de2bcb3086a7d338f142ccd3de",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "282674f3_67e45969",
+        "filename": "tests/dt-workflow/Voltha_DT_FailureScenarios.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2021-02-24T13:38:48Z",
+      "side": 1,
+      "message": "Same as above.",
+      "range": {
+        "startLine": 132,
+        "startChar": 34,
+        "endLine": 132,
+        "endChar": 63
+      },
+      "revId": "e119ec82d4e0a1de2bcb3086a7d338f142ccd3de",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "48809e88_37c80ce3",
+        "filename": "tests/dt-workflow/Voltha_DT_FailureScenarios.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2021-02-24T13:38:48Z",
+      "side": 1,
+      "message": "The Teardown of the above TC calls `Delete All Devices and Verify` keyword. So, this is still needed.",
+      "range": {
+        "startLine": 187,
+        "startChar": 1,
+        "endLine": 191,
+        "endChar": 78
+      },
+      "revId": "e119ec82d4e0a1de2bcb3086a7d338f142ccd3de",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "37d0b0cc_4d857eaa",
+        "filename": "tests/dt-workflow/Voltha_DT_FailureScenarios.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 378,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2021-02-24T13:38:48Z",
+      "side": 1,
+      "message": "May be this can also be added to `soak` run.",
+      "range": {
+        "startLine": 378,
+        "startChar": 4,
+        "endLine": 378,
+        "endChar": 47
+      },
+      "revId": "e119ec82d4e0a1de2bcb3086a7d338f142ccd3de",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7b8a935e_399566b5",
+        "filename": "tests/dt-workflow/Voltha_DT_PODTests.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2021-02-24T13:38:48Z",
+      "side": 1,
+      "message": "There may be some jobs which might be using this to teardown suite at the end of the run. Such jobs need to be identified and the corresponding pipeline / yaml files should be updated to pass this variable as `True` or, you can let this as is and update the soak pipeline/yaml to pass this as `False` (which I feel is better).",
+      "range": {
+        "startLine": 54,
+        "startChar": 22,
+        "endLine": 54,
+        "endChar": 27
+      },
+      "revId": "e119ec82d4e0a1de2bcb3086a7d338f142ccd3de",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    }
+  ]
+}
