@@ -16,6 +16,24 @@
       "revId": "f3fbe1f473927692924e4ba6b1f5d24866e8b92b",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "38593504_ec26dbb9",
+        "filename": "tests/data/onos-app-upgrade.yaml",
+        "patchSetId": 5
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2021-02-25T17:00:25Z",
+      "side": 1,
+      "message": "Here the intention is to keep the apps which we want to try upgrade and verify. While in the below list it is basically all other apps which we just want to be sure to remain as is.",
+      "parentUuid": "583084d7_9247e925",
+      "revId": "f3fbe1f473927692924e4ba6b1f5d24866e8b92b",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
     }
   ]
 }
