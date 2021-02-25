@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "583084d7_9247e925",
+        "filename": "tests/data/onos-app-upgrade.yaml",
+        "patchSetId": 5
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2021-02-25T14:40:08Z",
+      "side": 1,
+      "message": "what is the difference between these two lists ? can we consolidate them into one ?",
+      "revId": "f3fbe1f473927692924e4ba6b1f5d24866e8b92b",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    }
+  ]
+}
