@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "3e0b6cec_5b762e16",
+        "filename": "tests/dt-workflow/Voltha_DT_FailureScenarios.robot",
+        "patchSetId": 4
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1000064
+      },
+      "writtenOn": "2021-02-25T18:40:33Z",
+      "side": 1,
+      "message": "Agree, we can remove the commented lines",
+      "parentUuid": "2e4cedaf_44554de0",
+      "range": {
+        "startLine": 66,
+        "startChar": 4,
+        "endLine": 66,
+        "endChar": 61
+      },
+      "revId": "c8b3c1a2a47e0043657fd3a81cfc536e48243c9c",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "6dcb3ec7_697b1143",
         "filename": "tests/dt-workflow/Voltha_DT_FailureScenarios.robot",
         "patchSetId": 4
@@ -36,6 +60,30 @@
       "writtenOn": "2021-02-25T08:04:01Z",
       "side": 1,
       "message": "When you delete the call of \u0027Delete All Devices and Verify\u0027 in test above you don\u0027t need this here anymore. But in general deletion of the named keyword in teardown should be handled with care. Do you expect all tests run in a sequence? Is this given always?",
+      "range": {
+        "startLine": 136,
+        "startChar": 4,
+        "endLine": 140,
+        "endChar": 77
+      },
+      "revId": "c8b3c1a2a47e0043657fd3a81cfc536e48243c9c",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b6279407_3e0d08c0",
+        "filename": "tests/dt-workflow/Voltha_DT_FailureScenarios.robot",
+        "patchSetId": 4
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1000064
+      },
+      "writtenOn": "2021-02-25T18:40:33Z",
+      "side": 1,
+      "message": "Previous test does a \"Delete All Devices and Verify\" then setup is required.  Let\u0027s say if the previous test is not run even then we need this \"setup\" here because the previous test suite of Voltha_POD functional suite deletes OLTs after all tests are run.  Currently we are calling them based on the tags hence tests are all called sequentially.",
+      "parentUuid": "6dcb3ec7_697b1143",
       "range": {
         "startLine": 136,
         "startChar": 4,
