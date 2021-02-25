@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2e4cedaf_44554de0",
+        "filename": "tests/dt-workflow/Voltha_DT_FailureScenarios.robot",
+        "patchSetId": 4
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2021-02-25T08:04:01Z",
+      "side": 1,
+      "message": "I prefer to remove commented lines, else it\u0027s only confusing. But I think it was already your intention while finishing this patch.\nBut is it a good idea to remove this statement?",
+      "range": {
+        "startLine": 66,
+        "startChar": 4,
+        "endLine": 66,
+        "endChar": 61
+      },
+      "revId": "c8b3c1a2a47e0043657fd3a81cfc536e48243c9c",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6dcb3ec7_697b1143",
+        "filename": "tests/dt-workflow/Voltha_DT_FailureScenarios.robot",
+        "patchSetId": 4
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2021-02-25T08:04:01Z",
+      "side": 1,
+      "message": "When you delete the call of \u0027Delete All Devices and Verify\u0027 in test above you don\u0027t need this here anymore. But in general deletion of the named keyword in teardown should be handled with care. Do you expect all tests run in a sequence? Is this given always?",
+      "range": {
+        "startLine": 136,
+        "startChar": 4,
+        "endLine": 140,
+        "endChar": 77
+      },
+      "revId": "c8b3c1a2a47e0043657fd3a81cfc536e48243c9c",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "05350205_62c312f0",
+        "filename": "tests/dt-workflow/Voltha_DT_FailureScenarios.robot",
+        "patchSetId": 4
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2021-02-25T08:04:01Z",
+      "side": 1,
+      "message": "same as both coments above.",
+      "range": {
+        "startLine": 186,
+        "startChar": 4,
+        "endLine": 191,
+        "endChar": 77
+      },
+      "revId": "c8b3c1a2a47e0043657fd3a81cfc536e48243c9c",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "517fb138_731321c0",
+        "filename": "tests/dt-workflow/Voltha_DT_FailureScenarios.robot",
+        "patchSetId": 4
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2021-02-25T08:04:01Z",
+      "side": 1,
+      "message": "same above",
+      "range": {
+        "startLine": 219,
+        "startChar": 4,
+        "endLine": 222,
+        "endChar": 78
+      },
+      "revId": "c8b3c1a2a47e0043657fd3a81cfc536e48243c9c",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    }
+  ]
+}
