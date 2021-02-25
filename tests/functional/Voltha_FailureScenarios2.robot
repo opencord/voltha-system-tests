@@ -69,7 +69,6 @@ Verify OLT Soft Reboot
     Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test
     # Reboot the OLT using "voltctl device reboot" command
     Reboot Device    ${olt_device_id}
-    Run Keyword And Ignore Error    Collect Logs
     #Verify that ping fails
     FOR    ${I}    IN RANGE    0    ${num_onus}
         ${src}=    Set Variable    ${hosts.src[${I}]}
@@ -86,7 +85,6 @@ Verify OLT Soft Reboot
     # Check OLT states
     Wait Until Keyword Succeeds    360s    5s    Validate OLT Device    ENABLED    ACTIVE    REACHABLE
     ...    ${olt_serial_number}
-    Run Keyword And Ignore Error    Collect Logs
     #Check after reboot that ONUs are active, authenticated/DHCP/pingable
     Run Keyword If    ${has_dataplane}    Clean Up Linux
     Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test
@@ -137,7 +135,6 @@ Verify restart ofagent container before subscriber is provisioned
         #...    ${ONOS_SSH_PORT}    volt-add-subscriber-access ${of_id} ${onu_port}
         ${src}=    Set Variable    ${hosts.src[${I}]}
         ${dst}=    Set Variable    ${hosts.dst[${I}]}
-        Run Keyword and Ignore Error    Collect Logs
         ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
         ${onu_port}=    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
         ...    Get ONU Port in ONOS    ${src['onu']}    ${of_id}
@@ -151,8 +148,6 @@ Verify restart ofagent container before subscriber is provisioned
         Run Keyword If    ${has_dataplane}    Run Keyword And Continue On Failure    Check Ping    True
         ...    ${dst['dp_iface_ip_qinq']}    ${src['dp_iface_name']}    ${src['ip']}
         ...    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
-        Run Keyword and Ignore Error    Get Device Output from Voltha    ${onu_device_id}
-        Run Keyword and Ignore Error    Collect Logs
     END
 
 *** Keywords ***

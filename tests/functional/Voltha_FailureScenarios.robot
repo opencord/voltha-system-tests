@@ -126,8 +126,6 @@ Verify ONU after rebooting physically
         ...    ${dst['container_name']}
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
         ...    Validate Subscriber DHCP Allocation    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${onu_port}
-        Run Keyword and Ignore Error    Get Device Output from Voltha    ${onu_device_id}
-        Run Keyword And Ignore Error    Collect Logs
     END
     # Deleting OLT after tests completes independently (as this test doesn't not run on each POD)
     #Run Keyword If    ${has_dataplane}    Delete Device and Verify
@@ -157,7 +155,6 @@ Verify OLT after rebooting physically
         Run Keyword If    ${has_dataplane}    Login And Run Command On Remote System
         ...    reboot    ${olt_ssh_ip}    ${olt_user}    ${olt_pass}   prompt=#
     END
-    Run Keyword And Ignore Error    Collect Logs
     FOR    ${I}    IN RANGE    0    ${num_all_onus}
         ${src}=    Set Variable    ${hosts.src[${I}]}
         ${dst}=    Set Variable    ${hosts.dst[${I}]}
@@ -181,7 +178,6 @@ Verify OLT after rebooting physically
     END
     # Waiting extra time for the ONUs to come up
     Sleep    60s
-    Run Keyword And Ignore Error    Collect Logs
     Run Keyword If    ${has_dataplane}    Clean Up Linux
     Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test
     # Deleting OLT after test completes
@@ -212,7 +208,6 @@ Verify restart openolt-adapter container after subscriber provisioning
     Sleep    60s
     Run Keyword If    ${has_dataplane}    Clean Up Linux
     Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test
-    Run Keyword and Ignore Error    Collect Logs
     ${podStatusOutput}=    Run    kubectl get pods -n ${NAMESPACE}
     Log    ${podStatusOutput}
     ${countAfterRestart}=    Run    kubectl get pods -n ${NAMESPACE} | grep Running | wc -l
@@ -259,8 +254,6 @@ Check OLT/ONU Authentication After Radius Pod Restart
         ...    ${dst['pass']}    ${dst['container_type']}    ${dst['container_name']}
         Wait Until Keyword Succeeds    ${timeout}    2s    Run Keyword And Continue On Failure
         ...    Validate Subscriber DHCP Allocation    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${onu_port}
-        Run Keyword and Ignore Error    Get Device Output from Voltha    ${onu_device_id}
-        Run Keyword and Ignore Error    Collect Logs
     END
 
 Verify openolt adapter restart before subscriber provisioning
@@ -374,7 +367,6 @@ Verify restart ofagent container after subscriber is provisioned
         ${src}=    Set Variable    ${hosts.src[${I}]}
         ${dst}=    Set Variable    ${hosts.dst[${I}]}
         ${of_id}=    Get ofID From OLT List    ${src['olt']}
-        Run Keyword and Ignore Error    Collect Logs
         ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
         ${onu_port}=    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
         ...    Get ONU Port in ONOS    ${src['onu']}    ${of_id}
@@ -402,8 +394,6 @@ Verify restart ofagent container after subscriber is provisioned
         Run Keyword If    ${has_dataplane}    Run Keyword And Continue On Failure    Check Ping    True
         ...    ${dst['dp_iface_ip_qinq']}    ${src['dp_iface_name']}    ${src['ip']}
         ...    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
-        Run Keyword and Ignore Error    Get Device Output from Voltha    ${onu_device_id}
-        Run Keyword and Ignore Error    Collect Logs
     END
     # Scale Up the Of-Agent Deployment
     Scale K8s Deployment    ${NAMESPACE}    voltha-voltha-ofagent    1
@@ -459,7 +449,6 @@ Check ONU adapter crash not forcing authentication again
         ${src}=    Set Variable    ${hosts.src[${I}]}
         ${dst}=    Set Variable    ${hosts.dst[${I}]}
         ${of_id}=    Get ofID From OLT List    ${src['olt']}
-        Run Keyword and Ignore Error    Collect Logs
         ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
         ${onu_port}=    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
         ...    Get ONU Port in ONOS    ${src['onu']}    ${of_id}
@@ -495,11 +484,7 @@ Check ONU adapter crash not forcing authentication again
         ...    ${dst['container_name']}
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
         ...    Validate Subscriber DHCP Allocation    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${onu_port}
-        Run Keyword and Ignore Error    Get Device Output from Voltha    ${onu_device_id}
-        Run Keyword and Ignore Error    Collect Logs
     END
-
-    Run Keyword and Ignore Error    Collect Logs
 
 Sanity E2E Test for OLT/ONU on POD With Core Fail and Restart
     [Documentation]    Deploys an device instance and waits for it to authenticate. After
@@ -513,7 +498,6 @@ Sanity E2E Test for OLT/ONU on POD With Core Fail and Restart
     [Teardown]   Run Keywords    Collect Logs
     ...          AND             Stop Logging    RwCoreFailAndRestart
     #...          AND             Delete Device and Verify
-    Run Keyword and Ignore Error    Collect Logs
     Run Keyword If    ${has_dataplane}    Clean Up Linux
     FOR   ${I}    IN RANGE    0    ${olt_count}
         ${olt_serial_number}=    Get From Dictionary    ${olt_ids}[${I}]    sn
@@ -608,7 +592,6 @@ Verify OLT Soft Reboot
         # Reboot the OLT using "voltctl device reboot" command
         Reboot Device    ${olt_device_id}
     END
-    Run Keyword And Ignore Error    Collect Logs
     #Verify that ping fails
     FOR    ${I}    IN RANGE    0    ${num_all_onus}
         ${src}=    Set Variable    ${hosts.src[${I}]}
@@ -633,7 +616,6 @@ Verify OLT Soft Reboot
     END
     # Waiting extra time for the ONUs to come up
     Sleep    60s
-    Run Keyword And Ignore Error    Collect Logs
     #Check after reboot that ONUs are active, authenticated/DHCP/pingable
     Run Keyword If    ${has_dataplane}    Clean Up Linux
     Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test
@@ -693,7 +675,6 @@ Verify restart ofagent container before subscriber is provisioned
         ${src}=    Set Variable    ${hosts.src[${I}]}
         ${dst}=    Set Variable    ${hosts.dst[${I}]}
         ${of_id}=    Get ofID From OLT List    ${src['olt']}
-        Run Keyword and Ignore Error    Collect Logs
         ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
         ${onu_port}=    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
         ...    Get ONU Port in ONOS    ${src['onu']}    ${of_id}
@@ -708,7 +689,6 @@ Verify restart ofagent container before subscriber is provisioned
         # Verify DHCP-Allocations
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
         ...    Validate Subscriber DHCP Allocation    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${onu_port}
-        Run Keyword and Ignore Error    Collect Logs
     END
 
 Verify ONU Soft Reboot
@@ -772,8 +752,6 @@ Verify ONU Soft Reboot
         ...    ${dst['container_name']}
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
         ...    Validate Subscriber DHCP Allocation    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${onu_port}
-        Run Keyword and Ignore Error    Get Device Output from Voltha    ${onu_device_id}
-        Run Keyword And Ignore Error    Collect Logs
     END
 
 

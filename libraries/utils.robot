@@ -219,7 +219,6 @@ Perform Sanity Test Per OLT
         ${src}=    Set Variable    ${hosts.src[${I}]}
         ${dst}=    Set Variable    ${hosts.dst[${I}]}
         Continue For Loop If    "${olt_serial_number}"!="${src['olt']}"
-        Run Keyword and Ignore Error    Collect Logs
         ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
         ${onu_port}=    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
         ...    Get ONU Port in ONOS    ${src['onu']}    ${of_id}
@@ -263,8 +262,6 @@ Perform Sanity Test Per OLT
         ...    ${dst['container_name']}
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
         ...    Validate Subscriber DHCP Allocation    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${onu_port}
-        Run Keyword and Ignore Error    Get Device Output from Voltha    ${onu_device_id}
-        Run Keyword and Ignore Error    Collect Logs
     END
 
 Perform Sanity Test DT
@@ -276,7 +273,6 @@ Perform Sanity Test DT
         ${olt_serial_number}=    Set Variable    ${list_olts}[${J}][sn]
         ${num_onus}=    Set Variable    ${list_olts}[${J}][onucount]
         ${olt_device_id}=    Get OLTDeviceID From OLT List    ${olt_serial_number}
-        Run Keyword and Ignore Error    Collect Logs
         ${of_id}=    Wait Until Keyword Succeeds    ${timeout}    15s    Validate OLT Device in ONOS
         ...    ${olt_serial_number}
         Set Global Variable    ${of_id}
@@ -319,7 +315,6 @@ Perform Sanity Test DT Per OLT
         ${src}=    Set Variable    ${hosts.src[${I}]}
         ${dst}=    Set Variable    ${hosts.dst[${I}]}
         Continue For Loop If    "${olt_serial_number}"!="${src['olt']}"
-        Run Keyword and Ignore Error    Collect Logs
         ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
         ${onu_port}=    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
         ...    Get ONU Port in ONOS    ${src['onu']}    ${of_id}
@@ -350,8 +345,6 @@ Perform Sanity Test DT Per OLT
         ...    ${src['ip']}    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
         ...    ${dst['dp_iface_name']}    ${dst['ip']}    ${dst['user']}    ${dst['pass']}    ${dst['container_type']}
         ...    ${dst['container_name']}
-        Run Keyword and Ignore Error    Get Device Output from Voltha    ${onu_device_id}
-        Run Keyword and Ignore Error    Collect Logs
     END
 
 Validate All OLT Flows
@@ -406,9 +399,7 @@ Perform Sanity Test TT
         ${dst}=    Set Variable    ${hosts.dst[${I}]}
         ${service_type}=    Get Variable Value    ${src['service_type']}    "null"
         Run Keyword IF    '${service_type}' != 'mcast'    Sanity Test TT one ONU    ${src}    ${dst}    ${supress_add_subscriber}
-        Run Keyword and Ignore Error    Collect Logs
     END
-    Run Keyword and Ignore Error    Collect Logs
 
 Sanity Test TT one ONU
     [Documentation]    This keyword performs sanity test for a single ONU for TT workflow
@@ -450,8 +441,6 @@ Sanity Test TT one ONU
     ...    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
     ...    Validate Subscriber DHCP Allocation    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${onu_port}
     ...    ${src['c_tag']}
-    Run Keyword and Ignore Error    Get Device Output from Voltha    ${onu_device_id}
-    Run Keyword and Ignore Error    Collect Logs
 
 Perform Sanity Test TT MCAST
     [Documentation]    This keyword performs Sanity Test Procedure for TT Workflow
@@ -466,9 +455,7 @@ Perform Sanity Test TT MCAST
         ${service_type}=    Get Variable Value    ${src['service_type']}    "null"
         Run Keyword IF    '${service_type}' == 'mcast'    Sanity Test TT MCAST one ONU    ${src}
         ...    ${dst}    ${supress_add_subscriber}
-        Run Keyword and Ignore Error    Collect Logs
     END
-    Run Keyword and Ignore Error    Collect Logs
 
 Sanity Test TT MCAST one ONU
     [Documentation]    This keyword performs sanity test for a single ONU for TT workflow
@@ -641,8 +628,6 @@ Validate ONUs After OLT Disable
         ...    Wait Until Keyword Succeeds    60s    2s
         ...    Check Ping    False    ${dst['dp_iface_ip_qinq']}    ${src['dp_iface_name']}
         ...    ${src['ip']}    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
-        Run Keyword and Ignore Error    Get Device Output from Voltha    ${onu_device_id}
-        Run Keyword and Ignore Error    Collect Logs
     END
 
 Delete All Devices and Verify
@@ -697,7 +682,6 @@ Repeat Sanity Test
     ${of_id}=    Wait Until Keyword Succeeds    ${timeout}    15s    Validate OLT Device in ONOS    ${olt_serial_number}
     Set Global Variable    ${of_id}
     FOR    ${I}    IN RANGE    0    ${num_all_onus}
-        Run Keyword and Ignore Error    Collect Logs
         ${src}=    Set Variable    ${hosts.src[${I}]}
         ${dst}=    Set Variable    ${hosts.dst[${I}]}
         ${onu_port}=    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
@@ -730,8 +714,6 @@ Repeat Sanity Test
         ...    ${dst['container_name']}
         Wait Until Keyword Succeeds    ${timeout}    2s    Run Keyword And Continue On Failure
         ...    Validate Subscriber DHCP Allocation    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${onu_port}
-        Run Keyword and Ignore Error   Get Device Output from Voltha    ${onu_device_id}
-        Run Keyword and Ignore Error   Collect Logs
     END
 
 Disable Enable PON Port Per OLT
@@ -798,7 +780,6 @@ Validate ONUs for PON OLT Disable
         ...    Check Ping    True    ${dst['dp_iface_ip_qinq']}    ${src['dp_iface_name']}
         ...    ${src['ip']}    ${src['user']}    ${src['pass']}    ${src['container_type']}
         ...    ${src['container_name']}
-        Run Keyword and Ignore Error    Collect Logs
     END
 
 Validate ONUs for PON OLT Enable
@@ -863,7 +844,6 @@ Validate ONUs for PON OLT Enable
         ...    Check Ping    True    ${dst['dp_iface_ip_qinq']}    ${src['dp_iface_name']}
         ...    ${src['ip']}    ${src['user']}    ${src['pass']}    ${src['container_type']}
         ...    ${src['container_name']}
-        Run Keyword and Ignore Error    Collect Logs
     END
 
 Disable Enable PON Port Per OLT DT
@@ -938,7 +918,6 @@ Validate ONUs for PON OLT Disable DT
         ...    Check Ping    True    ${dst['dp_iface_ip_qinq']}    ${src['dp_iface_name']}
         ...    ${src['ip']}    ${src['user']}    ${src['pass']}    ${src['container_type']}
         ...    ${src['container_name']}
-        Run Keyword and Ignore Error    Collect Logs
     END
 
 Validate ONUs for PON OLT Enable DT
@@ -985,7 +964,6 @@ Validate ONUs for PON OLT Enable DT
         ...    Check Ping    True    ${dst['dp_iface_ip_qinq']}    ${src['dp_iface_name']}
         ...    ${src['ip']}    ${src['user']}    ${src['pass']}    ${src['container_type']}
         ...    ${src['container_name']}
-        Run Keyword and Ignore Error    Collect Logs
     END
 
 Match ONU in PON OLT Peer List

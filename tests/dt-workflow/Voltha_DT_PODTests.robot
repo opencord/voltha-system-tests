@@ -162,8 +162,6 @@ Test Subscriber Delete and Add for DT
         ...    Wait Until Keyword Succeeds    60s    2s
         ...    Check Ping    True    ${dst['dp_iface_ip_qinq']}    ${src['dp_iface_name']}
         ...    ${src['ip']}    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
-        Run Keyword and Ignore Error    Get Device Output from Voltha    ${onu_device_id}
-        Run Keyword and Ignore Error    Collect Logs
     END
     # Verify flows for all OLTs
     Run Keyword    Wait Until Keyword Succeeds    ${timeout}    5s    Validate All OLT Flows
@@ -207,8 +205,6 @@ Test Disable and Enable ONU for DT
         ...    Wait Until Keyword Succeeds    60s    2s
         ...    Check Ping    True    ${dst['dp_iface_ip_qinq']}    ${src['dp_iface_name']}
         ...    ${src['ip']}    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
-        Run Keyword and Ignore Error    Get Device Output from Voltha    ${onu_device_id}
-        Run Keyword and Ignore Error    Collect Logs
     END
 
 Test Disable and Delete OLT for DT
@@ -263,7 +259,6 @@ Test Disable and Delete OLT for DT
         ...    ${olt_serial_number}    ${timeout}
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
         ...    Verify Device Flows Removed    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${of_id}
-        Run Keyword and Ignore Error    Collect Logs
     END
     # Re-do Setup (Recreate the OLT) and Perform Sanity Test DT
     Run Keyword    Setup
@@ -346,7 +341,6 @@ Test Delete and ReAdd OLT for DT
         Delete Device and Verify    ${olt_serial_number}
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
         ...    Verify Device Flows Removed    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${of_id}
-        Run Keyword and Ignore Error    Collect Logs
     END
     # Recreate the OLTs
     Setup

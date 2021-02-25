@@ -66,7 +66,6 @@ Adding the same OLT before and after enabling the device
     # Add OLT device
     #setup
     Delete All Devices and Verify
-    Run Keyword and Ignore Error   Collect Logs
     # Wait for the OLT to be reachable
     FOR   ${I}    IN RANGE    0    ${olt_count}
         ${olt_user}=    Get From Dictionary    ${list_olts}[${I}]    user
@@ -108,7 +107,6 @@ Test Disable or Enable different device id which is not in the device list
     [Setup]    Start Logging    DisableInvalidDevice
     [Teardown]    Run Keywords    Collect Logs
     ...           AND             Stop Logging    DisableInvalidDevice
-    Run Keyword and Ignore Error   Collect Logs
     ${rc}  ${output}=    Run and Return Rc and Output    voltctl -c ${VOLTCTL_CONFIG} device list -o json
     Should Be Equal As Integers    ${rc}    0
     ${jsondata}=    To Json    ${output}
@@ -189,7 +187,6 @@ Check disabling of pre-provisioned OLT before enabling
     [Teardown]    Run Keywords    Collect Logs
     ...           AND             Stop Logging    DisablePreprovisionedOLTCheck
     Sleep    180s
-    Run Keyword and Ignore Error    Collect Logs
     FOR   ${I}    IN RANGE    0    ${olt_count}
         ${olt_user}=    Get From Dictionary    ${list_olts}[${I}]    user
         ${olt_pass}=    Get From Dictionary    ${list_olts}[${I}]    pass
@@ -317,7 +314,6 @@ Check logical device creation and deletion
         Set Suite Variable    ${logical_id}
         Wait Until Keyword Succeeds    ${timeout}    5s    Validate Logical Device Ports    ${logical_id}
         Wait Until Keyword Succeeds    ${timeout}    5s    Validate Logical Device Flows    ${logical_id}
-        Run Keyword and Ignore Error    Collect Logs
     END
 
 *** Keywords ***

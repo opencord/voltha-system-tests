@@ -78,7 +78,6 @@ Verify OLT after rebooting physically - MultipleOLT
     ...    reboot    ${olt_ssh_ip}    ${olt_user}    ${olt_pass}   prompt=#
     # validate that the ONUs on the other OLTs are still functional
     Verify ping is successful for ONUs not on this OLT     ${num_all_onus}    ${olt_device_id}
-    Run Keyword And Ignore Error    Collect Logs
     # Validate that the ONUs on the rebooted OLT are not pingable
     FOR    ${I}    IN RANGE    0    ${num_all_onus}
         ${src}=    Set Variable    ${hosts.src[${I}]}
@@ -103,7 +102,6 @@ Verify OLT after rebooting physically - MultipleOLT
     ...    REACHABLE    ${olt_serial_number}
     # Waiting extra time for the ONUs to come up
     Sleep    60s
-    Run Keyword And Ignore Error    Collect Logs
     Run Keyword If    ${has_dataplane}    Clean Up Linux
     Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test
     # Deleting OLT after test completes
@@ -132,7 +130,6 @@ Verify OLT Soft Reboot - MultipleOLT
     ...    REACHABLE    ${olt_serial_number}
     # Reboot the OLT using "voltctl device reboot" command
     Reboot Device    ${olt_device_id}
-    Run Keyword And Ignore Error    Collect Logs
     # validate that the ONUs on the other OLTs are still functional
     Verify ping is successful for ONUs not on this OLT     ${num_all_onus}    ${olt_device_id}
     #Verify that ping fails for the ONUs where the OLT has been rebooted
@@ -159,7 +156,6 @@ Verify OLT Soft Reboot - MultipleOLT
     ...    REACHABLE    ${olt_serial_number}
     # Waiting extra time for the ONUs to come up
     Sleep    60s
-    Run Keyword And Ignore Error    Collect Logs
     #Check after reboot that ONUs are active, authenticated/DHCP/pingable
     Run Keyword If    ${has_dataplane}    Clean Up Linux
     Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test

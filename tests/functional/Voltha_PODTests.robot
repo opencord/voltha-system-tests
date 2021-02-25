@@ -126,8 +126,6 @@ Test Disable and Enable ONU
         ...    Wait Until Keyword Succeeds    60s    2s
         ...    Check Ping    True    ${dst['dp_iface_ip_qinq']}    ${src['dp_iface_name']}
         ...    ${src['ip']}    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
-        Run Keyword and Ignore Error    Get Device Output from Voltha    ${onu_device_id}
-        Run Keyword and Ignore Error    Collect Logs
     END
 
 Test Subscriber Delete and Add
@@ -170,8 +168,6 @@ Test Subscriber Delete and Add
         ...    Wait Until Keyword Succeeds    60s    2s
         ...    Check Ping    True    ${dst['dp_iface_ip_qinq']}    ${src['dp_iface_name']}
         ...    ${src['ip']}    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
-        Run Keyword and Ignore Error    Get Device Output from Voltha    ${onu_device_id}
-        Run Keyword and Ignore Error    Collect Logs
     END
 
 Check DHCP attempt fails when subscriber is not added
@@ -223,7 +219,6 @@ Check DHCP attempt fails when subscriber is not added
         ...    ${src['ip']}    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
         ...    ${dst['dp_iface_name']}    ${dst['ip']}    ${dst['user']}    ${dst['pass']}    ${dst['container_type']}
         ...    ${dst['container_name']}
-        Run Keyword and Ignore Error    Collect Logs
     END
 
 Test Disable and Enable ONU scenario for ATT workflow
@@ -278,7 +273,6 @@ Test Disable and Enable ONU scenario for ATT workflow
         ...    ${dst['container_name']}
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
         ...    Validate Subscriber DHCP Allocation    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${onu_port}
-        Run Keyword and Ignore Error    Collect Logs
     END
 
 Test Disable and Enable OLT
@@ -353,7 +347,6 @@ Delete OLT, ReAdd OLT and Perform Sanity Test
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
         ...    Verify Device Flows Removed    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${of_id}
     END
-    Run Keyword and Ignore Error    Collect Logs
     Run Keyword If    ${has_dataplane}    Clean Up Linux
     # Recreate the OLT
     Setup
@@ -474,14 +467,12 @@ Validate authentication on a disabled ONU
     [Teardown]    Run Keywords    Collect Logs
     ...           AND             Stop Logging    DisableONU_AuthCheck
     ...           AND             Delete All Devices and Verify
-    Run Keyword and Ignore Error    Collect Logs
     Run Keyword If    ${has_dataplane}    Clean Up Linux
     Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test
     Clean WPA Process
     FOR    ${I}    IN RANGE    0    ${num_all_onus}
         ${src}=    Set Variable    ${hosts.src[${I}]}
         ${dst}=    Set Variable    ${hosts.dst[${I}]}
-        Run Keyword and Ignore Error    Collect Logs
         ${of_id}=    Get ofID From OLT List    ${src['olt']}
         ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
         ${onu_port}=    Wait Until Keyword Succeeds    ${timeout}    2s    Get ONU Port in ONOS    ${src['onu']}
@@ -497,7 +488,6 @@ Validate authentication on a disabled ONU
         Enable Device    ${onu_device_id}
         Run Keyword And Ignore Error    Kill Linux Process    [w]pa_supplicant    ${src['ip']}
         ...    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
-        Run Keyword and Ignore Error    Collect Logs
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s    Validate Device
         ...    ENABLED    ACTIVE    REACHABLE    ${src['onu']}    onu=True    onu_reason=omci-flows-pushed
         Run Keyword If    ${has_dataplane}    Run Keyword And Continue On Failure    Validate Authentication    True
@@ -505,7 +495,6 @@ Validate authentication on a disabled ONU
         ...    ${src['container_type']}    ${src['container_name']}    ${wpa_log}
         Run Keyword and Ignore Error    Get Device Output from Voltha    ${onu_device_id}
     END
-    Run Keyword and Ignore Error    Collect Logs
 
 Data plane verification using TCP
     [Documentation]    Test bandwidth profile is met and not exceeded for each subscriber.

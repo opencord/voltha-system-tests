@@ -117,7 +117,6 @@ Verify ONU after Rebooting Physically for DT
         ...    ${src['ip']}    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
         ...    ${dst['dp_iface_name']}    ${dst['ip']}    ${dst['user']}    ${dst['pass']}    ${dst['container_type']}
         ...    ${dst['container_name']}
-        Run Keyword And Ignore Error    Collect Logs
     END
     # Verify flows for all OLTs
     Run Keyword    Wait Until Keyword Succeeds    ${timeout}    5s    Validate All OLT Flows
@@ -145,7 +144,6 @@ Verify OLT after Rebooting Physically for DT
         ${olt_device_id}=    Get OLTDeviceID From OLT List    ${olt_serial_number}
         Run Keyword If    ${has_dataplane}    Login And Run Command On Remote System
         ...    reboot    ${olt_ssh_ip}    ${olt_user}    ${olt_pass}   prompt=#
-        Run Keyword And Ignore Error    Collect Logs
     END
     FOR    ${I}    IN RANGE    0    ${num_all_onus}
         ${src}=    Set Variable    ${hosts.src[${I}]}
@@ -170,7 +168,6 @@ Verify OLT after Rebooting Physically for DT
     END
     # Waiting extra time for the ONUs to come up
     Sleep    60s
-    Run Keyword And Ignore Error    Collect Logs
     Run Keyword If    ${has_dataplane}    Clean Up Linux
     Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test DT
 
@@ -199,7 +196,6 @@ Verify restart openonu-adapter container after subscriber provisioning for DT
     Sleep    60s
     Run Keyword If    ${has_dataplane}    Clean Up Linux
     Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test DT
-    Run Keyword and Ignore Error    Collect Logs
     ${podStatusOutput}=    Run    kubectl get pods -n ${NAMESPACE}
     Log    ${podStatusOutput}
     ${countAfterRestart}=    Run    kubectl get pods -n ${NAMESPACE} | grep Running | wc -l
@@ -230,7 +226,6 @@ Verify restart openolt-adapter container after subscriber provisioning for DT
     Sleep    60s
     Run Keyword If    ${has_dataplane}    Clean Up Linux
     Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test DT
-    Run Keyword and Ignore Error    Collect Logs
     ${podStatusOutput}=    Run    kubectl get pods -n ${NAMESPACE}
     Log    ${podStatusOutput}
     ${countAfterRestart}=    Run    kubectl get pods -n ${NAMESPACE} | grep Running | wc -l
@@ -336,7 +331,6 @@ Verify restart ofagent container after subscriber is provisioned for DT
         ${src}=    Set Variable    ${hosts.src[${I}]}
         ${dst}=    Set Variable    ${hosts.dst[${I}]}
         ${of_id}=    Get ofID From OLT List    ${src['olt']}
-        Run Keyword and Ignore Error    Collect Logs
         ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
         ${onu_port}=    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
         ...    Get ONU Port in ONOS    ${src['onu']}    ${of_id}
@@ -355,8 +349,6 @@ Verify restart ofagent container after subscriber is provisioned for DT
         Run Keyword If    ${has_dataplane}    Run Keyword And Continue On Failure    Check Ping    True
         ...    ${dst['dp_iface_ip_qinq']}    ${src['dp_iface_name']}    ${src['ip']}
         ...    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
-        Run Keyword and Ignore Error    Get Device Output from Voltha    ${onu_device_id}
-        Run Keyword and Ignore Error    Collect Logs
     END
     # Scale Up the Of-Agent Deployment
     Scale K8s Deployment    ${NAMESPACE}    voltha-voltha-ofagent    1
@@ -379,7 +371,6 @@ Sanity E2E Test for OLT/ONU on POD With Core Fail and Restart for DT
     [Teardown]   Run Keywords    Collect Logs
     ...          AND             Stop Logging    RwCoreFailAndRestart-Dt
     #...          AND             Delete Device and Verify
-    Run Keyword and Ignore Error    Collect Logs
     Run Keyword If    ${has_dataplane}    Clean Up Linux
     FOR   ${I}    IN RANGE    0    ${olt_count}
         ${olt_serial_number}=    Get From Dictionary    ${olt_ids}[${I}]    sn
@@ -458,7 +449,6 @@ Verify OLT Soft Reboot for DT
     #...           AND             Delete Device and Verify
     # Reboot the OLT using "voltctl device reboot" command
     Reboot Device    ${olt_device_id}
-    Run Keyword And Ignore Error    Collect Logs
     #Verify that ping fails
     FOR    ${I}    IN RANGE    0    ${num_onus}
         ${src}=    Set Variable    ${hosts.src[${I}]}
@@ -476,7 +466,6 @@ Verify OLT Soft Reboot for DT
     # Check OLT states
     Wait Until Keyword Succeeds    360s    5s    Validate OLT Device    ENABLED    ACTIVE    REACHABLE
     ...    ${olt_serial_number}
-    Run Keyword And Ignore Error    Collect Logs
     #Check after reboot that ONUs are active, DHCP and pingable
     Run Keyword If    ${has_dataplane}    Clean Up Linux
     Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test DT
@@ -528,7 +517,6 @@ Verify ONU Soft Reboot for DT
         ...    ${src['ip']}    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
         ...    ${dst['dp_iface_name']}    ${dst['ip']}    ${dst['user']}    ${dst['pass']}    ${dst['container_type']}
         ...    ${dst['container_name']}
-        Run Keyword And Ignore Error    Collect Logs
     END
     # Verify ONOS Flows
     # Number of Access Flows on ONOS equals 4 * the Number of Active ONUs (2 for each downstream and upstream)
