@@ -65,14 +65,14 @@ Verify OLT after rebooting physically - MultipleOLT
     [Setup]    Start Logging    MultipleOlt-PhysicalOLTReboot
     [Teardown]    Run Keywords    Collect Logs
     ...           AND             Stop Logging    MultipleOlt-PhysicalOLTReboot
+    # Execute the test when the number of OLTs are greater than one
+    Pass Execution If    ${olt_count} == 1    Skipping test: just one OLT
     Run Keyword And Ignore Error    Delete All Devices and Verify
     # Add OLT device
     setup
     # Performing Sanity Test to make sure subscribers are all AUTH+DHCP and pingable
     Run Keyword If    ${has_dataplane}    Clean Up Linux
     Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test
-    # Execute the test when the number of OLTs are greater than one
-    Pass Execution If    ${olt_count} == 1    Skipping test: just one OLT
     # Reboot the first OLT from the list of olts - rebooting from the OLT CLI
     ${olt_user}=    Get From Dictionary    ${list_olts}[0]    user
     ${olt_pass}=    Get From Dictionary    ${list_olts}[0]    pass
