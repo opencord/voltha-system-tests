@@ -265,7 +265,7 @@ Do Reconcile In Determined State
     Run Keyword If    ${usekill2restart}    Kill And Check Onu Adaptor    ${namespace}
     ...    ELSE    Restart And Check Onu Adaptor    ${namespace}
     Run Keyword If    "${workflow}"=="DT"    Perform Sanity Test DT
-    ...    ELSE IF    "${workflow}"=="TT"    Perform Sanity Test TT
+    ...    ELSE IF    "${workflow}"=="TT"    Perform Sanity Tests TT
     ...    ELSE       Perform Sanity Test
 
 Do Reconcile For Disabled Onu Device
@@ -290,7 +290,7 @@ Do Reconcile For Disabled Onu Device
         Enable Device    ${olt_device_id}
     END
     Run Keyword If    "${workflow}"=="DT"    Perform Sanity Test DT
-    ...    ELSE IF    "${workflow}"=="TT"    Perform Sanity Test TT
+    ...    ELSE IF    "${workflow}"=="TT"    Perform Sanity Tests TT
     ...    ELSE       Perform Sanity Test
     Disable Onu Device
     ${alternativeonustates}=  Create List     omci-flows-deleted
@@ -305,7 +305,7 @@ Do Reconcile For Disabled Onu Device
     Wait for all ONU Ports in ONOS Disabled    ${onos_ssh_connection}
     Enable Onu Device
     Run Keyword If    "${workflow}"=="DT"    Perform Sanity Test DT     ${suppressaddsubscriber}
-    ...    ELSE IF    "${workflow}"=="TT"    Perform Sanity Test TT    ${suppressaddsubscriber}
+    ...    ELSE IF    "${workflow}"=="TT"    Perform Sanity Tests TT    ${suppressaddsubscriber}
     ...    ELSE       Perform Sanity Test    ${suppressaddsubscriber}
 
 Do Reconcile In Omci-Flows-Pushed
@@ -329,12 +329,12 @@ Do Reconcile In Omci-Flows-Pushed
         Enable Device    ${olt_device_id}
     END
     Run Keyword If    "${workflow}"=="DT"    Perform Sanity Test DT
-    ...    ELSE IF    "${workflow}"=="TT"    Perform Sanity Test TT
+    ...    ELSE IF    "${workflow}"=="TT"    Perform Sanity Tests TT
     ...    ELSE       Perform Sanity Test
     Run Keyword If    ${usekill2restart}    Kill And Check Onu Adaptor    ${namespace}
     ...    ELSE    Restart And Check Onu Adaptor    ${namespace}
     Run Keyword If    "${workflow}"=="DT"    Perform Sanity Test DT     ${suppressaddsubscriber}
-    ...    ELSE IF    "${workflow}"=="TT"    Perform Sanity Test TT    ${suppressaddsubscriber}
+    ...    ELSE IF    "${workflow}"=="TT"    Perform Sanity Tests TT    ${suppressaddsubscriber}
     ...    ELSE       Perform Sanity Test    ${suppressaddsubscriber}
     Disable Onu Device
     ${alternativeonustates}=  Create List     omci-flows-deleted
@@ -344,5 +344,5 @@ Do Reconcile In Omci-Flows-Pushed
     Wait for all ONU Ports in ONOS Disabled    ${onos_ssh_connection}
     Enable Onu Device
     Run Keyword If    "${workflow}"=="DT"    Perform Sanity Test DT     ${suppressaddsubscriber}
-    ...    ELSE IF    "${workflow}"=="TT"    Perform Sanity Test TT    ${suppressaddsubscriber}
+    ...    ELSE IF    "${workflow}"=="TT"    Perform Sanity Tests TT    ${suppressaddsubscriber}
     ...    ELSE       Perform Sanity Test    ${suppressaddsubscriber}

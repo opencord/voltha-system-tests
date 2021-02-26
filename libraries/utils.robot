@@ -384,7 +384,8 @@ Perform Sanity Tests TT
     ...    In all other (common) cases flag has to be set False (default).
     [Arguments]    ${supress_add_subscriber}=False
     Perform Sanity Test TT    ${supress_add_subscriber}
-    Perform Sanity Test TT MCAST    ${supress_add_subscriber}
+    # run of mcast sanity test is currently limited for real HW
+    Run Keyword If    ${has_dataplane}    Perform Sanity Test TT MCAST    ${supress_add_subscriber}
 
 Perform Sanity Test TT
     [Documentation]    This keyword performs Sanity Test Procedure for TT Workflow
