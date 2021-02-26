@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ae86c8fb_668c4280",
+        "filename": "tests/functional/Voltha_FailureScenarios.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 363,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2021-02-26T11:04:46Z",
+      "side": 1,
+      "message": "is this still needed, there is a wait until keyword succeeds at line 369",
+      "revId": "e8d535738db1f12c2cfb9a44639b7ac7da51e57e",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8f5dd803_ade4ff35",
+        "filename": "tests/functional/Voltha_PODTests.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2021-02-26T11:04:46Z",
+      "side": 1,
+      "message": "this cab ne even lower for BBSIM IMHO, 5 seconds are probably enough",
+      "revId": "e8d535738db1f12c2cfb9a44639b7ac7da51e57e",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    }
+  ]
+}
