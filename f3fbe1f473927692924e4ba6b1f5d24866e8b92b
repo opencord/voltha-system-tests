@@ -34,6 +34,24 @@
       "revId": "f3fbe1f473927692924e4ba6b1f5d24866e8b92b",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8d43758f_4a5e1647",
+        "filename": "tests/data/onos-app-upgrade.yaml",
+        "patchSetId": 5
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2021-02-26T08:30:18Z",
+      "side": 1,
+      "message": "in the end they will be identical because we want to test all of them and make sure all of them are correct, so I think we can unify these in the future.",
+      "parentUuid": "38593504_ec26dbb9",
+      "revId": "f3fbe1f473927692924e4ba6b1f5d24866e8b92b",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
     }
   ]
 }
