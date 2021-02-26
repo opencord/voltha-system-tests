@@ -37,6 +37,29 @@
     },
     {
       "key": {
+        "uuid": "e5689b96_6c870a76",
+        "filename": "tests/functional/Voltha_PODTests.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2021-02-26T12:50:55Z",
+      "side": 1,
+      "message": "I think this is not needed, because a Wait Until Keyword Succeeded in next line, but I\u0027m not sure.\nUse \u0027Wait Until Keyword Succeeds    10s    2s    Test Devices Disabled in VOLTHA    Id\u003d${onu_device_id}\u0027 instead of \u0027Sleep\u0027.",
+      "range": {
+        "startLine": 242,
+        "startChar": 8,
+        "endLine": 242,
+        "endChar": 20
+      },
+      "revId": "e8d535738db1f12c2cfb9a44639b7ac7da51e57e",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "8f5dd803_ade4ff35",
         "filename": "tests/functional/Voltha_PODTests.robot",
         "patchSetId": 1
