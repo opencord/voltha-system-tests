@@ -548,7 +548,8 @@ Setup
     [Documentation]    Pre-test Setup
     #test for empty device list
     Test Empty Device List
-    Run Keyword If    ${has_dataplane}    Sleep    230s
+    # TBD: Need for this Sleep
+    Run Keyword If    ${has_dataplane}    Sleep    180s
     # Create a list of olt ids (logical and device_id)
     ${olt_ids}    Create List
     FOR    ${I}    IN RANGE    0    ${num_olts}
@@ -866,14 +867,13 @@ Disable Enable PON Port Per OLT DT
         ...    ${olt_serial_number}
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
         ...    Validate ONUs for PON OLT Disable DT    ${olt_serial_number}    ${olt_peer_list}
-        Sleep    15s
         # Enable the OLT PON Port back, and check ONU status are back to "ACTIVE"
         DisableOrEnable OLT PON Port    enable    ${olt_device_id}    ${olt_pon_port}
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
         ...    Validate OLT PON Port Status    ${olt_device_id}    ${olt_pon_port}
         ...    ENABLED    ACTIVE
         # Waiting extra time for the ONUs to come up
-        Sleep    60s
+        Sleep    30s
         ${olt_peer_list_new}=    Retrieve Peer List From OLT PON Port    ${olt_device_id}    ${olt_pon_port}
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
         ...    Validate ONUs for PON OLT Enable DT    ${olt_serial_number}    ${olt_peer_list_new}
@@ -908,10 +908,8 @@ Validate ONUs for PON OLT Disable DT
         # Remove Subscriber Access (To replicate DT workflow)
         ...    AND    Wait Until Keyword Succeeds    ${timeout}    2s    Execute ONOS CLI Command    ${ONOS_SSH_IP}
         ...    ${ONOS_SSH_PORT}    volt-remove-subscriber-access ${of_id} ${onu_port}
-        ...    AND    Sleep    10s
         # Delete ONU Device (To replicate DT workflow)
         ...    AND    Delete Device    ${onu_device_id}
-        ...    AND    Sleep    5s
         ...    ELSE
         ...    Run Keyword If    ${has_dataplane}    Run Keyword And Continue On Failure
         ...    Wait Until Keyword Succeeds    60s    2s

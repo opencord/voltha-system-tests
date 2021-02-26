@@ -89,7 +89,6 @@ Verify ONU after Rebooting Physically for DT
         # Remove Subscriber Access (To replicate DT workflow)
         Wait Until Keyword Succeeds    ${timeout}    2s    Execute ONOS CLI Command    ${ONOS_SSH_IP}
         ...    ${ONOS_SSH_PORT}    volt-remove-subscriber-access ${of_id} ${onu_port}
-        Sleep    10s
         # Delete ONU Device (To replicate DT workflow)
         Delete Device    ${onu_device_id}
         Sleep    5s
@@ -189,7 +188,6 @@ Verify restart openonu-adapter container after subscriber provisioning for DT
     ${countBeforeRestart}=    Run    kubectl get pods -n ${NAMESPACE} | grep Running | wc -l
     ${podName}    Set Variable     adapter-open-onu
     Wait Until Keyword Succeeds    ${timeout}    15s    Delete K8s Pods By Label    ${NAMESPACE}    app    ${podName}
-    Sleep    5s
     Wait Until Keyword Succeeds    ${timeout}    2s    Validate Pods Status By Label    ${NAMESPACE}
     ...    app    ${podName}    Running
     # Wait for 1 min after openonu adapter is restarted
@@ -219,7 +217,6 @@ Verify restart openolt-adapter container after subscriber provisioning for DT
     ${countBforRestart}=    Run    kubectl get pods -n ${NAMESPACE} | grep Running | wc -l
     ${podName}    Set Variable     ${OLT_ADAPTER_APP_LABEL}
     Wait Until Keyword Succeeds    ${timeout}    15s    Delete K8s Pods By Label    ${NAMESPACE}    app    ${podName}
-    Sleep    5s
     Wait Until Keyword Succeeds    ${timeout}    2s    Validate Pods Status By Label    ${NAMESPACE}
     ...    app    ${podName}    Running
     # Wait for 1 min after openolt adapter is restarted
@@ -314,7 +311,6 @@ Verify restart ofagent container after subscriber is provisioned for DT
     ${countBforRestart}=    Run    kubectl get pods -n ${NAMESPACE} | grep Running | wc -l
     ${podName}    Set Variable     ofagent
     Wait Until Keyword Succeeds    ${timeout}    15s    Delete K8s Pods By Label    ${NAMESPACE}    app    ${podName}
-    Sleep    60s
     Wait Until Keyword Succeeds    ${timeout}    2s    Validate Pods Status By Label    ${NAMESPACE}
     ...    app    ${podName}    Running
     # Performing Sanity Test to make sure subscribers are all DHCP and pingable
