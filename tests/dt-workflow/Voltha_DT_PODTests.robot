@@ -77,9 +77,8 @@ Reboot DT ONUs Physically
         ${src}=    Set Variable    ${hosts.src[${I}]}
         ${dst}=    Set Variable    ${hosts.dst[${I}]}
         Disable Switch Outlet    ${src['power_switch_port']}
-        Sleep    60s
+        Sleep    10s
         Enable Switch Outlet    ${src['power_switch_port']}
-        Sleep    60s
     END
 
 Sanity E2E Test for OLT/ONU on POD for DT
@@ -118,7 +117,6 @@ Test Subscriber Delete and Add for DT
         # Remove Subscriber Access
         Wait Until Keyword Succeeds    ${timeout}    2s    Execute ONOS CLI Command    ${ONOS_SSH_IP}
         ...    ${ONOS_SSH_PORT}    volt-remove-subscriber-access ${of_id} ${onu_port}
-        Sleep    10s
         Run Keyword If    ${has_dataplane}    Run Keyword And Continue On Failure
         ...    Wait Until Keyword Succeeds    60s    2s
         ...    Check Ping    False    ${dst['dp_iface_ip_qinq']}    ${src['dp_iface_name']}
@@ -149,7 +147,6 @@ Test Subscriber Delete and Add for DT
         # Add Subscriber Access
         Wait Until Keyword Succeeds    ${timeout}    2s    Execute ONOS CLI Command    ${ONOS_SSH_IP}
         ...    ${ONOS_SSH_PORT}    volt-add-subscriber-access ${of_id} ${onu_port}
-        Sleep    10s
         # Verify subscriber access flows are added for the ONU port
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
         ...    Verify Subscriber Access Flows Added For ONU DT    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${of_id}
@@ -302,10 +299,8 @@ Test Disable and Enable OLT for DT
         # Remove Subscriber Access (To replicate DT workflow)
         Wait Until Keyword Succeeds    ${timeout}    2s    Execute ONOS CLI Command    ${ONOS_SSH_IP}
         ...    ${ONOS_SSH_PORT}    volt-remove-subscriber-access ${of_id} ${onu_port}
-        Sleep    10s
         # Delete ONU Device (To replicate DT workflow)
         Delete Device    ${onu_device_id}
-        Sleep    5s
     END
     Sleep    5s
     # Enable the OLT back and check ONU, OLT status are back to "ACTIVE"
@@ -313,7 +308,6 @@ Test Disable and Enable OLT for DT
         ${olt_serial_number}=    Get From Dictionary    ${olt_ids}[${I}]    sn
         ${olt_device_id}=    Get OLTDeviceID From OLT List    ${olt_serial_number}
         Enable Device    ${olt_device_id}
-        Sleep    15s
         Wait Until Keyword Succeeds    ${timeout}    5s    Validate OLT Device    ENABLED    ACTIVE    REACHABLE
         ...    ${olt_serial_number}
         #TODO: Update for PON_OLT ETHERNET_NNI
