@@ -288,6 +288,11 @@ bbsim-failurescenarios-dt: ROBOT_FILE := Voltha_DT_FailureScenarios.robot
 bbsim-failurescenarios-dt: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_DT_SINGLE_PON_FILE)
 bbsim-failurescenarios-dt: voltha-dt-test
 
+bbsim-failurescenarios-tt: ROBOT_MISC_ARGS += -X $(ROBOT_DEBUG_LOG_OPT)
+bbsim-failurescenarios-tt: ROBOT_FILE := Voltha_TT_FailureScenarios.robot
+bbsim-failurescenarios-tt: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_TT_SINGLE_PON_FILE)
+bbsim-failurescenarios-tt: voltha-tt-test
+
 voltha-test: ROBOT_MISC_ARGS += -e notready
 
 voltha-test: vst_venv
