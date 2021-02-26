@@ -52,6 +52,24 @@
       "revId": "f3fbe1f473927692924e4ba6b1f5d24866e8b92b",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7c4cc6d0_1b153147",
+        "filename": "tests/data/onos-app-upgrade.yaml",
+        "patchSetId": 5
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2021-02-26T08:40:48Z",
+      "side": 1,
+      "message": "For now I am not sure how the apps will behave on upgrade/reinstall and we may want to add or remove some of them from test. Hence, kept them different. In future, yes we can unify them to one.",
+      "parentUuid": "8d43758f_4a5e1647",
+      "revId": "f3fbe1f473927692924e4ba6b1f5d24866e8b92b",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
     }
   ]
 }
