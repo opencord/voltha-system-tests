@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ab2804a9_12670f26",
+        "filename": "tests/dt-workflow/Voltha_DT_FailureScenarios.robot",
+        "patchSetId": 8
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2021-02-26T07:18:01Z",
+      "side": 0,
+      "message": "see comment below",
+      "range": {
+        "startLine": 184,
+        "startChar": 4,
+        "endLine": 184,
+        "endChar": 63
+      },
+      "revId": "b1ec7d0ce56cf3e0508aff60ec1edbdfd5e3a9f9",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "85abdc39_249e942c",
+        "filename": "tests/dt-workflow/Voltha_DT_FailureScenarios.robot",
+        "patchSetId": 8
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2021-02-26T07:18:01Z",
+      "side": 0,
+      "message": "Sorry for commenting it again, to remove this part it\u0027s only ok when you run all tests with e.g. TAG \u0027functionalDT\u0027, BUT running the tests with TAG \u0027soak\u0027 it will not work because of missing setup and Sanity Test. Please check it. It is the first test with Tag \u0027soak\u0027. \nMy proposal is to keep \u0027Delete All Devices and Verify\u0027 in test above and also keep this part. So it will work for both TAGs, \u0027functionalDT\u0027 and \u0027soak\u0027.",
+      "range": {
+        "startLine": 216,
+        "startChar": 4,
+        "endLine": 220,
+        "endChar": 77
+      },
+      "revId": "b1ec7d0ce56cf3e0508aff60ec1edbdfd5e3a9f9",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    }
+  ]
+}
