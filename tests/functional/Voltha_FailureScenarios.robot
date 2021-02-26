@@ -201,10 +201,10 @@ Verify restart openolt-adapter container after subscriber provisioning
     ${countBforRestart}=    Run    kubectl get pods -n ${NAMESPACE} | grep Running | wc -l
     ${podName}    Set Variable     ${OLT_ADAPTER_APP_LABEL}
     Wait Until Keyword Succeeds    ${timeout}    15s    Delete K8s Pods By Label    ${NAMESPACE}    app    ${podName}
-    Sleep    5s
     Wait Until Keyword Succeeds    ${timeout}    2s    Validate Pods Status By Label    ${NAMESPACE}
     ...    app    ${podName}    Running
     # Wait for 1min after openolt adapter is restarted
+    # TBD: Need for this Sleep
     Sleep    60s
     Run Keyword If    ${has_dataplane}    Clean Up Linux
     Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test
@@ -227,7 +227,6 @@ Check OLT/ONU Authentication After Radius Pod Restart
     ${waitforRestart}    Set Variable    120s
     ${podName}    Set Variable     radius
     Wait Until Keyword Succeeds    ${timeout}    15s    Delete K8s Pods By Label    ${DEFAULTSPACE}    app    ${podName}
-    Sleep    5s
     Wait Until Keyword Succeeds    ${waitforRestart}    2s    Validate Pods Status By Label    ${DEFAULTSPACE}
     ...    app    ${podName}    Running
     FOR    ${I}    IN RANGE    0    ${num_all_onus}
@@ -350,7 +349,6 @@ Verify restart ofagent container after subscriber is provisioned
     ${countBforRestart}=    Run    kubectl get pods -n ${NAMESPACE} | grep Running | wc -l
     ${podName}    Set Variable     ofagent
     Wait Until Keyword Succeeds    ${timeout}    15s    Delete K8s Pods By Label    ${NAMESPACE}    app    ${podName}
-    Sleep    60s
     Wait Until Keyword Succeeds    ${timeout}    2s    Validate Pods Status By Label    ${NAMESPACE}
     ...    app    ${podName}    Running
     # Performing Sanity Test to make sure subscribers are all AUTH+DHCP and pingable
@@ -413,6 +411,7 @@ Check ONU adapter crash not forcing authentication again
     [Teardown]    Run Keywords    Collect Logs
     ...           AND             Stop Logging    ONUAdaptCrash
     # Wait for adapter to resync
+    # TBD: Need for this Sleep
     Sleep    60s
     # Restart the onu
     ${podName}    Set Variable     adapter-open-onu
@@ -435,6 +434,7 @@ Check ONU adapter crash not forcing authentication again
     Wait Until Keyword Succeeds    ${timeout}    2s    Validate Pods Status By Label    ${NAMESPACE}
     ...    app    ${podName}    Running
     # Wait for adapter to resync
+    # TBD: Need for this Sleep
     Sleep    60s
     Run Keyword If    ${has_dataplane}    Clean Up Linux
     # Validate OLTs are active in ONOS
@@ -665,7 +665,6 @@ Verify restart ofagent container before subscriber is provisioned
     ${countBforRestart}=    Run    kubectl get pods -n ${NAMESPACE} | grep Running | wc -l
     ${podName}    Set Variable     ofagent
     Restart Pod    ${NAMESPACE}    ${podName}
-    Sleep    60s
     Wait Until Keyword Succeeds    ${waitforRestart}    2s    Validate Pod Status    ofagent    ${NAMESPACE}
     ...    Running
     FOR    ${I}    IN RANGE    0    ${num_all_onus}
