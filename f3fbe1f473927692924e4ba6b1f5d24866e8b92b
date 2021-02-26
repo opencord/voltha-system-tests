@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "db673d57_ba988294",
+        "filename": "libraries/onos.robot",
+        "patchSetId": 5
+      },
+      "lineNbr": 730,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2021-02-26T14:44:32Z",
+      "side": 1,
+      "message": "something just came to mind, we need to check the version here as well, it needs to match the latest one installed.",
+      "revId": "f3fbe1f473927692924e4ba6b1f5d24866e8b92b",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "583084d7_9247e925",
         "filename": "tests/data/onos-app-upgrade.yaml",
         "patchSetId": 5
