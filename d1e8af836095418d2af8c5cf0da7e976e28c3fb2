@@ -22,6 +22,30 @@
       "revId": "d1e8af836095418d2af8c5cf0da7e976e28c3fb2",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "adf3dc46_8e404d18",
+        "filename": "tests/tt-workflow/Voltha_TT_FailureScenarios.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2021-03-01T12:23:29Z",
+      "side": 1,
+      "message": "Good hint, thanks. With patchset #3 I uploaded a better soulution. I also removed \u0027Clean Up Linux\u0027. I don\u0027t know what it happens here. Maybe there is someone who can explain. Thanks.",
+      "parentUuid": "e8fc60fa_3527a21f",
+      "range": {
+        "startLine": 97,
+        "startChar": 0,
+        "endLine": 98,
+        "endChar": 16
+      },
+      "revId": "d1e8af836095418d2af8c5cf0da7e976e28c3fb2",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
     }
   ]
 }
