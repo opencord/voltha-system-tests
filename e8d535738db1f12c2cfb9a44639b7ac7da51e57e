@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "5b620764_0878a138",
+        "filename": "tests/dt-workflow/Voltha_DT_FailureScenarios.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 314,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2021-03-01T10:24:16Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "2b06df16_73bc47f0",
+      "revId": "e8d535738db1f12c2cfb9a44639b7ac7da51e57e",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ae86c8fb_668c4280",
         "filename": "tests/functional/Voltha_FailureScenarios.robot",
         "patchSetId": 1
@@ -98,6 +116,30 @@
       "revId": "e8d535738db1f12c2cfb9a44639b7ac7da51e57e",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "428b5e78_7ebaefd7",
+        "filename": "tests/functional/Voltha_PODTests.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2021-03-01T10:24:16Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "11f4c038_f2cc7a92",
+      "range": {
+        "startLine": 242,
+        "startChar": 8,
+        "endLine": 242,
+        "endChar": 20
+      },
+      "revId": "e8d535738db1f12c2cfb9a44639b7ac7da51e57e",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
     },
     {
       "key": {
