@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e8fc60fa_3527a21f",
+        "filename": "tests/tt-workflow/Voltha_TT_FailureScenarios.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2021-03-01T10:50:06Z",
+      "side": 1,
+      "message": "Do we really need to wait for 60s here? What if not? Can you please try and share your observation/results..",
+      "range": {
+        "startLine": 97,
+        "startChar": 0,
+        "endLine": 98,
+        "endChar": 16
+      },
+      "revId": "d1e8af836095418d2af8c5cf0da7e976e28c3fb2",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    }
+  ]
+}
