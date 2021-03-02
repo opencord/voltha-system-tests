@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f941e2a9_b2c34ca9",
+        "filename": "tests/software-upgrades/Voltha_ComponentsUpgrade.robot",
+        "patchSetId": 11
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1000064
+      },
+      "writtenOn": "2021-03-02T19:48:39Z",
+      "side": 1,
+      "message": "Do we need this here as well?",
+      "revId": "dd1a9a1056ab02cbb7fcbd0f4221f0f2552e61ad",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    }
+  ]
+}
