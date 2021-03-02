@@ -432,28 +432,8 @@ Verify ONUs in Group Count in ONOS
     [Documentation]    Verifies there exists a group bucket list with certain entries/count
     ...    Note: Currently, this validates only if all ONUs of an OLT joined the same igmp group
     [Arguments]    ${onos_ssh_connection}    ${count}    ${deviceId}
-    ${result}=    Execute ONOS CLI Command on open connection    ${onos_ssh_connection}    groups -j
-    Log    Groups: ${result}
-    ${groups}=    To Json    ${result}
-    ${length}=    Get Length    ${groups}
-    ${buckets}=    Create List
-    ${matched}=    Set Variable    False
-    FOR    ${INDEX}    IN RANGE    0    ${length}
-        ${value}=    Get From List    ${groups}    ${INDEX}
-        ${devId}=    Get From Dictionary    ${value}    deviceId
-        ${bucket}=    Get From Dictionary    ${value}    buckets
-        Run Keyword If    '${devId}'=='${deviceId}'
-        ...    Append To List    ${buckets}    ${bucket}
-    END
-    ${bucket_len}=    Get Length    ${buckets}
-    ${bucket_vals_len}=    Evaluate    0
-    FOR    ${INDEX_1}    IN RANGE    0    ${bucket_len}
-        ${value}=    Get From List    ${buckets}    ${INDEX_1}
-        ${bucket_vals_len}=    Get Length    ${value}
-        ${matched}=    Set Variable If    ${bucket_vals_len}==${count}    True    False
-        Exit For Loop If    ${matched}
-    END
-    Should Be True    ${matched}    Bucket list count for a group: Found:${bucket_vals_len} Expected:${count}
+    ${result}=    Execute ONOS CLI Command on open connection    ${onos_ssh_connection}    groups added ${deviceId} | grep bucket | wc -l
+    Should Be Equal As Integers     ${result}   ${count}    Bucket list count for a group: Found:${result} Expected:${count}
 
 Verify ONU in Group Bucket
     [Documentation]    Matches if ONU port in Group Bucket
