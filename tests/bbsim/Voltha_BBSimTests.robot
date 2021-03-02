@@ -13,6 +13,7 @@
 # limitations under the License.
 
 *** Settings ***
+Documentation     Run tests On BBSim
 Suite Setup       Setup Suite
 Suite Teardown    Teardown Suite
 Test Setup        Setup
@@ -50,24 +51,19 @@ ${logging}    False
 ${container_log_dir}    ${None}
 # Number of times to perform ONU Igmp Join and Leave (valid only for TT)
 ${igmp_join_leave_count}    1
+# Number of times the Sanity test needs to be repeated as
+# we want to make sure you can disable/delete the device without needing to restart BBSim
+${iteration_count}  2
 
 *** Test Cases ***
 
 Test Perform BBSim Sanity
     [Documentation]    Validates the BBSim Functionality for ATT, DT and TT workflows
     ...    Also Restart Auth (ATT), Restart Dhcp (ATT and TT), Igmp Join and Leave (TT)
-    ...    NOTE: Currently works only for single ONU in case of ATT
     [Tags]    bbsimSanity
-    [Setup]   Run Keywords    Start Logging    BBSimSanity
-    ...    AND    Setup
-    FOR    ${J}    IN RANGE    0    ${num_olts}
-        ${olt_serial_number}=    Set Variable    ${list_olts}[${J}][sn]
-        ${onu_count}=    Set Variable    ${list_olts}[${J}][onucount]
-        ${of_id}=    Wait Until Keyword Succeeds    ${timeout}    15s    Validate OLT Device in ONOS
-        ...    ${olt_serial_number}
-        ${bbsim_rel}=    Catenate    SEPARATOR=    bbsim    ${J}
-        ${bbsim_pod}=    Get Pod Name By Label    ${NAMESPACE}    release     ${bbsim_rel}
-        Perform BBSim Sanity Test Per OLT    ${bbsim_pod}    ${of_id}    ${olt_serial_number}    ${onu_count}
+    [Setup]   Run Keyword    Start Logging     BBSimSanity
+    FOR    ${I}    IN RANGE    0    ${iteration_count}
+        Perform BBSim Sanity Test
     END
     [Teardown]    Run Keywords    Run Keyword If    ${logging}    Collect Logs
     ...    AND    Stop Logging    BBSimSanity
@@ -92,6 +88,21 @@ Perform ONU Igmp Join and Leave
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
         ...    Verify ONU in Groups    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${of_id}    ${onu_port}    False
     END
+
+Perform BBSim Sanity Test
+    [Documentation]  Runs the sanity test on multiple OLTs
+
+    Run Keyword    Setup
+    FOR    ${J}    IN RANGE    0    ${num_olts}
+        ${olt_serial_number}=    Set Variable    ${list_olts}[${J}][sn]
+        ${onu_count}=    Set Variable    ${list_olts}[${J}][onucount]
+        ${of_id}=    Wait Until Keyword Succeeds    ${timeout}    15s    Validate OLT Device in ONOS
+        ...    ${olt_serial_number}
+        ${bbsim_rel}=    Catenate    SEPARATOR=    bbsim    ${J}
+        ${bbsim_pod}=    Get Pod Name By Label    ${NAMESPACE}    release     ${bbsim_rel}
+        Perform BBSim Sanity Test Per OLT    ${bbsim_pod}    ${of_id}    ${olt_serial_number}    ${onu_count}
+    END
+    Run Keyword  Delete All Devices and Verify
 
 Perform BBSim Sanity Test Per OLT
     [Documentation]    Validates the BBSim Functionality for ATT, DT and TT workflows
@@ -158,5 +169,4 @@ Setup Suite
 Teardown Suite
     [Documentation]    Replaces the Suite Teardown in utils.robot.
     ...    Cleans up and checks all ONU ports disabled in ONOS.
-    Run Keyword If    ${teardown_device}    Delete All Devices and Verify
     Close All ONOS SSH Connections
