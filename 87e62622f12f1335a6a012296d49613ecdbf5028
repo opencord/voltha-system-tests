@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "deb51ab7_1aed5b5b",
+        "filename": "tests/tt-workflow/Voltha_TT_FailureScenarios.robot",
+        "patchSetId": 3
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1000064
+      },
+      "writtenOn": "2021-03-02T06:11:05Z",
+      "side": 1,
+      "message": "Reboot of ONUs is not required in this file, please remove.  Reboot of ONUs is only required when we testing different workflows.",
+      "revId": "87e62622f12f1335a6a012296d49613ecdbf5028",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    }
+  ]
+}
