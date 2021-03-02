@@ -219,17 +219,6 @@ Wait for ONUs Join Igmp Group
         ...    Verify ONUs in Group Count in ONOS    ${onos_ssh_connection}    ${total_onus_per_olt}    ${deviceId}
     END
 
-#Verify Igmp Join
-#    [Documentation]    Verifies Igmp Groups in ONOS
-#    [Tags]    non-critical    igmp    igmp-join    igmp-verify    igmp-join-verify
-#    ${onos_devices}=    Compute Device IDs
-#    FOR    ${INDEX}    IN RANGE    0    ${olt}
-#        ${bbsim_rel}=    Catenate    SEPARATOR=    bbsim    ${INDEX}
-#        ${bbsim_pod}=    Get Pod Name By Label    ${NAMESPACE}    release     ${bbsim_rel}
-#        ${onu_list}=    Get ONUs List    ${NAMESPACE}    ${bbsim_pod}
-#        Verify Igmp Groups in ONOS    ${onos_devices}[${INDEX}]    ${onu_list}
-#    END
-
 Perform Igmp Leave
     [Documentation]    Performs Igmp Leave for all the ONUs of all the OLTs (based on Rest Endpoint)
     [Tags]    non-critical    igmp    igmp-leave
@@ -252,17 +241,6 @@ Wait for ONUs Leave Igmp Group
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
         ...    Verify Empty Group in ONOS    ${onos_ssh_connection}    ${deviceId}
     END
-
-#Verify Igmp Leave
-#    [Documentation]    Verifies Igmp Groups in ONOS
-#    [Tags]    non-critical    igmp    igmp-leave    igmp-verify    igmp-leave-verify
-#    ${onos_devices}=    Compute Device IDs
-#    FOR    ${INDEX}    IN RANGE    0    ${olt}
-#        ${bbsim_rel}=    Catenate    SEPARATOR=    bbsim    ${INDEX}
-#        ${bbsim_pod}=    Get Pod Name By Label    ${NAMESPACE}    release     ${bbsim_rel}
-#        ${onu_list}=    Get ONUs List    ${NAMESPACE}    ${bbsim_pod}
-#        Verify Igmp Groups in ONOS    ${onos_devices}[${INDEX}]    ${onu_list}    False
-#    END
 
 Disable and Delete devices
     [Documentation]  Disable and delete the OLTs in VOLTHA
@@ -320,12 +298,3 @@ Perform Igmp Join or Leave Per OLT
         JoinOrLeave Igmp Rest Based    ${bbsim_rel_session}    ${onu}    ${task}    224.0.0.22
     END
 
-Verify Igmp Groups in ONOS
-    [Documentation]   Verifies Igmp Groups in ONOS for all ONUs of an OLT
-    [Arguments]    ${devId}    ${onu_list}    ${group_exist}=True
-    FOR    ${onu}    IN    @{onu_list}
-        ${onu_port}=    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
-        ...    Get ONU Port in ONOS    ${onu}    ${devId}
-        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
-        ...    Verify ONU in Groups    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${devId}    ${onu_port}    ${group_exist}
-    END
