@@ -143,7 +143,7 @@
             "downstreamBandwidthProfile" : "VOIP",
             "upstreamBandwidthProfile" : "User1-Specific2",
             "isDhcpRequired" : "true",
-            "configuredMacAddress" : "b4:96:91:0c:4f:e4",
+            "configuredMacAddress" : "2c:60:0c:ee:d6:27",
             "serviceName" : "VOIP"
           }, {
             "uniTagMatch" : 55,
@@ -156,7 +156,7 @@
             "technologyProfileId" : 66,
             "downstreamBandwidthProfile" : "High-Speed-Internet",
             "upstreamBandwidthProfile" : "User1-Specific",
-            "configuredMacAddress" : "b4:96:91:0c:4f:e4",
+            "configuredMacAddress" : "2c:60:0c:ee:d6:27",
             "serviceName" : "VOD",
             "isDhcpRequired" : "true",
             "isIgmpRequired" : "true"
@@ -196,7 +196,7 @@
             "downstreamBandwidthProfile" : "VOIP",
             "upstreamBandwidthProfile" : "User1-Specific2",
             "isDhcpRequired" : "true",
-            "configuredMacAddress" : "b4:96:91:0c:4f:c9",
+            "configuredMacAddress" : "2c:60:0c:ee:d7:68",
             "serviceName" : "VOIP"
           }, {
             "uniTagMatch" : 55,
@@ -209,7 +209,7 @@
             "technologyProfileId" : 66,
             "downstreamBandwidthProfile" : "High-Speed-Internet",
             "upstreamBandwidthProfile" : "User1-Specific",
-            "configuredMacAddress" : "b4:96:91:0c:4f:c9",
+            "configuredMacAddress" : "2c:60:0c:ee:d7:68",
             "serviceName" : "VOD",
             "isDhcpRequired" : "true",
             "isIgmpRequired" : "true"
