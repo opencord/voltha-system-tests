@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "176c5596_1cca23d0",
+        "filename": "tests/openonu-go-adapter/Voltha_ONUStateTests.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 484,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2021-03-03T10:43:40Z",
+      "side": 1,
+      "message": "you have removed `tech-profile-config-delete-success` from the list, is that correct ?",
+      "revId": "6cc4376d4ef607bcf39f7b85885b1672bd888f17",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    }
+  ]
+}
