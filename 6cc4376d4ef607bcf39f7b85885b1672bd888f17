@@ -34,6 +34,24 @@
       "revId": "6cc4376d4ef607bcf39f7b85885b1672bd888f17",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ec16cfc7_d62cbd5f",
+        "filename": "tests/openonu-go-adapter/Voltha_ONUStateTests.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 484,
+      "author": {
+        "id": 1000666
+      },
+      "writtenOn": "2021-03-03T11:03:03Z",
+      "side": 1,
+      "message": "`tech-profile-config-delete-success` is still theoretical possible, but we do not observe that in our tests within the ATT scenario. Reason for this is that the ONU disable activity seems to be always processed on OltAdapter first before it starts removing the TechProfile. Based on the sequence available with BBSIM that seems to be quite stable, even though the behavior in hardware tests might look a bit different here. But we wanted to tie this check as tight as possible - and have to observe, if we should fall into `tech-profile-config-delete-success` state occasionally nevertheless.",
+      "parentUuid": "eb804768_c1158e02",
+      "revId": "6cc4376d4ef607bcf39f7b85885b1672bd888f17",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
     }
   ]
 }
