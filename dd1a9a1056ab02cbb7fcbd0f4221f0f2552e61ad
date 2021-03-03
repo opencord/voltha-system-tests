@@ -16,6 +16,24 @@
       "revId": "dd1a9a1056ab02cbb7fcbd0f4221f0f2552e61ad",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c6510629_5bbbaec4",
+        "filename": "tests/software-upgrades/Voltha_ComponentsUpgrade.robot",
+        "patchSetId": 11
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2021-03-03T03:23:44Z",
+      "side": 1,
+      "message": "I kept it to check if there is any issue as observed in onos apps upgrade case (which is not). May be I can remove this.",
+      "parentUuid": "f941e2a9_b2c34ca9",
+      "revId": "dd1a9a1056ab02cbb7fcbd0f4221f0f2552e61ad",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
     }
   ]
 }
