@@ -16,6 +16,24 @@
       "revId": "6cc4376d4ef607bcf39f7b85885b1672bd888f17",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eb804768_c1158e02",
+        "filename": "tests/openonu-go-adapter/Voltha_ONUStateTests.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 484,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2021-03-03T10:47:05Z",
+      "side": 1,
+      "message": "Yes, it will be no longer reached after soft reboot, but stopping_omci was added instead.\nIt is confirmed with Michael and Holger.",
+      "parentUuid": "176c5596_1cca23d0",
+      "revId": "6cc4376d4ef607bcf39f7b85885b1672bd888f17",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
     }
   ]
 }
