@@ -16,6 +16,24 @@
       "revId": "6cc4376d4ef607bcf39f7b85885b1672bd888f17",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "416fa68e_004c0dfd",
+        "filename": "tests/bbsim/Voltha_BBSimTests.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1000007
+      },
+      "writtenOn": "2021-03-03T20:20:44Z",
+      "side": 0,
+      "message": "It has been moved in the \"Perform BBSim Sanity Test\" keyword",
+      "parentUuid": "55866310_7175c655",
+      "revId": "6cc4376d4ef607bcf39f7b85885b1672bd888f17",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
     }
   ]
 }
