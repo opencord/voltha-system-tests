@@ -1215,6 +1215,7 @@ Execute Remote Command
     Log    ${stdout}
     Log    ${stderr}
     Log    ${rc}
+    Should Be Equal    ${rc}    0
     SSHLibrary.Close Connection
     [Return]    ${stdout}    ${stderr}    ${rc}
 
