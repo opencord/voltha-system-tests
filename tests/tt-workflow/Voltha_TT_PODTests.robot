@@ -49,7 +49,7 @@ ${timeout}        60s
 ${of_id}          0
 ${logical_id}     0
 ${has_dataplane}    True
-${teardown_device}    False
+${teardown_device}    True
 ${scripts}        ../../scripts
 
 # Per-test logging on failure is turned off by default; set this variable to enable
@@ -121,3 +121,4 @@ Clear All Devices Then Create New Device
 Teardown Suite
     [Documentation]    Tear down steps for the suite
     Run Keyword If    ${has_dataplane}    Clean Up Linux
+    Run Keyword If    ${teardown_device}    Delete All Devices And Verify

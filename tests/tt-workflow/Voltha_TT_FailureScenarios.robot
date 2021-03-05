@@ -49,7 +49,7 @@ ${timeout}        60s
 ${of_id}          0
 ${logical_id}     0
 ${has_dataplane}    True
-${teardown_device}    False
+${teardown_device}    True
 ${scripts}        ../../scripts
 
 # Per-test logging on failure is turned off by default; set this variable to enable
@@ -61,7 +61,7 @@ ${suppressaddsubscriber}    True
 Verify restart openonu-adapter container after subscriber provisioning for TT
     [Documentation]    Restart openonu-adapter container after VOLTHA is operational.
     ...    Prerequisite : ONUs are authenticated and pingable.
-    [Tags]    functional   Restart-OpenOnu-TT
+    [Tags]    functionalTT    Restart-OpenOnu-TT
     [Setup]    Start Logging    Restart-OpenOnu-TT
     [Teardown]    Run Keywords    Collect Logs
     ...           AND             Stop Logging    Restart-OpenOnu-TT
@@ -99,3 +99,4 @@ Setup Suite
 Teardown Suite
     [Documentation]    Tear down steps for the suite
     Run Keyword If    ${has_dataplane}    Clean Up Linux
+    Run Keyword If    ${teardown_device}    Delete All Devices and Verify
