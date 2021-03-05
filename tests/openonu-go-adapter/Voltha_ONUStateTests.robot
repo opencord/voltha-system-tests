@@ -476,11 +476,13 @@ Do Power Off Power On Onu Device
 
 Do Soft Reboot Onu Device
     [Documentation]    This keyword reboots softly all onus and checks the states.
+    ${device_list}=    Set Variable    ${EMPTY}
     FOR    ${I}    IN RANGE    0    ${num_all_onus}
         ${src}=    Set Variable    ${hosts.src[${I}]}
         ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
-        Reboot ONU    ${onu_device_id}   False
+        ${device_list}=    Catenate    ${device_list}    ${onu_device_id}
     END
+    Reboot ONU    ${device_list}   False
     ${alternativeonustates}=  Create List     stopping-openomci
     Current State Test All Onus    omci-flows-deleted
     ...   ENABLED    DISCOVERED    UNREACHABLE    alternativeonustate=${alternativeonustates}
