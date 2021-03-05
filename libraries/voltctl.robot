@@ -318,34 +318,21 @@ Validate ONU Devices With Duration
     [Arguments]    ${admin_state}    ${oper_status}    ${connect_status}    ${onu_reason}
     ...    ${List_ONU_Serial}   ${startTime}    ${print2console}=False    ${output_file}=${EMPTY}
     ...    ${alternate_reason}=${EMPTY}
-    ${rc}    ${output}=    Run and Return Rc and Output    voltctl -c ${VOLTCTL_CONFIG} device list -m 8MB -o json
+    ${cmd}=    Catenate    voltctl -c ${VOLTCTL_CONFIG} device list -m 8MB -f Type=brcm_openomci_onu
+    ...    --format '{{.SerialNumber}}\t{{.AdminState}}\t{{.OperStatus}}\t{{.ConnectStatus}}\t{{.Reason}}' | grep -v SERIALNUMBER
+    ${rc}    ${output}=    Run and Return Rc and Output    ${cmd}
     Should Be Equal As Integers    ${rc}    0
     ${timeCurrent} =    Get Current Date
     ${timeTotalMs} =    Subtract Date From Date    ${timeCurrent}    ${startTime}    result_format=number
-    ${jsondata}=    To Json    ${output}
-    ${length}=    Get Length    ${jsondata}
-    FOR    ${INDEX}    IN RANGE    0    ${length}
+    @{Results}=    Split String    ${output}    \n
+    FOR    ${Line}    IN     @{Results}
         ${matched}=    Set Variable    False
-        ${value}=    Get From List    ${jsondata}    ${INDEX}
-        ${jsonCamelCaseFieldnames}=    Run Keyword And Return Status
-        ...    Dictionary Should Contain Key       ${value}      adminState
-        ${astate}=    Run Keyword If     ${jsonCamelCaseFieldNames}
-        ...    Get From Dictionary    ${value}    adminState
-        ...    ELSE
-        ...    Get From Dictionary    ${value}    adminstate
-        ${opstatus}=    Run Keyword If     ${jsonCamelCaseFieldNames}
-        ...    Get From Dictionary    ${value}    operStatus
-        ...    ELSE
-        ...    Get From Dictionary    ${value}    operstatus
-        ${cstatus}=    Run Keyword If     ${jsonCamelCaseFieldNames}
-        ...    Get From Dictionary    ${value}    connectStatus
-        ...    ELSE
-        ...    Get From Dictionary    ${value}    connectstatus
-        ${sn}=    Run Keyword If     ${jsonCamelCaseFieldNames}
-        ...    Get From Dictionary    ${value}    serialNumber
-        ...    ELSE
-        ...    Get From Dictionary    ${value}    serialnumber
-        ${mib_state}=    Get From Dictionary    ${value}    reason
+        @{words}=    Split String    ${Line}    \t
+        ${sn}=    Set Variable    ${words[0]}
+        ${astate}=    Set Variable    ${words[1]}
+        ${opstatus}=    Set Variable    ${words[2]}
+        ${cstatus}=    Set Variable    ${words[3]}
+        ${mib_state}=    Set Variable    ${words[4]}
         ${onu_id}=    Get Index From List    ${List_ONU_Serial}   ${sn}
         ${matched}=    Set Variable If    -1 != ${onu_id}    True    False
         ${matched}=    Set Variable If    '${astate}' == '${admin_state}'    ${matched}    False
