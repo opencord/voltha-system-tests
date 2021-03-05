@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f884df72_49fc9611",
+        "filename": "libraries/utils.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 1216,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2021-03-05T12:30:38Z",
+      "side": 1,
+      "message": "`Should Be Equal As Integers    ${rc}    0` is enough.",
+      "revId": "3b9d8dd71f502df228b51b6b1bb21ba2d73663c9",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    }
+  ]
+}
