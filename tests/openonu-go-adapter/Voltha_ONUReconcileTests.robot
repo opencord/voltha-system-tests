@@ -86,9 +86,7 @@ Reconcile In Starting-OpenOmci
     [Setup]    Run Keywords    Start Logging    ReconcileStartingOpenOmciOnuGo
     ...    AND    Setup Test
     Run Keyword If    ${has_dataplane}    Clean Up Linux
-    Run Keyword If    ${no_skip}
-    ...    Do Reconcile In Determined State    starting-openomci
-    ...    ELSE    Pass Execution    ${skip_message}    skipped
+    Do Reconcile In Determined State    starting-openomci
     [Teardown]    Run Keywords    Run Keyword If    ${logging}    Collect Logs
     ...    AND    Teardown Test
     ...    AND    Stop Logging    ReconcileStartingOpenOmciOnuGo
@@ -106,9 +104,7 @@ Reconcile In Initial-Mib-Downloaded
     [Setup]    Run Keywords    Start Logging    ReconcileInitialMibDownloadedOnuGo
     ...    AND    Setup Test
     Run Keyword If    ${has_dataplane}    Clean Up Linux
-    Run Keyword If    ${no_skip}
-    ...    Do Reconcile In Determined State    initial-mib-downloaded
-    ...    ELSE    Pass Execution    ${skip_message}    skipped
+    Do Reconcile In Determined State    initial-mib-downloaded
     [Teardown]    Run Keywords    Run Keyword If    ${logging}    Collect Logs
     ...    AND    Teardown Test
     ...    AND    Stop Logging    ReconcileInitialMibDownloadedOnuGo
@@ -132,9 +128,7 @@ Reconcile In Omci-Flows-Pushed
     [Setup]    Run Keywords    Start Logging    ReconcileOmciFlowsPushedOnuGo
     ...    AND    Setup Test
     Run Keyword If    ${has_dataplane}    Clean Up Linux
-    Run Keyword If    ${no_skip}
-    ...    Do Reconcile In Omci-Flows-Pushed
-    ...    ELSE    Pass Execution    ${skip_message}    skipped
+    Do Reconcile In Omci-Flows-Pushed
     [Teardown]    Run Keywords    Run Keyword If    ${logging}    Collect Logs
     ...    AND    Teardown Test
     ...    AND    Stop Logging    ReconcileOmciFlowsPushedOnuGo
@@ -157,9 +151,7 @@ Reconcile For Disabled Onu Device
     [Setup]    Run Keywords    Start Logging    ReconcileDisabledOnuDeviceOnuGo
     ...    AND    Setup Test
     Run Keyword If    ${has_dataplane}    Clean Up Linux
-    Run Keyword If    ${no_skip}
-    ...    Do Reconcile For Disabled Onu Device
-    ...    ELSE    Pass Execution    ${skip_message}    skipped
+    Do Reconcile For Disabled Onu Device
     [Teardown]    Run Keywords    Run Keyword If    ${logging}    Collect Logs
     ...    AND    Teardown Test
     ...    AND    Stop Logging    ReconcileDisabledOnuDeviceOnuGo
@@ -173,16 +165,6 @@ Setup Suite
     ...    print2console:${print2console}, usekill2restart:${usekill2restart}, workflow:${workflow}
     Log    ${LogInfo}    console=yes
     Common Test Suite Setup
-    # determine real number of onus
-    ${num_real_onus}=    Determine Number Of ONU
-    ${no_skip}=    Set Variable If   '${num_real_onus}'=='1'    True    False
-    Set Suite Variable    ${no_skip}
-    # prepare skip message in yellow for console log
-    ${skip}=  Evaluate  "\\033[33mSKIP\\033[0m"
-    ${skipping}=  Evaluate
-    ...    "\\033[33m${SPACE*5} ===> Test case above was skipped! Too much ONUs (${num_real_onus})! <=== ${SPACE*5}\\033[0m"
-    ${skip_message}    Catenate    ${skipping} | ${skip} |
-    Set Suite Variable    ${skip_message}
     ${onos_ssh_connection}    Open ONOS SSH Connection    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}
     Set Suite Variable  ${onos_ssh_connection}
     # delete etcd MIB Template Data
@@ -235,8 +217,7 @@ Setup Test
 
 Teardown Test
     [Documentation]    Post-test Teardown
-    Run Keyword If    ${teardown_device} and ${no_skip}    Delete All Devices and Verify
-    ...    ELSE IF    ${teardown_device}    Delete Devices In Voltha    Root=true
+    Run Keyword If    ${teardown_device}    Delete All Devices and Verify
     # delete etcd MIB Template Data
     Delete MIB Template Data
     Sleep    5s
