@@ -255,7 +255,7 @@ Verify Subscriber Access Flows Added Count DT
     [Arguments]    ${ip}    ${port}    ${olt_of_id}    ${expected_flows}
     [Documentation]    Matches for total number of subscriber access flows added for all onus
     ${access_flows_added}=    Execute ONOS CLI Command    ${ip}    ${port}
-    ...    flows -s ADDED ${olt_of_id} | grep -v deviceId | grep -v ETH_TYPE:lldp | wc -l
+    ...    flows -s ADDED ${olt_of_id} | grep -v deviceId | grep -v ETH_TYPE:lldp | grep -v ETH_TYPE:arp | wc -l
     Should Be Equal As Integers    ${access_flows_added}    ${expected_flows}
 
 Get Programmed Subscribers
