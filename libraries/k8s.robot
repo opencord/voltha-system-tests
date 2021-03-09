@@ -496,3 +496,16 @@ Verify Pod Image
     ${output}=    Run
     ...    kubectl -n ${namespace} get pods -l ${key}=${value} -o=jsonpath="{.items[].status.containerStatuses[].image}"
     Should Be Equal    '${output}'    'docker.io/${image}'
+
+Get Pod Image And App Version And Helm Chart By Label
+    [Arguments]    ${namespace}    ${key}    ${value}
+    [Documentation]    Retrieves Pod Image and, App and Helm Chart Version details
+    ${image}=    Run
+    ...    kubectl -n ${namespace} get pods -l ${key}=${value} -o=jsonpath="{.items[*].spec.containers[*].image}"
+    ${cmd}=    Catenate    SEPARATOR=
+    ...    kubectl -n ${namespace} get pods -l ${key}=${value} -o=
+    ...    jsonpath="{.items[*].metadata.labels.\\app\\.kubernetes\\.io\\/version}"
+    ${app_version}=    Run    ${cmd}
+    ${helm_chart}=    Run
+    ...    kubectl -n ${namespace} get pods -l ${key}=${value} -o=jsonpath="{.items[*].metadata.labels.\\helm\\.sh\\/chart}"
+    [Return]    ${image}    ${app_version}    ${helm_chart}

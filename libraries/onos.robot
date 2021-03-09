@@ -731,3 +731,11 @@ Install And Activate ONOS App
     ${rc}    ${output}    Run And Return Rc And Output    ${cmd}
     Should Be Equal As Integers    ${rc}    0
     Log    ${output}
+
+Get ONOS App Details
+    [Arguments]    ${url}    ${app_name}
+    [Documentation]    Retrieves ONOS App Details
+    ${rc}    ${output}    Run And Return Rc And Output
+    ...    curl --fail -sSL ${url}/onos/v1/applications/${app_name}
+    Should Be Equal As Integers    ${rc}    0
+    [Return]    ${output}
