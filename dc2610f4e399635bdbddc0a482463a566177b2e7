@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "5c787466_1b3a8ac5",
+        "filename": "tests/software-upgrades/ONOS_AppsUpgrade.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2021-03-09T07:53:16Z",
+      "side": 1,
+      "message": "No, Not required. \nThe other change is because now the input variable string expects * at the end of the value and hence read one less array value given by `Split String` output. I have made it to get more clean input from pipeline (will put up a patch soon).\nVerified on my local setup.",
+      "parentUuid": "5dc175a8_7ad5a208",
+      "revId": "dc2610f4e399635bdbddc0a482463a566177b2e7",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ca227978_2f1a0e53",
         "filename": "tests/software-upgrades/Voltha_ComponentsUpgrade.robot",
         "patchSetId": 2
@@ -33,6 +51,24 @@
       "revId": "dc2610f4e399635bdbddc0a482463a566177b2e7",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bfedf307_23431aa0",
+        "filename": "tests/software-upgrades/Voltha_ComponentsUpgrade.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2021-03-09T07:53:16Z",
+      "side": 1,
+      "message": "Same reason :)",
+      "parentUuid": "ca227978_2f1a0e53",
+      "revId": "dc2610f4e399635bdbddc0a482463a566177b2e7",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
     }
   ]
 }
