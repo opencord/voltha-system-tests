@@ -494,8 +494,8 @@ Verify Pod Image
     [Arguments]    ${namespace}    ${key}    ${value}    ${image}
     [Documentation]    Verifies the Pod Image
     ${output}=    Run
-    ...    kubectl -n ${namespace} get pods -l ${key}=${value} -o=jsonpath="{.items[].status.containerStatuses[].image}"
-    Should Be Equal    '${output}'    'docker.io/${image}'
+    ...    kubectl -n ${namespace} get pods -l ${key}=${value} -o=jsonpath="{.items[*].spec.containers[*].image}"
+    Should Be Equal    '${output}'    '${image}'
 
 Get Pod Image And App Version And Helm Chart By Label
     [Arguments]    ${namespace}    ${key}    ${value}
