@@ -58,8 +58,8 @@ ${container_log_dir}    ${None}
 ${suppressaddsubscriber}    True
 
 # Voltha Components to Test for Software Upgrade need to be passed in the following variable in format:
-# <comp-label>,<comp-container>,<comp-image>*<comp-label>,<comp-container>,<comp-image>
-# Example: adapter-open-olt,adapter-open-olt,voltha/voltha-openolt-adapter:3.1.3
+# <comp-label>,<comp-container>,<comp-image>*<comp-label>,<comp-container>,<comp-image>*
+# Example: adapter-open-olt,adapter-open-olt,voltha/voltha-openolt-adapter:3.1.3*
 ${voltha_comps_under_test}    ${EMPTY}
 
 *** Test Cases ***
@@ -67,7 +67,7 @@ Test Voltha Components Minor Version Upgrade
     [Documentation]    Validates the Voltha Components Minor Version Upgrade doesn't affect the system functionality
     ...    Performs the sanity and verifies all the ONUs are authenticated/DHCP/pingable
     ...    Requirement: Components to test needs to be passed in robot command variable 'voltha_comps_under_test' in the format:
-    ...    <comp-label>,<comp-container>,<comp-image>*<comp-label>,<comp-container>,<comp-image>
+    ...    <comp-label>,<comp-container>,<comp-image>*<comp-label>,<comp-container>,<comp-image>*
     ...    Check [VOL-3843] for more details
     [Tags]    functional   VolthaCompMinorVerUpgrade
     [Setup]    Start Logging    VolthaCompMinorVerUpgrade
@@ -87,6 +87,9 @@ Test Voltha Components Minor Version Upgrade
         ${label}=    Set Variable    ${list_voltha_comps_under_test}[${I}][label]
         ${container}=    Set Variable    ${list_voltha_comps_under_test}[${I}][container]
         ${image}=    Set Variable    ${list_voltha_comps_under_test}[${I}][image]
+        ${pod_image}    ${app_ver}    ${helm_chart}    Get Pod Image And App Version And Helm Chart By Label
+        ...    ${NAMESPACE}    app    ${label}
+        Log    ${label}: image, app ver & helm chart before upgrade: ${pod_image}, ${app_ver} & ${helm_chart}
         ${deployment}=    Wait Until Keyword Succeeds    ${timeout}    15s
         ...    Get K8s Deployment by Pod Label    ${NAMESPACE}    app    ${label}
         Wait Until Keyword Succeeds    ${timeout}    15s    Deploy Pod New Image    ${NAMESPACE}    ${deployment}
@@ -95,6 +98,9 @@ Test Voltha Components Minor Version Upgrade
         ...    app    ${label}    Running
         Wait Until Keyword Succeeds    ${timeout}    3s    Pods Are Ready By Label    ${NAMESPACE}    app    ${label}
         Wait Until Keyword Succeeds    ${timeout}    3s    Verify Pod Image    ${NAMESPACE}    app    ${label}    ${image}
+        ${pod_image_1}    ${app_ver_1}    ${helm_chart_1}    Get Pod Image And App Version And Helm Chart By Label
+        ...    ${NAMESPACE}    app    ${label}
+        Log    ${label}: image, app ver & helm chart after upgrade: ${pod_image_1}, ${app_ver_1} & ${helm_chart_1}
         Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test     ${suppressaddsubscriber}
     END
     ${podStatusOutput}=    Run    kubectl get pods -n ${NAMESPACE}
@@ -120,11 +126,11 @@ Teardown Suite
 Create Voltha Comp Under Test List
     [Documentation]    Creates a list of Voltha Components to Test from the input variable string
     ...    The input string is expected to be in format:
-    ...    <comp-label>,<comp-container>,<comp-image>*<comp-label>,<comp-container>,<comp-image>
+    ...    <comp-label>,<comp-container>,<comp-image>*<comp-label>,<comp-container>,<comp-image>*
     ${list_voltha_comps_under_test}    Create List
     @{comps_under_test_arr}=    Split String    ${voltha_comps_under_test}    *
     ${num_comps_under_test}=    Get Length    ${comps_under_test_arr}
-    FOR    ${I}    IN RANGE    0    ${num_comps_under_test}
+    FOR    ${I}    IN RANGE    0    ${num_comps_under_test}-1
         @{comp_under_test_arr}=    Split String    ${comps_under_test_arr[${I}]}    ,
         ${label}=    Set Variable    ${comp_under_test_arr[0]}
         ${container}=    Set Variable    ${comp_under_test_arr[1]}
@@ -132,4 +138,5 @@ Create Voltha Comp Under Test List
         ${comp_under_test}    Create Dictionary    label    ${label}    container    ${container}    image    ${image}
         Append To List    ${list_voltha_comps_under_test}    ${comp_under_test}
     END
+    Log    ${list_voltha_comps_under_test}
     Set Suite Variable    ${list_voltha_comps_under_test}

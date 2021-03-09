@@ -57,9 +57,9 @@ ${scripts}        ../../scripts
 ${container_log_dir}    ${None}
 
 # ONOS Apps to Test for Software Upgrade need to be passed in the following variable in format:
-# <app-name>,<version>,<oar-url>*<app-name>,<version>,<oar-url>
+# <app-name>,<version>,<oar-url>*<app-name>,<version>,<oar-url>*
 # Example: org.opencord.aaa,2.3.0.SNAPSHOT,
-# https://oss.sonatype.org/content/groups/public/org/opencord/aaa-app/2.3.0-SNAPSHOT/aaa-app-2.3.0-20201210.223737-1.oar
+# https://oss.sonatype.org/content/groups/public/org/opencord/aaa-app/2.3.0-SNAPSHOT/aaa-app-2.3.0-20201210.223737-1.oar*
 ${onos_apps_under_test}    ${EMPTY}
 
 *** Test Cases ***
@@ -67,7 +67,7 @@ Test ONOS App Minor Version Upgrade
     [Documentation]    Validates the ONOS App Minor Version Upgrade doesn't affect the system functionality
     ...    Performs the sanity and verifies all the ONUs are authenticated/DHCP/pingable
     ...    Requirement: Apps to test needs to be passed in robot command variable 'onos_apps_under_test' in the format:
-    ...    <app-name>,<version>,<oar-url>*<app-name>,<version>,<oar-url>
+    ...    <app-name>,<version>,<oar-url>*<app-name>,<version>,<oar-url>*
     ...    Check [VOL-3844] for more details
     [Tags]    functional    ONOSAppMinorVerUpgrade
     [Setup]    Run Keywords    Start Logging    ONOSAppMinorVerUpgrade
@@ -85,11 +85,15 @@ Test ONOS App Minor Version Upgrade
         ${url}=    Set Variable    ${list_onos_apps_under_test}[${I}][url]
         ${oar_file}=    Set Variable    ${CURDIR}/../../tests/data/onos-files/${app}-${version}.oar
         Download App OAR File    ${url}    ${oar_file}
+        ${app_details}    Get ONOS App Details    ${onos_url}    ${app}
+        Log    ${app}: before upgrade: ${app_details}
         Delete ONOS App    ${onos_url}    ${app}
         Verify ONOS Apps Active Except App Under Test    ${onos_url}    ${app}
         Install And Activate ONOS App    ${onos_url}    ${oar_file}
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
         ...    Verify ONOS App Active    ${onos_url}    ${app}    ${version}
+        ${app_details_1}    Get ONOS App Details    ${onos_url}    ${app}
+        Log    ${app}: after upgrade: ${app_details_1}
         Verify ONOS Pod Restart    False
         Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test    True
     END
@@ -123,11 +127,11 @@ Download App OAR File
 Create ONOS Apps Under Test List
     [Documentation]    Creates a list of ONOS Apps to Test from the input variable string
     ...    The input string is expected to be in format:
-    ...    <app-name>,<version>,<oar-url>*<app-name>,<version>,<oar-url>
+    ...    <app-name>,<version>,<oar-url>*<app-name>,<version>,<oar-url>*
     ${list_onos_apps_under_test}    Create List
     @{apps_under_test_arr}=    Split String    ${onos_apps_under_test}    *
     ${num_apps_under_test}=    Get Length    ${apps_under_test_arr}
-    FOR    ${I}    IN RANGE    0    ${num_apps_under_test}
+    FOR    ${I}    IN RANGE    0    ${num_apps_under_test}-1
         @{app_under_test_arr}=    Split String    ${apps_under_test_arr[${I}]}    ,
         ${app}=    Set Variable    ${app_under_test_arr[0]}
         ${version}=    Set Variable    ${app_under_test_arr[1]}
@@ -135,4 +139,5 @@ Create ONOS Apps Under Test List
         ${app_under_test}    Create Dictionary    app    ${app}    version    ${version}    url    ${url}
         Append To List    ${list_onos_apps_under_test}    ${app_under_test}
     END
+    Log    ${list_onos_apps_under_test}
     Set Suite Variable    ${list_onos_apps_under_test}
