@@ -220,6 +220,8 @@ Teardown Test
     Run Keyword If    ${teardown_device}    Delete All Devices and Verify
     # delete etcd MIB Template Data
     Delete MIB Template Data
+    # check etcd data are empty
+    Validate Onu Data In Etcd    0
     Sleep    5s
 
 Do Reconcile In Determined State
