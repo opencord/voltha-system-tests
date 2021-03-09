@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5dc175a8_7ad5a208",
+        "filename": "tests/software-upgrades/ONOS_AppsUpgrade.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2021-03-09T07:47:10Z",
+      "side": 1,
+      "message": "given that you have done a -1 at line 134, do you need it also here ?",
+      "revId": "dc2610f4e399635bdbddc0a482463a566177b2e7",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ca227978_2f1a0e53",
+        "filename": "tests/software-upgrades/Voltha_ComponentsUpgrade.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2021-03-09T07:47:10Z",
+      "side": 1,
+      "message": "same question",
+      "revId": "dc2610f4e399635bdbddc0a482463a566177b2e7",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    }
+  ]
+}
