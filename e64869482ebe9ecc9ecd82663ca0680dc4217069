@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c643bbba_80df1520",
+        "filename": "tests/functional/Voltha_ErrorScenarios.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1000127
+      },
+      "writtenOn": "2021-03-09T01:03:23Z",
+      "side": 1,
+      "message": "can you make this 9mins or 540s.\nThe reason I ask is two account for two additional OLT reboot cycles (in worst case) to get an IP. The first 3mins - it waits does not get IP. Reboots and takes 3mins before timeout and worst case goes for another reboot and takes 3 more mins. 9 mins in total. It must be a fateful day to take more than 9 mins but that is beyond our control at this point.",
+      "revId": "e64869482ebe9ecc9ecd82663ca0680dc4217069",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    }
+  ]
+}
