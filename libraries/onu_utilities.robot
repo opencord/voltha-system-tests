@@ -220,7 +220,6 @@ Validate Onu Data In Etcd
     [Arguments]    ${nbofetcddata}=${num_all_onus}    ${defaultkvstoreprefix}=voltha_voltha
     ${kvstoreprefix}=    Get Kv Store Prefix    ${defaultkvstoreprefix}
     ${etcddata}=    Get ONU Go Adapter ETCD Data    ${kvstoreprefix}
-    ${etcddata}=    Remove Lines Containing String    ${etcddata}    service/${kvstoreprefix}/openonu    \n
     #prepare result for json convert
     ${result}=    Prepare ONU Go Adapter ETCD Data For Json    ${etcddata}
     ${jsondata}=    To Json    ${result}
@@ -259,7 +258,6 @@ Validate Vlan Rules In Etcd
     ...            ${defaultkvstoreprefix}=voltha_voltha
     ${kvstoreprefix}=    Get Kv Store Prefix    ${defaultkvstoreprefix}
     ${etcddata}=    Get ONU Go Adapter ETCD Data    ${kvstoreprefix}
-    ${etcddata}=    Remove Lines Containing String    ${etcddata}    service/${kvstoreprefix}/openonu    \n
     #prepare result for json convert
     ${result}=    Prepare ONU Go Adapter ETCD Data For Json    ${etcddata}
     ${jsondata}=    To Json    ${result}
@@ -296,12 +294,15 @@ Validate Vlan Rules In Etcd
 
 Get ONU Go Adapter ETCD Data
     [Documentation]    This keyword delivers openonu-go-adapter Data stored in etcd
-    [Arguments]    ${defaultkvstoreprefix}=voltha_voltha
+    [Arguments]    ${defaultkvstoreprefix}=voltha_voltha    ${without_prefix}=True    ${without_pm_data}=True
     ${namespace}=    Set Variable    default
     ${podname}=    Set Variable    etcd
     ${kvstoreprefix}=    Get Kv Store Prefix    ${defaultkvstoreprefix}
-    ${commandget}    Catenate
-    ...    /bin/sh -c 'ETCDCTL_API=3 etcdctl get --prefix --prefix service/${kvstoreprefix}/openonu'
+    ${commandget}=    Catenate
+    ...    /bin/sh -c 'ETCDCTL_API=3 etcdctl get --prefix service/${kvstoreprefix}/openonu'
+    ${commandget}=    Run Keyword If    ${without_prefix}     Catenate    ${commandget}
+    ...    | grep -v service/${kvstoreprefix}/openonu
+    ${commandget}=    Run Keyword If    ${without_pm_data}    Catenate    ${commandget}    | grep -v instances_active
     ${result}=    Exec Pod In Kube    ${namespace}    ${podname}    ${commandget}
     log    ${result}
     [Return]    ${result}
@@ -316,20 +317,6 @@ Prepare ONU Go Adapter ETCD Data For Json
     ${prepresult}=    Set Variable    [${prepresult}]
     log    ${prepresult}
     [Return]    ${prepresult}
-
-Remove Lines Containing String
-    [Documentation]    This keyword deletes all lines from given string containing passed remove string
-    [Arguments]    ${string}    ${toremove}    ${appendtoremoveline}
-    ${lines}=    Get Lines Containing String    ${string}    ${toremove}
-    ${length}=    Get Line Count    ${lines}
-    ${firstline}=    Set Variable    False
-    FOR    ${INDEX}    IN RANGE    0    ${length}
-        ${String2remove}    Get Line    ${lines}    ${INDEX}
-        ${String2remove}    Set Variable    ${String2remove}${appendtoremoveline}
-        ${string}=    Remove String    ${string}    ${String2remove}
-    END
-    log    ${string}
-    [Return]    ${string}
 
 Read Pon Onu Uni String
     [Documentation]    This keyword builds a four digit string using Olt, Pon, Onu and Uni value of given tp-path taken
