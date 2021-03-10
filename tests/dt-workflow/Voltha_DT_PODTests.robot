@@ -68,7 +68,7 @@ Reboot DT ONUs Physically
     [Documentation]   This test reboots ONUs physically before execution all the tests
     ...    Test case runs only on the PODs that are configured with PowerSwitch that
     ...    controls the power off/on ONUs/OLT remotely (simulating a physical reboot)
-    [Tags]    functionalDt   PowerSwitch    RebootAllDTONUs
+    [Tags]    functionalDt   PowerSwitch    RebootAllDTONUs    soak
     [Setup]    Start Logging    RebootAllDTONUs
     [Teardown]    Run Keywords    Collect Logs
     ...           AND             Stop Logging    RebootAllDTONUs
@@ -87,7 +87,7 @@ Sanity E2E Test for OLT/ONU on POD for DT
     ...    Traffic sent with same vlan from different RGs,
     ...    should reach the NNI port on the OLT with the expected double tagged vlan ids
     ...    Inner vlans from the RG should not change
-    [Tags]    sanityDt
+    [Tags]    sanityDt   soak
     [Setup]    Run Keywords    Start Logging    SanityTestDt
     ...        AND             Setup
     [Teardown]    Run Keywords    Collect Logs
@@ -101,7 +101,7 @@ Test Subscriber Delete and Add for DT
     ...    Delete a subscriber and validate that the pings do not succeed and state is purged
     ...    Disable and Enable the ONU (This is to replicate the existing DT behaviour)
     ...    Re-add the subscriber, and validate that the flows are present and pings are successful
-    [Tags]    functionalDt    SubAddDeleteDt
+    [Tags]    functionalDt    SubAddDeleteDt    soak
     [Setup]    Start Logging     SubAddDeleteDt
     [Teardown]    Run Keywords    Collect Logs
     ...           AND             Stop Logging    SubAddDeleteDt
@@ -168,7 +168,7 @@ Test Disable and Enable ONU for DT
     ...    Assuming that all the ONUs are DHCP/pingable (i.e. assuming sanityDt test was executed)
     ...    Perform disable on the ONUs and validate that the pings do not succeed
     ...    Perform enable on the ONUs and validate that the pings are successful
-    [Tags]    functionalDt    DisableEnableONUDt
+    [Tags]    functionalDt    DisableEnableONUDt    soak
     [Setup]    Start Logging    DisableEnableONUDt
     [Teardown]    Run Keywords    Collect Logs
     ...           AND             Stop Logging    DisableEnableONUDt
@@ -268,7 +268,7 @@ Test Disable and Enable OLT for DT
     ...    Assuming that all the ONUs are DHCP/pingable (i.e. assuming sanityDt test was executed)
     ...    Perform disable on the OLT and validate that the pings do not succeed
     ...    Perform enable on the OLT and validate that the pings are successful
-    [Tags]    functionalDt    DisableEnableOLTDt
+    [Tags]    functionalDt    DisableEnableOLTDt   soak
     [Setup]    Start Logging    DisableEnableOLTDt
     [Teardown]    Run Keywords    Collect Logs
     ...           AND             Stop Logging    DisableEnableOLTDt
