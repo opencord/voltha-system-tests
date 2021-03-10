@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a919497_423fd875",
+        "filename": "libraries/onu_utilities.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 306,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2021-03-10T16:22:21Z",
+      "side": 1,
+      "message": "Is this hardcoded kvstoreprefix correct?",
+      "range": {
+        "startLine": 306,
+        "startChar": 55,
+        "endLine": 306,
+        "endChar": 68
+      },
+      "revId": "85ae2ab0d51ad0ade2bd5dc86e4dbff0f599b293",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    }
+  ]
+}
