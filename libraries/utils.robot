@@ -636,14 +636,12 @@ Delete All Devices and Verify
     [Documentation]    Remove any devices from VOLTHA and ONOS
     # Clear devices from VOLTHA
     Disable Devices In Voltha    Root=true
-    Sleep    5s
     Wait Until Keyword Succeeds    ${timeout}    2s    Test Devices Disabled In Voltha    Root=true
     Delete Devices In Voltha    Root=true
-    Sleep    30s
     Wait Until Keyword Succeeds    ${timeout}    2s    Test Empty Device List
     FOR    ${I}    IN RANGE    0    ${num_olts}
         ${olt_serial_number}=    Set Variable    ${list_olts}[${I}][sn]
-        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    15s
+        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
         ...    Validate Deleted Device Cleanup In ONOS    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${olt_serial_number}
     END
     # Clear devices from ONOS
