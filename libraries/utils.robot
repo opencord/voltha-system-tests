@@ -979,7 +979,6 @@ Collect Logs
     [Documentation]    Collect Logs from voltha and onos cli for various commands
     Run Keyword and Ignore Error    Get Device List from Voltha
     FOR    ${I}    IN RANGE    0    ${num_olts}
-        Run Keyword and Ignore Error    Get Logical Device Output from Voltha    ${logical_id}
         Run Keyword and Ignore Error    Get Device Output from Voltha    ${olt_ids}[${I}][device_id]
         Run Keyword and Ignore Error    Get Logical Device Output from Voltha    ${olt_ids}[${I}][logical_id]
     END
