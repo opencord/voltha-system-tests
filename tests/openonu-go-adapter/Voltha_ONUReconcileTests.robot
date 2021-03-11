@@ -180,7 +180,7 @@ Teardown Suite
     Run Keyword If    ${pausebeforecleanup}    Log    Teardown will be continued...    console=yes
     Run Keyword If    ${teardown_device}    Delete All Devices and Verify
     Run Keyword If    ${usekill2restart}    Restart Pod    ${namespace}    open-onu
-    Validate Onu Data In Etcd    0
+    Validate Onu Data In Etcd    0    without_pm_data=False
     Wait for Ports in ONOS for all OLTs      ${onos_ssh_connection}  0   BBSM    ${timeout}
     Close All ONOS SSH Connections
 
@@ -221,7 +221,7 @@ Teardown Test
     # delete etcd MIB Template Data
     Delete MIB Template Data
     # check etcd data are empty
-    Validate Onu Data In Etcd    0
+    Validate Onu Data In Etcd    0    without_pm_data=False
     Sleep    5s
 
 Do Reconcile In Determined State
