@@ -218,8 +218,9 @@ Validate Onu Data In Etcd
     ...                Furthermore it evaluates the values of onu_id and uni_id with values read from tp_path.
     ...                Number of etcd entries has to match with the passed number.
     [Arguments]    ${nbofetcddata}=${num_all_onus}    ${defaultkvstoreprefix}=voltha_voltha
+    ...            ${without_prefix}=True    ${without_pm_data}=True
     ${kvstoreprefix}=    Get Kv Store Prefix    ${defaultkvstoreprefix}
-    ${etcddata}=    Get ONU Go Adapter ETCD Data    ${kvstoreprefix}
+    ${etcddata}=    Get ONU Go Adapter ETCD Data    ${kvstoreprefix}    ${without_prefix}    ${without_pm_data}
     #prepare result for json convert
     ${result}=    Prepare ONU Go Adapter ETCD Data For Json    ${etcddata}
     ${jsondata}=    To Json    ${result}
@@ -255,9 +256,9 @@ Validate Vlan Rules In Etcd
     ...                In case of a passed dictionary containing set_vids these will be checked for to
     ...                current set-vid depending on setvidequal (True=equal, False=not equal).
     [Arguments]    ${nbofcookieslice}=1    ${reqmatchvid}=4096    ${prevvlanrules}=${NONE}    ${setvidequal}=False
-    ...            ${defaultkvstoreprefix}=voltha_voltha
+    ...            ${defaultkvstoreprefix}=voltha_voltha    ${without_prefix}=True    ${without_pm_data}=True
     ${kvstoreprefix}=    Get Kv Store Prefix    ${defaultkvstoreprefix}
-    ${etcddata}=    Get ONU Go Adapter ETCD Data    ${kvstoreprefix}
+    ${etcddata}=    Get ONU Go Adapter ETCD Data    ${kvstoreprefix}    ${without_prefix}    ${without_pm_data}
     #prepare result for json convert
     ${result}=    Prepare ONU Go Adapter ETCD Data For Json    ${etcddata}
     ${jsondata}=    To Json    ${result}
@@ -302,7 +303,9 @@ Get ONU Go Adapter ETCD Data
     ...    /bin/sh -c 'ETCDCTL_API=3 etcdctl get --prefix service/${kvstoreprefix}/openonu'
     ${commandget}=    Run Keyword If    ${without_prefix}     Catenate    ${commandget}
     ...    | grep -v service/${kvstoreprefix}/openonu
+    ...    ELSE    Set Variable    ${commandget}
     ${commandget}=    Run Keyword If    ${without_pm_data}    Catenate    ${commandget}    | grep -v instances_active
+    ...    ELSE    Set Variable    ${commandget}
     ${result}=    Exec Pod In Kube    ${namespace}    ${podname}    ${commandget}
     log    ${result}
     [Return]    ${result}
