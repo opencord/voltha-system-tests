@@ -114,6 +114,52 @@
       "revId": "0edc6bef08a8deca9189181255f8ed349a831dbd",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4958c066_66c14335",
+        "filename": "tests/software-upgrades/ONU_Upgrade.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2021-03-12T10:23:31Z",
+      "side": 1,
+      "message": "Do you really need all the resources? Especially power_switch? Please check, thanks.",
+      "range": {
+        "startLine": 27,
+        "startChar": 0,
+        "endLine": 34,
+        "endChar": 52
+      },
+      "revId": "0edc6bef08a8deca9189181255f8ed349a831dbd",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9e7549b0_db378e36",
+        "filename": "tests/software-upgrades/ONU_Upgrade.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2021-03-12T10:23:31Z",
+      "side": 1,
+      "message": "This should be more flexible to be changed e.g. by -v option or variable (yaml) file.",
+      "range": {
+        "startLine": 84,
+        "startChar": 0,
+        "endLine": 88,
+        "endChar": 47
+      },
+      "revId": "0edc6bef08a8deca9189181255f8ed349a831dbd",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
     }
   ]
 }
