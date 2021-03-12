@@ -47,7 +47,7 @@ ROBOT_MISC_ARGS                 ?=
 ROBOT_SANITY_TT_SINGLE_PON_FILE    ?= $(ROOT_DIR)/tests/data/bbsim-kind-tt.yaml
 ROBOT_DMI_SINGLE_BBSIM_FILE     ?= $(ROOT_DIR)/tests/data/dmi-components-bbsim.yaml
 ROBOT_DMI_SINGLE_ADTRAN_FILE     ?= $(ROOT_DIR)/tests/data/dmi-components-adtran.yaml
-ROBOT_ONOS_APP_UPGRADE_FILE     ?= $(ROOT_DIR)/tests/data/onos-app-upgrade.yaml
+ROBOT_SW_UPGRADE_FILE     ?= $(ROOT_DIR)/tests/data/software-upgrade.yaml
 
 # for backwards compatibility
 sanity-kind: sanity-single-kind
@@ -320,15 +320,20 @@ voltha-dmi-test: vst_venv
 # <app-name>,<version>,<oar-url>*<app-name>,<version>,<oar-url>*
 onos-app-upgrade-test: ROBOT_MISC_ARGS +=  -e notready -i functional
 onos-app-upgrade-test: ROBOT_FILE := ONOS_AppsUpgrade.robot
-onos-app-upgrade-test: ROBOT_CONFIG_FILE := $(ROBOT_ONOS_APP_UPGRADE_FILE)
+onos-app-upgrade-test: ROBOT_CONFIG_FILE := $(ROBOT_SW_UPGRADE_FILE)
 onos-app-upgrade-test: software-upgrade-test
 
 # Voltha Components to test for Software Upgrade need to be passed in the 'voltha_comps_under_test' variable in format:
 # <comp-label>,<comp-container>,<comp-image>*<comp-label>,<comp-container>,<comp-image>*
 voltha-comp-upgrade-test: ROBOT_MISC_ARGS +=  -e notready -i functional
 voltha-comp-upgrade-test: ROBOT_FILE := Voltha_ComponentsUpgrade.robot
-voltha-comp-upgrade-test: ROBOT_CONFIG_FILE := $(ROBOT_ONOS_APP_UPGRADE_FILE)
+voltha-comp-upgrade-test: ROBOT_CONFIG_FILE := $(ROBOT_SW_UPGRADE_FILE)
 voltha-comp-upgrade-test: software-upgrade-test
+
+onu-upgrade-test: ROBOT_MISC_ARGS +=  -e notready -i functional
+onu-upgrade-test: ROBOT_FILE := ONU_Upgrade.robot
+onu-upgrade-test: ROBOT_CONFIG_FILE := $(ROBOT_SW_UPGRADE_FILE)
+onu-upgrade-test: software-upgrade-test
 
 software-upgrade-test: vst_venv
 	source ./$</bin/activate ; set -u ;\

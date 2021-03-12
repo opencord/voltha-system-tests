@@ -795,3 +795,41 @@ Wait for OpenOLT Devices flows
     ${targetFlows}=    Set Variable If  $provisioned=='true'    ${afterFlows}   ${beforeFlows}
     Log     ${targetFlows}
     Wait Until Keyword Succeeds     10m     5s  Count OpenOLT Device Flows     ${targetFlows}
+
+Download ONU Device Image
+    [Documentation]    Downloads the given ONU software image
+    [Arguments]    ${id}    ${image}    ${url}    ${ver}    ${crc}    ${local_dir}
+    ${rc}=    Run and Return Rc
+    ...    voltctl -c ${VOLTCTL_CONFIG} device image download ${id} ${image} ${url} ${ver} ${crc} ${local_dir}
+    Should Be Equal As Integers    ${rc}    0
+
+Activate ONU Device Image
+    [Documentation]    Activatess the given ONU software image
+    [Arguments]    ${id}    ${image}    ${ver}    ${crc}    ${local_dir}
+    ${rc}=    Run and Return Rc
+    ...    voltctl -c ${VOLTCTL_CONFIG} device image activate ${id} ${image} ${ver} ${crc} ${local_dir}
+    Should Be Equal As Integers    ${rc}    0
+
+Verify ONU Device Image
+    [Documentation]    Verfies the ONU device image state
+    [Arguments]    ${dev_id}    ${download_state}    ${image_state}    ${reason_1}
+    ${rc}    ${output}=    Run and Return Rc and Output
+    ...    voltctl -c ${VOLTCTL_CONFIG} device image list ${dev_id} -o json
+    Should Be Equal As Integers    ${rc}    0
+    ${jsondata}=    To Json    ${output}
+    Log    ${jsondata}
+    ${length}=    Get Length    ${jsondata}
+    ${matched}=    Set Variable    False
+    FOR    ${INDEX}    IN RANGE    0    ${length}
+        ${value}=    Get From List    ${jsondata}    ${INDEX}
+        ${id}=    Get From Dictionary    ${value}    id
+        ${downloadstate}=    Get From Dictionary    ${value}    downloadState
+        ${imagestate}=    Get From Dictionary    ${value}    imageState
+        ${reason}=    Get From Dictionary    ${value}    reason
+        ${matched}=    Set Variable If    '${id}' == '${dev_id}'    True    False
+        Exit For Loop If    ${matched}
+    END
+    Should Be True    ${matched}    No ONU Device Image for Id: ${dev_id}
+    Should Be Equal    '${downloadstate}'    '${download_state}'    ONU Device ${id} Image downloadState doesnot match
+    Should Be Equal    '${imagestate}'    '${image_state}'    ONU Device ${id} Image imageState doesnot match
+    Should Be Equal    '${reason}'    '${reason_1}'    ONU Device ${id} Image reason doesnot match
