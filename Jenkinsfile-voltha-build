@@ -338,11 +338,15 @@ node ("${TestNodeName}") {
                 }
                 stage('Restart OLT processes') {
                     for(int i=0; i < deployment_config.olts.size(); i++) {
+                        int waitTimerForOltUp = 360
+                        if ( params.inBandManagement ) {
+                            waitTimerForOltUp = 540
+                        }
                         timeout(15) {
                             sh returnStdout: true, script: """
                             ssh-keyscan -H ${deployment_config.olts[i].sship} >> ~/.ssh/known_hosts
                             sshpass -p ${deployment_config.olts[i].pass} ssh -l ${deployment_config.olts[i].user} ${deployment_config.olts[i].sship} 'rm -f /var/log/openolt.log; rm -f /var/log/dev_mgmt_daemon.log; rm -f /var/log/openolt_process_watchdog.log; reboot' || true
-                            sleep 360
+                            sleep waitTimerForOltUp
                             """
                         }
                         timeout(15) {
