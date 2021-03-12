@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9891e9f3_e7441f46",
+        "filename": "libraries/voltctl.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 815,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2021-03-12T08:53:29Z",
+      "side": 1,
+      "message": "I would like to rename it e.g. \u0027expected_reason\u0027 or something similar.",
+      "range": {
+        "startLine": 815,
+        "startChar": 71,
+        "endLine": 815,
+        "endChar": 82
+      },
+      "revId": "0edc6bef08a8deca9189181255f8ed349a831dbd",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ac4f9963_20791b1e",
+        "filename": "libraries/voltctl.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 833,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2021-03-12T08:53:29Z",
+      "side": 1,
+      "message": "Nothing important, only a hint: \u0027does not\u0027 or \u0027doesn\u0027t\u0027",
+      "range": {
+        "startLine": 833,
+        "startChar": 105,
+        "endLine": 833,
+        "endChar": 112
+      },
+      "revId": "0edc6bef08a8deca9189181255f8ed349a831dbd",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "73510ba8_a6532f87",
+        "filename": "libraries/voltctl.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 834,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2021-03-12T08:53:29Z",
+      "side": 1,
+      "message": "same above",
+      "range": {
+        "startLine": 834,
+        "startChar": 96,
+        "endLine": 834,
+        "endChar": 103
+      },
+      "revId": "0edc6bef08a8deca9189181255f8ed349a831dbd",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e09ae238_02974faf",
+        "filename": "libraries/voltctl.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 835,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2021-03-12T08:53:29Z",
+      "side": 1,
+      "message": "same above",
+      "range": {
+        "startLine": 835,
+        "startChar": 85,
+        "endLine": 835,
+        "endChar": 92
+      },
+      "revId": "0edc6bef08a8deca9189181255f8ed349a831dbd",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c00de2b1_0faa233c",
+        "filename": "tests/data/software-upgrade.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2021-03-12T08:53:29Z",
+      "side": 1,
+      "message": "What is the benefit/different against the \u0027default\u0027 bbsim-kind.yaml file, beside the explicit naming of onos-apps?",
+      "range": {
+        "startLine": 46,
+        "startChar": 0,
+        "endLine": 53,
+        "endChar": 20
+      },
+      "revId": "0edc6bef08a8deca9189181255f8ed349a831dbd",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    }
+  ]
+}
