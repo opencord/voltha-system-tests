@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a687501c_9ab34438",
+        "filename": "Jenkinsfile-voltha-build",
+        "patchSetId": 1
+      },
+      "lineNbr": 341,
+      "author": {
+        "id": 1000007
+      },
+      "writtenOn": "2021-03-15T20:32:40Z",
+      "side": 1,
+      "message": "I\u0027ve always used `def`, but if `int` works I\u0027m totally fine with it",
+      "range": {
+        "startLine": 341,
+        "startChar": 24,
+        "endLine": 341,
+        "endChar": 27
+      },
+      "revId": "63ae98b8291f1d90cdaa6696b3db504d777d9bd8",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    }
+  ]
+}
