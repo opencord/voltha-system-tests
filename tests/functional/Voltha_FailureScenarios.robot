@@ -31,6 +31,7 @@ Resource          ../../libraries/utils.robot
 Resource          ../../libraries/k8s.robot
 Resource          ../../variables/variables.robot
 Resource          ../../libraries/power_switch.robot
+Resource          ../../libraries/bbsim.robot
 
 *** Variables ***
 ${POD_NAME}       flex-ocp-cord
@@ -689,6 +690,29 @@ Verify restart ofagent container before subscriber is provisioned
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
         ...    Validate Subscriber DHCP Allocation    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${onu_port}
     END
+
+Verify OLT Grpc Disconnection
+    [Documentation]    Restarts OLT Grpc Server and verifies everything works as before without any system disruption.
+    [Tags]    functional    VOL-3904    restartGrpcServer    bbsim
+    [Setup]    Start Logging    restartGrpcServer
+    [Teardown]    Run Keywords    Collect Logs
+    ...           AND             Stop Logging    restartGrpcServer
+    Delete All Devices And Verify
+    Setup
+    Run Keyword If    ${has_dataplane}    Clean Up Linux
+    Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test
+    FOR    ${J}    IN RANGE    0    ${num_olts}
+        ${bbsim_rel}=    Catenate    SEPARATOR=    bbsim    ${J}
+        ${bbsim_pod}=    Get Pod Name By Label    ${NAMESPACE}    release     ${bbsim_rel}
+        Restart Grpc Server    ${NAMESPACE}    ${bbsim_pod}    5
+    END
+    # Repeat sanity test without subscriber changes
+    Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test    True
+    # Additional Verification
+    Wait Until Keyword Succeeds    ${timeout}    2s    Delete All Devices and Verify
+    Setup
+    Run Keyword If    ${has_dataplane}    Clean Up Linux
+    Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test
 
 Verify ONU Soft Reboot
     [Documentation]    Test soft reboot of the ONU using voltctl command

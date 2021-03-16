@@ -90,3 +90,11 @@ Get ONUs List
     @{onuList}=    Split To Lines    ${onus}
     Should Be Equal as Integers    ${rc}    0
     [Return]    ${onuList}
+
+Restart Grpc Server
+    [Documentation]  Restart Grpc Server on a BBSim OLT
+    [Arguments]    ${namespace}    ${bbsim_pod_name}    ${delay}
+    ${res}     ${rc}=    Exec Pod And Return Output And RC    ${namespace}    ${bbsim_pod_name}
+    ...    bbsimctl olt restartServer ${delay}
+    Log     ${res}
+    Should Be Equal as Integers    ${rc}    0
