@@ -368,6 +368,20 @@ Validate Uni Id
     Should Be Equal As Integers    ${uni}    ${uni_id}
     ...    msg=Uni-Id (${uni_id}) does not match onu (${uni}) from tp_path in etcd data!
 
+Delete ONU Go Adapter ETCD Data
+    [Documentation]    This keyword deletes openonu-go-adapter Data stored in etcd
+    [Arguments]    ${defaultkvstoreprefix}=voltha_voltha    ${validate}=False
+    ${namespace}=    Set Variable    default
+    ${podname}=    Set Variable    etcd
+    ${kvstoreprefix}=    Get Kv Store Prefix    ${defaultkvstoreprefix}
+    ${commandget}=    Catenate
+    ...    /bin/sh -c 'ETCDCTL_API=3 etcdctl del --prefix service/${kvstoreprefix}/openonu'
+    ${result}=    Exec Pod In Kube    ${namespace}    ${podname}    ${commandget}
+    log    ${result}
+    Run Keyword If    ${validate}    Wait Until Keyword Succeeds    ${timeout}    1s
+    ...    Validate Onu Data In Etcd    0    without_pm_data=False
+    [Return]    ${result}
+
 Wait for Ports in ONOS for all OLTs
     [Documentation]    Waits untill a certain number of ports are enabled in all OLTs
     [Arguments]    ${onos_ssh_connection}    ${count}    ${filter}    ${max_wait_time}=10m
