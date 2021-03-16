@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "09460b15_e0f761e5",
+        "filename": "tests/openonu-go-adapter/Voltha_ONUReconcileTests.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2021-03-16T14:58:46Z",
+      "side": 1,
+      "message": "Hi Torsten, I don\u0027t understand the purpose of `etcd_check` flag. At first, it is getting set to False here in the `Setup Suite` then in `Setup Test` (which gets called for each test) it gets set to True (we have not done anything specific in between, related to this flag). Then again in `Teardown Test` (which gets called for each test) it changes to False directly and then finally in `Teardown Suite` we use it as IF case where as per my understanding it will always be False. Please let me know if I am missing something here. Thanks.",
+      "range": {
+        "startLine": 174,
+        "startChar": 0,
+        "endLine": 175,
+        "endChar": 39
+      },
+      "revId": "b53b64b649c32255416f51aee5f421752ee21cc8",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    }
+  ]
+}
