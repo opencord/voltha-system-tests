@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "dd4c9d3f_1c43480b",
+        "filename": "tests/software-upgrades/ONU_Upgrade.robot",
+        "patchSetId": 3
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2021-03-16T05:38:36Z",
+      "side": 1,
+      "message": "Is there a way to verify that the image has actually downloaded in the Adapter? For now, I can add a static sleep of 30 seconds between download and activate command.",
+      "parentUuid": "4de2149b_ca099487",
+      "revId": "b4210f0620098042ca461ca125a50a17c8806abc",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1a13679b_dd6fcebc",
         "filename": "tests/software-upgrades/ONU_Upgrade.robot",
         "patchSetId": 3
@@ -30,6 +48,24 @@
       "writtenOn": "2021-03-15T15:52:02Z",
       "side": 1,
       "message": "An additional wait time should be inserted here to let the download finish. Image_Active here is only an indication that the image is accepted for the download to the ONU. Perhaps we can also (later?) find a way of checking if the image was really accepted by the ONU (BBSIM)",
+      "revId": "b4210f0620098042ca461ca125a50a17c8806abc",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "396e36a5_11f72c2c",
+        "filename": "tests/software-upgrades/ONU_Upgrade.robot",
+        "patchSetId": 3
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2021-03-16T05:38:36Z",
+      "side": 1,
+      "message": "Thanks Michael. Yes, I agree with your point that we need a way to verify the actual state of the image in ONU. Not sure, if there is a way for that in bbsim at the moment, Teo can help to understand this. For now, as suggested, I will add a static sleep after activate command. I guess 30 seconds should be enough. Your thoughts?",
+      "parentUuid": "1a13679b_dd6fcebc",
       "revId": "b4210f0620098042ca461ca125a50a17c8806abc",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
       "unresolved": true
