@@ -169,6 +169,10 @@ Setup Suite
     Set Suite Variable  ${onos_ssh_connection}
     # delete etcd MIB Template Data
     Delete MIB Template Data
+    # delete etcd onu data
+    Delete ONU Go Adapter ETCD Data    validate=True
+    ${etcd_check}=    Set Variable    False
+    Set Suite Variable    ${etcd_check}
 
 
 Teardown Suite
@@ -180,7 +184,8 @@ Teardown Suite
     Run Keyword If    ${pausebeforecleanup}    Log    Teardown will be continued...    console=yes
     Run Keyword If    ${teardown_device}    Delete All Devices and Verify
     Run Keyword If    ${usekill2restart}    Restart Pod    ${namespace}    open-onu
-    Validate Onu Data In Etcd    0    without_pm_data=False
+    Run Keyword If    ${etcd_check}    Wait Until Keyword Succeeds    ${timeout}    1s
+    ...    Validate Onu Data In Etcd    0    without_pm_data=False
     Wait for Ports in ONOS for all OLTs      ${onos_ssh_connection}  0   BBSM    ${timeout}
     Close All ONOS SSH Connections
 
@@ -214,14 +219,21 @@ Setup Test
         Append To List    ${olt_ids}    ${olt}
     END
     Set Global Variable    ${olt_ids}
+    ${etcd_check}=    Set Variable    True
+    Set Suite Variable    ${etcd_check}
 
 Teardown Test
     [Documentation]    Post-test Teardown
+    Run Keyword If    ${pausebeforecleanup}    Import Library    Dialogs
+    Run Keyword If    ${pausebeforecleanup}    Pause Execution    Press OK to continue with clean up!
+    Run Keyword If    ${pausebeforecleanup}    Log    Teardown will be continued...    console=yes
     Run Keyword If    ${teardown_device}    Delete All Devices and Verify
     # delete etcd MIB Template Data
     Delete MIB Template Data
     # check etcd data are empty
-    Validate Onu Data In Etcd    0    without_pm_data=False
+    Wait Until Keyword Succeeds    ${timeout}    1s    Validate Onu Data In Etcd    0    without_pm_data=False
+    ${etcd_check}=    Set Variable    False
+    Set Suite Variable    ${etcd_check}
     Sleep    5s
 
 Do Reconcile In Determined State
