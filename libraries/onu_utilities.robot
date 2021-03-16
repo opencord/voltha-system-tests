@@ -234,6 +234,7 @@ Validate Onu Data In Etcd
         ${value}=    Get From List    ${jsondata}    ${INDEX}
         # TODO: The TP ID is hardcoded to 64 below. It is fine when testing single-tcont workflow.
         # When testing multi-tcont this may need some adjustment.
+        Exit For Loop If    not ('uni_config' in $value)
         ${tp_path}=    Get From Dictionary    ${value['uni_config'][0]['PersTpPathMap']}    64
         ${oltpononuuniid}=    Read Pon Onu Uni String    ${tp_path}
         ${list_id}=    Get Index From List    ${oltpononuuniidlist}   ${oltpononuuniid}
@@ -367,6 +368,20 @@ Validate Uni Id
     ${uni_id}=    Get From Dictionary    ${value['uni_config'][0]}    uni_id
     Should Be Equal As Integers    ${uni}    ${uni_id}
     ...    msg=Uni-Id (${uni_id}) does not match onu (${uni}) from tp_path in etcd data!
+
+Delete ONU Go Adapter ETCD Data
+    [Documentation]    This keyword deletes openonu-go-adapter Data stored in etcd
+    [Arguments]    ${defaultkvstoreprefix}=voltha_voltha    ${validate}=False
+    ${namespace}=    Set Variable    default
+    ${podname}=    Set Variable    etcd
+    ${kvstoreprefix}=    Get Kv Store Prefix    ${defaultkvstoreprefix}
+    ${commandget}=    Catenate
+    ...    /bin/sh -c 'ETCDCTL_API=3 etcdctl del --prefix service/${kvstoreprefix}/openonu'
+    ${result}=    Exec Pod In Kube    ${namespace}    ${podname}    ${commandget}
+    log    ${result}
+    Run Keyword If    ${validate}    Wait Until Keyword Succeeds    ${timeout}    1s
+    ...    Validate Onu Data In Etcd    0    without_pm_data=False
+    [Return]    ${result}
 
 Wait for Ports in ONOS for all OLTs
     [Documentation]    Waits untill a certain number of ports are enabled in all OLTs
