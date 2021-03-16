@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cfa57a7f_f053cd4e",
+        "filename": "tests/software-upgrades/ONU_Upgrade.robot",
+        "patchSetId": 4
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1000666
+      },
+      "writtenOn": "2021-03-16T17:15:46Z",
+      "side": 1,
+      "message": "Ok, I see you expect all parameters to be defined from outside. That\u0027s basically good, even though we could speculate if it would be good to have a set of default values here. \nWithout this change I would have to correct your before-hand assumption after my integration tests with BBSIM. \nFor actual BBSIM tests the needed command would be (might change of course again):\nvoltctl device image download $DEVICE_ID software-image.img http://bbsim0:50074/images v1.0.0 0 /reboot\nvoltctl device image activate $DEVICE_ID software-image.img v1.0.0 0 /reboot",
+      "revId": "51027f112d319acc63a0e07f0a1978b894953e6e",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "92ca1f6e_a840199c",
+        "filename": "tests/software-upgrades/ONU_Upgrade.robot",
+        "patchSetId": 4
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1000666
+      },
+      "writtenOn": "2021-03-16T17:15:46Z",
+      "side": 1,
+      "message": "Ok, with BBSIM I have seen the download is much faster (the file is small) - here 1s should be sufficient. If you regard it as a bit more general - for hardware tests - I tried to set an adapter internal timeout of 10s, so if you use a timer of \u003e10 (e.g.) 12seconds, that should be sufficient.",
+      "revId": "51027f112d319acc63a0e07f0a1978b894953e6e",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3b3e25ec_8853308e",
+        "filename": "tests/software-upgrades/ONU_Upgrade.robot",
+        "patchSetId": 4
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1000666
+      },
+      "writtenOn": "2021-03-16T17:15:46Z",
+      "side": 1,
+      "message": "As stated, this timer shall not really ensure the (misleading) state after the test, but ensure, that the complete procedure has really been done (or to give it the time to come to a successful end). \nThis includes a reset of the ONU and by that it is hard to estimate. At least for the BBSIM test I can see that it takes about 2min11 in info level, probably longer in debug level. So I would guess for BBSIM we need 3min here.\nFor real hardware test I would go to 10  min as a starting estimation (5 min might be quite critical here).",
+      "revId": "51027f112d319acc63a0e07f0a1978b894953e6e",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    }
+  ]
+}
