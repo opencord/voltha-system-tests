@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "5a4a2dbd_cceafac9",
+        "filename": "tests/software-upgrades/ONU_Upgrade.robot",
+        "patchSetId": 4
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2021-03-17T04:58:31Z",
+      "side": 1,
+      "message": "Yes, I prefer to keep the params without any defaults in the TC. Also, please let me know once you have the image that I can use to test.",
+      "parentUuid": "cfa57a7f_f053cd4e",
+      "revId": "51027f112d319acc63a0e07f0a1978b894953e6e",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "92ca1f6e_a840199c",
         "filename": "tests/software-upgrades/ONU_Upgrade.robot",
         "patchSetId": 4
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "a1e23147_8338b99a",
+        "filename": "tests/software-upgrades/ONU_Upgrade.robot",
+        "patchSetId": 4
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2021-03-17T04:58:31Z",
+      "side": 1,
+      "message": "Sure. Will make it 12 seconds.",
+      "parentUuid": "92ca1f6e_a840199c",
+      "revId": "51027f112d319acc63a0e07f0a1978b894953e6e",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "3b3e25ec_8853308e",
         "filename": "tests/software-upgrades/ONU_Upgrade.robot",
         "patchSetId": 4
@@ -47,6 +83,24 @@
       "writtenOn": "2021-03-16T17:15:46Z",
       "side": 1,
       "message": "As stated, this timer shall not really ensure the (misleading) state after the test, but ensure, that the complete procedure has really been done (or to give it the time to come to a successful end). \nThis includes a reset of the ONU and by that it is hard to estimate. At least for the BBSIM test I can see that it takes about 2min11 in info level, probably longer in debug level. So I would guess for BBSIM we need 3min here.\nFor real hardware test I would go to 10  min as a starting estimation (5 min might be quite critical here).",
+      "revId": "51027f112d319acc63a0e07f0a1978b894953e6e",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a9da75b1_ddc4e9bb",
+        "filename": "tests/software-upgrades/ONU_Upgrade.robot",
+        "patchSetId": 4
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2021-03-17T04:58:31Z",
+      "side": 1,
+      "message": "Sure. Will make it 3min for bbsim and 10min for hardware.",
+      "parentUuid": "3b3e25ec_8853308e",
       "revId": "51027f112d319acc63a0e07f0a1978b894953e6e",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
       "unresolved": true
