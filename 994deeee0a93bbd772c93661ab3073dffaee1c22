@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6f34d181_48a2fd08",
+        "filename": "tests/openonu-go-adapter/Voltha_ONUReconcileTests.robot",
+        "patchSetId": 3
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2021-03-17T09:22:34Z",
+      "side": 1,
+      "message": "Remove this extra space",
+      "range": {
+        "startLine": 73,
+        "startChar": 34,
+        "endLine": 73,
+        "endChar": 35
+      },
+      "revId": "994deeee0a93bbd772c93661ab3073dffaee1c22",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    }
+  ]
+}
