@@ -22,6 +22,30 @@
       "revId": "b53b64b649c32255416f51aee5f421752ee21cc8",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0b098a06_c62641e5",
+        "filename": "tests/openonu-go-adapter/Voltha_ONUReconcileTests.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2021-03-17T09:18:01Z",
+      "side": 1,
+      "message": "Ack\nYou (and also Michael) are absolutly right. My intention to keep the old behaviour (etcd check in suite teardown) and the realization did not match. So I introduce a new flag, which can be set via the -v option of robot. With this flag the user can decide to execute etcd check in test teardown (default) or in suite teardown (see patchset #3). All the test internal toggeling of a flag is removed. Thanks",
+      "parentUuid": "09460b15_e0f761e5",
+      "range": {
+        "startLine": 174,
+        "startChar": 0,
+        "endLine": 175,
+        "endChar": 39
+      },
+      "revId": "b53b64b649c32255416f51aee5f421752ee21cc8",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
     }
   ]
 }
