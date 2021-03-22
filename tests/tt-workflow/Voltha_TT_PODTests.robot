@@ -69,9 +69,8 @@ Reboot TT ONUs Physically - Clean Up
         ${src}=    Set Variable    ${hosts.src[${I}]}
         ${dst}=    Set Variable    ${hosts.dst[${I}]}
         Disable Switch Outlet    ${src['power_switch_port']}
-        Sleep    60s
+        Sleep    10s
         Enable Switch Outlet    ${src['power_switch_port']}
-        Sleep    60s
     END
 
 Sanity E2E Test for TT (HSIA, VoD, VoIP)
