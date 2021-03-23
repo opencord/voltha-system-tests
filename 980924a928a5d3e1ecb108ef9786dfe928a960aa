@@ -22,6 +22,30 @@
       "revId": "980924a928a5d3e1ecb108ef9786dfe928a960aa",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "09b435c4_0820d05b",
+        "filename": "tests/data/bbsim-kind-2OLTx2ONUx2PON-tt.yaml",
+        "patchSetId": 3
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2021-03-23T11:22:28Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "19aabf7c_ff82435e",
+      "range": {
+        "startLine": 48,
+        "startChar": 5,
+        "endLine": 48,
+        "endChar": 6
+      },
+      "revId": "980924a928a5d3e1ecb108ef9786dfe928a960aa",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
     }
   ]
 }
