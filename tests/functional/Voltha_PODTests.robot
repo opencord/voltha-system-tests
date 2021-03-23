@@ -401,6 +401,8 @@ Test disable ONUs and OLT then delete ONUs and OLT
     [Teardown]    Run Keywords    Collect Logs
     ...           AND             Stop Logging    DisableDeleteONUandOLT
     #${olt_device_id}=    Get Device ID From SN    ${olt_serial_number}
+    ${onu_reason}=    Set Variable If    '${workflow}' == 'ATT'    tech-profile-config-downloaded-success
+    ...    omci-flows-pushed
     FOR    ${I}    IN RANGE    0    ${num_all_onus}
         ${src}=    Set Variable    ${hosts.src[${I}]}
         ${dst}=    Set Variable    ${hosts.dst[${I}]}
@@ -408,7 +410,7 @@ Test disable ONUs and OLT then delete ONUs and OLT
         ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    360s    5s
         ...    Validate Device    ENABLED    ACTIVE
-        ...    REACHABLE    ${src['onu']}    onu=True    onu_reason=omci-flows-pushed
+        ...    REACHABLE    ${src['onu']}    onu=True    onu_reason=${onu_reason}
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
         ...    Validate OLT Device    ENABLED    ACTIVE
         ...    REACHABLE    ${src['olt']}
