@@ -36,8 +36,7 @@
 *** Settings ***
 Documentation     Collect measurements on VOLTHA performances
 Suite Setup       Setup Suite
-#Test Setup        Setup
-#Test Teardown     Teardown
+Test Timeout      10m
 Suite Teardown    Teardown Suite
 Library           Collections
 Library           String
