@@ -432,7 +432,7 @@ Do Check Tech Profile
     ${podname}=    Set Variable    etcd
     ${kvstoreprefix}=    Get Kv Store Prefix
     ${commandget}    Catenate
-    ...    /bin/sh -c 'ETCDCTL_API=3 etcdctl get --prefix service/${kvstoreprefix}/technology_profiles/XGS-PON/64'
+    ...    /bin/sh -c 'ETCDCTL_API=3 etcdctl get --prefix service/${kvstoreprefix}/technology_profiles/XGS-PON/65'
     ${result}=    Exec Pod In Kube    ${namespace}    ${podname}    ${commandget}
     ${num_gem_ports}=    Set Variable    1
     ${num_gem_ports}=    Set Variable If

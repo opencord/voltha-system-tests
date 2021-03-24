@@ -24,7 +24,7 @@
             "nasPortId": "",
             "circuitId": "",
             "remoteId": "",
-            "technologyProfileId": 64,
+            "technologyProfileId": 65,
             "upstreamBandwidthProfile": "Default",
             "downstreamBandwidthProfile": "Default"
           },
@@ -35,7 +35,7 @@
             "nasPortId": "",
             "circuitId": "",
             "remoteId": "",
-            "technologyProfileId": 64,
+            "technologyProfileId": 65,
             "upstreamBandwidthProfile": "Default",
             "downstreamBandwidthProfile": "Default"
           },
@@ -46,7 +46,7 @@
             "nasPortId": "",
             "circuitId": "",
             "remoteId": "",
-            "technologyProfileId": 64,
+            "technologyProfileId": 65,
             "upstreamBandwidthProfile": "Default",
             "downstreamBandwidthProfile": "Default"
           },
@@ -57,7 +57,7 @@
             "nasPortId": "",
             "circuitId": "",
             "remoteId": "",
-            "technologyProfileId": 64,
+            "technologyProfileId": 65,
             "upstreamBandwidthProfile": "Default",
             "downstreamBandwidthProfile": "Default"
           },
@@ -68,7 +68,7 @@
             "nasPortId": "",
             "circuitId": "",
             "remoteId": "",
-            "technologyProfileId": 64,
+            "technologyProfileId": 65,
             "upstreamBandwidthProfile": "Default",
             "downstreamBandwidthProfile": "Default"
           },

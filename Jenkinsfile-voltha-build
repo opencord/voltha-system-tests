@@ -197,7 +197,7 @@ node ("${TestNodeName}") {
                                put_result=\$(kubectl exec -it \$etcd_container -- /bin/sh -c 'cat /tmp/mcast.json | ETCDCTL_API=3 etcdctl put service/voltha/technology_profiles/${tech_prof_directory}/66')
                             else
                                kubectl cp $WORKSPACE/voltha-system-tests/tests/data/TechProfile-${profile}.json \$etcd_container:/tmp/flexpod.json
-                               put_result=\$(kubectl exec -it \$etcd_container -- /bin/sh -c 'cat /tmp/flexpod.json | ETCDCTL_API=3 etcdctl put service/voltha/technology_profiles/${tech_prof_directory}/64')
+                               put_result=\$(kubectl exec -it \$etcd_container -- /bin/sh -c 'cat /tmp/flexpod.json | ETCDCTL_API=3 etcdctl put service/voltha/technology_profiles/${tech_prof_directory}/65')
                             fi
 
                             """
@@ -207,7 +207,7 @@ node ("${TestNodeName}") {
                             out_get_tp = sh returnStatus: true, script: """
                             export KUBECONFIG=$WORKSPACE/${configBaseDir}/${configKubernetesDir}/${configFileName}.conf
                             etcd_container=\$(kubectl get pods | grep etcd | awk 'NR==1{print \$1}')
-                            get_result=\$(kubectl exec -it \$etcd_container -- /bin/sh -c 'ETCDCTL_API=3 etcdctl get --prefix service/voltha/technology_profiles/${tech_prof_directory}/64')
+                            get_result=\$(kubectl exec -it \$etcd_container -- /bin/sh -c 'ETCDCTL_API=3 etcdctl get --prefix service/voltha/technology_profiles/${tech_prof_directory}/65')
                             """
                             return out_get_tp == 0
                         }

@@ -31,7 +31,7 @@
               "uniTagMatch": 4096,
               "ponCTag": 4096,
               "ponSTag": 31,
-              "technologyProfileId": 64,
+              "technologyProfileId": 65,
               "upstreamBandwidthProfile": "Default",
               "downstreamBandwidthProfile": "Default",
               "isDhcpRequired": false
@@ -47,7 +47,7 @@
                 "uniTagMatch": 4096,
                 "ponCTag": 4096,
                 "ponSTag": 32,
-                "technologyProfileId": 64,
+                "technologyProfileId": 65,
                 "upstreamBandwidthProfile": "Default",
                 "downstreamBandwidthProfile": "Default",
                 "isDhcpRequired": false
@@ -63,7 +63,7 @@
                 "uniTagMatch": 4096,
                 "ponCTag": 4096,
                 "ponSTag": 33,
-                "technologyProfileId": 64,
+                "technologyProfileId": 65,
                 "upstreamBandwidthProfile": "Default",
                 "downstreamBandwidthProfile": "Default",
                 "isDhcpRequired": false
@@ -79,7 +79,7 @@
                 "uniTagMatch": 4096,
                 "ponCTag": 4096,
                 "ponSTag": 12,
-                "technologyProfileId": 64,
+                "technologyProfileId": 65,
                 "upstreamBandwidthProfile": "User_Bandwidth1",
                 "downstreamBandwidthProfile": "User_Bandwidth2",
                 "isDhcpRequired": false
@@ -95,7 +95,7 @@
                 "uniTagMatch": 4096,
                 "ponCTag": 4096,
                 "ponSTag": 11,
-                "technologyProfileId": 64,
+                "technologyProfileId": 65,
                 "upstreamBandwidthProfile": "User_Bandwidth3",
                 "downstreamBandwidthProfile": "User_Bandwidth3",
                 "isDhcpRequired": false
@@ -111,7 +111,7 @@
                 "uniTagMatch": 4096,
                 "ponCTag": 4096,
                 "ponSTag": 34,
-                "technologyProfileId": 64,
+                "technologyProfileId": 65,
                 "upstreamBandwidthProfile": "User_Bandwidth1",
                 "downstreamBandwidthProfile": "User_Bandwidth2",
                 "isDhcpRequired": false

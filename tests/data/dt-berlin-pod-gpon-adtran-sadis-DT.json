@@ -26,7 +26,7 @@
                 "uniTagMatch": 4096,
                 "ponCTag": 4096,
                 "ponSTag": 35,
-                "technologyProfileId": 64,
+                "technologyProfileId": 65,
                 "upstreamBandwidthProfile": "Default",
                 "downstreamBandwidthProfile": "Default",
                 "isDhcpRequired": false
@@ -43,7 +43,7 @@
                 "uniTagMatch": 4096,
                 "ponCTag": 4096,
                 "ponSTag": 36,
-                "technologyProfileId": 64,
+                "technologyProfileId": 65,
                 "upstreamBandwidthProfile": "User_Bandwidth1",
                 "downstreamBandwidthProfile": "User_Bandwidth2",
                 "isDhcpRequired": false
@@ -60,7 +60,7 @@
                 "uniTagMatch": 4096,
                 "ponCTag": 4096,
                 "ponSTag": 37,
-                "technologyProfileId": 64,
+                "technologyProfileId": 65,
                 "upstreamBandwidthProfile": "User_Bandwidth3",
                 "downstreamBandwidthProfile": "User_Bandwidth3",
                 "isDhcpRequired": false

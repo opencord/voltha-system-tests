@@ -24,7 +24,7 @@
             "uniTagList": [{
               "ponCTag": 11,
               "ponSTag": 11,
-              "technologyProfileId": 64,
+              "technologyProfileId": 65,
               "upstreamBandwidthProfile": "Default",
               "downstreamBandwidthProfile": "Default",
               "isDhcpRequired": true
@@ -39,7 +39,7 @@
               {
                 "ponCTag": 7,
                 "ponSTag": 11,
-                "technologyProfileId": 64,
+                "technologyProfileId": 65,
                 "upstreamBandwidthProfile": "User_Bandwidth3",
                 "downstreamBandwidthProfile": "User_Bandwidth3",
                 "isDhcpRequired": true

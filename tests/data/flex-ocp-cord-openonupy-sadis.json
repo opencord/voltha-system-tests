@@ -25,7 +25,7 @@
             "uniTagList": [{
               "ponCTag": 901,
               "ponSTag": 111,
-              "technologyProfileId": 64,
+              "technologyProfileId": 65,
               "upstreamBandwidthProfile": "User_Bandwidth3",
               "downstreamBandwidthProfile": "User_Bandwidth3",
               "isDhcpRequired": true
@@ -39,7 +39,7 @@
             "uniTagList": [{
               "ponCTag": 801,
               "ponSTag": 111,
-              "technologyProfileId": 64,
+              "technologyProfileId": 65,
               "upstreamBandwidthProfile": "User_Bandwidth1",
               "downstreamBandwidthProfile": "User_Bandwidth2",
               "isDhcpRequired": true
@@ -53,7 +53,7 @@
             "uniTagList": [{
               "ponCTag": 101,
               "ponSTag": 222,
-              "technologyProfileId": 64,
+              "technologyProfileId": 65,
               "upstreamBandwidthProfile": "Default",
               "downstreamBandwidthProfile": "Default",
               "isDhcpRequired": true

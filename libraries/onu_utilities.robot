@@ -193,11 +193,11 @@ Set Tech Profile
     ${src}=    Set Variable    ${data_dir}/TechProfile-${TechProfile}.json
     ${dest}=    Set Variable    /tmp/flexpod.json
     ${command}    Catenate
-    ...    /bin/sh -c 'cat    ${dest} | ETCDCTL_API=3 etcdctl put service/voltha/technology_profiles/XGS-PON/64'
+    ...    /bin/sh -c 'cat    ${dest} | ETCDCTL_API=3 etcdctl put service/voltha/technology_profiles/XGS-PON/65'
     Copy File To Pod    ${namespace}    ${podname}    ${src}    ${dest}
     Exec Pod In Kube    ${namespace}    ${podname}    ${command}
     ${commandget}    Catenate
-    ...    /bin/sh -c 'ETCDCTL_API=3 etcdctl get --prefix service/voltha/technology_profiles/XGS-PON/64'
+    ...    /bin/sh -c 'ETCDCTL_API=3 etcdctl get --prefix service/voltha/technology_profiles/XGS-PON/65'
     Exec Pod In Kube    ${namespace}    ${podname}    ${commandget}
 
 Remove Tech Profile
@@ -206,10 +206,10 @@ Remove Tech Profile
     ${namespace}=    Set Variable    default
     ${podname}=    Set Variable    etcd
     ${command}    Catenate
-    ...    /bin/sh -c 'ETCDCTL_API=3 etcdctl del --prefix service/voltha/technology_profiles/XGS-PON/64'
+    ...    /bin/sh -c 'ETCDCTL_API=3 etcdctl del --prefix service/voltha/technology_profiles/XGS-PON/65'
     Exec Pod In Kube    ${namespace}    ${podname}    ${command}
     ${commandget}    Catenate
-    ...    /bin/sh -c 'ETCDCTL_API=3 etcdctl get --prefix service/voltha/technology_profiles/XGS-PON/64'
+    ...    /bin/sh -c 'ETCDCTL_API=3 etcdctl get --prefix service/voltha/technology_profiles/XGS-PON/65'
     Exec Pod In Kube    ${namespace}    ${podname}    ${commandget}
 
 Validate Onu Data In Etcd
@@ -232,10 +232,10 @@ Validate Onu Data In Etcd
     ${serialnumberlist}=    Create List
     FOR    ${INDEX}    IN RANGE    0    ${length}
         ${value}=    Get From List    ${jsondata}    ${INDEX}
-        # TODO: The TP ID is hardcoded to 64 below. It is fine when testing single-tcont workflow.
+        # TODO: The TP ID is hardcoded to 65 below. It is fine when testing single-tcont workflow.
         # When testing multi-tcont this may need some adjustment.
         Exit For Loop If    not ('uni_config' in $value)
-        ${tp_path}=    Get From Dictionary    ${value['uni_config'][0]['PersTpPathMap']}    64
+        ${tp_path}=    Get From Dictionary    ${value['uni_config'][0]['PersTpPathMap']}    65
         ${oltpononuuniid}=    Read Pon Onu Uni String    ${tp_path}
         ${list_id}=    Get Index From List    ${oltpononuuniidlist}   ${oltpononuuniid}
         Should Be Equal As Integers    ${list_id}    -1
@@ -268,9 +268,9 @@ Validate Vlan Rules In Etcd
     ${vlan_rules}=    Create Dictionary
     FOR    ${INDEX}    IN RANGE    0    ${length}
         ${value}=    Get From List    ${jsondata}    ${INDEX}
-        # TODO: The TP ID is hardcoded to 64 below. It is fine when testing single-tcont workflow.
+        # TODO: The TP ID is hardcoded to 65 below. It is fine when testing single-tcont workflow.
         # When testing multi-tcont this may need some adjustment.
-        ${tp_path}=    Get From Dictionary    ${value['uni_config'][0]['PersTpPathMap']}    64
+        ${tp_path}=    Get From Dictionary    ${value['uni_config'][0]['PersTpPathMap']}    65
         ${oltpononuuniid}=    Read Pon Onu Uni String    ${tp_path}
         ${cookieslice}=    Get From Dictionary    ${value['uni_config'][0]['flow_params'][0]}    cookie_slice
         #@{cookieslicelist}=    Split String    ${cookieslice}    ,
@@ -347,9 +347,9 @@ Get Value Of Tp Path Element
 Validate Onu Id
     [Documentation]    This keyword validates ONU Id of passed etcd data.
     [Arguments]    ${value}
-    # TODO: The TP ID is hardcoded to 64 below. It is fine when testing single-tcont workflow.
+    # TODO: The TP ID is hardcoded to 65 below. It is fine when testing single-tcont workflow.
     # When testing multi-tcont this may need some adjustment.
-    ${tp_path}=    Get From Dictionary    ${value['uni_config'][0]['PersTpPathMap']}    64
+    ${tp_path}=    Get From Dictionary    ${value['uni_config'][0]['PersTpPathMap']}    65
     ${tppathlines}=   Replace String    ${tp_path}    /    \n
     ${onu}=    Get Value Of Tp Path Element    ${tppathlines}    onu
     ${onu_id}=    Get From Dictionary    ${value}    onu_id
@@ -360,9 +360,9 @@ Validate Onu Id
 Validate Uni Id
     [Documentation]    This keyword validates UNI Id of passed etcd data.
     [Arguments]    ${value}
-    # TODO: The TP ID is hardcoded to 64 below. It is fine when testing single-tcont workflow.
+    # TODO: The TP ID is hardcoded to 65 below. It is fine when testing single-tcont workflow.
     # When testing multi-tcont this may need some adjustment.
-    ${tp_path}=    Get From Dictionary    ${value['uni_config'][0]['PersTpPathMap']}    64
+    ${tp_path}=    Get From Dictionary    ${value['uni_config'][0]['PersTpPathMap']}    65
     ${tppathlines}=   Replace String    ${tp_path}    /    \n
     ${uni}=    Get Value Of Tp Path Element    ${tppathlines}    uni
     ${uni_id}=    Get From Dictionary    ${value['uni_config'][0]}    uni_id
