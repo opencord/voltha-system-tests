@@ -552,7 +552,7 @@ Sanity E2E Test for OLT/ONU on POD With Core Fail and Restart
         ${olt_device_id}=    Get OLTDeviceID From OLT List    ${olt_serial_number}
         ${of_id}=    Wait Until Keyword Succeeds    ${timeout}    15s    Validate OLT Device in ONOS
         ...    ${olt_serial_number}
-        Wait Until Keyword Succeeds    ${timeout}    2s    Device Is Available In ONOS
+        Wait Until Keyword Succeeds    120s    2s    Device Is Available In ONOS
         ...    http://karaf:karaf@${ONOS_REST_IP}:${ONOS_REST_PORT}    ${of_id}
     END
 
