@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e7e3da12_f0d35287",
+        "filename": "tests/functional/Voltha_PODTests.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 404,
+      "author": {
+        "id": 1000007
+      },
+      "writtenOn": "2021-03-24T17:53:41Z",
+      "side": 1,
+      "message": "while only for the ATT case?",
+      "range": {
+        "startLine": 404,
+        "startChar": 22,
+        "endLine": 404,
+        "endChar": 63
+      },
+      "revId": "8d475aee64f1bf324069cf4f81f07bfc7b6e77cf",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    }
+  ]
+}
