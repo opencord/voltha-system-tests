@@ -95,6 +95,7 @@ Test ONOS App Minor Version Upgrade
         ${app_details}    Get ONOS App Details    ${onos_url}    ${app}
         Log    ${app}: before upgrade: ${app_details}
         Delete ONOS App    ${onos_url}    ${app}
+        Sleep 10s
         Verify ONOS Apps Active Except App Under Test    ${onos_url}    ${app}
         Install And Activate ONOS App    ${onos_url}    ${oar_file}
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
