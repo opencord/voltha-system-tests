@@ -98,3 +98,11 @@ Restart Grpc Server
     ...    bbsimctl olt restartServer ${delay}
     Log     ${res}
     Should Be Equal as Integers    ${rc}    0
+
+Verify ONU Device Image On BBSim
+    [Documentation]    Validates the state of ONU in case of Image Upgrade
+    [Arguments]    ${namespace}    ${bbsim_pod_name}    ${onu}    ${internal_state}
+    ${res}     ${rc}=    Exec Pod And Return Output And RC    ${namespace}    ${bbsim_pod_name}
+    ...    bbsimctl onu list | grep ${onu} | awk '{print $6}'
+    Should Be Equal as Integers    ${rc}    0
+    Should Be Equal    ${res}    ${internal_state}
