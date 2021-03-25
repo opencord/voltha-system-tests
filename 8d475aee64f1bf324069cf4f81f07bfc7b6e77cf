@@ -70,6 +70,30 @@
       "revId": "8d475aee64f1bf324069cf4f81f07bfc7b6e77cf",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c87ef468_7a3765e0",
+        "filename": "tests/functional/Voltha_PODTests.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 404,
+      "author": {
+        "id": 1000064
+      },
+      "writtenOn": "2021-03-25T22:07:53Z",
+      "side": 1,
+      "message": "Added for DT too",
+      "parentUuid": "ed040cfc_6a0b4a61",
+      "range": {
+        "startLine": 404,
+        "startChar": 22,
+        "endLine": 404,
+        "endChar": 63
+      },
+      "revId": "8d475aee64f1bf324069cf4f81f07bfc7b6e77cf",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
     }
   ]
 }
