@@ -260,7 +260,6 @@ node ("${TestNodeName}") {
                             sshpass -p karaf ssh -q -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -p 30115 karaf@${deployment_config.nodes[0].ip} "cfg set org.onosproject.provider.lldp.impl.LldpLinkProvider enabled false"
                             sshpass -p karaf ssh -q -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -p 30115 karaf@${deployment_config.nodes[0].ip} "cfg set org.onosproject.net.flow.impl.FlowRuleManager purgeOnDisconnection false"
                             sshpass -p karaf ssh -q -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -p 30115 karaf@${deployment_config.nodes[0].ip} "cfg set org.onosproject.net.meter.impl.MeterManager purgeOnDisconnection false"
-                            sshpass -p karaf ssh -q -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -p 30115 karaf@${deployment_config.nodes[0].ip} "cfg set org.onosproject.net.driver.impl.DriverRegistryManager requiredDrivers default,voltha"
                             """
                             return sr_active_out == 0
                         }
