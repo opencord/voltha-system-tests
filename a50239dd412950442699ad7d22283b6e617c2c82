@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "af0e2ffb_4e3fa9a1",
+        "filename": "tests/tt-workflow/Voltha_TT_FailureScenarios.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2021-03-25T09:35:25Z",
+      "side": 1,
+      "message": "This test prerequires a running and up system (subscriber provisioning). This is at the moment only given, when previous test (Verify restart openolt-adapter container after subscriber provisioning for TT) runs, if not this test fails.",
+      "range": {
+        "startLine": 115,
+        "startChar": 0,
+        "endLine": 115,
+        "endChar": 71
+      },
+      "revId": "a50239dd412950442699ad7d22283b6e617c2c82",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "51f8b450_fe9ab69b",
+        "filename": "tests/tt-workflow/Voltha_TT_FailureScenarios.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2021-03-25T09:35:25Z",
+      "side": 1,
+      "message": "Is the same like in line 161. Is it really needed here again?",
+      "range": {
+        "startLine": 121,
+        "startChar": 34,
+        "endLine": 121,
+        "endChar": 100
+      },
+      "revId": "a50239dd412950442699ad7d22283b6e617c2c82",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eea94663_c123c56a",
+        "filename": "tests/tt-workflow/Voltha_TT_FailureScenarios.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2021-03-25T09:35:25Z",
+      "side": 1,
+      "message": "Should add subscriber suppressed here like \u0027Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Tests TT    ${suppressaddsubscriber}\u0027? Because a full Sanity Check already runs (in test) before.",
+      "range": {
+        "startLine": 133,
+        "startChar": 4,
+        "endLine": 133,
+        "endChar": 78
+      },
+      "revId": "a50239dd412950442699ad7d22283b6e617c2c82",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8e0395e8_eb0b0314",
+        "filename": "tests/tt-workflow/Voltha_TT_FailureScenarios.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2021-03-25T09:35:25Z",
+      "side": 1,
+      "message": "Should add subscriber suppressed here like \u0027Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Tests TT    ${suppressaddsubscriber}\u0027? Because a full Sanity Check already runs before.",
+      "range": {
+        "startLine": 165,
+        "startChar": 4,
+        "endLine": 165,
+        "endChar": 78
+      },
+      "revId": "a50239dd412950442699ad7d22283b6e617c2c82",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a644eafc_68977bb6",
+        "filename": "tests/tt-workflow/Voltha_TT_FailureScenarios.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2021-03-25T09:35:25Z",
+      "side": 1,
+      "message": "TT :-)",
+      "range": {
+        "startLine": 168,
+        "startChar": 66,
+        "endLine": 168,
+        "endChar": 68
+      },
+      "revId": "a50239dd412950442699ad7d22283b6e617c2c82",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    }
+  ]
+}
