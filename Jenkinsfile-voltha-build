@@ -26,7 +26,7 @@ node ("${TestNodeName}") {
             stage ("Parse deployment configuration file") {
                 sh returnStdout: true, script: "rm -rf ${configBaseDir} voltha-system-tests kind-voltha"
                 sh returnStdout: true, script: "git clone -b master ${cordRepoUrl}/${configBaseDir}"
-                sh returnStdout: true, script: "git clone -b ${branch} ${cordRepoUrl}/voltha-system-tests"
+                sh returnStdout: true, script: "git clone -b master ${cordRepoUrl}/voltha-system-tests"
                 sh returnStdout: true, script: "git clone -b master ${cordRepoUrl}/kind-voltha"
                 if ( params.workFlow == "DT" ) {
                     deployment_config = readYaml file: "${configBaseDir}/${configDeploymentDir}/${configFileName}-DT.yaml"
