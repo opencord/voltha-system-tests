@@ -46,6 +46,30 @@
       "revId": "8d475aee64f1bf324069cf4f81f07bfc7b6e77cf",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ed040cfc_6a0b4a61",
+        "filename": "tests/functional/Voltha_PODTests.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 404,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2021-03-25T02:58:43Z",
+      "side": 1,
+      "message": "This file only gets used for ATT workflow so `IF` check is not required here. For DT, equivalent change is required in `Voltha_DT_PODTests.robot` file.",
+      "parentUuid": "7794e4e9_89e58784",
+      "range": {
+        "startLine": 404,
+        "startChar": 22,
+        "endLine": 404,
+        "endChar": 63
+      },
+      "revId": "8d475aee64f1bf324069cf4f81f07bfc7b6e77cf",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
     }
   ]
 }
