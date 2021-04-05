@@ -46,7 +46,7 @@ node ("${TestNodeName}") {
                     echo "cleaning up"
                     export KUBECONFIG=$WORKSPACE/${configBaseDir}/${configKubernetesDir}/${configFileName}.conf
                     HELM_MAJOR=\$(helm version --client --short | sed -E -e 's/^.*v([0-9]+)\\.[0-9]+\\.[0-9]+.*\$/\\1/')
-                    for hchart in \$(helm list -q | grep -E -v 'docker-registry|mavenrepo|ponnet|local-path-storage|cattle');
+                    for hchart in \$(helm list -q | grep -E -v 'docker-registry|mavenrepo|ponnet|local-path-storage|cattle|fleet');
                     do
                         echo "Purging chart: \${hchart}"
                         if [ \$HELM_MAJOR -le 2 ]; then
@@ -56,7 +56,7 @@ node ("${TestNodeName}") {
                         fi
                     done
                     if [ \$HELM_MAJOR -gt 2 ]; then
-                        for hchart in \$(helm list -q -n voltha | grep -E -v 'docker-registry|mavenrepo|ponnet|local-path-storage|cattle');
+                        for hchart in \$(helm list -q -n voltha | grep -E -v 'docker-registry|mavenrepo|ponnet|local-path-storage|cattle|fleet');
                         do
                             echo "Purging chart: \${hchart}"
                             if [ \$HELM_MAJOR -le 2 ]; then
@@ -75,9 +75,9 @@ node ("${TestNodeName}") {
                             HELM_MAJOR=\$(helm version --client --short | sed -E -e 's/^.*v([0-9]+)\\.[0-9]+\\.[0-9]+.*\$/\\1/')
 
                             if [ \$HELM_MAJOR -le 2 ]; then
-                                helm list -q | grep -E -v 'docker-registry|mavenrepo|ponnet|local-path-storage|cattle' | wc -l
+                                helm list -q | grep -E -v 'docker-registry|mavenrepo|ponnet|local-path-storage|cattle|fleet' | wc -l
                             else
-                                helm list -q --all-namespaces | grep -E -v 'docker-registry|mavenrepo|ponnet|local-path-storage|cattle' | wc -l
+                                helm list -q --all-namespaces | grep -E -v 'docker-registry|mavenrepo|ponnet|local-path-storage|cattle|fleet' | wc -l
                             fi
                             """
                             return helm_deleted.toInteger() == 0
@@ -87,7 +87,7 @@ node ("${TestNodeName}") {
                         waitUntil {
                             kubectl_deleted = sh returnStdout: true, script: """
                             export KUBECONFIG=$WORKSPACE/${configBaseDir}/${configKubernetesDir}/${configFileName}.conf &&
-                            kubectl get pods --all-namespaces --no-headers | grep -E -v 'kube-system|docker-registry|mavenrepo|ponnet|local-path-storage|cattle' | wc -l
+                            kubectl get pods --all-namespaces --no-headers | grep -E -v 'kube-system|docker-registry|mavenrepo|ponnet|local-path-storage|cattle|fleet' | wc -l
                             """
                             return kubectl_deleted.toInteger() == 0
                         }
@@ -180,7 +180,7 @@ node ("${TestNodeName}") {
                 stage('Push Tech-Profile') {
                     for(int i=0; i < deployment_config.olts.size(); i++) {
                         def tech_prof_directory = "XGS-PON"
-                        // If no debian package is specified we default to GPON for the ADTRAN OLT. 
+                        // If no debian package is specified we default to GPON for the ADTRAN OLT.
                         if (!deployment_config.olts[i].containsKey("oltDebVersion") || deployment_config.olts[i].oltDebVersion.contains("asgvolt64")){
                             tech_prof_directory = "GPON"
                         }
