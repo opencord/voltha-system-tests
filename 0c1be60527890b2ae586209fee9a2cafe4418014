@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "55d187d3_79d52ca8",
+        "filename": "Jenkinsfile-voltha-build",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2021-04-06T17:39:58Z",
+      "side": 1,
+      "message": "in theory we could remove this, as AFAIK no cluster with a physical AGG is actually present now.",
+      "revId": "0c1be60527890b2ae586209fee9a2cafe4418014",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "96e1b48d_858770da",
+        "filename": "Jenkinsfile-voltha-build",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2021-04-06T17:39:58Z",
+      "side": 1,
+      "message": "why is this commented out ?",
+      "revId": "0c1be60527890b2ae586209fee9a2cafe4418014",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ef09c57a_63a505f9",
+        "filename": "Jenkinsfile-voltha-build",
+        "patchSetId": 1
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2021-04-06T17:39:58Z",
+      "side": 1,
+      "message": "to avoid this can we have an older 2.7 version ? I\u0027d like this to be non-backported",
+      "revId": "0c1be60527890b2ae586209fee9a2cafe4418014",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ea9354aa_d88c10fd",
+        "filename": "Jenkinsfile-voltha-build",
+        "patchSetId": 1
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2021-04-06T17:39:58Z",
+      "side": 1,
+      "message": "we were seeing some issues in the installation of the Connect in ONOS, never had the chance to debug, can probably be brought down to 10",
+      "revId": "0c1be60527890b2ae586209fee9a2cafe4418014",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    }
+  ]
+}
