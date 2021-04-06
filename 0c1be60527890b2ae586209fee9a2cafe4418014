@@ -54,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "2b4d2754_995e7bb0",
+        "filename": "Jenkinsfile-voltha-build",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2021-04-06T17:54:32Z",
+      "side": 1,
+      "message": "I see, indeed",
+      "parentUuid": "2f88d240_6e10d3f0",
+      "revId": "0c1be60527890b2ae586209fee9a2cafe4418014",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ef09c57a_63a505f9",
         "filename": "Jenkinsfile-voltha-build",
         "patchSetId": 1
@@ -83,6 +101,24 @@
       "side": 1,
       "message": "The 2.7 jobs will use the pipeline in the voltha-2.7 branch.\nRegardless I think we should move this pipeline to \"ci-managent\"",
       "parentUuid": "ef09c57a_63a505f9",
+      "revId": "0c1be60527890b2ae586209fee9a2cafe4418014",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2ee265c4_582f75b3",
+        "filename": "Jenkinsfile-voltha-build",
+        "patchSetId": 1
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2021-04-06T17:54:32Z",
+      "side": 1,
+      "message": "as discussed, +1 of moving it to ci-management",
+      "parentUuid": "6a2264cf_3430b486",
       "revId": "0c1be60527890b2ae586209fee9a2cafe4418014",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
       "unresolved": true
