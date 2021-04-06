@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "2f88d240_6e10d3f0",
+        "filename": "Jenkinsfile-voltha-build",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1000007
+      },
+      "writtenOn": "2021-04-06T17:45:12Z",
+      "side": 1,
+      "message": "because the job does not have the parameters, it will be resolved before merging.\nThe change will need to be synchronized with other changes in \"ci-management\" (for the parameter and a few tweaks in the keywords to work with a physical cluster)",
+      "parentUuid": "96e1b48d_858770da",
+      "revId": "0c1be60527890b2ae586209fee9a2cafe4418014",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ef09c57a_63a505f9",
         "filename": "Jenkinsfile-voltha-build",
         "patchSetId": 1
@@ -47,6 +65,24 @@
       "writtenOn": "2021-04-06T17:39:58Z",
       "side": 1,
       "message": "to avoid this can we have an older 2.7 version ? I\u0027d like this to be non-backported",
+      "revId": "0c1be60527890b2ae586209fee9a2cafe4418014",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6a2264cf_3430b486",
+        "filename": "Jenkinsfile-voltha-build",
+        "patchSetId": 1
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1000007
+      },
+      "writtenOn": "2021-04-06T17:45:12Z",
+      "side": 1,
+      "message": "The 2.7 jobs will use the pipeline in the voltha-2.7 branch.\nRegardless I think we should move this pipeline to \"ci-managent\"",
+      "parentUuid": "ef09c57a_63a505f9",
       "revId": "0c1be60527890b2ae586209fee9a2cafe4418014",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
       "unresolved": true
