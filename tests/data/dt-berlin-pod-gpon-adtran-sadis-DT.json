@@ -66,6 +66,23 @@
                 "isDhcpRequired": false
               }
             ]
+          },
+          {
+            "id": "ADTN20177888-1",
+            "nasPortId": "ADTN20177888-1",
+            "circuitId": "ADTN20177888-1",
+            "remoteId": "LBADTN2038AD991",
+            "uniTagList": [
+              {
+                "uniTagMatch": 4096,
+                "ponCTag": 4096,
+                "ponSTag": 38,
+                "technologyProfileId": 64,
+                "upstreamBandwidthProfile": "User_Bandwidth3",
+                "downstreamBandwidthProfile": "User_Bandwidth3",
+                "isDhcpRequired": false
+              }
+            ]
           }
         ]
       },
