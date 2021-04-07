@@ -45,27 +45,15 @@ node ("${TestNodeName}") {
                     sh returnStdout: true, script: """
                     echo "cleaning up"
                     export KUBECONFIG=$WORKSPACE/${configBaseDir}/${configKubernetesDir}/${configFileName}.conf
-                    HELM_MAJOR=\$(helm version --client --short | sed -E -e 's/^.*v([0-9]+)\\.[0-9]+\\.[0-9]+.*\$/\\1/')
-                    for hchart in \$(helm list -q | grep -E -v 'docker-registry|mavenrepo|ponnet|local-path-storage|cattle');
+                    NAMESPACES="voltha infra default"
+                    for NS in \$NAMESPACES
                     do
-                        echo "Purging chart: \${hchart}"
-                        if [ \$HELM_MAJOR -le 2 ]; then
-                            helm delete --purge "\${hchart}"
-                        else
-                            helm uninstall "\${hchart}"
-                        fi
-                    done
-                    if [ \$HELM_MAJOR -gt 2 ]; then
-                        for hchart in \$(helm list -q -n voltha | grep -E -v 'docker-registry|mavenrepo|ponnet|local-path-storage|cattle');
+                        for hchart in \$(helm list -n $NS -q | grep -E -v 'docker-registry|kafkacat');
                         do
                             echo "Purging chart: \${hchart}"
-                            if [ \$HELM_MAJOR -le 2 ]; then
-                                helm delete --purge "\${hchart}"
-                            else
-                                helm uninstall -n voltha "\${hchart}"
-                            fi
+                            helm delete -n \$NS "\${hchart}"
                         done
-                    fi
+                    done
                     """
                     timeout(5) {
                         waitUntil {
