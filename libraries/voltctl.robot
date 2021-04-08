@@ -833,3 +833,103 @@ Verify ONU Device Image
     Should Be Equal    '${downloadstate}'    '${download_state}'    ONU Device ${id} Image downloadState does not match
     Should Be Equal    '${imagestate}'    '${image_state}'    ONU Device ${id} Image imageState does not match
     Should Be Equal    '${reason}'    '${expected_reason}'    ONU Device ${id} Image reason does not match
+
+
+# pm-data relevant keywords
+Read Default Interval From Pmconfig
+    [Documentation]    Reads default interval from pm config
+    [Arguments]    ${device_id}
+    ${rc}    ${result}=    Run and Return Rc and Output    voltctl device pmconfig get ${device_id}
+    Should Be Equal As Integers    ${rc}    0
+    log    ${result}
+    @{words}=    Split String    ${result}
+    ${interval}=    Get From List    ${words}    3
+    log    ${interval}
+    [return]    ${interval}
+
+Read Group Interval From Pmconfig
+    [Documentation]    Reads default interval from pm config
+    [Arguments]    ${device_id}    ${group}
+    ${rc}    ${result}=    Run and Return Rc and Output     voltctl device pmconfig group list ${device_id} | grep ${group}
+    Should Be Equal As Integers    ${rc}    0
+    log    ${result}
+    @{words}=    Split String    ${result}
+    ${interval}=    Get From List    ${words}    -1
+    log    ${interval}
+    [return]    ${interval}
+
+Set and Validate Default Interval
+    [Documentation]    Sets and validates default interval of pm data
+    [Arguments]    ${device_id}    ${interval}
+    ${rc}    ${result}=    Run and Return Rc and Output    voltctl device pmconfig frequency set ${device_id} ${interval}
+    Should Be Equal As Integers    ${rc}    0
+    log    ${result}
+    # workaround until unit will be printed out in voltctl - remove unit
+    ${interval}=    Get Substring    ${interval}    0    -1
+    Should Contain    ${result}    ${interval}
+
+Set and Validate Group Interval
+    [Documentation]    Sets and validates group interval of pm data
+    [Arguments]    ${device_id}    ${interval}    ${group}
+    ${rc}    ${result}=    Run and Return Rc and Output    voltctl device pmconfig group set ${device_id} ${group} ${interval}
+    Should Be Equal As Integers    ${rc}    0
+    ${rc}    ${result}=    Run and Return Rc and Output     voltctl device pmconfig group list ${device_id} | grep ${group}
+    Should Be Equal As Integers    ${rc}    0
+    log    ${result}
+    # workaround until unit will be printed out in voltctl - remove unit
+    ${interval}=    Get Substring    ${interval}    0    -1
+    Should Contain    ${result}    ${interval}
+
+Read Group List
+    [Documentation]    Reads metric group list of given device
+    [Arguments]    ${device_id}
+    ${rc}    ${result}=    Run and Return Rc and Output    voltctl device pmconfig group list ${device_id} | grep -v GROUPNAME
+    Should Be Equal As Integers    ${rc}    0
+    ${group_list}    Create List
+    ${interval_dict}     Create Dictionary
+    @{output}=    Split String    ${result}    \n
+    FOR    ${Line}    IN     @{output}
+        @{words}=    Split String    ${Line}
+        ${group}=    Set Variable    ${words[0]}
+        ${interval}=    Set Variable    ${words[2]}
+        Append To List    ${group_list}    ${group}
+        Set To Dictionary    ${interval_dict}    ${group}=${interval}
+    END
+    [return]    ${group_list}    ${interval_dict}
+
+Read Group Metric List
+    [Documentation]    Reads group metric list of given device and group
+    [Arguments]    ${device_id}    ${group}
+    ${cmd}=    Catenate    voltctl device pmconfig groupmetric list ${device_id} ${group} | grep -v SAMPLEFREQ
+    ${rc}    ${result}=    Run and Return Rc and Output    ${cmd}
+    Should Be Equal As Integers    ${rc}    0
+    ${groupmetric_list}    Create List
+    @{output}=    Split String    ${result}    \n
+    FOR    ${Line}    IN     @{output}
+        @{words}=      Split String    ${Line}
+        ${name}=      Set Variable    ${words[0]}
+        ${type}=       Set Variable    ${words[1]}
+        ${enabled}=    Set Variable    ${words[2]}
+        ${subdict}=       Create Dictionary    type=${type}    enabled=${enabled}
+        ${dict}=       Create Dictionary    ${name}=${subdict}
+        Append To List    ${groupmetric_list}    ${dict}
+    END
+    [return]    ${groupmetric_list}
+
+Read Group Metric Dict
+    [Documentation]    Reads group metric list of given device and group
+    [Arguments]    ${device_id}    ${group}
+    ${cmd}=    Catenate    voltctl device pmconfig groupmetric list ${device_id} ${group} | grep -v SAMPLEFREQ
+    ${rc}    ${result}=    Run and Return Rc and Output    ${cmd}
+    Should Be Equal As Integers    ${rc}    0
+    ${groupmetric_dict}    Create Dictionary
+    @{output}=    Split String    ${result}    \n
+    FOR    ${Line}    IN     @{output}
+        @{words}=      Split String    ${Line}
+        ${name}=      Set Variable    ${words[0]}
+        ${type}=       Set Variable    ${words[1]}
+        ${enabled}=    Set Variable    ${words[2]}
+        ${subdict}=       Create Dictionary    type=${type}    enabled=${enabled}
+        Set To Dictionary    ${groupmetric_dict}    ${name}=${subdict}
+    END
+    [return]    ${groupmetric_dict}
