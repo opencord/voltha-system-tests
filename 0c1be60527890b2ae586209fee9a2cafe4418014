@@ -125,6 +125,23 @@
     },
     {
       "key": {
+        "uuid": "84403ad8_d0f13ecd",
+        "filename": "Jenkinsfile-voltha-build",
+        "patchSetId": 1
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1000064
+      },
+      "writtenOn": "2021-04-08T23:24:54Z",
+      "side": 1,
+      "message": "Question.. Don\u0027t we need these parameters to be passed based no the WORKFLOW DT -\u003e \"WITH_EAPOL\u003dno WITH_DHCP\u003dno WITH_IGMP\u003dno WITH_RADIUS\u003dno\". For TT \u003d\u003e WITH_EAPOL\u003dno WITH_DHCP\u003dyes WITH_INCREMENTAL_EVTO_UPDATE\u003dyes WITH_IGMP\u003dyes WITH_RADIUS\u003dno\nAre these not required?",
+      "revId": "0c1be60527890b2ae586209fee9a2cafe4418014",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ea9354aa_d88c10fd",
         "filename": "Jenkinsfile-voltha-build",
         "patchSetId": 1
