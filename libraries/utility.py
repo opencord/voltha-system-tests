@@ -17,6 +17,7 @@ from __future__ import absolute_import
 from __future__ import print_function
 import inspect
 import os
+import operator
 
 # global definition of keys (find in given 'inventory_data')
 _NAME = 'name'
@@ -103,3 +104,18 @@ def getWord(line, number):
 def decode(data):
     decoded_data = data
     print(unique(), str(decoded_data))
+
+# Compares two values using a given operator. The values are converted to float first so that numbers as strings
+# are also accepted. Returns True or False.
+# operator: ==, !=, <, <=, >, >=
+# Example:
+# | ${result} | Compare | 100 | >  | 5  | # True |
+# | ${result} | Compare | 100 | >  | 5  | # True |
+def compare(value1, op, value2):
+    ops = {"==": operator.eq,
+           "!=": operator.ne,
+           "<":  operator.lt,
+           "<=": operator.le,
+           ">":  operator.gt,
+           ">=": operator.ge}
+    return ops[op](float(value1), float(value2))
