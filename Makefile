@@ -50,6 +50,7 @@ ROBOT_SANITY_TT_SINGLE_PON_FILE    ?= $(ROOT_DIR)/tests/data/bbsim-kind-tt.yaml
 ROBOT_DMI_SINGLE_BBSIM_FILE     ?= $(ROOT_DIR)/tests/data/dmi-components-bbsim.yaml
 ROBOT_DMI_SINGLE_ADTRAN_FILE     ?= $(ROOT_DIR)/tests/data/dmi-components-adtran.yaml
 ROBOT_SW_UPGRADE_FILE     ?= $(ROOT_DIR)/tests/data/software-upgrade.yaml
+ROBOT_PM_DATA_FILE     ?= $(ROOT_DIR)/tests/data/pm-data.yaml
 
 # for backwards compatibility
 sanity-kind: sanity-single-kind
@@ -334,6 +335,46 @@ voltha-dmi-test: vst_venv
 	source ./$</bin/activate ; set -u ;\
 	cd tests/dmi-interface ;\
 	robot -V $(ROBOT_CONFIG_FILE) $(ROBOT_MISC_ARGS) $(ROBOT_FILE)
+
+# target to invoke single ONU pm data scenarios in ATT workflow
+voltha-pm-data-single-kind-att: ROBOT_MISC_ARGS += -v workflow:ATT
+voltha-pm-data-single-kind-att: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_SINGLE_PON_FILE)
+voltha-pm-data-single-kind-att: voltha-pm-data-tests
+
+# target to invoke single ONU pm data scenarios in DT workflow
+voltha-pm-data-single-kind-dt: ROBOT_MISC_ARGS += -v workflow:DT
+voltha-pm-data-single-kind-dt: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_DT_SINGLE_PON_FILE)
+voltha-pm-data-single-kind-dt: voltha-pm-data-tests
+
+# target to invoke single ONU pm data scenarios in TT workflow
+voltha-pm-data-multiolt-tt: ROBOT_MISC_ARGS += -v workflow:TT
+voltha-pm-data-multiolt-tt: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_TT_SINGLE_PON_FILE)
+voltha-pm-data-multiolt-tt: voltha-pm-data-tests
+
+# target to invoke single ONU pm data scenarios in ATT workflow
+voltha-pm-data-single-kind-att: ROBOT_MISC_ARGS += -v workflow:ATT
+voltha-pm-data-single-kind-att: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_MULTIPLE_OLT_FILE)
+voltha-pm-data-single-kind-att: voltha-pm-data-tests
+
+# target to invoke single ONU pm data scenarios in DT workflow
+voltha-pm-data-single-kind-dt: ROBOT_MISC_ARGS += -v workflow:DT
+voltha-pm-data-single-kind-dt: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_DT_MULTIPLE_OLT_FILE)
+voltha-pm-data-single-kind-dt: voltha-pm-data-tests
+
+# target to invoke single ONU pm data scenarios in TT workflow
+voltha-pm-data-single-kind-tt: ROBOT_MISC_ARGS += -v workflow:TT
+voltha-pm-data-single-kind-tt: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_TT_MULTIPLE_OLT_FILE)
+voltha-pm-data-single-kind-tt: voltha-pm-data-tests
+
+voltha-pm-data-tests: ROBOT_MISC_ARGS += -i functional -e PowerSwitch $(ROBOT_DEBUG_LOG_OPT)
+voltha-pm-data-tests: ROBOT_PM_CONFIG_FILE := $(ROBOT_PM_DATA_FILE)
+voltha-pm-data-tests: ROBOT_FILE := Voltha_ONUPMTests.robot
+voltha-pm-data-tests: voltha-pm-data-test
+
+voltha-pm-data-test: vst_venv
+	source ./$</bin/activate ; set -u ;\
+	cd tests/pm-data ;\
+	robot -V $(ROBOT_CONFIG_FILE) -V $(ROBOT_CONFIG_FILE) $(ROBOT_MISC_ARGS) $(ROBOT_FILE)
 
 # ONOS Apps to test for Software Upgrade need to be passed in the 'onos_apps_under_test' variable in format:
 # <app-name>,<version>,<oar-url>*<app-name>,<version>,<oar-url>*
