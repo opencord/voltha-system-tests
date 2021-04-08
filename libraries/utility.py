@@ -17,6 +17,7 @@ from __future__ import absolute_import
 from __future__ import print_function
 import inspect
 import os
+import operator
 
 # global definition of keys (find in given 'inventory_data')
 _NAME = 'name'
@@ -103,3 +104,33 @@ def getWord(line, number):
 def decode(data):
     decoded_data = data
     print(unique(), str(decoded_data))
+
+# Compares two values using a given operator. The values are converted to float first so that numbers as strings
+# are also accepted. Returns True or False.
+# operator: ==, !=, <, <=, >, >=
+# Example:
+# | ${result} | Compare | 100 | >  | 5  | # True |
+def compare(value1, op, value2):
+    ops = {"==": operator.eq,
+           "!=": operator.ne,
+           "<":  operator.lt,
+           "<=": operator.le,
+           ">":  operator.gt,
+           ">=": operator.ge}
+    return ops[op](float(value1), float(value2))
+
+# Validates two values using a given operator.
+# The values are converted to float first so that numbers as strings are also accepted.
+# Second value has to be a list in case of operator is 'in' or 'range'
+# Returns True or False.
+# operator: in, range, ==, !=, <, <=, >, >=
+# Example:
+# | ${result} | validate | 100 | >  | 5  | # True |
+# | ${result} | validate | 11  | in | ['11','264','329']  | # True |
+# | ${result} | validate | 1   | range | ['0','1']  | # True |
+def validate(value1, op, value2):
+    if op == "in":
+        return (float(value1) in [float(i) for i in value2])
+    if op == "range":
+        return ((compare (value1, ">=", value2[0])) and (compare (value1, "<=", value2[1])))
+    return compare (value1, op, value2)
