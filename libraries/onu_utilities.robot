@@ -386,14 +386,17 @@ Delete ONU Go Adapter ETCD Data
 
 Wait for Ports in ONOS for all OLTs
     [Documentation]    Waits untill a certain number of ports are enabled in all OLTs
-    [Arguments]    ${onos_ssh_connection}    ${count}    ${filter}    ${max_wait_time}=10m
+    [Arguments]    ${onos_ssh_connection}    ${count}    ${filter}    ${max_wait_time}=10m   ${determine_number}=False
     FOR    ${J}    IN RANGE    0    ${num_olts}
         ${olt_serial_number}=    Set Variable    ${list_olts}[${J}][sn]
         ${onu_count}=    Set Variable    ${list_olts}[${J}][onucount]
         ${of_id}=    Wait Until Keyword Succeeds    ${timeout}    15s    Validate OLT Device in ONOS
         ...    ${olt_serial_number}
         Set Global Variable    ${of_id}
-        ${count2check}    Set Variable If    ${count}==${num_all_onus}    ${onu_count}    ${count}
+        ${count2check}=    Set Variable If    ${count}==${num_all_onus}    ${onu_count}    ${count}
+        # if flag determine_number is set to True, always determine the number of real ONUs (overwrite previous value)
+        ${count2check}=    Run Keyword If    ${determine_number}    Determine Number Of ONU    ${olt_serial_number}
+        ...                ELSE              Set Variable    ${count2check}
         Wait for Ports in ONOS    ${onos_ssh_connection}    ${count2check}    ${of_id}    BBSM    ${max_wait_time}
     END
 
