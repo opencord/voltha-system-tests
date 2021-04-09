@@ -100,6 +100,11 @@ Create and Enable devices
 
     Set Suite Variable    ${olt_device_ids}
 
+OLTs in ONOS
+    [Documentation]  Check that ONOS recognize the correct number of OLTs
+    [Tags]  activation  plot-onos-olts
+    Wait for Olts in ONOS   ${onos_ssh_connection}  ${olt}
+
 Onu Activation in VOLTHA
     [Documentation]    Check that all ONUs reach the ACTIVE/ENABLED state in VOLTHA
     [Tags]      non-critical    activation    plot-voltha-onus
