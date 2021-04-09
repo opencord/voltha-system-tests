@@ -170,7 +170,7 @@ Sanity E2E Test for OLT/ONU on POD With Core Fail and Restart for TT
     ...    simulate a POD crash. The test then scales the rw-core back to a single instance
     ...    and configures ONOS for access. The test succeeds if the device is able to
     ...    complete the DHCP sequence.
-    [Tags]    functionalTT    rwcore-restart-TT    notready
+    [Tags]    functionalTT    rwcore-restart-TT
     [Setup]    Run Keywords    Start Logging    RwCoreFailAndRestart-TT
     ...        AND             Clear All Devices Then Create New Device
     [Teardown]   Run Keywords    Collect Logs
@@ -221,21 +221,7 @@ Sanity E2E Test for OLT/ONU on POD With Core Fail and Restart for TT
         Wait Until Keyword Succeeds    120s    2s    Device Is Available In ONOS
         ...    http://karaf:karaf@${ONOS_REST_IP}:${ONOS_REST_PORT}    ${of_id}
     END
-    FOR    ${I}    IN RANGE    0    ${num_all_onus}
-        ${src}=    Set Variable    ${hosts.src[${I}]}
-        ${dst}=    Set Variable    ${hosts.dst[${I}]}
-        ${of_id}=    Get ofID From OLT List    ${src['olt']}
-        ${onu_port}=    Wait Until Keyword Succeeds    ${timeout}    2s    Get ONU Port in ONOS    ${src['onu']}
-        ...    ${of_id}
-        # Add subscriber access and verify that DHCP completes to ensure system is still functioning properly
-        Wait Until Keyword Succeeds    ${timeout}    2s    Execute ONOS CLI Command    ${ONOS_SSH_IP}
-        ...    ${ONOS_SSH_PORT}    volt-add-subscriber-access ${of_id} ${onu_port}
-        Run Keyword If    ${has_dataplane}    Run Keyword And Continue On Failure    Validate DHCP and Ping    True
-        ...    True    ${src['dp_iface_name']}    ${src['s_tag']}    ${src['c_tag']}    ${dst['dp_iface_ip_qinq']}
-        ...    ${src['ip']}    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
-        ...    ${dst['dp_iface_name']}    ${dst['ip']}    ${dst['user']}    ${dst['pass']}    ${dst['container_type']}
-        ...    ${dst['container_name']}
-    END
+    Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Tests TT
 
 *** Keywords ***
 Setup Suite
