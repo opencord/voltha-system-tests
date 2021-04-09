@@ -56,9 +56,9 @@ Resource          ../../variables/variables.robot
 
 *** Variables ***
 ${ONOS_SSH_IP}  127.0.0.1
-${ONOS_SSH_PORT}    8101
+${ONOS_SSH_PORT}    30115
 ${ONOS_REST_IP}  127.0.0.1
-${ONOS_REST_PORT}    8181
+${ONOS_REST_PORT}    30120
 
 ${BBSIM_REST_IP}    127.0.0.1
 ${BBSIM_REST_PORT}    50071
