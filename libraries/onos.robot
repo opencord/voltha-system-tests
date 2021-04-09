@@ -538,6 +538,20 @@ Assert ONU Port Is Disabled
     Log    ${onu_port_disabled}
     Should Not Be Empty    ${onu_port_disabled}
 
+Assert Olts in ONOS
+    [Arguments]    ${onos_ssh_connection}     ${count}
+    [Documentation]    Check that a certain number of olts are known to ONOS
+    ${olts}=    Execute ONOS CLI Command on open connection     ${onos_ssh_connection}
+        ...    volt-olts | wc -l
+    Log     Found ${olts} of ${count} expected Olts
+    Should Be Equal As Integers    ${olts}    ${count}
+
+Wait for Olts in ONOS
+    [Arguments]    ${onos_ssh_connection}    ${count}   ${max_wait_time}=10m
+    [Documentation]    Waits untill a certain number of ports are enabled in ONOS for a particular deviceId
+    Wait Until Keyword Succeeds     ${max_wait_time}     5s      Assert Olts in ONOS
+    ...     ${onos_ssh_connection}     ${count}
+
 Assert Ports in ONOS
     [Arguments]    ${onos_ssh_connection}     ${count}     ${deviceId}    ${filter}
     [Documentation]    Check that a certain number of ports are enabled in ONOS
