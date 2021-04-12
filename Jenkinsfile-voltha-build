@@ -46,12 +46,12 @@ node ("${TestNodeName}") {
                     echo "cleaning up"
                     export KUBECONFIG=$WORKSPACE/${configBaseDir}/${configKubernetesDir}/${configFileName}.conf
                     NAMESPACES="voltha infra default"
-                    for NS in $NAMESPACES
+                    for NS in \$NAMESPACES
                     do
-                        for hchart in $(helm list -n $NS -q | grep -E -v 'docker-registry|kafkacat');
+                        for hchart in \$(helm list -n \$NS -q | grep -E -v 'docker-registry|kafkacat');
                         do
-                            echo "Purging chart: ${hchart}"
-                            helm delete -n $NS "${hchart}"
+                            echo "Purging chart: \${hchart}"
+                            helm delete -n \$NS "\${hchart}"
                         done
                     done
                     """
