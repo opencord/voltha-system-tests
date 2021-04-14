@@ -19,6 +19,29 @@
     },
     {
       "key": {
+        "uuid": "924652d8_a82d66c3",
+        "filename": "tests/tt-workflow/Voltha_TT_FailureScenarios.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2021-04-14T14:36:52Z",
+      "side": 1,
+      "message": "Instead of Sleep we should do something like this (it\u0027s a suggestion):\n    ${podName}    Set Variable     adapter-open-onu\n    Wait Until Keyword Succeeds    ${timeout}    2s    Validate Pods Status By Label    ${NAMESPACE}\n    ...    app    ${podName}    Running\n    Wait Until Keyword Succeeds    ${timeout}    3s    Pods Are Ready By Label    ${NAMESPACE}    app    ${podName}",
+      "range": {
+        "startLine": 100,
+        "startChar": 8,
+        "endLine": 100,
+        "endChar": 20
+      },
+      "revId": "3139d63ea0fa9fbc3da3fb663b68941330ca5802",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "70396266_18dd7204",
         "filename": "tests/tt-workflow/Voltha_TT_FailureScenarios.robot",
         "patchSetId": 2
@@ -30,6 +53,29 @@
       "writtenOn": "2021-04-14T12:23:48Z",
       "side": 1,
       "message": "is this sleep really needed ?",
+      "revId": "3139d63ea0fa9fbc3da3fb663b68941330ca5802",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f166d2cc_83b37907",
+        "filename": "tests/tt-workflow/Voltha_TT_FailureScenarios.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2021-04-14T14:36:52Z",
+      "side": 1,
+      "message": "Instead of Sleep we should do something like this (see above):\n    ${podName}    Set Variable     adapter-open-onu\n    Wait Until Keyword Succeeds    ${timeout}    2s    Validate Pods Status By Label    ${NAMESPACE}\n    ...    app    ${podName}    Running\n    Wait Until Keyword Succeeds    ${timeout}    3s    Pods Are Ready By Label    ${NAMESPACE}    app    ${podName}",
+      "range": {
+        "startLine": 170,
+        "startChar": 4,
+        "endLine": 170,
+        "endChar": 16
+      },
       "revId": "3139d63ea0fa9fbc3da3fb663b68941330ca5802",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
       "unresolved": true
