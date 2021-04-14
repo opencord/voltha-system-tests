@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0c84033f_64c9c949",
+        "filename": "tests/tt-workflow/Voltha_TT_FailureScenarios.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2021-04-14T12:23:48Z",
+      "side": 1,
+      "message": "is this really needed ? we have a 120 secs later",
+      "revId": "3139d63ea0fa9fbc3da3fb663b68941330ca5802",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "70396266_18dd7204",
+        "filename": "tests/tt-workflow/Voltha_TT_FailureScenarios.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2021-04-14T12:23:48Z",
+      "side": 1,
+      "message": "is this sleep really needed ?",
+      "revId": "3139d63ea0fa9fbc3da3fb663b68941330ca5802",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    }
+  ]
+}
