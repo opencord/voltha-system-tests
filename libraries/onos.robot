@@ -720,7 +720,7 @@ Delete ONOS App
     [Arguments]    ${url}    ${app_name}
     [Documentation]    This keyword deactivates and uninstalls the given ONOS App
     ${rc}=    Run And Return Rc    curl --fail -sSL -X DELETE ${url}/onos/v1/applications/${app_name}
-    Should Be Equal As Integers    ${rc}    0
+    Should Be Equal As Integers    ${rc}    0   "Can't delete app from ONOS"
 
 Verify ONOS App Active
     [Arguments]    ${url}    ${app_name}    ${app_version}=${EMPTY}
@@ -733,7 +733,7 @@ Verify ONOS App Active
     ...    curl --fail -sSL ${url}/onos/v1/applications/${app_name} | jq -r .version
     Run Keyword If    '${app_version}'!='${EMPTY}'
     ...    Run Keywords
-    ...    Should Be Equal As Integers    ${rc1}    0
+    ...    Should Be Equal As Integers    ${rc1}    0   "Can't read app status from ONOS"
     ...    AND    Should Be Equal    '${output1}'    '${app_version}'
 
 Install And Activate ONOS App
@@ -743,7 +743,7 @@ Install And Activate ONOS App
     ...    curl --fail -sSL -H Content-Type:application/octet-stream -
     ...    X POST ${url}/onos/v1/applications?activate=true --data-binary \@${app_oar_file}
     ${rc}    ${output}    Run And Return Rc And Output    ${cmd}
-    Should Be Equal As Integers    ${rc}    0
+    Should Be Equal As Integers    ${rc}    0   "Can't download onos app from remote location"
     Log    ${output}
 
 Get ONOS App Details
@@ -751,5 +751,5 @@ Get ONOS App Details
     [Documentation]    Retrieves ONOS App Details
     ${rc}    ${output}    Run And Return Rc And Output
     ...    curl --fail -sSL ${url}/onos/v1/applications/${app_name}
-    Should Be Equal As Integers    ${rc}    0
+    Should Be Equal As Integers    ${rc}    0   "Can't read app details from ONOS"
     [Return]    ${output}
