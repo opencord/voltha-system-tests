@@ -58,6 +58,115 @@ ${container_log_dir}    ${None}
 ${suppressaddsubscriber}    True
 
 *** Test Cases ***
+Verify ONU after Rebooting Physically for TT
+    [Documentation]    Test the ONU functionality by physically turning on/off ONU.
+    ...    Assuming that all the ONUs are DHCP/pingable (i.e. assuming sanityTT test was executed)
+    ...    Test case runs only on the PODs that are configured with PowerSwitch that
+    ...    controls the power off/on ONUs/OLT remotely (simulating a physical reboot)
+    [Tags]    functionalTT    PowerSwitchOnuRebootTT    PowerSwitch
+    [Setup]    Start Logging    RebootOnu_PowerSwitch_TT
+    [Teardown]    Run Keywords    Collect Logs
+    ...           AND             Stop Logging    RebootOnu_PowerSwitch_TT
+    ...           AND             Delete All Devices and Verify
+    # Add OLT device
+    Setup
+    # Performing Sanity Test to make sure subscribers are all DHCP and pingable
+    Run Keyword If    ${has_dataplane}    Clean Up Linux
+    Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Tests TT
+    Power Switch Connection Suite    ${web_power_switch.ip}    ${web_power_switch.user}    ${web_power_switch.password}
+    Run Keyword If    ${has_dataplane}    Clean Up Linux
+    FOR    ${I}    IN RANGE    0    ${num_all_onus}
+        ${src}=    Set Variable    ${hosts.src[${I}]}
+        ${dst}=    Set Variable    ${hosts.dst[${I}]}
+        ${service_type}=    Get Variable Value    ${src['service_type']}    "null"
+        ${of_id}=    Get ofID From OLT List    ${src['olt']}
+        ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
+        ${onu_port}=    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
+        ...    Get ONU Port in ONOS    ${src['onu']}    ${of_id}
+        # Disable Power Switch
+        Disable Switch Outlet    ${src['power_switch_port']}
+        # TODO: Add verification for MCAST
+        Run Keyword If    ${has_dataplane} and '${service_type}' != 'mcast'    Run Keyword And Continue On Failure
+        ...    Wait Until Keyword Succeeds    60s    2s
+        ...    Check Ping    False    ${dst['dp_iface_ip_qinq']}    ${src['dp_iface_name']}
+        ...    ${src['ip']}    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
+        # Remove Subscriber Access (To replicate TT workflow)
+        Wait Until Keyword Succeeds    ${timeout}    2s    Execute ONOS CLI Command    ${ONOS_SSH_IP}
+        ...    ${ONOS_SSH_PORT}    volt-remove-subscriber-access ${of_id} ${onu_port}
+        Sleep    5s
+        # Enable Power Switch
+        Enable Switch Outlet    ${src['power_switch_port']}
+        # Check ONU port is Enabled in ONOS
+        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds   120s   2s
+        ...    Verify ONU Port Is Enabled   ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${src['onu']}
+        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2
+        ...    Execute ONOS CLI Command    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}
+        ...    volt-add-subscriber-access ${of_id} ${onu_port}
+        # Verify ONU state in voltha
+        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    360s    5s    Validate Device
+        ...    ENABLED    ACTIVE    REACHABLE
+        ...    ${src['onu']}    onu=True    onu_reason=omci-flows-pushed
+        Run Keyword If    ${has_dataplane} and '${service_type}' != 'mcast'
+        ...    Run Keyword And Continue On Failure    Validate DHCP and Ping    True
+        ...    True    ${src['dp_iface_name']}    ${src['s_tag']}    ${src['c_tag']}    ${dst['dp_iface_ip_qinq']}
+        ...    ${src['ip']}    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
+        ...    ${dst['dp_iface_name']}    ${dst['ip']}    ${dst['user']}    ${dst['pass']}    ${dst['container_type']}
+        ...    ${dst['container_name']}
+        ...    ELSE IF    ${has_dataplane} and '${service_type}' == 'mcast'    Run Keyword And Continue On Failure
+        ...    Wait Until Keyword Succeeds    ${timeout}    2s    Sanity Test TT MCAST one ONU    ${src}
+        ...    ${dst}    ${suppressaddsubscriber}
+    END
+
+Verify OLT after Rebooting Physically for TT
+    [Documentation]    Test the physical reboot of the OLT
+    ...    Assuming that all the ONUs are DHCP/pingable (i.e. assuming sanityTT test was executed)
+    ...    Test performs a physical reboot, performs "reboot" from the OLT CLI
+    [Tags]    functionalTT    PhysicalOltRebootTT
+    [Setup]    Start Logging    RebootOlt_Physical_TT
+    [Teardown]    Run Keywords    Collect Logs
+    ...           AND             Stop Logging    RebootOlt_Physical_TT
+    ...           AND             Delete All Devices and Verify
+    # Add OLT device
+    Setup
+    # Performing Sanity Test to make sure subscribers are all DHCP and pingable
+    Run Keyword If    ${has_dataplane}    Clean Up Linux
+    Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Tests TT
+    # Reboot the OLT from the OLT CLI
+    FOR   ${I}    IN RANGE    0    ${olt_count}
+        ${olt_user}=    Get From Dictionary    ${list_olts}[${I}]    user
+        ${olt_pass}=    Get From Dictionary    ${list_olts}[${I}]    pass
+        ${olt_ssh_ip}=    Get From Dictionary    ${list_olts}[${I}]   sship
+        ${olt_serial_number}=    Get From Dictionary    ${list_olts}[${I}]    sn
+        ${olt_device_id}=    Get OLTDeviceID From OLT List    ${olt_serial_number}
+        Run Keyword If    ${has_dataplane}    Login And Run Command On Remote System
+        ...    reboot    ${olt_ssh_ip}    ${olt_user}    ${olt_pass}   prompt=#
+    END
+    FOR    ${I}    IN RANGE    0    ${num_all_onus}
+        ${src}=    Set Variable    ${hosts.src[${I}]}
+        ${dst}=    Set Variable    ${hosts.dst[${I}]}
+        ${service_type}=    Get Variable Value    ${src['service_type']}    "null"
+        # TODO: Add verification for MCAST
+        Run Keyword If    ${has_dataplane} and '${service_type}' != 'mcast'    Run Keyword And Continue On Failure
+        ...    Wait Until Keyword Succeeds    60s    2s
+        ...    Check Ping    False    ${dst['dp_iface_ip_qinq']}    ${src['dp_iface_name']}
+        ...    ${src['ip']}    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
+    END
+    # Wait for the OLT to come back up
+    FOR   ${I}    IN RANGE    0    ${olt_count}
+        ${olt_serial_number}=    Get From Dictionary    ${olt_ids}[${I}]    sn
+        ${olt_user}=    Get From Dictionary    ${list_olts}[${I}]    user
+        ${olt_pass}=    Get From Dictionary    ${list_olts}[${I}]    pass
+        ${olt_ssh_ip}=    Get From Dictionary    ${list_olts}[${I}]   sship
+        ${olt_device_id}=    Get OLTDeviceID From OLT List    ${olt_serial_number}
+        Run Keyword If    ${has_dataplane}    Wait Until Keyword Succeeds    120s    10s
+        ...    Check Remote System Reachability    True    ${olt_ssh_ip}
+        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    360s    5s
+        ...    Validate OLT Device    ENABLED    ACTIVE
+        ...    REACHABLE    ${olt_serial_number}
+    END
+    Run Keyword If    ${has_dataplane}    Clean Up Linux
+    Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Tests TT
+
 Verify restart openonu-adapter container after subscriber provisioning for TT
     [Documentation]    Restart openonu-adapter container after VOLTHA is operational.
     ...    Prerequisite : ONUs are authenticated and pingable.
