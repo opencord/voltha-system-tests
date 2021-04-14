@@ -136,8 +136,8 @@ Verify ONOS Apps Active Except App Under Test
 Download App OAR File
     [Documentation]    This keyword downloads the app oar file from the given url to the specified location
     [Arguments]    ${oar_url}    ${oar_file}
-    ${rc}    Run And Return Rc    curl -L ${oar_url} > ${oar_file}
-    Should Be Equal As Integers    ${rc}    0
+    ${rc}    Run And Return Rc    curl --fail -sSL ${oar_url} > ${oar_file}
+    Should Be Equal As Integers    ${rc}    0   Can't download ONOS app from ${oar_url}
 
 Create ONOS Apps Under Test List
     [Documentation]    Creates a list of ONOS Apps to Test from the input variable string
