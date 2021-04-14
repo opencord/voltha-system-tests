@@ -101,6 +101,7 @@ Test Voltha Components Minor Version Upgrade
         ${pod_image_1}    ${app_ver_1}    ${helm_chart_1}    Get Pod Image And App Version And Helm Chart By Label
         ...    ${NAMESPACE}    app    ${label}
         Log    ${label}: image, app ver & helm chart after upgrade: ${pod_image_1}, ${app_ver_1} & ${helm_chart_1}
+        Restart VOLTHA Port Forward     voltha-api
         Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test     ${suppressaddsubscriber}
     END
     ${podStatusOutput}=    Run    kubectl get pods -n ${NAMESPACE}
