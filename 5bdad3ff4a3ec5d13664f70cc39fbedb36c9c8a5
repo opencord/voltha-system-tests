@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b2645f9d_2d73e47e",
+        "filename": "libraries/onos.robot",
+        "patchSetId": 4
+      },
+      "lineNbr": 723,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2021-04-15T03:51:46Z",
+      "side": 1,
+      "message": "May be we can add ${app_name} as well in the output to make it more clear. Same for all the below changes as well.",
+      "range": {
+        "startLine": 723,
+        "startChar": 49,
+        "endLine": 723,
+        "endChar": 75
+      },
+      "revId": "5bdad3ff4a3ec5d13664f70cc39fbedb36c9c8a5",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9bebc4bd_baee585c",
+        "filename": "tests/software-upgrades/Voltha_ComponentsUpgrade.robot",
+        "patchSetId": 4
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2021-04-15T03:51:46Z",
+      "side": 1,
+      "message": "It was working fine without this change earlier. But I guess, we need to do this only for `rw-core`. In that case we need an IF check.",
+      "range": {
+        "startLine": 104,
+        "startChar": 8,
+        "endLine": 104,
+        "endChar": 50
+      },
+      "revId": "5bdad3ff4a3ec5d13664f70cc39fbedb36c9c8a5",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    }
+  ]
+}
