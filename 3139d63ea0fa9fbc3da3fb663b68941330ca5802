@@ -42,6 +42,24 @@
     },
     {
       "key": {
+        "uuid": "b56386aa_277385c7",
+        "filename": "tests/tt-workflow/Voltha_TT_FailureScenarios.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2021-04-15T05:07:05Z",
+      "side": 1,
+      "message": "Agreed. I don\u0027t remember why we still kept this in case of DT but for TT it certainly passes without this static Sleep. Thanks.",
+      "parentUuid": "0c84033f_64c9c949",
+      "revId": "3139d63ea0fa9fbc3da3fb663b68941330ca5802",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "70396266_18dd7204",
         "filename": "tests/tt-workflow/Voltha_TT_FailureScenarios.robot",
         "patchSetId": 2
@@ -76,6 +94,24 @@
         "endLine": 170,
         "endChar": 16
       },
+      "revId": "3139d63ea0fa9fbc3da3fb663b68941330ca5802",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4a7b466c_20314e53",
+        "filename": "tests/tt-workflow/Voltha_TT_FailureScenarios.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2021-04-15T05:07:05Z",
+      "side": 1,
+      "message": "Removed. Verified on https://jenkins.opencord.org/job/build_1T4GEM_flex-ocp-cord_master_test/330/console",
+      "parentUuid": "70396266_18dd7204",
       "revId": "3139d63ea0fa9fbc3da3fb663b68941330ca5802",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
       "unresolved": true
