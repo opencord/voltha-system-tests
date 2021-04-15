@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "70e2fe98_00cb167b",
+        "filename": "libraries/onos.robot",
+        "patchSetId": 4
+      },
+      "lineNbr": 723,
+      "author": {
+        "id": 1000007
+      },
+      "writtenOn": "2021-04-15T15:44:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b2645f9d_2d73e47e",
+      "range": {
+        "startLine": 723,
+        "startChar": 49,
+        "endLine": 723,
+        "endChar": 75
+      },
+      "revId": "5bdad3ff4a3ec5d13664f70cc39fbedb36c9c8a5",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9bebc4bd_baee585c",
         "filename": "tests/software-upgrades/Voltha_ComponentsUpgrade.robot",
         "patchSetId": 4
@@ -60,6 +84,30 @@
       "side": 1,
       "message": "Verified that the TC passed with this change on my local setup.",
       "parentUuid": "9bebc4bd_baee585c",
+      "range": {
+        "startLine": 104,
+        "startChar": 8,
+        "endLine": 104,
+        "endChar": 50
+      },
+      "revId": "5bdad3ff4a3ec5d13664f70cc39fbedb36c9c8a5",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b25f2296_ab21bfe1",
+        "filename": "tests/software-upgrades/Voltha_ComponentsUpgrade.robot",
+        "patchSetId": 4
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1000007
+      },
+      "writtenOn": "2021-04-15T15:44:33Z",
+      "side": 1,
+      "message": "There is no harm in restarting the port-forward multiple times, thus there\u0027s no need to add \"complexity\" with an IF check.\nIt was probably passing as after a few failed attempt the port forward may have exited and the \"while\" cycle in \"kind-voltha\" would have restarted it.\nForcing it to restart will guarantee that it\u0027s always pointing to the right container, but won\u0027t be necessary once we move to ingresses",
+      "parentUuid": "d5699e40_597aa047",
       "range": {
         "startLine": 104,
         "startChar": 8,
