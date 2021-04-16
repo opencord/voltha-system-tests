@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "45eeab02_0716b189",
+        "filename": "tests/software-upgrades/Voltha_ComponentsUpgrade.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2021-04-16T05:19:08Z",
+      "side": 1,
+      "message": "I have not seen any error without this on 2.7 job but no harm to add this here.",
+      "range": {
+        "startLine": 104,
+        "startChar": 8,
+        "endLine": 104,
+        "endChar": 50
+      },
+      "revId": "37c36e6a796058c30ae6b886b3bdcc8b613f36a8",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    }
+  ]
+}
