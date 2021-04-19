@@ -651,7 +651,6 @@ Get Device ID From SN
     ${rc}    ${id}=    Run and Return Rc and Output
     ...    voltctl -c ${VOLTCTL_CONFIG} device list --filter=SerialNumber=${serial_number} --format='{{.Id}}'
     Should Be Equal As Integers    ${rc}    0   "Error while fetching device list from VOLTHA"
-    Should Not Be Equal     ${id}   ${EMPTY}    Cannot find device by Serial Number ${serial_number}
     Log    ${id}
     [Return]    ${id}
 
