@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "252fe059_9937a588",
+        "filename": "tests/tt-workflow/Voltha_TT_FailureScenarios.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2021-04-22T15:51:23Z",
+      "side": 1,
+      "message": "${timeout}",
+      "revId": "1100e924a09947654d2da3195859cfefec3dd606",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b4db40f8_31b7cfc5",
+        "filename": "tests/tt-workflow/Voltha_TT_FailureScenarios.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2021-04-22T15:51:23Z",
+      "side": 1,
+      "message": "${timeout}",
+      "revId": "1100e924a09947654d2da3195859cfefec3dd606",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    }
+  ]
+}
