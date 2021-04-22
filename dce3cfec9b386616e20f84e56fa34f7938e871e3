@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c70e852a_0a035920",
+        "filename": "tests/tt-workflow/Voltha_TT_FailureScenarios.robot",
+        "patchSetId": 3
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2021-04-22T17:48:21Z",
+      "side": 1,
+      "message": "Error here: Evaluating expression \u0027(60s * 2)\u0027 failed: SyntaxError: invalid syntax (\u003cstring\u003e, line 1)",
+      "range": {
+        "startLine": 200,
+        "startChar": 8,
+        "endLine": 200,
+        "endChar": 59
+      },
+      "revId": "dce3cfec9b386616e20f84e56fa34f7938e871e3",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    }
+  ]
+}
