@@ -219,6 +219,51 @@ Verify ONU Soft Reboot for TT
     Run Keyword If    ${has_dataplane}    Clean Up Linux
     Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Tests TT    ${suppressaddsubscriber}
 
+Verify OLT Soft Reboot for TT
+    [Documentation]    Test the OLT Soft Reboot functionality.
+    [Tags]    functionalTT    OltSoftRebootTT
+    [Setup]    Start Logging    SoftRebootOlt_TT
+    [Teardown]    Run Keywords    Collect Logs
+    ...           AND             Stop Logging    SoftRebootOlt_TT
+    ...           AND             Delete All Devices and Verify
+    # Add OLT device
+    Setup
+    # Performing Sanity Test to make sure subscribers are all DHCP and pingable
+    Run Keyword If    ${has_dataplane}    Clean Up Linux
+    Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Tests TT
+    # Reboot the OLT from the OLT CLI
+    FOR   ${I}    IN RANGE    0    ${olt_count}
+        ${olt_serial_number}=    Get From Dictionary    ${list_olts}[${I}]    sn
+        ${olt_device_id}=    Get OLTDeviceID From OLT List    ${olt_serial_number}
+        # Reboot the OLT using "voltctl device reboot" command
+        Reboot Device    ${olt_device_id}
+    END
+    FOR    ${I}    IN RANGE    0    ${num_all_onus}
+        ${src}=    Set Variable    ${hosts.src[${I}]}
+        ${dst}=    Set Variable    ${hosts.dst[${I}]}
+        ${service_type}=    Get Variable Value    ${src['service_type']}    "null"
+        # TODO: Add verification for MCAST
+        Run Keyword If    ${has_dataplane} and '${service_type}' != 'mcast'    Run Keyword And Continue On Failure
+        ...    Wait Until Keyword Succeeds    ${timeout}    2s
+        ...    Check Ping    False    ${dst['dp_iface_ip_qinq']}    ${src['dp_iface_name']}
+        ...    ${src['ip']}    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
+    END
+    # Wait for the OLT to come back up
+    FOR   ${I}    IN RANGE    0    ${olt_count}
+        ${olt_serial_number}=    Get From Dictionary    ${olt_ids}[${I}]    sn
+        ${olt_user}=    Get From Dictionary    ${list_olts}[${I}]    user
+        ${olt_pass}=    Get From Dictionary    ${list_olts}[${I}]    pass
+        ${olt_ssh_ip}=    Get From Dictionary    ${list_olts}[${I}]   sship
+        ${olt_device_id}=    Get OLTDeviceID From OLT List    ${olt_serial_number}
+        Run Keyword If    ${has_dataplane}    Wait Until Keyword Succeeds    120s    10s
+        ...    Check Remote System Reachability    True    ${olt_ssh_ip}
+        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    360s    5s
+        ...    Validate OLT Device    ENABLED    ACTIVE
+        ...    REACHABLE    ${olt_serial_number}
+    END
+    Run Keyword If    ${has_dataplane}    Clean Up Linux
+    Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Tests TT
+
 Verify restart openonu-adapter container after subscriber provisioning for TT
     [Documentation]    Restart openonu-adapter container after VOLTHA is operational.
     ...    Prerequisite : ONUs are authenticated and pingable.
