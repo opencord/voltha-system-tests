@@ -16,6 +16,24 @@
       "revId": "656661a27002ab5eeff06e1e6b9ab7bc78f6ce67",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f2632f5e_a69f1a84",
+        "filename": "tests/tt-workflow/Voltha_TT_FailureScenarios.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 260,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2021-04-23T08:57:20Z",
+      "side": 1,
+      "message": "Acknowledged. Will look into this in another patch.",
+      "parentUuid": "cdb1d327_7e6ba647",
+      "revId": "656661a27002ab5eeff06e1e6b9ab7bc78f6ce67",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
     }
   ]
 }
