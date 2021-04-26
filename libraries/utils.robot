@@ -30,8 +30,10 @@ Resource          ./voltctl.robot
 Check CLI Tools Configured
     [Documentation]    Tests that use 'voltctl' and 'kubectl' should execute this keyword in suite setup
     # check voltctl and kubectl configured
-    ${voltctl_rc}=    Run And Return RC    voltctl device list
-    ${kubectl_rc}=    Run And Return RC    kubectl get pods
+    ${voltctl_rc}    ${voltctl_output}=    Run And Return Rc And Output    voltctl device list
+    Log    ${voltctl_output}
+    ${kubectl_rc}    ${kubectl_output}=    Run And Return Rc And Output    kubectl get pods
+    Log    ${kubectl_output}
     Run Keyword If    ${voltctl_rc} != 0 or ${kubectl_rc} != 0    FATAL ERROR
     ...    VOLTCTL and KUBECTL not configured. Please configure before executing tests.
 
