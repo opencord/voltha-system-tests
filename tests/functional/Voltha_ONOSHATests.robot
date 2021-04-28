@@ -41,6 +41,7 @@ ${KUBERNETES_YAML}    ${KUBERNETES_CONFIGS_DIR}/${POD_NAME}.yml
 ${HELM_CHARTS_DIR}    ~/helm-charts
 ${VOLTHA_POD_NUM}    8
 ${NAMESPACE}      default
+${ONOSSPACE}      infra
 # For below variable value, using deployment name as using grep for
 # parsing radius pod name, we can also use full radius pod name
 ${RESTART_POD_NAME}    radius
@@ -66,7 +67,8 @@ Verify restart ONOS instace master of device after subscriber is provisioned
     [Teardown]    Run Keywords    Collect Logs
     ...           AND             Stop Logging    onosMasterRestart
     ${numOfOnos}=    Wait Until Keyword Succeeds    20s    5s    Get Number of Running Pods Number By Label    default
-    ...    app    onos-onos-classic
+    ...    app    onos-classic
+    Should Not Be Equal As Integers    ${numOfOnos}    0    Error fetching number of ONOS instances
     Pass Execution If    ${numOfOnos} == 1    Skipping test: just one instance of ONOS
     Delete All Devices and Verify
     Setup
@@ -82,10 +84,10 @@ Verify restart ONOS instace master of device after subscriber is provisioned
         ${of_id}=    Wait Until Keyword Succeeds    360s    15s    Validate OLT Device in ONOS    ${olt_serial_number}
         ${node_id}=    Wait Until Keyword Succeeds    20s    5s    Get Master Instace in ONOS    ${of_id}
         @{onos_id}=    Split String    ${node_id}    -
-        ${podName}=    Catenate    SEPARATOR=-    onos-onos-classic    ${onos_id[1]}
-        Wait Until Keyword Succeeds    ${timeout}    15s    Delete K8s Pods By Name    ${NAMESPACE}    ${podName}
+        ${podName}=    Catenate    SEPARATOR=-    voltha-infra-onos-classic    ${onos_id[1]}
+        Wait Until Keyword Succeeds    ${timeout}    15s    Delete K8s Pods By Name    ${ONOSSPACE}    ${podName}
         Sleep    60s
-        Wait Until Keyword Succeeds    ${timeout}    2s    Validate Pods Status By Name    ${NAMESPACE}
+        Wait Until Keyword Succeeds    ${timeout}    2s    Validate Pods Status By Name    ${ONOSSPACE}
         ...    ${podName}    Running
         # Performing Sanity Test to make sure subscribers are all AUTH+DHCP and pingable
         Run Keyword If    ${has_dataplane}    Clean Up Linux
