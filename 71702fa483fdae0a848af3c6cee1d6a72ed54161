@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6f4bb68f_d73a467d",
+        "filename": "tests/functional/Voltha_ONOSHATests.robot",
+        "patchSetId": 3
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1000007
+      },
+      "writtenOn": "2021-04-28T17:04:21Z",
+      "side": 1,
+      "message": "Should we call this INFRA_NAMESPACE?",
+      "range": {
+        "startLine": 44,
+        "startChar": 2,
+        "endLine": 44,
+        "endChar": 11
+      },
+      "revId": "71702fa483fdae0a848af3c6cee1d6a72ed54161",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    }
+  ]
+}
