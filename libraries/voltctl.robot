@@ -318,8 +318,14 @@ Validate ONU Devices With Duration
     [Arguments]    ${admin_state}    ${oper_status}    ${connect_status}    ${onu_reason}
     ...    ${List_ONU_Serial}   ${startTime}    ${print2console}=False    ${output_file}=${EMPTY}
     ...    ${alternate_reason}=${EMPTY}
+    ${rc}    ${output}=    Run and Return Rc and Output    voltctl device list
+    Log     ${rc}
+    Log     ${output}
+    ${rc}    ${output}=    Run and Return Rc and Output    voltctl -c ${VOLTCTL_CONFIG} device list
+    Log     ${rc}
+    Log     ${output}
     ${cmd}=    Catenate    voltctl -c ${VOLTCTL_CONFIG} device list -m 8MB -f Type=brcm_openomci_onu
-    ...    --format '{{.SerialNumber}}\t{{.AdminState}}\t{{.OperStatus}}\t{{.ConnectStatus}}\t{{.Reason}}' | grep -v SERIALNUMBER
+    ...    --format "{{.SerialNumber}}\t{{.AdminState}}\t{{.OperStatus}}\t{{.ConnectStatus}}\t{{.Reason}}" | grep -v SERIALNUMBER
     ${rc}    ${output}=    Run and Return Rc and Output    ${cmd}
     Should Be Equal As Integers    ${rc}    0
     ${timeCurrent} =    Get Current Date

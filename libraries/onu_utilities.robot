@@ -132,8 +132,9 @@ Restart And Check Onu Adaptor
     ...    - check openonu adaptor is ready again
     [Arguments]    ${namespace}
     ${list_openonu_apps}   Create List    adapter-open-onu
-    ${adaptorname}=    Set Variable    open-onu
-    Restart Pod    ${namespace}    ${adaptorname}
+    ${openonu_label_key}    Set Variable   app
+    ${openonu_label_value}    Set Variable   adapter-open-onu
+    Restart Pod By Label    ${namespace}    ${openonu_label_key}    ${openonu_label_value}
     Sleep    5s
     Wait For Pods Ready    ${namespace}    ${list_openonu_apps}
 
