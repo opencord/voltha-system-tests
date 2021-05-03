@@ -232,7 +232,7 @@ functional-multi-kind: ROBOT_MISC_ARGS += -i sanityORfunctional $(ROBOT_DEBUG_LO
 functional-multi-kind: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_MULT_PON_FILE)
 functional-multi-kind: bbsim-kind
 
-bbsim-kind: ROBOT_MISC_ARGS += -X
+bbsim-kind: ROBOT_MISC_ARGS += -X 
 bbsim-kind: ROBOT_FILE := Voltha_PODTests.robot
 bbsim-kind: voltha-test
 
@@ -506,5 +506,5 @@ voltctl-docker-image-build:
 	cd docker && docker build -t opencord/voltctl:local -f Dockerfile.voltctl .
 
 voltctl-docker-image-install-kind:
-	@if [ "`kind get clusters | grep voltha`" = '' ]; then echo "no voltha cluster found" && exit 1; fi
-	kind load docker-image --name `kind get clusters | grep voltha` opencord/voltctl:local
+	@if [ "`kind get clusters | grep kind`" = '' ]; then echo "no kind cluster found" && exit 1; fi
+	kind load docker-image --name `kind get clusters | grep kind` opencord/voltctl:local

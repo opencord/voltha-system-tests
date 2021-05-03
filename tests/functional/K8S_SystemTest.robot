@@ -29,7 +29,7 @@ ${timeout}        120s
 ${desired_ETCD_cluster_size}    3
 ${minimal_ETCD_cluster_size}    2
 ${namespace}      voltha
-${ETCD_namespace}    default
+${INFRA_NAMESPACE}    default
 ${ETCD_resources}    statefulsets
 ${ETCD_name}      etcd
 ${ETCD_pod_label_key}    app
@@ -52,20 +52,20 @@ ETCD Scale Test
     [Teardown]    Run Keywords    Collect Logs
     ...           AND    Teardown Suite
     ...           AND    Stop Logging    EtcdScaleTest
-    ${current_size}=    Get ETCD Replica Count    ${ETCD_namespace}
+    ${current_size}=    Get ETCD Replica Count    ${INFRA_NAMESPACE}
     Pass Execution If    '${current_size}' != '${desired_ETCD_cluster_size}'
     ...    'Skip the test if the cluster size smaller than minimal size 3'
     # The minimal cluster size after scale down
     # based on https://github.com/ETCD-io/ETCD/blob/master/Documentation/faq.md#what-is-failure-tolerance
-    Scale ETCD    ${ETCD_namespace}    ${minimal_ETCD_cluster_size}
+    Scale ETCD    ${INFRA_NAMESPACE}    ${minimal_ETCD_cluster_size}
     Wait Until Keyword Succeeds    ${timeout}    2s
-    ...    Validate ETCD Size    ${ETCD_namespace}    ${minimal_ETCD_cluster_size}
+    ...    Validate ETCD Size    ${INFRA_NAMESPACE}    ${minimal_ETCD_cluster_size}
     # Perform the sanity-test
     Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test
     # We scale up the size to 3, the recommended size of ETCD cluster.
-    Scale ETCD    ${ETCD_namespace}    ${desired_ETCD_cluster_size}
+    Scale ETCD    ${INFRA_NAMESPACE}    ${desired_ETCD_cluster_size}
     Wait Until Keyword Succeeds    ${timeout}    2s
-    ...    Validate ETCD Size    ${ETCD_namespace}    ${desired_ETCD_cluster_size}
+    ...    Validate ETCD Size    ${INFRA_NAMESPACE}    ${desired_ETCD_cluster_size}
     # Perform the sanity-test again
     Run Keyword If    ${has_dataplane}    Clean Up Linux
     Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test
@@ -76,9 +76,9 @@ ETCD Failure Test
     [Setup]    Start Logging    EtcdFailureTest
     [Teardown]    Run Keywords    Collect Logs
     ...              AND    Stop Logging    EtcdFailureTest
-    Delete K8s Pods By Label    ${ETCD_namespace}    ${ETCD_pod_label_key}    ${ETCD_name}
+    Delete K8s Pods By Label    ${INFRA_NAMESPACE}    ${ETCD_pod_label_key}    ${ETCD_name}
     #Wait Until Keyword Succeeds    ${timeout}    2s
-    #...    Pods Do Not Exist By Label    ${ETCD_namespace}    ${ETCD_pod_label_key}    ${ETCD_name}
+    #...    Pods Do Not Exist By Label    ${INFRA_NAMESPACE}    ${ETCD_pod_label_key}    ${ETCD_name}
     Wait Until Keyword Succeeds    ${timeout}    2s
     ...    Pods Are Ready By Label    ${namespace}    ${common_pod_label_key}    ${rwcore_pod_label_value}
     Wait Until Keyword Succeeds    ${timeout}    2s
