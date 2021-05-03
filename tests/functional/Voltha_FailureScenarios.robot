@@ -43,7 +43,7 @@ ${HELM_CHARTS_DIR}    ~/helm-charts
 ${VOLTHA_POD_NUM}    8
 ${NAMESPACE}      voltha
 ${DEFAULTSPACE}      default
-${RADIUSSPACE}    infra
+${INFRA_NAMESPACE}    infra
 # For below variable value, using deployment name as using grep for
 # parsing radius pod name, we can also use full radius pod name
 ${RESTART_POD_NAME}    radius
@@ -228,8 +228,8 @@ Check OLT/ONU Authentication After Radius Pod Restart
     ...           AND             Stop Logging    RadiusRestart
     ${waitforRestart}    Set Variable    120s
     ${podName}    Set Variable     radius
-    Wait Until Keyword Succeeds    ${timeout}    15s    Delete K8s Pods By Label    ${RADIUSSPACE}    app    ${podName}
-    Wait Until Keyword Succeeds    ${waitforRestart}    2s    Validate Pods Status By Label    ${RADIUSSPACE}
+    Wait Until Keyword Succeeds    ${timeout}    15s    Delete K8s Pods By Label    ${INFRA_NAMESPACE}    app    ${podName}
+    Wait Until Keyword Succeeds    ${waitforRestart}    2s    Validate Pods Status By Label    ${INFRA_NAMESPACE}
     ...    app    ${podName}    Running
     FOR    ${I}    IN RANGE    0    ${num_all_onus}
         ${src}=    Set Variable    ${hosts.src[${I}]}
