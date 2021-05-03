@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3663abcb_9971c3f6",
+        "filename": "tests/functional/Voltha_FailureScenarios.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1000064
+      },
+      "writtenOn": "2021-05-03T23:39:14Z",
+      "side": 1,
+      "message": "Don\u0027t we need this change on other files Voltha_DT_FailureScenarios.robot and like wise for other files in DT and TT as well?",
+      "revId": "b599dd7a648f9a25afda64df1e0465b6ef1e70f7",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    }
+  ]
+}
