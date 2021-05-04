@@ -334,10 +334,11 @@ Verify Meters in ONOS
     ${us_cir}    ${us_cbs}    ${us_eir}    ${us_ebs}    ${us_air}    Get Bandwidth Profile Details
     ...    ${ip}    ${port}    ${us_bw_profile}
     Sleep    1s
+    ${us_pir}=    Evaluate    ${us_eir}+${us_cir}+${us_air}
     # Verify meter for upstream bandwidth profile
     ${us_meter_cmd}=    Catenate    SEPARATOR=
     ...    meters ${olt_of_id} | grep state=ADDED | grep "rate=${us_cir}, burst-size=${us_cbs}"
-    ...     | grep "rate=${us_eir}, burst-size=${us_ebs}" | grep "rate=${us_air}, burst-size=0" | wc -l
+    ...     | grep "rate=${us_eir}, burst-size=${us_ebs}" | grep "rate=${us_pir}, burst-size=0" | wc -l
     ${upstream_meter_added}=    Execute ONOS CLI Command    ${ip}    ${port}
     ...    ${us_meter_cmd}
     Should Be Equal As Integers    ${upstream_meter_added}    1
@@ -347,9 +348,10 @@ Verify Meters in ONOS
     ...    ${ip}    ${port}    ${ds_bw_profile}
     Sleep    1s
     # Verify meter for downstream bandwidth profile
+    ${ds_pir}=    Evaluate    ${ds_eir}+${ds_cir}+${ds_air}
     ${ds_meter_cmd}=    Catenate    SEPARATOR=
     ...    meters ${olt_of_id} | grep state=ADDED | grep "rate=${ds_cir}, burst-size=${ds_cbs}"
-    ...     | grep "rate=${ds_eir}, burst-size=${ds_ebs}" | grep "rate=${ds_air}, burst-size=0" | wc -l
+    ...     | grep "rate=${ds_eir}, burst-size=${ds_ebs}" | grep "rate=${ds_pir}, burst-size=0" | wc -l
     ${downstream_meter_added}=    Execute ONOS CLI Command    ${ip}    ${port}
     ...    ${ds_meter_cmd}
     Should Be Equal As Integers    ${downstream_meter_added}    1
