@@ -258,6 +258,31 @@ Verify Subscriber Access Flows Added Count DT
     ...    flows -s ADDED ${olt_of_id} | grep -v deviceId | grep -v ETH_TYPE:lldp | grep -v ETH_TYPE:arp | wc -l
     Should Be Equal As Integers    ${access_flows_added}    ${expected_flows}
 
+Verify Default Downstream Flows are added in ONOS for OLT TT
+    [Arguments]    ${ip}    ${port}    ${olt_of_id}    ${nni_port}
+    [Documentation]    Verifies if the Default Downstream Flows are added in ONOS for the OLT
+    # Verify lldp flow
+    ${downstream_flow_lldp_cmd}=    Catenate    SEPARATOR=
+    ...    flows -s ADDED ${olt_of_id} | grep lldp |
+    ...     grep OUTPUT:CONTROLLER
+    ${downstream_flow_lldp_added}=    Execute ONOS CLI Command    ${ip}    ${port}
+    ...    ${downstream_flow_lldp_cmd}
+    Should Not Be Empty    ${downstream_flow_lldp_added}
+    # Verify downstream dhcp flow
+    ${downstream_flow_dhcp_cmd}=    Catenate    SEPARATOR=
+    ...    flows -s ADDED ${olt_of_id} | grep IP_PROTO:17 | grep UDP_SRC:67 | grep UDP_DST:68 |
+    ...     grep OUTPUT:CONTROLLER
+    ${downstream_flow_dhcp_added}=    Execute ONOS CLI Command    ${ip}    ${port}
+    ...    ${downstream_flow_dhcp_cmd}
+    Should Not Be Empty    ${downstream_flow_dhcp_added}
+    # Verify downstream igmp flow
+    ${downstream_flow_igmp_cmd}=    Catenate    SEPARATOR=
+    ...    flows -s ADDED ${olt_of_id} | grep IP_PROTO:2 |
+    ...     grep OUTPUT:CONTROLLER
+    ${downstream_flow_igmp_added}=    Execute ONOS CLI Command    ${ip}    ${port}
+    ...    ${downstream_flow_igmp_cmd}
+    Should Not Be Empty    ${downstream_flow_igmp_added}
+
 Get Programmed Subscribers
     [Arguments]    ${ip}    ${port}    ${olt_of_id}    ${onu_port}
     [Documentation]    Retrieves the subscriber details at a given location

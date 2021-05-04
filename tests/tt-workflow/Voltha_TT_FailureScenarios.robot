@@ -293,6 +293,45 @@ Verify restart openonu-adapter container after subscriber provisioning for TT
     Should Be Equal As Strings    ${countAfterRestart}    ${countBeforeRestart}
     Log to console    Pod ${podName} restarted and sanity checks passed successfully
 
+Verify restart openolt-adapter container before subscriber provisioning for TT
+    [Documentation]    Restart openolt-adapter container after VOLTHA is operational.
+    [Tags]    functionalTT    Restart-OpenOlt-TT
+    [Setup]    Start Logging    Restart-OpenOlt-TT
+    [Teardown]    Run Keywords    Collect Logs
+    ...           AND             Stop Logging    Restart-OpenOlt-TT
+    ...           AND             Delete All Devices and Verify
+    # Add OLT device
+    Setup
+    Run Keyword If    ${has_dataplane}    Clean Up Linux
+    FOR   ${I}    IN RANGE    0    ${olt_count}
+        ${olt_serial_number}=    Get From Dictionary    ${olt_ids}[${I}]    sn
+        ${olt_device_id}=    Get OLTDeviceID From OLT List    ${olt_serial_number}
+        ${of_id}=    Wait Until Keyword Succeeds    ${timeout}    15s    Validate OLT Device in ONOS
+        ...    ${olt_serial_number}
+        ${nni_port}=    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
+        ...    Get NNI Port in ONOS    ${of_id}
+        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
+        ...    Verify Default Downstream Flows are added in ONOS for OLT TT    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${of_id}
+        ...    ${nni_port}
+    END
+    ${podStatusOutput}=    Run    kubectl get pods -n ${NAMESPACE}
+    Log    ${podStatusOutput}
+    ${countBeforeRestart}=    Run    kubectl get pods -n ${NAMESPACE} | grep Running | wc -l
+    ${podName}    Set Variable     adapter-open-olt
+    Wait Until Keyword Succeeds    ${timeout}    15s    Delete K8s Pods By Label    ${NAMESPACE}    app    ${podName}
+    Sleep    5s
+    Wait Until Keyword Succeeds    ${timeout}    2s    Validate Pods Status By Label    ${NAMESPACE}
+    ...    app    ${podName}    Running
+    Wait Until Keyword Succeeds    ${timeout}    3s    Pods Are Ready By Label    ${NAMESPACE}    app    ${podName}
+    ${of_id}=    Wait Until Keyword Succeeds    ${timeout}    15s    Validate OLT Device in ONOS
+    ...    ${olt_serial_number}
+    Wait Until Keyword Succeeds    ${timeout}    2s    Device Is Available In ONOS
+    ...    http://karaf:karaf@${ONOS_REST_IP}:${ONOS_REST_PORT}    ${of_id}
+    ${countAfterRestart}=    Run    kubectl get pods -n ${NAMESPACE} | grep Running | wc -l
+    Should Be Equal As Strings    ${countAfterRestart}    ${countBeforeRestart}
+    Perform Sanity Tests TT
+    Log to console    Pod ${podName} restarted and sanity checks passed successfully
+
 Verify restart openolt-adapter container after subscriber provisioning for TT
     [Documentation]    Restart openolt-adapter container after VOLTHA is operational.
     [Tags]    functionalTT    Restart-OpenOlt-TT
