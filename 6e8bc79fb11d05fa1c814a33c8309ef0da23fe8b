@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8a51314b_1701a93f",
+        "filename": "libraries/onos.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 337,
+      "author": {
+        "id": 1000127
+      },
+      "writtenOn": "2021-05-04T17:42:16Z",
+      "side": 1,
+      "message": "We should add ${us_pbs}\u003d Evaluate ${us_cbs}+${us_ebs}    ## Note that air burst size is 0. So, needed not be added.",
+      "revId": "6e8bc79fb11d05fa1c814a33c8309ef0da23fe8b",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "70eb2fd7_a0bc7e03",
+        "filename": "libraries/onos.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 341,
+      "author": {
+        "id": 1000127
+      },
+      "writtenOn": "2021-05-04T17:42:16Z",
+      "side": 1,
+      "message": "This should change as below\n| grep \"rate\u003d${us_pbr}, burst-size\u003d${us_pbs}\" | grep \"rate\u003d${us_air}, burst-size\u003d0\" | wc -l",
+      "range": {
+        "startLine": 341,
+        "startChar": 12,
+        "endLine": 341,
+        "endChar": 103
+      },
+      "revId": "6e8bc79fb11d05fa1c814a33c8309ef0da23fe8b",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b652b8e7_81d7dd9d",
+        "filename": "libraries/onos.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 354,
+      "author": {
+        "id": 1000127
+      },
+      "writtenOn": "2021-05-04T17:42:16Z",
+      "side": 1,
+      "message": "Similar changes here.",
+      "range": {
+        "startLine": 351,
+        "startChar": 2,
+        "endLine": 354,
+        "endChar": 103
+      },
+      "revId": "6e8bc79fb11d05fa1c814a33c8309ef0da23fe8b",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    }
+  ]
+}
