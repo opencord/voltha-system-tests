@@ -1,0 +1,142 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "10b9b8d6_d963efc1",
+        "filename": "tests/tt-workflow/Voltha_TT_FailureScenarios.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 298,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2021-05-05T05:15:49Z",
+      "side": 1,
+      "message": "Please use a different tag. The TC below already has the same.",
+      "range": {
+        "startLine": 298,
+        "startChar": 30,
+        "endLine": 298,
+        "endChar": 48
+      },
+      "revId": "bda30e69690838ee7a3689d7caa526bd7947608b",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "da0da930_c834c35a",
+        "filename": "tests/tt-workflow/Voltha_TT_FailureScenarios.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 299,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2021-05-05T05:15:49Z",
+      "side": 1,
+      "message": "Same as above.",
+      "range": {
+        "startLine": 299,
+        "startChar": 32,
+        "endLine": 299,
+        "endChar": 50
+      },
+      "revId": "bda30e69690838ee7a3689d7caa526bd7947608b",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d2730671_85dbc342",
+        "filename": "tests/tt-workflow/Voltha_TT_FailureScenarios.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 301,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2021-05-05T05:15:49Z",
+      "side": 1,
+      "message": "Same as above.",
+      "range": {
+        "startLine": 301,
+        "startChar": 50,
+        "endLine": 301,
+        "endChar": 68
+      },
+      "revId": "bda30e69690838ee7a3689d7caa526bd7947608b",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c6a5ad60_a4efdfb7",
+        "filename": "tests/tt-workflow/Voltha_TT_FailureScenarios.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 320,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2021-05-05T05:15:49Z",
+      "side": 1,
+      "message": "Use variable ${OLT_ADAPTER_APP_LABEL}",
+      "range": {
+        "startLine": 320,
+        "startChar": 35,
+        "endLine": 320,
+        "endChar": 51
+      },
+      "revId": "bda30e69690838ee7a3689d7caa526bd7947608b",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "169e800e_7004355e",
+        "filename": "tests/tt-workflow/Voltha_TT_FailureScenarios.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 329,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2021-05-05T05:15:49Z",
+      "side": 1,
+      "message": "May be not required as the below `Perform Sanity Tests TT` should also be doing this.",
+      "range": {
+        "startLine": 326,
+        "startChar": 4,
+        "endLine": 329,
+        "endChar": 75
+      },
+      "revId": "bda30e69690838ee7a3689d7caa526bd7947608b",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8887ebfa_4972524d",
+        "filename": "tests/tt-workflow/Voltha_TT_FailureScenarios.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 332,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2021-05-05T05:15:49Z",
+      "side": 1,
+      "message": "Update like `Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Tests TT` for better use.",
+      "range": {
+        "startLine": 332,
+        "startChar": 4,
+        "endLine": 332,
+        "endChar": 27
+      },
+      "revId": "bda30e69690838ee7a3689d7caa526bd7947608b",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    }
+  ]
+}
