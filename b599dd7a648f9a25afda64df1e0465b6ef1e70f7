@@ -96,6 +96,30 @@
     },
     {
       "key": {
+        "uuid": "4bc3fba2_ffb968f8",
+        "filename": "tests/functional/K8S_SystemTest.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2021-05-05T04:49:59Z",
+      "side": 1,
+      "message": "Should be okay as eventually we are going to pass this value from pipeline itself (as per your patch https://gerrit.opencord.org/c/ci-management/+/24493/4/jjb/pipeline/voltha/master/periodic-bbsim-tests.groovy). For local runs also one should be able to handle it based on the deployment.",
+      "parentUuid": "fd0005b2_fc8b972c",
+      "range": {
+        "startLine": 32,
+        "startChar": 22,
+        "endLine": 32,
+        "endChar": 29
+      },
+      "revId": "b599dd7a648f9a25afda64df1e0465b6ef1e70f7",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3663abcb_9971c3f6",
         "filename": "tests/functional/Voltha_FailureScenarios.robot",
         "patchSetId": 1
