@@ -154,6 +154,12 @@ Perform BBSim Sanity Test Per OLT
         # Perform Igmp Join and Leave (valid only for TT)
         Run Keyword If    "${workflow}"=="TT"
         ...    Perform ONU Igmp Join and Leave    ${bbsim_pod}    ${of_id}    ${src['onu']}    ${onu_port}
+        # Perform OLT SoftReboot test
+        ${olt_device_id}=    Get OLTDeviceID From OLT List    ${olt_serial_number}
+        Reboot Device    ${olt_device_id}
+        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    360s    5s
+        ...    Validate OLT Device    ENABLED    ACTIVE
+        ...    REACHABLE    ${olt_serial_number}
     END
 
 Setup Suite
