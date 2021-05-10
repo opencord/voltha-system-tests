@@ -55,6 +55,7 @@ ${igmp_join_leave_count}    1
 # we want to make sure you can disable/delete the device without needing to restart BBSim
 ${iteration_count}  2
 
+
 *** Test Cases ***
 
 Test Perform BBSim Sanity
@@ -107,6 +108,7 @@ Perform BBSim Sanity Test
 Perform BBSim Sanity Test Per OLT
     [Documentation]    Validates the BBSim Functionality for ATT, DT and TT workflows
     ...    Also Restart Auth (ATT), Restart Dhcp (ATT and TT), Igmp Join and Leave (TT)
+    ...    Once the ONU tests are completed perform a SoftReboot on the OLT.
     [Arguments]    ${bbsim_pod}    ${of_id}    ${olt_serial_number}   ${num_onus}
     FOR    ${I}    IN RANGE    0    ${num_all_onus}
         ${src}=    Set Variable    ${hosts.src[${I}]}
@@ -154,13 +156,25 @@ Perform BBSim Sanity Test Per OLT
         # Perform Igmp Join and Leave (valid only for TT)
         Run Keyword If    "${workflow}"=="TT"
         ...    Perform ONU Igmp Join and Leave    ${bbsim_pod}    ${of_id}    ${src['onu']}    ${onu_port}
-        # Perform OLT SoftReboot test
-        ${olt_device_id}=    Get OLTDeviceID From OLT List    ${olt_serial_number}
-        Reboot Device    ${olt_device_id}
-        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    360s    5s
-        ...    Validate OLT Device    ENABLED    ACTIVE
-        ...    REACHABLE    ${olt_serial_number}
     END
+    # Clean ONOS state before rebooting
+    Execute ONOS CLI Command on open connection     ${onos_ssh_connection}  aaa-reset-all-devices
+    Execute ONOS CLI Command on open connection     ${onos_ssh_connection}  dhcpl2relay-clear-allocations
+    # Perform OLT SoftReboot test
+    ${olt_device_id}=    Get OLTDeviceID From OLT List    ${olt_serial_number}
+    Reboot Device    ${olt_device_id}
+    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    360s    5s
+    ...    Validate OLT Device    ENABLED    ACTIVE
+    ...    REACHABLE    ${olt_serial_number}
+    Run Keyword If    "${workflow}"=="DT"    Perform Sanity Test DT
+    ...    ELSE IF    "${workflow}"=="TT"    Perform Sanity Tests TT
+    ...    ELSE       Perform Sanity Test
+    # Perform GRPC Disconnect test
+    Restart Grpc Server    ${NAMESPACE}    ${bbsim_pod}    5
+    Run Keyword If    "${workflow}"=="DT"    Perform Sanity Test DT
+    ...    ELSE IF    "${workflow}"=="TT"    Perform Sanity Tests TT
+    ...    ELSE       Perform Sanity Test
+
 
 Setup Suite
     [Documentation]    Set up the test suite

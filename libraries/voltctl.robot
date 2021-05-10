@@ -170,6 +170,7 @@ Validate Device
     ${rc}    ${output}=    Run and Return Rc and Output    voltctl -c ${VOLTCTL_CONFIG} device list -m 8MB -o json
     Should Be Equal As Integers    ${rc}    0
     ${jsondata}=    To Json    ${output}
+    Log     ${output}
     ${length}=    Get Length    ${jsondata}
     ${matched}=    Set Variable    False
     FOR    ${INDEX}    IN RANGE    0    ${length}
