@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fa5e5d9d_bf1d336a",
+        "filename": "tests/bbsim/Voltha_BBSimTests.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2021-05-11T03:52:43Z",
+      "side": 1,
+      "message": "Needs to be like..\n    Run Keyword If    \"${workflow}\"\u003d\u003d\"DT\"    Perform Sanity Test DT\n    ...    ELSE IF    \"${workflow}\"\u003d\u003d\"TT\"    Perform Sanity Tests TT\n    ...    ELSE       Perform Sanity Test",
+      "range": {
+        "startLine": 169,
+        "startChar": 1,
+        "endLine": 169,
+        "endChar": 74
+      },
+      "revId": "52302320a2984adcff522c288bba7383dbc74d82",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    }
+  ]
+}
