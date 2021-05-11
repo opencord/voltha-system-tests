@@ -82,7 +82,7 @@ Current State Test All Onus
     [Documentation]    This keyword checks the passed state of all onus.
     ...                Hint: ${timeStart} will be not evaluated here!
     [Arguments]    ${state}    ${reqadminstate}=${EMPTY}    ${reqoperstatus}=${EMPTY}    ${reqconnectstatus}=${EMPTY}
-    ...    ${alternativeonustate}=${EMPTY}
+    ...    ${alternativeonustate}=${EMPTY}    ${timeout}=${timeout}
     ${timeStart}=    Get Current Date
     ${list_onus}    Create List
     Build ONU SN List    ${list_onus}
@@ -95,6 +95,8 @@ Current State Test All Onus
     ...    Validate ONU Devices With Duration
     ...    ${admin_state}    ${oper_status}    ${connect_status}
     ...    ${onu_state}    ${list_onus}    ${timeStart}    alternate_reason=${alternativeonustate}
+    # teardown is used as 'return' for result of Validate ONU Devices With Duration (used for ONUNegativeStateTests)
+    [Teardown]    Run Keyword If    "${KEYWORD STATUS}"=="FAIL"    Set Suite Variable    ${StateTestAllONUs}    False
 
 Log Ports
     [Documentation]    This keyword logs all port data available in ONOS of first port per ONU
