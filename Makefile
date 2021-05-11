@@ -126,6 +126,20 @@ mib-upload-templating-openonu-go-adapter-test: ROBOT_CONFIG_FILE := $(ROBOT_SANI
 mib-upload-templating-openonu-go-adapter-test: ROBOT_FILE := Voltha_ONUTemplateTests.robot
 mib-upload-templating-openonu-go-adapter-test: openonu-go-adapter-tests
 
+# target to invoke test with openonu go adapter applying 1T8GEM tech-profile at single ONU with OMCI hardening
+# timeout is determined for omci_response_rate=9 and omci_timeout=1s
+openonu-go-adapter-omci-hardening-passed-test: ROBOT_MISC_ARGS += -v timeout:180s -v techprofile:1T8GEM
+openonu-go-adapter-omci-hardening-passed-test: openonu-go-adapter-test
+
+# target to invoke openonu go adapter failed state test at single ONU with OMCI hardening
+# test should show in case of too small omci_response_rate (<=7) in BBSIM that OMCI hardening does not work
+# test is PASS when ONU does not leave state 'starting-openomci'
+openonu-go-adapter-omci-hardening-failed-test: ROBOT_MISC_ARGS += -v logging:True -v timeout:300s -i NegativeStateTestOnuGo
+openonu-go-adapter-omci-hardening-failed-test: ROBOT_MISC_ARGS += -e notreadyOnuGo -X $(ROBOT_DEBUG_LOG_OPT)
+openonu-go-adapter-omci-hardening-failed-test: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_SINGLE_PON_FILE)
+openonu-go-adapter-omci-hardening-failed-test: ROBOT_FILE := Voltha_ONUNegativeStateTests.robot
+openonu-go-adapter-omci-hardening-failed-test: openonu-go-adapter-tests
+
 # target to invoke reconcile tests with openonu go adapter at single ONU with ATT workflow (default workflow)
 reconcile-openonu-go-adapter-test-att: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_SINGLE_PON_FILE)
 reconcile-openonu-go-adapter-test-att: reconcile-openonu-go-adapter-tests-att
