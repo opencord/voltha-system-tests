@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6fa7ec33_b66bc944",
+        "filename": "Makefile",
+        "patchSetId": 2
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2021-05-11T11:57:51Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this correspond to the following comment in test suite?\n\"Timeout has to set at least to 300s (or more)\"",
+      "range": {
+        "startLine": 132,
+        "startChar": 80,
+        "endLine": 132,
+        "endChar": 85
+      },
+      "revId": "f016805a98469ac817805a607ca9f82173067925",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    }
+  ]
+}
