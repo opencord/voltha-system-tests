@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "eefb4615_6269c32b",
+        "filename": "Makefile",
+        "patchSetId": 3
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2021-05-12T09:09:31Z",
+      "side": 1,
+      "message": "Target could be named \"openonu-go-adapter-omci-hardening-failed-test\" - in contrast to \"openonu-go-adapter-omci-hardening-passed-test\".",
+      "range": {
+        "startLine": 132,
+        "startChar": 0,
+        "endLine": 132,
+        "endChar": 32
+      },
+      "revId": "36b7195c8e232a302232c4526c8d62832bd84b12",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    }
+  ]
+}
