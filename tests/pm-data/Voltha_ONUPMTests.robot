@@ -186,9 +186,12 @@ Setup Suite
     Set Suite Variable  ${onos_ssh_connection}
     ${switch_type}=    Get Variable Value    ${web_power_switch.type}
     Run Keyword If  "${switch_type}"!=""    Set Global Variable    ${powerswitch_type}    ${switch_type}
+    # todo: set ${kafka} depending on environment!!!
+#    ${kafka}=    Set Variable    kafka-0-external
+    ${kafka}=    Set Variable    voltha-infra-kafka-0-external
     # start port forwarding if needed (when voltha runs in k8s)
     ${portFwdHandle} =    Run Keyword If    ${PORT_FORWARDING}    Start Process
-    ...    kubectl port-forward --address 0.0.0.0 --namespace default svc/kafka-0-external ${KAFKA_PORT}:${KAFKA_SVC_PORT} &
+    ...    kubectl port-forward --address 0.0.0.0 --namespace default svc/${kafka} ${KAFKA_PORT}:${KAFKA_SVC_PORT} &
     ...    shell=true
     Set Suite Variable   ${portFwdHandle}
     Sleep    5s
