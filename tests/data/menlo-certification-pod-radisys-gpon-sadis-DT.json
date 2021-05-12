@@ -31,6 +31,23 @@
                         "isDhcpRequired":false
                      }
                   ]
+               },
+               {
+                  "id":"SCOM00001c8d-1",
+                  "nasPortId":"SCOM00001c8d-1",
+                  "circuitId":"SCOM00001c8d-1",
+                  "remoteId":"SCOM00001c8d",
+                  "uniTagList":[
+                     {
+                        "uniTagMatch":4096,
+                        "ponCTag":4096,
+                        "ponSTag":22,
+                        "technologyProfileId":64,
+                        "upstreamBandwidthProfile":"Default",
+                        "downstreamBandwidthProfile":"Default",
+                        "isDhcpRequired":false
+                     }
+                  ]
                }
             ]
          },
