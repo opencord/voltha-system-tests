@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e527442d_88ff1c9e",
+        "filename": "tests/data/menlo-certification-pod-radisys-gpon-sadis-DT.json",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1000127
+      },
+      "writtenOn": "2021-05-13T00:00:00Z",
+      "side": 1,
+      "message": "same comment here.",
+      "range": {
+        "startLine": 29,
+        "startChar": 0,
+        "endLine": 30,
+        "endChar": 63
+      },
+      "revId": "f3793e67f872550ac8400bf4b6b1dffe039bc867",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6d14d0ae_0b7be159",
+        "filename": "tests/data/menlo-certification-pod-radisys-gpon-sadis-DT.json",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1000127
+      },
+      "writtenOn": "2021-05-13T00:00:00Z",
+      "side": 1,
+      "message": "We should prefer using User_Bandwidth1 and User_Bandwidth2 for this. The default profile was meant only for EAP which is not relevant for DT use case.",
+      "range": {
+        "startLine": 46,
+        "startChar": 0,
+        "endLine": 47,
+        "endChar": 63
+      },
+      "revId": "f3793e67f872550ac8400bf4b6b1dffe039bc867",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    }
+  ]
+}
