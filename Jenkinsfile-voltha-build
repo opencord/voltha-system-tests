@@ -48,7 +48,7 @@ node ("${TestNodeName}") {
                     NAMESPACES="voltha infra default"
                     for NS in \$NAMESPACES
                     do
-                        for hchart in \$(helm list -n $NS -q | grep -E -v 'docker-registry|kafkacat');
+                        for hchart in \$(helm list -n \$NS -q | grep -E -v 'docker-registry|kafkacat');
                         do
                             echo "Purging chart: \${hchart}"
                             helm delete -n \$NS "\${hchart}"
