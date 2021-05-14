@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "103015b6_b82e496f",
+        "filename": "libraries/utils.robot",
+        "patchSetId": 6
+      },
+      "lineNbr": 550,
+      "author": {
+        "id": 1000007
+      },
+      "writtenOn": "2021-05-14T22:39:42Z",
+      "side": 1,
+      "message": "can we use a more generic variable name? I believe we\u0027ll have other cases in the future in which we don\u0027t want to test for an empty device list that are not necessarily the Soak tests.",
+      "range": {
+        "startLine": 550,
+        "startChar": 19,
+        "endLine": 550,
+        "endChar": 31
+      },
+      "revId": "7df453c23bb7a284616fd3a5515afc1379e0772c",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "3f896824_1fd70034",
         "filename": "tests/dt-workflow/Voltha_DT_PODTests.robot",
         "patchSetId": 6
@@ -31,6 +54,24 @@
       "side": 1,
       "message": "I think it is more of personal preference and readability purpose here. A hard-coded value can also be used. Will make change in next patch iteration. Thanks.",
       "parentUuid": "3f896824_1fd70034",
+      "revId": "7df453c23bb7a284616fd3a5515afc1379e0772c",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "77f03c5d_b3e19157",
+        "filename": "tests/dt-workflow/Voltha_DT_PODTests.robot",
+        "patchSetId": 6
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1000007
+      },
+      "writtenOn": "2021-05-14T22:39:42Z",
+      "side": 1,
+      "message": "Please leave it as a parameter. We never know wether it\u0027s going to change or not and it\u0027s not a problem having it there",
+      "parentUuid": "958d5ecb_6b575eee",
       "revId": "7df453c23bb7a284616fd3a5515afc1379e0772c",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
       "unresolved": true
@@ -102,6 +143,24 @@
       "side": 1,
       "message": "For now, we can leave it here as later we are planning to create new tests for soak then we can move there accordingly.  Even if we  move to a different common file, we will have to update in the pipeline or call the test case here before starting tests for soak.  I am fine leaving it here for now.  But, there is another option where we can create a new soak_tests.robot file and move it there (because later we will add more specific tests that will be executed on the soak platform), we can follow this approach too and update the soak test pipeline accordingly.",
       "parentUuid": "7b0d61ad_33ded5d1",
+      "revId": "7df453c23bb7a284616fd3a5515afc1379e0772c",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "59b5640e_72935883",
+        "filename": "tests/dt-workflow/Voltha_DT_PODTests.robot",
+        "patchSetId": 6
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1000007
+      },
+      "writtenOn": "2021-05-14T22:39:42Z",
+      "side": 1,
+      "message": "Can\u0027t BBSim be added to the deployment config file and treated in the same way as all the other OLTs? In that way the SOAK will look a lot like a Multi Olt test, and wether we are using 1 real OLT and 1 BBSim or 2 real OLTs is transparent to the tests",
+      "parentUuid": "353e3267_8922f7cd",
       "revId": "7df453c23bb7a284616fd3a5515afc1379e0772c",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
       "unresolved": true
