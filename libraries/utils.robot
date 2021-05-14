@@ -547,8 +547,9 @@ Sanity Test TT MCAST one ONU
 
 Setup
     [Documentation]    Pre-test Setup
+    [Arguments]    ${skip_empty_device_list_test}=False
     #test for empty device list
-    Test Empty Device List
+    Run Keyword If    '${skip_empty_device_list_test}'=='False'    Test Empty Device List
     # TBD: Need for this Sleep
     Run Keyword If    ${has_dataplane}    Sleep    180s
     # Create a list of olt ids (logical and device_id)
