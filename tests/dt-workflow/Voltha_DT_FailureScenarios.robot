@@ -55,6 +55,8 @@ ${scripts}        ../../scripts
 # Per-test logging on failure is turned off by default; set this variable to enable
 ${container_log_dir}    ${None}
 
+${SOAK_TEST}    False
+
 *** Test Cases ***
 Verify ONU after Rebooting Physically for DT
     [Documentation]    Test the ONU functionality by physically turning on/off ONU.
@@ -235,7 +237,7 @@ Verify openolt adapter restart before subscriber provisioning for DT
     ...    simulate a POD crash. The test then scales the rw-core back to a single instance
     ...    and configures ONOS for access. The test succeeds if the device is able to
     ...    complete the DHCP sequence.
-    [Tags]    functionalDt    olt-adapter-restart-Dt
+    [Tags]    functionalDt    olt-adapter-restart-Dt    soak
     [Setup]    Start Logging    OltAdapterRestart-Dt
     #...        AND             Clear All Devices Then Create New Device
     [Teardown]   Run Keywords    Collect Logs
@@ -535,12 +537,32 @@ Verify ONU Soft Reboot for DT
     ...    ${List_ONU_Serial}    ${onu_flows}
 
 *** Keywords ***
+Setup Soak
+    [Documentation]    Pre-test Setup for Soak Job
+    ${olt_ids}    Create List
+    FOR    ${I}    IN RANGE    0    ${num_olts}
+        ${olt_serial_number}=    Set Variable    ${list_olts}[${I}][sn]
+        ${olt_device_id}=    Get Device ID From SN    ${olt_serial_number}
+        ${logical_id}=    Get Logical Device ID From SN    ${olt_serial_number}
+        ${of_id}=    Wait Until Keyword Succeeds    ${timeout}    15s    Validate OLT Device in ONOS
+        ...    ${olt_serial_number}
+        ${nni_port}=    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
+        ...    Get NNI Port in ONOS    ${of_id}
+        Set Global Variable    ${nni_port}
+        ${olt}    Create Dictionary    device_id    ${olt_device_id}    logical_id    ${logical_id}
+        ...    of_id    ${of_id}    sn    ${olt_serial_number}
+        Append To List    ${olt_ids}    ${olt}
+    END
+    Set Global Variable    ${olt_ids}
+
 Setup Suite
     [Documentation]    Set up the test suite
     Common Test Suite Setup
     #power_switch.robot needs it to support different vendor's power switch
     ${switch_type}=    Get Variable Value    ${web_power_switch.type}
     Run Keyword If  "${switch_type}"!=""    Set Global Variable    ${powerswitch_type}    ${switch_type}
+    Run Keyword If  '${SOAK_TEST}'=='True'    Setup Soak
+
 
 Clear All Devices Then Create New Device
     [Documentation]    Remove any devices from VOLTHA and ONOS
