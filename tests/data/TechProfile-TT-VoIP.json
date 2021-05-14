@@ -9,7 +9,7 @@
 		"max_gem_payload_size": "auto"
 	},
 	"us_scheduler": {
-		"additional_bw": "AdditionalBW_BestEffort",
+		"additional_bw": "AdditionalBW_None",
 		"direction": "UPSTREAM",
 		"priority": 0,
 		"weight": 20,
