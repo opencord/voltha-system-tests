@@ -87,6 +87,24 @@
       "revId": "7df453c23bb7a284616fd3a5515afc1379e0772c",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "353e3267_8922f7cd",
+        "filename": "tests/dt-workflow/Voltha_DT_PODTests.robot",
+        "patchSetId": 6
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1000064
+      },
+      "writtenOn": "2021-05-14T21:25:01Z",
+      "side": 1,
+      "message": "For now, we can leave it here as later we are planning to create new tests for soak then we can move there accordingly.  Even if we  move to a different common file, we will have to update in the pipeline or call the test case here before starting tests for soak.  I am fine leaving it here for now.  But, there is another option where we can create a new soak_tests.robot file and move it there (because later we will add more specific tests that will be executed on the soak platform), we can follow this approach too and update the soak test pipeline accordingly.",
+      "parentUuid": "7b0d61ad_33ded5d1",
+      "revId": "7df453c23bb7a284616fd3a5515afc1379e0772c",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
     }
   ]
 }
