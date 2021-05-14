@@ -81,6 +81,28 @@ Reboot DT ONUs Physically
         Enable Switch Outlet    ${src['power_switch_port']}
     END
 
+Create Soak BBSim Device
+    [Documentation]    This creates and enables the BBSim device as required by the soak testing
+    ...    The BBSim OLT and ONUs created as part of this test are not part of active testing
+    ...    but only to mock the load on Soak POD.
+    ...    Also, currently it expects only single instance of bbsim is deployed.
+    [Tags]    soak
+    [Setup]    Run Keyword    Start Logging    soakPodCreateBBSimLoad
+    [Teardown]    Run Keywords    Collect Logs
+    ...           AND             Stop Logging    soakPodCreateBBSimLoad
+    ${bbsim_olt_device_id}=    Create Device    bbsim0    50060    openolt
+    Log    ${bbsim_olt_device_id}
+    Wait Until Keyword Succeeds    ${timeout}    5s
+    ...    Validate OLT Device    PREPROVISIONED    UNKNOWN    UNKNOWN    ${bbsim_olt_device_id}
+    Enable Device    ${bbsim_olt_device_id}
+    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
+    ...    Validate OLT Device    ENABLED    ACTIVE    REACHABLE    BBSIM_OLT_10
+    ${olt_of_id}=    Wait Until Keyword Succeeds    ${timeout}    15s    Validate OLT Device in ONOS
+    ...    BBSIM_OLT_10
+    Log    ${olt_of_id}
+    # Extra sleep time for ONUs to come up Active
+    Sleep    30s
+
 Sanity E2E Test for OLT/ONU on POD for DT
     [Documentation]    Validates E2E Ping Connectivity and object states for the given scenario:
     ...    Validate successful DHCP/E2E ping (no EAPOL and DHCP flows) for the tech profile that is used
