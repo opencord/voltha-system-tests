@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "958d5ecb_6b575eee",
+        "filename": "tests/dt-workflow/Voltha_DT_PODTests.robot",
+        "patchSetId": 6
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2021-05-14T14:11:04Z",
+      "side": 1,
+      "message": "I think it is more of personal preference and readability purpose here. A hard-coded value can also be used. Will make change in next patch iteration. Thanks.",
+      "parentUuid": "3f896824_1fd70034",
+      "revId": "7df453c23bb7a284616fd3a5515afc1379e0772c",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "4c19b174_a60f2512",
         "filename": "tests/dt-workflow/Voltha_DT_PODTests.robot",
         "patchSetId": 6
@@ -48,6 +66,24 @@
       "side": 1,
       "message": "also, can we reuse something existing ?",
       "parentUuid": "4c19b174_a60f2512",
+      "revId": "7df453c23bb7a284616fd3a5515afc1379e0772c",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7b0d61ad_33ded5d1",
+        "filename": "tests/dt-workflow/Voltha_DT_PODTests.robot",
+        "patchSetId": 6
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2021-05-14T14:11:04Z",
+      "side": 1,
+      "message": "For now, the plan is to run soak only for DT and functional suite is the first one to run, rest like Failure etc. will follow. Also, this is TC and not keyword so I think we need to rewrite wherever required and we can\u0027t put it in a common place. Please let me know if my understanding needs a correction here.\nRegarding reuse something existing, here we are iterating a new param ${bbsim} which will be coming through pod-config change : https://gerrit.opencord.org/c/pod-configs/+/24773/1/deployment-configs/onf-soak-pod-DT.yaml",
+      "parentUuid": "3d1f861f_fcb3c996",
       "revId": "7df453c23bb7a284616fd3a5515afc1379e0772c",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
       "unresolved": true
