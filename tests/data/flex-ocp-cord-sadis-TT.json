@@ -52,6 +52,41 @@
           "cbs" : 10000,
           "eir" : 300000,
           "ebs" : 10000
+        }, {
+          "id" : "TCONT_TYPE1_200Mbps_Fixed_ForVOIP",
+          "pir" : 0,
+          "pbs" : 0,
+          "cir" : 0,
+          "cbs" : 0,
+          "gir" : 200000
+        }, {
+          "id" : "TCONT_TYPE2_500Mbps_Assured_ForVoD",
+          "pir" : 500000,
+          "pbs" : 10000,
+          "cir" : 500000,
+          "cbs" : 10000,
+          "gir" : 0
+        }, {
+          "id" : "TCONT_TYPE3_700Mbps_Peak_500Mbps_Assured_ForVoD",
+          "pir" : 700000,
+          "pbs" : 10000,
+          "cir" : 500000,
+          "cbs" : 10000,
+          "gir" : 0
+        }, {
+          "id" : "TCONT_TYPE4_1Gbps_Peak_User1_HSI_Upstream",
+          "pir" : 1000000,
+          "pbs" : 10000,
+          "cir" : 0,
+          "cbs" : 0,
+          "gir" : 0
+        }, {
+          "id" : "TCONT_TYPE5_1Gbps_Peak_500Mbps_Assured_200Mbps_Fixed_User1_HSI_Upstream",
+          "pir" : 1000000,
+          "pbs" : 10000,
+          "cir" : 500000,
+          "cbs" : 10000,
+          "gir" : 200000
         } ]
       },
       "sadis" : {
@@ -75,7 +110,7 @@
             "dsPonSTagPriority" : 0,
             "technologyProfileId" : 64,
             "downstreamBandwidthProfile" : "High-Speed-Internet",
-            "upstreamBandwidthProfile" : "User1-Specific",
+            "upstreamBandwidthProfile" : "TCONT_TYPE5_1Gbps_Peak_500Mbps_Assured_200Mbps_Fixed_User1_HSI_Upstream",
             "isDhcpRequired" : "true",
             "serviceName" : "HSIA"
           }, {
@@ -88,7 +123,7 @@
             "dsPonSTagPriority" : 7,
             "technologyProfileId" : 65,
             "downstreamBandwidthProfile" : "VOIP",
-            "upstreamBandwidthProfile" : "User1-Specific2",
+            "upstreamBandwidthProfile" : "TCONT_TYPE1_200Mbps_Fixed_ForVOIP",
             "isDhcpRequired" : "true",
             "configuredMacAddress" : "b4:96:91:0c:4f:e5",
             "serviceName" : "VOIP"
@@ -100,9 +135,9 @@
             "usPonSTagPriority" : 5,
             "dsPonCTagPriority" : 5,
             "dsPonSTagPriority" : 5,
-            "technologyProfileId" : 66,
+            "technologyProfileId" : 67,
             "downstreamBandwidthProfile" : "High-Speed-Internet",
-            "upstreamBandwidthProfile" : "User1-Specific",
+            "upstreamBandwidthProfile" : "TCONT_TYPE3_700Mbps_Peak_500Mbps_Assured_ForVoD",
             "configuredMacAddress" : "b4:96:91:0c:4f:e5",
             "serviceName" : "VOD",
             "isDhcpRequired" : "true",
@@ -112,7 +147,7 @@
             "ponSTag" : 550,
             "dsPonCTagPriority" : 5,
             "dsPonSTagPriority" : 5,
-            "technologyProfileId" : 66,
+            "technologyProfileId" : 67,
             "serviceName" : "MC"
           } ]
         }, {
@@ -128,7 +163,7 @@
             "dsPonSTagPriority" : 0,
             "technologyProfileId" : 64,
             "downstreamBandwidthProfile" : "High-Speed-Internet",
-            "upstreamBandwidthProfile" : "User1-Specific",
+            "upstreamBandwidthProfile" : "TCONT_TYPE4_1Gbps_Peak_User1_HSI_Upstream",
             "isDhcpRequired" : "true",
             "serviceName" : "HSIA"
           }, {
@@ -141,7 +176,7 @@
             "dsPonSTagPriority" : 7,
             "technologyProfileId" : 65,
             "downstreamBandwidthProfile" : "VOIP",
-            "upstreamBandwidthProfile" : "User1-Specific2",
+            "upstreamBandwidthProfile" : "TCONT_TYPE1_200Mbps_Fixed_ForVOIP",
             "isDhcpRequired" : "true",
             "configuredMacAddress" : "2c:60:0c:ee:d6:27",
             "serviceName" : "VOIP"
@@ -155,7 +190,7 @@
             "dsPonSTagPriority" : 5,
             "technologyProfileId" : 66,
             "downstreamBandwidthProfile" : "High-Speed-Internet",
-            "upstreamBandwidthProfile" : "User1-Specific",
+            "upstreamBandwidthProfile" : "TCONT_TYPE2_500Mbps_Assured_ForVoD",
             "configuredMacAddress" : "2c:60:0c:ee:d6:27",
             "serviceName" : "VOD",
             "isDhcpRequired" : "true",
@@ -181,7 +216,7 @@
             "dsPonSTagPriority" : 0,
             "technologyProfileId" : 64,
             "downstreamBandwidthProfile" : "High-Speed-Internet",
-            "upstreamBandwidthProfile" : "User1-Specific",
+            "upstreamBandwidthProfile" : "TCONT_TYPE5_1Gbps_Peak_500Mbps_Assured_200Mbps_Fixed_User1_HSI_Upstream",
             "isDhcpRequired" : "true",
             "serviceName" : "HSIA"
           }, {
@@ -194,7 +229,7 @@
             "dsPonSTagPriority" : 7,
             "technologyProfileId" : 65,
             "downstreamBandwidthProfile" : "VOIP",
-            "upstreamBandwidthProfile" : "User1-Specific2",
+            "upstreamBandwidthProfile" : "TCONT_TYPE1_200Mbps_Fixed_ForVOIP",
             "isDhcpRequired" : "true",
             "configuredMacAddress" : "2c:60:0c:ee:d7:68",
             "serviceName" : "VOIP"
@@ -206,9 +241,9 @@
             "usPonSTagPriority" : 5,
             "dsPonCTagPriority" : 5,
             "dsPonSTagPriority" : 5,
-            "technologyProfileId" : 66,
+            "technologyProfileId" : 67,
             "downstreamBandwidthProfile" : "High-Speed-Internet",
-            "upstreamBandwidthProfile" : "User1-Specific",
+            "upstreamBandwidthProfile" : "TCONT_TYPE3_700Mbps_Peak_500Mbps_Assured_ForVoD",
             "configuredMacAddress" : "2c:60:0c:ee:d7:68",
             "serviceName" : "VOD",
             "isDhcpRequired" : "true",
@@ -218,7 +253,7 @@
             "ponSTag" : 550,
             "dsPonCTagPriority" : 5,
             "dsPonSTagPriority" : 5,
-            "technologyProfileId" : 66,
+            "technologyProfileId" : 67,
             "serviceName" : "MC"
           } ]
         }, {
