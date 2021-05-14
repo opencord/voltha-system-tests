@@ -235,7 +235,7 @@ Verify openolt adapter restart before subscriber provisioning for DT
     ...    simulate a POD crash. The test then scales the rw-core back to a single instance
     ...    and configures ONOS for access. The test succeeds if the device is able to
     ...    complete the DHCP sequence.
-    [Tags]    functionalDt    olt-adapter-restart-Dt
+    [Tags]    functionalDt    olt-adapter-restart-Dt    soak
     [Setup]    Start Logging    OltAdapterRestart-Dt
     #...        AND             Clear All Devices Then Create New Device
     [Teardown]   Run Keywords    Collect Logs
