@@ -63,6 +63,10 @@ ${udp_packet_bytes}      1470    # UDP payload in bytes
 # Per-test logging on failure is turned off by default; set this variable to enable
 ${container_log_dir}    ${None}
 
+# Flag specific to Soak Jobs
+${SOAK_TEST}    False
+${bbsim_port}    50060
+
 *** Test Cases ***
 Reboot DT ONUs Physically
     [Documentation]   This test reboots ONUs physically before execution all the tests
@@ -81,6 +85,32 @@ Reboot DT ONUs Physically
         Enable Switch Outlet    ${src['power_switch_port']}
     END
 
+Create Soak BBSim Device
+    [Documentation]    This creates and enables the BBSim device as required by the soak testing
+    ...    The BBSim OLT and ONUs created as part of this test are not part of active testing
+    ...    but only to mock the load on Soak POD.
+    [Tags]    soak
+    [Setup]    Start Logging    soakPodCreateBBSimLoad
+    [Teardown]    Run Keywords    Collect Logs
+    ...           AND             Stop Logging    soakPodCreateBBSimLoad
+    ${num_bbsim}    Get Length    ${bbsim}
+    FOR    ${I}    IN RANGE    0    ${num_bbsim}
+        ${ip}    Evaluate    ${bbsim}[${I}].get("ip")
+        ${serial_number}    Evaluate    ${bbsim}[${I}].get("serial")
+        ${bbsim_olt_device_id}=    Create Device    ${ip}    ${bbsim_port}
+        Log    ${bbsim_olt_device_id}
+        Wait Until Keyword Succeeds    ${timeout}    5s
+        ...    Validate OLT Device    PREPROVISIONED    UNKNOWN    UNKNOWN    ${bbsim_olt_device_id}
+        Enable Device    ${bbsim_olt_device_id}
+        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
+        ...    Validate OLT Device    ENABLED    ACTIVE    REACHABLE    ${serial_number}
+        ${olt_of_id}=    Wait Until Keyword Succeeds    ${timeout}    15s    Validate OLT Device in ONOS
+        ...    ${serial_number}
+        Log    ${olt_of_id}
+    END
+    # Extra sleep time for ONUs to come up Active
+    Sleep    30s
+
 Sanity E2E Test for OLT/ONU on POD for DT
     [Documentation]    Validates E2E Ping Connectivity and object states for the given scenario:
     ...    Validate successful DHCP/E2E ping (no EAPOL and DHCP flows) for the tech profile that is used
@@ -88,10 +118,10 @@ Sanity E2E Test for OLT/ONU on POD for DT
     ...    should reach the NNI port on the OLT with the expected double tagged vlan ids
     ...    Inner vlans from the RG should not change
     [Tags]    sanityDt   soak
-    [Setup]    Run Keywords    Start Logging    SanityTestDt
-    ...        AND             Setup
+    [Setup]    Start Logging    SanityTestDt
     [Teardown]    Run Keywords    Collect Logs
     ...           AND             Stop Logging    SanityTestDt
+    Setup    ${SOAK_TEST}
     Run Keyword If    ${has_dataplane}    Clean Up Linux
     Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test DT
 
