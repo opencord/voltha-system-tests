@@ -708,31 +708,13 @@ Wait for all flows to in ADDED state
     Wait Until Keyword Succeeds     10m     5s      Count ADDED flows
     ...     ${onos_ssh_connection}  ${targetFlows}  ${deviceId}
 
-Get Bandwidth Details
+Get Limiting Bandwidth Details
     [Arguments]    ${bandwidth_profile_name}
     [Documentation]    Collects the bandwidth profile details for the given bandwidth profile and
     ...    returns the limiting bandwidth
-    ${bandwidth_profile_values}=    Execute ONOS CLI Command    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}
-    ...    bandwidthprofile ${bandwidth_profile_name}
-    @{bandwidth_profile_array}=    Split String    ${bandwidth_profile_values}    ,
-    @{parameter_value_pair}=    Split String    ${bandwidth_profile_array[1]}    =
-    ${bandwidthparameter}=    Set Variable    ${parameter_value_pair[0]}
-    ${value}=    Set Variable    ${parameter_value_pair[1]}
-    ${cir_value}    Run Keyword If    '${bandwidthparameter}' == ' committedInformationRate'
-    ...    Set Variable    ${value}
-    @{parameter_value_pair}=    Split String    ${bandwidth_profile_array[2]}    =
-    ${bandwidthparameter}=    Set Variable    ${parameter_value_pair[0]}
-    ${value}=    Set Variable    ${parameter_value_pair[1]}
-    ${cbs_value}    Run Keyword If    '${bandwidthparameter}' == ' committedBurstSize'    Set Variable    ${value}
-    @{parameter_value_pair}=    Split String    ${bandwidth_profile_array[3]}    =
-    ${bandwidthparameter}=    Set Variable    ${parameter_value_pair[0]}
-    ${value}=    Set Variable    ${parameter_value_pair[1]}
-    ${eir_value}    Run Keyword If    '${bandwidthparameter}' == ' exceededInformationRate'   Set Variable    ${value}
-    @{parameter_value_pair}=    Split String    ${bandwidth_profile_array[4]}    =
-    ${bandwidthparameter}=    Set Variable    ${parameter_value_pair[0]}
-    ${value}=    Set Variable    ${parameter_value_pair[1]}
-    ${ebs_value}    Run Keyword If    '${bandwidthparameter}' == ' exceededBurstSize'    Set Variable    ${value}
-    ${limiting_BW}=    Evaluate    ${cir_value}+${eir_value}
+    ${cir}    ${cbs}    ${eir}    ${ebs}    ${air}    Get Bandwidth Profile Details
+    ...    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${bandwidth_profile_name}
+    ${limiting_BW}=    Evaluate    ${eir}+${cir}+${air}
     [Return]    ${limiting_BW}
 
 Validate Deleted Device Cleanup In ONOS

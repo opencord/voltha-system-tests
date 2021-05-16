@@ -1241,7 +1241,7 @@ Run Iperf3 Test Client
     [Arguments]    ${src}    ${server}    ${args}
     [Documentation]    Login to ${src} and run the iperf3 client against ${server} using ${args}.
     ...    Return a Dictionary containing the results of the test.
-    ${output}    ${stderr}    ${rc}=    Execute Remote Command    iperf3 -J -c ${server} ${args} | jq -M -c '.'
+    ${output}    ${stderr}    ${rc}=    Execute Remote Command    iperf3 -J -c ${server} ${args} -l 1024 -M 1350 | jq -M -c '.'
     ...    ${src['ip']}    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
     Should Be Equal As Integers    ${rc}    0
     ${object}=    Evaluate    json.loads(r'''${output}''')    json
