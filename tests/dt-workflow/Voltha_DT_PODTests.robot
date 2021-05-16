@@ -436,10 +436,10 @@ Data plane verification using TCP for DT
         ${subscriber_id}=    Set Variable    ${of_id}/${onu_port}
         ${bandwidth_profile_name}    Get Bandwidth Profile Name For Given Subscriber    ${subscriber_id}
         ...    upstreamBandwidthProfile
-        ${limiting_bw_value_upstream}    Get Bandwidth Details    ${bandwidth_profile_name}
+        ${limiting_bw_value_upstream}    Get Limiting Bandwidth Details    ${bandwidth_profile_name}
         ${bandwidth_profile_name}    Get Bandwidth Profile Name For Given Subscriber    ${subscriber_id}
         ...    downstreamBandwidthProfile
-        ${limiting_bw_value_dnstream}    Get Bandwidth Details    ${bandwidth_profile_name}
+        ${limiting_bw_value_dnstream}    Get Limiting Bandwidth Details    ${bandwidth_profile_name}
 
         # Stream TCP packets from RG to server
         ${updict}=    Run Iperf3 Test Client    ${src}    server=${dst['dp_iface_ip_qinq']}
@@ -491,10 +491,10 @@ Data plane verification using UDP for DT
         ${subscriber_id}=    Set Variable    ${of_id}/${onu_port}
         ${bandwidth_profile_name}    Get Bandwidth Profile Name For Given Subscriber    ${subscriber_id}
         ...    upstreamBandwidthProfile
-        ${limiting_bw_value_upstream}    Get Bandwidth Details    ${bandwidth_profile_name}
+        ${limiting_bw_value_upstream}    Get Limiting Bandwidth Details    ${bandwidth_profile_name}
         ${bandwidth_profile_name}    Get Bandwidth Profile Name For Given Subscriber    ${subscriber_id}
         ...    downstreamBandwidthProfile
-        ${limiting_bw_value_dnstream}    Get Bandwidth Details    ${bandwidth_profile_name}
+        ${limiting_bw_value_dnstream}    Get Limiting Bandwidth Details    ${bandwidth_profile_name}
 
         # Stream UDP packets from RG to server
         ${uprate}=    Run Keyword If    ${limiting_bw_value_upstream} != 1000000
