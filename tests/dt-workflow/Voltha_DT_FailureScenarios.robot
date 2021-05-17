@@ -538,24 +538,6 @@ Verify ONU Soft Reboot for DT
     ...    ${List_ONU_Serial}    ${onu_flows}
 
 *** Keywords ***
-Setup Soak
-    [Documentation]    Pre-test Setup for Soak Job
-    ${olt_ids}    Create List
-    FOR    ${I}    IN RANGE    0    ${num_olts}
-        ${olt_serial_number}=    Set Variable    ${list_olts}[${I}][sn]
-        ${olt_device_id}=    Get Device ID From SN    ${olt_serial_number}
-        ${logical_id}=    Get Logical Device ID From SN    ${olt_serial_number}
-        ${of_id}=    Wait Until Keyword Succeeds    ${timeout}    15s    Validate OLT Device in ONOS
-        ...    ${olt_serial_number}
-        ${nni_port}=    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
-        ...    Get NNI Port in ONOS    ${of_id}
-        Set Global Variable    ${nni_port}
-        ${olt}    Create Dictionary    device_id    ${olt_device_id}    logical_id    ${logical_id}
-        ...    of_id    ${of_id}    sn    ${olt_serial_number}
-        Append To List    ${olt_ids}    ${olt}
-    END
-    Set Global Variable    ${olt_ids}
-
 Setup Suite
     [Documentation]    Set up the test suite
     Common Test Suite Setup
