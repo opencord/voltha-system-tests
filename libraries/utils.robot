@@ -544,6 +544,23 @@ Sanity Test TT MCAST one ONU
     ...    sudo kill -9 `pidof iperf`
     ...    ${src['ip']}    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
 
+Setup Soak
+    [Documentation]    Pre-test Setup for Soak Job
+    ${olt_ids}    Create List
+    FOR    ${I}    IN RANGE    0    ${num_olts}
+        ${olt_serial_number}=    Set Variable    ${list_olts}[${I}][sn]
+        ${olt_device_id}=    Get Device ID From SN    ${olt_serial_number}
+        ${logical_id}=    Get Logical Device ID From SN    ${olt_serial_number}
+        ${of_id}=    Wait Until Keyword Succeeds    ${timeout}    15s    Validate OLT Device in ONOS
+        ...    ${olt_serial_number}
+        ${nni_port}=    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
+        ...    Get NNI Port in ONOS    ${of_id}
+        Set Global Variable    ${nni_port}
+        ${olt}    Create Dictionary    device_id    ${olt_device_id}    logical_id    ${logical_id}
+        ...    of_id    ${of_id}    sn    ${olt_serial_number}
+        Append To List    ${olt_ids}    ${olt}
+    END
+    Set Global Variable    ${olt_ids}
 
 Setup
     [Documentation]    Pre-test Setup
