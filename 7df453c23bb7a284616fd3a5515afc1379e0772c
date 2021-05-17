@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "7cef2753_7380fb74",
+        "filename": "libraries/utils.robot",
+        "patchSetId": 6
+      },
+      "lineNbr": 550,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2021-05-17T05:18:34Z",
+      "side": 1,
+      "message": "Ack. Will rename to `skip_empty_device_list_test`",
+      "parentUuid": "103015b6_b82e496f",
+      "range": {
+        "startLine": 550,
+        "startChar": 19,
+        "endLine": 550,
+        "endChar": 31
+      },
+      "revId": "7df453c23bb7a284616fd3a5515afc1379e0772c",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3f896824_1fd70034",
         "filename": "tests/dt-workflow/Voltha_DT_PODTests.robot",
         "patchSetId": 6
@@ -75,6 +99,24 @@
       "revId": "7df453c23bb7a284616fd3a5515afc1379e0772c",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "699a97d5_4d8b027b",
+        "filename": "tests/dt-workflow/Voltha_DT_PODTests.robot",
+        "patchSetId": 6
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2021-05-17T05:18:34Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "77f03c5d_b3e19157",
+      "revId": "7df453c23bb7a284616fd3a5515afc1379e0772c",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
     },
     {
       "key": {
@@ -164,6 +206,24 @@
       "revId": "7df453c23bb7a284616fd3a5515afc1379e0772c",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "007540ad_a4f8b8a5",
+        "filename": "tests/dt-workflow/Voltha_DT_PODTests.robot",
+        "patchSetId": 6
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2021-05-17T05:18:34Z",
+      "side": 1,
+      "message": "@Suchitra : For now we can leave it as is. In future, if we plan to implement soak specific scenarios in a different soak suite, then this can be moved as required.\n\n@Teo: BBSim is added to deployment file but separately. The data entered under `olts` gets part of active testing whereas in this iteration BBSim deployment is only for load purpose. The Soak is a long work which will have many submissions and in future the plan is to make BBSim also as part of active testing (i.e system under test), then it can be included under olts and behave like actual multi-olt test. But that will take some investigation and work in voltha-system-tests repo, and I will take that as a separate task.",
+      "parentUuid": "59b5640e_72935883",
+      "revId": "7df453c23bb7a284616fd3a5515afc1379e0772c",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
     }
   ]
 }
