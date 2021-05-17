@@ -569,8 +569,7 @@ Validate parsing of data traffic through voltha using tech profile
     [Documentation]    Assuming that test1 was executed where all the ONUs are authenticated/DHCP/pingable
     ...    Prerequisite tools : Tcpdump and Mausezahn traffic generator on both RG and DHCP/BNG VMs
     ...    Install jq tool to read json file, where test suite is being running
-    ...    Make sure 9999 port is enabled or forwarded for both upsteam and downstream direction
-    ...    This test sends UDP packets on port 9999 with pbits between 0 and 7 and validates that
+    ...    This test sends TCP packets with pbits between 0 and 7 and validates that
     ...    the pbits are preserved by the PON.
     [Tags]    dataplaneDt    TechProfileDt    VOL-3291
     [Setup]    Start Logging    TechProfileDt
@@ -599,7 +598,7 @@ Validate parsing of data traffic through voltha using tech profile
         Log    Upstream test
         Run Keyword If    ${has_dataplane}    Create traffic with each pbit and capture at other end
         ...    ${dst['dp_iface_ip_qinq']}    ${dst['dp_iface_name']}    ${src_iface_name}
-        ...    0    udp    9999    ${src['c_tag']}    vlan
+        ...    0    tcp     ${src['c_tag']}    vlan
         ...    ${bng_ip}    ${bng_user}    ${bng_pass}    ${dst['container_type']}    ${dst['container_name']}
         ...    ${src['ip']}    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
         Log    Downstream test
@@ -609,7 +608,7 @@ Validate parsing of data traffic through voltha using tech profile
         Should Be Equal As Integers    ${rc}    0    Could not get RG's IP address
         Run Keyword If    ${has_dataplane}    Create traffic with each pbit and capture at other end
         ...    ${rg_ip}    ${src_iface_name}    ${dst['dp_iface_name']}.${src['s_tag']}
-        ...    0    udp    9999    ${src['c_tag']}    udp
+        ...    0    tcp    ${src['c_tag']}    tcp
         ...    ${src['ip']}    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
         ...    ${bng_ip}    ${bng_user}    ${bng_pass}    ${dst['container_type']}    ${dst['container_name']}
     END

@@ -1292,14 +1292,14 @@ Create traffic with each pbit and capture at other end
     [Documentation]    Generates upstream traffic using Mausezahn tool
     ...    with each pbit and validates reception at other end using tcpdump
     [Arguments]    ${target_ip}    ${target_iface}    ${src_iface}
-    ...    ${packet_count}    ${packet_type}    ${target_port}    ${vlan}    ${tcpdump_filter}
+    ...    ${packet_count}    ${packet_type}    ${vlan}    ${tcpdump_filter}
     ...    ${dst_ip}    ${dst_user}    ${dst_pass}    ${dst_container_type}    ${dst_container_name}
     ...    ${src_ip}    ${src_user}    ${src_pass}    ${src_container_type}    ${src_container_name}
     FOR    ${pbit}    IN RANGE    8
         Execute Remote Command    sudo pkill mausezahn
         ...    ${src_ip}    ${src_user}    ${src_pass}    ${src_container_type}    ${src_container_name}
-        ${var1}=    Set Variable    sudo mausezahn ${src_iface} -B ${target_ip} -c ${packet_count} -d 100m
-        ${var2}=    Set Variable    -t ${packet_type} "dp=${target_port}" -p 1472 -Q ${pbit}:${vlan}
+        ${var1}=    Set Variable    sudo mausezahn ${src_iface} -B ${target_ip} -c ${packet_count}
+        ${var2}=    Set Variable    -t ${packet_type} "dp=80, flags=rst, p=aa:aa:aa" -Q ${pbit}:${vlan}
         ${cmd}=    Set Variable    ${var1} ${var2}
         Start Remote Command    ${cmd}    ${src_ip}    ${src_user}    ${src_pass}
         ...    ${src_container_type}    ${src_container_name}
@@ -1309,11 +1309,8 @@ Create traffic with each pbit and capture at other end
         ...    timeout=30 seconds
         Execute Remote Command    sudo pkill mausezahn
         ...    ${src_ip}    ${src_user}    ${src_pass}    ${src_container_type}    ${src_container_name}
-        # VOL-3262:  I'm seeing untagged downstream traffic at RG for pbit 0.  According to Girish this is
-        # incorrect behavior.  Simplify the following check when VOL-3262 is resolved.
-        Run Keyword If    ${pbit}==0 and "${tcpdump_filter}"=="udp"
-        ...    Should Match Regexp    ${output}    \\.${target_port}: UDP,
-        ...    ELSE    Should Match Regexp    ${output}    , p ${pbit},.*\\.${target_port}: UDP,
+        Run Keyword If    "${tcpdump_filter}"=="tcp"
+        ...    Should Match Regexp    , p ${pbit},
     END
 
 Determine Number Of ONU
