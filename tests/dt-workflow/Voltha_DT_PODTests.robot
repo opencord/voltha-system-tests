@@ -439,15 +439,15 @@ Test Disable ONUs and OLT Then Delete ONUs and OLT for DT
 Data plane verification using TCP for DT
     [Documentation]    Test bandwidth profile is met and not exceeded for each subscriber.
     ...    Assumes iperf3 and jq installed on client and iperf -s running on DHCP server
-    [Tags]    dataplaneDt    BandwidthProfileTCPDt    VOL-3061
+    [Tags]    dataplaneDt    BandwidthProfileTCPDt    VOL-3061    soakDataplane
     [Setup]    Start Logging    BandwidthProfileTCPDt
     [Teardown]    Run Keywords    Collect Logs
     ...           AND    Stop Logging    BandwidthProfileTCPDt
     Pass Execution If   '${has_dataplane}'=='False'    Bandwidth profile validation can be done only in
     ...    physical pod.  Skipping this test in BBSIM.
-    Delete All Devices And Verify
+    Run Keyword If    'SOAK_TEST'=='False'    Clear All Devices Then Create New Device
+    ...    ELSE    Setup Soak
     Run Keyword If    ${has_dataplane}    Clean Up Linux
-    setup
     Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test DT
 
     #${of_id}=    Wait Until Keyword Succeeds    ${timeout}    15s    Validate OLT Device in ONOS
@@ -500,7 +500,7 @@ Data plane verification using TCP for DT
 Data plane verification using UDP for DT
     [Documentation]    Test bandwidth profile is met and not exceeded for each subscriber.
     ...    Assumes iperf3 and jq installed on client and iperf -s running on DHCP server
-    [Tags]    dataplaneDt    BandwidthProfileUDPDt    VOL-3061
+    [Tags]    dataplaneDt    BandwidthProfileUDPDt    VOL-3061    soakDataplane
     [Setup]    Start Logging    BandwidthProfileUDPDt
     [Teardown]    Run Keywords    Collect Logs
     ...           AND    Stop Logging    BandwidthProfileUDPDt
@@ -571,7 +571,7 @@ Validate parsing of data traffic through voltha using tech profile
     ...    Install jq tool to read json file, where test suite is being running
     ...    This test sends TCP packets with pbits between 0 and 7 and validates that
     ...    the pbits are preserved by the PON.
-    [Tags]    dataplaneDt    TechProfileDt    VOL-3291
+    [Tags]    dataplaneDt    TechProfileDt    VOL-3291    soakDataplane
     [Setup]    Start Logging    TechProfileDt
     [Teardown]    Run Keywords    Collect Logs
     ...           AND    Stop Logging    TechProfileDt
