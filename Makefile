@@ -209,10 +209,14 @@ sanity-bbsim-att: ROBOT_MISC_ARGS += -v logging:True -v workflow:ATT
 sanity-bbsim-att: sanity-bbsim
 
 sanity-bbsim-dt: ROBOT_MISC_ARGS += -v logging:True -v workflow:DT
-sanity-bbsim-dt: sanity-bbsim
+sanity-bbsim-dt: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_DT_SINGLE_PON_FILE)
+sanity-bbsim-dt: ROBOT_FILE := Voltha_BBSimTests.robot
+sanity-bbsim-dt: voltha-bbsim-test
 
 sanity-bbsim-tt: ROBOT_MISC_ARGS += -v logging:True -v workflow:TT
-sanity-bbsim-tt: sanity-bbsim
+sanity-bbsim-tt: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_TT_SINGLE_PON_FILE)
+sanity-bbsim-tt: ROBOT_FILE := Voltha_BBSimTests.robot
+sanity-bbsim-tt: voltha-bbsim-test
 
 sanity-bbsim: ROBOT_MISC_ARGS += -i bbsimSanity $(ROBOT_DEBUG_LOG_OPT)
 sanity-bbsim: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_SINGLE_PON_FILE)
