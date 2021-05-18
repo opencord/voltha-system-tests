@@ -1310,7 +1310,7 @@ Create traffic with each pbit and capture at other end
         Execute Remote Command    sudo pkill mausezahn
         ...    ${src_ip}    ${src_user}    ${src_pass}    ${src_container_type}    ${src_container_name}
         Run Keyword If    "${tcpdump_filter}"=="tcp"
-        ...    Should Match Regexp    , p ${pbit},
+        ...    Should Match Regexp    ${output}    , p ${pbit},
     END
 
 Determine Number Of ONU
