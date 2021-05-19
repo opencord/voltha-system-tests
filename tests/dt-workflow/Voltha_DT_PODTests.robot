@@ -63,6 +63,10 @@ ${udp_packet_bytes}      1470    # UDP payload in bytes
 # Per-test logging on failure is turned off by default; set this variable to enable
 ${container_log_dir}    ${None}
 
+# logging flag to enable Collect Logs, can be passed via the command line too
+# example: -v logging:False
+${logging}    True
+
 # Flag specific to Soak Jobs
 ${SOAK_TEST}    False
 ${bbsim_port}    50060
@@ -74,7 +78,7 @@ Reboot DT ONUs Physically
     ...    controls the power off/on ONUs/OLT remotely (simulating a physical reboot)
     [Tags]    functionalDt   PowerSwitch    RebootAllDTONUs    soak
     [Setup]    Start Logging    RebootAllDTONUs
-    [Teardown]    Run Keywords    Collect Logs
+    [Teardown]    Run Keywords    Run Keyword If    ${logging}    Collect Logs
     ...           AND             Stop Logging    RebootAllDTONUs
     Power Switch Connection Suite    ${web_power_switch.ip}    ${web_power_switch.user}    ${web_power_switch.password}
     FOR    ${I}    IN RANGE    0    ${num_all_onus}
@@ -91,7 +95,7 @@ Create Soak BBSim Device
     ...    but only to mock the load on Soak POD.
     [Tags]    soak
     [Setup]    Start Logging    soakPodCreateBBSimLoad
-    [Teardown]    Run Keywords    Collect Logs
+    [Teardown]    Run Keywords    Run Keyword If    ${logging}    Collect Logs
     ...           AND             Stop Logging    soakPodCreateBBSimLoad
     ${num_bbsim}    Get Length    ${bbsim}
     FOR    ${I}    IN RANGE    0    ${num_bbsim}
@@ -119,7 +123,7 @@ Sanity E2E Test for OLT/ONU on POD for DT
     ...    Inner vlans from the RG should not change
     [Tags]    sanityDt   soak
     [Setup]    Start Logging    SanityTestDt
-    [Teardown]    Run Keywords    Collect Logs
+    [Teardown]    Run Keywords    Run Keyword If    ${logging}    Collect Logs
     ...           AND             Stop Logging    SanityTestDt
     Setup    ${SOAK_TEST}
     Run Keyword If    ${has_dataplane}    Clean Up Linux
@@ -133,7 +137,7 @@ Test Subscriber Delete and Add for DT
     ...    Re-add the subscriber, and validate that the flows are present and pings are successful
     [Tags]    functionalDt    SubAddDeleteDt    soak
     [Setup]    Start Logging     SubAddDeleteDt
-    [Teardown]    Run Keywords    Collect Logs
+    [Teardown]    Run Keywords    Run Keyword If    ${logging}    Collect Logs
     ...           AND             Stop Logging    SubAddDeleteDt
     FOR    ${I}    IN RANGE    0    ${num_all_onus}
         ${src}=    Set Variable    ${hosts.src[${I}]}
@@ -200,7 +204,7 @@ Test Disable and Enable ONU for DT
     ...    Perform enable on the ONUs and validate that the pings are successful
     [Tags]    functionalDt    DisableEnableONUDt    soak
     [Setup]    Start Logging    DisableEnableONUDt
-    [Teardown]    Run Keywords    Collect Logs
+    [Teardown]    Run Keywords    Run Keyword If    ${logging}    Collect Logs
     ...           AND             Stop Logging    DisableEnableONUDt
     FOR    ${I}    IN RANGE    0    ${num_all_onus}
         ${src}=    Set Variable    ${hosts.src[${I}]}
@@ -239,9 +243,9 @@ Test Disable and Delete OLT for DT
     ...    Assuming that all the ONUs are DHCP/pingable (i.e. assuming sanityDt test was executed)
     ...    Perform disable on the OLT and validate ONUs state and that the pings do not succeed
     ...    Perform delete on the OLT, Re-do Setup (Recreate the OLT) and Perform Sanity Test DT
-    [Tags]    functionalDt    DisableDeleteOLTDt
+    [Tags]    functionalDt    DisableDeleteOLTDt    soak
     [Setup]    Start Logging    DisableDeleteOLTDt
-    [Teardown]    Run Keywords    Collect Logs
+    [Teardown]    Run Keywords    Run Keyword If    ${logging}    Collect Logs
     ...           AND             Stop Logging    DisableDeleteOLTDt
     # Disable and Validate OLT Device
     FOR   ${I}    IN RANGE    0    ${olt_count}
@@ -288,7 +292,7 @@ Test Disable and Delete OLT for DT
         ...    Verify Device Flows Removed    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${of_id}
     END
     # Re-do Setup (Recreate the OLT) and Perform Sanity Test DT
-    Run Keyword    Setup
+    Run Keyword    Setup    ${SOAK_TEST}
     Run Keyword If    ${has_dataplane}    Clean Up Linux
     Wait Until Keyword Succeeds    ${timeout}   2s    Perform Sanity Test DT
     #Run Keyword If    ${has_dataplane}    Clean Up Linux
@@ -300,7 +304,7 @@ Test Disable and Enable OLT for DT
     ...    Perform enable on the OLT and validate that the pings are successful
     [Tags]    functionalDt    DisableEnableOLTDt   soak
     [Setup]    Start Logging    DisableEnableOLTDt
-    [Teardown]    Run Keywords    Collect Logs
+    [Teardown]    Run Keywords    Run Keyword If    ${logging}    Collect Logs
     ...           AND             Stop Logging    DisableEnableOLTDt
     # Disable and Validate OLT Device
     FOR   ${I}    IN RANGE    0    ${olt_count}
@@ -355,9 +359,9 @@ Test Delete and ReAdd OLT for DT
     ...    Disable and Delete the OLT
     ...    Create/Enable the same OLT again
     ...    Validate DHCP/E2E pings succeed for all the ONUs connected to the OLT
-    [Tags]    functionalDt    DeleteReAddOLTDt
+    [Tags]    functionalDt    DeleteReAddOLTDt    soak
     [Setup]    Start Logging    DeleteReAddOLTDt
-    [Teardown]    Run Keywords    Collect Logs
+    [Teardown]    Run Keywords    Run Keyword If    ${logging}    Collect Logs
     ...           AND             Stop Logging    DeleteReAddOLTDt
     FOR    ${I}    IN RANGE    0    ${olt_count}
         ${olt_serial_number}=    Get From Dictionary    ${olt_ids}[${I}]    sn
@@ -367,7 +371,7 @@ Test Delete and ReAdd OLT for DT
         ...    Verify Device Flows Removed    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${of_id}
     END
     # Recreate the OLTs
-    Setup
+    Setup    ${SOAK_TEST}
     Run Keyword If    ${has_dataplane}    Clean Up Linux
     Wait Until Keyword Succeeds    ${timeout}   2s    Perform Sanity Test DT
 
@@ -378,7 +382,7 @@ Test Disable ONUs and OLT Then Delete ONUs and OLT for DT
     ...    so calling setup at the end to add the devices back to avoid the confusion.
     [Tags]    functionalDt    DisableDeleteONUOLTDt
     [Setup]    Start Logging    DisableDeleteONUOLTDt
-    [Teardown]    Run Keywords    Collect Logs
+    [Teardown]    Run Keywords    Run Keyword If    ${logging}    Collect Logs
     ...           AND             Stop Logging    DisableDeleteONUOLTDt
     @{onu_reason}=    Create List    initial-mib-downloaded    omci-flows-pushed
     FOR    ${I}    IN RANGE    0    ${num_all_onus}
@@ -441,7 +445,7 @@ Data plane verification using TCP for DT
     ...    Assumes iperf3 and jq installed on client and iperf -s running on DHCP server
     [Tags]    dataplaneDt    BandwidthProfileTCPDt    VOL-3061    soakDataplane
     [Setup]    Start Logging    BandwidthProfileTCPDt
-    [Teardown]    Run Keywords    Collect Logs
+    [Teardown]    Run Keywords    Run Keyword If    ${logging}    Collect Logs
     ...           AND    Stop Logging    BandwidthProfileTCPDt
     Pass Execution If   '${has_dataplane}'=='False'    Bandwidth profile validation can be done only in
     ...    physical pod.  Skipping this test in BBSIM.
@@ -502,7 +506,7 @@ Data plane verification using UDP for DT
     ...    Assumes iperf3 and jq installed on client and iperf -s running on DHCP server
     [Tags]    dataplaneDt    BandwidthProfileUDPDt    VOL-3061    soakDataplane
     [Setup]    Start Logging    BandwidthProfileUDPDt
-    [Teardown]    Run Keywords    Collect Logs
+    [Teardown]    Run Keywords    Run Keyword If    ${logging}    Collect Logs
     ...           AND    Stop Logging    BandwidthProfileUDPDt
     Pass Execution If   '${has_dataplane}'=='False'    Bandwidth profile validation can be done only in
     ...    physical pod.  Skipping this test in BBSIM.
@@ -573,7 +577,7 @@ Validate parsing of data traffic through voltha using tech profile
     ...    the pbits are preserved by the PON.
     [Tags]    dataplaneDt    TechProfileDt    VOL-3291    soakDataplane
     [Setup]    Start Logging    TechProfileDt
-    [Teardown]    Run Keywords    Collect Logs
+    [Teardown]    Run Keywords    Run Keyword If    ${logging}    Collect Logs
     ...           AND    Stop Logging    TechProfileDt
     Pass Execution If   '${has_dataplane}'=='False'
     ...    Skipping test: Technology profile validation can be done only in physical pod
@@ -618,9 +622,9 @@ Test Disable and Enable OLT PON Port for DT
     ...    Assuming that all the ONUs are DHCP/pingable (i.e. assuming sanityDt test was executed)
     ...    Perform disable on the OLT PON Port and validate that the pings do not succeed
     ...    Perform enable on the OLT PON Port and validate that the pings are successful
-    [Tags]    functionalDt    DisableEnableOltPonPortDt    VOL-2577
+    [Tags]    functionalDt    DisableEnableOltPonPortDt    VOL-2577    soak
     [Setup]    Start Logging    DisableEnableOltPonPortDt
-    [Teardown]    Run Keywords    Collect Logs
+    [Teardown]    Run Keywords    Run Keyword If    ${logging}    Collect Logs
     ...           AND             Stop Logging    DisableEnableOltPonPortDt
     FOR   ${I}    IN RANGE    0    ${olt_count}
         ${olt_serial_number}=    Get From Dictionary    ${olt_ids}[${I}]    sn

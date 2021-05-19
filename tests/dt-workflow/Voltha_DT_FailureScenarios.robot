@@ -55,6 +55,10 @@ ${scripts}        ../../scripts
 # Per-test logging on failure is turned off by default; set this variable to enable
 ${container_log_dir}    ${None}
 
+# logging flag to enable Collect Logs, can be passed via the command line too
+# example: -v logging:False
+${logging}    True
+
 # Flag specific to Soak Jobs
 ${SOAK_TEST}    False
 
@@ -66,7 +70,7 @@ Verify ONU after Rebooting Physically for DT
     ...    controls the power off/on ONUs/OLT remotely (simulating a physical reboot)
     [Tags]    functionalDt    PowerSwitchOnuRebootDt    VOL-2819    PowerSwitch
     [Setup]    Start Logging    RebootOnu_PowerSwitch_Dt
-    [Teardown]    Run Keywords    Collect Logs
+    [Teardown]    Run Keywords    Run Keyword If    ${logging}    Collect Logs
     ...           AND             Stop Logging    RebootOnu_PowerSwitch_Dt
     ...           AND             Delete All Devices and Verify
     # Add OLT device
@@ -129,7 +133,7 @@ Verify OLT after Rebooting Physically for DT
     ...    Test performs a physical reboot, performs "reboot" from the OLT CLI
     [Tags]    functionalDt   PhysicalOltRebootDt   VOL-2817
     [Setup]    Start Logging    RebootOlt_Physical_Dt
-    [Teardown]    Run Keywords    Collect Logs
+    [Teardown]    Run Keywords    Run Keyword If    ${logging}    Collect Logs
     ...           AND             Stop Logging    RebootOlt_Physical_Dt
     ...           AND             Delete All Devices and Verify
     # Add OLT device
@@ -176,13 +180,12 @@ Verify OLT after Rebooting Physically for DT
 Verify restart openonu-adapter container after subscriber provisioning for DT
     [Documentation]    Restart openonu-adapter container after VOLTHA is operational.
     ...    Prerequisite : ONUs are authenticated and pingable.
-    [Tags]    functionalDt   Restart-OpenOnu-Dt
+    [Tags]    functionalDt   Restart-OpenOnu-Dt    soak
     [Setup]    Start Logging    Restart-OpenOnu-Dt
-    [Teardown]    Run Keywords    Collect Logs
+    [Teardown]    Run Keywords    Run Keyword If    ${logging}    Collect Logs
     ...           AND             Stop Logging    Restart-OpenOnu-Dt
-    ...           AND             Delete All Devices and Verify
     # Add OLT device
-    Setup
+    Run Keyword If    'SOAK_TEST'=='False'    Setup
     # Performing Sanity Test to make sure subscribers are all DHCP and pingable
     Run Keyword If    ${has_dataplane}    Clean Up Linux
     Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test DT
@@ -202,16 +205,17 @@ Verify restart openonu-adapter container after subscriber provisioning for DT
     ${countAfterRestart}=    Run    kubectl get pods -n ${NAMESPACE} | grep Running | wc -l
     Should Be Equal As Strings    ${countAfterRestart}    ${countBeforeRestart}
     Log to console    Pod ${podName} restarted and sanity checks passed successfully
+    Run Keyword If    'SOAK_TEST'=='False'    Delete All Devices and Verify
 
 Verify restart openolt-adapter container after subscriber provisioning for DT
     [Documentation]    Restart openolt-adapter container after VOLTHA is operational.
     ...    Prerequisite : ONUs are authenticated and pingable.
-    [Tags]    functionalDt   Restart-OpenOlt-Dt
+    [Tags]    functionalDt   Restart-OpenOlt-Dt    soak
     [Setup]    Start Logging    Restart-OpenOlt-Dt
-    [Teardown]    Run Keywords    Collect Logs
+    [Teardown]    Run Keywords    Run Keyword If    ${logging}    Collect Logs
     ...           AND             Stop Logging    Restart-OpenOlt-Dt
     # Add OLT device
-    setup
+    Run Keyword If    'SOAK_TEST'=='False'    setup
     # Performing Sanity Test to make sure subscribers are all DHCP and pingable
     Run Keyword If    ${has_dataplane}    Clean Up Linux
     Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test DT
@@ -241,7 +245,7 @@ Verify openolt adapter restart before subscriber provisioning for DT
     [Tags]    functionalDt    olt-adapter-restart-Dt    soak
     [Setup]    Start Logging    OltAdapterRestart-Dt
     #...        AND             Clear All Devices Then Create New Device
-    [Teardown]   Run Keywords    Collect Logs
+    [Teardown]   Run Keywords    Run Keyword If    ${logging}    Collect Logs
     ...          AND             Stop Logging    OltAdapterRestart-Dt
     # Add OLT and perform sanity test
     #setup
@@ -304,7 +308,7 @@ Verify restart ofagent container after subscriber is provisioned for DT
     ...    Prerequisite : ONUs are authenticated and pingable.
     [Tags]    functionalDt   ofagentRestart-Dt    soak
     [Setup]    Start Logging    ofagentRestart-Dt
-    [Teardown]    Run Keywords    Collect Logs
+    [Teardown]    Run Keywords    Run Keyword If    ${logging}    Collect Logs
     ...           AND             Stop Logging    ofagentRestart-Dt
     ...           AND             Scale K8s Deployment    ${NAMESPACE}    voltha-voltha-ofagent    1
     # set timeout value
@@ -365,10 +369,10 @@ Sanity E2E Test for OLT/ONU on POD With Core Fail and Restart for DT
     ...    simulate a POD crash. The test then scales the rw-core back to a single instance
     ...    and configures ONOS for access. The test succeeds if the device is able to
     ...    complete the DHCP sequence.
-    [Tags]    functionalDt    rwcore-restart-Dt    soak
+    [Tags]    functionalDt    rwcore-restart-Dt
     [Setup]    Run Keywords    Start Logging    RwCoreFailAndRestart-Dt
     ...        AND             Clear All Devices Then Create New Device
-    [Teardown]   Run Keywords    Collect Logs
+    [Teardown]   Run Keywords    Run Keyword If    ${logging}    Collect Logs
     ...          AND             Stop Logging    RwCoreFailAndRestart-Dt
     #...          AND             Delete Device and Verify
     Run Keyword If    ${has_dataplane}    Clean Up Linux
