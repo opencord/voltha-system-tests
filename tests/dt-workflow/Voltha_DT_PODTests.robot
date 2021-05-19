@@ -239,7 +239,7 @@ Test Disable and Delete OLT for DT
     ...    Assuming that all the ONUs are DHCP/pingable (i.e. assuming sanityDt test was executed)
     ...    Perform disable on the OLT and validate ONUs state and that the pings do not succeed
     ...    Perform delete on the OLT, Re-do Setup (Recreate the OLT) and Perform Sanity Test DT
-    [Tags]    functionalDt    DisableDeleteOLTDt
+    [Tags]    functionalDt    DisableDeleteOLTDt    soak
     [Setup]    Start Logging    DisableDeleteOLTDt
     [Teardown]    Run Keywords    Collect Logs
     ...           AND             Stop Logging    DisableDeleteOLTDt
@@ -288,7 +288,7 @@ Test Disable and Delete OLT for DT
         ...    Verify Device Flows Removed    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${of_id}
     END
     # Re-do Setup (Recreate the OLT) and Perform Sanity Test DT
-    Run Keyword    Setup
+    Run Keyword    Setup    ${SOAK_TEST}
     Run Keyword If    ${has_dataplane}    Clean Up Linux
     Wait Until Keyword Succeeds    ${timeout}   2s    Perform Sanity Test DT
     #Run Keyword If    ${has_dataplane}    Clean Up Linux
@@ -355,7 +355,7 @@ Test Delete and ReAdd OLT for DT
     ...    Disable and Delete the OLT
     ...    Create/Enable the same OLT again
     ...    Validate DHCP/E2E pings succeed for all the ONUs connected to the OLT
-    [Tags]    functionalDt    DeleteReAddOLTDt
+    [Tags]    functionalDt    DeleteReAddOLTDt    soak
     [Setup]    Start Logging    DeleteReAddOLTDt
     [Teardown]    Run Keywords    Collect Logs
     ...           AND             Stop Logging    DeleteReAddOLTDt
@@ -367,7 +367,7 @@ Test Delete and ReAdd OLT for DT
         ...    Verify Device Flows Removed    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${of_id}
     END
     # Recreate the OLTs
-    Setup
+    Setup    ${SOAK_TEST}
     Run Keyword If    ${has_dataplane}    Clean Up Linux
     Wait Until Keyword Succeeds    ${timeout}   2s    Perform Sanity Test DT
 
@@ -618,7 +618,7 @@ Test Disable and Enable OLT PON Port for DT
     ...    Assuming that all the ONUs are DHCP/pingable (i.e. assuming sanityDt test was executed)
     ...    Perform disable on the OLT PON Port and validate that the pings do not succeed
     ...    Perform enable on the OLT PON Port and validate that the pings are successful
-    [Tags]    functionalDt    DisableEnableOltPonPortDt    VOL-2577
+    [Tags]    functionalDt    DisableEnableOltPonPortDt    VOL-2577    soak
     [Setup]    Start Logging    DisableEnableOltPonPortDt
     [Teardown]    Run Keywords    Collect Logs
     ...           AND             Stop Logging    DisableEnableOltPonPortDt
