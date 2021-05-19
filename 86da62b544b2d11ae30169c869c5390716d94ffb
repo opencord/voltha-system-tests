@@ -16,6 +16,24 @@
       "revId": "86da62b544b2d11ae30169c869c5390716d94ffb",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "30a72f24_313c6aad",
+        "filename": "tests/dt-workflow/Voltha_DT_FailureScenarios.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2021-05-19T11:08:50Z",
+      "side": 1,
+      "message": "Earlier we were doing this for all cases in the Teardown (above) but now we will do only if it is not Soak testing.",
+      "parentUuid": "6c9fba2d_0ad5e30f",
+      "revId": "86da62b544b2d11ae30169c869c5390716d94ffb",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
     }
   ]
 }
