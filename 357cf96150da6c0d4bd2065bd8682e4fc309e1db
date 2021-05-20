@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "46a6dbba_01420390",
+        "filename": "tests/tt-workflow/Voltha_TT_PODTests.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1000064
+      },
+      "writtenOn": "2021-05-20T17:02:38Z",
+      "side": 1,
+      "message": "Please update this one to functionalTT to make it consistent",
+      "revId": "357cf96150da6c0d4bd2065bd8682e4fc309e1db",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2f9aafb3_33d4beeb",
         "filename": "tests/tt-workflow/Voltha_TT_PODTests.robot",
         "patchSetId": 2
