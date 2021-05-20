@@ -368,6 +368,28 @@ Get Bandwidth Profile Details Rest
     Should Be True    ${matched}    No bandwidth profile found for id: ${bw_profile_id}
     [Return]    ${cir}    ${cbs}    ${eir}    ${ebs}    ${air}
 
+Get Bandwidth Profile Details Ietf Rest
+    [Arguments]    ${bw_profile_id}
+    [Documentation]    Retrieves the details of the given Ietf standard based bandwidth profile using REST API
+    ${resp}=    Get Request    ONOS    onos/sadis/bandwidthprofile/${bw_profile_id}
+    ${jsondata}=    To Json    ${resp.content}
+    Should Not Be Empty    ${jsondata['entry']}
+    ${length}=    Get Length    ${jsondata['entry']}
+    ${matched}=    Set Variable    False
+    FOR    ${INDEX}    IN RANGE    0    ${length}
+        ${value}=    Get From List    ${jsondata['entry']}    ${INDEX}
+        ${bw_id}=    Get From Dictionary    ${value}    id
+        ${matched}=    Set Variable If    '${bw_id}' == '${bw_profile_id}'    True    False
+        ${pir}=    Get From Dictionary    ${value}    pir
+        ${pbs}=    Get From Dictionary    ${value}    pbs
+        ${cir}=    Get From Dictionary    ${value}    cir
+        ${cbs}=    Get From Dictionary    ${value}    cbs
+        ${gir}=    Get From Dictionary    ${value}    gir
+        Exit For Loop If    ${matched}
+    END
+    Should Be True    ${matched}    No bandwidth profile found for id: ${bw_profile_id}
+    [Return]    ${cir}    ${cbs}    ${pir}    ${pbs}    ${gir}
+
 Verify Meters in ONOS
     [Arguments]    ${ip}    ${port}    ${olt_of_id}    ${onu_port}
     [Documentation]    Verifies the meters
