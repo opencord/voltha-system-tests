@@ -449,7 +449,7 @@ Data plane verification using TCP for DT
     ...           AND    Stop Logging    BandwidthProfileTCPDt
     Pass Execution If   '${has_dataplane}'=='False'    Bandwidth profile validation can be done only in
     ...    physical pod.  Skipping this test in BBSIM.
-    Run Keyword If    'SOAK_TEST'=='False'    Clear All Devices Then Create New Device
+    Run Keyword If    '${SOAK_TEST}'=='False'    Clear All Devices Then Create New Device
     ...    ELSE    Setup Soak
     Run Keyword If    ${has_dataplane}    Clean Up Linux
     Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test DT

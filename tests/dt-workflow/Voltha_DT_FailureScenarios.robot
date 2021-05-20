@@ -185,7 +185,7 @@ Verify restart openonu-adapter container after subscriber provisioning for DT
     [Teardown]    Run Keywords    Run Keyword If    ${logging}    Collect Logs
     ...           AND             Stop Logging    Restart-OpenOnu-Dt
     # Add OLT device
-    Run Keyword If    'SOAK_TEST'=='False'    Setup
+    Run Keyword If    '${SOAK_TEST}'=='False'    Setup
     # Performing Sanity Test to make sure subscribers are all DHCP and pingable
     Run Keyword If    ${has_dataplane}    Clean Up Linux
     Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test DT
@@ -205,7 +205,7 @@ Verify restart openonu-adapter container after subscriber provisioning for DT
     ${countAfterRestart}=    Run    kubectl get pods -n ${NAMESPACE} | grep Running | wc -l
     Should Be Equal As Strings    ${countAfterRestart}    ${countBeforeRestart}
     Log to console    Pod ${podName} restarted and sanity checks passed successfully
-    Run Keyword If    'SOAK_TEST'=='False'    Delete All Devices and Verify
+    Run Keyword If    '${SOAK_TEST}'=='False'    Delete All Devices and Verify
 
 Verify restart openolt-adapter container after subscriber provisioning for DT
     [Documentation]    Restart openolt-adapter container after VOLTHA is operational.
@@ -215,7 +215,7 @@ Verify restart openolt-adapter container after subscriber provisioning for DT
     [Teardown]    Run Keywords    Run Keyword If    ${logging}    Collect Logs
     ...           AND             Stop Logging    Restart-OpenOlt-Dt
     # Add OLT device
-    Run Keyword If    'SOAK_TEST'=='False'    setup
+    Run Keyword If    '${SOAK_TEST}'=='False'    setup
     # Performing Sanity Test to make sure subscribers are all DHCP and pingable
     Run Keyword If    ${has_dataplane}    Clean Up Linux
     Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test DT
