@@ -101,6 +101,64 @@ Sanity E2E Test for TT (MCAST)
     Run Keyword If    ${has_dataplane}    Clean Up Linux
     Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test TT MCAST
 
+Test Disable and Delete OLT for TT
+    [Documentation]    Validates E2E Ping Connectivity and object states for the given scenario:
+    ...    Assuming that all the ONUs are DHCP/pingable (i.e. assuming sanityTt test was executed)
+    ...    Perform disable on the OLT and validate ONUs state and that the pings do not succeed
+    ...    Perform delete on the OLT, Re-do Setup (Recreate the OLT) and Perform Sanity Test TT
+    [Tags]    functionalTt    DisableDeleteOLTTt
+    [Setup]    Start Logging    DisableDeleteOLTTt
+    [Teardown]    Run Keywords    Collect Logs
+    ...           AND             Stop Logging    DisableDeleteOLTTt
+    # Disable and Validate OLT Device
+    FOR   ${I}    IN RANGE    0    ${olt_count}
+        ${olt_serial_number}=    Get From Dictionary    ${olt_ids}[${I}]    sn
+        ${olt_device_id}=    Get OLTDeviceID From OLT List    ${olt_serial_number}
+        Disable Device    ${olt_device_id}
+        ${of_id}=    Get ofID From OLT List    ${olt_serial_number}
+        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
+        ...    Validate OLT Device    DISABLED    UNKNOWN    REACHABLE
+        ...    ${olt_serial_number}
+        Wait Until Keyword Succeeds    ${timeout}    5s    Validate OLT Device    DISABLED    UNKNOWN    REACHABLE
+        ...    ${olt_serial_number}
+        ${num_onus}=    Set Variable    ${list_olts}[${I}][onucount]
+        # Validate ONUs
+        Run Keyword    Wait Until Keyword Succeeds    ${timeout}    5s    Validate ONUs After OLT Disable
+        ...    ${num_onus}    ${olt_serial_number}
+        # Verify ONOS Flows
+        # Number of Access Flows on ONOS equals 4 * the Number of Active ONUs (2 for each downstream and upstream)
+        ${onos_flows_count}=    Evaluate    4 * ${num_onus}
+        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
+        ...    Verify Default Downstream Flows are added in ONOS for OLT TT    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${of_id}
+        ...    ${nni_port}
+        # Verify VOLTHA Flows
+        # Number of per OLT Flows equals Twice the Number of Active ONUs (each for downstream and upstream) + 1 for LLDP
+        ${olt_flows}=    Evaluate    2 * ${num_onus} + 1
+        # Number of per ONU Flows equals 2 (one each for downstream and upstream)
+        ${onu_flows}=    Set Variable    2
+        Run Keyword    Wait Until Keyword Succeeds    ${timeout}    5s    Validate OLT Flows    ${olt_flows}
+        ...    ${olt_device_id}
+        ${List_ONU_Serial}    Create List
+        Set Suite Variable    ${List_ONU_Serial}
+        Build ONU SN List    ${List_ONU_Serial}    ${olt_serial_number}    ${num_onus}
+        Log    ${List_ONU_Serial}
+        Run Keyword    Wait Until Keyword Succeeds    ${timeout}    5s    Validate ONU Flows
+        ...    ${List_ONU_Serial}    ${onu_flows}
+        # Delete OLT and Validate Empty Device List
+        Delete Device    ${olt_device_id}
+        # Check that the OLT and the ONUs are actually removed from the system
+        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s    Validate Device Removed
+        ...    ${olt_serial_number}
+        Run Keyword and Continue On Failure    Validate all ONUS for OLT Removed    ${num_all_onus}    ${hosts}
+        ...    ${olt_serial_number}    ${timeout}
+        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
+        ...    Verify Device Flows Removed    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${of_id}
+    END
+    # Re-do Setup (Recreate the OLT) and Perform Sanity Test TT
+    Run Keyword    Setup
+    Run Keyword If    ${has_dataplane}    Clean Up Linux
+    Wait Until Keyword Succeeds    ${timeout}   2s    Perform Sanity Tests TT
+
 *** Keywords ***
 Setup Suite
     [Documentation]    Set up the test suite
