@@ -33,6 +33,9 @@ olts:
     ip: bbsim0
     serial: BBSIM_OLT_10
 
+onos_netcfg:
+  file: ${CURDIR}/../../data/onos-igmp.json
+
 hosts:
   src:
     - onu: 'BBSM000a0001'
