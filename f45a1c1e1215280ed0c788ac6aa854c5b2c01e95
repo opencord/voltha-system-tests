@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "5eee9db8_53f21141",
+        "filename": "tests/tt-workflow/Voltha_TT_MultiTcontTests.robot",
+        "patchSetId": 6
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1000127
+      },
+      "writtenOn": "2021-05-21T18:20:10Z",
+      "side": 1,
+      "message": "you could add this new template in pod-configs for flex-pod TT yaml file\n\ntcont_type1_test:\n\ttest_params:\n\t\tsrc_ip: xx:xx:xx:xx\n\t\tdst_ip: yy:yy:yy:yy\n\t\tport: xxxx\n\t\tudp: yes  ## Or you could also use true/false and set “-u” option in that case\n\ntype_type2_test:\n\ttest_params:\n\t\tsrc_ip: xx:xx:xx:xx\n\t\tdst_ip: yy:yy:yy:yy\n\t\tport: xxxx\n\t\tudp: yes  ## Or you could also use true/false and set “-u” option in that case",
+      "parentUuid": "03faea6d_52d04675",
+      "range": {
+        "startLine": 75,
+        "startChar": 0,
+        "endLine": 77,
+        "endChar": 46
+      },
+      "revId": "f45a1c1e1215280ed0c788ac6aa854c5b2c01e95",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "85312d4b_5dacf687",
         "filename": "tests/tt-workflow/Voltha_TT_MultiTcontTests.robot",
         "patchSetId": 6
