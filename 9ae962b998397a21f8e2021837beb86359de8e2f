@@ -1,0 +1,165 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4a32c73b_81dd5159",
+        "filename": "tests/tt-workflow/Voltha_TT_FailureScenarios.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 467,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2021-05-21T09:37:32Z",
+      "side": 1,
+      "message": "subscribed -\u003e subscriber",
+      "range": {
+        "startLine": 467,
+        "startChar": 60,
+        "endLine": 467,
+        "endChar": 70
+      },
+      "revId": "9ae962b998397a21f8e2021837beb86359de8e2f",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "83e54396_0490e8e7",
+        "filename": "tests/tt-workflow/Voltha_TT_FailureScenarios.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 467,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2021-05-21T09:37:32Z",
+      "side": 1,
+      "message": "Please move this TC to Voltha_TT_PODTests.robot file.",
+      "range": {
+        "startLine": 467,
+        "startChar": 0,
+        "endLine": 467,
+        "endChar": 77
+      },
+      "revId": "9ae962b998397a21f8e2021837beb86359de8e2f",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7dcf292b_56ebcf05",
+        "filename": "tests/tt-workflow/Voltha_TT_FailureScenarios.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 473,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2021-05-21T09:37:32Z",
+      "side": 1,
+      "message": "Should be added only if all devices are getting deleted at the end of the TC that precedes this and you want to create new ones in this TC.",
+      "range": {
+        "startLine": 473,
+        "startChar": 4,
+        "endLine": 473,
+        "endChar": 9
+      },
+      "revId": "9ae962b998397a21f8e2021837beb86359de8e2f",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "df881241_db2cb893",
+        "filename": "tests/tt-workflow/Voltha_TT_FailureScenarios.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 475,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2021-05-21T09:37:32Z",
+      "side": 1,
+      "message": "By default the value of this is True which means we don\u0027t want to provision the subscriber while running sanity test. Since you called Setup keyword above I assume you intend to create a  device and so subscriber needs to be provisioned here. Please restructure the TC accordingly.",
+      "range": {
+        "startLine": 475,
+        "startChar": 82,
+        "endLine": 475,
+        "endChar": 106
+      },
+      "revId": "9ae962b998397a21f8e2021837beb86359de8e2f",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5f54f95d_e95013d8",
+        "filename": "tests/tt-workflow/Voltha_TT_FailureScenarios.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 486,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2021-05-21T09:37:32Z",
+      "side": 1,
+      "message": "Can you please help me understand the logic here? How is this used in the TC flow.",
+      "range": {
+        "startLine": 476,
+        "startChar": 1,
+        "endLine": 486,
+        "endChar": 78
+      },
+      "revId": "9ae962b998397a21f8e2021837beb86359de8e2f",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a6007797_1ecf5f44",
+        "filename": "tests/tt-workflow/Voltha_TT_FailureScenarios.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 496,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2021-05-21T09:37:32Z",
+      "side": 1,
+      "message": "Rather than comparing this at each step we can do something like..\nRun Keyword If \u003clogic\u003e\n...    Run Keywords\n...    \u003cKeyword-1\u003e\n...    AND    \u003cKeyword-2\u003e\n...    AND    ......so on\n...    ELSE   \u003cSome Keyword\u003e",
+      "range": {
+        "startLine": 496,
+        "startChar": 8,
+        "endLine": 496,
+        "endChar": 67
+      },
+      "revId": "9ae962b998397a21f8e2021837beb86359de8e2f",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8a758886_34533496",
+        "filename": "tests/tt-workflow/Voltha_TT_FailureScenarios.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 515,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2021-05-21T09:37:32Z",
+      "side": 1,
+      "message": "Indentation",
+      "range": {
+        "startLine": 515,
+        "startChar": 0,
+        "endLine": 515,
+        "endChar": 1
+      },
+      "revId": "9ae962b998397a21f8e2021837beb86359de8e2f",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    }
+  ]
+}
