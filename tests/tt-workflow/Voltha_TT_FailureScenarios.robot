@@ -464,6 +464,56 @@ Sanity E2E Test for OLT/ONU on POD With Core Fail and Restart for TT
     END
     Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Tests TT
 
+Verify re-provisioning subscriber after removing provisoned subscribed for TT
+    [Documentation]    Removing/Readding a particular subscriber should have no effect on any other subscriber.
+    [Tags]    functionalTT    Readd-subscriber-TT
+    [Setup]    Start Logging    Readd-subscriber-TT
+    [Teardown]    Run Keywords    Collect Logs
+    ...           AND             Stop Logging    Readd-subscriber-TT
+    Setup
+    Run Keyword If    ${has_dataplane}    Clean Up Linux
+    Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Tests TT    ${suppressaddsubscriber}
+    @{particular_onu_device_port}=      Create List
+    FOR   ${I}    IN RANGE    0    ${num_all_onus}
+        ${src}=    Set Variable    ${hosts.src[${I}]}
+        ${onu_port}=    Wait Until Keyword Succeeds    ${timeout}    2s    Get ONU Port in ONOS    ${src['onu']}
+        ...    ${of_id}
+        Append To List  ${particular_onu_device_port}    ${onu_port}
+    END
+    ${list_onu_port}=    Remove Duplicates    ${particular_onu_device_port}
+    ${num_onu_port}=    Get Length  ${list_onu_port}
+    ${random_ınt}=    Evaluate    random.randint(0, ${num_onu_port})    random
+    ${particular_onu_port}=    Set Variable    ${list_onu_port}[${random_ınt}]
+    FOR   ${I}    IN RANGE    0    ${num_all_onus}
+        ${src}=    Set Variable    ${hosts.src[${I}]}
+        ${dst}=    Set Variable    ${hosts.dst[${I}]}
+        ${service_type}=    Get Variable Value    ${src['service_type']}    "null"
+        ${of_id}=    Get ofID From OLT List    ${src['olt']}
+        ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
+        ${onu_port}=    Wait Until Keyword Succeeds    ${timeout}    2s    Get ONU Port in ONOS    ${src['onu']}
+        ...    ${of_id}
+        # Remove Subscriber Access
+        Run Keyword IF    '${onu_port}' == '${particular_onu_port}'
+        ...    Wait Until Keyword Succeeds    ${timeout}    2s    Execute ONOS CLI Command    ${ONOS_SSH_IP}
+        ...    ${ONOS_SSH_PORT}    volt-remove-subscriber-access ${of_id} ${onu_port}
+        Run Keyword If    ${has_dataplane} and '${onu_port}' == '${particular_onu_port}'    Run Keyword And Continue On Failure
+        ...    Wait Until Keyword Succeeds    60s    2s
+        ...    Check Ping    False    ${dst['dp_iface_ip_qinq']}    ${src['dp_iface_name']}
+        ...    ${src['ip']}    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
+        # Verify VOLTHA flows for ONU under test is Zero
+        Run Keyword IF    '${onu_port}' == '${particular_onu_port}'    Wait Until Keyword Succeeds    ${timeout}    5s    Validate Device Flows
+        ...    ${onu_device_id}    0
+        Run Keyword If    ${has_dataplane} and '${onu_port}' == '${particular_onu_port}'    Clean Up Linux
+        # Add Subscriber Access
+        Run Keyword IF    '${onu_port}' == '${particular_onu_port}'
+        ...    Wait Until Keyword Succeeds    ${timeout}    2s    Execute ONOS CLI Command    ${ONOS_SSH_IP}
+        ...    ${ONOS_SSH_PORT}    volt-add-subscriber-access ${of_id} ${onu_port}
+        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    360s    5s
+        ...    Validate Device    ENABLED    ACTIVE
+        ...    REACHABLE    ${src['onu']}    onu=True    onu_reason=omci-flows-pushed
+    END
+	Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Tests TT    ${suppressaddsubscriber}
+
 *** Keywords ***
 Setup Suite
     [Documentation]    Set up the test suite
