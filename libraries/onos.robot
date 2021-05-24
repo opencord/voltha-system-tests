@@ -392,6 +392,45 @@ Get Bandwidth Profile Details Ietf Rest
     Should Be True    ${matched}    No bandwidth profile found for id: ${bw_profile_id}
     [Return]    ${cir}    ${cbs}    ${pir}    ${pbs}    ${gir}
 
+Verify Meters in ONOS Ietf
+    [Arguments]    ${ip}    ${port}    ${olt_of_id}    ${onu_port}
+    [Documentation]    Verifies the meters with BW Ietf format (currently, DT workflow uses this format)
+    # Get programmed subscriber
+    ${programmed_sub}=    Get Programmed Subscribers    ${ip}    ${port}
+    ...    ${olt_of_id}    ${onu_port}
+    Log    ${programmed_sub}
+    ${us_bw_profile}    ${ds_bw_profile}    Get Upstream and Downstream Bandwidth Profile Name
+    ...    ${programmed_sub}
+    # Get upstream bandwidth profile details
+    ${us_cir}    ${us_cbs}    ${us_pir}    ${us_pbs}    ${us_gir}    Get Bandwidth Profile Details Ietf Rest
+    ...    ${us_bw_profile}
+    Sleep    1s
+    # Verify meter for upstream bandwidth profile
+    ${us_meter_cmd}=    Run Keyword If    ${us_gir} != 0    Catenate    SEPARATOR=
+    ...    meters ${olt_of_id} | grep state=ADDED | grep "rate=${us_cir}, burst-size=${us_cbs}"
+    ...     | grep "rate=${us_pir}, burst-size=${us_pbs}" | grep "rate=${us_gir}, burst-size=0" | wc -l
+    ...    ELSE    Catenate    SEPARATOR=
+    ...    meters ${olt_of_id} | grep state=ADDED | grep "rate=${us_cir}, burst-size=${us_cbs}"
+    ...     | grep "rate=${us_pir}, burst-size=${us_pbs}" | wc -l
+    ${upstream_meter_added}=    Execute ONOS CLI Command    ${ip}    ${port}
+    ...    ${us_meter_cmd}
+    Should Be Equal As Integers    ${upstream_meter_added}    1
+    Sleep    1s
+    # Get downstream bandwidth profile details
+    ${ds_cir}    ${ds_cbs}    ${ds_pir}    ${ds_pbs}    ${ds_gir}    Get Bandwidth Profile Details Ietf Rest
+    ...    ${ds_bw_profile}
+    Sleep    1s
+    # Verify meter for downstream bandwidth profile
+    ${ds_meter_cmd}=    Run Keyword If    ${ds_gir} != 0    Catenate    SEPARATOR=
+    ...    meters ${olt_of_id} | grep state=ADDED | grep "rate=${ds_cir}, burst-size=${ds_cbs}"
+    ...     | grep "rate=${ds_pir}, burst-size=${ds_pbs}" | grep "rate=${ds_gir}, burst-size=0" | wc -l
+    ...    ELSE    Catenate    SEPARATOR=
+    ...    meters ${olt_of_id} | grep state=ADDED | grep "rate=${ds_cir}, burst-size=${ds_cbs}"
+    ...     | grep "rate=${ds_pir}, burst-size=${ds_pbs}" | wc -l
+    ${downstream_meter_added}=    Execute ONOS CLI Command    ${ip}    ${port}
+    ...    ${ds_meter_cmd}
+    Should Be Equal As Integers    ${downstream_meter_added}    1
+
 Verify Meters in ONOS
     [Arguments]    ${ip}    ${port}    ${olt_of_id}    ${onu_port}
     [Documentation]    Verifies the meters
