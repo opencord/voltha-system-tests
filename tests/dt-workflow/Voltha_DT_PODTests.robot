@@ -470,10 +470,14 @@ Data plane verification using TCP for DT
         ${subscriber_id}=    Set Variable    ${of_id}/${onu_port}
         ${bandwidth_profile_name}    Get Bandwidth Profile Name For Given Subscriber    ${subscriber_id}
         ...    upstreamBandwidthProfile
-        ${limiting_bw_value_upstream}    Get Limiting Bandwidth Details    ${bandwidth_profile_name}
+        ${us_cir}    ${us_cbs}    ${us_pir}    ${us_pbs}    ${us_gir}=    Get Bandwidth Profile Details Ietf Rest
+        ...    ${bandwidth_profile_name}
+        ${limiting_bw_value_upstream}=    Set Variable If    ${us_pir} != 0    ${us_pir}    ${us_gir}
         ${bandwidth_profile_name}    Get Bandwidth Profile Name For Given Subscriber    ${subscriber_id}
         ...    downstreamBandwidthProfile
-        ${limiting_bw_value_dnstream}    Get Limiting Bandwidth Details    ${bandwidth_profile_name}
+        ${ds_cir}    ${ds_cbs}    ${ds_pir}    ${ds_pbs}    ${ds_gir}=    Get Bandwidth Profile Details Ietf Rest
+        ...    ${bandwidth_profile_name}
+        ${limiting_bw_value_dnstream}=    Set Variable If    ${ds_pir} != 0    ${ds_pir}    ${ds_gir}
 
         # Stream TCP packets from RG to server
         ${updict}=    Run Iperf3 Test Client    ${src}    server=${dst['dp_iface_ip_qinq']}
@@ -525,10 +529,14 @@ Data plane verification using UDP for DT
         ${subscriber_id}=    Set Variable    ${of_id}/${onu_port}
         ${bandwidth_profile_name}    Get Bandwidth Profile Name For Given Subscriber    ${subscriber_id}
         ...    upstreamBandwidthProfile
-        ${limiting_bw_value_upstream}    Get Limiting Bandwidth Details    ${bandwidth_profile_name}
+        ${us_cir}    ${us_cbs}    ${us_pir}    ${us_pbs}    ${us_gir}=    Get Bandwidth Profile Details Ietf Rest
+        ...    ${bandwidth_profile_name}
+        ${limiting_bw_value_upstream}=    Set Variable If    ${us_pir} != 0    ${us_pir}    ${us_gir}
         ${bandwidth_profile_name}    Get Bandwidth Profile Name For Given Subscriber    ${subscriber_id}
         ...    downstreamBandwidthProfile
-        ${limiting_bw_value_dnstream}    Get Limiting Bandwidth Details    ${bandwidth_profile_name}
+        ${ds_cir}    ${ds_cbs}    ${ds_pir}    ${ds_pbs}    ${ds_gir}=    Get Bandwidth Profile Details Ietf Rest
+        ...    ${bandwidth_profile_name}
+        ${limiting_bw_value_dnstream}=    Set Variable If    ${ds_pir} != 0    ${ds_pir}    ${ds_gir}
 
         # Stream UDP packets from RG to server
         ${uprate}=    Run Keyword If    ${limiting_bw_value_upstream} != 1000000
