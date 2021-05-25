@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8d62a1ea_ceab0941",
+        "filename": "tests/data/dt-berlin-pod-gpon-adtran-sadis-DT.json",
+        "patchSetId": 1
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2021-05-25T08:16:48Z",
+      "side": 1,
+      "message": "why is gir 0 here ? is it because for the default we are not guaranteeing any bandwidth ?",
+      "revId": "3c45307f2dff2115e7ef4e87d79b883525c51682",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    }
+  ]
+}
