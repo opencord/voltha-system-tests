@@ -16,6 +16,24 @@
       "revId": "3c45307f2dff2115e7ef4e87d79b883525c51682",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3082db34_353ec037",
+        "filename": "tests/data/dt-berlin-pod-gpon-adtran-sadis-DT.json",
+        "patchSetId": 1
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1000127
+      },
+      "writtenOn": "2021-05-26T15:26:02Z",
+      "side": 1,
+      "message": "yes you are right. This is basically used for EAP and we do not need any huge gir for that.",
+      "parentUuid": "8d62a1ea_ceab0941",
+      "revId": "3c45307f2dff2115e7ef4e87d79b883525c51682",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
     }
   ]
 }
