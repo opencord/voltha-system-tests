@@ -163,6 +163,8 @@ Perform BBSim Sanity Test Per OLT
     # Perform OLT SoftReboot test
     ${olt_device_id}=    Get OLTDeviceID From OLT List    ${olt_serial_number}
     Reboot Device    ${olt_device_id}
+    Wait Until Keyword Succeeds    ${timeout}    2s    Device Is Available In ONOS
+        ...    http://karaf:karaf@${ONOS_REST_IP}:${ONOS_REST_PORT}    ${of_id}     false
     Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    360s    5s
     ...    Validate OLT Device    ENABLED    ACTIVE
     ...    REACHABLE    ${olt_serial_number}
