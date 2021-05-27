@@ -349,6 +349,7 @@ Get Bandwidth Profile Details
 Get Bandwidth Profile Details Rest
     [Arguments]    ${bw_profile_id}
     [Documentation]    Retrieves the details of the given bandwidth profile using REST API
+    ${bw_profile_id}=    Remove String    ${bw_profile_id}    '    "
     ${resp}=    Get Request    ONOS    onos/sadis/bandwidthprofile/${bw_profile_id}
     ${jsondata}=    To Json    ${resp.content}
     Should Not Be Empty    ${jsondata['entry']}
@@ -735,8 +736,8 @@ Get Limiting Bandwidth Details
     [Arguments]    ${bandwidth_profile_name}
     [Documentation]    Collects the bandwidth profile details for the given bandwidth profile and
     ...    returns the limiting bandwidth
-    ${cir}    ${cbs}    ${eir}    ${ebs}    ${air}    Get Bandwidth Profile Details
-    ...    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${bandwidth_profile_name}
+    ${cir}    ${cbs}    ${eir}    ${ebs}    ${air}=    Get Bandwidth Profile Details Rest
+    ...    ${bandwidth_profile_name}
     ${limiting_BW}=    Evaluate    ${eir}+${cir}+${air}
     [Return]    ${limiting_BW}
 
