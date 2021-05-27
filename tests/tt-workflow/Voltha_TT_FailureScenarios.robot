@@ -355,7 +355,7 @@ Verify restart openolt-adapter container after subscriber provisioning for TT
 
 Verify restart ofagent container after subscriber is provisioned for TT
     [Documentation]    Restart ofagent container after VOLTHA is operational.
-    [Tags]    functionalTT    ofagentRestart-TT    notready
+    [Tags]    functionalTT    ofagentRestart-TT
     [Setup]    Start Logging    ofagentRestart-TT
     [Teardown]    Run Keywords    Collect Logs
     ...           AND             Stop Logging    ofagentRestart-TT
@@ -371,7 +371,7 @@ Verify restart ofagent container after subscriber is provisioned for TT
     ...    app    ${podName}    Running
     Wait Until Keyword Succeeds    ${timeout}    3s    Pods Are Ready By Label    ${NAMESPACE}    app    ${podName}
     Run Keyword If    ${has_dataplane}    Clean Up Linux
-    Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Tests TT    ${suppressaddsubscriber}
+    Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test TT    ${suppressaddsubscriber}
     ${podStatusOutput}=    Run    kubectl get pods -n ${NAMESPACE}
     Log    ${podStatusOutput}
     ${countAfterRestart}=    Run    kubectl get pods -n ${NAMESPACE} | grep Running | wc -l
@@ -382,6 +382,7 @@ Verify restart ofagent container after subscriber is provisioned for TT
     FOR    ${I}    IN RANGE    0    ${num_all_onus}
         ${src}=    Set Variable    ${hosts.src[${I}]}
         ${dst}=    Set Variable    ${hosts.dst[${I}]}
+        ${service_type}=    Get Variable Value    ${src['service_type']}    "null"
         ${of_id}=    Get ofID From OLT List    ${src['olt']}
         ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
         ${onu_port}=    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
@@ -394,7 +395,8 @@ Verify restart ofagent container after subscriber is provisioned for TT
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds   120s   2s
         ...    Verify ONU Port Is Disabled   ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${src['onu']}
         # Verify Ping
-        Run Keyword If    ${has_dataplane}    Run Keyword And Continue On Failure    Check Ping    True
+        Run Keyword If    ${has_dataplane} and '${service_type}' != 'mcast'
+        ...    Run Keyword And Continue On Failure    Check Ping    True
         ...    ${dst['dp_iface_ip_qinq']}    ${src['dp_iface_name']}    ${src['ip']}
         ...    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
     END
