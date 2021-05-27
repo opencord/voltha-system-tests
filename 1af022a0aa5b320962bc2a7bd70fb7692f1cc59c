@@ -45,6 +45,30 @@
       "revId": "1af022a0aa5b320962bc2a7bd70fb7692f1cc59c",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3a27dc7f_dd56db9a",
+        "filename": "libraries/utils.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1000804
+      },
+      "writtenOn": "2021-05-27T13:31:26Z",
+      "side": 1,
+      "message": "Yes correct, I added second ONU below onus section in flex-ocp-cord-TT.yaml\n\n\nonus:\n  -\n    serial: \u0027ALPHe3d1cfa7\u0027\n  -\n    serial: \u0027ALPHe3d1cea3\u0027",
+      "parentUuid": "0729f228_f35274c2",
+      "range": {
+        "startLine": 88,
+        "startChar": 49,
+        "endLine": 88,
+        "endChar": 56
+      },
+      "revId": "1af022a0aa5b320962bc2a7bd70fb7692f1cc59c",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
     }
   ]
 }
