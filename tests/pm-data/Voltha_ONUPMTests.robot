@@ -20,6 +20,7 @@ Documentation     Test of open ONU go adapter PM data
 ...               --set externalAccess.service.nodePorts[0]=${KAFKA_PORT},
 ...               --set externalAccess.service.domain=${KAFKA_IP}
 ...               with e.g. service.domain=10.0.02.15 or 127.0.0.1 and service.nodePorts[0]=30201!
+...               For voltha-infra prefix kafka. is needed e.g.: --set kafka.externalAccess.enabled=true
 Suite Setup       Setup Suite
 Suite Teardown    Teardown Suite
 Test Setup        Setup
@@ -186,9 +187,10 @@ Setup Suite
     Set Suite Variable  ${onos_ssh_connection}
     ${switch_type}=    Get Variable Value    ${web_power_switch.type}
     Run Keyword If  "${switch_type}"!=""    Set Global Variable    ${powerswitch_type}    ${switch_type}
-    # todo: set ${kafka} depending on environment!!!
-#    ${kafka}=    Set Variable    kafka-0-external
-    ${kafka}=    Set Variable    voltha-infra-kafka-0-external
+    # set ${kafka} depending on environment in case of port-forward is needed
+    ${rc}    ${kafka}=    Run Keyword If    ${PORT_FORWARDING}    Run and Return Rc and Output
+    ...    kubectl get svc -n default | grep kafka-0-external | awk '{print $1}'
+    Run Keyword If    ${PORT_FORWARDING}    Should Not Be Empty    ${kafka}    Service kafka-0-external not found
     # start port forwarding if needed (when voltha runs in k8s)
     ${portFwdHandle} =    Run Keyword If    ${PORT_FORWARDING}    Start Process
     ...    kubectl port-forward --address 0.0.0.0 --namespace default svc/${kafka} ${KAFKA_PORT}:${KAFKA_SVC_PORT} &
