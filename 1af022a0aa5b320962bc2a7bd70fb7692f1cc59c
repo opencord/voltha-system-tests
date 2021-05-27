@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d54a0308_71908b72",
+        "filename": "libraries/onos.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 263,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2021-05-27T13:09:17Z",
+      "side": 1,
+      "message": "Documentation needs correction",
+      "range": {
+        "startLine": 263,
+        "startChar": 23,
+        "endLine": 263,
+        "endChar": 54
+      },
+      "revId": "1af022a0aa5b320962bc2a7bd70fb7692f1cc59c",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0729f228_f35274c2",
+        "filename": "libraries/utils.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2021-05-27T13:09:17Z",
+      "side": 1,
+      "message": "I think this is something you are reading from pod-configs. Am I right?\nIf yes, in case of ONF Pod we have only single value defined here (https://github.com/opencord/pod-configs/blob/master/deployment-configs/flex-ocp-cord-TT.yaml#L56-L58) so this might fail while verifying in another file (https://gerrit.opencord.org/c/voltha-system-tests/+/24992/2/tests/tt-workflow/Voltha_TT_PODTests.robot#129). Can you please share the POD config that you are using to verify this test?",
+      "range": {
+        "startLine": 88,
+        "startChar": 49,
+        "endLine": 88,
+        "endChar": 56
+      },
+      "revId": "1af022a0aa5b320962bc2a7bd70fb7692f1cc59c",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    }
+  ]
+}
