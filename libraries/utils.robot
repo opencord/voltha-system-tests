@@ -427,7 +427,7 @@ Sanity Test TT one ONU
     ...    Execute ONOS CLI Command    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}
     ...    volt-add-subscriber-access ${of_id} ${onu_port}
     # Verify ONU state in voltha
-    ${onu_reasons}=  Create List     omci-flows-pushed
+    ${onu_reasons}=  Create List     omci-flows-pushed     onu-reenabled
     # In case of previous dis- and enable of ONU and no further subscriber add actions state will be onu-reenabled
     Run Keyword If    ${supress_add_subscriber}    Append To List    ${onu_reasons}    onu-reenabled
     Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s    Validate Device
@@ -506,7 +506,7 @@ Sanity Test TT MCAST one ONU
     ...    Execute ONOS CLI Command    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}
     ...    volt-add-subscriber-access ${of_id} ${onu_port}
     # Verify ONU state in voltha
-    ${onu_reasons}=  Create List     omci-flows-pushed
+    ${onu_reasons}=  Create List     omci-flows-pushed     onu-reenabled
     # In case of previous dis- and enable of ONU and no further subscriber add actions state will be onu-reenabled
     Run Keyword If    ${supress_add_subscriber}    Append To List    ${onu_reasons}    onu-reenabled
     Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s    Validate Device
