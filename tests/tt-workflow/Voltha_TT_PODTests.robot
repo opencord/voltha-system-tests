@@ -128,16 +128,16 @@ Test Disable and Delete OLT for TT
         Run Keyword    Wait Until Keyword Succeeds    ${timeout}    5s    Validate ONUs After OLT Disable
         ...    ${num_onus}    ${olt_serial_number}
         # Verify ONOS Flows
-        # Number of Access Flows on ONOS equals 4 * the Number of Active ONUs (2 for each downstream and upstream)
-        ${onos_flows_count}=    Evaluate    4 * ${num_onus}
+        # Number of Access Flows on ONOS equals 16 * the Number of Active ONUs + 3 for default LLDP, IGMP and DHCP
+        ${onos_flows_count}=    Evaluate    16 * ${num_of_provisioned_onus} + 3
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
-        ...    Verify Default Downstream Flows are added in ONOS for OLT TT    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${of_id}
-        ...    ${nni_port}
+        ...    Verify Added Flow Count for OLT TT    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${of_id}
+        ...    ${onos_flows_count}
         # Verify VOLTHA Flows
-        # Number of per OLT Flows equals Twice the Number of Active ONUs (each for downstream and upstream) + 1 for LLDP
-        ${olt_flows}=    Evaluate    2 * ${num_onus} + 1
-        # Number of per ONU Flows equals 2 (one each for downstream and upstream)
-        ${onu_flows}=    Set Variable    2
+        # Number of per OLT Flows equals 10 * Number of Active ONUs  + 3 for default LLDP, IGMP and DHCP
+        ${olt_flows}=    Evaluate    10 * ${num_of_provisioned_onus} + 3
+        # Number of per ONU Flows equals 6 for 3play service data plane + 4 for Trap to Host Flows
+        ${onu_flows}=    Set Variable    10
         Run Keyword    Wait Until Keyword Succeeds    ${timeout}    5s    Validate OLT Flows    ${olt_flows}
         ...    ${olt_device_id}
         ${List_ONU_Serial}    Create List
