@@ -59,9 +59,9 @@ ${container_log_dir}    ${None}
 ${lower_margin_pct}      90      # Allow 10% under the limit
 
 *** Test Cases ***
-Test that the BW is limited to GIR
+Test that the BW is limited to Limiting Bandwidth
     [Documentation]    Verify support for Tcont type 1.
-    ...    Verify that traffic is limited to GIR configured for the service/onu.
+    ...    Verify that traffic is limited to Limiting Bandwidth (eir+cir+air) configured for the service/onu.
     ...    Pump 500Mbps in the upstream from RG and verify that the received traffic is only 200Mbps at the BNG.
     ...    Note: Currently, only Flex Pod supports the deployment configuration required to test this scenario.
     [Tags]    functionalTT    VOL-4093
@@ -84,15 +84,14 @@ Test that the BW is limited to GIR
     ${stdout}    ${stderr}    ${rc}=    Execute Remote Command    which iperf3 jq
     ...    ${src['ip']}    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
     Pass Execution If    ${rc} != 0    Skipping test: iperf3 / jq not found on the RG
-    ${us_cir}    ${us_cbs}    ${us_pir}    ${us_pbs}    ${us_gir}=    Get Bandwidth Profile Details Ietf Rest
-    ...    ${test_us_bw_profile}
+    ${limiting_bw_value_upstream}=    Get Limiting Bandwidth Details    ${test_us_bw_profile}
     # Stream UDP packets from RG to server
     ${updict}=    Run Iperf3 Test Client    ${src}    server=${dst['dp_iface_ip_qinq']}
     ...    args=-u -b 500M -t 30 -p 5201
     # With UDP test, bits per second is the sending rate.  Multiply by the loss rate to get the throughput.
     ${actual_upstream_bw_used}=    Evaluate
     ...    (100 - ${updict['end']['sum']['lost_percent']})*${updict['end']['sum']['bits_per_second']}/100000
-    ${pct_limit_up}=    Evaluate    100*${actual_upstream_bw_used}/${us_gir}
+    ${pct_limit_up}=    Evaluate    100*${actual_upstream_bw_used}/${limiting_bw_value_upstream}
     Should Be True    ${pct_limit_up} >= ${lower_margin_pct}
     ...    The upstream bandwidth guarantee was not met (${pct_limit_up}% of resv)
 
