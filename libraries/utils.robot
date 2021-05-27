@@ -1189,9 +1189,15 @@ Parse RFC3339
     [return]    ${output}
 
 Get Bandwidth Profile Name For Given Subscriber
-    [Arguments]    ${subscriber_id}   ${stream_type}=upstreamBandwidthProfile
+    [Arguments]    ${subscriber_id}   ${stream_type}=upstreamBandwidthProfile    ${service_type}=${EMPTY}
     [Documentation]    Keyword to get the bandwidth details of the given subscriber
-    ${bandwidth_profile_output}=    Execute ONOS CLI Command    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}
+    ${service_type_upper}=    Run Keyword If    '${service_type}' != '${EMPTY}'
+    ...    Convert To Upper Case    ${service_type}
+    ${bandwidth_profile_output}=    Run Keyword If    '${service_type}' != '${EMPTY}'
+    ...    Execute ONOS CLI Command    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}
+    ...    volt-programmed-subscribers | grep ${subscriber_id} | grep '${service_type_upper}'
+    ...    ELSE
+    ...    Execute ONOS CLI Command    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}
     ...    volt-programmed-subscribers | grep ${subscriber_id}
     @{bandwidth_profile_array}=    Split String    ${bandwidth_profile_output}    ,
     Log    ${bandwidth_profile_array}
