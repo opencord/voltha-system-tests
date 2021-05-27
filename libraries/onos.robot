@@ -258,6 +258,13 @@ Verify Subscriber Access Flows Added Count DT
     ...    flows -s ADDED ${olt_of_id} | grep -v deviceId | grep -v ETH_TYPE:lldp | grep -v ETH_TYPE:arp | wc -l
     Should Be Equal As Integers    ${access_flows_added}    ${expected_flows}
 
+Verify Added Flow Count for OLT TT
+    [Arguments]    ${ip}    ${port}    ${olt_of_id}    ${expected_flows}
+    [Documentation]    Total number of added flows given OLT with subscriber flows
+    ${access_flows_added}=    Execute ONOS CLI Command    ${ip}    ${port}
+    ...    flows -s ADDED ${olt_of_id} | grep -v deviceId | wc -l
+    Should Be Equal As Integers    ${access_flows_added}    ${expected_flows}
+
 Verify Default Downstream Flows are added in ONOS for OLT TT
     [Arguments]    ${ip}    ${port}    ${olt_of_id}    ${nni_port}
     [Documentation]    Verifies if the Default Downstream Flows are added in ONOS for the OLT

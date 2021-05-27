@@ -256,8 +256,6 @@ Test Disable and Delete OLT for DT
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
         ...    Validate OLT Device    DISABLED    UNKNOWN    REACHABLE
         ...    ${olt_serial_number}
-        Wait Until Keyword Succeeds    ${timeout}    5s    Validate OLT Device    DISABLED    UNKNOWN    REACHABLE
-        ...    ${olt_serial_number}
         ${num_onus}=    Set Variable    ${list_olts}[${I}][onucount]
         # Validate ONUs
         Run Keyword    Wait Until Keyword Succeeds    ${timeout}    5s    Validate ONUs After OLT Disable
