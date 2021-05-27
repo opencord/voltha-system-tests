@@ -96,7 +96,88 @@ Test that the BW is limited to Limiting Bandwidth
     Should Be True    ${pct_limit_up} >= ${lower_margin_pct}
     ...    The upstream bandwidth guarantee was not met (${pct_limit_up}% of resv)
 
+Test that assured BW is allocated as needed on the PON
+    [Documentation]    Verify support for Tcont type 2 and 4.
+    ...    Verify that the BW from tcont type 4 is bequeathed to type2 as needed.
+    ...    1) Pump 1Gbps in the upstream from the RG for HSIA service and verify that no more than 1Gbps is received at the BNG.
+    ...    2) Pump 500Mbps from the RG for the VoD service and verify that close to 500Mbps is received at the BNG.
+    ...    Also, verify that the HSI rate is now truncated to 500Mbps at BNG.
+    ...    Note: Currently, only Flex Pod supports the deployment configuration required to test this scenario.
+    [Tags]    functionalTT    VOL-4095
+    [Setup]    Run Keywords    Start Logging    TcontType2Type4Onu1
+    ...        AND             Setup
+    [Teardown]    Run Keywords    Collect Logs
+    ...           AND             Stop Logging    TcontType2Type4Onu1
+    ...           AND             Delete All Devices and Verify
+    Run Keyword If    ${has_dataplane}    Clean Up Linux
+    Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test TT
+
+    # The test expects the first entry in multi_tcont_tests.tcont2tcont4 input will be for service: vod and tcont: 2
+    # The test expects the second entry in multi_tcont_tests.tcont2tcont4 input will be for service: hsia and tcont: 4
+    ${num_multi_tcont_input}=    Get Length    ${multi_tcont_tests.tcont2tcont4}
+    FOR    ${I}    IN RANGE    0    ${num_multi_tcont_input}
+        ${onu_${I}}=    Set Variable    ${multi_tcont_tests.tcont2tcont4[${I}]}
+        ${onu_sn_${I}}=    Set Variable    ${onu_${I}['onu']}
+        ${service_${I}}=    Set Variable    ${onu_${I}['service_type']}
+        ${us_bw_${I}}=    Set Variable    ${onu_${I}['us_bw_profile']}
+        ${matched}    ${src_${I}}    ${dst_${I}}=    Get ONU details with Given Sn and Service    ${onu_sn_${I}}
+        ...    ${service_${I}}    ${us_bw_${I}}
+        Pass Execution If    '${matched}' != 'True'
+        ...    Skipping test: No ONU found with sn '${onu_sn_${I}}', service '${service_${I}}' and us_bw '${us_bw_${I}}'
+        # Check for iperf3 and jq tools
+        ${stdout}    ${stderr}    ${rc}=    Execute Remote Command    which iperf3 jq
+        ...    ${src_${I}['ip']}    ${src_${I}['user']}    ${src_${I}['pass']}    ${src_${I}['container_type']}
+        ...    ${src_${I}['container_name']}
+        Pass Execution If    ${rc} != 0    Skipping test: iperf3 / jq not found on the RG
+        # Get Upstream BW Profile details
+        ${limiting_bw_us_${I}}=    Get Limiting Bandwidth Details    ${us_bw_${I}}
+    END
+
+    # Case 1: Verify only for HSIA service
+    ${updict}=    Run Iperf3 Test Client    ${src_1}    server=${dst_1['dp_iface_ip_qinq']}
+    ...    args=-t 30 -p 5202
+    ${actual_upstream_bw_used}=    Evaluate    ${updict['end']['sum_received']['bits_per_second']}/1000
+    ${pct_limit_up}=    Evaluate    100*${actual_upstream_bw_used}/${limiting_bw_us_1}
+    Should Be True    ${pct_limit_up} >= ${lower_margin_pct}
+    ...    The upstream bandwidth guarantee was not met (${pct_limit_up}% of resv)
+
+    # Case 2: Verify for VOD (with _0) and HSIA (with _1) service combined
+    ${out_file_0}=    Set Variable    ${CURDIR}/../../tests/data/out_tcont2
+    Run Iperf3 Test Client in Background    ${src_0}    server=${dst_0['dp_iface_ip_qinq']}
+    ...    args=-t 30 -p 5201    out_file=${out_file_0}
+    ${out_file_1}=    Set Variable    ${CURDIR}/../../tests/data/out_tcont4
+    Run Iperf3 Test Client in Background    ${src_1}    server=${dst_1['dp_iface_ip_qinq']}
+    ...    args=-t 30 -p 5202    out_file=${out_file_1}
+    # Wait for the above iperf commands to finish (sleep time depends on -t arg value passed in iperf command)
+    Sleep    35s
+    ${out_0}=    Read Output File on System    ${src_0}    ${out_file_0}
+    ${out_1}=    Read Output File on System    ${src_1}    ${out_file_1}
+    ${actual_upstream_bw_used_0}=    Evaluate    ${out_0['end']['sum_received']['bits_per_second']}/1000
+    ${pct_limit_up_0}=    Evaluate    100*${actual_upstream_bw_used_0}/${limiting_bw_us_0}
+    Should Be True    ${pct_limit_up_0} >= ${lower_margin_pct}
+    ...    The upstream bandwidth guarantee was not met (${pct_limit_up_0}% of resv)
+    ${actual_upstream_bw_used_1}=    Evaluate    ${out_1['end']['sum_received']['bits_per_second']}/1000
+    ${pct_limit_up_1}=    Evaluate    100*${actual_upstream_bw_used_1}/(${limiting_bw_us_1}-${limiting_bw_us_0})
+    Should Be True    ${pct_limit_up_1} >= ${lower_margin_pct}
+    ...    The upstream bandwidth guarantee was not met (${pct_limit_up_1}% of resv)
+
 *** Keywords ***
+Read Output File on System
+    [Arguments]    ${src}    ${file}
+    [Documentation]    Reads the content of ${file}.
+    ${output}=    OperatingSystem.Get File    ${file}
+    Log    ${output}
+    ${object}=    Evaluate    json.loads(r'''${output}''')    json
+    [Return]    ${object}
+
+Run Iperf3 Test Client in Background
+    [Arguments]    ${src}    ${server}    ${args}    ${out_file}
+    [Documentation]    Login to ${src} and run the iperf3 client against ${server} using ${args} in background.
+    ...    Stores the results of the test in ${out_file}.
+    ${output}    ${stderr}    ${rc}=    Execute Remote Command    iperf3 -J -c ${server} ${args} > ${out_file} &
+    ...    ${src['ip']}    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
+    Should Be Equal As Integers    ${rc}    0
+
 Get ONU details with Given Sn and Service
     [Documentation]    This keyword finds the ONU details (as required for multi-tcont test)
     ...    with given serial number and service type
