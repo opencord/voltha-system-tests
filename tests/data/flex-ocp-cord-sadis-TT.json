@@ -61,39 +61,39 @@
           "air" : 9000000
         }, {
           "id" : "TCONT_TYPE1_200Mbps_Fixed_ForVOIP",
-          "pir" : 0,
-          "pbs" : 0,
+          "eir" : 0,
+          "ebs" : 0,
           "cir" : 0,
           "cbs" : 0,
-          "gir" : 200000
+          "air" : 200000
         }, {
           "id" : "TCONT_TYPE2_500Mbps_Assured_ForVoD",
-          "pir" : 500000,
-          "pbs" : 10000,
+          "eir" : 0,
+          "ebs" : 0,
           "cir" : 500000,
           "cbs" : 10000,
-          "gir" : 0
+          "air" : 0
         }, {
           "id" : "TCONT_TYPE3_700Mbps_Peak_500Mbps_Assured_ForVoD",
-          "pir" : 700000,
-          "pbs" : 10000,
+          "eir" : 200000,
+          "ebs" : 10000,
           "cir" : 500000,
           "cbs" : 10000,
-          "gir" : 0
+          "air" : 0
         }, {
           "id" : "TCONT_TYPE4_1Gbps_Peak_User1_HSI_Upstream",
-          "pir" : 1000000,
-          "pbs" : 10000,
+          "eir" : 1000000,
+          "ebs" : 10000,
           "cir" : 0,
           "cbs" : 0,
-          "gir" : 0
+          "air" : 0
         }, {
           "id" : "TCONT_TYPE5_1Gbps_Peak_500Mbps_Assured_200Mbps_Fixed_User1_HSI_Upstream",
-          "pir" : 1000000,
-          "pbs" : 10000,
+          "eir" : 300000,
+          "ebs" : 10000,
           "cir" : 500000,
           "cbs" : 10000,
-          "gir" : 200000
+          "air" : 200000
         } ]
       },
       "sadis" : {
