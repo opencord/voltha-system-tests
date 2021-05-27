@@ -85,6 +85,9 @@ Common Test Suite Setup
     END
     ${num_all_onus}=    Get Length    ${hosts.src}
     ${num_all_onus}=    Convert to String    ${num_all_onus}
+    ${num_of_provisioned_onus}=    Get Length    ${onus}
+    ${num_of_provisioned_onus}=    Convert to String    ${num_of_provisioned_onus}
+    Set Suite Variable    ${num_of_provisioned_onus}
     #send sadis file to onos
     ${sadis_file}=    Get Variable Value    ${sadis.file}
     Log To Console    \nSadis File:${sadis_file}
