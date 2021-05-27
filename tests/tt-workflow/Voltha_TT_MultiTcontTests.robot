@@ -69,6 +69,7 @@ Test that the BW is limited to Limiting Bandwidth
     ...        AND             Setup
     [Teardown]    Run Keywords    Collect Logs
     ...           AND             Stop Logging    TcontType1Onu1
+    ...           AND             Delete All Devices and Verify
     Run Keyword If    ${has_dataplane}    Clean Up Linux
     Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Tests TT
     # Find the ONU as required for this test
@@ -95,6 +96,63 @@ Test that the BW is limited to Limiting Bandwidth
     Should Be True    ${pct_limit_up} >= ${lower_margin_pct}
     ...    The upstream bandwidth guarantee was not met (${pct_limit_up}% of resv)
 
+Test that assured BW is allocated as needed on the PON
+    [Documentation]    Verify support for Tcont type 2 and 4.
+    ...    Verify that the BW from tcont type 4 is bequeathed to type2 as needed.
+    ...    1) Pump 1Gbps in the upstream from the RG for HSI service and verify that no more than 1Gbps is received at the BNG.
+    ...    2) Pump 500Mbps from the RG for the VoD service and verify that close to 500Mbps is received at the BNG.
+    ...    Also, verify that the HSI rate is now truncated to 500Mbps at BNG.
+    ...    Note: Currently, only Flex Pod supports the deployment configuration required to test this scenario.
+    [Tags]    functionalTT    VOL-4095
+    [Setup]    Run Keywords    Start Logging    TcontType2Type4Onu1
+    ...        AND             Setup
+    [Teardown]    Run Keywords    Collect Logs
+    ...           AND             Stop Logging    TcontType2Type4Onu1
+    ...           AND             Delete All Devices and Verify
+    Run Keyword If    ${has_dataplane}    Clean Up Linux
+    Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test TT
+    # Find 1st record of the ONU (onu_<onu-1/2>_<tcont-1/2/3/4/5>) as required for this test
+    ${onu_1_2}=    Set Variable    ${multi_tcont_tests.tcont2tcont4[0]}
+    ${onu_sn_1_2}=    Set Variable    ${onu_1_2['onu']}
+    ${service_type_1_2}=    Set Variable    ${onu_1_2['service_type']}
+    ${us_bw_profile_1_2}=    Set Variable    ${onu_1_2['us_bw_profile']}
+    ${matched}    ${src_1_2}    ${dst_1_2}=    Get ONU details with Given Sn and Service    ${onu_sn_1_2}    ${service_type_1_2}
+    ...    ${us_bw_profile_1_2}
+    Pass Execution If    '${matched}' != 'True'
+    ...    Skipping test: No ONU found with sn '${onu_sn_1_2}', service '${service_type_1_2}' and us_bw '${us_bw_profile_1_2}'
+    # Check for iperf3 and jq tools
+    ${stdout}    ${stderr}    ${rc}=    Execute Remote Command    which iperf3 jq
+    ...    ${src_1_2['ip']}    ${src_1_2['user']}    ${src_1_2['pass']}    ${src_1_2['container_type']}
+    ...    ${src_1_2['container_name']}
+    Pass Execution If    ${rc} != 0    Skipping test: iperf3 / jq not found on the RG
+    # Get Upstream BW Profile details
+    ${limiting_bw_us_1_2}=    Get Limiting Bandwidth Details    ${us_bw_profile_1_2}
+    # Find 2nd record of the ONU (onu_<onu-1/2>_<tcont-1/2/3/4/5>) as required for this test
+    ${onu_1_4}=    Set Variable    ${multi_tcont_tests.tcont2tcont4[1]}
+    ${onu_sn_1_4}=    Set Variable    ${onu_1_4['onu']}
+    ${service_type_1_4}=    Set Variable    ${onu_1_4['service_type']}
+    ${us_bw_profile_1_4}=    Set Variable    ${onu_1_4['us_bw_profile']}
+    ${matched}    ${src_1_4}    ${dst_1_4}=    Get ONU details with Given Sn and Service    ${onu_sn_1_4}    ${service_type_1_4}
+    ...    ${us_bw_profile_1_4}
+    Pass Execution If    '${matched}' != 'True'
+    ...    Skipping test: No ONU found with sn '${onu_sn_1_4}', service '${service_type_1_4}' and us_bw '${us_bw_profile_1_4}'
+    # Check for iperf3 and jq tools
+    ${stdout}    ${stderr}    ${rc}=    Execute Remote Command    which iperf3 jq
+    ...    ${src_1_4['ip']}    ${src_1_4['user']}    ${src_1_4['pass']}    ${src_1_4['container_type']}
+    ...    ${src_1_4['container_name']}
+    Pass Execution If    ${rc} != 0    Skipping test: iperf3 / jq not found on the RG
+    # Get Upstream BW Profile details
+    ${limiting_bw_us_1_4}=    Get Limiting Bandwidth Details    ${us_bw_profile_1_4}
+    # Case 1: Verify only for HSIA service
+    # Stream UDP packets from RG to server
+    ${updict}=    Run Iperf3 Test Client    ${src_1_4}    server=${dst_1_4['dp_iface_ip_qinq']}
+    ...    args=-t 30 -p 5202
+    ${actual_upstream_bw_used}=    Evaluate    ${updict['end']['sum_received']['bits_per_second']}/1000
+    ${pct_limit_up}=    Evaluate    100*${actual_upstream_bw_used}/${limiting_bw_us_1_4}
+    Should Be True    ${pct_limit_up} >= ${lower_margin_pct}
+    ...    The upstream bandwidth guarantee was not met (${pct_limit_up}% of resv)
+    # TODO: Case 2: Verify for VOD and HSIA service combined
+
 *** Keywords ***
 Get ONU details with Given Sn and Service
     [Documentation]    This keyword finds the ONU details (as required for multi-tcont test)
@@ -113,6 +171,7 @@ Get ONU details with Given Sn and Service
         ${onu_port}=    Wait Until Keyword Succeeds    ${timeout}    2s    Get ONU Port in ONOS    ${src['onu']}    ${of_id}
         ${subscriber_id}=    Set Variable    ${of_id}/${onu_port}
         ${us_bw}    Get Bandwidth Profile Name For Given Subscriber    ${subscriber_id}    upstreamBandwidthProfile
+        ...    ${service_type}
         ${matched}=    Set Variable If
         ...    '${onu}' == '${onu_sn}' and '${service}' == '${service_type}' and ${us_bw} == '${us_bw_profile}'
         ...    True    False
