@@ -200,6 +200,47 @@ Verify re-provisioning subscriber after removing provisoned subscriber for TT
         ...    ${dst}    ${suppressaddsubscriber}
     END
 
+Test Disable and Enable ONU for TT
+    [Documentation]    Validates E2E Ping Connectivity and object states for the given scenario:
+    ...    Assuming that all the ONUs are DHCP/pingable (i.e. assuming sanitytt test was executed)
+    ...    Perform disable on the ONUs and validate that the pings do not succeed
+    ...    Perform enable on the ONUs and validate that the pings are successful
+    [Tags]    functionalTT    DisableEnableONUTT
+    [Setup]    Start Logging    DisableEnableONUTT
+    [Teardown]    Run Keywords    Collect Logs
+    ...           AND             Stop Logging    DisableEnableONUTT
+    FOR    ${I}    IN RANGE    0    ${num_all_onus}
+        ${src}=    Set Variable    ${hosts.src[${I}]}
+        ${dst}=    Set Variable    ${hosts.dst[${I}]}
+        ${service_type}=    Get Variable Value    ${src['service_type']}    "null"
+        ${of_id}=    Get ofID From OLT List    ${src['olt']}
+        ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
+        ${onu_port}=    Wait Until Keyword Succeeds    ${timeout}    2s    Get ONU Port in ONOS    ${src['onu']}
+        ...    ${of_id}
+        Disable Device    ${onu_device_id}
+        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
+        ...    Validate Device    DISABLED    UNKNOWN
+        ...    REACHABLE    ${src['onu']}    onu=True    onu_reason=omci-admin-lock
+        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds   ${timeout}    2s
+        ...    Verify ONU Port Is Disabled   ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${src['onu']}
+        Run Keyword If    ${has_dataplane}    Run Keyword And Continue On Failure
+        ...    Wait Until Keyword Succeeds    60s    2s
+        ...    Check Ping    False    ${dst['dp_iface_ip_qinq']}    ${src['dp_iface_name']}
+        ...    ${src['ip']}    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
+        Sleep    5s
+        Enable Device    ${onu_device_id}
+        Run Keyword If    ${has_dataplane} and '${service_type}' == 'mcast'    Clean Up Linux
+        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds   ${timeout}    2s
+        ...    Verify ONU Port Is Enabled   ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${src['onu']}
+        Run Keyword If    ${has_dataplane} and '${service_type}' != 'mcast'    Run Keyword And Continue On Failure
+        ...    Wait Until Keyword Succeeds    ${timeout}    2s
+        ...    Check Ping    True    ${dst['dp_iface_ip_qinq']}    ${src['dp_iface_name']}
+        ...    ${src['ip']}    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
+        ...    ELSE IF    ${has_dataplane} and '${service_type}' == 'mcast'    Run Keyword And Continue On Failure
+        ...    Wait Until Keyword Succeeds    ${timeout}    2s    Sanity Test TT MCAST one ONU    ${src}
+        ...    ${dst}    ${suppressaddsubscriber}
+    END
+
 *** Keywords ***
 Setup Suite
     [Documentation]    Set up the test suite
