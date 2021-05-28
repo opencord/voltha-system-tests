@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ad8ac724_9ec7866c",
+        "filename": "tests/data/menlo-certification-pod-radisys-gpon-sadis-DT.json",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2021-05-28T07:53:45Z",
+      "side": 1,
+      "message": "I think formatting in this file is off",
+      "revId": "16093ea22b331ede7a402c4b3a828942a9f98882",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    }
+  ]
+}
