@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "588b8fc0_339e86f0",
+        "filename": "tests/tt-workflow/Voltha_TT_PODTests.robot",
+        "patchSetId": 3
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2021-05-28T12:56:47Z",
+      "side": 1,
+      "message": "Update the documentation. This should be for TT.",
+      "range": {
+        "startLine": 164,
+        "startChar": 71,
+        "endLine": 164,
+        "endChar": 79
+      },
+      "revId": "43797ff64cbe0a52f2a6c4ef7e9038d8557744fe",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "210adb19_5a8571c1",
+        "filename": "tests/tt-workflow/Voltha_TT_PODTests.robot",
+        "patchSetId": 3
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2021-05-28T12:56:47Z",
+      "side": 1,
+      "message": "Can be removed depending if the TC previous to this has Sanity as last step.",
+      "range": {
+        "startLine": 171,
+        "startChar": 4,
+        "endLine": 171,
+        "endChar": 105
+      },
+      "revId": "43797ff64cbe0a52f2a6c4ef7e9038d8557744fe",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aa37c04d_76ff418c",
+        "filename": "tests/tt-workflow/Voltha_TT_PODTests.robot",
+        "patchSetId": 3
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2021-05-28T12:56:47Z",
+      "side": 1,
+      "message": "Don\u0027t see this defined anywhere in the test/suite. Tried to run the TC on ONF Pod, it failed for the same reason. https://jenkins.opencord.org/job/build_flex-ocp-cord_TP_TT_voltha_master_manual_test/32/console",
+      "range": {
+        "startLine": 201,
+        "startChar": 25,
+        "endLine": 201,
+        "endChar": 49
+      },
+      "revId": "43797ff64cbe0a52f2a6c4ef7e9038d8557744fe",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    }
+  ]
+}
