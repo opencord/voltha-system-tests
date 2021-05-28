@@ -106,7 +106,7 @@ Test Disable and Delete OLT for TT
     ...    Assuming that all the ONUs are DHCP/pingable (i.e. assuming sanityTt test was executed)
     ...    Perform disable on the OLT and validate ONUs state and that the pings do not succeed
     ...    Perform delete on the OLT, Re-do Setup (Recreate the OLT) and Perform Sanity Test TT
-    [Tags]    functionalTT    DisableDeleteOLTTt
+    [Tags]    functionalTT    DisableDeleteOLTTt    notready
     [Setup]    Start Logging    DisableDeleteOLTTt
     [Teardown]    Run Keywords    Collect Logs
     ...           AND             Stop Logging    DisableDeleteOLTTt
