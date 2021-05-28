@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "791a7cb2_2cf0620d",
+        "filename": "tests/tt-workflow/Voltha_TT_PODTests.robot",
+        "patchSetId": 5
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2021-05-28T12:39:58Z",
+      "side": 1,
+      "message": "I think this can be removed from here since in the above TC sanity is the last step.",
+      "range": {
+        "startLine": 169,
+        "startChar": 4,
+        "endLine": 169,
+        "endChar": 78
+      },
+      "revId": "5acc82e9026860aba662ada13d7c7fd397243a45",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ae28569a_6c637080",
+        "filename": "tests/tt-workflow/Voltha_TT_PODTests.robot",
+        "patchSetId": 5
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2021-05-28T12:39:58Z",
+      "side": 1,
+      "message": "Please put this in IF check:\nRun Keyword If    ${has_dataplane} and \u0027${service_type}\u0027 !\u003d \u0027mcast\u0027",
+      "range": {
+        "startLine": 181,
+        "startChar": 8,
+        "endLine": 183,
+        "endChar": 119
+      },
+      "revId": "5acc82e9026860aba662ada13d7c7fd397243a45",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "160dd842_f6bacead",
+        "filename": "tests/tt-workflow/Voltha_TT_PODTests.robot",
+        "patchSetId": 5
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2021-05-28T12:39:58Z",
+      "side": 1,
+      "message": "I tried to execute it on ONF pod and see failure for one of the case. Please check and fix accordingly. https://jenkins.opencord.org/job/build_flex-ocp-cord_TP_TT_voltha_master_manual_test/31/robot/report/tt-workflow/FunctionalTests/log.html",
+      "range": {
+        "startLine": 193,
+        "startChar": 1,
+        "endLine": 196,
+        "endChar": 119
+      },
+      "revId": "5acc82e9026860aba662ada13d7c7fd397243a45",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "858bb544_e3310dc5",
+        "filename": "tests/tt-workflow/Voltha_TT_PODTests.robot",
+        "patchSetId": 5
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2021-05-28T12:39:58Z",
+      "side": 1,
+      "message": "For more correct validation, pass supress-add-subscriber set to True as subscriber is already added above. https://github.com/opencord/voltha-system-tests/blob/master/libraries/utils.robot#L466",
+      "range": {
+        "startLine": 198,
+        "startChar": 66,
+        "endLine": 199,
+        "endChar": 21
+      },
+      "revId": "5acc82e9026860aba662ada13d7c7fd397243a45",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    }
+  ]
+}
