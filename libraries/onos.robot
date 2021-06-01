@@ -617,17 +617,32 @@ Assert ONU Port Is Disabled
 
 Assert Olts in ONOS
     [Arguments]    ${onos_ssh_connection}     ${count}
-    [Documentation]    Check that a certain number of olts are known to ONOS
+    [Documentation]    DEPRECATED use Assert Olt in ONOS
+    ...     Check that a certain number of olts are known to ONOS
     ${olts}=    Execute ONOS CLI Command on open connection     ${onos_ssh_connection}
         ...    volt-olts | wc -l
     Log     Found ${olts} of ${count} expected Olts
     Should Be Equal As Integers    ${olts}    ${count}
 
+Assert Olt in ONOS
+    [Arguments]    ${onos_ssh_connection}     ${deviceId}
+    [Documentation]    Check that a particular olt is known to ONOS
+    ${olts}=    Execute ONOS CLI Command on open connection     ${onos_ssh_connection}
+        ...    volt-olts | grep ${deviceId} | wc -l
+    Should Be Equal As Integers    ${olts}    1   "Device ${deviceId} is not recognized as an OLT"
+
 Wait for Olts in ONOS
     [Arguments]    ${onos_ssh_connection}    ${count}   ${max_wait_time}=10m
-    [Documentation]    Waits untill a certain number of ports are enabled in ONOS for a particular deviceId
+    [Documentation]    DEPRECATED use Wait for Olt in ONOS
+    ...     Waits untill a certain number of ports are enabled in ONOS for a particular deviceId
     Wait Until Keyword Succeeds     ${max_wait_time}     5s      Assert Olts in ONOS
     ...     ${onos_ssh_connection}     ${count}
+
+Wait for Olt in ONOS
+    [Arguments]    ${onos_ssh_connection}    ${deviceId}   ${max_wait_time}=10m
+    [Documentation]    Waits until a particular deviceId is recognized by ONOS as an OLT
+    Wait Until Keyword Succeeds     ${max_wait_time}     5s      Assert Olt in ONOS
+    ...     ${onos_ssh_connection}     ${deviceId}
 
 Assert Ports in ONOS
     [Arguments]    ${onos_ssh_connection}     ${count}     ${deviceId}    ${filter}
