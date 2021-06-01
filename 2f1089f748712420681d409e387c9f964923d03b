@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5d93f566_075081cf",
+        "filename": "tests/tt-workflow/Voltha_TT_PODTests.robot",
+        "patchSetId": 4
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2021-06-01T15:09:25Z",
+      "side": 1,
+      "message": "Remove the \u0027notready\u0027 tag",
+      "range": {
+        "startLine": 111,
+        "startChar": 52,
+        "endLine": 111,
+        "endChar": 60
+      },
+      "revId": "2f1089f748712420681d409e387c9f964923d03b",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    }
+  ]
+}
