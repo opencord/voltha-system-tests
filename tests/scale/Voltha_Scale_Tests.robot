@@ -103,7 +103,10 @@ Create and Enable devices
 OLTs in ONOS
     [Documentation]  Check that ONOS recognize the correct number of OLTs
     [Tags]  activation  plot-onos-olts
-    Wait for Olts in ONOS   ${onos_ssh_connection}  ${olt}
+    ${onos_devices}=    Compute Device IDs
+    FOR     ${deviceId}     IN  @{onos_devices}
+        Wait for Olt in ONOS   ${onos_ssh_connection}  ${deviceId}
+    END
 
 Onu Activation in VOLTHA
     [Documentation]    Check that all ONUs reach the ACTIVE/ENABLED state in VOLTHA
