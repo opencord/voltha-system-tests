@@ -22,6 +22,29 @@
       "revId": "2f1089f748712420681d409e387c9f964923d03b",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "75107fe1_a905aa71",
+        "filename": "tests/tt-workflow/Voltha_TT_PODTests.robot",
+        "patchSetId": 4
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2021-06-01T15:48:26Z",
+      "side": 1,
+      "message": "This is repetitive (same as above).",
+      "range": {
+        "startLine": 133,
+        "startChar": 0,
+        "endLine": 134,
+        "endChar": 35
+      },
+      "revId": "2f1089f748712420681d409e387c9f964923d03b",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
     }
   ]
 }
