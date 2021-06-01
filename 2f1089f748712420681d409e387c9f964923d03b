@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "940f57bb_d88d3b59",
+        "filename": "tests/tt-workflow/Voltha_TT_PODTests.robot",
+        "patchSetId": 4
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1000804
+      },
+      "writtenOn": "2021-06-01T17:59:57Z",
+      "side": 1,
+      "message": "OK!",
+      "parentUuid": "5d93f566_075081cf",
+      "range": {
+        "startLine": 111,
+        "startChar": 52,
+        "endLine": 111,
+        "endChar": 60
+      },
+      "revId": "2f1089f748712420681d409e387c9f964923d03b",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "75107fe1_a905aa71",
         "filename": "tests/tt-workflow/Voltha_TT_PODTests.robot",
         "patchSetId": 4
@@ -36,6 +60,30 @@
       "writtenOn": "2021-06-01T15:48:26Z",
       "side": 1,
       "message": "This is repetitive (same as above).",
+      "range": {
+        "startLine": 133,
+        "startChar": 0,
+        "endLine": 134,
+        "endChar": 35
+      },
+      "revId": "2f1089f748712420681d409e387c9f964923d03b",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e9af2bad_bcf7d04a",
+        "filename": "tests/tt-workflow/Voltha_TT_PODTests.robot",
+        "patchSetId": 4
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1000804
+      },
+      "writtenOn": "2021-06-01T17:59:57Z",
+      "side": 1,
+      "message": "This is same as DT, do I need to remove it?",
+      "parentUuid": "75107fe1_a905aa71",
       "range": {
         "startLine": 133,
         "startChar": 0,
