@@ -93,6 +93,30 @@
       "revId": "2f1089f748712420681d409e387c9f964923d03b",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c912b761_12822177",
+        "filename": "tests/tt-workflow/Voltha_TT_PODTests.robot",
+        "patchSetId": 4
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2021-06-02T03:28:50Z",
+      "side": 1,
+      "message": "Nice catch. We need to remove from there as well. You mind taking care of that as well in this patch.",
+      "parentUuid": "e9af2bad_bcf7d04a",
+      "range": {
+        "startLine": 133,
+        "startChar": 0,
+        "endLine": 134,
+        "endChar": 35
+      },
+      "revId": "2f1089f748712420681d409e387c9f964923d03b",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
     }
   ]
 }
