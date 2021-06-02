@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "24473f14_f88ce590",
+        "filename": "libraries/onos.robot",
+        "patchSetId": 4
+      },
+      "lineNbr": 623,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2021-06-02T16:25:33Z",
+      "side": 1,
+      "message": "Indentation",
+      "range": {
+        "startLine": 623,
+        "startChar": 4,
+        "endLine": 623,
+        "endChar": 11
+      },
+      "revId": "e9bfbcc943e6b05d1dec312e42f39a3e67143ac8",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a71b6c9c_cd25f967",
+        "filename": "libraries/onos.robot",
+        "patchSetId": 4
+      },
+      "lineNbr": 631,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2021-06-02T16:25:33Z",
+      "side": 1,
+      "message": "Indentation",
+      "range": {
+        "startLine": 631,
+        "startChar": 5,
+        "endLine": 631,
+        "endChar": 11
+      },
+      "revId": "e9bfbcc943e6b05d1dec312e42f39a3e67143ac8",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    }
+  ]
+}
