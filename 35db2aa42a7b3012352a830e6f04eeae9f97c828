@@ -16,6 +16,24 @@
       "revId": "35db2aa42a7b3012352a830e6f04eeae9f97c828",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5af980fd_8b7da8ac",
+        "filename": "tests/tt-workflow/Voltha_TT_MultiTcontTests.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2021-06-03T13:00:20Z",
+      "side": 1,
+      "message": "Want to make all the multi-tcont TCs independent of each other, so each TC (in-future patches: WIP) will do Setup in the beginning and Delete All Devices and Verify in TC Teardown.",
+      "parentUuid": "ac1eb2e2_07bf4ac7",
+      "revId": "35db2aa42a7b3012352a830e6f04eeae9f97c828",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
     }
   ]
 }
