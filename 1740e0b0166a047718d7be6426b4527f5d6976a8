@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6af63b14_5971ecd1",
+        "filename": "tests/data/menlo-certification-pod-radisys-gpon-sadis-DT.json",
+        "patchSetId": 2
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1000127
+      },
+      "writtenOn": "2021-06-03T18:00:12Z",
+      "side": 1,
+      "message": "54",
+      "range": {
+        "startLine": 78,
+        "startChar": 34,
+        "endLine": 78,
+        "endChar": 36
+      },
+      "revId": "1740e0b0166a047718d7be6426b4527f5d6976a8",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eb023ef8_fde6b230",
+        "filename": "tests/data/menlo-certification-pod-radisys-gpon-sadis-DT.json",
+        "patchSetId": 2
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1000127
+      },
+      "writtenOn": "2021-06-03T18:00:12Z",
+      "side": 1,
+      "message": "55",
+      "range": {
+        "startLine": 95,
+        "startChar": 34,
+        "endLine": 95,
+        "endChar": 36
+      },
+      "revId": "1740e0b0166a047718d7be6426b4527f5d6976a8",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b1d72397_1ecb625a",
+        "filename": "tests/data/menlo-certification-pod-radisys-gpon-sadis-DT.json",
+        "patchSetId": 2
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1000127
+      },
+      "writtenOn": "2021-06-03T18:00:12Z",
+      "side": 1,
+      "message": "should you convert this to IETF format given this is DT workflow?",
+      "range": {
+        "startLine": 114,
+        "startChar": 0,
+        "endLine": 145,
+        "endChar": 16
+      },
+      "revId": "1740e0b0166a047718d7be6426b4527f5d6976a8",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    }
+  ]
+}
