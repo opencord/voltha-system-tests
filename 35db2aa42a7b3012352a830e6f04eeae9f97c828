@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ac1eb2e2_07bf4ac7",
+        "filename": "tests/tt-workflow/Voltha_TT_MultiTcontTests.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2021-06-03T12:53:52Z",
+      "side": 1,
+      "message": "why was this added ?",
+      "revId": "35db2aa42a7b3012352a830e6f04eeae9f97c828",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    }
+  ]
+}
