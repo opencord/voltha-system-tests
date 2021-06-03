@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8d190c25_335ab928",
+        "filename": "libraries/onos.robot",
+        "patchSetId": 16
+      },
+      "lineNbr": 414,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2021-06-03T10:58:08Z",
+      "side": 1,
+      "message": "why are you sleeping here ?\nvalid for all other 1 second sleeps in the keyword",
+      "revId": "e6ec358ddb85448d8608ac2dfd2828818b83126d",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    }
+  ]
+}
