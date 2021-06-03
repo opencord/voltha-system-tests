@@ -69,6 +69,7 @@ Test that the BW is limited to Limiting Bandwidth
     ...        AND             Setup
     [Teardown]    Run Keywords    Collect Logs
     ...           AND             Stop Logging    TcontType1Onu1
+    ...           AND             Delete All Devices and Verify
     Run Keyword If    ${has_dataplane}    Clean Up Linux
     Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Tests TT
     # Find the ONU as required for this test
@@ -113,6 +114,7 @@ Get ONU details with Given Sn and Service
         ${onu_port}=    Wait Until Keyword Succeeds    ${timeout}    2s    Get ONU Port in ONOS    ${src['onu']}    ${of_id}
         ${subscriber_id}=    Set Variable    ${of_id}/${onu_port}
         ${us_bw}    Get Bandwidth Profile Name For Given Subscriber    ${subscriber_id}    upstreamBandwidthProfile
+        ...    ${service_type}
         ${matched}=    Set Variable If
         ...    '${onu}' == '${onu_sn}' and '${service}' == '${service_type}' and ${us_bw} == '${us_bw_profile}'
         ...    True    False
