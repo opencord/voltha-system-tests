@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8425be38_968a8631",
+        "filename": "tests/tt-workflow/Voltha_TT_PODTests.robot",
+        "patchSetId": 6
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 1000127
+      },
+      "writtenOn": "2021-06-03T00:37:55Z",
+      "side": 1,
+      "message": "No need to test DHCP again? The IP at the RG is not lost at the RG, but it may good to test DHCP given that for VoIP and VoD the packets are trapped on ONOS and it may good to verify that the functionality still works on disable/re-enable of ONU.",
+      "range": {
+        "startLine": 204,
+        "startChar": 0,
+        "endLine": 208,
+        "endChar": 48
+      },
+      "revId": "ecbb58880190196cba1c2b5b23a550e4c0a4366a",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    }
+  ]
+}
