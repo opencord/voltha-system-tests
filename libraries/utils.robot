@@ -1195,7 +1195,7 @@ Get Bandwidth Profile Name For Given Subscriber
     ...    Convert To Upper Case    ${service_type}
     ${bandwidth_profile_output}=    Run Keyword If    '${service_type}' != '${EMPTY}'
     ...    Execute ONOS CLI Command    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}
-    ...    volt-programmed-subscribers | grep ${subscriber_id} | grep '${service_type_upper}'
+    ...    volt-programmed-subscribers | grep ${subscriber_id} | grep '${service_type_upper}' --color=never
     ...    ELSE
     ...    Execute ONOS CLI Command    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}
     ...    volt-programmed-subscribers | grep ${subscriber_id}
