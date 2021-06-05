@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d83707d0_2ea26e7b",
+        "filename": "tests/data/menlo-certification-pod-radisys-gpon-sadis.json",
+        "patchSetId": 1
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2021-06-05T12:01:08Z",
+      "side": 1,
+      "message": "IETF based BW profile values for ATT!! Shouldn\u0027t this need to be in MEF format?",
+      "range": {
+        "startLine": 62,
+        "startChar": 0,
+        "endLine": 94,
+        "endChar": 11
+      },
+      "revId": "eb42e026943df2779dbeba3a2addfd456c73ffec",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    }
+  ]
+}
