@@ -94,7 +94,7 @@
                 "ponCTag":4096,
                 "ponSTag":55,
                 "technologyProfileId":64,
-                "upstreamBandwidthProfile":"User_Bandwidth1",
+                "upstreamBandwidthProfile":"User_Bandwidth2",
                 "downstreamBandwidthProfile":"User_Bandwidth3",
                 "isDhcpRequired":false
               }
