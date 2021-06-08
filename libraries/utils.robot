@@ -403,6 +403,44 @@ Perform Sanity Test TT
         ${service_type}=    Get Variable Value    ${src['service_type']}    "null"
         Run Keyword IF    '${service_type}' != 'mcast'    Sanity Test TT one ONU    ${src}    ${dst}    ${supress_add_subscriber}
     END
+    # Verify Subscriber Access Flow Count
+    @{particular_onu_device_port}=      Create List
+    FOR   ${I}    IN RANGE    0    ${num_all_onus}
+        ${src}=    Set Variable    ${hosts.src[${I}]}
+        ${of_id}=    Wait Until Keyword Succeeds    ${timeout}    15s    Validate OLT Device in ONOS    ${src['olt']}
+        ${onu_port}=    Wait Until Keyword Succeeds    ${timeout}    2s    Get ONU Port in ONOS    ${src['onu']}    ${of_id}
+        Append To List  ${particular_onu_device_port}    ${onu_port}
+    END
+    ${list_onu_port}=    Remove Duplicates    ${particular_onu_device_port}
+    ${num_of_provisioned_onus}=    Get Length    ${list_onu_port}
+    FOR    ${I}    IN RANGE    0    ${olt_count}
+        ${olt_serial_number}=    Get From Dictionary    ${olt_ids}[${I}]    sn
+        ${olt_device_id}=    Get OLTDeviceID From OLT List    ${olt_serial_number}
+        ${of_id}=    Get ofID From OLT List    ${olt_serial_number}
+        ${num_onus}=    Set Variable    ${list_olts}[${I}][onucount]
+        # Verify ONOS Flows
+        # Number of Access Flows on ONOS equals 16 * the Number of Active ONUs + 3 for default LLDP, IGMP and DHCP
+        ${onos_flows_count}=    Run Keyword If    ${has_dataplane}    Evaluate    16 * ${num_of_provisioned_onus} + 3
+        ...    ELSE    Evaluate    15 * ${num_of_provisioned_onus} + 3
+        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
+        ...    Verify Added Flow Count for OLT TT    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${of_id}
+        ...    ${onos_flows_count}
+        # Verify VOLTHA Flows
+        # Number of per OLT Flows equals 10 * Number of Active ONUs  + 3 for default LLDP, IGMP and DHCP
+        ${olt_flows}=    Run Keyword If    ${has_dataplane}    Evaluate    10 * ${num_of_provisioned_onus} + 3
+        ...    ELSE    Evaluate    9 * ${num_of_provisioned_onus} + 3
+        # Number of per ONU Flows equals 6 for 3play service data plane + 4 for Trap to Host Flows
+        ${onu_flows}=    Run Keyword If    ${has_dataplane}    Set Variable    10
+        ...    ELSE    Set Variable    9
+        Run Keyword    Wait Until Keyword Succeeds    ${timeout}    5s    Validate OLT Flows    ${olt_flows}
+        ...    ${olt_device_id}
+        ${List_ONU_Serial}    Create List
+        Set Suite Variable    ${List_ONU_Serial}
+        Build ONU SN List    ${List_ONU_Serial}    ${olt_serial_number}    ${num_onus}
+        Log    ${List_ONU_Serial}
+        Run Keyword    Wait Until Keyword Succeeds    ${timeout}    5s    Validate ONU Flows
+        ...    ${List_ONU_Serial}    ${onu_flows}
+    END
 
 Sanity Test TT one ONU
     [Documentation]    This keyword performs sanity test for a single ONU for TT workflow
