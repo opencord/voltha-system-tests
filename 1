@@ -430,8 +430,7 @@ Perform Sanity Test TT
         ${olt_flows}=    Run Keyword If    ${has_dataplane}    Evaluate    10 * ${num_of_provisioned_onus} + 3
         ...    ELSE    Evaluate    9 * ${num_of_provisioned_onus} + 3
         # Number of per ONU Flows equals 6 for 3play service data plane + 4 for Trap to Host Flows
-        ${onu_flows}=    Run Keyword If    ${has_dataplane}    Set Variable    10
-        ...    ELSE    Set Variable    9
+        ${onu_flows}=    Set Variable    10
         Run Keyword    Wait Until Keyword Succeeds    ${timeout}    5s    Validate OLT Flows    ${olt_flows}
         ...    ${olt_device_id}
         ${List_ONU_Serial}    Create List
