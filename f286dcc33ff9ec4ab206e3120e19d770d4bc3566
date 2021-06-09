@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "958a0696_682698bb",
+        "filename": "tests/tt-workflow/Voltha_TT_MultiTcontTests.robot",
+        "patchSetId": 13
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1000064
+      },
+      "writtenOn": "2021-06-09T05:29:59Z",
+      "side": 1,
+      "message": "Test looks good. Please update the naming conventions for all the variables as per our discussion",
+      "revId": "f286dcc33ff9ec4ab206e3120e19d770d4bc3566",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    }
+  ]
+}
