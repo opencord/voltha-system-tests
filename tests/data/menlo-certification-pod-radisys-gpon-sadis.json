@@ -22,7 +22,6 @@
             "remoteId":"SCOMa0108af9",
             "uniTagList":[
               {
-                "uniTagMatch":4096,
                 "ponCTag":41,
                 "ponSTag":44,
                 "technologyProfileId":64,
@@ -39,7 +38,6 @@
             "remoteId":"SCOMa0108aea",
             "uniTagList":[
               {
-                "uniTagMatch":4096,
                 "ponCTag":42,
                 "ponSTag":44,
                 "technologyProfileId":64,
