@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "0ffee0c8_36aa7251",
+        "filename": "tests/tt-workflow/Voltha_TT_MultiTcontTests.robot",
+        "patchSetId": 13
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2021-06-09T07:45:51Z",
+      "side": 1,
+      "message": "HSIA",
+      "revId": "f286dcc33ff9ec4ab206e3120e19d770d4bc3566",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "958a0696_682698bb",
         "filename": "tests/tt-workflow/Voltha_TT_MultiTcontTests.robot",
         "patchSetId": 13
@@ -13,6 +30,40 @@
       "writtenOn": "2021-06-09T05:29:59Z",
       "side": 1,
       "message": "Test looks good. Please update the naming conventions for all the variables as per our discussion",
+      "revId": "f286dcc33ff9ec4ab206e3120e19d770d4bc3566",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c79edcec_d60ae673",
+        "filename": "tests/tt-workflow/Voltha_TT_MultiTcontTests.robot",
+        "patchSetId": 13
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2021-06-09T07:45:51Z",
+      "side": 1,
+      "message": "does this mean that something went wrong in the test/was un properly configured ? the ONU should be there, wondering if instead of skipping we ought to fail the test. Valid for all other entries.",
+      "revId": "f286dcc33ff9ec4ab206e3120e19d770d4bc3566",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b32d2836_bf0001a8",
+        "filename": "tests/tt-workflow/Voltha_TT_MultiTcontTests.robot",
+        "patchSetId": 13
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2021-06-09T07:45:51Z",
+      "side": 1,
+      "message": "we should get also the PID of the process and make sure to kill it or wait for it to be killed, so we do not have to sleep for a \"random\" 35s",
       "revId": "f286dcc33ff9ec4ab206e3120e19d770d4bc3566",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
       "unresolved": true
