@@ -21,7 +21,7 @@ ROOT_DIR  := $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
 # Configuration and lists of files for linting/testing
 VERSION   ?= $(shell cat ./VERSION)
 LINT_ARGS ?= --verbose --configure LineTooLong:130 -e LineTooLong \
-             --configure TooManyTestSteps:50 -e TooManyTestSteps \
+             --configure TooManyTestSteps:60 -e TooManyTestSteps \
              --configure TooManyTestCases:50 -e TooManyTestCases \
              --configure TooFewTestSteps:1 \
              --configure TooFewKeywordSteps:1 \
