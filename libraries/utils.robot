@@ -40,7 +40,7 @@ Check CLI Tools Configured
 Send File To Onos
     [Documentation]    Send the content of the file to Onos to selected section of configuration
     ...   using Post Request
-    [Arguments]    ${CONFIG_FILE}    ${section}
+    [Arguments]    ${CONFIG_FILE}    ${section}=${EMPTY}
     ${Headers}=    Create Dictionary    Content-Type    application/json
     ${File_Data}=    OperatingSystem.Get File    ${CONFIG_FILE}
     Log    ${Headers}
