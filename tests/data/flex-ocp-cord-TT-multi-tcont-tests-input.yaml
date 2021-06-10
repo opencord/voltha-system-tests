@@ -23,10 +23,13 @@ multi_tcont_tests:
       service_type: 'voip'
       us_bw_profile: 'TCONT_TYPE1_200Mbps_Fixed_ForVOIP'
   tcont1tcont4:
+    - onu: 'ALPHe3d1cfa7'
+      service_type: 'voip'
+      us_bw_profile: 'TCONT_TYPE1_Fixed8.7Gbps'
     -
       onu: 'ALPHe3d1cea3'
-      service_type: 'voip'
-      us_bw_profile: 'TCONT_TYPE1_200Mbps_Fixed_ForVOIP'
+      service_type: 'hsia'
+      us_bw_profile: 'TCONT_TYPE4_1Gbps_Peak_User1_HSI_Upstream'
     -
       onu: 'ALPHe3d1cea3'
       service_type: 'hsia'
