@@ -25,10 +25,10 @@ multi_tcont_tests:
   tcont1tcont4:
     -
       onu: 'ALPHe3d1cea3'
-      service_type: 'voip'
-      us_bw_profile: 'TCONT_TYPE1_200Mbps_Fixed_ForVOIP'
+      service_type: 'hsia'
+      us_bw_profile: 'TCONT_TYPE4_1Gbps_Peak_User1_HSI_Upstream'
     -
-      onu: 'ALPHe3d1cea3'
+      onu: 'ALPHe3d1ceb7'
       service_type: 'hsia'
       us_bw_profile: 'TCONT_TYPE4_1Gbps_Peak_User1_HSI_Upstream'
   tcont2tcont4:
@@ -60,3 +60,11 @@ multi_tcont_tests:
 # yamllint disable
       us_bw_profile: 'TCONT_TYPE5_1Gbps_Peak_500Mbps_Assured_200Mbps_Fixed_User1_HSI_Upstream'
 # yamllint enable
+
+# Fixed Bandwidth Profile ONUs required to fill OLT PON Bandwidth
+onus_fill_pon_bw:
+  -
+    serial: 'ALPHe3d1cfa7'
+    olt: 'EC1838000853'
+    service_type: 'voip'
+    us_bw_profile: 'TCONT_TYPE1_Fixed8.7Gbps'
