@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "952d75ae_a228f02d",
+        "filename": "libraries/voltctl.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2021-06-10T10:15:02Z",
+      "side": 1,
+      "message": "Thanks Teo. I have added the `Note` below L-168 to mention the same. Will make it more elaborate.\n\nNew keywords will be too much of a task and still doing the same for rest of the logic. I prefer to use this only.",
+      "parentUuid": "195355fb_f70e5626",
+      "range": {
+        "startLine": 165,
+        "startChar": 76,
+        "endLine": 165,
+        "endChar": 81
+      },
+      "revId": "b8aa2d9444c8b24f59d79742e82c73e0f6e5cbe5",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c8c89064_7731ab71",
         "filename": "libraries/voltctl.robot",
         "patchSetId": 2
@@ -93,6 +117,30 @@
       "revId": "b8aa2d9444c8b24f59d79742e82c73e0f6e5cbe5",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2e4d195f_41241a1c",
+        "filename": "libraries/voltctl.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2021-06-10T10:15:02Z",
+      "side": 1,
+      "message": "Yes, Teo. Another iteration coming up with this change.",
+      "parentUuid": "fcafeba1_e3e80386",
+      "range": {
+        "startLine": 170,
+        "startChar": 11,
+        "endLine": 170,
+        "endChar": 89
+      },
+      "revId": "b8aa2d9444c8b24f59d79742e82c73e0f6e5cbe5",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
     }
   ]
 }
