@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e50d6890_806a3cd8",
+        "filename": "tests/tt-workflow/Voltha_TT_MultiTcontTests.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2021-06-10T16:04:54Z",
+      "side": 1,
+      "message": "Use word assured or AIR",
+      "range": {
+        "startLine": 170,
+        "startChar": 14,
+        "endLine": 170,
+        "endChar": 17
+      },
+      "revId": "871f5f10bdd3352681b2214e73d7784e4f9e3a4e",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9cedb0ba_c1b9e9d1",
+        "filename": "tests/tt-workflow/Voltha_TT_MultiTcontTests.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2021-06-10T16:04:54Z",
+      "side": 1,
+      "message": "AIR",
+      "range": {
+        "startLine": 172,
+        "startChar": 62,
+        "endLine": 172,
+        "endChar": 66
+      },
+      "revId": "871f5f10bdd3352681b2214e73d7784e4f9e3a4e",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    }
+  ]
+}
