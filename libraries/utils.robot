@@ -618,7 +618,7 @@ Setup
         #Set Suite Variable    ${olt_device_id}
         #validate olt states
         Wait Until Keyword Succeeds    ${timeout}    5s
-        ...    Validate OLT Device    PREPROVISIONED    UNKNOWN    UNKNOWN    ${olt_device_id}
+        ...    Validate OLT Device    PREPROVISIONED    UNKNOWN    UNKNOWN    ${olt_device_id}    by_dev_id=True
         Sleep    5s
         Enable Device    ${olt_device_id}
         # Increasing the timer to incorporate wait time for in-band

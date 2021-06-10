@@ -165,9 +165,14 @@ Validate Device
     ...    Parses the output of "voltctl device list" and inspects a device ${id}, specified as either
     ...    the serial number or device ID. Arguments are matched for device states of: "admin_state",
     ...    "oper_status", and "connect_status"
+    ...    Note: Set "by_dev_id" to True if Device Id is passed for validation
+    ...    otherwise look up will be based on Device Serial Number
     [Arguments]    ${admin_state}    ${oper_status}    ${connect_status}
-    ...    ${id}=${EMPTY}    ${onu_reason}=${EMPTY}    ${onu}=False
-    ${rc}    ${output}=    Run and Return Rc and Output    voltctl -c ${VOLTCTL_CONFIG} device list -m 8MB -o json
+    ...    ${id}    ${onu_reason}=${EMPTY}    ${onu}=False    ${by_dev_id}=False
+    ${rc}    ${output}=    Run Keyword If    ${by_dev_id}    Run and Return Rc and Output
+    ...    voltctl -c ${VOLTCTL_CONFIG} device list -m 8MB -f Id=${id} -o json
+    ...    ELSE    Run and Return Rc and Output
+    ...    voltctl -c ${VOLTCTL_CONFIG} device list -m 8MB -f SerialNumber=${id} -o json
     Should Be Equal As Integers    ${rc}    0
     ${jsondata}=    To Json    ${output}
     Log     ${output}
@@ -210,10 +215,12 @@ Validate Device
     ...    Device ${sn} mib_state incorrect (${mib_state}) values=False
 
 Validate OLT Device
-    [Arguments]    ${admin_state}    ${oper_status}    ${connect_status}    ${id}=${EMPTY}
+    [Arguments]    ${admin_state}    ${oper_status}    ${connect_status}    ${id}    ${by_dev_id}=False
     [Documentation]    Parses the output of "voltctl device list" and inspects device ${id}, specified
     ...    as either its serial numbner or device ID. Match on OLT Serial number or Device Id and inspect states
-    Validate Device    ${admin_state}    ${oper_status}    ${connect_status}    ${id}
+    ...    Note: Set "by_dev_id" to True if Device Id is passed for validation
+    ...    otherwise look up will be based on Device Serial Number
+    Validate Device    ${admin_state}    ${oper_status}    ${connect_status}    ${id}    by_dev_id=${by_dev_id}
 
 Validate OLT Devices
     [Arguments]    ${admin_state}    ${oper_status}    ${connect_status}    ${ids}=${EMPTY}
@@ -222,7 +229,7 @@ Validate OLT Devices
     FOR   ${I}    IN RANGE    0    ${olt_count}
         ${olt_serial_number}=    Get From Dictionary    ${olt_ids}[${I}]    sn
         ${olt_device_id}=    Get OLTDeviceID From OLT List    ${olt_serial_number}
-        Validate Device    ${admin_state}    ${oper_status}    ${connect_status}    ${olt_device_id}
+        Validate Device    ${admin_state}    ${oper_status}    ${connect_status}    ${olt_device_id}    by_dev_id=True
     END
 
 Validate ONU Devices

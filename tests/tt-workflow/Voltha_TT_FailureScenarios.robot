@@ -436,7 +436,7 @@ Sanity E2E Test for OLT/ONU on POD With Core Fail and Restart for TT
         ...    ${of_id}
         # Bring up the device and verify it authenticates
         Wait Until Keyword Succeeds    360s    5s    Validate Device    ENABLED    ACTIVE    REACHABLE
-        ...    ${onu_device_id}    onu=True    onu_reason=initial-mib-downloaded
+        ...    ${onu_device_id}    onu=True    onu_reason=initial-mib-downloaded    by_dev_id=True
     END
 
     # Scale down the rw-core deployment to 0 PODs and once confirmed, scale it back to 1

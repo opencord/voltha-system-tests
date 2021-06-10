@@ -82,7 +82,7 @@ Adding the same OLT before and after enabling the device
         ...    ELSE    Create Device    ${olt_ip}    ${olt_port}    ${list_olts}[${I}][type]
         Set Suite Variable    ${olt_device_id}
         Wait Until Keyword Succeeds    ${timeout}    5s    Validate OLT Device    PREPROVISIONED    UNKNOWN    UNKNOWN
-        ...    ${olt_device_id}
+        ...    ${olt_device_id}    by_dev_id=True
         ${rc}    ${output}=    Run and Return Rc and Output
         ...    voltctl -c ${VOLTCTL_CONFIG} device create -t openolt -H ${olt_ip}:${olt_port}
         Should Not Be Equal As Integers    ${rc}    0
@@ -202,7 +202,7 @@ Check disabling of pre-provisioned OLT before enabling
         Set Suite Variable    ${olt_device_id}
         #validate olt states
         Wait Until Keyword Succeeds    ${timeout}    5s    Validate OLT Device    PREPROVISIONED    UNKNOWN
-        ...    UNKNOWN    ${olt_device_id}
+        ...    UNKNOWN    ${olt_device_id}    by_dev_id=True
         #Try disabling pre-provisioned OLT
         ${rc}    ${output}=    Run and Return Rc and Output
         ...    voltctl -c ${VOLTCTL_CONFIG} device disable ${olt_device_id}
@@ -250,7 +250,7 @@ Disable and Delete the logical device directly
         Set Suite Variable    ${olt_device_id}
         #validate olt states
         Wait Until Keyword Succeeds    ${timeout}    5s    Validate OLT Device    PREPROVISIONED    UNKNOWN
-        ...    UNKNOWN    ${olt_device_id}
+        ...    UNKNOWN    ${olt_device_id}    by_dev_id=True
         #Enable the created OLT device
         Enable Device    ${olt_device_id}
         Wait Until Keyword Succeeds    ${timeout}    5s    Validate OLT Device    ENABLED    ACTIVE
@@ -300,7 +300,7 @@ Check logical device creation and deletion
         ...    ELSE    Create Device    ${olt_ip}    ${olt_port}    ${list_olts}[${I}][type]
         Set Suite Variable    ${olt_device_id}
         Wait Until Keyword Succeeds    ${timeout}    5s    Validate OLT Device    PREPROVISIONED    UNKNOWN
-        ...    UNKNOWN    ${olt_device_id}
+        ...    UNKNOWN    ${olt_device_id}    by_dev_id=True
         Enable Device    ${olt_device_id}
         Wait Until Keyword Succeeds    ${timeout}    5s    Validate OLT Device    ENABLED    ACTIVE    REACHABLE
         ...    ${olt_serial_number}

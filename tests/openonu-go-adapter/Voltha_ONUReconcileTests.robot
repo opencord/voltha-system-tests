@@ -212,7 +212,7 @@ Setup Test
         ${olt_serial_number}=    Set Variable    ${list_olts}[${I}][sn]
         #validate olt states
         Wait Until Keyword Succeeds    ${timeout}    5s
-        ...    Validate OLT Device    PREPROVISIONED    UNKNOWN    UNKNOWN    ${olt_device_id}
+        ...    Validate OLT Device    PREPROVISIONED    UNKNOWN    UNKNOWN    ${olt_device_id}    by_dev_id=True
         Sleep    5s
         ${logical_id}=    Get Logical Device ID From SN    ${olt_serial_number}
         ${olt}    Create Dictionary    device_id    ${olt_device_id}    logical_id    ${logical_id}
