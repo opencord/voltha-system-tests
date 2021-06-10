@@ -376,7 +376,7 @@ Check Mib State on OLT recreation after ONU, OLT deletion
     ...    ELSE    Create Device    ${list_olts}[${I}][ip]    ${list_olts}[${I}][oltport]    ${list_olts}[${I}][type]
     Set Suite Variable    ${olt_device_id}
     Wait Until Keyword Succeeds    ${timeout}    5s    Validate OLT Device    PREPROVISIONED
-    ...    UNKNOWN    UNKNOWN    ${olt_device_id}
+    ...    UNKNOWN    UNKNOWN    ${olt_device_id}    by_dev_id=True
     Enable Device    ${olt_device_id}
     Wait Until Keyword Succeeds    ${timeout}    5s    Validate OLT Device    ENABLED    ACTIVE    REACHABLE
     ...    ${olt_serial_number}

@@ -284,7 +284,7 @@ Verify openolt adapter restart before subscriber provisioning
 
         # Bring up the device and verify it authenticates
         Wait Until Keyword Succeeds    360s    5s    Validate Device        ENABLED    ACTIVE    REACHABLE
-        ...    ${onu_device_id}    onu=True    onu_reason=omci-flows-pushed
+        ...    ${onu_device_id}    onu=True    onu_reason=omci-flows-pushed    by_dev_id=True
         Wait Until Keyword Succeeds    ${timeout}    2s    Verify Eapol Flows Added For ONU    ${ONOS_SSH_IP}
         ...    ${ONOS_SSH_PORT}    ${onu_port}
         ${wpa_log}=    Run Keyword If    ${has_dataplane}    Catenate    SEPARATOR=.
@@ -519,7 +519,7 @@ Sanity E2E Test for OLT/ONU on POD With Core Fail and Restart
         ...    ${of_id}
         # Bring up the device and verify it authenticates
         Wait Until Keyword Succeeds    360s    5s    Validate Device    ENABLED    ACTIVE    REACHABLE
-        ...    ${onu_device_id}    onu=True    onu_reason=omci-flows-pushed
+        ...    ${onu_device_id}    onu=True    onu_reason=omci-flows-pushed    by_dev_id=True
         Wait Until Keyword Succeeds    ${timeout}    2s    Verify Eapol Flows Added For ONU    ${ONOS_SSH_IP}
         ...    ${ONOS_SSH_PORT}    ${onu_port}
         ${wpa_log}=    Run Keyword If    ${has_dataplane}    Catenate    SEPARATOR=.
@@ -649,7 +649,7 @@ Verify restart ofagent container before subscriber is provisioned
         ...    ${of_id}
         # Bring up the device and verify it authenticates
         Wait Until Keyword Succeeds    ${timeout}    5s    Validate Device        ENABLED    ACTIVE    REACHABLE
-        ...    ${onu_device_id}    onu=True    onu_reason=omci-flows-pushed
+        ...    ${onu_device_id}    onu=True    onu_reason=omci-flows-pushed    by_dev_id=True
         Wait Until Keyword Succeeds    ${timeout}    2s    Verify Eapol Flows Added For ONU    ${ONOS_SSH_IP}
         ...    ${ONOS_SSH_PORT}    ${onu_port}
         ${wpa_log}=    Run Keyword If    ${has_dataplane}    Catenate    SEPARATOR=.
