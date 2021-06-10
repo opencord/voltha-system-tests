@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "87cb059c_8c22688a",
+        "filename": "libraries/voltctl.robot",
+        "patchSetId": 3
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2021-06-10T11:22:20Z",
+      "side": 1,
+      "message": "if we use serial number or device id as filter, the loop is no longer needed. All we have to do is to read ths states and compare them. Maybe it is necessary to remove a header line, but this can make by voltctl command (e.g. with corresponding grep comand)",
+      "range": {
+        "startLine": 181,
+        "startChar": 4,
+        "endLine": 205,
+        "endChar": 7
+      },
+      "revId": "8b44649de0f4fc8fd24c9e922eb508244640393e",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    }
+  ]
+}
