@@ -141,6 +141,52 @@
       "revId": "b8aa2d9444c8b24f59d79742e82c73e0f6e5cbe5",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a3a05aa_fedc3732",
+        "filename": "libraries/voltctl.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2021-06-10T11:04:17Z",
+      "side": 1,
+      "message": "From my point of view the theoretical case id\u003dempty can happen. This should be avoided.",
+      "range": {
+        "startLine": 171,
+        "startChar": 4,
+        "endLine": 174,
+        "endChar": 88
+      },
+      "revId": "b8aa2d9444c8b24f59d79742e82c73e0f6e5cbe5",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "155f95ba_8e9c4e8c",
+        "filename": "libraries/voltctl.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2021-06-10T11:04:17Z",
+      "side": 1,
+      "message": "if we use filter, makes this statement still sense, especially \u0027${sn}\u0027 \u003d\u003d \u0027${id}\u0027 or \u0027${devId}\u0027 \u003d\u003d \u0027${id}\u0027?",
+      "range": {
+        "startLine": 202,
+        "startChar": 8,
+        "endLine": 202,
+        "endChar": 102
+      },
+      "revId": "b8aa2d9444c8b24f59d79742e82c73e0f6e5cbe5",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
     }
   ]
 }
