@@ -104,7 +104,7 @@ Create Soak BBSim Device
         ${bbsim_olt_device_id}=    Create Device    ${ip}    ${bbsim_port}
         Log    ${bbsim_olt_device_id}
         Wait Until Keyword Succeeds    ${timeout}    5s
-        ...    Validate OLT Device    PREPROVISIONED    UNKNOWN    UNKNOWN    ${bbsim_olt_device_id}
+        ...    Validate OLT Device    PREPROVISIONED    UNKNOWN    UNKNOWN    ${bbsim_olt_device_id}    by_dev_id=True
         Enable Device    ${bbsim_olt_device_id}
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
         ...    Validate OLT Device    ENABLED    ACTIVE    REACHABLE    ${serial_number}
