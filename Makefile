@@ -328,7 +328,7 @@ bbsim-failurescenarios-tt: ROBOT_FILE := Voltha_TT_FailureScenarios.robot
 bbsim-failurescenarios-tt: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_TT_SINGLE_PON_FILE)
 bbsim-failurescenarios-tt: voltha-tt-test
 
-voltha-test: ROBOT_MISC_ARGS += -e notready
+voltha-test: ROBOT_MISC_ARGS += -e notready --non-critical non-critical
 
 voltha-test: vst_venv
 	source ./$</bin/activate ; set -u ;\
