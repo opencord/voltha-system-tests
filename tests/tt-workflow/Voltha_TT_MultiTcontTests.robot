@@ -167,6 +167,77 @@ Test that assured BW is allocated as needed on the PON
     Should Be True    ${pct_limit_up_1} >= ${lower_margin_pct}
     ...    The upstream bandwidth guarantee was not met (${pct_limit_up_1}% of resv)
 
+Verify that non-assured BW is released to assured BW allocation as needed for TT
+    [Documentation]    Verify support for Tcont type 2 and 3.
+    ...    Pump 1Gbps in the upstream from RG of ONU2 for VoD service and
+    ...    then verify that no more than 700Mbps is received at the BNG.
+    ...    Firstly, pump 500Mbps from the RG of ONU1 for the VoD service and
+    ...    then verify that close to 500Mbps is received at the BNG.
+    ...    Also verify that the VoD rate is now truncated to 500Mbps at BNG for ONU2.
+    [Tags]    functionalTT    VOL-4096
+    [Setup]    Run Keywords    Start Logging    TcontType2Onu1Type3Onu2
+    ...        AND             Setup
+    [Teardown]    Run Keywords    Collect Logs
+    ...           AND             Stop Logging    TcontType2Onu1Type3Onu2
+    Run Keyword If    ${has_dataplane}    Clean Up Linux
+    Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test TT
+
+    # The test expects the first entry in multi_tcont_tests.tcont2tcont3 input will be for service: vod and tcont: 2
+    # The test expects the second entry in multi_tcont_tests.tcont2tcont3 input will be for service: vod and tcont: 3
+    ${list_onus_ut}=    Create List
+    ${num_multi_tcont_input}=    Get Length    ${multi_tcont_tests.tcont2tcont3}
+    ${uni_capacity}=    Set Variable    1000000
+    FOR    ${I}    IN RANGE    0    ${num_multi_tcont_input}
+        ${onu}=    Set Variable    ${multi_tcont_tests.tcont2tcont3[${I}]}
+        ${onu_sn}=    Set Variable    ${onu['onu']}
+        ${service}=    Set Variable    ${onu['service_type']}
+        ${us_bw}=    Set Variable    ${onu['us_bw_profile']}
+        ${matched}    ${src}    ${dst}=    Get ONU details with Given Sn and Service    ${onu_sn}
+        ...    ${service}    ${us_bw}
+        Pass Execution If    '${matched}' != 'True'
+        ...    Skipping test: No ONU found with sn '${onu_sn}', service '${service}' and us_bw '${us_bw}'
+        # Check for iperf3 and jq tools
+        ${stdout}    ${stderr}    ${rc}=    Execute Remote Command    which iperf3 jq
+        ...    ${src['ip']}    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
+        Pass Execution If    ${rc} != 0    Skipping test: iperf3 / jq not found on the RG
+        # Get Upstream BW Profile details
+        ${limiting_bw_us}=    Get Limiting Bandwidth Details    ${us_bw}
+        ${onu_ut}    Create Dictionary    src    ${src}    dst    ${dst}    limiting_bw_us    ${limiting_bw_us}
+        Append To List    ${list_onus_ut}    ${onu_ut}
+    END
+
+    # Case 1: Verify only for VoD service from the RG of ONU2
+    ${dst}=    Set Variable    ${list_onus_ut}[1][dst]
+    ${updict}=    Run Iperf3 Test Client    ${list_onus_ut}[1][src]    server=${dst['dp_iface_ip_qinq']}
+    ...    args=-t 30 -p 5202
+    ${actual_upstream_bw_used}=    Evaluate    ${updict['end']['sum_received']['bits_per_second']}/1000
+    ${pct_limit_up}=    Evaluate    100*${actual_upstream_bw_used}/${list_onus_ut}[1][limiting_bw_us]
+    Should Be True    ${pct_limit_up} >= ${lower_margin_pct}
+    ...    The upstream bandwidth guarantee was not met (${pct_limit_up}% of resv)
+
+    # Case 2: Verify for ONU1 (with index [0]) and ONU2 (with index [1]) devices combined
+    ${out_file_0}=    Set Variable    ${CURDIR}/../../tests/data/out_tcont2
+    ${dst_0}=    Set Variable    ${list_onus_ut}[0][dst]
+    Run Iperf3 Test Client in Background    ${list_onus_ut}[0][src]    server=${dst_0['dp_iface_ip_qinq']}
+    ...    args=-t 30 -p 5201    out_file=${out_file_0}
+    ${out_file_1}=    Set Variable    ${CURDIR}/../../tests/data/out_tcont3
+    ${dst_1}=    Set Variable    ${list_onus_ut}[1][dst]
+    Run Iperf3 Test Client in Background    ${list_onus_ut}[1][src]    server=${dst_1['dp_iface_ip_qinq']}
+    ...    args=-t 30 -p 5202    out_file=${out_file_1}
+    # Wait for the above iperf commands to finish (sleep time depends on -t arg value passed in iperf command)
+    Sleep    35s
+    ${out_0}=    Read Output File on System    ${out_file_0}
+    ${out_1}=    Read Output File on System    ${out_file_1}
+    ${actual_upstream_bw_used_0}=    Evaluate    ${out_0['end']['sum_received']['bits_per_second']}/1000
+    ${pct_limit_up_0}=    Evaluate    100*${actual_upstream_bw_used_0}/${list_onus_ut}[0][limiting_bw_us]
+    Should Be True    ${pct_limit_up_0} >= ${lower_margin_pct}
+    ...    The upstream bandwidth guarantee was not met (${pct_limit_up_0}% of resv)
+    ${actual_upstream_bw_used_1}=    Evaluate    ${out_1['end']['sum_received']['bits_per_second']}/1000
+    ${pct_limit_up_1}=    Evaluate
+    ...    100*${actual_upstream_bw_used_1}/${uni_capacity}-${list_onus_ut}[0][limiting_bw_us])
+    Should Be True    ${pct_limit_up_1} >= ${lower_margin_pct}
+    ...    The upstream bandwidth guarantee was not met (${pct_limit_up_1}% of resv)
+
 *** Keywords ***
 Read Output File on System
     [Arguments]    ${file}
