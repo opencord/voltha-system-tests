@@ -23,7 +23,7 @@ GIVEN_OLT_IP: bbsim0
 
 dm_components:
   -
-    name: cage-0
+    name: sfp-plus-transceiver-cage-pon-0
     elements:
       -
         element: description
