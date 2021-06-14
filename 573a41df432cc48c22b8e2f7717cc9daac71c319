@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e3da1f55_abe9fd91",
+        "filename": "Makefile",
+        "patchSetId": 1
+      },
+      "lineNbr": 419,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2021-06-14T09:09:10Z",
+      "side": 1,
+      "message": "For DT changes are required here",
+      "range": {
+        "startLine": 419,
+        "startChar": 0,
+        "endLine": 419,
+        "endChar": 14
+      },
+      "revId": "573a41df432cc48c22b8e2f7717cc9daac71c319",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    }
+  ]
+}
