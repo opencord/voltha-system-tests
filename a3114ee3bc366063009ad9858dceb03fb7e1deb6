@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e64d3ff0_13d1a4ca",
+        "filename": "tests/tt-workflow/Voltha_TT_MultiTcontTests.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2021-06-15T06:55:08Z",
+      "side": 1,
+      "message": "Please mark it `notready` and add a comment as discussed.",
+      "range": {
+        "startLine": 177,
+        "startChar": 4,
+        "endLine": 177,
+        "endChar": 10
+      },
+      "revId": "a3114ee3bc366063009ad9858dceb03fb7e1deb6",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    }
+  ]
+}
