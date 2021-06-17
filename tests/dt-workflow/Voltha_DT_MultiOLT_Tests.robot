@@ -143,6 +143,9 @@ Verify OLT Soft Reboot for DT - Multiple OLT
         ...    Check Ping    False    ${dst['dp_iface_ip_qinq']}    ${src['dp_iface_name']}
         ...    ${src['ip']}    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
     END
+    # Wait for the OLT to actually go down
+    Wait Until Keyword Succeeds    360s    5s    Validate OLT Device    ENABLED    UNKNOWN    UNREACHABLE
+        ...    ${olt_serial_number}
     # Check OLT state
     ${olt_serial_number}=    Get From Dictionary    ${list_olts}[0]    sn
     ${olt_ssh_ip}=    Get From Dictionary    ${list_olts}[0]    sship

@@ -147,6 +147,9 @@ Verify OLT Soft Reboot - MultipleOLT
     ${olt_serial_number}=    Get From Dictionary    ${list_olts}[0]    sn
     ${olt_ssh_ip}=    Get From Dictionary    ${list_olts}[0]    sship
     ${olt_device_id}=    Get OLTDeviceID From OLT List    ${olt_serial_number}
+    # Wait for the OLT to actually go down
+    Wait Until Keyword Succeeds    360s    5s    Validate OLT Device    ENABLED    UNKNOWN    UNREACHABLE
+            ...    ${olt_serial_number}
     # Wait for the OLT to come back up
     Run Keyword If    ${has_dataplane}    Wait Until Keyword Succeeds    120s    10s
     ...    Check Remote System Reachability    True    ${olt_ssh_ip}

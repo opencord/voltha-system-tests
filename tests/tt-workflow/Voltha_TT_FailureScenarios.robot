@@ -255,6 +255,9 @@ Verify OLT Soft Reboot for TT
         ${olt_pass}=    Get From Dictionary    ${list_olts}[${I}]    pass
         ${olt_ssh_ip}=    Get From Dictionary    ${list_olts}[${I}]   sship
         ${olt_device_id}=    Get OLTDeviceID From OLT List    ${olt_serial_number}
+        # Wait for the OLT to actually go down
+        Wait Until Keyword Succeeds    360s    5s    Validate OLT Device    ENABLED    UNKNOWN    UNREACHABLE
+            ...    ${olt_serial_number}
         Run Keyword If    ${has_dataplane}    Wait Until Keyword Succeeds    120s    10s
         ...    Check Remote System Reachability    True    ${olt_ssh_ip}
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    360s    5s

@@ -78,7 +78,9 @@ Verify OLT Soft Reboot
         ...    Check Ping    False    ${dst['dp_iface_ip_qinq']}    ${src['dp_iface_name']}
         ...    ${src['ip']}    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
     END
-    # Wait for the OLT to come back up
+    # Wait for the OLT to actually go down
+    Wait Until Keyword Succeeds    360s    5s    Validate OLT Device    ENABLED    UNKNOWN    UNREACHABLE
+        ...    ${olt_serial_number}
     Run Keyword If    ${has_dataplane}    Wait Until Keyword Succeeds    120s    10s
     ...    Check Remote System Reachability    True    ${olt_ssh_ip}
     # Waiting extra time for the ONUs to come up
