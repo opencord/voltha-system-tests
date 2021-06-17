@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "40fe9cd6_2de71117",
+        "filename": "tests/functional/Voltha_FailureScenarios.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 613,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2021-06-17T10:36:44Z",
+      "side": 1,
+      "message": "Indentation (applicable for all the files)",
+      "range": {
+        "startLine": 613,
+        "startChar": 8,
+        "endLine": 613,
+        "endChar": 15
+      },
+      "revId": "e771a1e19c2bdf9e7c407ab0ee2d60e588fa99d9",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "03c15c27_d72669f4",
+        "filename": "tests/functional/Voltha_FailureScenarios.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 613,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2021-06-17T10:36:44Z",
+      "side": 1,
+      "message": "I think it is more apt to have this check right after `Reboot Device` keyword (applicable for all the files).",
+      "range": {
+        "startLine": 611,
+        "startChar": 0,
+        "endLine": 613,
+        "endChar": 39
+      },
+      "revId": "e771a1e19c2bdf9e7c407ab0ee2d60e588fa99d9",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    }
+  ]
+}
