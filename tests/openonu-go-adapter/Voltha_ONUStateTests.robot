@@ -185,7 +185,7 @@ Setup Suite
     ...    \r\nPassed arguments:
     ...    state2test:${state2test}, testmode:${testmode}, techprofile:${techprofile},
     ...    debugmode:${debugmode}, logging:${logging}, pausebeforecleanup:${pausebeforecleanup},
-    ...    print2console:${print2console}
+    ...    print2console:${print2console}, kvstoreprefix:${kvstoreprefix}
     Log    ${LogInfo}    console=yes
     Common Test Suite Setup
     # prepare skip message in yellow for console log
@@ -430,7 +430,7 @@ Do Check Tech Profile
     [Documentation]    This keyword checks the loaded TechProfile
     ${namespace}=    Set Variable    default
     ${podname}=    Set Variable    etcd
-    ${kvstoreprefix}=    Get Kv Store Prefix
+    ${kvstoreprefix}=    Get Kv Store Prefix    ${kvstoreprefix}
     ${commandget}    Catenate
     ...    /bin/sh -c 'ETCDCTL_API=3 etcdctl get --prefix service/${kvstoreprefix}/technology_profiles/XGS-PON/64'
     ${result}=    Exec Pod In Kube    ${namespace}    ${podname}    ${commandget}

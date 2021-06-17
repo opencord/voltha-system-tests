@@ -53,6 +53,9 @@ ${firsttest}    True
 # determines the environment workflow: DT, TT or ATT (default)
 # example: -v workflow:DT
 ${workflow}    ATT
+# KV Store Prefix
+# example: -v kvstoreprefix:voltha_voltha
+${kvstoreprefix}    voltha_voltha
 # flag debugmode is used, if true timeout calculation various, can be passed via the command line too
 # example: -v debugmode:True
 ${debugmode}    False
@@ -165,7 +168,8 @@ Setup Suite
     ${LogInfo}=    Catenate
     ...    \r\nPassed arguments:
     ...    debugmode:${debugmode}, logging:${logging}, pausebeforecleanup:${pausebeforecleanup},
-    ...    print2console:${print2console}, usekill2restart:${usekill2restart}, workflow:${workflow}
+    ...    print2console:${print2console}, usekill2restart:${usekill2restart}, workflow:${workflow},
+    ...    kvstoreprefix:${kvstoreprefix}
     Log    ${LogInfo}    console=yes
     Common Test Suite Setup
     ${onos_ssh_connection}    Open ONOS SSH Connection    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}
@@ -186,7 +190,7 @@ Teardown Suite
     Run Keyword If    ${teardown_device}    Delete All Devices and Verify
     Run Keyword If    ${usekill2restart}    Restart Pod    ${namespace}    open-onu
     Run Keyword Unless    ${etcdcheckintestteardown}    Wait Until Keyword Succeeds    ${timeout}    1s
-    ...    Validate Onu Data In Etcd    0    without_pm_data=False
+    ...    Validate Onu Data In Etcd    0    ${kvstoreprefix}    without_pm_data=False
     Wait for Ports in ONOS for all OLTs      ${onos_ssh_connection}  0   BBSM    ${timeout}
     Close All ONOS SSH Connections
 
@@ -231,7 +235,7 @@ Teardown Test
     Delete MIB Template Data
     # check etcd data are empty
     Run Keyword If    ${etcdcheckintestteardown}    Wait Until Keyword Succeeds    ${timeout}    1s
-    ...    Validate Onu Data In Etcd    0    without_pm_data=False
+    ...    Validate Onu Data In Etcd    0    ${kvstoreprefix}    without_pm_data=False
     Sleep    5s
 
 Do Reconcile In Determined State
