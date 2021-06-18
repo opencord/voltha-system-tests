@@ -390,6 +390,40 @@ voltha-pm-data-test: vst_venv
 	cd tests/pm-data ;\
 	robot -V $(ROBOT_CONFIG_FILE) -V $(ROBOT_PM_CONFIG_FILE) $(ROBOT_MISC_ARGS) $(ROBOT_FILE)
 
+# target to invoke single ONU OMCI Get scenarios in ATT workflow
+voltha-onu-omci-get-single-kind-att: ROBOT_MISC_ARGS += -v workflow:ATT
+voltha-onu-omci-get-single-kind-att: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_SINGLE_PON_FILE)
+voltha-onu-omci-get-single-kind-att: voltha-onu-omci-get-tests
+
+# target to invoke single ONU OMCI Get scenarios in DT workflow
+voltha-onu-omci-get-single-kind-dt: ROBOT_MISC_ARGS += -v workflow:DT
+voltha-onu-omci-get-single-kind-dt: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_DT_SINGLE_PON_FILE)
+voltha-onu-omci-get-single-kind-dt: voltha-onu-omci-get-tests
+
+# target to invoke single ONU OMCI Geta scenarios in TT workflow
+voltha-onu-omci-get-single-kind-tt: ROBOT_MISC_ARGS += -v workflow:TT
+voltha-onu-omci-get-single-kind-tt: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_TT_SINGLE_PON_FILE)
+voltha-onu-omci-get-single-kind-tt: voltha-onu-omci-get-tests
+
+# target to invoke multiple OLTs OMCI Get scenarios in ATT workflow
+voltha-onu-omci-get-multiolt-kind-att: ROBOT_MISC_ARGS += -v workflow:ATT
+voltha-onu-omci-get-multiolt-kind-att: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_MULTIPLE_OLT_FILE)
+voltha-onu-omci-get-multiolt-kind-att: voltha-onu-omci-get-tests
+
+# target to invoke multiple OLTs OMCI Get scenarios in DT workflow
+voltha-onu-omci-get-multiolt-kind-dt: ROBOT_MISC_ARGS += -v workflow:DT
+voltha-onu-omci-get-multiolt-kind-dt: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_DT_MULTIPLE_OLT_FILE)
+voltha-onu-omci-get-multiolt-kind-dt: voltha-onu-omci-get-tests
+
+# target to invoke multiple OLTs OMCI Get scenarios in TT workflow
+voltha-onu-omci-get-multiolt-kind-tt: ROBOT_MISC_ARGS += -v workflow:TT
+voltha-onu-omci-get-multiolt-kind-tt: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_TT_MULTIPLE_OLT_FILE)
+voltha-onu-omci-get-multiolt-kind-tt: voltha-onu-omci-get-tests
+
+voltha-onu-omci-get-tests: ROBOT_MISC_ARGS += -i functionalOnuGo -e PowerSwitch $(ROBOT_DEBUG_LOG_OPT)
+voltha-onu-omci-get-tests: ROBOT_FILE := Voltha_ONUOmciGetTest.robot
+voltha-onu-omci-get-tests: openonu-go-adapter-tests
+
 # ONOS Apps to test for Software Upgrade need to be passed in the 'onos_apps_under_test' variable in format:
 # <app-name>,<version>,<oar-url>*<app-name>,<version>,<oar-url>*
 onos-app-upgrade-test: ROBOT_MISC_ARGS +=  -e notready -i functional
