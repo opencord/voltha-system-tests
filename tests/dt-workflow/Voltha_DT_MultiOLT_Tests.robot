@@ -130,6 +130,9 @@ Verify OLT Soft Reboot for DT - Multiple OLT
     ...    REACHABLE    ${olt_serial_number}
     # Reboot the OLT using "voltctl device reboot" command
     Reboot Device    ${olt_device_id}
+    # Wait for the OLT to actually go down
+    Wait Until Keyword Succeeds    360s    5s    Validate OLT Device    ENABLED    UNKNOWN    UNREACHABLE
+    ...    ${olt_serial_number}
     # validate that the ONUs on the other OLTs are still functional
     Verify ping is successful for ONUs not on this OLT     ${num_all_onus}    ${olt_device_id}
     #Verify that ping fails for the ONUs where the OLT has been rebooted
