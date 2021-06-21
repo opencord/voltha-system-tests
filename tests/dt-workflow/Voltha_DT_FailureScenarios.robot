@@ -445,19 +445,24 @@ Sanity E2E Test for OLT/ONU on POD With Core Fail and Restart for DT
 
 Verify OLT Soft Reboot for DT
     [Documentation]    Test soft reboot of the OLT using voltctl command
-    [Tags]    VOL-2818   OLTSoftRebootDt    notready
+    [Tags]    VOL-2818   OLTSoftRebootDt    functionalDt
     [Setup]    Start Logging    OLTSoftRebootDt
-    #...        AND             Setup
-    [Teardown]    Run Keywords    Collect Logs
+    [Teardown]    Run Keywords    Run Keyword If    ${logging}    Collect Logs
     ...           AND             Stop Logging    OLTSoftRebootDt
-    #...           AND             Delete Device and Verify
-    # Reboot the OLT using "voltctl device reboot" command
-    Reboot Device    ${olt_device_id}
-    # Wait for the OLT to actually go down
-    Wait Until Keyword Succeeds    360s    5s    Validate OLT Device    ENABLED    UNKNOWN    UNREACHABLE
-    ...    ${olt_serial_number}
+    FOR   ${I}    IN RANGE    0    ${olt_count}
+        ${olt_serial_number}=    Get From Dictionary    ${olt_ids}[${I}]    sn
+        ${olt_device_id}=    Get OLTDeviceID From OLT List    ${olt_serial_number}
+        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    360s    5s
+        ...    Validate OLT Device    ENABLED    ACTIVE
+        ...    REACHABLE    ${olt_serial_number}
+        # Reboot the OLT using "voltctl device reboot" command
+        Reboot Device    ${olt_device_id}
+        # Wait for the OLT to actually go down
+        Wait Until Keyword Succeeds    360s    5s    Validate OLT Device    ENABLED    UNKNOWN    UNREACHABLE
+        ...    ${olt_serial_number}
+    END
     #Verify that ping fails
-    FOR    ${I}    IN RANGE    0    ${num_onus}
+    FOR    ${I}    IN RANGE    0    ${num_all_onus}
         ${src}=    Set Variable    ${hosts.src[${I}]}
         ${dst}=    Set Variable    ${hosts.dst[${I}]}
         Run Keyword If    ${has_dataplane}    Run Keyword And Continue On Failure
@@ -465,15 +470,22 @@ Verify OLT Soft Reboot for DT
         ...    Check Ping    False    ${dst['dp_iface_ip_qinq']}    ${src['dp_iface_name']}
         ...    ${src['ip']}    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
     END
-    # Wait for the OLT to come back up
-    Run Keyword If    ${has_dataplane}    Wait Until Keyword Succeeds    120s    10s
-    ...    Check Remote System Reachability    True    ${olt_ssh_ip}
+    # Check OLT states
+    FOR   ${I}    IN RANGE    0    ${olt_count}
+        ${olt_serial_number}=    Get From Dictionary    ${list_olts}[${I}]    sn
+        ${olt_ssh_ip}=    Get From Dictionary    ${list_olts}[${I}]    sship
+        ${olt_device_id}=    Get OLTDeviceID From OLT List    ${olt_serial_number}
+        # Wait for the OLT to come back up
+        Run Keyword If    ${has_dataplane}    Wait Until Keyword Succeeds    120s    10s
+        ...    Check Remote System Reachability    True    ${olt_ssh_ip}
+        # Check OLT states
+        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    360s    5s
+        ...    Validate OLT Device    ENABLED    ACTIVE
+        ...    REACHABLE    ${olt_serial_number}
+    END
     # Waiting extra time for the ONUs to come up
     Sleep    60s
-    # Check OLT states
-    Wait Until Keyword Succeeds    360s    5s    Validate OLT Device    ENABLED    ACTIVE    REACHABLE
-    ...    ${olt_serial_number}
-    #Check after reboot that ONUs are active, DHCP and pingable
+    #Check after reboot that ONUs are active, DHCP/pingable
     Run Keyword If    ${has_dataplane}    Clean Up Linux
     Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test DT
 
