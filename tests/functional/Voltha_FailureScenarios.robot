@@ -592,6 +592,9 @@ Verify OLT Soft Reboot
         ...    REACHABLE    ${olt_serial_number}
         # Reboot the OLT using "voltctl device reboot" command
         Reboot Device    ${olt_device_id}
+        # Wait for the OLT to actually go down
+        Wait Until Keyword Succeeds    360s    5s    Validate OLT Device    ENABLED    UNKNOWN    UNREACHABLE
+        ...    ${olt_serial_number}
     END
     #Verify that ping fails
     FOR    ${I}    IN RANGE    0    ${num_all_onus}
