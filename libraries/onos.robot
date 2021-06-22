@@ -57,6 +57,44 @@ Execute ONOS CLI Command on open connection
     Should Be Equal As Integers    @{result_values}[2]    0
     [Return]    ${output}
 
+Execute ONOS CLI Command use single connection
+    [Documentation]    Execute ONOS CLI Command use an Open Connection
+    ...                In case no connection is open a connection will be opened
+    [Arguments]    ${host}    ${port}    ${cmd}
+    ${connection_list_id}=    Get Conn List Id    ${host}    ${port}
+    ${connection_list_id}=    Run Keyword If    "${connection_list_id}"=="${EMPTY}"
+                              ...    Open ONOS SSH Connection    ${host}    ${port}
+                              ...    ELSE    Set Variable    ${connection_list_id}
+	${connection_entry}=    Get From List   ${connection_list}    ${connection_list_id}
+    SSHLibrary.Switch Connection   ${connection_entry.conn_id}
+    ${PassOrFail}    @{result_values}    Run Keyword And Ignore Error    SSHLibrary.Execute Command    ${cmd}
+    ...    return_rc=True    return_stderr=True    return_stdout=True
+    Run Keyword If    '${PassOrFail}'=='FAIL'    Reconnect ONOS SSH Connection    ${connection_list_id}
+    @{result_values}=    Run Keyword If    '${PassOrFail}'=='FAIL'
+    ...    SSHLibrary.Execute Command    ${cmd}    return_rc=True    return_stderr=True    return_stdout=True
+    ...    ELSE    Set Variable    @{result_values}
+    ${output}    Set Variable    @{result_values}[0]
+    Log    Command output: ${output}
+    Should Be Empty    @{result_values}[1]
+    Should Be Equal As Integers    @{result_values}[2]    0
+    [Return]    ${output}
+
+Get Conn List Id
+    [Documentation]    Looks up for an Open Connection with passed host and port in conection list
+    ...                First match connection will be used.
+    [Arguments]    ${host}    ${port}
+    ${connection_list_id}=    Set Variable    ${EMPTY}
+	${match}=     Set Variable    False
+    ${length}=    Get Length    ${connection_list}
+    FOR    ${INDEX}    IN RANGE    0    ${length}
+        #${Item}=    Get From List    ${connection_list}    ${INDEX}
+	    ${conndata}=    Get Connection    ${connection_list[${INDEX}].conn_id}
+        ${match}=    Set Variable If    '${conndata.host}'=='${host}' and '${conndata.port}'=='${port}'    True    False
+        ${connection_list_id}=    Set Variable If    ${match}    ${INDEX}    ${EMPTY}
+        Exit For Loop If    ${match}
+    END
+    [Return]    ${connection_list_id}
+
 Reconnect ONOS SSH Connection
     [Documentation]    Reconnect an SSH Connection
     [Arguments]    ${connection_list_id}
@@ -184,28 +222,28 @@ Verify Subscriber Access Flows Added for ONU
     ${upstream_flow_0_cmd}=    Catenate    SEPARATOR=
     ...    flows -s ADDED ${olt_of_id} | grep IN_PORT:${onu_port} | grep VLAN_VID:0 |
     ...     grep VLAN_ID:${c_tag} | grep transition=TABLE:1
-    ${upstream_flow_0_added}=    Execute ONOS CLI Command    ${ip}    ${port}
+    ${upstream_flow_0_added}=    Execute ONOS CLI Command use single connection    ${ip}    ${port}
     ...    ${upstream_flow_0_cmd}
     Should Not Be Empty    ${upstream_flow_0_added}
     # Verify upstream table=1 flow
     ${flow_vlan_push_cmd}=    Catenate    SEPARATOR=
     ...    flows -s ADDED ${olt_of_id} | grep IN_PORT:${onu_port} | grep VLAN_VID:${c_tag} |
     ...     grep VLAN_PUSH | grep VLAN_ID:${s_tag} | grep OUTPUT:${nni_port}
-    ${upstream_flow_1_added}=    Execute ONOS CLI Command    ${ip}    ${port}
+    ${upstream_flow_1_added}=    Execute ONOS CLI Command use single connection    ${ip}    ${port}
     ...    ${flow_vlan_push_cmd}
     Should Not Be Empty    ${upstream_flow_1_added}
     # Verify downstream table=0 flow
     ${flow_vlan_pop_cmd}=    Catenate    SEPARATOR=
     ...    flows -s ADDED ${olt_of_id} | grep IN_PORT:${nni_port} | grep VLAN_VID:${s_tag} |
     ...     grep VLAN_POP | grep transition=TABLE:1
-    ${downstream_flow_0_added}=    Execute ONOS CLI Command    ${ip}    ${port}
+    ${downstream_flow_0_added}=    Execute ONOS CLI Command use single connection    ${ip}    ${port}
     ...    ${flow_vlan_pop_cmd}
     Should Not Be Empty    ${downstream_flow_0_added}
     # Verify downstream table=1 flow
     ${downstream_flow_1_cmd}=    Catenate    SEPARATOR=
     ...    flows -s ADDED ${olt_of_id} | grep IN_PORT:${nni_port} | grep VLAN_VID:${c_tag} |
     ...     grep VLAN_ID:0 | grep OUTPUT:${onu_port}
-    ${downstream_flow_1_added}=    Execute ONOS CLI Command    ${ip}    ${port}
+    ${downstream_flow_1_added}=    Execute ONOS CLI Command use single connection    ${ip}    ${port}
     ...    ${downstream_flow_1_cmd}
     Should Not Be Empty    ${downstream_flow_1_added}
     # Verify ipv4 dhcp upstream flow
@@ -213,7 +251,7 @@ Verify Subscriber Access Flows Added for ONU
     ...    flows -s ADDED ${olt_of_id} | grep IN_PORT:${onu_port} | grep ETH_TYPE:ipv4 |
     ...     grep IP_PROTO:17 | grep UDP_SRC:68 | grep UDP_DST:67 | grep VLAN_ID:${c_tag} |
     ...     grep OUTPUT:CONTROLLER
-    ${upstream_flow_ipv4_added}=    Execute ONOS CLI Command    ${ip}    ${port}
+    ${upstream_flow_ipv4_added}=    Execute ONOS CLI Command use single connection    ${ip}    ${port}
     ...    ${upstream_flow_ipv4_cmd}
     Should Not Be Empty    ${upstream_flow_ipv4_added}
     # Verify ipv4 dhcp downstream flow
@@ -221,7 +259,7 @@ Verify Subscriber Access Flows Added for ONU
     ${downstream_flow_ipv4_cmd}=    Catenate    SEPARATOR=
     ...    flows -s ADDED ${olt_of_id} | grep IN_PORT:${nni_port} | grep ETH_TYPE:ipv4 |
     ...     grep IP_PROTO:17 | grep UDP_SRC:67 | grep UDP_DST:68 | grep OUTPUT:CONTROLLER
-    ${downstream_flow_ipv4_added}=    Execute ONOS CLI Command    ${ip}    ${port}
+    ${downstream_flow_ipv4_added}=    Execute ONOS CLI Command use single connection    ${ip}    ${port}
     ...    ${downstream_flow_ipv4_cmd}
     Should Not Be Empty    ${downstream_flow_ipv4_added}
 
@@ -229,39 +267,39 @@ Verify Subscriber Access Flows Added for ONU DT
     [Arguments]    ${ip}    ${port}    ${olt_of_id}    ${onu_port}    ${nni_port}    ${s_tag}
     [Documentation]    Verifies if the Subscriber Access Flows are added in ONOS for the ONU
     # Verify upstream table=0 flow
-    ${upstream_flow_0_added}=    Execute ONOS CLI Command    ${ip}    ${port}
+    ${upstream_flow_0_added}=    Execute ONOS CLI Command use single connection    ${ip}    ${port}
     ...    flows -s ADDED ${olt_of_id} | grep IN_PORT:${onu_port} | grep VLAN_VID:Any | grep transition=TABLE:1
     Should Not Be Empty    ${upstream_flow_0_added}
     # Verify upstream table=1 flow
     ${flow_vlan_push_cmd}=    Catenate    SEPARATOR=
     ...    flows -s ADDED ${olt_of_id} | grep IN_PORT:${onu_port} | grep VLAN_VID:Any |
     ...     grep VLAN_PUSH | grep VLAN_ID:${s_tag} | grep OUTPUT:${nni_port}
-    ${upstream_flow_1_added}=    Execute ONOS CLI Command    ${ip}    ${port}
+    ${upstream_flow_1_added}=    Execute ONOS CLI Command use single connection    ${ip}    ${port}
     ...    ${flow_vlan_push_cmd}
     Should Not Be Empty    ${upstream_flow_1_added}
     # Verify downstream table=0 flow
     ${flow_vlan_pop_cmd}=    Catenate    SEPARATOR=
     ...    flows -s ADDED ${olt_of_id} | grep IN_PORT:${nni_port} | grep VLAN_VID:${s_tag} |
     ...     grep VLAN_POP | grep transition=TABLE:1
-    ${downstream_flow_0_added}=    Execute ONOS CLI Command    ${ip}    ${port}
+    ${downstream_flow_0_added}=    Execute ONOS CLI Command use single connection    ${ip}    ${port}
     ...    ${flow_vlan_pop_cmd}
     Should Not Be Empty    ${downstream_flow_0_added}
     # Verify downstream table=1 flow
-    ${downstream_flow_1_added}=    Execute ONOS CLI Command    ${ip}    ${port}
+    ${downstream_flow_1_added}=    Execute ONOS CLI Command use single connection    ${ip}    ${port}
     ...    flows -s ADDED ${olt_of_id} | grep IN_PORT:${nni_port} | grep VLAN_VID:Any | grep OUTPUT:${onu_port}
     Should Not Be Empty    ${downstream_flow_1_added}
 
 Verify Subscriber Access Flows Added Count DT
     [Arguments]    ${ip}    ${port}    ${olt_of_id}    ${expected_flows}
     [Documentation]    Matches for total number of subscriber access flows added for all onus
-    ${access_flows_added}=    Execute ONOS CLI Command    ${ip}    ${port}
+    ${access_flows_added}=    Execute ONOS CLI Command use single connection    ${ip}    ${port}
     ...    flows -s ADDED ${olt_of_id} | grep -v deviceId | grep -v ETH_TYPE:lldp | grep -v ETH_TYPE:arp | wc -l
     Should Be Equal As Integers    ${access_flows_added}    ${expected_flows}
 
 Verify Added Flow Count for OLT TT
     [Arguments]    ${ip}    ${port}    ${olt_of_id}    ${expected_flows}
     [Documentation]    Total number of added flows given OLT with subscriber flows
-    ${access_flows_added}=    Execute ONOS CLI Command    ${ip}    ${port}
+    ${access_flows_added}=    Execute ONOS CLI Command use single connection    ${ip}    ${port}
     ...    flows -s ADDED ${olt_of_id} | grep -v deviceId | wc -l
     Should Be Equal As Integers    ${access_flows_added}    ${expected_flows}
 
@@ -272,21 +310,21 @@ Verify Default Downstream Flows are added in ONOS for OLT TT
     ${downstream_flow_lldp_cmd}=    Catenate    SEPARATOR=
     ...    flows -s ADDED ${olt_of_id} | grep lldp |
     ...     grep OUTPUT:CONTROLLER
-    ${downstream_flow_lldp_added}=    Execute ONOS CLI Command    ${ip}    ${port}
+    ${downstream_flow_lldp_added}=    Execute ONOS CLI Command use single connection    ${ip}    ${port}
     ...    ${downstream_flow_lldp_cmd}
     Should Not Be Empty    ${downstream_flow_lldp_added}
     # Verify downstream dhcp flow
     ${downstream_flow_dhcp_cmd}=    Catenate    SEPARATOR=
     ...    flows -s ADDED ${olt_of_id} | grep IP_PROTO:17 | grep UDP_SRC:67 | grep UDP_DST:68 |
     ...     grep OUTPUT:CONTROLLER
-    ${downstream_flow_dhcp_added}=    Execute ONOS CLI Command    ${ip}    ${port}
+    ${downstream_flow_dhcp_added}=    Execute ONOS CLI Command use single connection    ${ip}    ${port}
     ...    ${downstream_flow_dhcp_cmd}
     Should Not Be Empty    ${downstream_flow_dhcp_added}
     # Verify downstream igmp flow
     ${downstream_flow_igmp_cmd}=    Catenate    SEPARATOR=
     ...    flows -s ADDED ${olt_of_id} | grep IP_PROTO:2 |
     ...     grep OUTPUT:CONTROLLER
-    ${downstream_flow_igmp_added}=    Execute ONOS CLI Command    ${ip}    ${port}
+    ${downstream_flow_igmp_added}=    Execute ONOS CLI Command use single connection    ${ip}    ${port}
     ...    ${downstream_flow_igmp_cmd}
     Should Not Be Empty    ${downstream_flow_igmp_added}
 
@@ -294,7 +332,7 @@ Get Programmed Subscribers
     [Arguments]    ${ip}    ${port}    ${olt_of_id}    ${onu_port}
     [Documentation]    Retrieves the subscriber details at a given location
     ${sub_location}=    Catenate    SEPARATOR=/    ${olt_of_id}    ${onu_port}
-    ${programmed_sub}=    Execute ONOS CLI Command    ${ip}    ${port}
+    ${programmed_sub}=    Execute ONOS CLI Command use single connection    ${ip}    ${port}
     ...    volt-programmed-subscribers | grep ${sub_location}
     [Return]    ${programmed_sub}
 
@@ -322,7 +360,7 @@ Get Upstream and Downstream Bandwidth Profile Name
 Get Bandwidth Profile Details
     [Arguments]    ${ip}    ${port}    ${bw_profile}
     [Documentation]    Retrieves the details of the given bandwidth profile
-    ${bw_profile_values}=    Execute ONOS CLI Command    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}
+    ${bw_profile_values}=    Execute ONOS CLI Command use single connection   ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}
     ...    bandwidthprofile ${bw_profile}
     @{bw_profile_array}=    Split String    ${bw_profile_values}    ,
     @{param_val_pair}=    Split String    ${bw_profile_array[1]}    =
@@ -418,7 +456,7 @@ Verify Meters in ONOS Ietf
     ...    ELSE    Catenate    SEPARATOR=
     ...    meters ${olt_of_id} | grep state=ADDED | grep "rate=${us_cir}, burst-size=${us_cbs}"
     ...     | grep "rate=${us_pir}, burst-size=${us_pbs}" | wc -l
-    ${upstream_meter_added}=    Execute ONOS CLI Command    ${ip}    ${port}
+    ${upstream_meter_added}=    Execute ONOS CLI Command use single connection    ${ip}    ${port}
     ...    ${us_meter_cmd}
     Should Be Equal As Integers    ${upstream_meter_added}    1
     # Get downstream bandwidth profile details
@@ -431,7 +469,7 @@ Verify Meters in ONOS Ietf
     ...    ELSE    Catenate    SEPARATOR=
     ...    meters ${olt_of_id} | grep state=ADDED | grep "rate=${ds_cir}, burst-size=${ds_cbs}"
     ...     | grep "rate=${ds_pir}, burst-size=${ds_pbs}" | wc -l
-    ${downstream_meter_added}=    Execute ONOS CLI Command    ${ip}    ${port}
+    ${downstream_meter_added}=    Execute ONOS CLI Command use single connection    ${ip}    ${port}
     ...    ${ds_meter_cmd}
     Should Be Equal As Integers    ${downstream_meter_added}    1
 
@@ -454,7 +492,7 @@ Verify Meters in ONOS
     ${us_meter_cmd}=    Catenate    SEPARATOR=
     ...    meters ${olt_of_id} | grep state=ADDED | grep "rate=${us_cir}, burst-size=${us_cbs}"
     ...     | grep "rate=${us_pir}, burst-size=${us_pbs}" | grep "rate=${us_air}, burst-size=0" | wc -l
-    ${upstream_meter_added}=    Execute ONOS CLI Command    ${ip}    ${port}
+    ${upstream_meter_added}=    Execute ONOS CLI Command use single connection    ${ip}    ${port}
     ...    ${us_meter_cmd}
     Should Be Equal As Integers    ${upstream_meter_added}    1
     Sleep    1s
@@ -468,7 +506,7 @@ Verify Meters in ONOS
     ${ds_meter_cmd}=    Catenate    SEPARATOR=
     ...    meters ${olt_of_id} | grep state=ADDED | grep "rate=${ds_cir}, burst-size=${ds_cbs}"
     ...     | grep "rate=${ds_pir}, burst-size=${ds_pbs}" | grep "rate=${ds_air}, burst-size=0" | wc -l
-    ${downstream_meter_added}=    Execute ONOS CLI Command    ${ip}    ${port}
+    ${downstream_meter_added}=    Execute ONOS CLI Command use single connection    ${ip}    ${port}
     ...    ${ds_meter_cmd}
     Should Be Equal As Integers    ${downstream_meter_added}    1
 
@@ -485,42 +523,42 @@ Verify Default Meter Present in ONOS
     ${meter_cmd}=    Catenate    SEPARATOR=
     ...    meters ${olt_of_id} | grep state=ADDED | grep "rate=${cir}, burst-size=${cbs}"
     ...     | grep "rate=${pir}, burst-size=${pbs}" | grep "rate=${air}, burst-size=0" | wc -l
-    ${default_meter_added}=    Execute ONOS CLI Command    ${ip}    ${port}
+    ${default_meter_added}=    Execute ONOS CLI Command use single connection    ${ip}    ${port}
     ...    ${meter_cmd}
     Should Be Equal As Integers    ${default_meter_added}    1
 
 Verify Device Flows Removed
     [Arguments]    ${ip}    ${port}    ${olt_of_id}
     [Documentation]    Verifies all flows are removed from the device
-    ${device_flows}=    Execute ONOS CLI Command    ${ip}    ${port}
+    ${device_flows}=    Execute ONOS CLI Command use single connection    ${ip}    ${port}
     ...    flows -s -f ${olt_of_id} | grep -v deviceId | wc -l
     Should Be Equal As Integers    ${device_flows}    0
 
 Verify Eapol Flows Added
     [Arguments]    ${ip}    ${port}    ${expected_flows}
     [Documentation]    Matches for number of eapol flows based on number of onus
-    ${eapol_flows_added}=    Execute ONOS CLI Command    ${ip}    ${port}
+    ${eapol_flows_added}=    Execute ONOS CLI Command use single connection    ${ip}    ${port}
     ...    flows -s -f ADDED | grep eapol | grep IN_PORT | wc -l
     Should Contain    ${eapol_flows_added}    ${expected_flows}
 
 Verify No Pending Flows For ONU
     [Arguments]    ${ip}    ${port}    ${onu_port}
     [Documentation]    Verifies that there are no flows "PENDING" state for the ONU in ONOS
-    ${pending_flows}=    Execute ONOS CLI Command    ${ip}    ${port}
+    ${pending_flows}=    Execute ONOS CLI Command use single connection    ${ip}    ${port}
     ...    flows -s | grep IN_PORT:${onu_port} | grep PENDING
     Should Be Empty    ${pending_flows}
 
 Verify Eapol Flows Added For ONU
     [Arguments]    ${ip}    ${port}    ${onu_port}
     [Documentation]    Verifies if the Eapol Flows are added in ONOS for the ONU
-    ${eapol_flows_added}=    Execute ONOS CLI Command    ${ip}    ${port}
+    ${eapol_flows_added}=    Execute ONOS CLI Command use single connection    ${ip}    ${port}
     ...    flows -s -f ADDED | grep eapol | grep IN_PORT:${onu_port}
     Should Not Be Empty    ${eapol_flows_added}
 
 Verify ONU Port Is Enabled
     [Arguments]    ${ip}    ${port}    ${onu_name}
     [Documentation]    Verifies if the ONU port is enabled in ONOS
-    ${onu_port_enabled}=    Execute ONOS CLI Command    ${ip}    ${port}
+    ${onu_port_enabled}=    Execute ONOS CLI Command use single connection    ${ip}    ${port}
     ...    ports -e | grep portName=${onu_name}
     Log    ${onu_port_enabled}
     Should Not Be Empty    ${onu_port_enabled}
@@ -528,7 +566,7 @@ Verify ONU Port Is Enabled
 Verify ONU Port Is Disabled
     [Arguments]    ${ip}    ${port}    ${onu_name}
     [Documentation]    Verifies if the ONU port is disabled in ONOS
-    ${onu_port_disabled}=    Execute ONOS CLI Command    ${ip}    ${port}
+    ${onu_port_disabled}=    Execute ONOS CLI Command use single connection    ${ip}    ${port}
     ...    ports -e | grep portName=${onu_name}
     Log    ${onu_port_disabled}
     Should Be Empty    ${onu_port_disabled}
@@ -536,7 +574,8 @@ Verify ONU Port Is Disabled
 Verify ONU in AAA-Users
     [Arguments]    ${ip}    ${port}    ${onu_port}
     [Documentation]    Verifies that the specified onu_port exists in aaa-users output
-    ${aaa_users}=    Execute ONOS CLI Command    ${ip}    ${port}    aaa-users | grep AUTHORIZED | grep ${onu_port}
+    ${aaa_users}=    Execute ONOS CLI Command use single connection    ${ip}    ${port}
+    ...    aaa-users | grep AUTHORIZED | grep ${onu_port}
     Should Not Be Empty    ${aaa_users}    ONU port ${onu_port} not found in aaa-users
 
 Verify Empty Group in ONOS
@@ -575,7 +614,7 @@ Verify ONU in Group Bucket
 Verify ONU in Groups
     [Arguments]    ${ip_onos}    ${port_onos}    ${deviceId}    ${onu_port}    ${group_exist}=True
     [Documentation]    Verifies that the specified onu_port exists in groups output
-    ${result}=    Execute ONOS CLI Command    ${ip_onos}    ${port_onos}    groups -j
+    ${result}=    Execute ONOS CLI Command use single connection    ${ip_onos}    ${port_onos}    groups -j
     Log    Groups: ${result}
     ${groups}=    To Json    ${result}
     ${length}=    Get Length    ${groups}
@@ -622,7 +661,7 @@ Validate Subscriber DHCP Allocation
     [Arguments]    ${ip}    ${port}    ${onu_port}   ${vlan}=''
     [Documentation]    Verifies that the specified subscriber is found in DHCP allocations
     ##TODO: Enhance the keyword to include DHCP allocated address is not 0.0.0.0
-    ${allocations}=    Execute ONOS CLI Command    ${ip}    ${port}
+    ${allocations}=    Execute ONOS CLI Command use single connection    ${ip}    ${port}
     ...    dhcpl2relay-allocations | grep DHCPACK | grep ${onu_port} | grep ${vlan}
     Should Not Be Empty    ${allocations}    ONU port ${onu_port} not found in dhcpl2relay-allocations
 
@@ -716,7 +755,7 @@ Wait for DHCP Ack
 Provision subscriber
     [Documentation]  Calls volt-add-subscriber-access in ONOS
     [Arguments]    ${onos_ip}    ${onos_port}   ${of_id}    ${onu_port}
-    Execute ONOS CLI Command    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}
+    Execute ONOS CLI Command use single connection    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}
             ...    volt-add-subscriber-access ${of_id} ${onu_port}
 
 Provision subscriber REST
