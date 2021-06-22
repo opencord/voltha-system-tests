@@ -22,6 +22,30 @@
       "revId": "ba1bd271e083e71d47c23178a57ed1996ee7de22",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "481d3bb4_343b14f5",
+        "filename": "tests/software-upgrades/ONU_Upgrade.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2021-06-22T09:35:54Z",
+      "side": 1,
+      "message": "Sure Holger. Will create another JIRA to either extend this or implement new TC for the same.",
+      "parentUuid": "477f9b54_b99f73bb",
+      "range": {
+        "startLine": 109,
+        "startChar": 4,
+        "endLine": 109,
+        "endChar": 51
+      },
+      "revId": "ba1bd271e083e71d47c23178a57ed1996ee7de22",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
     }
   ]
 }
