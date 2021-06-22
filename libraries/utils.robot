@@ -712,6 +712,7 @@ Teardown
 Teardown Suite
     [Documentation]    Clean up device if desired
     Run Keyword If    ${teardown_device}    Delete All Devices and Verify
+    Close All ONOS SSH Connections
 
 Delete Device and Verify
     [Arguments]    ${olt_serial_number}

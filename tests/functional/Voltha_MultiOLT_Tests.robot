@@ -17,7 +17,7 @@ Documentation     Test various failure scenarios
 Suite Setup       Setup Suite
 Test Setup        Setup
 Test Teardown     Teardown
-#Suite Teardown    Teardown Suite
+Suite Teardown    Teardown Suite
 Library           Collections
 Library           String
 Library           OperatingSystem
@@ -182,3 +182,7 @@ Clear All Devices Then Perform Setup And Sanity
     # Performing Sanity Test to make sure subscribers are all AUTH+DHCP and pingable
     Run Keyword If    ${has_dataplane}    Clean Up Linux
     Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test
+
+Teardown Suite
+    [Documentation]    Clean up ONOS SSH connections
+    Close All ONOS SSH Connections

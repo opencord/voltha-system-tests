@@ -113,7 +113,7 @@ Allocate DHCP To All ONU Devices
         ${onu_port}=    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
         ...    Get ONU Port in ONOS    ${src['onu']}    ${of_id}
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2
-        ...    Execute ONOS CLI Command    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}
+        ...    Execute ONOS CLI Command use single connection    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}
         ...    volt-add-subscriber-access ${of_id} ${onu_port}
     END
 
@@ -194,8 +194,9 @@ Teardown Suite
     Run Keyword If    ${has_dataplane}    Clean Up Linux
     Run Keyword If    ${teardown_device}    Delete Device and Verify
     Run Keyword If    ${teardown_device}    Test Empty Device List
-    Run Keyword If    ${teardown_device}    Execute ONOS CLI Command    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}
+    Run Keyword If    ${teardown_device}    Execute ONOS CLI Command use single connection    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}
     ...    device-remove ${of_id}
+    Close All ONOS SSH Connections
 
 Clean Up Linux
     [Documentation]    Kill processes and clean up interfaces on src+dst servers

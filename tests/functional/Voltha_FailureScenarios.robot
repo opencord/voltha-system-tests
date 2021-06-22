@@ -17,7 +17,7 @@ Documentation     Test various failure scenarios
 Suite Setup       Setup Suite
 Test Setup        Setup
 Test Teardown     Teardown
-#Suite Teardown    Teardown Suite
+Suite Teardown    Teardown Suite
 Library           Collections
 Library           String
 Library           OperatingSystem
@@ -88,7 +88,7 @@ Verify ONU after rebooting physically
         ...    Check Ping    False    ${dst['dp_iface_ip_qinq']}    ${src['dp_iface_name']}
         ...    ${src['ip']}    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
         # Remove Subscriber Access (To replicate ATT workflow)
-        Wait Until Keyword Succeeds    ${timeout}    2s    Execute ONOS CLI Command    ${ONOS_SSH_IP}
+        Wait Until Keyword Succeeds    ${timeout}    2s    Execute ONOS CLI Command use single connection    ${ONOS_SSH_IP}
         ...    ${ONOS_SSH_PORT}    volt-remove-subscriber-access ${of_id} ${onu_port}
 
         Enable Switch Outlet    ${src['power_switch_port']}
@@ -112,7 +112,7 @@ Verify ONU after rebooting physically
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2
         ...    Verify ONU in AAA-Users    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${onu_port}
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2
-        ...    Execute ONOS CLI Command    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}
+        ...    Execute ONOS CLI Command use single connection    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}
         ...    volt-add-subscriber-access ${of_id} ${onu_port}
         # Verify that no pending flows exist for the ONU port
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
@@ -321,7 +321,7 @@ Verify openolt adapter restart before subscriber provisioning
         ${onu_port}=    Wait Until Keyword Succeeds    ${timeout}    2s    Get ONU Port in ONOS    ${src['onu']}
         ...    ${of_id}
         # Add subscriber access and verify that DHCP completes to ensure system is still functioning properly
-        Wait Until Keyword Succeeds    ${timeout}    2s    Execute ONOS CLI Command    ${ONOS_SSH_IP}
+        Wait Until Keyword Succeeds    ${timeout}    2s    Execute ONOS CLI Command use single connection    ${ONOS_SSH_IP}
         ...    ${ONOS_SSH_PORT}    volt-add-subscriber-access ${of_id} ${onu_port}
         # Verify subscriber access flows are added for the ONU port
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
@@ -564,7 +564,7 @@ Sanity E2E Test for OLT/ONU on POD With Core Fail and Restart
         ${onu_port}=    Wait Until Keyword Succeeds    ${timeout}    2s    Get ONU Port in ONOS    ${src['onu']}
         ...    ${of_id}
         # Add subscriber access and verify that DHCP completes to ensure system is still functioning properly
-        Wait Until Keyword Succeeds    ${timeout}    2s    Execute ONOS CLI Command    ${ONOS_SSH_IP}
+        Wait Until Keyword Succeeds    ${timeout}    2s    Execute ONOS CLI Command use single connection    ${ONOS_SSH_IP}
         ...    ${ONOS_SSH_PORT}    volt-add-subscriber-access ${of_id} ${onu_port}
         # Verify subscriber access flows are added for the ONU port
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
@@ -674,7 +674,7 @@ Verify restart ofagent container before subscriber is provisioned
     ...    Running
     FOR    ${I}    IN RANGE    0    ${num_all_onus}
         # Add subscriber access and verify that DHCP completes to ensure system is still functioning properly
-        #Wait Until Keyword Succeeds    ${timeout}    2s    Execute ONOS CLI Command    ${ONOS_SSH_IP}
+        #Wait Until Keyword Succeeds    ${timeout}    2s    Execute ONOS CLI Command use single connection    ${ONOS_SSH_IP}
         #...    ${ONOS_SSH_PORT}    volt-add-subscriber-access ${of_id} ${onu_port}
         ${src}=    Set Variable    ${hosts.src[${I}]}
         ${dst}=    Set Variable    ${hosts.dst[${I}]}
@@ -683,7 +683,7 @@ Verify restart ofagent container before subscriber is provisioned
         ${onu_port}=    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
         ...    Get ONU Port in ONOS    ${src['onu']}    ${of_id}
         # Add subscriber access and verify that DHCP completes to ensure system is still functioning properly
-        Wait Until Keyword Succeeds    ${timeout}    2s    Execute ONOS CLI Command    ${ONOS_SSH_IP}
+        Wait Until Keyword Succeeds    ${timeout}    2s    Execute ONOS CLI Command use single connection    ${ONOS_SSH_IP}
         ...    ${ONOS_SSH_PORT}    volt-add-subscriber-access ${of_id} ${onu_port}
         Run Keyword If    ${has_dataplane}    Run Keyword And Continue On Failure    Validate DHCP and Ping    True
         ...    True    ${src['dp_iface_name']}    ${src['s_tag']}    ${src['c_tag']}    ${dst['dp_iface_ip_qinq']}
@@ -739,7 +739,7 @@ Verify ONU Soft Reboot
         ...    Check Ping    False    ${dst['dp_iface_ip_qinq']}    ${src['dp_iface_name']}
         ...    ${src['ip']}    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
         # Remove Subscriber Access (To replicate ATT workflow)
-        Wait Until Keyword Succeeds    ${timeout}    2s    Execute ONOS CLI Command    ${ONOS_SSH_IP}
+        Wait Until Keyword Succeeds    ${timeout}    2s    Execute ONOS CLI Command use single connection    ${ONOS_SSH_IP}
         ...    ${ONOS_SSH_PORT}    volt-remove-subscriber-access ${of_id} ${onu_port}
         Verify ping is succesful except for given device     ${num_all_onus}    ${onu_device_id}
         Sleep    40s
@@ -763,7 +763,7 @@ Verify ONU Soft Reboot
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2
         ...    Verify ONU in AAA-Users    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${onu_port}
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2
-        ...    Execute ONOS CLI Command    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}
+        ...    Execute ONOS CLI Command use single connection    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}
         ...    volt-add-subscriber-access ${of_id} ${onu_port}
         # Verify that no pending flows exist for the ONU port
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
@@ -796,3 +796,7 @@ Clear All Devices Then Create New Device
     Delete All Devices and Verify
     # Execute normal test Setup Keyword
     Setup
+
+Teardown Suite
+    [Documentation]    Clean up ONOS SSH connections
+    Close All ONOS SSH Connections
