@@ -58,16 +58,18 @@ ${container_log_dir}    ${None}
 ${suppressaddsubscriber}    True
 
 # ONU Image to test for Upgrade needs to be passed in the following format:
-${onu_image_name}    ${EMPTY}
-# Example value: twsh.img
-${onu_image_url}    ${EMPTY}
+${image_version}    ${EMPTY}
+# Example value: BBSM_IMG_00002
+${image_url}    ${EMPTY}
 # Example value: http://bbsim0:50074/images/software-image.img
-${onu_image_version}    ${EMPTY}
-# Example value: v1.0.0
-${onu_image_crc}    ${EMPTY}
+${image_vendor}    ${EMPTY}
+# Example value: BBSM
+${image_activate_on_success}    ${EMPTY}
+# Example value: false
+${image_commit_on_success}    ${EMPTY}
+# Example value: false
+${image_crc}    ${EMPTY}
 # Example value: 0
-${onu_image_local_dir}    ${EMPTY}
-# Example value: /tmp
 
 *** Test Cases ***
 Test ONU Upgrade
@@ -109,22 +111,37 @@ Test ONU Upgrade Per OLT
         ${dst}=    Set Variable    ${hosts.dst[${I}]}
         Continue For Loop If    "${olt_serial_number}"!="${src['olt']}"
         ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
-        Download ONU Device Image    ${onu_device_id}    ${onu_image_name}    ${onu_image_url}    ${onu_image_version}
-        ...    ${onu_image_crc}    ${onu_image_local_dir}
-        # This additional pause to let image download finish on the OLT adapter
-        # as the DOWNLOADED_SUCCEEDED below only indicates that the command is accepted.
-        Run Keyword If    ${has_dataplane}    Sleep    12s
-        ...    ELSE    Sleep    2s
-        Wait Until Keyword Succeeds    ${timeout}    2s    Verify ONU Device Image    ${onu_device_id}
-        ...    DOWNLOAD_SUCCEEDED    IMAGE_UNKNOWN    NO_ERROR
-        Activate ONU Device Image    ${onu_device_id}    ${onu_image_name}    ${onu_image_version}
-        ...    ${onu_image_crc}    ${onu_image_local_dir}
-        # This additional pause to let image download and finish activate on the ONU (BBSim)
-        # as the IMAGE_ACTIVE below is only an indication that the image is accepted for the download to the ONU (BBSim).
-        Run Keyword If    ${has_dataplane}    Sleep    600s
-        ...    ELSE    Sleep    180s
-        Wait Until Keyword Succeeds    ${timeout}    2s    Verify ONU Device Image    ${onu_device_id}
-        ...    DOWNLOAD_SUCCEEDED    IMAGE_ACTIVE    NO_ERROR
+        # Download Image
+        Download ONU Device Image    ${image_version}    ${image_url}    ${image_vendor}
+        ...    ${image_activate_on_success}    ${image_commit_on_success}
+        ...    ${image_crc}    ${onu_device_id}
+        ${imageState}=    Run Keyword If    '${image_activate_on_success}'=='true'    Set Variable    IMAGE_ACTIVE
+        ...    ELSE IF    '${image_activate_on_success}'=='true' and '${image_commit_on_success}'=='true'
+        ...    Set Variable    IMAGE_COMMITTED
+        ...    ELSE    Set Variable    IMAGE_INACTIVE
+        ${activated}=    Set Variable If    '${image_activate_on_success}'=='true'    True    False
+        ${committed}=    Set Variable If    '${image_activate_on_success}'=='true' and '${image_commit_on_success}'=='true'
+        ...    True    False
+        Wait Until Keyword Succeeds    ${timeout}    2s    Verify ONU Device Image Status    ${image_version}
+        ...    ${onu_device_id}    DOWNLOAD_SUCCEEDED    NO_ERROR    ${imageState}
+        Wait Until Keyword Succeeds    ${timeout}    2s    Verify ONU Device Image List    ${onu_device_id}
+        ...    ${image_version}    ${committed}    ${activated}    True
+        # Activate Image
+        ${imageState}=    Set Variable If    '${image_commit_on_success}'=='true'    IMAGE_COMMITTED    IMAGE_ACTIVE
+        ${committed}=    Set Variable If    '${image_commit_on_success}'=='true'    True    False
+        Run Keyword If    '${image_activate_on_success}'=='false'    Run Keywords
+        ...    Activate ONU Device Image    ${image_version}    ${image_commit_on_success}    ${onu_device_id}
+        ...    AND    Wait Until Keyword Succeeds    ${timeout}    2s    Verify ONU Device Image Status    ${image_version}
+        ...    ${onu_device_id}    DOWNLOAD_SUCCEEDED    NO_ERROR    ${imageState}
+        ...    AND    Wait Until Keyword Succeeds    ${timeout}    2s    Verify ONU Device Image List    ${onu_device_id}
+        ...    ${image_version}    ${committed}    True    True
+        # Commit Image
+        Run Keyword If    '${image_commit_on_success}'=='false'    Run Keywords
+        ...    Commit ONU Device Image    ${image_version}    ${onu_device_id}
+        ...    AND    Wait Until Keyword Succeeds    ${timeout}    2s    Verify ONU Device Image Status    ${image_version}
+        ...    ${onu_device_id}    DOWNLOAD_SUCCEEDED    NO_ERROR    IMAGE_COMMITTED
+        ...    AND    Wait Until Keyword Succeeds    ${timeout}    2s    Verify ONU Device Image List    ${onu_device_id}
+        ...    ${image_version}    True    True    True
         Wait Until Keyword Succeeds    ${timeout}    2s    Verify ONU Device Image On BBSim    ${NAMESPACE}    ${bbsim_pod}
         ...    ${src['onu']}    software_image_committed
         Wait Until Keyword Succeeds    ${timeout}    5s    Perform Sanity Test     ${suppressaddsubscriber}
