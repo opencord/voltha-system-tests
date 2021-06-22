@@ -348,7 +348,7 @@ Do Onu Flow Check
         Do Onu Flow Check Per OLT    ${of_id}    ${nni_port}    ${olt_serial_number}   ${onu_count}
     END
     #log flows for verification
-    ${flowsresult}=    Execute ONOS CLI Command    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    flows -s
+    ${flowsresult}=    Execute ONOS CLI Command use single connection    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    flows -s
     log     ${flowsresult}
     #check  for previous state is kept (normally omci-flows-pushed)
     Sleep    10s
@@ -385,7 +385,7 @@ Do Onu Subscriber Add Per OLT
         ${onu_port}=    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
         ...    Get ONU Port in ONOS    ${src['onu']}    ${of_id}
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2
-        ...    Execute ONOS CLI Command    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}
+        ...    Execute ONOS CLI Command use single connection    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}
         ...    volt-add-subscriber-access ${of_id} ${onu_port}
         Run Keyword If    ${print2console}    Log    \r\n[${I}] volt-add-subscriber-access ${of_id} ${onu_port}.
         ...   console=yes
@@ -420,7 +420,7 @@ Do Onu Subscriber Remove Per OLT
         ${onu_port}=    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
         ...    Get ONU Port in ONOS    ${src['onu']}    ${of_id}
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2
-        ...    Execute ONOS CLI Command    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}
+        ...    Execute ONOS CLI Command use single connection    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}
         ...    volt-remove-subscriber-access ${of_id} ${onu_port}
         Run Keyword If    ${print2console}    Log    \r\n[${I}] volt-remove-subscriber-access ${of_id} ${onu_port}.
         ...    console=yes

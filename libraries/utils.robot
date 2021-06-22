@@ -245,7 +245,7 @@ Perform Sanity Test Per OLT
         ...    Verify ONU in AAA-Users    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${onu_port}
         Run Keyword Unless    ${supress_add_subscriber}
         ...    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2
-        ...    Execute ONOS CLI Command    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}
+        ...    Execute ONOS CLI Command use single connection    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}
         ...    volt-add-subscriber-access ${of_id} ${onu_port}
         # Verify that no pending flows exist for the ONU port
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
@@ -325,7 +325,7 @@ Perform Sanity Test DT Per OLT
         ...    Verify ONU Port Is Enabled   ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${src['onu']}
         Run Keyword Unless    ${supress_add_subscriber}
         ...    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2
-        ...    Execute ONOS CLI Command    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}
+        ...    Execute ONOS CLI Command use single connection    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}
         ...    volt-add-subscriber-access ${of_id} ${onu_port}
         # Verify subscriber access flows are added for the ONU port
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
@@ -462,7 +462,7 @@ Sanity Test TT one ONU
     ...    Verify ONU Port Is Enabled   ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${src['onu']}
     Run Keyword Unless    ${supress_add_subscriber}
     ...    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2
-    ...    Execute ONOS CLI Command    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}
+    ...    Execute ONOS CLI Command use single connection    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}
     ...    volt-add-subscriber-access ${of_id} ${onu_port}
     # Verify ONU state in voltha
     ${onu_reasons}=  Create List     omci-flows-pushed     onu-reenabled
@@ -541,7 +541,7 @@ Sanity Test TT MCAST one ONU
     ...    Verify ONU Port Is Enabled   ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${src['onu']}
     Run Keyword Unless    ${supress_add_subscriber}
     ...    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2
-    ...    Execute ONOS CLI Command    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}
+    ...    Execute ONOS CLI Command use single connection    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}
     ...    volt-add-subscriber-access ${of_id} ${onu_port}
     # Verify ONU state in voltha
     ${onu_reasons}=  Create List     omci-flows-pushed     onu-reenabled
@@ -712,6 +712,7 @@ Teardown
 Teardown Suite
     [Documentation]    Clean up device if desired
     Run Keyword If    ${teardown_device}    Delete All Devices and Verify
+    Close All ONOS SSH Connections
 
 Delete Device and Verify
     [Arguments]    ${olt_serial_number}
@@ -761,7 +762,7 @@ Repeat Sanity Test
         Wait Until Keyword Succeeds    ${timeout}    2s
         ...    Verify ONU in AAA-Users    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}     ${onu_port}
         Wait Until Keyword Succeeds    ${timeout}    2s
-        ...    Execute ONOS CLI Command    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}
+        ...    Execute ONOS CLI Command use single connection    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}
         ...    volt-add-subscriber-access ${of_id} ${onu_port}
         Run Keyword If    ${has_dataplane}    Run Keyword And Continue On Failure
         ...    Validate DHCP and Ping    True    True
@@ -829,8 +830,8 @@ Validate ONUs for PON OLT Disable
         ...    ${src['ip']}    ${src['user']}    ${src['pass']}    ${src['container_type']}
         ...    ${src['container_name']}
         # Remove Subscriber Access (To replicate ATT workflow)
-        ...    AND    Wait Until Keyword Succeeds    ${timeout}    2s    Execute ONOS CLI Command    ${ONOS_SSH_IP}
-        ...    ${ONOS_SSH_PORT}    volt-remove-subscriber-access ${of_id} ${onu_port}
+        ...    AND    Wait Until Keyword Succeeds    ${timeout}    2s    Execute ONOS CLI Command use single connection
+        ...    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    volt-remove-subscriber-access ${of_id} ${onu_port}
         ...    ELSE
         ...    Run Keyword If    ${has_dataplane}    Run Keyword And Continue On Failure
         ...    Wait Until Keyword Succeeds    60s    2s
@@ -876,7 +877,7 @@ Validate ONUs for PON OLT Enable
         ...    AND    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2
         ...    Verify ONU in AAA-Users    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${onu_port}
         ...    AND    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2
-        ...    Execute ONOS CLI Command    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}
+        ...    Execute ONOS CLI Command use single connection    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}
         ...    volt-add-subscriber-access ${of_id} ${onu_port}
         # Verify that no pending flows exist for the ONU port
         ...    AND    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
@@ -962,8 +963,8 @@ Validate ONUs for PON OLT Disable DT
         ...    ${src['ip']}    ${src['user']}    ${src['pass']}    ${src['container_type']}
         ...    ${src['container_name']}
         # Remove Subscriber Access (To replicate DT workflow)
-        ...    AND    Wait Until Keyword Succeeds    ${timeout}    2s    Execute ONOS CLI Command    ${ONOS_SSH_IP}
-        ...    ${ONOS_SSH_PORT}    volt-remove-subscriber-access ${of_id} ${onu_port}
+        ...    AND    Wait Until Keyword Succeeds    ${timeout}    2s    Execute ONOS CLI Command use single connection
+        ...    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    volt-remove-subscriber-access ${of_id} ${onu_port}
         # Delete ONU Device (To replicate DT workflow)
         ...    AND    Delete Device    ${onu_device_id}
         ...    ELSE
@@ -995,7 +996,7 @@ Validate ONUs for PON OLT Enable DT
         ...    AND    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds   120s   2s
         ...    Verify ONU Port Is Enabled   ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${src['onu']}
         ...    AND    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2
-        ...    Execute ONOS CLI Command    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}
+        ...    Execute ONOS CLI Command use single connection    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}
         ...    volt-add-subscriber-access ${of_id} ${onu_port}
         # Verify ONU state in voltha
         ...    AND    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
@@ -1232,10 +1233,10 @@ Get Bandwidth Profile Name For Given Subscriber
     ${service_type_upper}=    Run Keyword If    '${service_type}' != '${EMPTY}'
     ...    Convert To Upper Case    ${service_type}
     ${bandwidth_profile_output}=    Run Keyword If    '${service_type}' != '${EMPTY}'
-    ...    Execute ONOS CLI Command    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}
+    ...    Execute ONOS CLI Command use single connection    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}
     ...    volt-programmed-subscribers | grep ${subscriber_id} | grep '${service_type_upper}' --color=never
     ...    ELSE
-    ...    Execute ONOS CLI Command    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}
+    ...    Execute ONOS CLI Command use single connection    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}
     ...    volt-programmed-subscribers | grep ${subscriber_id}
     @{bandwidth_profile_array}=    Split String    ${bandwidth_profile_output}    ,
     Log    ${bandwidth_profile_array}

@@ -376,8 +376,9 @@ Teardown Suite
     Run Keyword If    ${has_dataplane}    Clean Up Linux
     Run Keyword If    ${teardown_device}    Delete All Devices and Verify
     Run Keyword If    ${teardown_device}    Test Empty Device List
-    Run Keyword If    ${teardown_device}    Execute ONOS CLI Command    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}
+    Run Keyword If    ${teardown_device}    Execute ONOS CLI Command use single connection    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}
     ...    device-remove ${of_id}
+    Close All ONOS SSH Connections
 
 # Onu Alarms
 

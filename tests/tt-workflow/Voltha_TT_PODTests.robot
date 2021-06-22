@@ -184,7 +184,7 @@ Verify re-provisioning subscriber after removing provisoned subscriber for TT
         ${onu_port}=    Wait Until Keyword Succeeds    ${timeout}    2s    Get ONU Port in ONOS    ${src['onu']}
         ...    ${of_id}
         # Remove Subscriber Access
-        Wait Until Keyword Succeeds    ${timeout}    2s    Execute ONOS CLI Command    ${ONOS_SSH_IP}
+        Wait Until Keyword Succeeds    ${timeout}    2s    Execute ONOS CLI Command use single connection    ${ONOS_SSH_IP}
         ...    ${ONOS_SSH_PORT}    volt-remove-subscriber-access ${of_id} ${onu_port}
         Run Keyword If    ${has_dataplane} and '${service_type}' != 'mcast'
         ...    Wait Until Keyword Succeeds    ${timeout}    2s
@@ -194,7 +194,7 @@ Verify re-provisioning subscriber after removing provisoned subscriber for TT
         Wait Until Keyword Succeeds    ${timeout}    5s    Validate Device Flows
         ...    ${onu_device_id}    0
         # Add Subscriber Access
-        Wait Until Keyword Succeeds    ${timeout}    2s    Execute ONOS CLI Command    ${ONOS_SSH_IP}
+        Wait Until Keyword Succeeds    ${timeout}    2s    Execute ONOS CLI Command use single connection    ${ONOS_SSH_IP}
         ...    ${ONOS_SSH_PORT}    volt-add-subscriber-access ${of_id} ${onu_port}
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    360s    5s
         ...    Validate Device    ENABLED    ACTIVE
@@ -267,3 +267,4 @@ Teardown Suite
     [Documentation]    Tear down steps for the suite
     Run Keyword If    ${has_dataplane}    Clean Up Linux
     Run Keyword If    ${teardown_device}    Delete All Devices And Verify
+    Close All ONOS SSH Connections

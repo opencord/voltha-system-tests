@@ -283,7 +283,7 @@ Setup Suite
 
 Teardown Suite
    [Documentation]    Close the SSH connection to ONOS
-    Close ONOS SSH Connection   ${onos_ssh_connection}
+    Close All ONOS SSH Connections
 
 Compute device IDs
     [Documentation]  Creates a list of ONOS device ID based on the test configuration
