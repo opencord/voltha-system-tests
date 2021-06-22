@@ -17,7 +17,7 @@ Documentation     Test various failure scenarios
 Suite Setup       Setup Suite
 Test Setup        Setup
 Test Teardown     Teardown
-#Suite Teardown    Teardown Suite
+Suite Teardown    Teardown Suite
 Library           Collections
 Library           String
 Library           OperatingSystem
@@ -133,7 +133,7 @@ Verify restart ofagent container before subscriber is provisioned
     ...    Running
     FOR    ${I}    IN RANGE    0    ${num_onus}
         # Add subscriber access and verify that DHCP completes to ensure system is still functioning properly
-        #Wait Until Keyword Succeeds    ${timeout}    2s    Execute ONOS CLI Command    ${ONOS_SSH_IP}
+        #Wait Until Keyword Succeeds    ${timeout}    2s    Execute ONOS CLI Command use single connection    ${ONOS_SSH_IP}
         #...    ${ONOS_SSH_PORT}    volt-add-subscriber-access ${of_id} ${onu_port}
         ${src}=    Set Variable    ${hosts.src[${I}]}
         ${dst}=    Set Variable    ${hosts.dst[${I}]}
@@ -141,7 +141,7 @@ Verify restart ofagent container before subscriber is provisioned
         ${onu_port}=    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
         ...    Get ONU Port in ONOS    ${src['onu']}    ${of_id}
         # Add subscriber access and verify that DHCP completes to ensure system is still functioning properly
-        Wait Until Keyword Succeeds    ${timeout}    2s    Execute ONOS CLI Command    ${ONOS_SSH_IP}
+        Wait Until Keyword Succeeds    ${timeout}    2s    Execute ONOS CLI Command use single connection    ${ONOS_SSH_IP}
         ...    ${ONOS_SSH_PORT}    volt-add-subscriber-access ${of_id} ${onu_port}
 	# Verify DHCP-Allocations
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
@@ -156,3 +156,7 @@ Verify restart ofagent container before subscriber is provisioned
 Setup Suite
     [Documentation]    Set up the test suite
     Common Test Suite Setup
+
+Teardown Suite
+    [Documentation]    Clean up ONOS SSH connections
+    Close All ONOS SSH Connections
