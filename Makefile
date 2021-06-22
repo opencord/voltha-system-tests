@@ -439,8 +439,8 @@ voltha-comp-upgrade-test: ROBOT_CONFIG_FILE := $(ROBOT_SW_UPGRADE_FILE)
 voltha-comp-upgrade-test: software-upgrade-test
 
 # Requirement: Pass ONU image details in following parameters
-# onu_image_name, onu_image_url, onu_image_version, onu_image_crc, onu_image_local_dir
-onu-upgrade-test: ROBOT_MISC_ARGS +=  -e notready -i functional
+# image_version, image_url, image_vendor, image_activate_on_success, image_commit_on_success, image_crc
+onu-upgrade-test: ROBOT_MISC_ARGS +=  -e notready -i functional -v image_version:BBSM_IMG_00002 -v image_url:http://bbsim0:50074/images/software-image.img -v image_vendor:BBSM -v image_activate_on_success:false -v image_commit_on_success:true -v image_crc:0
 onu-upgrade-test: ROBOT_FILE := ONU_Upgrade.robot
 onu-upgrade-test: ROBOT_CONFIG_FILE := $(ROBOT_SW_UPGRADE_FILE)
 onu-upgrade-test: software-upgrade-test

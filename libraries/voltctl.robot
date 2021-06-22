@@ -804,25 +804,73 @@ Wait for OpenOLT Devices flows
     Log     ${targetFlows}
     Wait Until Keyword Succeeds     10m     5s  Count OpenOLT Device Flows     ${targetFlows}
 
+Validate ONU Device Image
+    [Documentation]    Validates the ONU device image
+    [Arguments]    ${data}    ${image_version}    ${dev_id}    ${download_state}    ${expected_reason}    ${image_status}
+    ${jsondata}=    To Json    ${data}
+    ${length}=    Get Length    ${jsondata}
+    Should Be Equal As Integers    ${length}    1    No record found for ${dev_id} to validate device image
+    ${value}=    Get From List    ${jsondata}    0
+    Log    ${value}
+    ${deviceId}=    Get From Dictionary    ${value}    deviceId
+    Should Be Equal    '${deviceId}'    '${dev_id}'    No match found for ${dev_id} to validate device image
+    ...    values=False
+    ${imageState}=    Get From Dictionary    ${value}    imageState
+    ${version}=    Get From Dictionary    ${imageState}    version
+    ${downloadState}=    Get From Dictionary    ${imageState}    downloadState
+    ${reason}=    Get From Dictionary    ${imageState}    reason
+    ${imageStatus}=    Get From Dictionary    ${imageState}    imageState
+    Should Be Equal    '${version}'    '${image_version}'    Device ${dev_id}: '${version}' != '${image_version}'
+    ...    values=False
+    Should Be Equal    '${downloadState}'    '${download_state}'    Device ${dev_id}: '${downloadState}' != '${download_state}'
+    ...    values=False
+    Should Be Equal    '${reason}'    '${expected_reason}'    Device ${dev_id}: '${reason}' != '${expected_reason}'
+    ...    values=False
+    Should Be Equal    '${imageStatus}'    '${image_status}'    Device ${dev_id}: '${imageStatus}' != '${image_status}'
+    ...    values=False
+
 Download ONU Device Image
     [Documentation]    Downloads the given ONU software image
-    [Arguments]    ${id}    ${image}    ${url}    ${ver}    ${crc}    ${local_dir}
-    ${rc}=    Run and Return Rc
-    ...    voltctl -c ${VOLTCTL_CONFIG} device image download ${id} ${image} ${url} ${ver} ${crc} ${local_dir}
+    [Arguments]    ${ver}    ${url}    ${vendor}    ${active}    ${commit}    ${crc}    ${id}
+    ${rc}    ${output}=    Run and Return Rc and Output
+    ...    voltctl -c ${VOLTCTL_CONFIG} device onuimage download ${ver} ${url} ${vendor} ${active} ${commit} ${crc} ${id} -o json
+    Log    ${output}
     Should Be Equal As Integers    ${rc}    0
+    Validate ONU Device Image    ${output}    ${ver}    ${id}    DOWNLOAD_STARTED    NO_ERROR    IMAGE_INACTIVE
 
 Activate ONU Device Image
-    [Documentation]    Activatess the given ONU software image
-    [Arguments]    ${id}    ${image}    ${ver}    ${crc}    ${local_dir}
-    ${rc}=    Run and Return Rc
-    ...    voltctl -c ${VOLTCTL_CONFIG} device image activate ${id} ${image} ${ver} ${crc} ${local_dir}
-    Should Be Equal As Integers    ${rc}    0
-
-Verify ONU Device Image
-    [Documentation]    Verfies the ONU device image state
-    [Arguments]    ${dev_id}    ${download_state}    ${image_state}    ${expected_reason}
+    [Documentation]    Activates the given ONU software image
+    [Arguments]    ${ver}    ${commit}    ${id}
     ${rc}    ${output}=    Run and Return Rc and Output
-    ...    voltctl -c ${VOLTCTL_CONFIG} device image list ${dev_id} -o json
+    ...    voltctl -c ${VOLTCTL_CONFIG} device onuimage activate ${ver} ${commit} ${id} -o json
+    Log    ${output}
+    Should Be Equal As Integers    ${rc}    0
+    Validate ONU Device Image    ${output}    ${ver}    ${id}    DOWNLOAD_SUCCEEDED    NO_ERROR    IMAGE_ACTIVATING
+
+Commit ONU Device Image
+    [Documentation]    Commits the given ONU software image
+    [Arguments]    ${ver}    ${id}
+    ${rc}    ${output}=    Run and Return Rc and Output
+    ...    voltctl -c ${VOLTCTL_CONFIG} device onuimage commit ${ver} ${id} -o json
+    Log    ${output}
+    Should Be Equal As Integers    ${rc}    0
+    Validate ONU Device Image    ${output}    ${ver}    ${id}    DOWNLOAD_SUCCEEDED    NO_ERROR    IMAGE_COMMITTING
+
+Verify ONU Device Image Status
+    [Documentation]    Verfies the ONU device image state
+    [Arguments]    ${image_version}    ${dev_id}    ${download_state}    ${expected_reason}    ${image_state}
+    ${rc}    ${output}=    Run and Return Rc and Output
+    ...    voltctl -c ${VOLTCTL_CONFIG} device onuimage status ${image_version} ${dev_id} -o json
+    Log    ${output}
+    Should Be Equal As Integers    ${rc}    0
+    Validate ONU Device Image    ${output}    ${image_version}    ${dev_id}    ${download_state}    ${expected_reason}
+    ...    ${image_state}
+
+Verify ONU Device Image List
+    [Documentation]    Verfies the ONU device image list
+    [Arguments]    ${dev_id}    ${image_version}    ${committed}    ${activated}    ${valid}
+    ${rc}    ${output}=    Run and Return Rc and Output
+    ...    voltctl -c ${VOLTCTL_CONFIG} device onuimage list ${dev_id} -o json
     Should Be Equal As Integers    ${rc}    0
     ${jsondata}=    To Json    ${output}
     Log    ${jsondata}
@@ -830,18 +878,20 @@ Verify ONU Device Image
     ${matched}=    Set Variable    False
     FOR    ${INDEX}    IN RANGE    0    ${length}
         ${value}=    Get From List    ${jsondata}    ${INDEX}
-        ${id}=    Get From Dictionary    ${value}    id
-        ${downloadstate}=    Get From Dictionary    ${value}    downloadState
-        ${imagestate}=    Get From Dictionary    ${value}    imageState
-        ${reason}=    Get From Dictionary    ${value}    reason
-        ${matched}=    Set Variable If    '${id}' == '${dev_id}'    True    False
+        ${version}=    Get From Dictionary    ${value}    version
+        ${isCommited}=    Get From Dictionary    ${value}    isCommited
+        ${isActive}=    Get From Dictionary    ${value}    isActive
+        ${isValid}=    Get From Dictionary    ${value}    isValid
+        ${matched}=    Set Variable If    '${version}' == '${image_version}'    True    False
         Exit For Loop If    ${matched}
     END
-    Should Be True    ${matched}    No ONU Device Image for Id: ${dev_id}
-    Should Be Equal    '${downloadstate}'    '${download_state}'    ONU Device ${id} Image downloadState does not match
-    Should Be Equal    '${imagestate}'    '${image_state}'    ONU Device ${id} Image imageState does not match
-    Should Be Equal    '${reason}'    '${expected_reason}'    ONU Device ${id} Image reason does not match
-
+    Should Be True    ${matched}     No ONU Image found with Version ${image_version}
+    Should Be Equal    '${isCommited}'    '${committed}'    Device ${dev_id}: '${isCommited}' != '${committed}'
+    ...    values=False
+    Should Be Equal    '${isActive}'    '${activated}'    Device ${dev_id}: '${isActive}' != '${activated}'
+    ...    values=False
+    Should Be Equal    '${isValid}'    '${valid}'    Device ${dev_id}: '${isValid}' != '${valid}'
+    ...    values=False
 
 # pm-data relevant keywords
 Read Default Interval From Pmconfig
