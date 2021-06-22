@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "477f9b54_b99f73bb",
+        "filename": "tests/software-upgrades/ONU_Upgrade.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2021-06-22T09:04:47Z",
+      "side": 1,
+      "message": "Instead of the loop, you could also call the individual commands with all ONUs at once and check the overall result at the end. This would put the system under more stress.",
+      "range": {
+        "startLine": 109,
+        "startChar": 4,
+        "endLine": 109,
+        "endChar": 51
+      },
+      "revId": "ba1bd271e083e71d47c23178a57ed1996ee7de22",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    }
+  ]
+}
