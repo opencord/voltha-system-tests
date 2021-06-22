@@ -123,6 +123,7 @@ Setup Suite
 Teardown Suite
     [Documentation]    Tear down steps for the suite
     Run Keyword If    ${has_dataplane}    Clean Up Linux
+    Close All ONOS SSH Connections
 
 Create Voltha Comp Under Test List
     [Documentation]    Creates a list of Voltha Components to Test from the input variable string
