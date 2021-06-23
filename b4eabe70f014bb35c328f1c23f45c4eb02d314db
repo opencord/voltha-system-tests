@@ -22,6 +22,30 @@
       "revId": "b4eabe70f014bb35c328f1c23f45c4eb02d314db",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "120b1d2b_40d878a0",
+        "filename": "libraries/onos.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2021-06-23T11:51:19Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "0745b664_a242e6f6",
+      "range": {
+        "startLine": 66,
+        "startChar": 0,
+        "endLine": 68,
+        "endChar": 84
+      },
+      "revId": "b4eabe70f014bb35c328f1c23f45c4eb02d314db",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
     }
   ]
 }
