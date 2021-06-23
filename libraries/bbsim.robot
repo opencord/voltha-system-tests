@@ -86,7 +86,7 @@ Get ONUs List
     [Documentation]    Fetches ONUs via BBSimctl
     [Arguments]    ${namespace}    ${bbsim_pod_name}
     ${onus}    ${rc}=    Exec Pod And Return Output And RC    ${namespace}    ${bbsim_pod_name}
-    ...    bbsimctl onu list | awk 'NR>1 {print $4}'
+    ...    bbsimctl onu list | awk 'NR>1 {print $3}'
     @{onuList}=    Split To Lines    ${onus}
     Should Be Equal as Integers    ${rc}    0
     [Return]    ${onuList}
@@ -103,6 +103,6 @@ Verify ONU Device Image On BBSim
     [Documentation]    Validates the state of ONU in case of Image Upgrade
     [Arguments]    ${namespace}    ${bbsim_pod_name}    ${onu}    ${internal_state}
     ${res}     ${rc}=    Exec Pod And Return Output And RC    ${namespace}    ${bbsim_pod_name}
-    ...    bbsimctl onu list | grep ${onu} | awk '{print $6}'
+    ...    bbsimctl onu list | grep ${onu} | awk '{print $5}'
     Should Be Equal as Integers    ${rc}    0
     Should Be Equal    ${res}    ${internal_state}
