@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "47ec2fb5_21577afb",
+        "filename": "libraries/utils.robot",
+        "patchSetId": 3
+      },
+      "lineNbr": 248,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2021-06-23T12:34:09Z",
+      "side": 1,
+      "message": "Hi Torsten, Can you please take care of this file as well. There are about 10-11 places where the above keyword can be replaced with the new one.",
+      "range": {
+        "startLine": 248,
+        "startChar": 15,
+        "endLine": 248,
+        "endChar": 39
+      },
+      "revId": "4c5f70159db3f00c3efa8e1c93fe31ce87d28a45",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    }
+  ]
+}
