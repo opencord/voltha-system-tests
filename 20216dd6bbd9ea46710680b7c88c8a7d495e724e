@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f0962c8b_980bb642",
+        "filename": "libraries/onos.robot",
+        "patchSetId": 4
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1000007
+      },
+      "writtenOn": "2021-06-23T16:25:12Z",
+      "side": 1,
+      "message": "should we deprecated this Keyword in favor of \"Execute ONOS CLI Command use single connection\"?",
+      "range": {
+        "startLine": 43,
+        "startChar": 0,
+        "endLine": 43,
+        "endChar": 42
+      },
+      "revId": "20216dd6bbd9ea46710680b7c88c8a7d495e724e",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    }
+  ]
+}
