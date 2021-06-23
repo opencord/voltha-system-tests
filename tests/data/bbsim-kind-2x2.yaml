@@ -40,15 +40,15 @@ hosts:
       s_tag: '900'
     - onu: 'BBSM000a0002'
       olt: 'BBSIM_OLT_10'
-      c_tag: '901'
+      c_tag: '904'
       s_tag: '900'
     - onu: 'BBSM000a0101'
       olt: 'BBSIM_OLT_10'
-      c_tag: '902'
+      c_tag: '908'
       s_tag: '900'
     - onu: 'BBSM000a0102'
       olt: 'BBSIM_OLT_10'
-      c_tag: '903'
+      c_tag: '912'
       s_tag: '900'
 
   dst:
