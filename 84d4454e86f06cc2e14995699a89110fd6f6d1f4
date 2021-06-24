@@ -22,6 +22,30 @@
       "revId": "84d4454e86f06cc2e14995699a89110fd6f6d1f4",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "561b5f8f_7cbc4098",
+        "filename": "tests/openonu-go-adapter/Voltha_ONUStateTests.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 433,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2021-06-24T11:54:14Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "3b2896ff_05a1a81e",
+      "range": {
+        "startLine": 433,
+        "startChar": 0,
+        "endLine": 433,
+        "endChar": 64
+      },
+      "revId": "84d4454e86f06cc2e14995699a89110fd6f6d1f4",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
     }
   ]
 }
