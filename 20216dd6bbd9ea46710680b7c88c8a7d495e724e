@@ -46,6 +46,30 @@
       "revId": "20216dd6bbd9ea46710680b7c88c8a7d495e724e",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "826f9b1e_290f69c3",
+        "filename": "libraries/onos.robot",
+        "patchSetId": 4
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2021-06-24T13:06:22Z",
+      "side": 1,
+      "message": "I took a look at this and it looks like a never ending story. To realize the \u0027depricated\u0027 it will take a lot of time. And I\u0027m not sure about the positve effect. When I will do it I need at least about one day (that\u0027s my assumption at the moment). Let me know if it is worth. Thanks",
+      "parentUuid": "84ed61f6_50607fa6",
+      "range": {
+        "startLine": 43,
+        "startChar": 0,
+        "endLine": 43,
+        "endChar": 42
+      },
+      "revId": "20216dd6bbd9ea46710680b7c88c8a7d495e724e",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
     }
   ]
 }
