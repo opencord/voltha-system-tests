@@ -430,9 +430,8 @@ Do Check Tech Profile
     [Documentation]    This keyword checks the loaded TechProfile
     ${namespace}=    Set Variable    default
     ${podname}=    Set Variable    etcd
-    ${kvstoreprefix}=    Get Kv Store Prefix    ${kvstoreprefix}
     ${commandget}    Catenate
-    ...    /bin/sh -c 'ETCDCTL_API=3 etcdctl get --prefix service/${kvstoreprefix}/technology_profiles/XGS-PON/64'
+    ...    /bin/sh -c 'ETCDCTL_API=3 etcdctl get --prefix service/voltha/technology_profiles/XGS-PON/64'
     ${result}=    Exec Pod In Kube    ${namespace}    ${podname}    ${commandget}
     ${num_gem_ports}=    Set Variable    1
     ${num_gem_ports}=    Set Variable If
@@ -442,9 +441,9 @@ Do Check Tech Profile
     @{resultList}    Split String    ${result}     separator=,
     ${num_of_count_matches}=    Get Match Count    ${resultList}    "num_gem_ports": ${num_gem_ports}
     ...    whitespace_insensitive=True
-    ${num_of_expected_matches}=    Evaluate    ${num_all_onus}
+    ${num_of_expected_matches}=    Set Variable    1
     Should Be Equal As Integers    ${num_of_expected_matches}    ${num_of_count_matches}
-    ...    TechProfile (${TechProfile}) not loaded correctly:${num_of_count_matches} of ${num_of_expected_matches}
+    ...    TechProfile (${TechProfile}) not loaded correctly: found(${num_of_count_matches}) expected(${num_of_expected_matches})
 
 Do Disable Enable Onu Test
     [Documentation]    This keyword disables/enables all onus and checks the states.
