@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "395fa906_1117d7c6",
+        "filename": "tests/tt-workflow/Voltha_TT_MultiTcontTests.robot",
+        "patchSetId": 10
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1000127
+      },
+      "writtenOn": "2021-06-24T18:32:06Z",
+      "side": 1,
+      "message": "What happens when we run on a GPON OLT? How is this controlled? Does this test not run on a GPON OLT? Should be ok as long as we clarify that this test is only for a XGSPON OLT or enable the test on a XGSPON OLT.",
+      "revId": "42d3b713fe5cf01f30388e013c1b3bff6d4ce6ac",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    }
+  ]
+}
