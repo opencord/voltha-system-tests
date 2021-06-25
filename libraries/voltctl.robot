@@ -488,6 +488,27 @@ Validate Logical Device Flows
     ${length}=    Get Length    ${jsondata}
     Should Be True    ${length} > 0    Number of flows for ${logical_device_id} was 0
 
+Retrieve ONU UNI Ports
+    [Arguments]    ${onu_device_id}
+    [Documentation]    Retrieves the list of Active and Enabled UNI ports from the ONU device
+    ${rc}    ${output}=    Run and Return Rc and Output
+    ...    voltctl -c ${VOLTCTL_CONFIG} device port list ${onu_device_id} -o json
+    Should Be Equal As Integers    ${rc}    0
+    ${jsondata}=    To Json    ${output}
+    Log    ${jsondata}
+    ${length}=    Get Length    ${jsondata}
+    ${onu_uni_list}=    Create List
+    FOR    ${INDEX}    IN RANGE    0    ${length}
+        ${value}=    Get From List    ${jsondata}    ${INDEX}
+        ${type}=    Get From Dictionary    ${value}    type
+        ${portno}=    Get From Dictionary    ${value}    portNo
+        ${adminstate}=    Get From Dictionary    ${value}    adminState
+        ${operstate}=    Get From Dictionary    ${value}    operStatus
+        Run Keyword If    '${type}'=='ETHERNET_UNI' and '${adminstate}'=='ENABLED' and '${operstate}'=='ACTIVE'
+        ...    Append To List    ${onu_uni_list}    ${portno}
+    END
+    [Return]    ${onu_uni_list}
+
 Retrieve OLT PON Ports
     [Arguments]    ${olt_device_id}
     [Documentation]    Retrieves the list of PON ports from the OLT device
