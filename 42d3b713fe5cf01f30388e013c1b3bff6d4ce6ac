@@ -34,6 +34,24 @@
       "revId": "42d3b713fe5cf01f30388e013c1b3bff6d4ce6ac",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b72dd55b_67f13251",
+        "filename": "tests/tt-workflow/Voltha_TT_MultiTcontTests.robot",
+        "patchSetId": 10
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2021-06-25T07:33:36Z",
+      "side": 1,
+      "message": "Currently, we run TT tests only on XGSPON based setup. I know this is the limitation and we can add label for XGSPON and GPON anytime later. For now, I am fine merging this as it is.",
+      "parentUuid": "ed8a9f72_88554b0c",
+      "revId": "42d3b713fe5cf01f30388e013c1b3bff6d4ce6ac",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
     }
   ]
 }
