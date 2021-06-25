@@ -44,41 +44,49 @@ hosts:
       c_tag: '4096'
       s_tag: '900'
       olt: 'BBSIM_OLT_10'
+      uni_id: '1'
     -
       onu: 'BBSM000a0002'
       c_tag: '4096'
       s_tag: '904'
       olt: 'BBSIM_OLT_10'
+      uni_id: '1'
     -
       onu: 'BBSM000a0101'
       olt: 'BBSIM_OLT_10'
       c_tag: '4096'
       s_tag: '908'
+      uni_id: '1'
     -
       onu: 'BBSM000a0102'
       olt: 'BBSIM_OLT_10'
       c_tag: '4096'
       s_tag: '912'
+      uni_id: '1'
     -
       onu: 'BBSM000b0001'
       c_tag: '4097'
       s_tag: '900'
       olt: 'BBSIM_OLT_11'
+      uni_id: '1'
     -
       onu: 'BBSM000b0002'
       c_tag: '4097'
       s_tag: '904'
       olt: 'BBSIM_OLT_11'
+      uni_id: '1'
     -
       onu: 'BBSM000b0101'
       olt: 'BBSIM_OLT_11'
       c_tag: '4097'
       s_tag: '908'
+      uni_id: '1'
     -
       onu: 'BBSM000b0102'
       olt: 'BBSIM_OLT_11'
       c_tag: '4097'
       s_tag: '912'
+      uni_id: '1'
   dst:
     - ip: null
     - ip: null

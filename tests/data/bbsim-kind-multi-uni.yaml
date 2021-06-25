@@ -17,7 +17,6 @@
 # Automated deployment configuration for kind-voltha running BBSim
 
 # Change default values in tests
-workflow: TT
 has_dataplane: false
 teardown_device: true
 ONOS_REST_PORT: 8181
@@ -33,35 +32,32 @@ olts:
     ip: bbsim0
     serial: BBSIM_OLT_10
 
-onos_netcfg:
-  file: ${CURDIR}/../../data/onos-igmp.json
-
 hosts:
   src:
-    - onu: 'BBSM000a0001'
+    -
+      onu: 'BBSM000a0001'
       olt: 'BBSIM_OLT_10'
       c_tag: '900'
       s_tag: '900'
-      service_type: 'hsia'
-      uni_id: 1
-    - onu: 'BBSM000a0001'
+      uni_id: '1'
+    -
+      onu: 'BBSM000a0001'
       olt: 'BBSIM_OLT_10'
-      c_tag: '444'
-      s_tag: '333'
-      uni_id: 1
-      service_type: 'voip'
-    - onu: 'BBSM000a0001'
+      c_tag: '901'
+      s_tag: '900'
+      uni_id: '2'
+    -
+      onu: 'BBSM000a0001'
       olt: 'BBSIM_OLT_10'
-      c_tag: '55'
-      s_tag: '555'
-      service_type: 'vod'
-      uni_id: 1
-    - onu: 'BBSM000a0001'
+      c_tag: '902'
+      s_tag: '900'
+      uni_id: '3'
+    -
+      onu: 'BBSM000a0001'
       olt: 'BBSIM_OLT_10'
-      c_tag: '55'
-      s_tag: '550'
-      service_type: 'mcast'
-      uni_id: 1
+      c_tag: '903'
+      s_tag: '900'
+      uni_id: '4'
 
   dst:
     - ip: null

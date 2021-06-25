@@ -67,51 +67,61 @@ hosts:
       c_tag: '900'
       s_tag: '900'
       olt: 'BBSIM_OLT_10'
+      uni_id: '1'
     -
       onu: 'BBSM000b0001'
       c_tag: '900'
       s_tag: '901'
       olt: 'BBSIM_OLT_11'
+      uni_id: '1'
     -
       onu: 'BBSM000c0001'
       c_tag: '900'
       s_tag: '902'
       olt: 'BBSIM_OLT_12'
+      uni_id: '1'
     -
       onu: 'BBSM000d0001'
       c_tag: '900'
       s_tag: '903'
       olt: 'BBSIM_OLT_13'
+      uni_id: '1'
     -
       onu: 'BBSM000e0001'
       c_tag: '900'
       s_tag: '904'
       olt: 'BBSIM_OLT_14'
+      uni_id: '1'
     -
       onu: 'BBSM000f0001'
       c_tag: '900'
       s_tag: '905'
       olt: 'BBSIM_OLT_15'
+      uni_id: '1'
     -
       onu: 'BBSM00100001'
       c_tag: '900'
       s_tag: '906'
       olt: 'BBSIM_OLT_16'
+      uni_id: '1'
     -
       onu: 'BBSM00110001'
       c_tag: '900'
       s_tag: '907'
       olt: 'BBSIM_OLT_17'
+      uni_id: '1'
     -
       onu: 'BBSM00120001'
       c_tag: '900'
       s_tag: '908'
       olt: 'BBSIM_OLT_18'
+      uni_id: '1'
     -
       onu: 'BBSM00130001'
       c_tag: '900'
       s_tag: '909'
       olt: 'BBSIM_OLT_19'
+      uni_id: '1'
   dst:
     - ip: null
     - ip: null
