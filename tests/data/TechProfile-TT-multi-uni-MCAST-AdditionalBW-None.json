@@ -1,0 +1,76 @@
+{
+	"name": "MCAST",
+	"profile_type":	"XPON",
+	"version": 1,
+   	"num_gem_ports": 1,
+   	"instance_control":{
+      		"onu": "multi-instance",
+      		"uni": "single-instance",
+      		"max_gem_payload_size": "auto"
+   	},
+   	"us_scheduler":{
+      		"additional_bw": "AdditionalBW_None",
+      		"direction": "UPSTREAM",
+      		"priority": 1,
+      		"weight": 20,
+      		"q_sched_policy": "StrictPriority"
+   	},
+   	"ds_scheduler":{
+      		"additional_bw": "AdditionalBW_BestEffort",
+      		"direction": "DOWNSTREAM",
+      		"priority": 1,
+      		"weight": 20,
+      		"q_sched_policy": "StrictPriority"
+   	},
+   	"upstream_gem_port_attribute_list":[
+      	{
+         	"pbit_map": "0b00100000",
+         	"aes_encryption": "True",
+         	"scheduling_policy": "StrictPriority",
+         	"priority_q": 1,
+         	"weight": 20,
+         	"discard_policy": "TailDrop",
+         	"max_q_size": "auto",
+         	"discard_config": {
+            		"max_threshold": 0,
+            		"min_threshold": 0,
+            		"max_probability": 0
+         		}
+      	}
+   	],
+   	"downstream_gem_port_attribute_list":[
+      	{
+         	"pbit_map": "0b00100000",
+         	"aes_encryption": "True",
+         	"scheduling_policy": "StrictPriority",
+         	"priority_q": 1,
+         	"weight": 20,
+         	"discard_policy": "TailDrop",
+         	"max_q_size": "auto",
+         	"discard_config": {
+            		"max_threshold": 0,
+            		"min_threshold": 0,
+            		"max_probability": 0
+         	},
+         	"is_multicast": "True",
+         	"dynamic_access_control_list": "225.0.0.0-239.255.255.255",
+         	"static_access_control_list": "225.3.3.3",
+         	"multicast_gem_id": 4069
+      	},
+      	{
+         	"pbit_map": "0b00100000",
+         	"discard_policy": "TailDrop",
+         	"aes_encryption": "True",
+         	"scheduling_policy": "StrictPriority",
+         	"priority_q": 1,
+         	"weight": 20,
+         	"max_q_size": "auto",
+         	"discard_config": {
+            		"max_threshold": 0,
+            		"min_threshold": 0,
+            		"max_probability": 0
+         		},
+		"is_multicast": "False"
+      	}
+   	]
+}
