@@ -51,12 +51,26 @@ ROBOT_DMI_SINGLE_BBSIM_FILE     ?= $(ROOT_DIR)/tests/data/dmi-components-bbsim.y
 ROBOT_DMI_SINGLE_ADTRAN_FILE     ?= $(ROOT_DIR)/tests/data/dmi-components-adtran.yaml
 ROBOT_SW_UPGRADE_FILE     ?= $(ROOT_DIR)/tests/data/software-upgrade.yaml
 ROBOT_PM_DATA_FILE     ?= $(ROOT_DIR)/tests/data/pm-data.yaml
+ROBOT_SANITY_MULTI_UNI_SINGLE_PON_FILE     ?= $(ROOT_DIR)/tests/data/bbsim-kind-multi-uni.yaml
+ROBOT_SANITY_MULTI_UNI_MULTIPLE_OLT_FILE     ?= $(ROOT_DIR)/tests/data/bbsim-kind-multi-uni-2OLTx2ONUx2PON.yaml
 
 # for backwards compatibility
 sanity-kind: sanity-single-kind
 
 # to simplify ci
 sanity-kind-att: sanity-single-kind
+
+# ATT Multi-UNI Sanity Target
+sanity-kind-multiuni-att: ROBOT_MISC_ARGS += -X -i sanity $(ROBOT_DEBUG_LOG_OPT)
+sanity-kind-multiuni-att: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_MULTI_UNI_SINGLE_PON_FILE)
+sanity-kind-multiuni-att: ROBOT_FILE := Voltha_PODTests.robot
+sanity-kind-multiuni-att: voltha-test
+
+# ATT Multi-UNI Functional Suite Target
+functional-single-kind-multiuni-att: ROBOT_MISC_ARGS += -X -i sanityORmulti-uni $(ROBOT_DEBUG_LOG_OPT)
+functional-single-kind-multiuni-att: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_MULTI_UNI_SINGLE_PON_FILE)
+functional-single-kind-multiuni-att: ROBOT_FILE := Voltha_PODTests.robot
+functional-single-kind-multiuni-att: voltha-test
 
 # for scale pipeline
 voltha-scale: ROBOT_MISC_ARGS += -i activation -v NAMESPACE:voltha $(ROBOT_DEBUG_LOG_OPT)
@@ -98,6 +112,11 @@ functional-multi-olt: ROBOT_MISC_ARGS += -i sanityORfunctional -e PowerSwitch $(
 functional-multi-olt: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_MULTIPLE_OLT_FILE)
 functional-multi-olt: ROBOT_FILE := Voltha_PODTests.robot
 functional-multi-olt: voltha-test
+
+functional-multiuni-multi-olt-att: ROBOT_MISC_ARGS += -X -i sanityORmulti-uni $(ROBOT_DEBUG_LOG_OPT)
+functional-multiuni-multi-olt-att: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_MULTI_UNI_MULTIPLE_OLT_FILE)
+functional-multiuni-multi-olt-att: ROBOT_FILE := Voltha_PODTests.robot
+functional-multiuni-multi-olt-att: voltha-test
 
 # target to invoke test with openonu go adapter applying 1T1GEM tech-profile at single ONU
 1t1gem-openonu-go-adapter-test: ROBOT_MISC_ARGS += -v techprofile:1T1GEM
@@ -205,6 +224,7 @@ openonu-go-adapter-multi-olt-test: openonu-go-adapter-tests
 sanity-single-kind: ROBOT_MISC_ARGS += -i sanity $(ROBOT_DEBUG_LOG_OPT)
 sanity-single-kind: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_SINGLE_PON_FILE)
 sanity-single-kind: bbsim-kind
+
 sanity-bbsim-att: ROBOT_MISC_ARGS += -v logging:True -v workflow:ATT
 sanity-bbsim-att: sanity-bbsim
 
@@ -283,10 +303,20 @@ bbsim-errorscenarios: ROBOT_FILE := Voltha_ErrorScenarios.robot
 bbsim-errorscenarios: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_SINGLE_PON_FILE)
 bbsim-errorscenarios: voltha-test
 
+bbsim-multiuni-errorscenarios-att: ROBOT_MISC_ARGS += -X $(ROBOT_DEBUG_LOG_OPT)
+bbsim-multiuni-errorscenarios-att: ROBOT_FILE := Voltha_ErrorScenarios.robot
+bbsim-multiuni-errorscenarios-att: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_MULTI_UNI_SINGLE_PON_FILE)
+bbsim-multiuni-errorscenarios-att: voltha-test
+
 bbsim-multiolt-errorscenarios: ROBOT_MISC_ARGS += -X $(ROBOT_DEBUG_LOG_OPT)
 bbsim-multiolt-errorscenarios: ROBOT_FILE := Voltha_ErrorScenarios.robot
 bbsim-multiolt-errorscenarios: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_MULTIPLE_OLT_FILE)
 bbsim-multiolt-errorscenarios: voltha-test
+
+bbsim-multiuni-multiolt-errorscenarios-att: ROBOT_MISC_ARGS += -X $(ROBOT_DEBUG_LOG_OPT)
+bbsim-multiuni-multiolt-errorscenarios-att: ROBOT_FILE := Voltha_ErrorScenarios.robot
+bbsim-multiuni-multiolt-errorscenarios-att: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_MULTI_UNI_MULTIPLE_OLT_FILE)
+bbsim-multiuni-multiolt-errorscenarios-att: voltha-test
 
 bbsim-errorscenarios-dt: ROBOT_MISC_ARGS += -X $(ROBOT_DEBUG_LOG_OPT)
 bbsim-errorscenarios-dt: ROBOT_FILE := Voltha_ErrorScenarios.robot
@@ -298,10 +328,20 @@ bbsim-failurescenarios: ROBOT_FILE := Voltha_FailureScenarios.robot
 bbsim-failurescenarios: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_SINGLE_PON_FILE)
 bbsim-failurescenarios: voltha-test
 
+bbsim-multiuni-failurescenarios-att: ROBOT_MISC_ARGS += -X $(ROBOT_DEBUG_LOG_OPT) -e PowerSwitch -e PhysicalOLTReboot
+bbsim-multiuni-failurescenarios-att: ROBOT_FILE := Voltha_FailureScenarios.robot
+bbsim-multiuni-failurescenarios-att: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_MULTI_UNI_SINGLE_PON_FILE)
+bbsim-multiuni-failurescenarios-att: voltha-test
+
 bbsim-multiolt-failurescenarios: ROBOT_MISC_ARGS += -X $(ROBOT_DEBUG_LOG_OPT) -e PowerSwitch -e PhysicalOLTReboot
 bbsim-multiolt-failurescenarios: ROBOT_FILE := Voltha_FailureScenarios.robot
 bbsim-multiolt-failurescenarios: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_MULTIPLE_OLT_FILE)
 bbsim-multiolt-failurescenarios: voltha-test
+
+bbsim-multiuni-multiolt-failurescenarios-att: ROBOT_MISC_ARGS += -X $(ROBOT_DEBUG_LOG_OPT) -e PowerSwitch -e PhysicalOLTReboot
+bbsim-multiuni-multiolt-failurescenarios-att: ROBOT_FILE := Voltha_FailureScenarios.robot
+bbsim-multiuni-multiolt-failurescenarios-att: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_MULTI_UNI_MULTIPLE_OLT_FILE)
+bbsim-multiuni-multiolt-failurescenarios-att: voltha-test
 
 bbsim-multiolt-kind: ROBOT_MISC_ARGS += -X $(ROBOT_DEBUG_LOG_OPT) -e PowerSwitch -e MultiOLTPhysicalReboot
 bbsim-multiolt-kind: ROBOT_FILE := Voltha_MultiOLT_Tests.robot
