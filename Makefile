@@ -51,12 +51,25 @@ ROBOT_DMI_SINGLE_BBSIM_FILE     ?= $(ROOT_DIR)/tests/data/dmi-components-bbsim.y
 ROBOT_DMI_SINGLE_ADTRAN_FILE     ?= $(ROOT_DIR)/tests/data/dmi-components-adtran.yaml
 ROBOT_SW_UPGRADE_FILE     ?= $(ROOT_DIR)/tests/data/software-upgrade.yaml
 ROBOT_PM_DATA_FILE     ?= $(ROOT_DIR)/tests/data/pm-data.yaml
+ROBOT_SANITY_MULTI_UNI_SINGLE_PON_FILE     ?= $(ROOT_DIR)/tests/data/bbsim-kind-multi-uni.yaml
 
 # for backwards compatibility
 sanity-kind: sanity-single-kind
 
 # to simplify ci
 sanity-kind-att: sanity-single-kind
+
+# ATT Multi-UNI Sanity Target
+sanity-kind-multi-uni-att: ROBOT_MISC_ARGS += -X -i sanity $(ROBOT_DEBUG_LOG_OPT)
+sanity-kind-multi-uni-att: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_MULTI_UNI_SINGLE_PON_FILE)
+sanity-kind-multi-uni-att: ROBOT_FILE := Voltha_PODTests.robot
+sanity-kind-multi-uni-att: voltha-test
+
+# ATT Multi-UNI Functional Suite Target
+functional-single-kind-multi-uni-att: ROBOT_MISC_ARGS += -X -i sanityORmulti-uni $(ROBOT_DEBUG_LOG_OPT)
+functional-single-kind-multi-uni-att: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_MULTI_UNI_SINGLE_PON_FILE)
+functional-single-kind-multi-uni-att: ROBOT_FILE := Voltha_PODTests.robot
+functional-single-kind-multi-uni-att: voltha-test
 
 # for scale pipeline
 voltha-scale: ROBOT_MISC_ARGS += -i activation -v NAMESPACE:voltha $(ROBOT_DEBUG_LOG_OPT)
@@ -205,6 +218,7 @@ openonu-go-adapter-multi-olt-test: openonu-go-adapter-tests
 sanity-single-kind: ROBOT_MISC_ARGS += -i sanity $(ROBOT_DEBUG_LOG_OPT)
 sanity-single-kind: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_SINGLE_PON_FILE)
 sanity-single-kind: bbsim-kind
+
 sanity-bbsim-att: ROBOT_MISC_ARGS += -v logging:True -v workflow:ATT
 sanity-bbsim-att: sanity-bbsim
 

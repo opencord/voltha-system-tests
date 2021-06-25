@@ -97,7 +97,7 @@ Test Disable and Enable ONU
     ...    Assuming that test1 was executed where all the ONUs are authenticated/DHCP/pingable
     ...    Perform disable on the ONUs and validate that the pings do not succeed
     ...    Perform enable on the ONUs and validate that the pings are successful
-    [Tags]    functional    DisableEnableONU    released
+    [Tags]    functional    DisableEnableONU    released    multi-uni
     [Setup]    Start Logging    DisableEnableONU
     [Teardown]    Run Keywords    Collect Logs
     ...           AND             Stop Logging    DisableEnableONU
@@ -107,7 +107,7 @@ Test Disable and Enable ONU
         ${of_id}=    Get ofID From OLT List    ${src['olt']}
         ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
         ${onu_port}=    Wait Until Keyword Succeeds    ${timeout}    2s    Get ONU Port in ONOS    ${src['onu']}
-        ...    ${of_id}
+        ...    ${of_id}    ${src['uni_id']}
         Disable Device    ${onu_device_id}
         Wait Until Keyword Succeeds    20s    2s    Test Devices Disabled in VOLTHA    Id=${onu_device_id}
         Run Keyword If    ${has_dataplane}    Run Keyword And Continue On Failure
@@ -132,7 +132,7 @@ Test Subscriber Delete and Add
     ...    Assuming that all the ONUs are authenticated/DHCP/pingable
     ...    Delete a subscriber and validate that the pings do not succeed
     ...    Re-add the subscriber and validate that the pings are successful
-    [Tags]    functional    SubAddDelete    released
+    [Tags]    functional    SubAddDelete    released    multi-uni
     [Setup]    Start Logging     SubAddDelete
     [Teardown]    Run Keywords    Collect Logs
     ...           AND             Stop Logging    SubAddDelete
@@ -142,7 +142,7 @@ Test Subscriber Delete and Add
         ${of_id}=    Get ofID From OLT List    ${src['olt']}
         ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
         ${onu_port}=    Wait Until Keyword Succeeds    ${timeout}    2s    Get ONU Port in ONOS    ${src['onu']}
-        ...    ${of_id}
+        ...    ${of_id}    ${src['uni_id']}
         Wait Until Keyword Succeeds    ${timeout}    2s    Execute ONOS CLI Command use single connection    ${ONOS_SSH_IP}
         ...    ${ONOS_SSH_PORT}    volt-remove-subscriber-access ${of_id} ${onu_port}
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
@@ -171,7 +171,7 @@ Check DHCP attempt fails when subscriber is not added
     [Documentation]    Validates when removed subscriber access, DHCP attempt, ping fails and
     ...    when again added subscriber access, DHCP attempt, ping succeeds
     ...    Assuming that test1 or sanity test was executed where all the ONUs are authenticated/DHCP/pingable
-    [Tags]    functional    SubsRemoveDHCP    released
+    [Tags]    functional    SubsRemoveDHCP    released    multi-uni
     [Setup]    Start Logging    SubsRemoveDHCP
     [Teardown]    Run Keywords    Collect Logs
     ...           AND             Stop Logging    SubsRemoveDHCP
@@ -181,7 +181,7 @@ Check DHCP attempt fails when subscriber is not added
         ${of_id}=    Get ofID From OLT List    ${src['olt']}
         ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
         ${onu_port}=    Wait Until Keyword Succeeds    ${timeout}    2s    Get ONU Port in ONOS    ${src['onu']}
-        ...    ${of_id}
+        ...    ${of_id}    ${src['uni_id']}
         Run Keyword And Ignore Error    Login And Run Command On Remote System    killall dhclient    ${src['ip']}
         ...    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
         Run Keyword And Ignore Error    Login And Run Command On Remote System    ps -ef | grep dhclient    ${src['ip']}
@@ -224,7 +224,7 @@ Test Disable and Enable ONU scenario for ATT workflow
     ...    Perform enable on the ONUs, authentication check, volt-add-subscriber-access and
     ...    validate that the pings are successful
     ...    VOL-2284
-    [Tags]    functional    ATT_DisableEnableONU    released
+    [Tags]    functional    ATT_DisableEnableONU    released    multi-uni
     [Setup]    Start Logging    ATT_DisableEnableONU
     [Teardown]    Run Keywords    Collect Logs
     ...           AND             Stop Logging    ATT_DisableEnableONU
@@ -234,9 +234,9 @@ Test Disable and Enable ONU scenario for ATT workflow
         ${of_id}=    Get ofID From OLT List    ${src['olt']}
         ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
         ${onu_port}=    Wait Until Keyword Succeeds    ${timeout}    2s    Get ONU Port in ONOS    ${src['onu']}
-        ...    ${of_id}
+        ...    ${of_id}    ${src['uni_id']}
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds   120s   2s
-        ...    Verify ONU Port Is Enabled   ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${src['onu']}
+        ...    Verify ONU Port Is Enabled   ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${src['onu']}    ${src['uni_id']}
         Disable Device    ${onu_device_id}
         Wait Until Keyword Succeeds    ${timeout}    2s    Test Devices Disabled in VOLTHA    Id=${onu_device_id}
         Wait Until Keyword Succeeds    ${timeout}    2s    Execute ONOS CLI Command use single connection    ${ONOS_SSH_IP}
@@ -275,7 +275,7 @@ Test Disable and Enable OLT
     ...    Assuming that test1 was executed where all the ONUs are authenticated/DHCP/pingable
     ...    Perform disable on the OLT and validate that the pings do not succeed
     ...    Perform enable on the OLT and validate that the pings are successful
-    [Tags]    functional    VOL-2410    DisableEnableOLT
+    [Tags]    functional    VOL-2410    DisableEnableOLT    multi-uni
     [Setup]    Start Logging    DisableEnableOLT
     [Teardown]    Run Keywords    Collect Logs
     ...           AND             Stop Logging    DisableEnableOLT
@@ -296,7 +296,7 @@ Test Disable and Enable OLT
         ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
         ${of_id}=    Get ofID From OLT List    ${src['olt']}
         ${onu_port}=    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
-        ...    Get ONU Port in ONOS    ${src['onu']}    ${of_id}
+        ...    Get ONU Port in ONOS    ${src['onu']}    ${of_id}    ${src['uni_id']}
         Wait Until Keyword Succeeds    ${timeout}    5s    Validate Device    ENABLED    DISCOVERED
         ...    UNREACHABLE    ${src['onu']}    onu=false
         #Verify that ping fails
@@ -359,7 +359,7 @@ Check Mib State on OLT recreation after ONU, OLT deletion
         ${dst}=    Set Variable    ${hosts.dst[${I}]}
         ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
         ${onu_port}=    Wait Until Keyword Succeeds    ${timeout}    2s    Get ONU Port in ONOS    ${src['onu']}
-        ...    ${of_id}
+        ...    ${of_id}    ${src['uni_id']}
         Disable Device    ${onu_device_id}
         Wait Until Keyword Succeeds    20s    2s    Test Devices Disabled in VOLTHA    Id=${onu_device_id}
         Delete Device     ${onu_device_id}
@@ -386,7 +386,7 @@ Check Mib State on OLT recreation after ONU, OLT deletion
         ${dst}=    Set Variable    ${hosts.dst[${I}]}
         ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
         ${onu_port}=    Wait Until Keyword Succeeds    ${timeout}    2s    Get ONU Port in ONOS    ${src['onu']}
-        ...    ${of_id}
+        ...    ${of_id}    ${src['uni_id']}
         Wait Until Keyword Succeeds    180s    5s    Validate Device    ENABLED    ACTIVE
         ...    REACHABLE    ${src['onu']}    onu=True    onu_reason=omci-flows-pushed
     END
@@ -449,20 +449,21 @@ Test disable ONUs and OLT then delete ONUs and OLT
     END
     # Delete all OLTs
     Delete All Devices and Verify
+    # Re-create the Devices and Perform Sanity
+    Setup
+    Run Keyword If    ${has_dataplane}    Clean Up Linux
+    Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test
 
 Validate authentication on a disabled ONU
     [Documentation]    Assuming that test1 was executed where all the ONUs are authenticated/DHCP/pingable
     ...    Perform disable on the ONUs and validate that the authentication do not succeed
     ...    Perform enable on the ONUs and validate that authentication successful
-    [Tags]    functional    DisableONU_AuthCheck
+    [Tags]    functional    DisableONU_AuthCheck    multi-uni
     # Creates Devices in the Setup
-    [Setup]    Run Keywords    Start Logging    DisableONU_AuthCheck
-    ...        AND    Setup
+    [Setup]    Start Logging    DisableONU_AuthCheck
     [Teardown]    Run Keywords    Collect Logs
     ...           AND             Stop Logging    DisableONU_AuthCheck
     ...           AND             Delete All Devices and Verify
-    Run Keyword If    ${has_dataplane}    Clean Up Linux
-    Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test
     Clean WPA Process
     FOR    ${I}    IN RANGE    0    ${num_all_onus}
         ${src}=    Set Variable    ${hosts.src[${I}]}
@@ -470,7 +471,7 @@ Validate authentication on a disabled ONU
         ${of_id}=    Get ofID From OLT List    ${src['olt']}
         ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
         ${onu_port}=    Wait Until Keyword Succeeds    ${timeout}    2s    Get ONU Port in ONOS    ${src['onu']}
-        ...    ${of_id}
+        ...    ${of_id}    ${src['uni_id']}
         Disable Device    ${onu_device_id}
         Wait Until Keyword Succeeds    ${timeout}    5s    Validate Device    DISABLED    UNKNOWN
         ...    REACHABLE    ${src['onu']}    onu=false
@@ -515,7 +516,7 @@ Data plane verification using TCP
         Pass Execution If    ${rc} != 0    Skipping test: iperf3 / jq not found on the RG
 
         ${onu_port}=    Wait Until Keyword Succeeds    ${timeout}    2s    Get ONU Port in ONOS    ${src['onu']}
-        ...    ${of_id}
+        ...    ${of_id}    ${src['uni_id']}
         ${subscriber_id}=    Set Variable    ${of_id}/${onu_port}
         ${bandwidth_profile_name}    Get Bandwidth Profile Name For Given Subscriber    ${subscriber_id}
         ...    upstreamBandwidthProfile
@@ -570,7 +571,7 @@ Data plane verification using UDP
         Pass Execution If    ${rc} != 0    Skipping test: iperf3 / jq not found on the RG
 
         ${onu_port}=    Wait Until Keyword Succeeds    ${timeout}    2s    Get ONU Port in ONOS    ${src['onu']}
-        ...    ${of_id}
+        ...    ${of_id}    ${src['uni_id']}
         ${subscriber_id}=    Set Variable    ${of_id}/${onu_port}
         ${bandwidth_profile_name}    Get Bandwidth Profile Name For Given Subscriber    ${subscriber_id}
         ...    upstreamBandwidthProfile
@@ -668,7 +669,7 @@ Test Disable and Enable OLT PON Port
     ...    Assuming that all the ONUs are DHCP/pingable (i.e. assuming sanityDt test was executed)
     ...    Perform disable on the OLT PON Port and validate that the pings do not succeed
     ...    Perform enable on the OLT PON Port and validate that the pings are successful
-    [Tags]    functional    DisableEnableOltPonPort    VOL-2577
+    [Tags]    functional    DisableEnableOltPonPort    VOL-2577    multi-uni
     [Setup]    Run Keywords    Start Logging    DisableEnableOltPonPort
     ...        AND    Setup
     [Teardown]    Run Keywords    Collect Logs
