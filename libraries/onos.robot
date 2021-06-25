@@ -131,9 +131,9 @@ Validate OLT Device in ONOS
     [Return]    ${of_id}
 
 Get ONU Port in ONOS
-    [Arguments]    ${onu_serial_number}    ${olt_of_id}
+    [Arguments]    ${onu_serial_number}    ${olt_of_id}    ${onu_uni_id}=1
     [Documentation]    Retrieves ONU port for the ONU in ONOS
-    ${onu_serial_number}=    Catenate    SEPARATOR=-    ${onu_serial_number}    1
+    ${onu_serial_number}=    Catenate    SEPARATOR=-    ${onu_serial_number}    ${onu_uni_id}
     ${resp}=    Get Request    ONOS    onos/v1/devices/${olt_of_id}/ports
     ${jsondata}=    To Json    ${resp.content}
     Should Not Be Empty    ${jsondata['ports']}
@@ -539,18 +539,18 @@ Verify Eapol Flows Added For ONU
     Should Not Be Empty    ${eapol_flows_added}
 
 Verify ONU Port Is Enabled
-    [Arguments]    ${ip}    ${port}    ${onu_name}
+    [Arguments]    ${ip}    ${port}    ${onu_name}    ${onu_uni_id}=1
     [Documentation]    Verifies if the ONU port is enabled in ONOS
     ${onu_port_enabled}=    Execute ONOS CLI Command use single connection    ${ip}    ${port}
-    ...    ports -e | grep portName=${onu_name}
+    ...    ports -e | grep portName=${onu_name}-${onu_uni_id}
     Log    ${onu_port_enabled}
     Should Not Be Empty    ${onu_port_enabled}
 
 Verify ONU Port Is Disabled
-    [Arguments]    ${ip}    ${port}    ${onu_name}
+    [Arguments]    ${ip}    ${port}    ${onu_name}    ${onu_uni_id}=1
     [Documentation]    Verifies if the ONU port is disabled in ONOS
     ${onu_port_disabled}=    Execute ONOS CLI Command use single connection    ${ip}    ${port}
-    ...    ports -e | grep portName=${onu_name}
+    ...    ports -e | grep portName=${onu_name}-${onu_uni_id}
     Log    ${onu_port_disabled}
     Should Be Empty    ${onu_port_disabled}
 
