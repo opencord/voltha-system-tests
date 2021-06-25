@@ -40,6 +40,27 @@ hosts:
       c_tag: '900'
       s_tag: '900'
       uni_id: '1'
+    -
+      onu: 'BBSM000a0001'
+      olt: 'BBSIM_OLT_10'
+      c_tag: '901'
+      s_tag: '900'
+      uni_id: '2'
+    -
+      onu: 'BBSM000a0001'
+      olt: 'BBSIM_OLT_10'
+      c_tag: '902'
+      s_tag: '900'
+      uni_id: '3'
+    -
+      onu: 'BBSM000a0001'
+      olt: 'BBSIM_OLT_10'
+      c_tag: '903'
+      s_tag: '900'
+      uni_id: '4'
 
   dst:
+    - ip: null
+    - ip: null
+    - ip: null
     - ip: null
