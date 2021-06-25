@@ -438,10 +438,13 @@ Do Check Tech Profile
     ...    "${techprofile}"=="default"   1
     ...    "${techprofile}"=="1T4GEM"    4
     ...    "${techprofile}"=="1T8GEM"    8
+    ${length}=    Get Length    ${result}
     @{resultList}    Split String    ${result}     separator=,
     ${num_of_count_matches}=    Get Match Count    ${resultList}    "num_gem_ports": ${num_gem_ports}
     ...    whitespace_insensitive=True
-    ${num_of_expected_matches}=    Set Variable    1
+    # In case of default tech profile (1T1GEM) no file have to exist, so no entry will be found, but in case of a file is
+    # available corresponding entry has to be found!
+    ${num_of_expected_matches}=    Set Variable If    "${techprofile}"!="default" or ${length}>0    1    0
     Should Be Equal As Integers    ${num_of_expected_matches}    ${num_of_count_matches}
     ...    TechProfile (${TechProfile}) not loaded correctly: found(${num_of_count_matches}) expected(${num_of_expected_matches})
 
