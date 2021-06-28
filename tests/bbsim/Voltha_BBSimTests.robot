@@ -176,6 +176,8 @@ Perform BBSim Sanity Test Per OLT
     Run Keyword If    "${workflow}"=="DT"    Perform Sanity Test DT
     ...    ELSE IF    "${workflow}"=="TT"    Perform Sanity Tests TT
     ...    ELSE       Perform Sanity Test
+    # wait untill the device is connected again before proceeding
+    Sleep   10
 
 
 Setup Suite
