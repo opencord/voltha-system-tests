@@ -51,7 +51,7 @@ pm_user_validation_data:
       successorvalue:
         - 0
         - 1
-    sensed_type:
+    configuration_ind:
       firstoperator: range
       firstvalue:
         - 0
@@ -60,7 +60,7 @@ pm_user_validation_data:
       successorvalue: previous
 pm_user_precondition_data:
   UNI_Status:
-    sensed_type:
+    configuration_ind:
       operator: ==
       value: 11
       precondelement: me_class_id
