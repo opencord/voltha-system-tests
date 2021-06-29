@@ -408,7 +408,7 @@ Check ONU adapter crash not forcing authentication again
     [Documentation]    After ONU adapter restart, checks wpa log for 'authentication started'
     ...    message count to make sure auth not started again and validates EAP status and ping.
     ...    Assuming that test1 or sanity was executed where all the ONUs are authenticated/DHCP/pingable
-    [Tags]    functional    ONUAdaptCrash
+    [Tags]    functional    ONUAdaptCrash     notready
     [Setup]    Start Logging    ONUAdaptCrash
     [Teardown]    Run Keywords    Collect Logs
     ...           AND             Stop Logging    ONUAdaptCrash
