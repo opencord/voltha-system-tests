@@ -208,6 +208,11 @@ sanity-single-kind: bbsim-kind
 sanity-bbsim-att: ROBOT_MISC_ARGS += -v logging:True -v workflow:ATT
 sanity-bbsim-att: sanity-bbsim
 
+bbsim-dt-cleanup: ROBOT_MISC_ARGS += -v logging:True
+bbsim-dt-cleanup: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_DT_SINGLE_PON_FILE)
+bbsim-dt-cleanup: ROBOT_FILE := Voltha_BBSim_DT_Cleanup.robot
+bbsim-dt-cleanup: voltha-bbsim-test
+
 sanity-bbsim-dt: ROBOT_MISC_ARGS += -v logging:True -v workflow:DT
 sanity-bbsim-dt: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_DT_SINGLE_PON_FILE)
 sanity-bbsim-dt: ROBOT_FILE := Voltha_BBSimTests.robot

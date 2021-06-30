@@ -83,6 +83,7 @@ Common Test Suite Setup
         ...    sship    ${olt_ssh_ip}    oltport    ${port}    onus    ${onu_list}
         Append To List    ${list_olts}    ${olt}
     END
+    Set Suite Variable  ${list_olts}
     ${num_all_onus}=    Get Length    ${hosts.src}
     ${num_all_onus}=    Convert to String    ${num_all_onus}
     #send sadis file to onos
