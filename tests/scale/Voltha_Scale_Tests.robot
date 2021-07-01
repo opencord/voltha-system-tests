@@ -90,7 +90,7 @@ ${timeout}    10m
 
 Create and Enable devices
     [Documentation]  Create and enable the OLTs in VOLTHA
-    [Tags]      non-critical    setup
+    [Tags]      setup
     ${olt_device_ids}=      Create List
     FOR    ${INDEX}    IN RANGE    0    ${olt}
         ${olt_device_id}=    Create Device  bbsim${INDEX}     50060     openolt
@@ -110,12 +110,12 @@ OLTs in ONOS
 
 Onu Activation in VOLTHA
     [Documentation]    Check that all ONUs reach the ACTIVE/ENABLED state in VOLTHA
-    [Tags]      non-critical    activation    plot-voltha-onus
+    [Tags]      activation    plot-voltha-onus
     Wait For ONUs In VOLTHA     ${total_onus}
 
 Port Discovery in ONOS
     [Documentation]    Check that all the UNI ports show up in ONOS
-    [Tags]      non-critical    activation    plot-onos-ports
+    [Tags]      activation    plot-onos-ports
     ${onos_devices}=    Compute Device IDs
     FOR     ${deviceId}     IN  @{onos_devices}
         Wait for Ports in ONOS      ${onos_ssh_connection}  ${total_onus_per_olt}   ${deviceId}     BBSM
@@ -123,7 +123,7 @@ Port Discovery in ONOS
 
 Flows validation in VOLTHA before subscriber provisioning
     [Documentation]    Check that all the flows has been stored in the logical device
-    [Tags]      non-critical    flow-before   plot-voltha-flows-before
+    [Tags]      flow-before   plot-voltha-flows-before
     # NOTE fail the test immediately if we're trying to check flows without provisioning them
     Should Be Equal   ${enableFlowProvisioning}     true
     Wait for Logical Devices flows   ${workflow}    ${total_onus}    ${olt}    false
@@ -131,14 +131,14 @@ Flows validation in VOLTHA before subscriber provisioning
 
 Flows validation in VOLTHA Adapters before subscriber provisioning
     [Documentation]  Check that all flows has been store in devices of type openolt
-    [Tags]      non-critical    flow-before   plot-voltha-openolt-flows-before  only-me
+    [Tags]      flow-before   plot-voltha-openolt-flows-before  only-me
     Should Be Equal   ${enableFlowProvisioning}     true
     Wait for OpenOLT Devices flows   ${workflow}    ${total_onus}    ${olt}    false
     ...     ${withEapol}    ${withDhcp}     ${withIgmp}    ${withLLDP}
 
 Flows validation in ONOS before subscriber provisioning
     [Documentation]    Check that all the flows has been acknowledged
-    [Tags]      non-critical    flow-before   plot-onos-flows-before
+    [Tags]      flow-before   plot-onos-flows-before
     # NOTE fail the test immediately if we're trying to check flows without provisioning them
     Should Be Equal   ${enableFlowProvisioning}     true
 
@@ -151,7 +151,7 @@ Flows validation in ONOS before subscriber provisioning
 
 Wait for subscribers to be Authenticated
     [Documentation]    Check that all subscribers have successfully authenticated
-    [Tags]      non-critical    authentication    plot-onos-auth
+    [Tags]      authentication    plot-onos-auth
 
     ${onos_devices}=    Compute Device IDs
     FOR     ${deviceId}     IN  @{onos_devices}
@@ -160,7 +160,7 @@ Wait for subscribers to be Authenticated
 
 Provision subscribers
     [Documentation]    Provision data plane flows for all the subscribers
-    [Tags]      non-critical    provision
+    [Tags]      provision
     Should Be Equal   ${enableSubscriberProvisioning}     true
     ${onos_devices}=    Compute Device IDs
     FOR     ${olt}  IN  @{onos_devices}
@@ -169,7 +169,7 @@ Provision subscribers
 
 Flows validation in VOLTHA after subscriber provisioning
     [Documentation]    Check that all the flows has been stored in the logical device
-    [Tags]      non-critical    flow-after    plot-voltha-flows-after
+    [Tags]      flow-after    plot-voltha-flows-after
     # NOTE fail the test immediately if we're trying to check flows without provisioning them
     Should Be Equal   ${enableFlowProvisioning}     true
 
@@ -178,14 +178,14 @@ Flows validation in VOLTHA after subscriber provisioning
 
 Flows validation in VOLTHA Adapters after subscriber provisioning
     [Documentation]  Check that all flows has been store in devices of type openolt
-    [Tags]      non-critical    flow-after   plot-voltha-openolt-flows-after    only-me
+    [Tags]      flow-after   plot-voltha-openolt-flows-after    only-me
     Should Be Equal   ${enableFlowProvisioning}     true
     Wait for OpenOLT Devices flows   ${workflow}    ${total_onus}    ${olt}    true
     ...     ${withEapol}    ${withDhcp}     ${withIgmp}    ${withLLDP}
 
 Flows validation in ONOS after subscriber provisioning
     [Documentation]    Check that all the flows has been acknowledged
-    [Tags]      non-critical    flow-after    plot-onos-flows-after
+    [Tags]      flow-after    plot-onos-flows-after
     # NOTE fail the test immediately if we're trying to check flows without provisioning them
     Should Be Equal   ${enableFlowProvisioning}     true
 
@@ -198,7 +198,7 @@ Flows validation in ONOS after subscriber provisioning
 
 Wait for subscribers to have an IP
     [Documentation]    Check that all subscribers have received a DHCP_ACK
-    [Tags]      non-critical    dhcp  plot-onos-dhcp
+    [Tags]      dhcp  plot-onos-dhcp
     ${onos_devices}=    Compute Device IDs
     FOR     ${deviceId}     IN  @{onos_devices}
         Wait for DHCP Ack     ${onos_ssh_connection}  ${total_onus_per_olt}     ${workflow}     ${deviceId}
