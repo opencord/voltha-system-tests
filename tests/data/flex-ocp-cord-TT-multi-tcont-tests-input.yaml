@@ -53,7 +53,7 @@ multi_tcont_tests:
     -
       onu: 'ALPHe3d1cea3'
       service_type: 'hsia'
-      us_bw_profile: 'TCONT_TYPE4_1Gbps_Peak_User1_HSI_Upstream'
+      us_bw_profile: 'TCONT_TYPE4_300Mbps_Peak_User1_HSI_Upstream'
     -
       onu: 'ALPHe3d1ceb7'
       service_type: 'hsia'
