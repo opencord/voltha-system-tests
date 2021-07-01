@@ -89,8 +89,6 @@ Setup Suite
     ...    debugmode:${debugmode}, logging:${logging}, pausebeforecleanup:${pausebeforecleanup},
     Log    ${LogInfo}    console=yes
     Common Test Suite Setup
-    ${onos_ssh_connection}    Open ONOS SSH Connection    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}
-    Set Suite Variable  ${onos_ssh_connection}
     # delete etcd MIB Template Data
     Delete MIB Template Data
 
@@ -102,7 +100,7 @@ Teardown Suite
     Run Keyword If    ${pausebeforecleanup}    Pause Execution    Press OK to continue with clean up!
     Run Keyword If    ${pausebeforecleanup}    Log    Teardown will be continued...    console=yes
     Run Keyword If    ${teardown_device}    Delete All Devices and Verify
-    Wait for Ports in ONOS for all OLTs      ${onos_ssh_connection}  0   BBSM
+    Wait for Ports in ONOS for all OLTs      ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}  0   BBSM
     # delete etcd MIB Template Data (for repeating test)
     Delete MIB Template Data
     Close All ONOS SSH Connections

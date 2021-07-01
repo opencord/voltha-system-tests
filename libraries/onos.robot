@@ -40,23 +40,6 @@ Open ONOS SSH Connection
     Set Global Variable    ${connection_list}
     [Return]    ${conn_list_id}
 
-Execute ONOS CLI Command on open connection
-    [Documentation]    Execute ONOS CLI Command On an Open Connection
-    [Arguments]    ${connection_list_id}  ${cmd}
-    ${connection_entry}=    Get From List   ${connection_list}    ${connection_list_id}
-    SSHLibrary.Switch Connection   ${connection_entry.conn_id}
-    ${PassOrFail}    @{result_values}    Run Keyword And Ignore Error    SSHLibrary.Execute Command    ${cmd}
-    ...    return_rc=True    return_stderr=True    return_stdout=True
-    Run Keyword If    '${PassOrFail}'=='FAIL'    Reconnect ONOS SSH Connection    ${connection_list_id}
-    @{result_values}=    Run Keyword If    '${PassOrFail}'=='FAIL'
-    ...    SSHLibrary.Execute Command    ${cmd}    return_rc=True    return_stderr=True    return_stdout=True
-    ...    ELSE    Set Variable    @{result_values}
-    ${output}    Set Variable    @{result_values}[0]
-    Log    Command output: ${output}
-    Should Be Empty    @{result_values}[1]
-    Should Be Equal As Integers    @{result_values}[2]    0
-    [Return]    ${output}
-
 Execute ONOS CLI Command use single connection
     [Documentation]    Execute ONOS CLI Command use an Open Connection
     ...                In case no connection is open a connection will be opened
@@ -580,8 +563,8 @@ Verify ONU in AAA-Users
 
 Verify Empty Group in ONOS
     [Documentation]    Verifies zero group count on the device
-    [Arguments]    ${onos_ssh_connection}    ${deviceId}
-    ${groups}=    Execute ONOS CLI Command on open connection    ${onos_ssh_connection}    groups | grep ${deviceId}
+    [Arguments]    ${ip}    ${port}    ${deviceId}
+    ${groups}=    Execute ONOS CLI Command use single connection    ${ip}    ${port}    groups | grep ${deviceId}
     @{groups_arr}=    Split String    ${groups}    ,
     @{group_count_arr}=    Split String    ${groups_arr[1]}    =
     ${group_count}=    Set Variable    ${group_count_arr[1]}
@@ -590,8 +573,8 @@ Verify Empty Group in ONOS
 Verify ONUs in Group Count in ONOS
     [Documentation]    Verifies there exists a group bucket list with certain entries/count
     ...    Note: Currently, this validates only if all ONUs of an OLT joined the same igmp group
-    [Arguments]    ${onos_ssh_connection}    ${count}    ${deviceId}
-    ${result}=    Execute ONOS CLI Command on open connection    ${onos_ssh_connection}
+    [Arguments]    ${ip}    ${port}    ${count}    ${deviceId}
+    ${result}=    Execute ONOS CLI Command use single connection    ${ip}    ${port}
     ...   groups added ${deviceId} | grep bucket | wc -l
     Should Be Equal As Integers     ${result}   ${count}    Bucket list count for a group: Found=${result} Expected=${count}
 
@@ -639,17 +622,17 @@ Verify ONU in Groups
     ...    Should Be True    '${matched}'=='False'    Match for ${deviceId} and ${onu_port} found in ONOS groups
 
 Assert Number of AAA-Users
-    [Arguments]    ${onos_ssh_connection}    ${expected_onus}   ${deviceId}
+    [Arguments]    ${ip}    ${port}    ${expected_onus}   ${deviceId}
     [Documentation]    Matches for number of aaa-users authorized based on number of onus
-    ${aaa_users}=    Execute ONOS CLI Command on open connection     ${onos_ssh_connection}
+    ${aaa_users}=    Execute ONOS CLI Command use single connection    ${ip}    ${port}
     ...     aaa-users | grep ${deviceId} | grep AUTHORIZED | wc -l
     Log     Found ${aaa_users} of ${expected_onus} expected authenticated users on device ${deviceId}
     Should Be Equal As Integers    ${aaa_users}    ${expected_onus}
 
 Validate DHCP Allocations
-    [Arguments]    ${onos_ssh_connection}    ${count}   ${workflow}     ${deviceId}
+    [Arguments]    ${ip}    ${port}    ${count}   ${workflow}     ${deviceId}
     [Documentation]    Matches for number of dhcpacks based on number of onus
-    ${allocations}=    Execute ONOS CLI Command on open connection     ${onos_ssh_connection}
+    ${allocations}=    Execute ONOS CLI Command use single connection    ${ip}    ${port}
     ...     dhcpl2relay-allocations | grep ${deviceId} | grep DHCPACK | wc -l
     # if the workflow is TT we'll have 2 allocations for each ONU
     ${ttAllocations}=     Evaluate   (${count} * 2)
@@ -690,89 +673,82 @@ Remove All Devices From ONOS
     END
 
 Assert ONU Port Is Disabled
-    [Arguments]    ${onos_ssh_connection}    ${deviceId}    ${onu_port}
+    [Arguments]    ${ip}    ${port}    ${deviceId}    ${onu_port}
     [Documentation]    Verifies if the ONU port is disabled in ONOS
-    ${onu_port_disabled}=    Execute ONOS CLI Command on open connection     ${onos_ssh_connection}
+    ${onu_port_disabled}=    Execute ONOS CLI Command use single connection    ${ip}    ${port}
     ...    ports -d ${deviceId} | grep port=${onu_port}
     Log    ${onu_port_disabled}
     Should Not Be Empty    ${onu_port_disabled}
 
 Assert Olts in ONOS
-    [Arguments]    ${onos_ssh_connection}     ${count}
+    [Arguments]    ${ip}    ${port}     ${count}
     [Documentation]    DEPRECATED use Assert Olt in ONOS
     ...     Check that a certain number of olts are known to ONOS
-    ${olts}=    Execute ONOS CLI Command on open connection     ${onos_ssh_connection}
+    ${olts}=    Execute ONOS CLI Command use single connection    ${ip}    ${port}
     ...    volt-olts | wc -l
     Log     Found ${olts} of ${count} expected Olts
     Should Be Equal As Integers    ${olts}    ${count}
 
 Assert Olt in ONOS
-    [Arguments]    ${onos_ssh_connection}     ${deviceId}
+    [Arguments]    ${ip}    ${port}     ${deviceId}
     [Documentation]    Check that a particular olt is known to ONOS
-    ${olts}=    Execute ONOS CLI Command on open connection     ${onos_ssh_connection}
+    ${olts}=    Execute ONOS CLI Command use single connection    ${ip}    ${port}
     ...    volt-olts | grep ${deviceId} | wc -l
     Should Be Equal As Integers    ${olts}    1   "Device ${deviceId} is not recognized as an OLT"
 
 Wait for Olts in ONOS
-    [Arguments]    ${onos_ssh_connection}    ${count}   ${max_wait_time}=10m
+    [Arguments]    ${ip}    ${port}    ${count}   ${max_wait_time}=10m
     [Documentation]    DEPRECATED use Wait for Olt in ONOS
     ...     Waits untill a certain number of ports are enabled in ONOS for a particular deviceId
     Wait Until Keyword Succeeds     ${max_wait_time}     5s      Assert Olts in ONOS
-    ...     ${onos_ssh_connection}     ${count}
+    ...     ${ip}    ${port}     ${count}
 
 Wait for Olt in ONOS
-    [Arguments]    ${onos_ssh_connection}    ${deviceId}   ${max_wait_time}=10m
+    [Arguments]    ${ip}    ${port}    ${deviceId}   ${max_wait_time}=10m
     [Documentation]    Waits until a particular deviceId is recognized by ONOS as an OLT
     Wait Until Keyword Succeeds     ${max_wait_time}     5s      Assert Olt in ONOS
-    ...     ${onos_ssh_connection}     ${deviceId}
+    ...     ${ip}    ${port}     ${deviceId}
 
 Assert Ports in ONOS
-    [Arguments]    ${onos_ssh_connection}     ${count}     ${deviceId}    ${filter}
+    [Arguments]    ${ip}    ${port}     ${count}     ${deviceId}    ${filter}
     [Documentation]    Check that a certain number of ports are enabled in ONOS
-    ${ports}=    Execute ONOS CLI Command on open connection     ${onos_ssh_connection}
+    ${ports}=    Execute ONOS CLI Command use single connection    ${ip}    ${port}
         ...    ports -e ${deviceId} | grep ${filter} | wc -l
     Log     Found ${ports} of ${count} expected ports on device ${deviceId}
     Should Be Equal As Integers    ${ports}    ${count}
 
 Wait for Ports in ONOS
-    [Arguments]    ${onos_ssh_connection}    ${count}    ${deviceId}    ${filter}    ${max_wait_time}=10m
+    [Arguments]    ${ip}    ${port}    ${count}    ${deviceId}    ${filter}    ${max_wait_time}=10m
     [Documentation]    Waits untill a certain number of ports are enabled in ONOS for a particular deviceId
     Wait Until Keyword Succeeds     ${max_wait_time}     5s      Assert Ports in ONOS
-    ...     ${onos_ssh_connection}     ${count}     ${deviceId}     ${filter}
+    ...     ${ip}    ${port}     ${count}     ${deviceId}     ${filter}
 
 Wait for AAA Authentication
-    [Arguments]    ${onos_ssh_connection}    ${count}    ${deviceId}    ${max_wait_time}=10m
+    [Arguments]    ${ip}    ${port}    ${count}    ${deviceId}    ${max_wait_time}=10m
     [Documentation]    Waits untill a certain number of subscribers are authenticated in ONOS
     Wait Until Keyword Succeeds     ${max_wait_time}     5s      Assert Number of AAA-Users
-    ...     ${onos_ssh_connection}     ${count}     ${deviceId}
+    ...     ${ip}    ${port}     ${count}     ${deviceId}
 
 Wait for DHCP Ack
-    [Arguments]    ${onos_ssh_connection}    ${count}    ${workflow}    ${deviceId}    ${max_wait_time}=10m
+    [Arguments]    ${ip}    ${port}    ${count}    ${workflow}    ${deviceId}    ${max_wait_time}=10m
     [Documentation]    Waits untill a certain number of subscribers have received a DHCP_ACK
     Wait Until Keyword Succeeds     ${max_wait_time}     5s      Validate DHCP Allocations
-        ...     ${onos_ssh_connection}     ${count}    ${workflow}    ${deviceId}
-
-Provision subscriber
-    [Documentation]  Calls volt-add-subscriber-access in ONOS
-    [Arguments]    ${onos_ip}    ${onos_port}   ${of_id}    ${onu_port}
-    Execute ONOS CLI Command use single connection    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}
-            ...    volt-add-subscriber-access ${of_id} ${onu_port}
+        ...     ${ip}    ${port}     ${count}    ${workflow}    ${deviceId}
 
 Provision subscriber REST
     [Documentation]     Uses the rest APIs to provision a subscriber
-    [Arguments]     ${onos_ip}    ${onos_port}   ${of_id}    ${onu_port}
+    [Arguments]     ${of_id}    ${onu_port}
     ${resp}=    Post Request    ONOS
     ...    /onos/olt/oltapp/${of_id}/${onu_port}
     Should Be Equal As Strings    ${resp.status_code}    200
 
-
 List Enabled UNI Ports
     [Documentation]  List all the UNI Ports, the only way we have is to filter out the one called NNI
     ...     Creates a list of dictionaries
-    [Arguments]     ${onos_ssh_connection}   ${of_id}
+    [Arguments]     ${ip}    ${port}   ${of_id}
     [Return]  [{'port': '16', 'of_id': 'of:00000a0a0a0a0a00'}, {'port': '32', 'of_id': 'of:00000a0a0a0a0a00'}]
     ${result}=      Create List
-    ${out}=    Execute ONOS CLI Command on open connection     ${onos_ssh_connection}
+    ${out}=    Execute ONOS CLI Command use single connection    ${ip}    ${port}
     ...    ports -e ${of_id} | grep -v SWITCH | grep -v nni
     @{unis}=    Split To Lines    ${out}
     FOR    ${uni}    IN    @{unis}
@@ -785,21 +761,21 @@ List Enabled UNI Ports
 
 Provision all subscribers on device
     [Documentation]  Provisions a subscriber in ONOS for all the enabled UNI ports on a particular device
-    [Arguments]     ${onos_ssh_connection}  ${onos_ip}  ${onos_rest_port}   ${of_id}
-    ${unis}=    List Enabled UNI Ports  ${onos_ssh_connection}   ${of_id}
+    [Arguments]     ${ip}    ${port}  ${onos_ip}  ${onos_rest_port}   ${of_id}
+    ${unis}=    List Enabled UNI Ports  ${ip}    ${port}   ${of_id}
     ${onos_auth}=    Create List    karaf    karaf
     Create Session    ONOS    http://${onos_ip}:${onos_rest_port}    auth=${onos_auth}
     FOR     ${uni}  IN      @{unis}
-        Provision Subscriber REST   ${onos_ip}  ${onos_rest_port}   ${uni['of_id']}   ${uni['port']}
+        Provision Subscriber REST   ${uni['of_id']}   ${uni['port']}
     END
 
 List OLTs
     # NOTE this method is not currently used but it can come useful in the future
     [Documentation]  Returns a list of all OLTs known to ONOS
-    [Arguments]  ${onos_ssh_connection}
+    [Arguments]  ${ip}    ${port}
     [Return]  ['of:00000a0a0a0a0a00', 'of:00000a0a0a0a0a01']
     ${result}=      Create List
-    ${out}=    Execute ONOS CLI Command on open connection     ${onos_ssh_connection}
+    ${out}=    Execute ONOS CLI Command use single connection    ${ip}    ${port}
     ...     volt-olts
     @{olts}=    Split To Lines    ${out}
     FOR    ${olt}    IN    @{olts}
@@ -814,20 +790,20 @@ List OLTs
 
 Count ADDED flows
     [Documentation]  Count the flows in ADDED state in ONOS
-    [Arguments]  ${onos_ssh_connection}    ${targetFlows}   ${deviceId}
-    ${flows}=    Execute ONOS CLI Command on open connection     ${onos_ssh_connection}
+    [Arguments]  ${ip}    ${port}    ${targetFlows}   ${deviceId}
+    ${flows}=    Execute ONOS CLI Command use single connection    ${ip}    ${port}
     ...     flows -s any ${deviceId} | grep ADDED | wc -l
     Log     Found ${flows} of ${targetFlows} expected flows on device ${deviceId}
     Should Be Equal As Integers    ${targetFlows}    ${flows}
 
 Wait for all flows to in ADDED state
     [Documentation]  Waits until the flows have been provisioned
-    [Arguments]  ${onos_ssh_connection}     ${deviceId}     ${workflow}    ${uni_count}    ${olt_count}
+    [Arguments]  ${ip}    ${port}     ${deviceId}     ${workflow}    ${uni_count}    ${olt_count}
     ...    ${provisioned}     ${withEapol}    ${withDhcp}     ${withIgmp}     ${withLldp}
     ${targetFlows}=     Calculate flows by workflow     ${workflow}    ${uni_count}    ${olt_count}     ${provisioned}
     ...     ${withEapol}    ${withDhcp}     ${withIgmp}     ${withLldp}
     Wait Until Keyword Succeeds     10m     5s      Count ADDED flows
-    ...     ${onos_ssh_connection}  ${targetFlows}  ${deviceId}
+    ...     ${ip}    ${port}  ${targetFlows}  ${deviceId}
 
 Get Limiting Bandwidth Details
     [Arguments]    ${bandwidth_profile_name}

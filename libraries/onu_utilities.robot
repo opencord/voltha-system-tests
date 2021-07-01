@@ -102,7 +102,7 @@ Log Ports
     [Documentation]    This keyword logs all port data available in ONOS of first port per ONU
     [Arguments]    ${onlyenabled}=False
     ${cmd}    Set Variable If    ${onlyenabled}    ports -e    ports
-    ${onu_ports}=    Execute ONOS CLI Command on open connection    ${onos_ssh_connection}   ${cmd}
+    ${onu_ports}=    Execute ONOS CLI Command use single connection    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}   ${cmd}
     ${lines} =     Get Lines Matching Regexp    ${onu_ports}    .*portName=BBSM[0-9]{8}-1
     Log    ${lines}
 
@@ -388,7 +388,7 @@ Delete ONU Go Adapter ETCD Data
 
 Wait for Ports in ONOS for all OLTs
     [Documentation]    Waits untill a certain number of ports are enabled in all OLTs
-    [Arguments]    ${onos_ssh_connection}    ${count}    ${filter}    ${max_wait_time}=10m   ${determine_number}=False
+    [Arguments]    ${host}    ${port}    ${count}    ${filter}    ${max_wait_time}=10m   ${determine_number}=False
     FOR    ${J}    IN RANGE    0    ${num_olts}
         ${olt_serial_number}=    Set Variable    ${list_olts}[${J}][sn]
         ${onu_count}=    Set Variable    ${list_olts}[${J}][onucount]
@@ -399,18 +399,18 @@ Wait for Ports in ONOS for all OLTs
         # if flag determine_number is set to True, always determine the number of real ONUs (overwrite previous value)
         ${count2check}=    Run Keyword If    ${determine_number}    Determine Number Of ONU    ${olt_serial_number}
         ...                ELSE              Set Variable    ${count2check}
-        Wait for Ports in ONOS    ${onos_ssh_connection}    ${count2check}    ${of_id}    BBSM    ${max_wait_time}
+        Wait for Ports in ONOS    ${host}    ${port}    ${count2check}    ${of_id}    BBSM    ${max_wait_time}
     END
 
 Wait for all ONU Ports in ONOS Disabled
     [Documentation]    Waits untill a all ONU ports are disabled in all ONOS
-    [Arguments]    ${onos_ssh_connection}
+    [Arguments]    ${host}    ${port}
     FOR    ${I}    IN RANGE    0    ${num_all_onus}
         ${src}=    Set Variable    ${hosts.src[${I}]}
         ${of_id}=    Wait Until Keyword Succeeds    ${timeout}    15s    Validate OLT Device in ONOS
         ...    ${src['olt']}
        ${onu_port}=    Wait Until Keyword Succeeds    ${timeout}    2s    Get ONU Port in ONOS    ${src['onu']}    ${of_id}
-        Wait Until Keyword Succeeds    ${timeout}    2s    Assert ONU Port Is Disabled    ${onos_ssh_connection}    ${of_id}
+        Wait Until Keyword Succeeds    ${timeout}    2s    Assert ONU Port Is Disabled    ${host}    ${port}    ${of_id}
         ...    ${onu_port}
     END
 

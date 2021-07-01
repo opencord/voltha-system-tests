@@ -154,7 +154,7 @@ Check User Onu Metrics Disabled Device
     Current State Test All Onus    omci-admin-lock    alternativeonustate=${alternativeonustates}
     Log Ports
     #check no port is enabled in ONOS
-    Wait for Ports in ONOS for all OLTs    ${onos_ssh_connection}    0    BBSM
+    Wait for Ports in ONOS for all OLTs    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    0    BBSM
     Collect and Validate PM Data    ${collect_interval}    user=True
     Clean Metric Dictionary
     # enable (all) onu devices
@@ -163,7 +163,7 @@ Check User Onu Metrics Disabled Device
     Current State Test All Onus    omci-flows-pushed    alternativeonustate=${alternativeonustates}
     Log Ports    onlyenabled=True
     #check that all the UNI ports show up in ONOS again
-    Wait for Ports in ONOS for all OLTs    ${onos_ssh_connection}    ${num_all_onus}    BBSM    determine_number=True
+    Wait for Ports in ONOS for all OLTs    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${num_all_onus}    BBSM    determine_number=True
     # validate enabled status (again)
     Set Validation Operation All Onu    ${group}    ${oper_state}    ${ValidationEnabled}
     Set Validation Operation All Onu    ${group}    ${admin_state}   ${ValidationEnabled}
@@ -183,8 +183,6 @@ Check User Onu Metrics Disabled Device
 Setup Suite
     [Documentation]    Set up the test suite
     Common Test Suite Setup
-    ${onos_ssh_connection}    Open ONOS SSH Connection    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}
-    Set Suite Variable  ${onos_ssh_connection}
     ${switch_type}=    Get Variable Value    ${web_power_switch.type}
     Run Keyword If  "${switch_type}"!=""    Set Global Variable    ${powerswitch_type}    ${switch_type}
     # set ${kafka} depending on environment in case of port-forward is needed

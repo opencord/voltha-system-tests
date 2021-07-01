@@ -83,7 +83,7 @@ Test ONOS App Minor Version Upgrade
     FOR    ${J}    IN RANGE    0    ${num_apps_under_test}
         ${app_ut}=    Set Variable    ${list_onos_apps_under_test}[${J}][app]
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
-        ...    Execute ONOS CLI Command on open connection    ${onos_ssh_connection}
+        ...    Execute ONOS CLI Command use single connection    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}
         ...    log:set DEBUG ${app_ut}
     END
     FOR    ${I}    IN RANGE    0    ${num_apps_under_test}
@@ -116,8 +116,6 @@ Setup Suite
     [Documentation]    Set up the test suite
     Common Test Suite Setup
     Create ONOS Apps Under Test List
-    ${onos_ssh_connection}    Open ONOS SSH Connection    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}
-    Set Suite Variable    ${onos_ssh_connection}
 
 Teardown Suite
     [Documentation]    Replaces the Suite Teardown in utils.robot.
