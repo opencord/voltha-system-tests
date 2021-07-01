@@ -127,7 +127,7 @@ Perform BBSim Sanity Test Per OLT
         ...    Verify ONU in AAA-Users    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${onu_port}
         ...    AND    List ONUs    ${NAMESPACE}    ${bbsim_pod}
         # Restart Auth and Verify (valid only for ATT)
-        ...    AND    Execute ONOS CLI Command on open connection     ${onos_ssh_connection}
+        ...    AND    Execute ONOS CLI Command use single connection    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}
         ...    aaa-reset-all-devices
         ...    AND    Restart Auth    ${NAMESPACE}    ${bbsim_pod}    ${src['onu']}
         ...    AND    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2
@@ -135,7 +135,7 @@ Perform BBSim Sanity Test Per OLT
         ...    AND    List ONUs    ${NAMESPACE}    ${bbsim_pod}
         # Add Subscriber
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2
-        ...    Execute ONOS CLI Command on open connection    ${onos_ssh_connection}
+        ...    Execute ONOS CLI Command use single connection    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}
         ...    volt-add-subscriber-access ${of_id} ${onu_port}
         # Verify that no pending flows exist for the ONU port
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
@@ -147,7 +147,7 @@ Perform BBSim Sanity Test Per OLT
         ...    Validate Subscriber DHCP Allocation    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${onu_port}
         ...    AND    List ONUs    ${NAMESPACE}    ${bbsim_pod}
         # Restart Dhcp and Verify (valid only for ATT and TT)
-        ...    AND    Execute ONOS CLI Command on open connection     ${onos_ssh_connection}
+        ...    AND    Execute ONOS CLI Command use single connection    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}
         ...    dhcpl2relay-remove-allocation ${of_id} ${onu_port}
         ...    AND    Restart DHCP    ${NAMESPACE}    ${bbsim_pod}    ${src['onu']}
         ...    AND    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
@@ -158,8 +158,8 @@ Perform BBSim Sanity Test Per OLT
         ...    Perform ONU Igmp Join and Leave    ${bbsim_pod}    ${of_id}    ${src['onu']}    ${onu_port}
     END
     # Clean ONOS state before rebooting
-    Execute ONOS CLI Command on open connection     ${onos_ssh_connection}  aaa-reset-all-devices
-    Execute ONOS CLI Command on open connection     ${onos_ssh_connection}  dhcpl2relay-clear-allocations
+    Execute ONOS CLI Command use single connection    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}  aaa-reset-all-devices
+    Execute ONOS CLI Command use single connection    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}  dhcpl2relay-clear-allocations
     # Perform OLT SoftReboot test
     ${olt_device_id}=    Get OLTDeviceID From OLT List    ${olt_serial_number}
     Reboot Device    ${olt_device_id}
@@ -187,8 +187,6 @@ Setup Suite
     ${onos_netcfg_file}=    Get Variable Value    ${onos_netcfg.file}
     Run Keyword If    '${workflow}'=='TT' and '${has_dataplane}'=='False' and '${onos_netcfg_file}'!='${None}'
     ...    Send File To Onos    ${onos_netcfg_file}    apps/
-    ${onos_ssh_connection}    Open ONOS SSH Connection    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}
-    Set Suite Variable    ${onos_ssh_connection}
 
 Teardown Suite
     [Documentation]    Replaces the Suite Teardown in utils.robot.
