@@ -124,7 +124,7 @@ Validate Total Number Of DHCP Allocations
     FOR    ${I}    IN RANGE    0    ${num_olts}
         ${olt_serial_number}=    Set Variable    ${list_olts}[${I}][sn]
         ${of_id}=    Wait Until Keyword Succeeds    60s    5s    Validate OLT Device in ONOS    ${olt_serial_number}
-        Wait Until Keyword Succeeds  ${long_timeout}  20s  Validate DHCP Allocations  ${onos_ssh_connection}
+        Wait Until Keyword Succeeds  ${long_timeout}  20s  Validate DHCP Allocations  ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}
         ...    16   ${of_id}    BBSM
     END
     #validate DHCP allocation for each port
@@ -185,7 +185,6 @@ Test Disable and Enable ONU
 Setup Suite
     [Documentation]    Set up the test suite
     Common Test Suite Setup
-    ${onos_ssh_connection}    Open ONOS SSH Connection    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}
 
 Teardown Suite
     [Documentation]    Clean up devices if desired

@@ -202,8 +202,6 @@ Setup Suite
     ...    ELSE IF    "${techprofile}"=="1T4GEM"    Set Tech Profile    1T4GEM
     ...    ELSE IF    "${techprofile}"=="1T8GEM"    Set Tech Profile    1T8GEM
     ...    ELSE    Fail    The TechProfile (${techprofile}) is not valid!
-    ${onos_ssh_connection}    Open ONOS SSH Connection    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}
-    Set Suite Variable  ${onos_ssh_connection}
     # map the passed onu state to reached and make it visible for test suite
     ${admin_state}    ${oper_status}    ${connect_status}    ${onu_state_nb}    ${onu_state}=
     ...    Map State    ${state2test}
@@ -226,7 +224,7 @@ Teardown Suite
     Run Keyword If    ${pausebeforecleanup}    Log    Teardown will be continued...    console=yes
     Run Keyword If    ${teardown_device}    Delete All Devices and Verify
     Wait Until Keyword Succeeds    ${timeout}    1s    Validate Onu Data In Etcd    0    ${kvstoreprefix}    without_pm_data=False
-    Wait for Ports in ONOS for all OLTs      ${onos_ssh_connection}  0   BBSM    ${timeout}
+    Wait for Ports in ONOS for all OLTs      ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}  0   BBSM    ${timeout}
     Close All ONOS SSH Connections
     Remove Tech Profile
 
@@ -315,7 +313,7 @@ Do ONU Single State Test Time
 
 Do Onu Port Check
     [Documentation]    Check that all the UNI ports show up in ONOS
-    Wait for Ports in ONOS for all OLTs    ${onos_ssh_connection}    ${num_all_onus}    BBSM    ${timeout}
+    Wait for Ports in ONOS for all OLTs    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${num_all_onus}    BBSM    ${timeout}
 
 Do Onu Etcd Data Check
     [Documentation]    Check Onu data stored in etcd
@@ -461,12 +459,12 @@ Do Disable Enable Onu Test
     Current State Test All Onus    ${state2checkafterdisable}    alternativeonustate=${alternativeonustates}
     Log Ports
     #check no port is enabled in ONOS
-    Wait for Ports in ONOS for all OLTs    ${onos_ssh_connection}    0    BBSM
+    Wait for Ports in ONOS for all OLTs    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    0    BBSM
     Enable Onu Device
     Current State Test All Onus    ${state2check}
     Log Ports    onlyenabled=True
     #check that all the UNI ports show up in ONOS again
-    Wait for Ports in ONOS for all OLTs    ${onos_ssh_connection}    ${num_all_onus}    BBSM
+    Wait for Ports in ONOS for all OLTs    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${num_all_onus}    BBSM
 
 Do Power Off Power On Onu Device
     [Documentation]    This keyword power off/on all onus and checks the states.

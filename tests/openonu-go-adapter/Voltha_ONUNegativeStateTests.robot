@@ -104,8 +104,6 @@ Setup Suite
     ...    ELSE IF    "${techprofile}"=="1T4GEM"    Set Tech Profile    1T4GEM
     ...    ELSE IF    "${techprofile}"=="1T8GEM"    Set Tech Profile    1T8GEM
     ...    ELSE    Fail    The TechProfile (${techprofile}) is not valid!
-    ${onos_ssh_connection}    Open ONOS SSH Connection    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}
-    Set Suite Variable  ${onos_ssh_connection}
     # delete etcd MIB Template Data
     Delete MIB Template Data
     # delete etcd onu data
@@ -120,6 +118,6 @@ Teardown Suite
     Run Keyword If    ${pausebeforecleanup}    Log    Teardown will be continued...    console=yes
     Run Keyword If    ${teardown_device}    Delete All Devices and Verify
     Wait Until Keyword Succeeds    ${timeout}    1s    Validate Onu Data In Etcd    0    ${kvstoreprefix}    without_pm_data=False
-    Wait for Ports in ONOS for all OLTs      ${onos_ssh_connection}  0   BBSM    ${timeout}
+    Wait for Ports in ONOS for all OLTs      ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}  0   BBSM    ${timeout}
     Close All ONOS SSH Connections
     Remove Tech Profile
