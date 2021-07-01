@@ -838,6 +838,15 @@ Get Limiting Bandwidth Details
     ${limiting_BW}=    Evaluate    ${eir}+${cir}+${air}
     [Return]    ${limiting_BW}
 
+Get Limiting Bandwidth Details for Fixed and Committed
+    [Arguments]    ${bandwidth_profile_name}
+    [Documentation]    Collects the bandwidth profile details for the given bandwidth profile and
+    ...    returns the limiting bandwidth for fixed and committed
+    ${cir}    ${cbs}    ${eir}    ${ebs}    ${air}=    Get Bandwidth Profile Details Rest
+    ...    ${bandwidth_profile_name}
+    ${limiting_BW}=    Evaluate    ${cir}+${air}
+    [Return]    ${limiting_BW}
+
 Validate Deleted Device Cleanup In ONOS
     [Arguments]    ${ip}    ${port}    ${olt_serial_number}
     [Documentation]    The keyword verifies that ports, flows, meters, subscribers, dhcp are all cleared in ONOS
