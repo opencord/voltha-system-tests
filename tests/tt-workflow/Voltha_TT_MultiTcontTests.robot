@@ -365,6 +365,109 @@ Verify that non-assured BW is released to assured BW allocation as needed for TT
     # Sent original sadis file to onos
     Send File To Onos    ${CURDIR}/../../tests/data/flex-ocp-cord-sadis-TT.json
 
+Verify that best effort BW is released to assured BW requirement as needed and that fixed BW is reserved always on the PON for TT
+    [Documentation]    Verify support for Tcont type 4 and 5.
+    ...    Pump 1Gbps upstream from the RG for HSI service of ONU2.
+    ...    Verify that no more than 1Gbps is received at the BNG.
+    ...    Now pump traffic from the RG's for the HSI service both ONU1 and ONU2 at the same time.
+    ...    The BNG should receive at least 700Mbps (500 + 200 Mbps) for ONU2.
+    ...    The remaining 500Mbps on the PON should be rationed between the two ONUs.
+    ...    Now this is largely scheduler implementation dependent, so this is to be observed on the scheduler in the BAL behaves.
+    ...    If it equally distributes the remaining BW,
+    ...    ONU1 should get 250Mbps and ONU2 in total should get 950Mbps (500+200+250Mbps).
+    [Tags]    functionalTT    VOL-4097
+    [Setup]    Run Keywords    Start Logging    TcontType4Onu1Type5Onu2
+    ...        AND             Setup
+    [Teardown]    Run Keywords    Collect Logs
+    ...           AND             Stop Logging    TcontType4Onu1Type5Onu2
+    ...           AND             Delete All Devices and Verify
+    Run Keyword If    ${has_dataplane}    Clean Up Linux
+    Send File To Onos    ${CURDIR}/../../tests/data/flex-ocp-cord-sadis-TT-multi-tcont-1.json
+    Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test TT
+
+    # The test expects the first entry in multi_tcont_tests.tcont4tcont5 input will be for service: hsıa and tcont: 4
+    # The test expects the second entry in multi_tcont_tests.tcont4tcont5 input will be for service: hsıa and tcont: 5
+    ${list_onus_ut}=    Create List
+    ${list_onus_ut_air_cir}=    Create List
+    ${num_multi_tcont_input}=    Get Length    ${multi_tcont_tests.tcont4tcont5}
+    FOR    ${I}    IN RANGE    0    ${num_multi_tcont_input}
+        ${onu}=    Set Variable    ${multi_tcont_tests.tcont4tcont5[${I}]}
+        ${onu_sn}=    Set Variable    ${onu['onu']}
+        ${service}=    Set Variable    ${onu['service_type']}
+        ${us_bw}=    Set Variable    ${onu['us_bw_profile']}
+        ${matched}    ${src}    ${dst}=    Get ONU details with Given Sn and Service    ${onu_sn}
+        ...    ${service}    ${us_bw}
+        Pass Execution If    '${matched}' != 'True'
+        ...    Skipping test: No ONU found with sn '${onu_sn}', service '${service}' and us_bw '${us_bw}'
+        # Check for iperf3 and jq tools
+        ${stdout}    ${stderr}    ${rc}=    Execute Remote Command    which iperf3 jq
+        ...    ${src['ip']}    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
+        Pass Execution If    ${rc} != 0    Skipping test: iperf3 / jq not found on the RG
+        # Get Upstream BW Profile details
+        ${limiting_bw_us}=    Get Limiting Bandwidth Details    ${us_bw}
+        ${onu_ut}    Create Dictionary    src    ${src}    dst    ${dst}    limiting_bw_us    ${limiting_bw_us}
+        Append To List    ${list_onus_ut}    ${onu_ut}
+        ${limiting_bw_us_air_cir}=    Get Limiting Bandwidth Details for Fixed and Committed    ${us_bw}
+        ${onu_ut_air_cir}    Create Dictionary    src    ${src}    dst    ${dst}
+        ...    limiting_bw_us_air_cir    ${limiting_bw_us_air_cir}
+        Append To List    ${list_onus_ut_air_cir}    ${onu_ut_air_cir}
+    END
+
+    # Fill the OLT PON Bandwidth with Fixed Bandwidth Profile ONU
+    ${onu_fill_pon_bw}=    Evaluate    ${onus_fill_pon_bw}[0].get("serial")
+    ${olt_fill_pon_bw}=    Evaluate    ${onus_fill_pon_bw}[0].get("olt")
+    ${us_bw_profile_fill_pon_bw}=    Evaluate    ${onus_fill_pon_bw}[0].get("us_bw_profile")
+    ${of_id}=    Wait Until Keyword Succeeds    ${timeout}    15s    Validate OLT Device in ONOS    ${olt_fill_pon_bw}
+    ${onu_port}=    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
+    ...    Get ONU Port in ONOS    ${onu_fill_pon_bw}    ${of_id}
+    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2
+    ...    Execute ONOS CLI Command    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}
+    ...    volt-add-subscriber-access ${of_id} ${onu_port}
+    Sleep    10s
+    ${limiting_bw_us_fill_pon_bw}=    Get Limiting Bandwidth Details    ${us_bw_profile_fill_pon_bw}
+
+    # Case 1: Verify only for HSIA service from the RG of ONU2
+    ${dst}=    Set Variable    ${list_onus_ut}[1][dst]
+    ${updict}=    Run Iperf3 Test Client    ${list_onus_ut}[1][src]    server=${dst['dp_iface_ip_qinq']}
+    ...    args=-t 30 -p 5202
+    ${actual_upstream_bw_used}=    Evaluate    ${updict['end']['sum_received']['bits_per_second']}/1000
+    ${pct_limit_up}=    Evaluate    100*${actual_upstream_bw_used}/${list_onus_ut}[1][limiting_bw_us]
+    Should Be True    ${pct_limit_up} >= ${lower_margin_pct}
+    ...    The upstream bandwidth guarantee was not met (${pct_limit_up}% of resv)
+
+    # Case 2: Verify for ONU1 (with index [0]) and ONU2 (with index [1]) devices combined
+    ${out_file_0}=    Set Variable    /tmp/out_tcont4
+    ${dst_0}=    Set Variable    ${list_onus_ut}[0][dst]
+    Run Iperf3 Test Client in Background    ${list_onus_ut}[0][src]    server=${dst_0['dp_iface_ip_qinq']}
+    ...    args=-t 30 -p 5201    out_file=${out_file_0}
+    ${out_file_1}=    Set Variable    /tmp/out_tcont5
+    ${dst_1}=    Set Variable    ${list_onus_ut}[1][dst]
+    Run Iperf3 Test Client in Background    ${list_onus_ut}[1][src]    server=${dst_1['dp_iface_ip_qinq']}
+    ...    args=-t 30 -p 5202    out_file=${out_file_1}
+    # Wait for the above iperf commands to finish (sleep time depends on -t arg value passed in iperf command)
+    Sleep    35s
+    ${out_0}=    Read Output File on System    ${out_file_0}
+    ${out_1}=    Read Output File on Remote System    ${list_onus_ut}[1][src]    ${out_file_1}
+    ${actual_upstream_bw_used_0}=    Evaluate    ${out_0['end']['sum_received']['bits_per_second']}/1000
+    ${limit_up_0_denominator}=    Evaluate
+    ...    ((${pon_max_bw_capacity_xgs}-${limiting_bw_us_fill_pon_bw}-${list_onus_ut_air_cir}[1][limiting_bw_us_air_cir])/2)
+    ${pct_limit_up_0}=    Evaluate
+    ...    100*${actual_upstream_bw_used_0}/${limit_up_0_denominator}
+    Should Be True    ${pct_limit_up_0} >= ${lower_margin_pct}
+    ...    The upstream bandwidth guarantee was not met (${pct_limit_up_0}% of resv)
+    ${actual_upstream_bw_used_1}=    Evaluate    ${out_1['end']['sum_received']['bits_per_second']}/1000
+    ${limit_up_1_numerator}=    Evaluate
+    ...    (${actual_upstream_bw_used_1}-${list_onus_ut_air_cir}[1][limiting_bw_us_air_cir])
+    ${limit_up_1_denominator}=    Evaluate
+    ...    ((${pon_max_bw_capacity_xgs}-${limiting_bw_us_fill_pon_bw}-${list_onus_ut_air_cir}[1][limiting_bw_us_air_cir])/2)
+    ${pct_limit_up_1}=    Evaluate
+    ...    100*${limit_up_1_numerator}/${limit_up_1_denominator}
+    Should Be True    ${pct_limit_up_1} >= ${lower_margin_pct}
+    ...    The upstream bandwidth guarantee was not met (${pct_limit_up_1}% of resv)
+
+    # Sent original sadis file to onos
+    Send File To Onos    ${CURDIR}/../../tests/data/flex-ocp-cord-sadis-TT.json
+
 *** Keywords ***
 Read Output File on Remote System
     [Arguments]    ${src}    ${file}
