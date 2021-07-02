@@ -105,7 +105,7 @@ OLTs in ONOS
     [Tags]  activation  plot-onos-olts
     ${onos_devices}=    Compute Device IDs
     FOR     ${deviceId}     IN  @{onos_devices}
-        Wait for Olt in ONOS   ${${ONOS_SSH_IP}    ${ONOS_SSH_PORT}}  ${deviceId}
+        Wait for Olt in ONOS   ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}  ${deviceId}
     END
 
 Onu Activation in VOLTHA
@@ -118,7 +118,7 @@ Port Discovery in ONOS
     [Tags]      activation    plot-onos-ports
     ${onos_devices}=    Compute Device IDs
     FOR     ${deviceId}     IN  @{onos_devices}
-        Wait for Ports in ONOS      ${${ONOS_SSH_IP}    ${ONOS_SSH_PORT}}  ${total_onus_per_olt}   ${deviceId}     BBSM
+        Wait for Ports in ONOS      ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}  ${total_onus_per_olt}   ${deviceId}     BBSM
     END
 
 Flows validation in VOLTHA before subscriber provisioning
@@ -144,7 +144,7 @@ Flows validation in ONOS before subscriber provisioning
 
     ${onos_devices}=    Compute Device IDs
     FOR     ${deviceId}     IN  @{onos_devices}
-        Wait for all flows to in ADDED state    ${${ONOS_SSH_IP}    ${ONOS_SSH_PORT}}
+        Wait for all flows to in ADDED state    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}
         ...     ${deviceId}     ${workflow}    ${total_onus_per_olt}    1    false
         ...     ${withEapol}    ${withDhcp}     ${withIgmp}   ${withLLDP}
     END
@@ -155,7 +155,7 @@ Wait for subscribers to be Authenticated
 
     ${onos_devices}=    Compute Device IDs
     FOR     ${deviceId}     IN  @{onos_devices}
-        Wait for AAA Authentication     ${${ONOS_SSH_IP}    ${ONOS_SSH_PORT}}  ${total_onus_per_olt}   ${deviceId}
+        Wait for AAA Authentication     ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}  ${total_onus_per_olt}   ${deviceId}
     END
 
 Provision subscribers
@@ -164,7 +164,7 @@ Provision subscribers
     Should Be Equal   ${enableSubscriberProvisioning}     true
     ${onos_devices}=    Compute Device IDs
     FOR     ${olt}  IN  @{onos_devices}
-        Provision all subscribers on device  ${${ONOS_SSH_IP}    ${ONOS_SSH_PORT}}    ${ONOS_SSH_IP}    ${ONOS_REST_PORT}  ${olt}
+        Provision all subscribers on device  ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${ONOS_SSH_IP}    ${ONOS_REST_PORT}  ${olt}
     END
 
 Flows validation in VOLTHA after subscriber provisioning
@@ -191,7 +191,7 @@ Flows validation in ONOS after subscriber provisioning
 
     ${onos_devices}=    Compute Device IDs
     FOR     ${deviceId}     IN  @{onos_devices}
-        Wait for all flows to in ADDED state    ${${ONOS_SSH_IP}    ${ONOS_SSH_PORT}}
+        Wait for all flows to in ADDED state    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}
         ...     ${deviceId}     ${workflow}    ${total_onus_per_olt}    1    true
         ...     ${withEapol}    ${withDhcp}     ${withIgmp}   ${withLLDP}
     END
@@ -201,7 +201,7 @@ Wait for subscribers to have an IP
     [Tags]      dhcp  plot-onos-dhcp
     ${onos_devices}=    Compute Device IDs
     FOR     ${deviceId}     IN  @{onos_devices}
-        Wait for DHCP Ack     ${${ONOS_SSH_IP}    ${ONOS_SSH_PORT}}  ${total_onus_per_olt}     ${workflow}     ${deviceId}
+        Wait for DHCP Ack     ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}  ${total_onus_per_olt}     ${workflow}     ${deviceId}
     END
 
 Perform Igmp Join
@@ -224,7 +224,7 @@ Wait for ONUs Join Igmp Group
     ${onos_devices}=    Compute Device IDs
     FOR     ${deviceId}     IN  @{onos_devices}
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
-        ...    Verify ONUs in Group Count in ONOS    ${${ONOS_SSH_IP}    ${ONOS_SSH_PORT}}    ${total_onus_per_olt}    ${deviceId}
+        ...    Verify ONUs in Group Count in ONOS    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${total_onus_per_olt}    ${deviceId}
     END
 
 Perform Igmp Leave
@@ -247,7 +247,7 @@ Wait for ONUs Leave Igmp Group
     ${onos_devices}=    Compute Device IDs
     FOR     ${deviceId}     IN  @{onos_devices}
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
-        ...    Verify Empty Group in ONOS    ${${ONOS_SSH_IP}    ${ONOS_SSH_PORT}}    ${deviceId}
+        ...    Verify Empty Group in ONOS    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${deviceId}
     END
 
 Disable and Delete devices
