@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "a95de1e3_f3fb9bc4",
+        "filename": "libraries/onos.robot",
+        "patchSetId": 8
+      },
+      "lineNbr": 541,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2021-07-02T09:12:48Z",
+      "side": 1,
+      "message": "https://jira.opencord.org/browse/VOL-4213",
+      "parentUuid": "dc829f10_9e48db66",
+      "revId": "7a7f9dacef8b44df84f0a64af946bb57e7341565",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "0f969a2d_1d7bfdd3",
         "filename": "libraries/onos.robot",
         "patchSetId": 8
@@ -47,6 +65,24 @@
       "writtenOn": "2021-07-02T08:19:24Z",
       "side": 1,
       "message": "please create a jira for this.",
+      "revId": "7a7f9dacef8b44df84f0a64af946bb57e7341565",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ac35abb3_e7319851",
+        "filename": "libraries/utils.robot",
+        "patchSetId": 8
+      },
+      "lineNbr": 442,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2021-07-02T09:12:48Z",
+      "side": 1,
+      "message": "https://jira.opencord.org/browse/VOL-4214",
+      "parentUuid": "8c5be1ed_cb58e8c4",
       "revId": "7a7f9dacef8b44df84f0a64af946bb57e7341565",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
       "unresolved": true
