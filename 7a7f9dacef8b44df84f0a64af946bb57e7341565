@@ -86,6 +86,69 @@
       "revId": "7a7f9dacef8b44df84f0a64af946bb57e7341565",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "117e6075_d4c9df11",
+        "filename": "tests/data/bbsim-kind-multi-uni-2OLTx2ONUx2PON.yaml",
+        "patchSetId": 8
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2021-07-02T11:00:00Z",
+      "side": 1,
+      "message": "Same suggestion like for bbsim-kind-multi-uni.yaml",
+      "range": {
+        "startLine": 39,
+        "startChar": 0,
+        "endLine": 64,
+        "endChar": 17
+      },
+      "revId": "7a7f9dacef8b44df84f0a64af946bb57e7341565",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "53b7f185_ba5e1436",
+        "filename": "tests/data/bbsim-kind-multi-uni-tt.yaml",
+        "patchSetId": 8
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2021-07-02T11:00:00Z",
+      "side": 1,
+      "message": "Similar suggestion like for bbsim-kind-multi-uni.yaml\n- onu: \u0027BBSM000a0001\u0027\n      olt: \u0027BBSIM_OLT_10\u0027\n        -\n          c_tag: \u0027900\u0027\n          s_tag: \u0027900\u0027\n          service_type: \u0027hsia\u0027\n          uni_id: 1\n        - \n          c_tag: \u0027444\u0027\n          s_tag: \u0027333\u0027\n          uni_id: 1\n          service_type: \u0027voip\u0027\n        -\n          c_tag: \u002755\u0027\n          s_tag: \u0027555\u0027\n          service_type: \u0027vod\u0027\n          uni_id: 1\n        - \n          c_tag: \u002755\u0027\n          s_tag: \u0027550\u0027\n          service_type: \u0027mcast\u0027\n          uni_id: 1\n        - \n          c_tag: \u0027901\u0027\n          s_tag: \u0027900\u0027\n          service_type: \u0027hsia\u0027\n          uni_id: 2\n       :\n       :\n        and so on...\nIt\u0027s just a suggestion/idea!\nI know it would lead to some more changes in robot test suites.",
+      "revId": "7a7f9dacef8b44df84f0a64af946bb57e7341565",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c1ea45ee_ebd3629a",
+        "filename": "tests/data/bbsim-kind-multi-uni.yaml",
+        "patchSetId": 8
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2021-07-02T11:00:00Z",
+      "side": 1,
+      "message": "Not sure, but I think a better structure would be something like this:\n      onu: \u0027BBSM000a0001\u0027\n      olt: \u0027BBSIM_OLT_10\u0027\n      s_tag: \u0027900\u0027\n        -\n          c_tag: \u0027900\u0027\n          uni_id: \u00271\u0027\n        -\n          c_tag: \u0027901\u0027\n          uni_id: \u00272\u0027\n        -\n          c_tag: \u0027902\u0027\n          uni_id: \u00273\u0027\n        -\n          c_tag: \u0027903\u0027\n          uni_id: \u00274\u0027",
+      "range": {
+        "startLine": 38,
+        "startChar": 0,
+        "endLine": 60,
+        "endChar": 17
+      },
+      "revId": "7a7f9dacef8b44df84f0a64af946bb57e7341565",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
     }
   ]
 }
