@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dc829f10_9e48db66",
+        "filename": "libraries/onos.robot",
+        "patchSetId": 8
+      },
+      "lineNbr": 541,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2021-07-02T08:19:24Z",
+      "side": 1,
+      "message": "minor point and can be done in a later patch, but this is really the UNI port so the method shoudl be called `Verify UNI Port Is Enabled`",
+      "revId": "7a7f9dacef8b44df84f0a64af946bb57e7341565",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0f969a2d_1d7bfdd3",
+        "filename": "libraries/onos.robot",
+        "patchSetId": 8
+      },
+      "lineNbr": 549,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2021-07-02T08:19:24Z",
+      "side": 1,
+      "message": "same",
+      "revId": "7a7f9dacef8b44df84f0a64af946bb57e7341565",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8c5be1ed_cb58e8c4",
+        "filename": "libraries/utils.robot",
+        "patchSetId": 8
+      },
+      "lineNbr": 442,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2021-07-02T08:19:24Z",
+      "side": 1,
+      "message": "please create a jira for this.",
+      "revId": "7a7f9dacef8b44df84f0a64af946bb57e7341565",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    }
+  ]
+}
