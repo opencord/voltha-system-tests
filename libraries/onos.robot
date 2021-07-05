@@ -538,17 +538,17 @@ Verify Eapol Flows Added For ONU
     ...    flows -s -f ADDED | grep eapol | grep IN_PORT:${onu_port}
     Should Not Be Empty    ${eapol_flows_added}
 
-Verify ONU Port Is Enabled
+Verify UNI Port Is Enabled
     [Arguments]    ${ip}    ${port}    ${onu_name}    ${onu_uni_id}=1
-    [Documentation]    Verifies if the ONU port is enabled in ONOS
+    [Documentation]    Verifies if the ONU's UNI port is enabled in ONOS
     ${onu_port_enabled}=    Execute ONOS CLI Command use single connection    ${ip}    ${port}
     ...    ports -e | grep portName=${onu_name}-${onu_uni_id}
     Log    ${onu_port_enabled}
     Should Not Be Empty    ${onu_port_enabled}
 
-Verify ONU Port Is Disabled
+Verify UNI Port Is Disabled
     [Arguments]    ${ip}    ${port}    ${onu_name}    ${onu_uni_id}=1
-    [Documentation]    Verifies if the ONU port is disabled in ONOS
+    [Documentation]    Verifies if the ONU's UNI port is disabled in ONOS
     ${onu_port_disabled}=    Execute ONOS CLI Command use single connection    ${ip}    ${port}
     ...    ports -e | grep portName=${onu_name}-${onu_uni_id}
     Log    ${onu_port_disabled}

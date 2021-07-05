@@ -119,7 +119,7 @@ Perform BBSim Sanity Test Per OLT
         ...    Get ONU Port in ONOS    ${src['onu']}    ${of_id}
         # Check ONU port is Enabled in ONOS
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds   120s   2s
-        ...    Verify ONU Port Is Enabled   ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${src['onu']}
+        ...    Verify UNI Port Is Enabled   ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${src['onu']}
         Run Keyword If    "${workflow}"=="ATT"
         ...    Run Keywords
         # Verify ONU in AAA-Users (valid only for ATT)

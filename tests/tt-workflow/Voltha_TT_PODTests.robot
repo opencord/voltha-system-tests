@@ -234,7 +234,7 @@ Test Disable and Enable ONU for TT
         ...    Validate Device    DISABLED    UNKNOWN
         ...    REACHABLE    ${src['onu']}    onu=True    onu_reason=omci-admin-lock
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds   ${timeout}    2s
-        ...    Verify ONU Port Is Disabled   ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${src['onu']}    ${src['uni_id']}
+        ...    Verify UNI Port Is Disabled   ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${src['onu']}    ${src['uni_id']}
         Run Keyword If    ${has_dataplane}    Run Keyword And Continue On Failure
         ...    Wait Until Keyword Succeeds    60s    2s
         ...    Check Ping    False    ${dst['dp_iface_ip_qinq']}    ${src['dp_iface_name']}
@@ -243,7 +243,7 @@ Test Disable and Enable ONU for TT
         Enable Device    ${onu_device_id}
         Run Keyword If    ${has_dataplane} and '${service_type}' == 'mcast'    Clean Up Linux
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds   ${timeout}    2s
-        ...    Verify ONU Port Is Enabled   ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${src['onu']}    ${src['uni_id']}
+        ...    Verify UNI Port Is Enabled   ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${src['onu']}    ${src['uni_id']}
         Run Keyword If    ${has_dataplane} and '${service_type}' != 'mcast'    Run Keyword And Continue On Failure
         ...    Wait Until Keyword Succeeds    ${timeout}    2s    Sanity Test TT one ONU    ${src}
         ...    ${dst}    ${suppressaddsubscriber}
