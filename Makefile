@@ -379,6 +379,11 @@ bbsim-failurescenarios-tt: ROBOT_FILE := Voltha_TT_FailureScenarios.robot
 bbsim-failurescenarios-tt: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_TT_SINGLE_PON_FILE)
 bbsim-failurescenarios-tt: voltha-tt-test
 
+bbsim-multiuni-failurescenarios-tt: ROBOT_MISC_ARGS += -X $(ROBOT_DEBUG_LOG_OPT) -e PowerSwitch -e PhysicalOltRebootTT
+bbsim-multiuni-failurescenarios-tt: ROBOT_FILE := Voltha_TT_FailureScenarios.robot
+bbsim-multiuni-failurescenarios-tt: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_TT_MULTI_UNI_SINGLE_PON_FILE)
+bbsim-multiuni-failurescenarios-tt: voltha-tt-test
+
 voltha-test: ROBOT_MISC_ARGS += -e notready --noncritical non-critical
 
 voltha-test: vst_venv

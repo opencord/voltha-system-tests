@@ -82,7 +82,7 @@ Verify ONU after Rebooting Physically for TT
         ${of_id}=    Get ofID From OLT List    ${src['olt']}
         ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
         ${onu_port}=    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
-        ...    Get ONU Port in ONOS    ${src['onu']}    ${of_id}
+        ...    Get ONU Port in ONOS    ${src['onu']}    ${of_id}    ${src['uni_id']}
         # Disable Power Switch
         Disable Switch Outlet    ${src['power_switch_port']}
         # TODO: Add verification for MCAST
@@ -98,7 +98,7 @@ Verify ONU after Rebooting Physically for TT
         Enable Switch Outlet    ${src['power_switch_port']}
         # Check ONU port is Enabled in ONOS
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds   120s   2s
-        ...    Verify UNI Port Is Enabled   ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${src['onu']}
+        ...    Verify UNI Port Is Enabled   ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${src['onu']}    ${src['uni_id']}
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2
         ...    Execute ONOS CLI Command use single connection    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}
         ...    volt-add-subscriber-access ${of_id} ${onu_port}
@@ -186,7 +186,7 @@ Verify ONU Soft Reboot for TT
         ${of_id}=    Get ofID From OLT List    ${src['olt']}
         ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
         ${onu_port}=    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
-        ...    Get ONU Port in ONOS    ${src['onu']}    ${of_id}
+        ...    Get ONU Port in ONOS    ${src['onu']}    ${of_id}    ${src['uni_id']}
         Reboot Device    ${onu_device_id}
         # TODO: Add verification for MCAST
         Run Keyword If    ${has_dataplane} and '${service_type}' != 'mcast'    Run Keyword And Continue On Failure
@@ -198,7 +198,7 @@ Verify ONU Soft Reboot for TT
         ...    ${ONOS_SSH_PORT}    volt-remove-subscriber-access ${of_id} ${onu_port}
         # Check ONU port is Enabled in ONOS
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds   120s   2s
-        ...    Verify UNI Port Is Enabled   ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${src['onu']}
+        ...    Verify UNI Port Is Enabled   ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${src['onu']}    ${src['uni_id']}
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2
         ...    Execute ONOS CLI Command use single connection    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}
         ...    volt-add-subscriber-access ${of_id} ${onu_port}
@@ -362,7 +362,7 @@ Verify restart ofagent container after subscriber is provisioned for TT
     [Setup]    Start Logging    ofagentRestart-TT
     [Teardown]    Run Keywords    Collect Logs
     ...           AND             Stop Logging    ofagentRestart-TT
-    ...           AND             Scale K8s Deployment    ${NAMESPACE}    voltha-voltha-ofagent    1
+    ...           AND             Scale K8s Deployment    ${NAMESPACE}    ${NAMESPACE}-voltha-ofagent    1
     # set timeout value
     ${waitforRestart}    Set Variable    120s
     ${podStatusOutput}=    Run    kubectl get pods -n ${NAMESPACE}
@@ -380,7 +380,7 @@ Verify restart ofagent container after subscriber is provisioned for TT
     ${countAfterRestart}=    Run    kubectl get pods -n ${NAMESPACE} | grep Running | wc -l
     Should Be Equal As Strings    ${countAfterRestart}    ${countBforRestart}
     # Scale Down the Of-Agent Deployment
-    Scale K8s Deployment    ${NAMESPACE}    voltha-voltha-ofagent    0
+    Scale K8s Deployment    ${NAMESPACE}    ${NAMESPACE}-voltha-ofagent    0
     Sleep    30s
     FOR    ${I}    IN RANGE    0    ${num_all_onus}
         ${src}=    Set Variable    ${hosts.src[${I}]}
@@ -389,14 +389,14 @@ Verify restart ofagent container after subscriber is provisioned for TT
         ${of_id}=    Get ofID From OLT List    ${src['olt']}
         ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
         ${onu_port}=    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
-        ...    Get ONU Port in ONOS    ${src['onu']}    ${of_id}
+        ...    Get ONU Port in ONOS    ${src['onu']}    ${of_id}    ${src['uni_id']}
         # Verify ONU state in voltha
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    360s    5s    Validate Device
         ...    ENABLED    ACTIVE    REACHABLE
         ...    ${src['onu']}    onu=True    onu_reason=omci-flows-pushed
         # Check ONU port is Disabled in ONOS
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds   120s   2s
-        ...    Verify UNI Port Is Disabled   ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${src['onu']}
+        ...    Verify UNI Port Is Disabled   ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${src['onu']}    ${src['uni_id']}
         # Verify Ping
         Run Keyword If    ${has_dataplane} and '${service_type}' != 'mcast'
         ...    Run Keyword And Continue On Failure    Check Ping    True
@@ -404,7 +404,7 @@ Verify restart ofagent container after subscriber is provisioned for TT
         ...    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
     END
     # Scale Up the Of-Agent Deployment
-    Scale K8s Deployment    ${NAMESPACE}    voltha-voltha-ofagent    1
+    Scale K8s Deployment    ${NAMESPACE}    ${NAMESPACE}-voltha-ofagent    1
     Wait Until Keyword Succeeds    ${waitforRestart}    2s    Validate Pod Status    ofagent    ${NAMESPACE}
     ...    Running
     Run Keyword If    ${has_dataplane}    Clean Up Linux
@@ -436,24 +436,24 @@ Sanity E2E Test for OLT/ONU on POD With Core Fail and Restart for TT
         ${of_id}=    Get ofID From OLT List    ${src['olt']}
         ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
         ${onu_port}=    Wait Until Keyword Succeeds    ${timeout}    2s    Get ONU Port in ONOS    ${src['onu']}
-        ...    ${of_id}
+        ...    ${of_id}    ${src['uni_id']}
         # Bring up the device and verify it authenticates
         Wait Until Keyword Succeeds    360s    5s    Validate Device    ENABLED    ACTIVE    REACHABLE
         ...    ${onu_device_id}    onu=True    onu_reason=initial-mib-downloaded    by_dev_id=True
     END
 
     # Scale down the rw-core deployment to 0 PODs and once confirmed, scale it back to 1
-    Scale K8s Deployment    voltha    voltha-voltha-rw-core    0
-    Wait Until Keyword Succeeds    ${timeout}    2s    Pod Does Not Exist    voltha    voltha-voltha-rw-core
+    Scale K8s Deployment    ${NAMESPACE}    ${NAMESPACE}-voltha-rw-core    0
+    Wait Until Keyword Succeeds    ${timeout}    2s    Pod Does Not Exist    ${NAMESPACE}    ${NAMESPACE}-voltha-rw-core
     # Ensure the ofagent POD goes "not-ready" as expected
     Wait Until keyword Succeeds    ${timeout}    2s
-    ...    Check Expected Available Deployment Replicas    voltha    voltha-voltha-ofagent    0
+    ...    Check Expected Available Deployment Replicas    ${NAMESPACE}    ${NAMESPACE}-voltha-ofagent    0
     # Scale up the core deployment and make sure both it and the ofagent deployment are back
-    Scale K8s Deployment    voltha    voltha-voltha-rw-core    1
+    Scale K8s Deployment    ${NAMESPACE}    ${NAMESPACE}-voltha-rw-core    1
     Wait Until Keyword Succeeds    ${timeout}    2s
-    ...    Check Expected Available Deployment Replicas    voltha    voltha-voltha-rw-core    1
+    ...    Check Expected Available Deployment Replicas    ${NAMESPACE}    ${NAMESPACE}-voltha-rw-core    1
     Wait Until Keyword Succeeds    ${timeout}    2s
-    ...    Check Expected Available Deployment Replicas    voltha    voltha-voltha-ofagent    1
+    ...    Check Expected Available Deployment Replicas    ${NAMESPACE}    ${NAMESPACE}-voltha-ofagent    1
     # For some reason scaling down and up the POD behind a service causes the port forward to stop working,
     # so restart the port forwarding for the API service
     Restart VOLTHA Port Forward    voltha-api
