@@ -624,7 +624,7 @@ Validate parsing of data traffic through voltha using tech profile
     ...    Install jq tool to read json file, where test suite is being running
     ...    This test sends TCP packets with pbits between 0 and 7 and validates that
     ...    the pbits are preserved by the PON.
-    [Tags]    dataplane    TechProfile    VOL-2054
+    [Tags]    dataplane    TechProfile    VOL-2054    notready
     [Setup]    Start Logging    TechProfile
     [Teardown]    Run Keywords    Collect Logs
     ...           AND    Stop Logging    TechProfile
