@@ -305,6 +305,7 @@ Verify that non-assured BW is released to assured BW allocation as needed for TT
     ...        AND             Setup
     [Teardown]    Run Keywords    Collect Logs
     ...           AND             Stop Logging    TcontType2Onu1Type3Onu2
+    ...           AND             Delete All Devices and Verify
     # Push multi-tcont sadis to ONOS
     Send File To Onos    ${CURDIR}/../../tests/data/flex-ocp-cord-sadis-TT-multi-tcont.json
     Run Keyword If    ${has_dataplane}    Clean Up Linux
