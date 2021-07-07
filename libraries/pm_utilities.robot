@@ -215,7 +215,7 @@ Determine Collection Interval
     [Documentation]    Delivers collection interval over all devices
     [Arguments]    ${user}=False
     ${longest_interval}=    Get Longest Interval    user=${user}
-    ${collect_interval}=    evaluate    ((${longest_interval}*2)+(${longest_interval}*0.2))
+    ${collect_interval}=    evaluate    ((${longest_interval}*2)+(${longest_interval}*0.2))+5
     ${collect_interval}=    Validate Time Unit    ${collect_interval}
     [return]    ${collect_interval}
 
