@@ -1360,14 +1360,17 @@ Create traffic with each pbit and capture at other end
     [Documentation]    Generates upstream traffic using Mausezahn tool
     ...    with each pbit and validates reception at other end using tcpdump
     [Arguments]    ${target_ip}    ${target_iface}    ${src_iface}
-    ...    ${packet_count}    ${packet_type}    ${vlan}    ${tcpdump_filter}
+    ...    ${packet_count}    ${packet_type}    ${c_vlan}    ${s_vlan}    ${direction}    ${tcpdump_filter}
     ...    ${dst_ip}    ${dst_user}    ${dst_pass}    ${dst_container_type}    ${dst_container_name}
     ...    ${src_ip}    ${src_user}    ${src_pass}    ${src_container_type}    ${src_container_name}
     FOR    ${pbit}    IN RANGE    8
         Execute Remote Command    sudo pkill mausezahn
         ...    ${src_ip}    ${src_user}    ${src_pass}    ${src_container_type}    ${src_container_name}
         ${var1}=    Set Variable    sudo mausezahn ${src_iface} -B ${target_ip} -c ${packet_count}
-        ${var2}=    Set Variable    -t ${packet_type} "dp=80, flags=rst, p=aa:aa:aa" -Q ${pbit}:${vlan}
+        ${var2}=    Run Keyword If    "${direction}"=="downstream"
+        ...    Set Variable    -t ${packet_type} "dp=80, flags=rst, p=aa:aa:aa" -Q ${pbit}:${s_vlan},${pbit}:${c_vlan}
+        ...    ELSE
+        ...    Set Variable    -t ${packet_type} "dp=80, flags=rst, p=aa:aa:aa" -Q ${pbit}:${c_vlan}
         ${cmd}=    Set Variable    ${var1} ${var2}
         Start Remote Command    ${cmd}    ${src_ip}    ${src_user}    ${src_pass}
         ...    ${src_container_type}    ${src_container_name}
