@@ -42,7 +42,6 @@ Resource          ../../libraries/pm_utilities.robot
 Resource          ../../variables/variables.robot
 
 Library           kafka_robot.KafkaClient    log_level=DEBUG    WITH NAME    kafka
-Library           grpc_robot.VolthaTools     WITH NAME    volthatools
 
 
 *** Variables ***

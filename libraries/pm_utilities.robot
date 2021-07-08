@@ -25,6 +25,8 @@ Library           ImportResource    resources=CORDRobot
 Library           utility.py    WITH NAME    utility
 Resource          ./voltctl.robot
 
+Library           grpc_robot.VolthaTools     WITH NAME    volthatools
+
 *** Variables ***
 # operators for value validations, needed for a better reading only
 ${gt}      >      # greater than
@@ -215,7 +217,7 @@ Determine Collection Interval
     [Documentation]    Delivers collection interval over all devices
     [Arguments]    ${user}=False
     ${longest_interval}=    Get Longest Interval    user=${user}
-    ${collect_interval}=    evaluate    ((${longest_interval}*2)+(${longest_interval}*0.2))+5
+    ${collect_interval}=    evaluate    (${longest_interval}*2)+6
     ${collect_interval}=    Validate Time Unit    ${collect_interval}
     [return]    ${collect_interval}
 
@@ -618,8 +620,8 @@ Validate Number of Checks per Onu
         # remove time unit if available
         ${collect_interval}=    Validate Time Unit    ${collect_interval}    False
         ${expected_checks}=    evaluate    ${collect_interval}/${val}
-        # remove float format (Validate Time Unit will this done:-))
-        ${expected_checks}=    Validate Time Unit    ${expected_checks}    False
+        # remove float format and round down always (e.g. 3.9 -> 3)
+        ${expected_checks}=    evaluate    int(${expected_checks})
         Run Keyword And Continue On Failure    Run Keyword Unless    ${expected_checks} <= ${checks}    FAIL
         ...    Wrong number of pm-data (${checks}) for ${group} of device ${device_id}!
     END
