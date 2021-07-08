@@ -649,7 +649,7 @@ Validate parsing of data traffic through voltha using tech profile
         Log    Upstream test
         Run Keyword If    ${has_dataplane}    Create traffic with each pbit and capture at other end
         ...    ${dst['dp_iface_ip_qinq']}    ${dst['dp_iface_name']}    ${src['dp_iface_name']}
-        ...    0    tcp     0    vlan
+        ...    0    tcp     0    ${src['s_tag']}    "upstream"    vlan
         ...    ${bng_ip}    ${bng_user}    ${bng_pass}    ${dst['container_type']}    ${dst['container_name']}
         ...    ${src['ip']}    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
         Log    Downstream test
@@ -658,8 +658,8 @@ Validate parsing of data traffic through voltha using tech profile
         ...    ${src['ip']}    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
         Should Be Equal As Integers    ${rc}    0    Could not get RG's IP address
         Run Keyword If    ${has_dataplane}    Create traffic with each pbit and capture at other end
-        ...    ${rg_ip}    ${src['dp_iface_name']}    ${dst['dp_iface_name']}.${src['s_tag']}
-        ...    0    tcp    ${src['c_tag']}    tcp
+        ...    ${rg_ip}    ${src['dp_iface_name']}    ${dst['dp_iface_name']}
+        ...    0    tcp    ${src['c_tag']}    ${src['s_tag']}    "downstream"    tcp
         ...    ${src['ip']}    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
         ...    ${bng_ip}    ${bng_user}    ${bng_pass}    ${dst['container_type']}    ${dst['container_name']}
     END
