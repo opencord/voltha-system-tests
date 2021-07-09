@@ -834,6 +834,8 @@ Validate ONUs for PON OLT Disable
         # Remove Subscriber Access (To replicate ATT workflow)
         ...    AND    Wait Until Keyword Succeeds    ${timeout}    2s    Execute ONOS CLI Command use single connection
         ...    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    volt-remove-subscriber-access ${of_id} ${onu_port}
+        # Additional Sleep to let subscriber delete process
+        ...    AND    Sleep    5s
         ...    ELSE
         ...    Run Keyword If    ${has_dataplane}    Run Keyword And Continue On Failure
         ...    Wait Until Keyword Succeeds    60s    2s
@@ -969,6 +971,8 @@ Validate ONUs for PON OLT Disable DT
         ...    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    volt-remove-subscriber-access ${of_id} ${onu_port}
         # Delete ONU Device (To replicate DT workflow)
         ...    AND    Delete Device    ${onu_device_id}
+        # Additional Sleep to let subscriber and ONU delete process
+        ...    AND    Sleep    10s
         ...    ELSE
         ...    Run Keyword If    ${has_dataplane}    Run Keyword And Continue On Failure
         ...    Wait Until Keyword Succeeds    60s    2s
