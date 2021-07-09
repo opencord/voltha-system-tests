@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c8d4b484_158b0d51",
+        "filename": "libraries/utils.robot",
+        "patchSetId": 8
+      },
+      "lineNbr": 1378,
+      "author": {
+        "id": 1000007
+      },
+      "writtenOn": "2021-07-09T15:27:06Z",
+      "side": 1,
+      "message": "-G 30 is not needed anymore?",
+      "range": {
+        "startLine": 1378,
+        "startChar": 15,
+        "endLine": 1378,
+        "endChar": 79
+      },
+      "revId": "0ea72234a5e9df450088ca60137fe5958f57bbf0",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    }
+  ]
+}
