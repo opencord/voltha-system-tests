@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f9a10f93_0e0a04a1",
+        "filename": "tests/dt-workflow/Voltha_DT_PODTests.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 611,
+      "author": {
+        "id": 1000064
+      },
+      "writtenOn": "2021-07-09T00:15:06Z",
+      "side": 1,
+      "message": "Do you need quotes around that direction strings? I don\u0027t think we need them",
+      "revId": "d2da99b7f71f774197e2ce4e37e84ff2f76382a7",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    }
+  ]
+}
