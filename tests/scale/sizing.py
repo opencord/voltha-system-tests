@@ -61,7 +61,7 @@ def main(address, out_folder, since):
 
     container_mem_query = "sum by(pod) (container_memory_working_set_bytes{namespace='default',container!='',container!='POD'})"
 
-    container_cpu_query = "sum by(pod) (rate(container_cpu_usage_seconds_total{namespace='default',container!='',container!='POD'}[%sm])) * 100" % since
+    container_cpu_query = "sum by(pod) (rate(container_cpu_usage_seconds_total{namespace='default',container!='',container!='POD'}[%sm]))" % since
 
     now = time.time()
     cpu_params = {
@@ -139,7 +139,7 @@ def plot_cpu_consumption(containers, output=None):
 
     plt.title("CPU Usage per POD")
     plt.xlabel("Timestamp")
-    plt.ylabel("% used")
+    plt.ylabel("CPU cores used")
 
     for c in containers:
         name = c["metric"]["pod"]
