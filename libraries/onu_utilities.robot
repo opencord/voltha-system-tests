@@ -14,6 +14,7 @@
 
 *** Settings ***
 Documentation     Library for various openonu-go-adpter utilities
+Library           grpc_robot.VolthaTools     WITH NAME    volthatools
 
 
 *** Keywords ***
@@ -214,6 +215,47 @@ Remove Tech Profile
     ${commandget}    Catenate
     ...    /bin/sh -c 'ETCDCTL_API=3 etcdctl get --prefix service/voltha/technology_profiles/XGS-PON/64'
     Exec Pod In Kube    ${namespace}    ${podname}    ${commandget}
+
+Validate Resource Instances Used Gem Ports
+    [Documentation]    This keyword validates resource instances data stored in etcd.
+    ...                It checks checks the number of gemport-ids which has matched with used Tech Profile
+    [Arguments]    ${nbofgemports}    ${defaultkvstoreprefix}=voltha_voltha
+    ${kvstoreprefix}=    Get Kv Store Prefix    ${defaultkvstoreprefix}
+    ${etcddata}=    Get ONU Go Adapter ETCD Data    ${kvstoreprefix}
+    #prepare result for json convert
+    ${result}=    Prepare ONU Go Adapter ETCD Data For Json    ${etcddata}
+    ${jsondata}=    To Json    ${result}
+    ${length}=    Get Length    ${jsondata}
+    log    ${jsondata}
+    FOR    ${INDEX}    IN RANGE    0    ${length}
+        ${value}=    Get From List    ${jsondata}    ${INDEX}
+        # TODO: The TP ID is hardcoded to 64 below. It is fine when testing single-tcont workflow.
+        # When testing multi-tcont this may need some adjustment.
+        Exit For Loop If    not ('uni_config' in $value)
+        ${tp_path}=    Get From Dictionary    ${value['uni_config'][0]['PersTpPathMap']}    64
+        ${resourcedata}=    Get Resource Instances ETCD Data    ${tp_path}    ${kvstoreprefix}
+        log    ${resourcedata}
+        ${decoderesult}=    volthatools.Tech Profile Decode Resource Instance    ${resourcedata}    return_default=true
+        log    ${decoderesult}
+        ${gemportids}=    Get From Dictionary    ${decoderesult}    gemport_ids
+        ${length}=    Get Length    ${gemportids}
+        Should Be Equal As Integers    ${nbofgemports}    ${length}
+        ...    msg=Number of gem ports (${length}) does not match with techprofile ${techprofile}/${nbofgemports}
+    END
+
+Get Resource Instances ETCD Data
+    [Documentation]    This keyword delivers Resource Instances Data stored in etcd
+    [Arguments]    ${tppath}    ${defaultkvstoreprefix}=voltha_voltha
+    ${namespace}=    Set Variable    default
+    ${podname}=    Set Variable    etcd
+    ${kvstoreprefix}=    Get Kv Store Prefix    ${defaultkvstoreprefix}
+    ${commandget}=    Catenate
+    ...    /bin/sh -c 'ETCDCTL_API=3 etcdctl get --prefix service/${kvstoreprefix}/resource_instances/${tppath}
+    ...    --print-value-only --hex'
+    ${result}=    Exec Pod In Kube    ${namespace}    ${podname}    ${commandget}
+    log    ${result}
+    [Return]    ${result}
+
 
 Validate Onu Data In Etcd
     [Documentation]    This keyword validates openonu-go-adapter Data stored in etcd.

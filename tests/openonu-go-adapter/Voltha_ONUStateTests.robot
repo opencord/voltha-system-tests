@@ -445,6 +445,7 @@ Do Check Tech Profile
     ${num_of_expected_matches}=    Set Variable If    "${techprofile}"!="default" or ${length}>0    1    0
     Should Be Equal As Integers    ${num_of_expected_matches}    ${num_of_count_matches}
     ...    TechProfile (${TechProfile}) not loaded correctly: found(${num_of_count_matches}) expected(${num_of_expected_matches})
+    Validate Resource Instances Used Gem Ports    ${num_gem_ports}    defaultkvstoreprefix=${kvstoreprefix}
 
 Do Disable Enable Onu Test
     [Documentation]    This keyword disables/enables all onus and checks the states.
