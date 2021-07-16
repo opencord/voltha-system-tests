@@ -1,0 +1,116 @@
+# nodes schema
+schema;nodes_schema:
+  type: map
+  mapping:
+    ip:
+      type: str
+      pattern: ^(?:[0-9]{1,3}\.){3}[0-9]{1,3}$
+    user:
+      type: str
+    pass:
+      type: str
+
+# switches schema
+schema;switches_schema:
+  type: map
+  mapping:
+    mac:
+      type: str
+      pattern: ^([0-9A-Fa-f]{2}[:-]){5}([0-9A-Fa-f]{2})$
+    ip:
+      type: str
+      pattern: ^(?:[0-9]{1,3}\.){3}[0-9]{1,3}$
+    user:
+      type: str
+    pass:
+      type: str
+    bngPort:
+      desc: Port on the switch that is connected to the BNG
+      type: str
+      required: true
+    device_id:
+      type: str
+
+# olts schema
+schema;olts_schema:
+  type: map
+  mapping:
+    ip:
+      type: str
+      pattern: ^(?:[0-9]{1,3}\.){3}[0-9]{1,3}$
+    sship:
+      type: str
+      pattern: ^(?:[0-9]{1,3}\.){3}[0-9]{1,3}$
+    user:
+      type: str
+    pass:
+      type: str
+    fortygig:
+      type: str # TODO should it be a Bool?
+      enum: ['true', 'false']
+    aggPort:
+      desc: Port on the switch that is connected to the OLT
+      type: str
+      required: true
+    serial:
+      type: str
+    oltDebVersion:
+      type: str
+      required: true
+    board_technology:
+      type: str
+      enum: ['XGS-PON', 'GPON']
+
+# onus schema
+schema;onus_schema:
+  type: map
+  mapping:
+    serial:
+      type: str
+      required: true
+
+# power_switch schema
+schema;power_switch_schema:
+  type: map
+  mapping:
+    ip:
+      type: str
+      pattern: ^(?:[0-9]{1,3}\.){3}[0-9]{1,3}$
+      required: true
+    user:
+      type: str
+      required: true
+    password: # change to "pass" for consistency
+      type: str
+      required: true
+    type:
+      type: str
+      enum: ['DLI']
+
+# global schema
+map:
+  kube_config:
+    type: str
+    desc: The filename of the kubernetes config for this POD
+  nodes:
+    type: seq
+    required: true
+    sequence:
+      - include: nodes_schema
+  fabric_switches:
+    type: seq
+    required: true
+    sequence:
+      - include: switches_schema
+  olts:
+    type: seq
+    required: true
+    sequence:
+      - include: olts_schema
+  onus:
+    type: seq
+    required: true
+    sequence:
+      - include: onus_schema
+  web_power_switch:
+    include: power_switch_schema

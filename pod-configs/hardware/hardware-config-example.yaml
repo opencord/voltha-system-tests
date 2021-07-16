@@ -1,0 +1,64 @@
+# Copyright 2017-present Open Networking Foundation
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+# http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+# Automated deployment configuration for Flex POD 1 , olt/onu are connected to this
+
+---
+
+kube_config: 'flex-ocp-cord-voltha-master.conf'
+
+nodes:
+  -
+    ip: '10.90.0.221'
+    user: 'cord'
+    pass: 'cord'
+  -
+    ip: '10.90.0.222'
+    user: 'cord'
+    pass: 'cord'
+  -
+    ip: '10.90.0.223'
+    user: 'cord'
+    pass: 'cord'
+
+fabric_switches:
+  -
+    mac: 'cc:37:ab:5b:6d:a8'
+    ip: '10.90.0.224'
+    user: 'root'
+    pass: 'onl'
+    bngPort: '31'
+    device_id: 'of:0000000000000001'
+
+olts:
+  -
+    ip: '10.90.0.225'
+    sship: '10.90.0.225'
+    user: 'root'
+    pass: 'onl'
+    fortygig: 'true'
+    aggPort: '1'
+    serial: 'EC1838000853'
+    oltDebVersion: openolt_asfvolt16-3.4.8-eec0fc9e9a01dc0d35b0b8441e0a22a4c0cc51b4-40G-NNI.deb
+    board_technology: XGS-PON
+
+onus:
+  -
+    serial: 'ALPHe3d1cfa7'
+
+web_power_switch:
+  ip: '10.90.0.229'
+  user: 'cord'
+  password: 'cord'
+  type: 'DLI'

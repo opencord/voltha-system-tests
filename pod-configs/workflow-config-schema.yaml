@@ -1,0 +1,84 @@
+# hosts schema
+# TODO are "src" and "dst" schemas different?
+# they probably are
+# TODO do we need all of these keys or is there something that is deprecated?
+schema;hosts_schema:
+  type: map
+  mapping:
+    ip:
+      type: str
+      pattern: ^(?:[0-9]{1,3}\.){3}[0-9]{1,3}$
+    user:
+      type: str
+    pass:
+      type: str
+    noroot_ip:
+      type: str
+      pattern: ^(?:[0-9]{1,3}\.){3}[0-9]{1,3}$
+    noroot_user:
+      type: str
+    noroot_pass:
+      type: str
+    dp_iface_name:
+      type: str
+    dp_iface_ip_qinq:
+      type: str
+      pattern: ^(?:[0-9]{1,3}\.){3}[0-9]{1,3}$
+    dp_iface_ip:
+      type: str
+      pattern: ^(?:[0-9]{1,3}\.){3}[0-9]{1,3}$
+    dp_iface_gateway:
+      type: str
+      pattern: ^(?:[0-9]{1,3}\.){3}[0-9]{1,3}$
+    container_type:
+      type: str
+      enum: ['LXC']
+    container_name:
+      type: str
+    onu:
+      type: str
+    olt:
+      type: str
+    c_tag:
+      type: int
+    s_tag:
+      type: int
+    power_switch_port:
+      type: int
+    onu_type:
+      type: str
+      enum: ['alpha', 'iskratel', 'sercomm', 'adtran', 'other']
+    service_type:
+      type: str
+      enum: ['hsia', 'voip', 'vod', 'mcast', 'other']
+    uni_id:
+      type: int
+    mcast_rg:
+      type: str
+      pattern: ^(?:[0-9]{1,3}\.){3}[0-9]{1,3}/[0-9]{1,2}$
+    mcast_grp_subnet_mask:
+      type: str
+      pattern: ^(?:[0-9]{1,3}\.){3}[0-9]{1,3}/[0-9]{1,2}$
+    bng_ip:
+      type: str
+      pattern: ^(?:[0-9]{1,3}\.){3}[0-9]{1,3}$
+    bng_user:
+      type: str
+    bng_pass:
+      type: str
+
+# global schema
+map:
+  hosts:
+    type: map
+    mapping:
+      src:
+        type: seq
+        required: true
+        sequence:
+          - include: hosts_schema
+      dst:
+        type: seq
+        required: true
+        sequence:
+          - include: hosts_schema

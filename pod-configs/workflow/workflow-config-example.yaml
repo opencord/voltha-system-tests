@@ -1,0 +1,205 @@
+# Copyright 2017-present Open Networking Foundation
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+# http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+# Automated deployment configuration for Flex POD 1 , olt/onu are connected to this
+
+---
+
+hosts:
+  src:
+    -
+      ip: '10.90.0.221'
+      user: 'cord'
+      pass: 'cord'
+      dp_iface_name: 'eth1.35'
+      container_type: LXC
+      container_name: ALPHe3d1cea3
+      onu: 'ALPHe3d1cea3'
+      olt: 'EC1838000853'
+      c_tag: 801
+      s_tag: 111
+      power_switch_port: 1
+      onu_type: 'alpha'
+      service_type: 'hsia'
+      uni_id: 1
+    -
+      ip: '10.90.0.222'
+      user: 'cord'
+      pass: 'cord'
+      dp_iface_name: 'eth1.35'
+      container_type: LXC
+      container_name: ALPHe3d1ceb7
+      onu: 'ALPHe3d1ceb7'
+      olt: 'EC1838000853'
+      c_tag: 101
+      s_tag: 222
+      power_switch_port: 2
+      onu_type: 'alpha'
+      service_type: 'hsia'
+      uni_id: 1
+    -
+      ip: '10.90.0.221'
+      user: 'cord'
+      pass: 'cord'
+      dp_iface_name: 'eth1.65'
+      container_type: LXC
+      container_name: ALPHe3d1cea3
+      onu: 'ALPHe3d1cea3'
+      olt: 'EC1838000853'
+      c_tag: 444
+      s_tag: 333
+      power_switch_port: 1
+      service_type: 'voip'
+      uni_id: 1
+    -
+      ip: '10.90.0.222'
+      user: 'cord'
+      pass: 'cord'
+      dp_iface_name: 'eth1.65'
+      container_type: LXC
+      container_name: ALPHe3d1ceb7
+      onu: 'ALPHe3d1ceb7'
+      olt: 'EC1838000853'
+      c_tag: 444
+      s_tag: 333
+      power_switch_port: 2
+      service_type: 'voip'
+      uni_id: 1
+    -
+      ip: '10.90.0.221'
+      user: 'cord'
+      pass: 'cord'
+      dp_iface_name: 'eth1.55'
+      container_type: LXC
+      container_name: ALPHe3d1cea3
+      onu: 'ALPHe3d1cea3'
+      olt: 'EC1838000853'
+      c_tag: 55
+      s_tag: 555
+      power_switch_port: 1
+      service_type: 'vod'
+      uni_id: 1
+    -
+      ip: '10.90.0.222'
+      user: 'cord'
+      pass: 'cord'
+      dp_iface_name: 'eth1.55'
+      container_type: LXC
+      container_name: ALPHe3d1ceb7
+      onu: 'ALPHe3d1ceb7'
+      olt: 'EC1838000853'
+      c_tag: 55
+      s_tag: 555
+      power_switch_port: 2
+      service_type: 'vod'
+      uni_id: 1
+    -
+      ip: '10.90.0.221'
+      user: 'cord'
+      pass: 'cord'
+      dp_iface_name: 'eth1.55'
+      container_type: LXC
+      container_name: ALPHe3d1cea3
+      onu: 'ALPHe3d1cea3'
+      olt: 'EC1838000853'
+      c_tag: 55
+      s_tag: 550
+      power_switch_port: 1
+      mcast_rg: '10.11.6.3/24'
+      mcast_grp_subnet_mask: '224.0.0.0/4'
+      service_type: 'mcast'
+      uni_id: 1
+  dst:
+    -
+      ip: null
+      user: null
+      pass: null
+      dp_iface_name: null
+      dp_iface_ip_qinq: '10.11.1.254'
+      dp_iface_ip: null
+      dp_iface_gateway: null
+      container_type: null
+      container_name: null
+    -
+      ip: null
+      user: null
+      pass: null
+      noroot_ip: '10.90.0.223'
+      noroot_user: cord
+      noroot_pass: cord
+      dp_iface_name: ens6f1
+      dp_iface_ip_qinq: '10.11.2.254'
+      dp_iface_ip: null
+      dp_iface_gateway: null
+      container_type: null
+      container_name: null
+    -
+      ip: null
+      user: null
+      pass: null
+      dp_iface_name: null
+      dp_iface_ip_qinq: '10.11.4.254'
+      dp_iface_ip: null
+      dp_iface_gateway: null
+      container_type: null
+      container_name: null
+    -
+      ip: null
+      user: null
+      pass: null
+      noroot_ip: '10.90.0.223'
+      noroot_user: cord
+      noroot_pass: cord
+      dp_iface_name: ens6f1
+      dp_iface_ip_qinq: '10.11.4.254'
+      dp_iface_ip: null
+      dp_iface_gateway: null
+      container_type: null
+      container_name: null
+    -
+      ip: null
+      user: null
+      pass: null
+      noroot_ip: '10.90.0.223'
+      noroot_user: cord
+      noroot_pass: cord
+      dp_iface_name: ens6f1
+      dp_iface_ip_qinq: '10.11.5.254'
+      dp_iface_ip: null
+      dp_iface_gateway: null
+      container_type: null
+      container_name: null
+    -
+      ip: null
+      user: null
+      pass: null
+      dp_iface_name: null
+      dp_iface_ip_qinq: '10.11.5.254'
+      dp_iface_ip: null
+      dp_iface_gateway: null
+      container_type: null
+      container_name: null
+    -
+      ip: null
+      user: null
+      pass: null
+      bng_ip: '10.90.0.223'
+      bng_user: cord
+      bng_pass: cord
+      dp_iface_name: null
+      dp_iface_ip_qinq: '225.22.0.2'
+      dp_iface_ip: null
+      dp_iface_gateway: null
+      container_type: null
+      container_name: null
