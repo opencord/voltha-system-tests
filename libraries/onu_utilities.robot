@@ -28,6 +28,21 @@ Calculate Timeout
     ${new_timeout}=    Catenate    SEPARATOR=    ${new_timeout}    s
     [Return]    ${new_timeout}
 
+Get Logical Id of OLT
+    [Documentation]    Fills the logical id of OLT(s) if missing
+    FOR    ${I}    IN RANGE    0    ${num_olts}
+        # exit loop if logical id already known
+        Exit For Loop IF    "${olt_ids}[${I}][logical_id]" != "${EMPTY}"
+        #read current device values
+        ${olt}=    Get From List    ${olt_ids}    ${I}
+        ${olt_serial_number}=     Get From Dictionary    ${olt}    sn
+        # read logical id and store it
+        ${logical_id}=    Get Logical Device ID From SN    ${olt_serial_number}
+        Set To Dictionary    ${olt}    logical_id    ${logical_id}
+        Set List Value    ${olt_ids}    ${I}    ${olt}
+    END
+    Set Global Variable    ${olt_ids}
+
 Power On ONU Device
     [Documentation]    This keyword turns on the power for all onus.
     [Arguments]    ${namespace}

@@ -98,7 +98,8 @@ ONU State Test
     ...    ELSE IF    "${testmode}"=="Up2State"    Do ONU Up To State Test
     ...    ELSE IF    "${testmode}"=="SingleStateTime"    Do ONU Single State Test Time
     ...    ELSE    Fail    The testmode (${testmode}) is not valid!
-    [Teardown]    Run Keywords    Run Keyword If    ${logging}    Collect Logs
+    [Teardown]    Run Keywords    Run Keyword If    ${logging}    Get Logical Id of OLT
+    ...    AND    Run Keyword If    ${logging}    Collect Logs
     ...    AND    Stop Logging    ONUStateTest
 
 Check Loaded Tech Profile
