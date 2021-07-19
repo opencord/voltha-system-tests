@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "94e51fe7_4bcc0ef4",
+        "filename": "tests/openonu-go-adapter/Voltha_ONUReconcileTests.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2021-07-19T11:04:40Z",
+      "side": 1,
+      "message": "Unfortunately this will not work. We have to enable device in test case itself to catch some intermediate states of onu. Because setup of onu wil be executed automatically by enable (olt) device, there is no possibility to du it here, else we would use a special feature of BBSIM, but this was not our intention here.",
+      "parentUuid": "9643c8de_45841d70",
+      "range": {
+        "startLine": 222,
+        "startChar": 0,
+        "endLine": 223,
+        "endChar": 79
+      },
+      "revId": "3494ceb996d3c5239d68f907dc13a444f6426c50",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9c786c2f_4246a2fd",
         "filename": "tests/openonu-go-adapter/Voltha_ONUReconcileTests.robot",
         "patchSetId": 1
@@ -45,6 +69,30 @@
       "revId": "3494ceb996d3c5239d68f907dc13a444f6426c50",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2415cf6e_bdc5d6d7",
+        "filename": "tests/openonu-go-adapter/Voltha_ONUReconcileTests.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 262,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2021-07-19T11:04:40Z",
+      "side": 1,
+      "message": "Please see my answer above. It belongs on catching intermediate states/reasons onf onu device(s).",
+      "parentUuid": "9c786c2f_4246a2fd",
+      "range": {
+        "startLine": 256,
+        "startChar": 0,
+        "endLine": 262,
+        "endChar": 7
+      },
+      "revId": "3494ceb996d3c5239d68f907dc13a444f6426c50",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "71edeb40_90223d97",
+        "filename": "tests/openonu-go-adapter/Voltha_ONUReconcileTests.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 290,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2021-07-19T11:04:40Z",
+      "side": 1,
+      "message": "See above.",
+      "parentUuid": "35d1e25a_91973066",
+      "range": {
+        "startLine": 284,
+        "startChar": 0,
+        "endLine": 290,
+        "endChar": 7
+      },
+      "revId": "3494ceb996d3c5239d68f907dc13a444f6426c50",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "435c2260_61fb0735",
         "filename": "tests/openonu-go-adapter/Voltha_ONUReconcileTests.robot",
         "patchSetId": 1
@@ -94,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "1e9a1093_78731d95",
+        "filename": "tests/openonu-go-adapter/Voltha_ONUReconcileTests.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 329,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2021-07-19T11:04:40Z",
+      "side": 1,
+      "message": "See above.",
+      "parentUuid": "435c2260_61fb0735",
+      "range": {
+        "startLine": 323,
+        "startChar": 0,
+        "endLine": 329,
+        "endChar": 7
+      },
+      "revId": "3494ceb996d3c5239d68f907dc13a444f6426c50",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "04d8a261_5a4eae27",
         "filename": "tests/openonu-go-adapter/Voltha_ONUStateTests.robot",
         "patchSetId": 1
@@ -114,6 +210,30 @@
       "revId": "3494ceb996d3c5239d68f907dc13a444f6426c50",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "05a4781f_39a5cd73",
+        "filename": "tests/openonu-go-adapter/Voltha_ONUStateTests.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2021-07-19T11:04:40Z",
+      "side": 1,
+      "message": "See my reply on the other comments.",
+      "parentUuid": "04d8a261_5a4eae27",
+      "range": {
+        "startLine": 88,
+        "startChar": 0,
+        "endLine": 94,
+        "endChar": 7
+      },
+      "revId": "3494ceb996d3c5239d68f907dc13a444f6426c50",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
     }
   ]
 }
