@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9643c8de_45841d70",
+        "filename": "tests/openonu-go-adapter/Voltha_ONUReconcileTests.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2021-07-19T10:15:07Z",
+      "side": 1,
+      "message": "May be we can add below between #222 and #223 like we do in utils.Setup keyword.\n\n        Enable Device    ${olt_device_id}\n        # Increasing the timer to incorporate wait time for in-band\n        Wait Until Keyword Succeeds    540s    5s\n        ...    Validate OLT Device    ENABLED    ACTIVE    REACHABLE    ${olt_serial_number}",
+      "range": {
+        "startLine": 222,
+        "startChar": 0,
+        "endLine": 223,
+        "endChar": 79
+      },
+      "revId": "3494ceb996d3c5239d68f907dc13a444f6426c50",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9c786c2f_4246a2fd",
+        "filename": "tests/openonu-go-adapter/Voltha_ONUReconcileTests.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 262,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2021-07-19T10:15:07Z",
+      "side": 1,
+      "message": "Can\u0027t we move `Enable Device` to `Setup Test` keyword as that already tries to read `logical_id` and populate `${olt_ids}` list. Looks like we call this enable in all scenarios, so should not be a problem. Am I missing something here?",
+      "range": {
+        "startLine": 256,
+        "startChar": 0,
+        "endLine": 262,
+        "endChar": 7
+      },
+      "revId": "3494ceb996d3c5239d68f907dc13a444f6426c50",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "35d1e25a_91973066",
+        "filename": "tests/openonu-go-adapter/Voltha_ONUReconcileTests.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 290,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2021-07-19T10:15:07Z",
+      "side": 1,
+      "message": "Same as above.",
+      "range": {
+        "startLine": 284,
+        "startChar": 0,
+        "endLine": 290,
+        "endChar": 7
+      },
+      "revId": "3494ceb996d3c5239d68f907dc13a444f6426c50",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "435c2260_61fb0735",
+        "filename": "tests/openonu-go-adapter/Voltha_ONUReconcileTests.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 329,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2021-07-19T10:15:07Z",
+      "side": 1,
+      "message": "Same as above.",
+      "range": {
+        "startLine": 323,
+        "startChar": 0,
+        "endLine": 329,
+        "endChar": 7
+      },
+      "revId": "3494ceb996d3c5239d68f907dc13a444f6426c50",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "04d8a261_5a4eae27",
+        "filename": "tests/openonu-go-adapter/Voltha_ONUStateTests.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2021-07-19T10:15:07Z",
+      "side": 1,
+      "message": "Same as comment on `Voltha_ONUReconcileTests.robot` file.",
+      "range": {
+        "startLine": 88,
+        "startChar": 0,
+        "endLine": 94,
+        "endChar": 7
+      },
+      "revId": "3494ceb996d3c5239d68f907dc13a444f6426c50",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    }
+  ]
+}
