@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e2e00cf0_18c49a60",
+        "filename": "pod-configs/README.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2021-07-19T19:49:00Z",
+      "side": 1,
+      "message": "this is a great idea, needs to be added to the verification job",
+      "revId": "1f8ff76fcb1399ef9515cfe2fa2eba51355bc872",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c7b617b7_7e606af9",
+        "filename": "pod-configs/hardware-config-schema.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2021-07-19T19:49:00Z",
+      "side": 1,
+      "message": "it shoudl, I\u0027m not even sure where we use it given that is hardcoded in the Debian package.",
+      "revId": "1f8ff76fcb1399ef9515cfe2fa2eba51355bc872",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4e2dff30_02ef7467",
+        "filename": "pod-configs/hardware/hardware-config-example.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2021-07-19T19:49:00Z",
+      "side": 1,
+      "message": "why is this an example ? just wondering. I expected something similar to be the real thing.",
+      "revId": "1f8ff76fcb1399ef9515cfe2fa2eba51355bc872",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5b490c06_4332e54d",
+        "filename": "pod-configs/workflow-config-schema.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2021-07-19T19:49:00Z",
+      "side": 1,
+      "message": "something is out likely deprecated, I think you can take a look at the ones that are used in the existing (and used) pod configs files.",
+      "revId": "1f8ff76fcb1399ef9515cfe2fa2eba51355bc872",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    }
+  ]
+}
