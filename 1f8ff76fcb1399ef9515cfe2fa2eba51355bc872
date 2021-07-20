@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "7ae5a7e9_5d7bf3d5",
+        "filename": "pod-configs/hardware-config-schema.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2021-07-20T11:08:28Z",
+      "side": 1,
+      "message": "the existing pod-configs is already a public repo so obscurity on that side is already unfortunately gone.",
+      "parentUuid": "8645c2d8_c8161afb",
+      "revId": "1f8ff76fcb1399ef9515cfe2fa2eba51355bc872",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c7b617b7_7e606af9",
         "filename": "pod-configs/hardware-config-schema.yaml",
         "patchSetId": 1
