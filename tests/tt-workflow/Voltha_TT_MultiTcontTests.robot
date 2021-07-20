@@ -55,6 +55,10 @@ ${scripts}        ../../scripts
 # Per-test logging on failure is turned off by default; set this variable to enable
 ${container_log_dir}    ${None}
 
+# logging flag to enable Collect Logs, can be passed via the command line too
+# example: -v logging:False
+${logging}    True
+
 # For dataplane bandwidth testing
 ${lower_margin_pct}      90      # Allow 10% under the limit
 ${upper_margin_pct}      120      # Allow 20% under the limit
