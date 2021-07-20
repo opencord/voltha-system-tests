@@ -19,6 +19,23 @@
     },
     {
       "key": {
+        "uuid": "8645c2d8_c8161afb",
+        "filename": "pod-configs/hardware-config-schema.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1000064
+      },
+      "writtenOn": "2021-07-20T04:38:07Z",
+      "side": 1,
+      "message": "As a general comment, I am not infavour and wouldn\u0027t encourage putting pod-configs details in the voltha-system-tests repo because it contains ips/crendentials etc. Instead we should be making pod-configs a private or member-only repository.",
+      "revId": "1f8ff76fcb1399ef9515cfe2fa2eba51355bc872",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c7b617b7_7e606af9",
         "filename": "pod-configs/hardware-config-schema.yaml",
         "patchSetId": 1
