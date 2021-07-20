@@ -838,16 +838,16 @@ Validate ONU Device Image
     ...    values=False
     ${imageState}=    Get From Dictionary    ${value}    imageState
     ${version}=    Get From Dictionary    ${imageState}    version
-    ${downloadState}=    Get From Dictionary    ${imageState}    downloadState
+    ${dwlState}=    Get From Dictionary    ${imageState}    downloadState
     ${reason}=    Get From Dictionary    ${imageState}    reason
-    ${imageStatus}=    Get From Dictionary    ${imageState}    imageState
+    ${imgStatus}=    Get From Dictionary    ${imageState}    imageState
     Should Be Equal    '${version}'    '${image_version}'    Device ${dev_id}: '${version}' != '${image_version}'
     ...    values=False
-    Should Be Equal    '${downloadState}'    '${download_state}'    Device ${dev_id}: '${downloadState}' != '${download_state}'
+    Should Be Equal    '${dwlState}'    '${download_state}'    Device ${dev_id}: '${dwlState}' != '${download_state}'
     ...    values=False
     Should Be Equal    '${reason}'    '${expected_reason}'    Device ${dev_id}: '${reason}' != '${expected_reason}'
     ...    values=False
-    Should Be Equal    '${imageStatus}'    '${image_status}'    Device ${dev_id}: '${imageStatus}' != '${image_status}'
+    Should Be Equal    '${imgStatus}'    '${image_status}'    Device ${dev_id}: '${imgStatus}' != '${image_status}'
     ...    values=False
 
 Download ONU Device Image
@@ -857,7 +857,7 @@ Download ONU Device Image
     ...    voltctl -c ${VOLTCTL_CONFIG} device onuimage download ${ver} ${url} ${vendor} ${active} ${commit} ${crc} ${id} -o json
     Log    ${output}
     Should Be Equal As Integers    ${rc}    0
-    Validate ONU Device Image    ${output}    ${ver}    ${id}    DOWNLOAD_STARTED    NO_ERROR    IMAGE_INACTIVE
+    Validate ONU Device Image    ${output}    ${ver}    ${id}    DOWNLOAD_STARTED    NO_ERROR    IMAGE_UNKNOWN
 
 Activate ONU Device Image
     [Documentation]    Activates the given ONU software image
