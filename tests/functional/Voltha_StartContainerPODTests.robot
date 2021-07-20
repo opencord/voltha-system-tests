@@ -56,6 +56,11 @@ ${values_dir}    ../data
 ${kind_voltha_dir}    ~/kind-voltha
 # Per-test logging on failure is turned off by default; set this variable to enable
 ${container_log_dir}    ${None}
+
+# logging flag to enable Collect Logs, can be passed via the command line too
+# example: -v logging:False
+${logging}    True
+
 ${pausebeforesanity}    False
 ${onos_version}    ${EMPTY}
 
