@@ -102,6 +102,39 @@ Test ONU Upgrade
     Run Keyword If    ${has_dataplane}    Clean Up Linux
     Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test
 
+Test ONU Upgrade Correct Indication of Download Failure
+    [Documentation]    Validates the ONU Upgrade download failure will be indicated correctly and
+    ...    doesn't affect the system functionality
+    ...    Performs the sanity and verifies all the ONUs are authenticated/DHCP/pingable
+    ...    Requirement: Pass image details in following parameters in the robot command
+    ...    onu_image_name, onu_image_url, onu_image_version, onu_image_crc, onu_image_local_dir
+    ...    Note: The TC expects the image url and other parameters to be common for all ONUs on all BBSim
+    ...    Check [VOL-3903] for more details
+    [Tags]    functional   ONUUpgradeDownloadFailure    notready
+    [Setup]    Start Logging    ONUUpgradeDownloadFailure
+    [Teardown]    Run Keywords    Collect Logs
+    ...           AND             Stop Logging    ONUUpgradeDownloadFailure
+    ...           AND             Delete All Devices and Verify
+    # Add OLT device
+    Setup
+    # Performing Sanity Test to make sure subscribers are all DHCP and pingable
+    Run Keyword If    ${has_dataplane}    Clean Up Linux
+    Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test
+    FOR    ${J}    IN RANGE    0    ${num_olts}
+        ${olt_serial_number}=    Set Variable    ${list_olts}[${J}][sn]
+        ${bbsim_rel}=    Catenate    SEPARATOR=    bbsim    ${J}
+        ${bbsim_pod}=    Get Pod Name By Label    ${NAMESPACE}    release     ${bbsim_rel}
+        Test ONU Upgrade Download Failure Per OLT    ${bbsim_pod}    ${olt_serial_number}
+        List ONUs    ${NAMESPACE}    ${bbsim_pod}
+    END
+    # Additional Verification
+    Wait Until Keyword Succeeds    ${timeout}    2s    Delete All Devices and Verify
+    Setup
+    Run Keyword If    ${has_dataplane}    Clean Up Linux
+    Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test
+
+
+
 *** Keywords ***
 Test ONU Upgrade Per OLT
     [Documentation]    This keyword performs the ONU Upgrade test on single OLT
@@ -115,7 +148,8 @@ Test ONU Upgrade Per OLT
         Download ONU Device Image    ${image_version}    ${image_url}    ${image_vendor}
         ...    ${image_activate_on_success}    ${image_commit_on_success}
         ...    ${image_crc}    ${onu_device_id}
-        ${imageState}=    Run Keyword If    '${image_activate_on_success}'=='true'    Set Variable    IMAGE_ACTIVE
+        ${imageState}=    Run Keyword If    '${image_activate_on_success}'=='true' and '${image_commit_on_success}'=='false'
+        ...    Set Variable    IMAGE_ACTIVE
         ...    ELSE IF    '${image_activate_on_success}'=='true' and '${image_commit_on_success}'=='true'
         ...    Set Variable    IMAGE_COMMITTED
         ...    ELSE    Set Variable    IMAGE_INACTIVE
@@ -144,6 +178,23 @@ Test ONU Upgrade Per OLT
         ...    ${image_version}    True    True    True
         Wait Until Keyword Succeeds    ${timeout}    2s    Verify ONU Device Image On BBSim    ${NAMESPACE}    ${bbsim_pod}
         ...    ${src['onu']}    software_image_committed
+        Wait Until Keyword Succeeds    ${timeout}    5s    Perform Sanity Test     ${suppressaddsubscriber}
+    END
+
+Test ONU Upgrade Download Failure Per OLT
+    [Documentation]    This keyword performs the ONU Upgrade Dowload Failure test on single OLT
+    [Arguments]    ${bbsim_pod}    ${olt_serial_number}
+    FOR    ${I}    IN RANGE    0    ${num_all_onus}
+        ${src}=    Set Variable    ${hosts.src[${I}]}
+        ${dst}=    Set Variable    ${hosts.dst[${I}]}
+        Continue For Loop If    "${olt_serial_number}"!="${src['olt']}"
+        ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
+        # Download Image
+        Download ONU Device Image    INVALID_IMAGE    ${image_url}    ${image_vendor}
+        ...    ${image_activate_on_success}    ${image_commit_on_success}
+        ...    ${image_crc}    ${onu_device_id}
+        Wait Until Keyword Succeeds    ${timeout}    2s    Verify ONU Device Image Status    INVALID_IMAGE
+        ...    ${onu_device_id}    DOWNLOAD_SUCCEEDED    NO_ERROR    IMAGE_INACTIVE
         Wait Until Keyword Succeeds    ${timeout}    5s    Perform Sanity Test     ${suppressaddsubscriber}
     END
 
