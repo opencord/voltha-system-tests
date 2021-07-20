@@ -56,6 +56,10 @@ ${scripts}        ../../scripts
 # Per-test logging on failure is turned off by default; set this variable to enable
 ${container_log_dir}    ${None}
 
+# logging flag to enable Collect Logs, can be passed via the command line too
+# example: -v logging:False
+${logging}    True
+
 # ONOS Apps to Test for Software Upgrade need to be passed in the following variable in format:
 # <app-name>,<version>,<oar-url>*<app-name>,<version>,<oar-url>*
 # Example: org.opencord.aaa,2.3.0.SNAPSHOT,
