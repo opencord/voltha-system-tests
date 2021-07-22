@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e81cb67b_bb381771",
+        "filename": "libraries/k8s.robot",
+        "patchSetId": 4
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1000007
+      },
+      "writtenOn": "2021-07-22T16:34:17Z",
+      "side": 1,
+      "message": "should we pass the entire label as argument to the function so that we could get different pods? For example: \"app\u003drw-core\"\n\nAs this is is not needed immediately we could consider to this in a separate patch (if needed)",
+      "range": {
+        "startLine": 123,
+        "startChar": 44,
+        "endLine": 123,
+        "endChar": 77
+      },
+      "revId": "f44d22d946a8fa0aeb92b8a4ebd1d6a810edb3a1",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    }
+  ]
+}
