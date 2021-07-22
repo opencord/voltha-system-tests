@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4fbbc2e2_76d38ae6",
+        "filename": "tests/functional/Voltha_PODTests.robot",
+        "patchSetId": 3
+      },
+      "lineNbr": 724,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2021-07-22T15:30:02Z",
+      "side": 1,
+      "message": "you might want to check that the meters for the corresponding BWP are installe correctly",
+      "revId": "f47d4b7435737264208797cc3a6406b09a4a62be",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    }
+  ]
+}
