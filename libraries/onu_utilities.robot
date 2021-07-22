@@ -209,15 +209,17 @@ Set Tech Profile
     Log To Console    \nTechProfile:${TechProfile}
     ${namespace}=    Set Variable    default
     ${podname}=    Set Variable    etcd
+    ${label}=    Set Variable    app.kubernetes.io/name=${podname}
     ${src}=    Set Variable    ${data_dir}/TechProfile-${TechProfile}.json
     ${dest}=    Set Variable    /tmp/flexpod.json
     ${command}    Catenate
     ...    /bin/sh -c 'cat    ${dest} | ETCDCTL_API=3 etcdctl put service/voltha/technology_profiles/XGS-PON/64'
-    Copy File To Pod    ${namespace}    ${podname}    ${src}    ${dest}
+    Copy File To Pod    ${namespace}    ${label}    ${src}    ${dest}
     Exec Pod In Kube    ${namespace}    ${podname}    ${command}
     ${commandget}    Catenate
     ...    /bin/sh -c 'ETCDCTL_API=3 etcdctl get --prefix service/voltha/technology_profiles/XGS-PON/64'
-    Exec Pod In Kube    ${namespace}    ${podname}    ${commandget}
+    ${result}=    Exec Pod In Kube    ${namespace}    ${podname}    ${commandget}
+    Should Not Be Empty    ${result}    No Tech Profile stored in etcd!
 
 Remove Tech Profile
     [Documentation]    This keyword removes TechProfile
