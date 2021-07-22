@@ -217,7 +217,8 @@ Set Tech Profile
     Exec Pod In Kube    ${namespace}    ${podname}    ${command}
     ${commandget}    Catenate
     ...    /bin/sh -c 'ETCDCTL_API=3 etcdctl get --prefix service/voltha/technology_profiles/XGS-PON/64'
-    Exec Pod In Kube    ${namespace}    ${podname}    ${commandget}
+    ${result}=    Exec Pod In Kube    ${namespace}    ${podname}    ${commandget}
+    Should Not Be Empty    ${result}    No Tech Profile stored in etcd!
 
 Remove Tech Profile
     [Documentation]    This keyword removes TechProfile
