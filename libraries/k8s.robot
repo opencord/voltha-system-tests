@@ -117,10 +117,10 @@ Exec Pod Separate Stderr
     [return]    ${stdout}    ${stderr}
 
 Copy File To Pod
-    [Arguments]    ${namespace}    ${name}    ${src}    ${dest}
+    [Arguments]    ${namespace}    ${label}    ${src}    ${dest}
     [Documentation]    Uses kubectl to copy a file to a pod
     ${rc}    ${exec_pod_name}=    Run and Return Rc and Output
-    ...    kubectl get pods -n ${namespace} | grep ${name} | awk 'NR==1{print $1}'
+    ...    kubectl get pods -n ${namespace} -l ${label} --no-headers | awk 'NR==1{print $1}'
     Log    ${exec_pod_name}
     Should Not Be Empty    ${exec_pod_name}    Unable to parse pod name
     ${rc}    ${output}=    Run and Return Rc and Output
