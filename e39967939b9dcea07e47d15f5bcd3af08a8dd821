@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "fa71d62a_6aaa3318",
+        "filename": "libraries/k8s.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2021-07-23T07:25:40Z",
+      "side": 1,
+      "message": "it was supposed to be name, my bad",
+      "parentUuid": "16857664_70acd81c",
+      "range": {
+        "startLine": 95,
+        "startChar": 44,
+        "endLine": 95,
+        "endChar": 75
+      },
+      "revId": "e39967939b9dcea07e47d15f5bcd3af08a8dd821",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "4d08bd1a_f3737a33",
         "filename": "libraries/k8s.robot",
         "patchSetId": 1
