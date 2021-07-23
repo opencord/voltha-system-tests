@@ -34,40 +34,6 @@
             ]
           },
           {
-            "id":"SCOM00001c8d-1",
-            "nasPortId":"SCOM00001c8d-1",
-            "circuitId":"SCOM00001c8d-1",
-            "remoteId":"SCOM00001c8d",
-            "uniTagList":[
-              {
-                "uniTagMatch":4096,
-                "ponCTag":4096,
-                "ponSTag":22,
-                "technologyProfileId":64,
-                "upstreamBandwidthProfile":"User_Bandwidth2",
-                "downstreamBandwidthProfile":"User_Bandwidth3",
-                "isDhcpRequired":false
-              }
-            ]
-          },
-          {
-            "id":"SCOM00019ab7-1",
-            "nasPortId":"SCOM00019ab7-1",
-            "circuitId":"SCOM00019ab7-1",
-            "remoteId":"SCOM00019ab7",
-            "uniTagList":[
-              {
-                "uniTagMatch":4096,
-                "ponCTag":4096,
-                "ponSTag":33,
-                "technologyProfileId":64,
-                "upstreamBandwidthProfile":"User_Bandwidth1",
-                "downstreamBandwidthProfile":"User_Bandwidth3",
-                "isDhcpRequired":false
-              }
-            ]
-          },
-          {
             "id":"SCOMa0108af9-1",
             "nasPortId":"SCOMa0108af9-1",
             "circuitId":"SCOMa0108af9-1",
