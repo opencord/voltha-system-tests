@@ -233,6 +233,57 @@ Remove Tech Profile
     ...    /bin/sh -c 'ETCDCTL_API=3 etcdctl get --prefix service/voltha/technology_profiles/XGS-PON/64'
     Exec Pod In Kube    ${namespace}    ${podname}    ${commandget}
 
+Do Onu Subscriber Add Per OLT
+    [Documentation]    Add Subscriber per OLT
+    [Arguments]    ${of_id}    ${olt_serial_number}    ${print2console}=False
+    FOR    ${I}    IN RANGE    0    ${num_all_onus}
+        ${src}=    Set Variable    ${hosts.src[${I}]}
+        Continue For Loop If    "${olt_serial_number}"!="${src['olt']}"
+        ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
+        ${onu_port}=    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
+        ...    Get ONU Port in ONOS    ${src['onu']}    ${of_id}
+        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2
+        ...    Execute ONOS CLI Command use single connection    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}
+        ...    volt-add-subscriber-access ${of_id} ${onu_port}
+        Run Keyword If    ${print2console}    Log    \r\n[${I}] volt-add-subscriber-access ${of_id} ${onu_port}.
+        ...   console=yes
+    END
+
+Do Onu Flow Check Per OLT
+    [Documentation]    Checks all ONU flows show up in ONOS and Voltha
+    [Arguments]    ${of_id}    ${nni_port}    ${olt_serial_number}    ${print2console}=False
+    FOR    ${I}    IN RANGE    0    ${num_all_onus}
+        ${src}=    Set Variable    ${hosts.src[${I}]}
+        Continue For Loop If    "${olt_serial_number}"!="${src['olt']}"
+        ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
+        ${onu_port}=    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
+        ...    Get ONU Port in ONOS    ${src['onu']}    ${of_id}
+        # Verify subscriber access flows are added for the ONU port
+        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
+        ...    Verify Subscriber Access Flows Added For ONU    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${of_id}
+        ...    ${onu_port}    ${nni_port}    ${src['c_tag']}    ${src['s_tag']}
+        ${logoutput}    Catenate    \r\n[${I}] Verify Subscriber Access Flows Added For
+        ...    ONU ${of_id}    ${onu_port}    ${src['c_tag']}    ${src['s_tag']}.
+        Run Keyword If    ${print2console}    Log    ${logoutput}    console=yes
+    END
+
+Do Onu Subscriber Remove Per OLT
+    [Documentation]    Removes per OLT subscribers in ONOS and Voltha
+    [Arguments]    ${of_id}    ${olt_serial_number}    ${print2console}=False
+    FOR    ${I}    IN RANGE    0    ${num_all_onus}
+        ${src}=    Set Variable    ${hosts.src[${I}]}
+        ${dst}=    Set Variable    ${hosts.dst[${I}]}
+        Continue For Loop If    "${olt_serial_number}"!="${src['olt']}"
+        ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
+        ${onu_port}=    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
+        ...    Get ONU Port in ONOS    ${src['onu']}    ${of_id}
+        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2
+        ...    Execute ONOS CLI Command use single connection    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}
+        ...    volt-remove-subscriber-access ${of_id} ${onu_port}
+        Run Keyword If    ${print2console}    Log    \r\n[${I}] volt-remove-subscriber-access ${of_id} ${onu_port}.
+        ...    console=yes
+    END
+
 Validate Resource Instances Used Gem Ports
     [Documentation]    This keyword validates resource instances data stored in etcd.
     ...                It checks checks the number of gemport-ids which has matched with used Tech Profile
