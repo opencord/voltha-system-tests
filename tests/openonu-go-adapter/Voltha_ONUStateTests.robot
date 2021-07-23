@@ -327,16 +327,12 @@ Do Onu Flow Check
     ...    defaultkvstoreprefix=${kvstoreprefix}
     FOR    ${J}    IN RANGE    0    ${num_olts}
         ${olt_serial_number}=    Set Variable    ${list_olts}[${J}][sn]
-        ${onu_count}=    Set Variable    ${list_olts}[${J}][onucount]
         ${of_id}=    Wait Until Keyword Succeeds    ${timeout}    15s    Validate OLT Device in ONOS
         ...    ${olt_serial_number}
-        Set Global Variable    ${of_id}
-        # Verify Default Meter in ONOS (valid only for ATT)
-        Do Onu Subscriber Add Per OLT    ${of_id}    ${olt_serial_number}   ${onu_count}
+        Do Onu Subscriber Add Per OLT    ${of_id}    ${olt_serial_number}   ${print2console}
     END
     FOR    ${J}    IN RANGE    0    ${num_olts}
         ${olt_serial_number}=    Set Variable    ${list_olts}[${J}][sn]
-        ${onu_count}=    Set Variable    ${list_olts}[${J}][onucount]
         ${of_id}=    Wait Until Keyword Succeeds    ${timeout}    15s    Validate OLT Device in ONOS
         ...    ${olt_serial_number}
         Set Global Variable    ${of_id}
@@ -344,7 +340,7 @@ Do Onu Flow Check
         ...    Get NNI Port in ONOS    ${of_id}
         Set Global Variable    ${nni_port}
         # Verify Default Meter in ONOS (valid only for ATT)
-        Do Onu Flow Check Per OLT    ${of_id}    ${nni_port}    ${olt_serial_number}   ${onu_count}
+        Do Onu Flow Check Per OLT    ${of_id}    ${nni_port}    ${olt_serial_number}   ${print2console}
     END
     #log flows for verification
     ${flowsresult}=    Execute ONOS CLI Command use single connection    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    flows -s
@@ -356,15 +352,9 @@ Do Onu Flow Check
     ...    prevvlanrules=${firstvlanrules}    defaultkvstoreprefix=${kvstoreprefix}
     FOR    ${J}    IN RANGE    0    ${num_olts}
         ${olt_serial_number}=    Set Variable    ${list_olts}[${J}][sn]
-        ${onu_count}=    Set Variable    ${list_olts}[${J}][onucount]
         ${of_id}=    Wait Until Keyword Succeeds    ${timeout}    15s    Validate OLT Device in ONOS
         ...    ${olt_serial_number}
-        Set Global Variable    ${of_id}
-        ${nni_port}=    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
-        ...    Get NNI Port in ONOS    ${of_id}
-        Set Global Variable    ${nni_port}
-        # Verify Default Meter in ONOS (valid only for ATT)
-        Do Onu Subscriber Remove Per OLT    ${of_id}    ${nni_port}    ${olt_serial_number}   ${onu_count}
+        Do Onu Subscriber Remove Per OLT    ${of_id}    ${olt_serial_number}   ${print2console}
     END
     #check  for previous state is kept (normally omci-flows-pushed)
     Sleep    10s
@@ -373,57 +363,6 @@ Do Onu Flow Check
     Run Keyword If    ${print2console}    Log    \r\nFinished State Test All Onus.    console=yes
     Run Keyword And Continue On Failure    Validate Vlan Rules In Etcd    prevvlanrules=${firstvlanrules}
     ...                                    setvidequal=True    defaultkvstoreprefix=${kvstoreprefix}
-
-Do Onu Subscriber Add Per OLT
-    [Documentation]    Add Subscriber per OLT
-    [Arguments]    ${of_id}    ${olt_serial_number}    ${num_onus}
-    FOR    ${I}    IN RANGE    0    ${num_all_onus}
-        ${src}=    Set Variable    ${hosts.src[${I}]}
-        Continue For Loop If    "${olt_serial_number}"!="${src['olt']}"
-        ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
-        ${onu_port}=    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
-        ...    Get ONU Port in ONOS    ${src['onu']}    ${of_id}
-        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2
-        ...    Execute ONOS CLI Command use single connection    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}
-        ...    volt-add-subscriber-access ${of_id} ${onu_port}
-        Run Keyword If    ${print2console}    Log    \r\n[${I}] volt-add-subscriber-access ${of_id} ${onu_port}.
-        ...   console=yes
-    END
-
-Do Onu Flow Check Per OLT
-    [Documentation]    Checks all ONU flows show up in ONOS and Voltha
-    [Arguments]    ${of_id}    ${nni_port}    ${olt_serial_number}    ${num_onus}
-    FOR    ${I}    IN RANGE    0    ${num_all_onus}
-        ${src}=    Set Variable    ${hosts.src[${I}]}
-        Continue For Loop If    "${olt_serial_number}"!="${src['olt']}"
-        ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
-        ${onu_port}=    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
-        ...    Get ONU Port in ONOS    ${src['onu']}    ${of_id}
-        # Verify subscriber access flows are added for the ONU port
-        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
-        ...    Verify Subscriber Access Flows Added For ONU    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${of_id}
-        ...    ${onu_port}    ${nni_port}    ${src['c_tag']}    ${src['s_tag']}
-        ${logoutput}    Catenate    \r\n[${I}] Verify Subscriber Access Flows Added For
-        ...    ONU ${of_id}    ${onu_port}    ${src['c_tag']}    ${src['s_tag']}.
-        Run Keyword If    ${print2console}    Log    ${logoutput}    console=yes
-    END
-
-Do Onu Subscriber Remove Per OLT
-    [Documentation]    Removes per OLT subscribers in ONOS and Voltha
-    [Arguments]    ${of_id}    ${nni_port}    ${olt_serial_number}    ${num_onus}
-    FOR    ${I}    IN RANGE    0    ${num_all_onus}
-        ${src}=    Set Variable    ${hosts.src[${I}]}
-        ${dst}=    Set Variable    ${hosts.dst[${I}]}
-        Continue For Loop If    "${olt_serial_number}"!="${src['olt']}"
-        ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
-        ${onu_port}=    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
-        ...    Get ONU Port in ONOS    ${src['onu']}    ${of_id}
-        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2
-        ...    Execute ONOS CLI Command use single connection    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}
-        ...    volt-remove-subscriber-access ${of_id} ${onu_port}
-        Run Keyword If    ${print2console}    Log    \r\n[${I}] volt-remove-subscriber-access ${of_id} ${onu_port}.
-        ...    console=yes
-    END
 
 Do Check Tech Profile
     [Documentation]    This keyword checks the loaded TechProfile
