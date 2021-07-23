@@ -714,7 +714,7 @@ Data plane Bandwidth profile update verification
     Wait Until Keyword Succeeds    ${timeout}    2s    Execute ONOS CLI Command use single connection    ${ONOS_SSH_IP}
     ...    ${ONOS_SSH_PORT}    volt-remove-subscriber-access ${of_id} ${onu_port}
     # Change the bandwidth profile and load the configuration
-    ${newBwName}      Set Variable If     ${oldBwName} == 'Default'    'User_Bandwidth2'    ELSE    'Default'
+    ${newBwName}      Set Variable If     ${oldBwName} == 'Default'    'User_Bandwidth2'    'Default'
     ${cmd}    Catenate
     ...    sed 's/upstreamBandwidthProfile": "${oldBwName}"/upstreamBandwidthProfile": "${newBwName}"/g'
     ...     ${CURDIR}/../../tests/data/${POD_NAME}-sadis.json > ${CURDIR}/../../tests/data/${POD_NAME}-sadis-new.json
