@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3dbea95e_e9cc3822",
+        "filename": "tests/openonu-go-adapter/Voltha_ONUFlowChecks.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2021-07-23T12:14:54Z",
+      "side": 1,
+      "message": "Why the static Sleep? Also at other places in TC.\nCan\u0027t we use something like: `Wait Until Keyword Succeeds    ${timeout}    15s` in the next keyword? If really required, please add a comment in the TC with the reason for future reference.",
+      "range": {
+        "startLine": 67,
+        "startChar": 0,
+        "endLine": 67,
+        "endChar": 15
+      },
+      "revId": "0bed56f0cffa89896735e854fe7b162d48f0ecfa",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3474c056_c4b88c90",
+        "filename": "tests/openonu-go-adapter/Voltha_ONUFlowChecks.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2021-07-23T12:14:54Z",
+      "side": 1,
+      "message": "Indentation.",
+      "range": {
+        "startLine": 171,
+        "startChar": 0,
+        "endLine": 172,
+        "endChar": 54
+      },
+      "revId": "0bed56f0cffa89896735e854fe7b162d48f0ecfa",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e737cbac_4832b95e",
+        "filename": "tests/openonu-go-adapter/Voltha_ONUFlowChecks.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2021-07-23T12:14:54Z",
+      "side": 1,
+      "message": "Indentation",
+      "range": {
+        "startLine": 178,
+        "startChar": 0,
+        "endLine": 179,
+        "endChar": 52
+      },
+      "revId": "0bed56f0cffa89896735e854fe7b162d48f0ecfa",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    }
+  ]
+}
