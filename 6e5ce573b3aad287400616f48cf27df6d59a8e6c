@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f0cd0035_61018ca2",
+        "filename": "tests/data/onf-demo-pod-gpon-sadis-DT.json",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2021-07-24T09:43:08Z",
+      "side": 1,
+      "message": "same",
+      "revId": "6e5ce573b3aad287400616f48cf27df6d59a8e6c",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    }
+  ]
+}
