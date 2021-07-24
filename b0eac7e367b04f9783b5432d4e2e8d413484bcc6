@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c6f44e9e_9f458ee7",
+        "filename": "tests/data/onf-demo-pod-gpon-sadis-DT.json",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2021-07-24T09:42:42Z",
+      "side": 1,
+      "message": "I actually believe we can remove the whole file given that this was for the GPON Edgecore OLT that we have un-racked.",
+      "revId": "b0eac7e367b04f9783b5432d4e2e8d413484bcc6",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    }
+  ]
+}
