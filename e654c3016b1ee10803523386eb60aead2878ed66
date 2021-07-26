@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c2e9e846_ce620c0f",
+        "filename": "tests/openonu-go-adapter/Voltha_ONUFlowChecks.robot",
+        "patchSetId": 5
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1000666
+      },
+      "writtenOn": "2021-07-26T16:14:06Z",
+      "side": 1,
+      "message": "I\u0027m also not sure here. 3 rules is what we observed in our tests. But I\u0027m not sure if the tests are done with the MC option. So maybe with MC there are 4 rules - or it is already included in 3 rules? In my point of view it would be better to really know the number and test on exact match (omitting the possibility of admitting unwanted rules).",
+      "revId": "e654c3016b1ee10803523386eb60aead2878ed66",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6f6f0992_cc7e8a29",
+        "filename": "tests/openonu-go-adapter/Voltha_ONUFlowChecks.robot",
+        "patchSetId": 5
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1000666
+      },
+      "writtenOn": "2021-07-26T16:14:06Z",
+      "side": 1,
+      "message": "I\u0027m not sure if it is a good idea to limit the allowed VLAN range here and in line 162. Think the tested value is definied as S-Tag within the values.yaml file of the test and someone might set also lower values here.\nBut as per default currently working ...",
+      "revId": "e654c3016b1ee10803523386eb60aead2878ed66",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    }
+  ]
+}
