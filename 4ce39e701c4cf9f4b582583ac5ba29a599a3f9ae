@@ -16,6 +16,24 @@
       "revId": "4ce39e701c4cf9f4b582583ac5ba29a599a3f9ae",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ca789d2e_4f6e98d9",
+        "filename": "tests/data/bbsim-kind-2OLTx2ONUx2PON-dt.yaml",
+        "patchSetId": 9
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2021-07-27T13:32:12Z",
+      "side": 1,
+      "message": "Maybe you address it to Matteo or Andrea?",
+      "parentUuid": "85c15db3_8c0bc480",
+      "revId": "4ce39e701c4cf9f4b582583ac5ba29a599a3f9ae",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
     }
   ]
 }
