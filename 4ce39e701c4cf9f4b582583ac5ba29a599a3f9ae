@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "85c15db3_8c0bc480",
+        "filename": "tests/data/bbsim-kind-2OLTx2ONUx2PON-dt.yaml",
+        "patchSetId": 9
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1000666
+      },
+      "writtenOn": "2021-07-27T13:24:14Z",
+      "side": 1,
+      "message": "Not related to this topic here, but:\nI\u0027m. wondering if the S-Tag values are correct. As far as I understand they are used as outer port specific VLAN on the WAN side and probably should not be the same as on some other OLT.\nAlso concerning the following s_tag definitions...",
+      "revId": "4ce39e701c4cf9f4b582583ac5ba29a599a3f9ae",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    }
+  ]
+}
