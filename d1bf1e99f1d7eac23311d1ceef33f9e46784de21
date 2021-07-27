@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "42845b6a_64ddb5c6",
+        "filename": "libraries/utils.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 1106,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2021-07-27T08:55:14Z",
+      "side": 1,
+      "message": "I guess, we need multiple (4) spaces in between.",
+      "range": {
+        "startLine": 1106,
+        "startChar": 27,
+        "endLine": 1106,
+        "endChar": 35
+      },
+      "revId": "d1bf1e99f1d7eac23311d1ceef33f9e46784de21",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    }
+  ]
+}
