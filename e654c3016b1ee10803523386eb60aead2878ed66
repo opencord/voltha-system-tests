@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "d49ce949_39fc6b01",
+        "filename": "tests/openonu-go-adapter/Voltha_ONUFlowChecks.robot",
+        "patchSetId": 5
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2021-07-27T12:30:12Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "c2e9e846_ce620c0f",
+      "revId": "e654c3016b1ee10803523386eb60aead2878ed66",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6f6f0992_cc7e8a29",
         "filename": "tests/openonu-go-adapter/Voltha_ONUFlowChecks.robot",
         "patchSetId": 5
@@ -33,6 +51,24 @@
       "revId": "e654c3016b1ee10803523386eb60aead2878ed66",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b0306a67_a69aa732",
+        "filename": "tests/openonu-go-adapter/Voltha_ONUFlowChecks.robot",
+        "patchSetId": 5
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2021-07-27T12:30:12Z",
+      "side": 1,
+      "message": "Ack\nc-tags from passed robot yaml file will be used.",
+      "parentUuid": "6f6f0992_cc7e8a29",
+      "revId": "e654c3016b1ee10803523386eb60aead2878ed66",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
     }
   ]
 }
