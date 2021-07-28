@@ -34,6 +34,24 @@
       "revId": "4ce39e701c4cf9f4b582583ac5ba29a599a3f9ae",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e5dc1e4a_56bbe265",
+        "filename": "tests/data/bbsim-kind-2OLTx2ONUx2PON-dt.yaml",
+        "patchSetId": 9
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1000666
+      },
+      "writtenOn": "2021-07-28T06:33:48Z",
+      "side": 1,
+      "message": "Thinking about it again the used S-Tag scheme might be correct after all. Considering thousands of OLT\u0027s in their network they would not be able to use unique port specific outer VLAN\u0027s on the OLT uplinks, guess they use some further OLT specific tagging at their BNG\u0027s. So probably the setting is correct here.",
+      "parentUuid": "ca789d2e_4f6e98d9",
+      "revId": "4ce39e701c4cf9f4b582583ac5ba29a599a3f9ae",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
     }
   ]
 }
