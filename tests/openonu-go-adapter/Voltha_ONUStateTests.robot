@@ -426,7 +426,7 @@ Do Soft Reboot Onu Device
         ${device_list}=    Catenate    ${device_list}    ${onu_device_id}
     END
     Reboot ONU    ${device_list}   False
-    ${alternativeonustates}=  Create List     stopping-openomci
+    ${alternativeonustates}=  Create List     stopping-openomci    rebooting
     Current State Test All Onus    omci-flows-deleted
     ...   ENABLED    DISCOVERED    UNREACHABLE    alternativeonustate=${alternativeonustates}
     Sleep    5s
