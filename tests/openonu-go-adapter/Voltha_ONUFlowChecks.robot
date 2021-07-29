@@ -45,6 +45,9 @@ ${teardown_device}    True
 ${scripts}        ../../scripts
 # Per-test logging on failure is turned off by default; set this variable to enable
 ${container_log_dir}    ${None}
+# KV Store Prefix
+# example: -v kvstoreprefix:voltha_voltha
+${kvstoreprefix}    voltha_voltha
 # determines the environment workflow: DT, TT or ATT (default)
 # example: -v workflow:DT
 ${workflow}    ATT
