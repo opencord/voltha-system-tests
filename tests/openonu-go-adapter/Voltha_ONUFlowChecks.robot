@@ -45,6 +45,9 @@ ${teardown_device}    True
 ${scripts}        ../../scripts
 # Per-test logging on failure is turned off by default; set this variable to enable
 ${container_log_dir}    ${None}
+# KV Store Prefix
+# example: -v kvstoreprefix:voltha_voltha
+${kvstoreprefix}    voltha_voltha
 # determines the environment workflow: DT, TT or ATT (default)
 # example: -v workflow:DT
 ${workflow}    ATT
@@ -139,6 +142,7 @@ Validate Etcd Vlan Rules Added Subscriber
     ${jsondata}=    To Json    ${result}
     ${length}=    Get Length    ${jsondata}
     log    ${jsondata}
+    Should Not Be Empty     ${jsondata}
     FOR    ${INDEX}    IN RANGE    0    ${length}
         ${value}=    Get From List    ${jsondata}    ${INDEX}
         ${flowparams}=    Get From Dictionary    ${value['uni_config'][0]}    flow_params
@@ -180,7 +184,7 @@ Validate Etcd Vlan Rules Removed Subscriber
     ${jsondata}=    To Json    ${result}
     ${length}=    Get Length    ${jsondata}
     log    ${jsondata}
-    ${vlan_rules}=    Create Dictionary
+    Should Not Be Empty     ${jsondata}
     FOR    ${INDEX}    IN RANGE    0    ${length}
         ${value}=    Get From List    ${jsondata}    ${INDEX}
         @{result_values}=    Run Keyword And Ignore Error
