@@ -88,32 +88,36 @@ Test ONU Upgrade
     [Teardown]    Run Keywords    Collect Logs
     ...           AND             Stop Logging    ONUUpgrade
     ...           AND             Delete All Devices and Verify
-    # Add OLT device
-    Setup
-    # Performing Sanity Test to make sure subscribers are all DHCP and pingable
-    Run Keyword If    ${has_dataplane}    Clean Up Linux
-    Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test
-    FOR    ${J}    IN RANGE    0    ${num_olts}
-        ${olt_serial_number}=    Set Variable    ${list_olts}[${J}][sn]
-        ${bbsim_rel}=    Catenate    SEPARATOR=    bbsim    ${J}
-        ${bbsim_pod}=    Get Pod Name By Label    ${NAMESPACE}    release     ${bbsim_rel}
-        Test ONU Upgrade Per OLT    ${bbsim_pod}    ${olt_serial_number}
-        List ONUs    ${NAMESPACE}    ${bbsim_pod}
+    Test ONU Upgrade All OLTs
+
+Test ONU Upgrade All Activate and Commit Combinations
+    [Documentation]    Validates the ONU Upgrade doesn't affect the system functionality by use all combinations of
+    ...    flags activate_on_success and commit_on_success
+    ...    Performs the sanity and verifies all the ONUs are authenticated/DHCP/pingable
+    ...    Requirement: Pass image details in following parameters in the robot command
+    ...    onu_image_name, onu_image_url, onu_image_version, onu_image_crc, onu_image_local_dir
+    ...    Note: The TC expects the image url and other parameters to be common for all ONUs on all BBSim
+    ...    Check [VOL-4250] for more details
+    [Tags]    functional   ONUUpgradeAllCombies    notready
+    [Setup]    Start Logging    ONUUpgradeAllCombies
+    [Teardown]    Run Keywords    Collect Logs
+    ...           AND             Stop Logging    ONUUpgradeAllCombies
+    ...           AND             Delete All Devices and Verify
+    ${false_false}=    Create Dictionary    activate    false    commit    false
+    ${true_false}=     Create Dictionary    activate    true     commit    false
+    ${false_true}=     Create Dictionary    activate    false    commit    true
+    ${true_true}=      Create Dictionary    activate    true     commit    true
+    ${flag_list}=    Create List    ${false_false}     ${true_false}    ${false_true}    ${true_true}
+    FOR    ${item}     IN      @{flag_list}
+        Test ONU Upgrade All OLTs    ${item['activate']}    ${item['commit']}
+        Delete All Devices and Verify
     END
-    # Additional Verification
-    Wait Until Keyword Succeeds    ${timeout}    2s    Delete All Devices and Verify
-    Setup
-    Run Keyword If    ${has_dataplane}    Clean Up Linux
-    Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test
 
 Test ONU Upgrade Correct Indication of Download Failure
     [Documentation]    Validates the ONU Upgrade download failure will be indicated correctly and
     ...    doesn't affect the system functionality
     ...    Performs the sanity and verifies all the ONUs are authenticated/DHCP/pingable
-    ...    Requirement: Pass image details in following parameters in the robot command
-    ...    onu_image_name, onu_image_url, onu_image_version, onu_image_crc, onu_image_local_dir
-    ...    Note: The TC expects the image url and other parameters to be common for all ONUs on all BBSim
-    ...    Check [VOL-3903] for more details
+    ...    Check [VOL-3935] for more details
     [Tags]    functional   ONUUpgradeDownloadFailure    notready
     [Setup]    Start Logging    ONUUpgradeDownloadFailure
     [Teardown]    Run Keywords    Collect Logs
@@ -137,12 +141,63 @@ Test ONU Upgrade Correct Indication of Download Failure
     Run Keyword If    ${has_dataplane}    Clean Up Linux
     Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test
 
+Test ONU Upgrade Correct Indication of Download Wrong Url
+    [Documentation]    Validates the ONU Upgrade download from wrong URL failure will be indicated correctly
+    ...    and doesn't affect the system functionality
+    ...    Performs the sanity and verifies all the ONUs are authenticated/DHCP/pingable
+    ...    Check [VOL-4257] for more details
+    [Tags]    functional   ONUUpgradeDownloadWrongUrl    notready
+    [Setup]    Start Logging    ONUUpgradeDownloadWrongUrl
+    [Teardown]    Run Keywords    Collect Logs
+    ...           AND             Stop Logging    ONUUpgradeDownloadWrongUrl
+    ...           AND             Delete All Devices and Verify
+    # Add OLT device
+    Setup
+    # Performing Sanity Test to make sure subscribers are all DHCP and pingable
+    Run Keyword If    ${has_dataplane}    Clean Up Linux
+    Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test
+    FOR    ${J}    IN RANGE    0    ${num_olts}
+        ${olt_serial_number}=    Set Variable    ${list_olts}[${J}][sn]
+        ${bbsim_rel}=    Catenate    SEPARATOR=    bbsim    ${J}
+        ${bbsim_pod}=    Get Pod Name By Label    ${NAMESPACE}    release     ${bbsim_rel}
+        Test ONU Upgrade Download Failure Per OLT    ${bbsim_pod}    ${olt_serial_number}
+        ...    url=http://bbsim0:50074/images/wrong-image.img$    dwlstate=DOWNLOAD_UNKNOWN    imgstate=IMAGE_UNKNOWN
+        List ONUs    ${NAMESPACE}    ${bbsim_pod}
+    END
+    # Additional Verification
+    Wait Until Keyword Succeeds    ${timeout}    2s    Delete All Devices and Verify
+    Setup
+    Run Keyword If    ${has_dataplane}    Clean Up Linux
+    Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test
+
 
 
 *** Keywords ***
+Test ONU Upgrade All OLTs
+    [Documentation]    This keyword performs the ONU Upgrade test on all OLTs
+    [Arguments]    ${activate_on_success}=${image_activate_on_success}    ${commit_on_success}=${image_commit_on_success}
+    # Add OLT device
+    Setup
+    # Performing Sanity Test to make sure subscribers are all DHCP and pingable
+    Run Keyword If    ${has_dataplane}    Clean Up Linux
+    Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test
+    FOR    ${J}    IN RANGE    0    ${num_olts}
+        ${olt_serial_number}=    Set Variable    ${list_olts}[${J}][sn]
+        ${bbsim_rel}=    Catenate    SEPARATOR=    bbsim    ${J}
+        ${bbsim_pod}=    Get Pod Name By Label    ${NAMESPACE}    release     ${bbsim_rel}
+        Test ONU Upgrade Per OLT    ${bbsim_pod}    ${olt_serial_number}    ${activate_on_success}    ${commit_on_success}
+        List ONUs    ${NAMESPACE}    ${bbsim_pod}
+    END
+    # Additional Verification
+    Wait Until Keyword Succeeds    ${timeout}    2s    Delete All Devices and Verify
+    Setup
+    Run Keyword If    ${has_dataplane}    Clean Up Linux
+    Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test
+
 Test ONU Upgrade Per OLT
     [Documentation]    This keyword performs the ONU Upgrade test on single OLT
-    [Arguments]    ${bbsim_pod}    ${olt_serial_number}
+    [Arguments]    ${bbsim_pod}    ${olt_serial_number}   ${activate_on_success}=${image_activate_on_success}
+    ...            ${commit_on_success}=${image_commit_on_success}
     FOR    ${I}    IN RANGE    0    ${num_all_onus}
         ${src}=    Set Variable    ${hosts.src[${I}]}
         ${dst}=    Set Variable    ${hosts.dst[${I}]}
@@ -150,31 +205,31 @@ Test ONU Upgrade Per OLT
         ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
         # Download Image
         Download ONU Device Image    ${image_version}    ${image_url}    ${image_vendor}
-        ...    ${image_activate_on_success}    ${image_commit_on_success}
+        ...    ${activate_on_success}    ${commit_on_success}
         ...    ${image_crc}    ${onu_device_id}
-        ${imageState}=    Run Keyword If    '${image_activate_on_success}'=='true' and '${image_commit_on_success}'=='false'
+        ${imageState}=    Run Keyword If    '${activate_on_success}'=='true' and '${commit_on_success}'=='false'
         ...    Set Variable    IMAGE_ACTIVE
-        ...    ELSE IF    '${image_activate_on_success}'=='true' and '${image_commit_on_success}'=='true'
+        ...    ELSE IF    '${activate_on_success}'=='true' and '${commit_on_success}'=='true'
         ...    Set Variable    IMAGE_COMMITTED
         ...    ELSE    Set Variable    IMAGE_INACTIVE
-        ${activated}=    Set Variable If    '${image_activate_on_success}'=='true'    True    False
-        ${committed}=    Set Variable If    '${image_activate_on_success}'=='true' and '${image_commit_on_success}'=='true'
+        ${activated}=    Set Variable If    '${activate_on_success}'=='true'    True    False
+        ${committed}=    Set Variable If    '${activate_on_success}'=='true' and '${commit_on_success}'=='true'
         ...    True    False
         Wait Until Keyword Succeeds    ${timeout}    2s    Verify ONU Device Image Status    ${image_version}
         ...    ${onu_device_id}    DOWNLOAD_SUCCEEDED    NO_ERROR    ${imageState}
         Wait Until Keyword Succeeds    ${timeout}    2s    Verify ONU Device Image List    ${onu_device_id}
         ...    ${image_version}    ${committed}    ${activated}    True
         # Activate Image
-        ${imageState}=    Set Variable If    '${image_commit_on_success}'=='true'    IMAGE_COMMITTED    IMAGE_ACTIVE
-        ${committed}=    Set Variable If    '${image_commit_on_success}'=='true'    True    False
-        Run Keyword If    '${image_activate_on_success}'=='false'    Run Keywords
-        ...    Activate ONU Device Image    ${image_version}    ${image_commit_on_success}    ${onu_device_id}
+        ${imageState}=    Set Variable If    '${commit_on_success}'=='true'    IMAGE_COMMITTED    IMAGE_ACTIVE
+        ${committed}=    Set Variable If    '${commit_on_success}'=='true'    True    False
+        Run Keyword If    '${activate_on_success}'=='false'    Run Keywords
+        ...    Activate ONU Device Image    ${image_version}    ${commit_on_success}    ${onu_device_id}
         ...    AND    Wait Until Keyword Succeeds    ${timeout}    2s    Verify ONU Device Image Status    ${image_version}
         ...    ${onu_device_id}    DOWNLOAD_SUCCEEDED    NO_ERROR    ${imageState}
         ...    AND    Wait Until Keyword Succeeds    ${timeout}    2s    Verify ONU Device Image List    ${onu_device_id}
         ...    ${image_version}    ${committed}    True    True
         # Commit Image
-        Run Keyword If    '${image_commit_on_success}'=='false'    Run Keywords
+        Run Keyword If    '${commit_on_success}'=='false'    Run Keywords
         ...    Commit ONU Device Image    ${image_version}    ${onu_device_id}
         ...    AND    Wait Until Keyword Succeeds    ${timeout}    2s    Verify ONU Device Image Status    ${image_version}
         ...    ${onu_device_id}    DOWNLOAD_SUCCEEDED    NO_ERROR    IMAGE_COMMITTED
@@ -187,18 +242,19 @@ Test ONU Upgrade Per OLT
 
 Test ONU Upgrade Download Failure Per OLT
     [Documentation]    This keyword performs the ONU Upgrade Dowload Failure test on single OLT
-    [Arguments]    ${bbsim_pod}    ${olt_serial_number}
+    [Arguments]    ${bbsim_pod}    ${olt_serial_number}    ${url}=${image_url}    ${dwlstate}=DOWNLOAD_SUCCEEDED
+    ...            ${imgstate}=IMAGE_INACTIVE
     FOR    ${I}    IN RANGE    0    ${num_all_onus}
         ${src}=    Set Variable    ${hosts.src[${I}]}
         ${dst}=    Set Variable    ${hosts.dst[${I}]}
         Continue For Loop If    "${olt_serial_number}"!="${src['olt']}"
         ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
         # Download Image
-        Download ONU Device Image    INVALID_IMAGE    ${image_url}    ${image_vendor}
+        Download ONU Device Image    INVALID_IMAGE    ${url}    ${image_vendor}
         ...    ${image_activate_on_success}    ${image_commit_on_success}
         ...    ${image_crc}    ${onu_device_id}
         Wait Until Keyword Succeeds    ${timeout}    2s    Verify ONU Device Image Status    INVALID_IMAGE
-        ...    ${onu_device_id}    DOWNLOAD_SUCCEEDED    NO_ERROR    IMAGE_INACTIVE
+        ...    ${onu_device_id}    ${dwlstate}    NO_ERROR    ${imgstate}
         Wait Until Keyword Succeeds    ${timeout}    5s    Perform Sanity Test     ${suppressaddsubscriber}
     END
 
