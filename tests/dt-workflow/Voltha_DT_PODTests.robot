@@ -98,6 +98,7 @@ Create Soak BBSim Device
     [Teardown]    Run Keywords    Run Keyword If    ${logging}    Collect Logs
     ...           AND             Stop Logging    soakPodCreateBBSimLoad
     ${num_bbsim}    Get Length    ${bbsim}
+    @{bbsim_olt_of_id_list}=    Create List
     FOR    ${I}    IN RANGE    0    ${num_bbsim}
         ${ip}    Evaluate    ${bbsim}[${I}].get("ip")
         ${serial_number}    Evaluate    ${bbsim}[${I}].get("serial")
@@ -108,12 +109,22 @@ Create Soak BBSim Device
         Enable Device    ${bbsim_olt_device_id}
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
         ...    Validate OLT Device    ENABLED    ACTIVE    REACHABLE    ${serial_number}
-        ${olt_of_id}=    Wait Until Keyword Succeeds    ${timeout}    15s    Validate OLT Device in ONOS
+        ${bbsim_olt_of_id}=    Wait Until Keyword Succeeds    ${timeout}    15s    Validate OLT Device in ONOS
         ...    ${serial_number}
-        Log    ${olt_of_id}
+        Log    ${bbsim_olt_of_id}
+        Append To List    ${bbsim_olt_of_id_list}    ${bbsim_olt_of_id}
     END
     # Extra sleep time for ONUs to come up Active
-    Sleep    30s
+    Sleep    60s
+    FOR    ${bbsim_olt_of_id}    IN    @{bbsim_olt_of_id_list}
+        Provision all subscribers on device    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${ONOS_SSH_IP}    ${ONOS_REST_PORT}
+        ...    ${bbsim_olt_of_id}
+        ${total_onus_per_bbsim_olt}=    Count Enabled UNI Ports    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}
+        ...    ${bbsim_olt_of_id}
+        Wait for all flows to in ADDED state    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}
+        ...     ${bbsim_olt_of_id}     dt    ${total_onus_per_bbsim_olt}    1    true
+        ...     false    false    false    true
+    END
 
 Sanity E2E Test for OLT/ONU on POD for DT
     [Documentation]    Validates E2E Ping Connectivity and object states for the given scenario:
