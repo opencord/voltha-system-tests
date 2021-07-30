@@ -143,7 +143,7 @@ def plot_cpu_consumption(containers, output=None):
     plt.xlabel("Timestamp")
     plt.ylabel("CPU cores used")
 
-    for c in containers:
+    for i, c in enumerate(containers):
         name = c["metric"]["pod"]
         data = c["values"]
 
@@ -151,7 +151,7 @@ def plot_cpu_consumption(containers, output=None):
 
         values = [float(x[1]) for x in data]
 
-        plt.plot(dates, values, label=name, lw=2, color=get_line_color(name))
+        plt.plot(dates, values, label=name, lw=2, color=get_line_color(name, i))
         # plt.plot(dates[1:], get_diff(values), label=name, lw=2, color=get_line_color(name))
 
     plt.legend(loc='upper left', title="CPU Consumption", bbox_to_anchor=(1.05, 1))
@@ -172,7 +172,7 @@ def plot_memory_consumption(containers, output=None):
     plt.xlabel("Timestamp")
     plt.ylabel("MB")
 
-    for c in containers:
+    for i, c in enumerate(containers):
         name = c["metric"]["pod"]
         data = c["values"]
 
@@ -180,7 +180,7 @@ def plot_memory_consumption(containers, output=None):
         values = [bytesto(float(x[1]), "m") for x in data]
 
         # plt.plot(dates[1:], get_diff(values), label=name, lw=2, color=get_line_color(name))
-        plt.plot(dates[1:], values[1:], label=name, lw=2, color=get_line_color(name))
+        plt.plot(dates[1:], values[1:], label=name, lw=2, color=get_line_color(name, i))
 
     plt.legend(loc='upper left', title="Memory Usage", bbox_to_anchor=(1.05, 1))
 
@@ -203,7 +203,7 @@ def remove_unwanted_containers(cpus):
     return res
 
 
-def get_line_color(container_name):
+def get_line_color(container_name, i):
     colors = {
         "bbsim0": "#884EA0",
         "bbsim1": "#9B59B6",
@@ -237,6 +237,30 @@ def get_line_color(container_name):
         "voltha-voltha-rw-core": "#7B241C",
     }
 
+    colorsToPickup = [
+        "#f44336",
+        "#4bde31",
+        "#31dea7",
+        "#31a5de",
+        "#313dde",
+        "#ffac2c",
+        "#f16443",
+        "#8cff00",
+        "#990000",
+        "#b8ce85",
+        "#5662f6",
+        "#e42491",
+        "#5b4f5b",
+        "#df1019",
+        "#b9faf8",
+        "#1d903f",
+        "#56c7f2",
+        "#40dfa0",
+        "#5662f6",
+        "#400080",
+        "#b73e34",
+    ]
+
     if container_name in colors:
         return colors[container_name]
     elif "openolt" in container_name:
@@ -254,7 +278,9 @@ def get_line_color(container_name):
     elif "radius" in container_name:
         return colors["radius"]
     else:
-        return "black"
+        colorIdx = i % len(colorsToPickup)
+        pickupColor = colorsToPickup[colorIdx]
+        return pickupColor
 
 
 def get_diff(data):
