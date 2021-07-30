@@ -49,7 +49,7 @@ KAFKA_TOPICS = [
     "rwcore"
 ]
 
-def main(address, out_folder, since):
+def main(address, out_folder, since, namespace="default"):
     """
     Query Prometheus and generate .pdf files for CPU and Memory consumption for each POD
     :param address: string The address of the Prometheus instance to query
@@ -59,9 +59,9 @@ def main(address, out_folder, since):
     """
     time_delta = int(since) * 60
 
-    container_mem_query = "sum by(pod) (container_memory_working_set_bytes{namespace='default',container!='',container!='POD'})"
+    container_mem_query = "sum by(pod) (container_memory_working_set_bytes{namespace='%s',container!='',container!='POD'})" % namespace
 
-    container_cpu_query = "sum by(pod) (rate(container_cpu_usage_seconds_total{namespace='default',container!='',container!='POD'}[%sm]))" % since
+    container_cpu_query = "sum by(pod) (rate(container_cpu_usage_seconds_total{namespace='%s',container!='',container!='POD'}[%sm]))" % (namespace, since)
 
     now = time.time()
     cpu_params = {
@@ -116,6 +116,8 @@ def data_to_csv(containers, output=None, convert_values=None):
     # FIXME pods may have different timestamps depending on when the collection started
     # - find the longest list in containers
     # - add empty values at the beginning of the other list
+    if not containers:
+        return
     dates = [datetime.fromtimestamp(x[0]) for x in containers[0]["values"]]
     csv_writer.writerow([''] + dates)
 
@@ -300,9 +302,10 @@ def get_etcd_stats(address, out_folder):
             "step": "30",
         }
         r = requests.get("http://%s/api/v1/query_range" % address, etcd_params)
-
-        i = r.json()["data"]["result"][0]
-        etcd[stat] = i["values"][-1][1]
+        etcdStats = r.json()["data"]["result"]
+        if etcdStats:
+            i = etcdStats[0]
+            etcd[stat] = i["values"][-1][1]
 
     csv_file = open("%s/etcd_stats.csv" % out_folder, "w+")
     csv_writer = csv.writer(csv_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
@@ -351,6 +354,8 @@ if __name__ == "__main__":
                         default="plots")
     parser.add_argument("-s", "--since", help="When to start sampling the data (in minutes before now)",
                         default=10)
+    parser.add_argument("-n", "--namespace", help="Kubernetes namespace for collecting metrics",
+                        default="default")
 
     args = parser.parse_args()
-    main(args.address, args.output, args.since)
+    main(args.address, args.output, args.since, args.namespace)
