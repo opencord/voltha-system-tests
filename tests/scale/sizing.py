@@ -49,7 +49,7 @@ KAFKA_TOPICS = [
     "rwcore"
 ]
 
-def main(address, out_folder, since, namespace="default"):
+def main(address, out_folder, since, namespace="default", ratePeriod = "5m", step = 30):
     """
     Query Prometheus and generate .pdf files for CPU and Memory consumption for each POD
     :param address: string The address of the Prometheus instance to query
@@ -61,15 +61,16 @@ def main(address, out_folder, since, namespace="default"):
 
     container_mem_query = "sum by(pod) (container_memory_working_set_bytes{namespace='%s',container!='',container!='POD'})" % namespace
 
-    container_cpu_query = "sum by(pod) (rate(container_cpu_usage_seconds_total{namespace='%s',container!='',container!='POD'}[%sm]))" % (namespace, since)
+    container_cpu_query = "sum by(pod) (rate(container_cpu_usage_seconds_total{namespace='%s',container!='',container!='POD'}[%s]))" % (namespace, ratePeriod)
 
     now = time.time()
     cpu_params = {
         "query": container_cpu_query,
         "start": now - time_delta,
         "end": now,
-        "step": "30",
+        "step": step,
     }
+    print("CPU usage query: %s" % cpu_params)
 
     r = requests.get("http://%s/api/v1/query_range" % address, cpu_params)
     print("Downloading CPU info from: %s" % r.url)
@@ -84,8 +85,9 @@ def main(address, out_folder, since, namespace="default"):
         "query": container_mem_query,
         "start": now - time_delta,
         "end": now,
-        "step": "30",
+        "step": step,
     }
+    print("Memory query: %s" % mem_params)
 
     r = requests.get("http://%s/api/v1/query_range" % address, mem_params)
     print("Downloading Memory info from: %s" % r.url)
@@ -143,7 +145,7 @@ def plot_cpu_consumption(containers, output=None):
     plt.xlabel("Timestamp")
     plt.ylabel("CPU cores used")
 
-    for c in containers:
+    for i, c in enumerate(containers):
         name = c["metric"]["pod"]
         data = c["values"]
 
@@ -151,7 +153,7 @@ def plot_cpu_consumption(containers, output=None):
 
         values = [float(x[1]) for x in data]
 
-        plt.plot(dates, values, label=name, lw=2, color=get_line_color(name))
+        plt.plot(dates, values, label=name, lw=2, color=get_line_color(name, i))
         # plt.plot(dates[1:], get_diff(values), label=name, lw=2, color=get_line_color(name))
 
     plt.legend(loc='upper left', title="CPU Consumption", bbox_to_anchor=(1.05, 1))
@@ -172,7 +174,7 @@ def plot_memory_consumption(containers, output=None):
     plt.xlabel("Timestamp")
     plt.ylabel("MB")
 
-    for c in containers:
+    for i, c in enumerate(containers):
         name = c["metric"]["pod"]
         data = c["values"]
 
@@ -180,7 +182,7 @@ def plot_memory_consumption(containers, output=None):
         values = [bytesto(float(x[1]), "m") for x in data]
 
         # plt.plot(dates[1:], get_diff(values), label=name, lw=2, color=get_line_color(name))
-        plt.plot(dates[1:], values[1:], label=name, lw=2, color=get_line_color(name))
+        plt.plot(dates[1:], values[1:], label=name, lw=2, color=get_line_color(name, i))
 
     plt.legend(loc='upper left', title="Memory Usage", bbox_to_anchor=(1.05, 1))
 
@@ -203,7 +205,7 @@ def remove_unwanted_containers(cpus):
     return res
 
 
-def get_line_color(container_name):
+def get_line_color(container_name, i):
     colors = {
         "bbsim0": "#884EA0",
         "bbsim1": "#9B59B6",
@@ -237,6 +239,30 @@ def get_line_color(container_name):
         "voltha-voltha-rw-core": "#7B241C",
     }
 
+    colorsToPickup = [
+        "#f44336",
+        "#4bde31",
+        "#31dea7",
+        "#31a5de",
+        "#313dde",
+        "#ffac2c",
+        "#f16443",
+        "#8cff00",
+        "#990000",
+        "#b8ce85",
+        "#5662f6",
+        "#e42491",
+        "#5b4f5b",
+        "#df1019",
+        "#b9faf8",
+        "#1d903f",
+        "#56c7f2",
+        "#40dfa0",
+        "#5662f6",
+        "#400080",
+        "#b73e34",
+    ]
+
     if container_name in colors:
         return colors[container_name]
     elif "openolt" in container_name:
@@ -254,7 +280,9 @@ def get_line_color(container_name):
     elif "radius" in container_name:
         return colors["radius"]
     else:
-        return "black"
+        colorIdx = i % len(colorsToPickup)
+        pickupColor = colorsToPickup[colorIdx]
+        return pickupColor
 
 
 def get_diff(data):
@@ -356,6 +384,10 @@ if __name__ == "__main__":
                         default=10)
     parser.add_argument("-n", "--namespace", help="Kubernetes namespace for collecting metrics",
                         default="default")
+    parser.add_argument("-r", "--rate", help="Rate period",
+                        default="5m")
+    parser.add_argument("-t", "--step", help="Step in seconds",
+                        default=30)
 
     args = parser.parse_args()
-    main(args.address, args.output, args.since, args.namespace)
+    main(args.address, args.output, args.since, args.namespace, args.rate, args.step)
