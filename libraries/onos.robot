@@ -742,6 +742,14 @@ Provision subscriber REST
     ...    /onos/olt/oltapp/${of_id}/${onu_port}
     Should Be Equal As Strings    ${resp.status_code}    200
 
+Count Enabled UNI Ports
+    [Documentation]    Count all the UNI Ports on a Device
+    [Arguments]     ${ip}    ${port}   ${of_id}
+    ${count}=    Execute ONOS CLI Command use single connection    ${ip}    ${port}
+    ...    ports -e ${of_id} | grep -v SWITCH | grep -v nni | wc -l
+    Log    ${count}
+    [Return]    ${count}
+
 List Enabled UNI Ports
     [Documentation]  List all the UNI Ports, the only way we have is to filter out the one called NNI
     ...     Creates a list of dictionaries
