@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4d71c759_8aa59acc",
+        "filename": "tests/scale/sizing.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1000569
+      },
+      "writtenOn": "2021-07-31T07:08:26Z",
+      "side": 1,
+      "message": "we cannot use since period (e.g 10m from now) as a rate period, therefore this parametrisation.\nrate period should be usually shorter than the observation period to catch eventual peaks",
+      "revId": "2bcf5aa899ac96992da505b72fcbc7d773f8d9ca",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "611361c8_4dfdc78a",
+        "filename": "tests/scale/sizing.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1000569
+      },
+      "writtenOn": "2021-07-31T07:08:26Z",
+      "side": 1,
+      "message": "this is needed because if we take dates of the first row we might have a situation where further rows have more dates than the first one which results in CSVs with values without a date",
+      "revId": "2bcf5aa899ac96992da505b72fcbc7d773f8d9ca",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "45db0b1c_ef018980",
+        "filename": "tests/scale/sizing.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 292,
+      "author": {
+        "id": 1000569
+      },
+      "writtenOn": "2021-07-31T07:08:26Z",
+      "side": 1,
+      "message": "not all cluster would have those names so all lines will be black. To avoid this we have some random colors for non-matched names",
+      "revId": "2bcf5aa899ac96992da505b72fcbc7d773f8d9ca",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    }
+  ]
+}
