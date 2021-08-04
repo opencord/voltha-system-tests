@@ -26,8 +26,8 @@
                 "ponCTag":41,
                 "ponSTag":44,
                 "technologyProfileId":64,
-                "upstreamBandwidthProfile":"User_Bandwidth1",
-                "downstreamBandwidthProfile":"User_Bandwidth2",
+                "upstreamBandwidthProfile": "User_Bandwidth1",
+                "downstreamBandwidthProfile": "User_Bandwidth2",
                 "isDhcpRequired": true
               }
             ]
@@ -42,8 +42,8 @@
                 "ponCTag":42,
                 "ponSTag":44,
                 "technologyProfileId":64,
-                "upstreamBandwidthProfile":"User_Bandwidth1",
-                "downstreamBandwidthProfile":"User_Bandwidth3",
+                "upstreamBandwidthProfile": "User_Bandwidth1",
+                "downstreamBandwidthProfile": "User_Bandwidth3",
                 "isDhcpRequired": true
               }
             ]

@@ -27,8 +27,8 @@
                 "ponCTag":4096,
                 "ponSTag":11,
                 "technologyProfileId":64,
-                "upstreamBandwidthProfile":"User_Bandwidth1",
-                "downstreamBandwidthProfile":"User_Bandwidth2",
+                "upstreamBandwidthProfile": "User_Bandwidth1",
+                "downstreamBandwidthProfile": "User_Bandwidth2",
                 "isDhcpRequired":false
               }
             ]
@@ -44,8 +44,8 @@
                 "ponCTag":4096,
                 "ponSTag":54,
                 "technologyProfileId":64,
-                "upstreamBandwidthProfile":"User_Bandwidth1",
-                "downstreamBandwidthProfile":"User_Bandwidth3",
+                "upstreamBandwidthProfile": "User_Bandwidth1",
+                "downstreamBandwidthProfile": "User_Bandwidth3",
                 "isDhcpRequired":false
               }
             ]
@@ -61,8 +61,8 @@
                 "ponCTag":4096,
                 "ponSTag":55,
                 "technologyProfileId":64,
-                "upstreamBandwidthProfile":"User_Bandwidth2",
-                "downstreamBandwidthProfile":"User_Bandwidth3",
+                "upstreamBandwidthProfile": "User_Bandwidth2",
+                "downstreamBandwidthProfile": "User_Bandwidth3",
                 "isDhcpRequired":false
               }
             ]
@@ -84,8 +84,8 @@
                 "ponCTag":4096,
                 "ponSTag":22,
                 "technologyProfileId":64,
-                "upstreamBandwidthProfile":"User_Bandwidth1",
-                "downstreamBandwidthProfile":"User_Bandwidth3",
+                "upstreamBandwidthProfile": "User_Bandwidth1",
+                "downstreamBandwidthProfile": "User_Bandwidth3",
                 "isDhcpRequired":false
               }
             ]
@@ -101,8 +101,8 @@
                 "ponCTag":4096,
                 "ponSTag":33,
                 "technologyProfileId":64,
-                "upstreamBandwidthProfile":"User_Bandwidth2",
-                "downstreamBandwidthProfile":"User_Bandwidth1",
+                "upstreamBandwidthProfile": "User_Bandwidth2",
+                "downstreamBandwidthProfile": "User_Bandwidth1",
                 "isDhcpRequired":false
               }
             ]
