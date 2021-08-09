@@ -49,7 +49,7 @@ KAFKA_TOPICS = [
     "rwcore"
 ]
 
-def main(address, out_folder, since):
+def main(address, out_folder, since, namespace="default"):
     """
     Query Prometheus and generate .pdf files for CPU and Memory consumption for each POD
     :param address: string The address of the Prometheus instance to query
@@ -59,9 +59,9 @@ def main(address, out_folder, since):
     """
     time_delta = int(since) * 60
 
-    container_mem_query = "sum by(pod) (container_memory_working_set_bytes{namespace='default',container!='',container!='POD'})"
+    container_mem_query = "sum by(pod) (container_memory_working_set_bytes{namespace='%s',container!='',container!='POD'})" % namespace
 
-    container_cpu_query = "sum by(pod) (rate(container_cpu_usage_seconds_total{namespace='default',container!='',container!='POD'}[%sm])) * 100" % since
+    container_cpu_query = "sum by(pod) (rate(container_cpu_usage_seconds_total{namespace='%s',container!='',container!='POD'}[%sm])) * 100" % (namespace, since)
 
     now = time.time()
     cpu_params = {
@@ -351,6 +351,8 @@ if __name__ == "__main__":
                         default="plots")
     parser.add_argument("-s", "--since", help="When to start sampling the data (in minutes before now)",
                         default=10)
+    parser.add_argument("-n", "--namespace", help="Kubernetes namespace for collecting metrics",
+                        default="default")
 
     args = parser.parse_args()
     main(args.address, args.output, args.since)
