@@ -558,6 +558,56 @@ Verify ONU Soft Reboot for DT
     Run Keyword    Wait Until Keyword Succeeds    ${timeout}    5s    Validate ONU Flows
     ...    ${List_ONU_Serial}    ${onu_flows}
 
+Verify restart openonu-adapter container while continuously running ping in background for DT
+    [Documentation]    Restart openonu-adapter container after VOLTHA is operational.
+    ...    Also, run the ping continuously in background during container restart,
+    ...    and verify that there should be no affect on the dataplane.
+    [Tags]    functionalDt   RestartOpenOnuPingDt
+    [Setup]    Start Logging    RestartOpenOnuPingDt
+    [Teardown]    Run Keywords    Run Keyword If    ${logging}    Collect Logs
+    ...           AND             Stop Logging    RestartOpenOnuPingDt
+    Clear All Devices Then Create New Device
+    # Performing Sanity Test to make sure subscribers are all DHCP and pingable
+    Run Keyword If    ${has_dataplane}    Clean Up Linux
+    Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test DT
+    FOR    ${I}    IN RANGE    0    ${num_all_onus}
+        ${src}=    Set Variable    ${hosts.src[${I}]}
+        ${dst}=    Set Variable    ${hosts.dst[${I}]}
+        ${ping_output_file}=    Set Variable    /tmp/${src['onu']}_ping
+        Run Keyword If    ${has_dataplane}    Run Keyword And Continue On Failure
+        ...    Wait Until Keyword Succeeds    60s    2s
+        ...    Run Ping In Background    ${ping_output_file}    ${dst['dp_iface_ip_qinq']}    ${src['dp_iface_name']}
+        ...    ${src['ip']}    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
+    END
+    ${podStatusOutput}=    Run    kubectl get pods -n ${NAMESPACE}
+    Log    ${podStatusOutput}
+    ${countBeforeRestart}=    Run    kubectl get pods -n ${NAMESPACE} | grep Running | wc -l
+    ${podName}    Set Variable     adapter-open-onu
+    Wait Until Keyword Succeeds    ${timeout}    15s    Delete K8s Pods By Label    ${NAMESPACE}    app    ${podName}
+    Wait Until Keyword Succeeds    ${timeout}    2s    Validate Pods Status By Label    ${NAMESPACE}
+    ...    app    ${podName}    Running
+    # Wait for 1 min after openonu adapter is restarted
+    Sleep    60s
+    ${podStatusOutput}=    Run    kubectl get pods -n ${NAMESPACE}
+    Log    ${podStatusOutput}
+    ${countAfterRestart}=    Run    kubectl get pods -n ${NAMESPACE} | grep Running | wc -l
+    Should Be Equal As Strings    ${countAfterRestart}    ${countBeforeRestart}
+    FOR    ${I}    IN RANGE    0    ${num_all_onus}
+        ${src}=    Set Variable    ${hosts.src[${I}]}
+        ${dst}=    Set Variable    ${hosts.dst[${I}]}
+        ${ping_output_file}=    Set Variable    /tmp/${src['onu']}_ping
+        Run Keyword If    ${has_dataplane}    Run Keyword And Continue On Failure
+        ...    Wait Until Keyword Succeeds    60s    2s
+        ...    Stop Ping Running In Background    ${src['ip']}    ${src['user']}    ${src['pass']}
+        ...    ${src['container_type']}    ${src['container_name']}
+        ${ping_output}=    Run Keyword If    ${has_dataplane}    Run Keyword And Continue On Failure
+        ...    Wait Until Keyword Succeeds    60s    2s
+        ...    Check Remote File Contents    ${ping_output_file}    ${src['ip']}    ${src['user']}    ${src['pass']}
+        ...    ${src['container_type']}    ${src['container_name']}
+        Check Ping Result    True    ${ping_output}
+    END
+    Log to console    Pod ${podName} restarted and continuous ping passed successfully
+
 *** Keywords ***
 Setup Suite
     [Documentation]    Set up the test suite
