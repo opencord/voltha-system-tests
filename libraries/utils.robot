@@ -1328,6 +1328,33 @@ Run Iperf Test Client for MCAST
     ${object}=    Evaluate    json.loads(r'''${output}''')    json
     [Return]    ${object}
 
+Run Ping In Background
+    [Arguments]    ${output_file}    ${dst_ip}    ${iface}    ${ip}    ${user}    ${pass}=${None}
+    ...    ${container_type}=${None}    ${container_name}=${None}
+    [Documentation]    Run 'ping' on remote system in background and stores result in a file
+    ${result}=    Login And Run Command On Remote System
+    ...    ping -I ${iface} ${dst_ip} > ${output_file} &
+    ...    ${ip}    ${user}    ${pass}    ${container_type}    ${container_name}
+    Log    ${result}
+
+Stop Ping Running In Background
+    [Arguments]    ${ip}    ${user}    ${pass}=${None}
+    ...    ${container_type}=${None}    ${container_name}=${None}
+    [Documentation]    Stop 'ping' running in background on remote system
+    ${output}=    Login And Run Command On Remote System
+    ...    kill -9 `pgrep ping`
+    ...    ${ip}    ${user}    ${pass}    ${container_type}    ${container_name}
+    Log    ${result}
+
+Retrieve Remote File Contents
+    [Documentation]    Retrieves the contents of the file on remote system
+    [Arguments]    ${file}    ${ip}    ${user}    ${pass}=${None}
+    ...    ${container_type}=${None}    ${container_name}=${None}    ${prompt}=~$
+    ${output}=    Login And Run Command On Remote System
+    ...    cat ${file}
+    ...    ${ip}    ${user}    ${pass}    ${container_type}    ${container_name}    ${prompt}
+    [Return]    ${output}
+
 RestoreONUs
     [Documentation]    Restore all connected ONUs
     [Arguments]    ${num_all_onus}
