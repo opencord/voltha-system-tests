@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fd32a4fb_f055a085",
+        "filename": "libraries/utils.robot",
+        "patchSetId": 6
+      },
+      "lineNbr": 1343,
+      "author": {
+        "id": 1000064
+      },
+      "writtenOn": "2021-08-12T16:05:13Z",
+      "side": 1,
+      "message": "May be we should add functionality to kill a particular ping process id?",
+      "revId": "d19af86c765d9bf501441009d0df1ce6996a20e4",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    }
+  ]
+}
