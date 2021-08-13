@@ -1341,9 +1341,12 @@ Stop Ping Running In Background
     [Arguments]    ${ip}    ${user}    ${pass}=${None}
     ...    ${container_type}=${None}    ${container_name}=${None}
     [Documentation]    Stops the 'ping' running in background on remote system
+    ${cmd}=    Run Keyword If    '${container_type}' == 'LXC' or '${container_type}' == 'K8S'
+    ...    Set Variable    kill -SIGINT `pgrep ping`
+    ...    ELSE
+    ...    Set Variable    sudo kill -SIGINT `pgrep ping`
     ${result}=    Login And Run Command On Remote System
-    ...    sudo kill -SIGINT `pgrep ping`
-    ...    ${ip}    ${user}    ${pass}    ${container_type}    ${container_name}
+    ...    ${cmd}    ${ip}    ${user}    ${pass}    ${container_type}    ${container_name}
     Log    ${result}
 
 Retrieve Remote File Contents
