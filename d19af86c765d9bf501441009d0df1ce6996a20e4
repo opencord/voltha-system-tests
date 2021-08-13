@@ -34,6 +34,24 @@
       "revId": "d19af86c765d9bf501441009d0df1ce6996a20e4",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ebd00cec_4fb32737",
+        "filename": "libraries/utils.robot",
+        "patchSetId": 6
+      },
+      "lineNbr": 1343,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2021-08-13T04:10:29Z",
+      "side": 1,
+      "message": "Woops! Apologies, I missed to address this comment in this patch. Will see how can I improve this and will put another patch",
+      "parentUuid": "38a05e03_23ab6a5b",
+      "revId": "d19af86c765d9bf501441009d0df1ce6996a20e4",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
     }
   ]
 }
