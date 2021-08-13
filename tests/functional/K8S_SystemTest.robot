@@ -40,6 +40,8 @@ ${adapter_openolt_pod_label_value}    ${OLT_ADAPTER_APP_LABEL}
 ${teardown_device}      false
 ${has_dataplane}        false
 
+${suppressaddsubscriber}    True
+
 # Per-test logging on failure is turned off by default; set this variable to enable
 ${container_log_dir}    ${None}
 
@@ -72,7 +74,7 @@ ETCD Scale Test
     ...    Validate ETCD Size    ${INFRA_NAMESPACE}    ${desired_ETCD_cluster_size}
     # Perform the sanity-test again
     Run Keyword If    ${has_dataplane}    Clean Up Linux
-    Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test
+    Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test    ${suppressaddsubscriber}
 
 ETCD Failure Test
     [Documentation]    Failure Scenario Test: ETCD Crash
