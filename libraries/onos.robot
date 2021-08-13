@@ -198,6 +198,17 @@ Get Master Instace in ONOS
     ${master_node}=    Get From Dictionary    ${jsondata}    nodeId
     [Return]    ${master_node}
 
+Verify EAPOL Flow Added for ONU
+    [Arguments]    ${ip}    ${port}    ${olt_of_id}    ${onu_port}    ${nni_port}    ${c_tag}=4091
+    [Documentation]    Verifies the EAPOL flow is installed for this subscriber,
+    ...    works for both default EAPOL and custom tags EAPOL
+    ${eapol_flow_cmd}=    Catenate    SEPARATOR=
+    ...    flows -s ADDED ${olt_of_id} | grep IN_PORT:${onu_port} | grep ETH_TYPE:eapol |
+    ...    grep VLAN_ID:${c_tag} | grep OUTPUT:CONTROLLER
+    ${eapol_flow_added}=    Execute ONOS CLI Command use single connection    ${ip}    ${port}
+    ...    ${eapol_flow_cmd}
+    Should Not Be Empty    ${eapol_flow_added}
+
 Verify Subscriber Access Flows Added for ONU
     [Arguments]    ${ip}    ${port}    ${olt_of_id}    ${onu_port}    ${nni_port}    ${c_tag}    ${s_tag}
     [Documentation]    Verifies if the Subscriber Access Flows are added in ONOS for the ONU
