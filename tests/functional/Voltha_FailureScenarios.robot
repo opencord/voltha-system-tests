@@ -54,6 +54,8 @@ ${has_dataplane}    True
 ${teardown_device}    False
 ${scripts}        ../../scripts
 
+${suppressaddsubscriber}    True
+
 # Per-test logging on failure is turned off by default; set this variable to enable
 ${container_log_dir}    ${None}
 
@@ -101,7 +103,7 @@ Verify ONU after rebooting physically
         ...    Verify UNI Port Is Enabled   ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${src['onu']}
         # Verify EAPOL flows are added for the ONU port
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
-        ...    Verify Eapol Flows Added For ONU    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${onu_port}
+        ...    Verify Eapol Flows Added For ONU    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${of_id}    ${onu_port}
         # Verify ONU state in voltha
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    360s    5s    Validate Device
         ...    ENABLED    ACTIVE    REACHABLE
@@ -213,7 +215,7 @@ Verify restart openolt-adapter container after subscriber provisioning
     # TBD: Need for this Sleep
     Sleep    60s
     Run Keyword If    ${has_dataplane}    Clean Up Linux
-    Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test
+    Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test    ${suppressaddsubscriber}
     ${podStatusOutput}=    Run    kubectl get pods -n ${NAMESPACE}
     Log    ${podStatusOutput}
     ${countAfterRestart}=    Run    kubectl get pods -n ${NAMESPACE} | grep Running | wc -l
@@ -243,7 +245,8 @@ Check OLT/ONU Authentication After Radius Pod Restart
         ${onu_port}=    Wait Until Keyword Succeeds    ${timeout}    2s
         ...    Get ONU Port in ONOS    ${src['onu']}    ${of_id}    ${src['uni_id']}
         Wait Until Keyword Succeeds    ${timeout}    2s
-        ...    Verify Eapol Flows Added For ONU    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${onu_port}
+        ...    Verify Eapol Flows Added For ONU    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${of_id}    ${onu_port}
+        ...    ${src['c_tag']}
         Run Keyword If    ${has_dataplane}    Run Keyword And Continue On Failure
         ...    Validate Authentication After Reassociate    True    ${src['dp_iface_name']}
         ...    ${src['ip']}    ${src['user']}    ${src['pass']}
@@ -290,7 +293,7 @@ Verify openolt adapter restart before subscriber provisioning
         Wait Until Keyword Succeeds    360s    5s    Validate Device        ENABLED    ACTIVE    REACHABLE
         ...    ${onu_device_id}    onu=True    onu_reason=omci-flows-pushed    by_dev_id=True
         Wait Until Keyword Succeeds    ${timeout}    2s    Verify Eapol Flows Added For ONU    ${ONOS_SSH_IP}
-        ...    ${ONOS_SSH_PORT}    ${onu_port}
+        ...    ${ONOS_SSH_PORT}    ${of_id}    ${onu_port}    ${src['c_tag']}
         ${wpa_log}=    Run Keyword If    ${has_dataplane}    Catenate    SEPARATOR=.
         ...    /tmp/wpa    ${src['dp_iface_name']}    log
         Run Keyword If    ${has_dataplane}    Run Keyword And Continue On Failure    Validate Authentication    True
@@ -359,7 +362,7 @@ Verify restart ofagent container after subscriber is provisioned
     ...    app    ${podName}    Running
     # Performing Sanity Test to make sure subscribers are all AUTH+DHCP and pingable
     Run Keyword If    ${has_dataplane}    Clean Up Linux
-    Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test
+    Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test    ${suppressaddsubscriber}
     ${podStatusOutput}=    Run    kubectl get pods -n ${NAMESPACE}
     Log    ${podStatusOutput}
     ${countAfterRestart}=    Run    kubectl get pods -n ${NAMESPACE} | grep Running | wc -l
@@ -384,7 +387,8 @@ Verify restart ofagent container after subscriber is provisioned
         ...    Verify UNI Port Is Disabled   ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${src['onu']}    ${src['uni_id']}
         # Verify EAPOL flows are present for the ONU port
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
-        ...    Verify Eapol Flows Added For ONU    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${onu_port}
+        ...    Verify Eapol Flows Added For ONU    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${of_id}    ${onu_port}
+        ...    ${src['c_tag']}
         # Verify ONU in AAA-Users
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2
         ...    Verify ONU in AAA-Users    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${onu_port}
@@ -406,7 +410,7 @@ Verify restart ofagent container after subscriber is provisioned
     ...    Running
     # Performing Sanity Test to make sure subscribers are all AUTH+DHCP and pingable
     Run Keyword If    ${has_dataplane}    Clean Up Linux
-    Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test
+    Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test    ${suppressaddsubscriber}
     Log to console    Pod ${podName} restarted and sanity checks passed successfully
 
 Check ONU adapter crash not forcing authentication again
@@ -464,7 +468,8 @@ Check ONU adapter crash not forcing authentication again
         ...    Verify UNI Port Is Enabled   ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${src['onu']}    ${src['uni_id']}
         # Verify EAPOL flows are added for the ONU port
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
-        ...    Verify Eapol Flows Added For ONU    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${onu_port}
+        ...    Verify Eapol Flows Added For ONU    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${of_id}    ${onu_port}
+        ...    ${src['c_tag']}
         # Verify ONU state in voltha
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    360s   5s    Validate Device
         ...    ENABLED    ACTIVE    REACHABLE
@@ -526,7 +531,7 @@ Sanity E2E Test for OLT/ONU on POD With Core Fail and Restart
         Wait Until Keyword Succeeds    360s    5s    Validate Device    ENABLED    ACTIVE    REACHABLE
         ...    ${onu_device_id}    onu=True    onu_reason=omci-flows-pushed    by_dev_id=True
         Wait Until Keyword Succeeds    ${timeout}    2s    Verify Eapol Flows Added For ONU    ${ONOS_SSH_IP}
-        ...    ${ONOS_SSH_PORT}    ${onu_port}
+        ...    ${ONOS_SSH_PORT}    ${of_id}    ${onu_port}
         ${wpa_log}=    Run Keyword If    ${has_dataplane}    Catenate    SEPARATOR=.
         ...    /tmp/wpa    ${src['dp_iface_name']}    log
         Run Keyword If    ${has_dataplane}    Run Keyword And Continue On Failure    Validate Authentication    True
@@ -659,7 +664,7 @@ Verify restart ofagent container before subscriber is provisioned
         Wait Until Keyword Succeeds    ${timeout}    5s    Validate Device        ENABLED    ACTIVE    REACHABLE
         ...    ${onu_device_id}    onu=True    onu_reason=omci-flows-pushed    by_dev_id=True
         Wait Until Keyword Succeeds    ${timeout}    2s    Verify Eapol Flows Added For ONU    ${ONOS_SSH_IP}
-        ...    ${ONOS_SSH_PORT}    ${onu_port}
+        ...    ${ONOS_SSH_PORT}    ${of_id}    ${onu_port}
         ${wpa_log}=    Run Keyword If    ${has_dataplane}    Catenate    SEPARATOR=.
         ...    /tmp/wpa    ${src['dp_iface_name']}    log
         Run Keyword If    ${has_dataplane}    Run Keyword And Continue On Failure    Validate Authentication    True
@@ -716,7 +721,7 @@ Verify OLT Grpc Disconnection
         Restart Grpc Server    ${NAMESPACE}    ${bbsim_pod}    5
     END
     # Repeat sanity test without subscriber changes
-    Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test    True
+    Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test    ${suppressaddsubscriber}
     # Additional Verification
     Wait Until Keyword Succeeds    ${timeout}    2s    Delete All Devices and Verify
     Setup
@@ -753,7 +758,7 @@ Verify ONU Soft Reboot
         ...    Verify UNI Port Is Enabled   ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${src['onu']}
         # Verify EAPOL flows are added for the ONU port
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
-        ...    Verify Eapol Flows Added For ONU    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${onu_port}
+        ...    Verify Eapol Flows Added For ONU    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${of_id}    ${onu_port}
         # Verify ONU state in voltha
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    360s    5s    Validate Device
         ...    ENABLED    ACTIVE    REACHABLE

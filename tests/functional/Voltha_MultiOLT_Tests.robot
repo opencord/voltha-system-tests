@@ -107,7 +107,19 @@ Verify OLT after rebooting physically - MultipleOLT
     # Waiting extra time for the ONUs to come up
     Sleep    60s
     Run Keyword If    ${has_dataplane}    Clean Up Linux
-    Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test
+    FOR    ${J}    IN RANGE    0    ${num_olts}
+        ${olt_serial_number}=    Set Variable    ${list_olts}[${J}][sn]
+        ${onu_count}=    Set Variable    ${list_olts}[${J}][onucount]
+        ${of_id}=    Wait Until Keyword Succeeds    ${timeout}    15s    Validate OLT Device in ONOS
+        ...    ${olt_serial_number}
+        Set Global Variable    ${of_id}
+        ${nni_port}=    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
+        ...    Get NNI Port in ONOS    ${of_id}
+        Set Global Variable    ${nni_port}
+        ${suppressaddsubscriber}=    Set Variable If    '${J}'=='0'    True    False
+        Perform Sanity Test Per OLT    ${of_id}    ${nni_port}    ${olt_serial_number}   ${onu_count}
+        ...    ${suppressaddsubscriber}
+    END
     # Deleting OLT after test completes
     #Run Keyword If    ${has_dataplane}    Delete All Devices and Verify
 
@@ -165,7 +177,19 @@ Verify OLT Soft Reboot - MultipleOLT
     Sleep    60s
     #Check after reboot that ONUs are active, authenticated/DHCP/pingable
     Run Keyword If    ${has_dataplane}    Clean Up Linux
-    Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test
+    FOR    ${J}    IN RANGE    0    ${num_olts}
+        ${olt_serial_number}=    Set Variable    ${list_olts}[${J}][sn]
+        ${onu_count}=    Set Variable    ${list_olts}[${J}][onucount]
+        ${of_id}=    Wait Until Keyword Succeeds    ${timeout}    15s    Validate OLT Device in ONOS
+        ...    ${olt_serial_number}
+        Set Global Variable    ${of_id}
+        ${nni_port}=    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
+        ...    Get NNI Port in ONOS    ${of_id}
+        Set Global Variable    ${nni_port}
+        ${suppressaddsubscriber}=    Set Variable If    '${J}'=='0'    True    False
+        Perform Sanity Test Per OLT    ${of_id}    ${nni_port}    ${olt_serial_number}   ${onu_count}
+        ...    ${suppressaddsubscriber}
+    END
 
 
 *** Keywords ***

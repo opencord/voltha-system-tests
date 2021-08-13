@@ -104,6 +104,7 @@ Verify restart ONOS instace master of device after subscriber is provisioned
         ${num_onus}=    Set Variable    ${list_olts}[${I}][onucount]
         Run Keyword If   '${workflow}' == 'ATT'    Wait Until Keyword Succeeds    ${timeout}    2s
         ...    Perform Sanity Test Per OLT    ${of_id}    ${nni_port}    ${olt_serial_number}    ${num_onus}
+        ...    ${supress_add_subscriber}=True
         Run Keyword If   '${workflow}' == 'DT'    Wait Until Keyword Succeeds    ${timeout}    2s
         ...    Perform Sanity Test DT Per OLT    ${of_id}    ${nni_port}    ${olt_serial_number}    ${num_onus}
     END

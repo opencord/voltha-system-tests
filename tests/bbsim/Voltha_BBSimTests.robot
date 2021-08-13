@@ -175,7 +175,7 @@ Perform BBSim Sanity Test Per OLT
     Restart Grpc Server    ${NAMESPACE}    ${bbsim_pod}    5
     Run Keyword If    "${workflow}"=="DT"    Perform Sanity Test DT
     ...    ELSE IF    "${workflow}"=="TT"    Perform Sanity Tests TT
-    ...    ELSE       Perform Sanity Test
+    ...    ELSE       Perform Sanity Test    ${supress_add_subscriber}=True
     # wait untill the device is connected again before proceeding
     Sleep   10
 
