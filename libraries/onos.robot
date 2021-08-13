@@ -532,10 +532,12 @@ Verify No Pending Flows For ONU
     Should Be Empty    ${pending_flows}
 
 Verify Eapol Flows Added For ONU
-    [Arguments]    ${ip}    ${port}    ${onu_port}
+    [Arguments]    ${ip}    ${port}    ${olt_of_id}    ${onu_port}    ${c_tag}=4091
     [Documentation]    Verifies if the Eapol Flows are added in ONOS for the ONU
-    ${eapol_flows_added}=    Execute ONOS CLI Command use single connection    ${ip}    ${port}
-    ...    flows -s -f ADDED | grep eapol | grep IN_PORT:${onu_port}
+    ${eapol_flow_cmd}=    Catenate    SEPARATOR=
+    ...    flows -s ADDED ${olt_of_id} | grep IN_PORT:${onu_port} | grep ETH_TYPE:eapol |
+    ...    grep VLAN_ID:${c_tag} | grep OUTPUT:CONTROLLER
+    ${eapol_flows_added}=    Execute ONOS CLI Command use single connection    ${ip}    ${port}    ${eapol_flow_cmd}
     Should Not Be Empty    ${eapol_flows_added}
 
 Verify UNI Port Is Enabled

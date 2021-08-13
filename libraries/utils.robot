@@ -230,11 +230,14 @@ Perform Sanity Test Per OLT
         # Verify EAPOL flows are added for the ONU port
         Run Keyword Unless    ${supress_add_subscriber}
         ...    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
-        ...    Verify Eapol Flows Added For ONU    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${onu_port}
+        ...    Verify Eapol Flows Added For ONU    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${of_id}    ${onu_port}
         # Verify ONU state in voltha
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s    Validate Device
         ...    ENABLED    ACTIVE    REACHABLE
         ...    ${src['onu']}    onu=True    onu_reason=omci-flows-pushed
+        # Verify subscriber default EAPOL flow is installed
+        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
+        ...    Verify Eapol Flows Added For ONU    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${of_id}    ${onu_port}
         # Perform Authentication
         ${wpa_log}=    Run Keyword If    ${has_dataplane}    Catenate    SEPARATOR=.
         ...    /tmp/wpa    ${src['dp_iface_name']}    log
@@ -254,6 +257,10 @@ Perform Sanity Test Per OLT
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
         ...    Verify Subscriber Access Flows Added For ONU    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${of_id}
         ...    ${onu_port}    ${nni_port}    ${src['c_tag']}    ${src['s_tag']}
+        # Verify subscriber default EAPOL flow is installed
+        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
+        ...    Verify Eapol Flows Added For ONU    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${of_id}
+        ...    ${onu_port}    ${src['c_tag']}
         # Verify Meters in ONOS
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
         ...    Verify Meters in ONOS    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${of_id}    ${onu_port}
@@ -751,7 +758,7 @@ Repeat Sanity Test
         ...    Verify UNI Port Is Enabled   ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${src['onu']}
         # Verify EAPOL flows are added for the ONU port
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
-        ...    Verify Eapol Flows Added For ONU    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${onu_port}
+        ...    Verify Eapol Flows Added For ONU    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${of_id}    ${onu_port}
         # Verify ONU state in voltha
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s    Validate Device
         ...    ENABLED    ACTIVE    REACHABLE
@@ -868,7 +875,7 @@ Validate ONUs for PON OLT Enable
         ...    Verify UNI Port Is Enabled   ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${src['onu']}    ${src['uni_id']}
         # Verify EAPOL flows are added for the ONU port
         ...    AND    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
-        ...    Verify Eapol Flows Added For ONU    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${onu_port}
+        ...    Verify Eapol Flows Added For ONU    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${of_id}    ${onu_port}
         # Verify ONU state in voltha
         ...    AND    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
         ...    Validate Device    ENABLED    ACTIVE    REACHABLE
