@@ -55,6 +55,7 @@ ${igmp_join_leave_count}    1
 # we want to make sure you can disable/delete the device without needing to restart BBSim
 ${iteration_count}  2
 
+${suppressaddsubscriber}    True
 
 *** Test Cases ***
 
@@ -175,7 +176,7 @@ Perform BBSim Sanity Test Per OLT
     Restart Grpc Server    ${NAMESPACE}    ${bbsim_pod}    5
     Run Keyword If    "${workflow}"=="DT"    Perform Sanity Test DT
     ...    ELSE IF    "${workflow}"=="TT"    Perform Sanity Tests TT
-    ...    ELSE       Perform Sanity Test
+    ...    ELSE       Perform Sanity Test    ${suppressaddsubscriber}
     # wait untill the device is connected again before proceeding
     Sleep   10
 

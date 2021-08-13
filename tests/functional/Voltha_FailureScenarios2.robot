@@ -116,7 +116,7 @@ Verify restart ofagent container before subscriber is provisioned
         Wait Until Keyword Succeeds    ${timeout}    5s    Validate Device        ENABLED    ACTIVE    REACHABLE
         ...    ${onu_device_id}    onu=True    onu_reason=omci-flows-pushed    by_dev_id=True
         Wait Until Keyword Succeeds    ${timeout}    2s    Verify Eapol Flows Added For ONU    ${ONOS_SSH_IP}
-        ...    ${ONOS_SSH_PORT}    ${onu_port}
+        ...    ${ONOS_SSH_PORT}    ${of_id}    ${onu_port}
         ${wpa_log}=    Run Keyword If    ${has_dataplane}    Catenate    SEPARATOR=.
         ...    /tmp/wpa    ${src['dp_iface_name']}    log
         Run Keyword If    ${has_dataplane}    Run Keyword And Continue On Failure    Validate Authentication    True
