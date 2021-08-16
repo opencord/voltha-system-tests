@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b5e2ed8e_faf311e9",
+        "filename": "libraries/onos.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2021-08-16T16:23:22Z",
+      "side": 1,
+      "message": "Imo, this can be unified with the existing keyword `Verify Eapol Flows Added For ONU`\nhttps://github.com/opencord/voltha-system-tests/blob/master/libraries/onos.robot#L534",
+      "range": {
+        "startLine": 201,
+        "startChar": 0,
+        "endLine": 201,
+        "endChar": 31
+      },
+      "revId": "c4faad9ee4a05bf2b8709d604a23f27c9020b779",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    }
+  ]
+}
