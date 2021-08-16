@@ -562,7 +562,7 @@ Verify restart openonu-adapter container while continuously running ping in back
     [Documentation]    Restart openonu-adapter container after VOLTHA is operational.
     ...    Run the ping continuously in background during container restart,
     ...    and verify that there should be no affect on the dataplane.
-    [Tags]    functionalDt   RestartOpenOnuPingDt
+    [Tags]    functionalDt   RestartOpenOnuPingDt    non-critical
     [Setup]    Start Logging    RestartOpenOnuPingDt
     [Teardown]    Run Keywords    Run Keyword If    ${logging}    Collect Logs
     ...           AND             Stop Logging    RestartOpenOnuPingDt
@@ -611,7 +611,7 @@ Verify restart openolt-adapter container while continuously running ping in back
     [Documentation]    Restart openolt-adapter container after VOLTHA is operational.
     ...    Run the ping continuously in background during container restart,
     ...    and verify that there should be no affect on the dataplane.
-    [Tags]    functionalDt   RestartOpenOltPingDt
+    [Tags]    functionalDt   RestartOpenOltPingDt    non-critical
     [Setup]    Start Logging    RestartOpenOltPingDt
     [Teardown]    Run Keywords    Run Keyword If    ${logging}    Collect Logs
     ...           AND             Stop Logging    RestartOpenOltPingDt
