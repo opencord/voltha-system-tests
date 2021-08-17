@@ -1332,10 +1332,9 @@ Run Ping In Background
     [Arguments]    ${output_file}    ${dst_ip}    ${iface}    ${ip}    ${user}    ${pass}=${None}
     ...    ${container_type}=${None}    ${container_name}=${None}
     [Documentation]    Runs the 'ping' on remote system in background and stores the result in a file
-    ${result}=    Login And Run Command On Remote System
-    ...    ping -I ${iface} ${dst_ip} > ${output_file} &
+    ${output}    ${stderr}    ${rc}=    Execute Remote Command
+    ...    /bin/bash -c "ping -I ${iface} ${dst_ip} > ${output_file} &"
     ...    ${ip}    ${user}    ${pass}    ${container_type}    ${container_name}
-    Log    ${result}
 
 Stop Ping Running In Background
     [Arguments]    ${ip}    ${user}    ${pass}=${None}
@@ -1345,9 +1344,8 @@ Stop Ping Running In Background
     ...    Set Variable    kill -SIGINT `pgrep ping`
     ...    ELSE
     ...    Set Variable    sudo kill -SIGINT `pgrep ping`
-    ${result}=    Login And Run Command On Remote System
+    ${output}=    Login And Run Command On Remote System
     ...    ${cmd}    ${ip}    ${user}    ${pass}    ${container_type}    ${container_name}
-    Log    ${result}
 
 Retrieve Remote File Contents
     [Documentation]    Retrieves the contents of the file on remote system
