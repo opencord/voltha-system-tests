@@ -1345,9 +1345,8 @@ Stop Ping Running In Background
     ...    Set Variable    kill -SIGINT `pgrep ping`
     ...    ELSE
     ...    Set Variable    sudo kill -SIGINT `pgrep ping`
-    ${result}=    Login And Run Command On Remote System
+    ${output}    ${stderr}    ${rc}=    Execute Remote Command
     ...    ${cmd}    ${ip}    ${user}    ${pass}    ${container_type}    ${container_name}
-    Log    ${result}
 
 Retrieve Remote File Contents
     [Documentation]    Retrieves the contents of the file on remote system

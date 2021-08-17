@@ -595,11 +595,15 @@ Verify restart openonu-adapter container while continuously running ping in back
     FOR    ${I}    IN RANGE    0    ${num_all_onus}
         ${src}=    Set Variable    ${hosts.src[${I}]}
         ${dst}=    Set Variable    ${hosts.dst[${I}]}
-        ${ping_output_file}=    Set Variable    /tmp/${src['onu']}_ping
         Run Keyword If    ${has_dataplane}    Run Keyword And Continue On Failure
         ...    Wait Until Keyword Succeeds    60s    2s
         ...    Stop Ping Running In Background    ${src['ip']}    ${src['user']}    ${src['pass']}
         ...    ${src['container_type']}    ${src['container_name']}
+    END
+    FOR    ${I}    IN RANGE    0    ${num_all_onus}
+        ${src}=    Set Variable    ${hosts.src[${I}]}
+        ${dst}=    Set Variable    ${hosts.dst[${I}]}
+        ${ping_output_file}=    Set Variable    /tmp/${src['onu']}_ping
         ${ping_output}=    Run Keyword If    ${has_dataplane}    Run Keyword And Continue On Failure
         ...    Wait Until Keyword Succeeds    60s    2s
         ...    Retrieve Remote File Contents    ${ping_output_file}    ${src['ip']}    ${src['user']}    ${src['pass']}
@@ -644,11 +648,15 @@ Verify restart openolt-adapter container while continuously running ping in back
     FOR    ${I}    IN RANGE    0    ${num_all_onus}
         ${src}=    Set Variable    ${hosts.src[${I}]}
         ${dst}=    Set Variable    ${hosts.dst[${I}]}
-        ${ping_output_file}=    Set Variable    /tmp/${src['onu']}_ping
         Run Keyword If    ${has_dataplane}    Run Keyword And Continue On Failure
         ...    Wait Until Keyword Succeeds    60s    2s
         ...    Stop Ping Running In Background    ${src['ip']}    ${src['user']}    ${src['pass']}
         ...    ${src['container_type']}    ${src['container_name']}
+    END
+    FOR    ${I}    IN RANGE    0    ${num_all_onus}
+        ${src}=    Set Variable    ${hosts.src[${I}]}
+        ${dst}=    Set Variable    ${hosts.dst[${I}]}
+        ${ping_output_file}=    Set Variable    /tmp/${src['onu']}_ping
         ${ping_output}=    Run Keyword If    ${has_dataplane}    Run Keyword And Continue On Failure
         ...    Wait Until Keyword Succeeds    60s    2s
         ...    Retrieve Remote File Contents    ${ping_output_file}    ${src['ip']}    ${src['user']}    ${src['pass']}
