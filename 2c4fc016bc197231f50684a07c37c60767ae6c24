@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "026785a5_b4942914",
+        "filename": "tests/functional/Voltha_FailureScenarios2.robot",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000007
+      },
+      "writtenOn": "2021-08-18T15:21:32Z",
+      "side": 1,
+      "message": "Unrelated to this patch, but is this file used anywhere?",
+      "revId": "2c4fc016bc197231f50684a07c37c60767ae6c24",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
+    }
+  ]
+}
