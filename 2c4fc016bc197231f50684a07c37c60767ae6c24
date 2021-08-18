@@ -16,6 +16,24 @@
       "revId": "2c4fc016bc197231f50684a07c37c60767ae6c24",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "79c52b11_516e6496",
+        "filename": "tests/functional/Voltha_FailureScenarios2.robot",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2021-08-18T15:25:07Z",
+      "side": 1,
+      "message": "Actually not. Already wrote to Suchitra asking if we can delete this.",
+      "parentUuid": "026785a5_b4942914",
+      "revId": "2c4fc016bc197231f50684a07c37c60767ae6c24",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
     }
   ]
 }
