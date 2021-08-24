@@ -59,9 +59,9 @@ def main(address, out_folder, since, namespace="default", ratePeriod = "5m", ste
     """
     time_delta = int(since) * 60
 
-    container_mem_query = "sum by(pod) (container_memory_working_set_bytes{namespace='%s',container!='',container!='POD'})" % namespace
+    container_mem_query = 'sum by(pod) (container_memory_working_set_bytes{namespace="%s",container!="",container!="POD"})' % namespace
 
-    container_cpu_query = "sum by(pod) (rate(container_cpu_usage_seconds_total{namespace='%s',container!='',container!='POD'}[%s]))" % (namespace, ratePeriod)
+    container_cpu_query = 'sum by(pod) (rate(container_cpu_usage_seconds_total{namespace="%s",container!="",container!="POD"}[%s]))' % (namespace, ratePeriod)
 
     now = time.time()
     cpu_params = {
