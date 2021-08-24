@@ -853,11 +853,12 @@ Validate ONU Device Image
 Download ONU Device Image
     [Documentation]    Downloads the given ONU software image
     [Arguments]    ${ver}    ${url}    ${vendor}    ${active}    ${commit}    ${crc}    ${id}
+    ...            ${download_state}=DOWNLOAD_STARTED    ${expected_reason}=NO_ERROR    ${image_state}=IMAGE_UNKNOWN
     ${rc}    ${output}=    Run and Return Rc and Output
     ...    voltctl -c ${VOLTCTL_CONFIG} device onuimage download ${ver} ${url} ${vendor} ${active} ${commit} ${crc} ${id} -o json
     Log    ${output}
     Should Be Equal As Integers    ${rc}    0
-    Validate ONU Device Image    ${output}    ${ver}    ${id}    DOWNLOAD_STARTED    NO_ERROR    IMAGE_UNKNOWN
+    Validate ONU Device Image    ${output}    ${ver}    ${id}    ${download_state}    ${expected_reason}    ${image_state}
 
 Activate ONU Device Image
     [Documentation]    Activates the given ONU software image
@@ -866,7 +867,7 @@ Activate ONU Device Image
     ...    voltctl -c ${VOLTCTL_CONFIG} device onuimage activate ${ver} ${commit} ${id} -o json
     Log    ${output}
     Should Be Equal As Integers    ${rc}    0
-    Validate ONU Device Image    ${output}    ${ver}    ${id}    DOWNLOAD_SUCCEEDED    NO_ERROR    IMAGE_ACTIVATING
+    Validate ONU Device Image    ${output}    ${ver}    ${id}    DOWNLOAD_STARTED    NO_ERROR    IMAGE_ACTIVATING
 
 Commit ONU Device Image
     [Documentation]    Commits the given ONU software image
@@ -875,7 +876,7 @@ Commit ONU Device Image
     ...    voltctl -c ${VOLTCTL_CONFIG} device onuimage commit ${ver} ${id} -o json
     Log    ${output}
     Should Be Equal As Integers    ${rc}    0
-    Validate ONU Device Image    ${output}    ${ver}    ${id}    DOWNLOAD_SUCCEEDED    NO_ERROR    IMAGE_COMMITTING
+    Validate ONU Device Image    ${output}    ${ver}    ${id}    DOWNLOAD_STARTED    NO_ERROR    IMAGE_COMMITTING
 
 Verify ONU Device Image Status
     [Documentation]    Verfies the ONU device image state

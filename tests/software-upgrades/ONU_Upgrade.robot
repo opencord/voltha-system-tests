@@ -113,40 +113,12 @@ Test ONU Upgrade All Activate and Commit Combinations
         Delete All Devices and Verify
     END
 
-Test ONU Upgrade Correct Indication of Download Failure
-    [Documentation]    Validates the ONU Upgrade download failure will be indicated correctly and
-    ...    doesn't affect the system functionality
-    ...    Performs the sanity and verifies all the ONUs are authenticated/DHCP/pingable
-    ...    Check [VOL-3935] for more details
-    [Tags]    functional   ONUUpgradeDownloadFailure    notready
-    [Setup]    Start Logging    ONUUpgradeDownloadFailure
-    [Teardown]    Run Keywords    Collect Logs
-    ...           AND             Stop Logging    ONUUpgradeDownloadFailure
-    ...           AND             Delete All Devices and Verify
-    # Add OLT device
-    Setup
-    # Performing Sanity Test to make sure subscribers are all DHCP and pingable
-    Run Keyword If    ${has_dataplane}    Clean Up Linux
-    Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test
-    FOR    ${J}    IN RANGE    0    ${num_olts}
-        ${olt_serial_number}=    Set Variable    ${list_olts}[${J}][sn]
-        ${bbsim_rel}=    Catenate    SEPARATOR=    bbsim    ${J}
-        ${bbsim_pod}=    Get Pod Name By Label    ${NAMESPACE}    release     ${bbsim_rel}
-        Test ONU Upgrade Download Failure Per OLT    ${bbsim_pod}    ${olt_serial_number}
-        List ONUs    ${NAMESPACE}    ${bbsim_pod}
-    END
-    # Additional Verification
-    Wait Until Keyword Succeeds    ${timeout}    2s    Delete All Devices and Verify
-    Setup
-    Run Keyword If    ${has_dataplane}    Clean Up Linux
-    Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test
-
 Test ONU Upgrade Correct Indication of Download Wrong Url
     [Documentation]    Validates the ONU Upgrade download from wrong URL failure will be indicated correctly
     ...    and doesn't affect the system functionality
     ...    Performs the sanity and verifies all the ONUs are authenticated/DHCP/pingable
     ...    Check [VOL-4257] for more details
-    [Tags]    functional   ONUUpgradeDownloadWrongUrl    notready
+    [Tags]    functional   ONUUpgradeDownloadWrongUrl
     [Setup]    Start Logging    ONUUpgradeDownloadWrongUrl
     [Teardown]    Run Keywords    Collect Logs
     ...           AND             Stop Logging    ONUUpgradeDownloadWrongUrl
@@ -161,7 +133,9 @@ Test ONU Upgrade Correct Indication of Download Wrong Url
         ${bbsim_rel}=    Catenate    SEPARATOR=    bbsim    ${J}
         ${bbsim_pod}=    Get Pod Name By Label    ${NAMESPACE}    release     ${bbsim_rel}
         Test ONU Upgrade Download Failure Per OLT    ${bbsim_pod}    ${olt_serial_number}
-        ...    url=http://bbsim0:50074/images/wrong-image.img$    dwlstate=DOWNLOAD_UNKNOWN    imgstate=IMAGE_UNKNOWN
+        ...    url=http://bbsim0:50074/images/wrong-image.img$
+        ...    dwl_dwlstate=DOWNLOAD_FAILED    dwl_reason=INVALID_URL    dwl_imgstate=IMAGE_UNKNOWN
+        ...        dwlstate=DOWNLOAD_UNKNOWN       reason=NO_ERROR           imgstate=IMAGE_UNKNOWN
         List ONUs    ${NAMESPACE}    ${bbsim_pod}
     END
     # Additional Verification
@@ -170,6 +144,34 @@ Test ONU Upgrade Correct Indication of Download Wrong Url
     Run Keyword If    ${has_dataplane}    Clean Up Linux
     Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test
 
+Test ONU Upgrade Correct Indication of Download Failure
+    [Documentation]    Validates the ONU Upgrade download failure will be indicated correctly and
+    ...    doesn't affect the system functionality
+    ...    Performs the sanity and verifies all the ONUs are authenticated/DHCP/pingable
+    ...    Check [VOL-3935] for more details
+    [Tags]    functional   ONUUpgradeDownloadFailure
+    [Setup]    Start Logging    ONUUpgradeDownloadFailure
+    [Teardown]    Run Keywords    Collect Logs
+    ...           AND             Stop Logging    ONUUpgradeDownloadFailure
+    ...           AND             Delete All Devices and Verify
+    # Add OLT device
+    Setup
+    # Performing Sanity Test to make sure subscribers are all DHCP and pingable
+    Run Keyword If    ${has_dataplane}    Clean Up Linux
+    Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test
+    FOR    ${J}    IN RANGE    0    ${num_olts}
+        ${olt_serial_number}=    Set Variable    ${list_olts}[${J}][sn]
+        ${bbsim_rel}=    Catenate    SEPARATOR=    bbsim    ${J}
+        ${bbsim_pod}=    Get Pod Name By Label    ${NAMESPACE}    release     ${bbsim_rel}
+        Test ONU Upgrade Download Failure Per OLT    ${bbsim_pod}    ${olt_serial_number}
+        ...    dwlstate=DOWNLOAD_FAILED       reason=CANCELLED_ON_ONU_STATE           imgstate=IMAGE_UNKNOWN
+        List ONUs    ${NAMESPACE}    ${bbsim_pod}
+    END
+    # Additional Verification
+    Wait Until Keyword Succeeds    ${timeout}    2s    Delete All Devices and Verify
+    Setup
+    Run Keyword If    ${has_dataplane}    Clean Up Linux
+    Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test
 
 
 *** Keywords ***
@@ -242,8 +244,9 @@ Test ONU Upgrade Per OLT
 
 Test ONU Upgrade Download Failure Per OLT
     [Documentation]    This keyword performs the ONU Upgrade Dowload Failure test on single OLT
-    [Arguments]    ${bbsim_pod}    ${olt_serial_number}    ${url}=${image_url}    ${dwlstate}=DOWNLOAD_SUCCEEDED
-    ...            ${imgstate}=IMAGE_INACTIVE
+    [Arguments]    ${bbsim_pod}    ${olt_serial_number}    ${url}=${image_url}
+    ...            ${dwl_dwlstate}=DOWNLOAD_STARTED    ${dwl_reason}=NO_ERROR    ${dwl_imgstate}=IMAGE_UNKNOWN
+    ...            ${dwlstate}=DOWNLOAD_SUCCEEDED    ${reason}=NO_ERROR    ${imgstate}=IMAGE_INACTIVE
     FOR    ${I}    IN RANGE    0    ${num_all_onus}
         ${src}=    Set Variable    ${hosts.src[${I}]}
         ${dst}=    Set Variable    ${hosts.dst[${I}]}
@@ -251,10 +254,10 @@ Test ONU Upgrade Download Failure Per OLT
         ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
         # Download Image
         Download ONU Device Image    INVALID_IMAGE    ${url}    ${image_vendor}
-        ...    ${image_activate_on_success}    ${image_commit_on_success}
-        ...    ${image_crc}    ${onu_device_id}
+        ...    ${image_activate_on_success}    ${image_commit_on_success}    ${image_crc}    ${onu_device_id}
+        ...    download_state=${dwl_dwlstate}    expected_reason=${dwl_reason}    image_state=${dwl_imgstate}
         Wait Until Keyword Succeeds    ${timeout}    2s    Verify ONU Device Image Status    INVALID_IMAGE
-        ...    ${onu_device_id}    ${dwlstate}    NO_ERROR    ${imgstate}
+        ...    ${onu_device_id}    ${dwlstate}    ${reason}    ${imgstate}
         Wait Until Keyword Succeeds    ${timeout}    5s    Perform Sanity Test     ${suppressaddsubscriber}
     END
 
