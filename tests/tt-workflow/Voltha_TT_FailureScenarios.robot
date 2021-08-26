@@ -473,6 +473,56 @@ Sanity E2E Test for OLT/ONU on POD With Core Fail and Restart for TT
     END
     Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Tests TT
 
+OpenONU pod restart between each subscriber provisioning of ONUs for TT
+    [Documentation]    Openonu pod restart between porvisioning subsriber. Removing/Readding a particular
+    ...    subscriber should have no effect on any other subsriber.
+    [Tags]    functionalTT    restart-openonu-each-subs
+    [Setup]    Start Logging    restart-openonu-each-subs
+    [Teardown]    Run Keywords    Collect Logs
+    ...           AND             Stop Logging    restart-openonu-each-subs
+    Run Keyword If    ${has_dataplane}    Clean Up Linux
+    FOR   ${I}    IN RANGE    0    ${num_all_onus}
+        ${src}=    Set Variable    ${hosts.src[${I}]}
+        ${dst}=    Set Variable    ${hosts.dst[${I}]}
+        ${service_type}=    Get Variable Value    ${src['service_type']}    "null"
+        ${of_id}=    Get ofID From OLT List    ${src['olt']}
+        ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
+        ${onu_port}=    Wait Until Keyword Succeeds    ${timeout}    2s    Get ONU Port in ONOS    ${src['onu']}
+        ...    ${of_id}    ${src['uni_id']}
+        # Remove Subscriber Access
+        Wait Until Keyword Succeeds    ${timeout}    2s    Execute ONOS CLI Command use single connection    ${ONOS_SSH_IP}
+        ...    ${ONOS_SSH_PORT}    volt-remove-subscriber-access ${of_id} ${onu_port}
+        Run Keyword If    ${has_dataplane} and '${service_type}' != 'mcast'
+        ...    Wait Until Keyword Succeeds    ${timeout}    2s
+        ...    Check Ping    False    ${dst['dp_iface_ip_qinq']}    ${src['dp_iface_name']}
+        ...    ${src['ip']}    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
+        # Verify VOLTHA flows for ONU under test is Zero
+        # TODO: Fix ${onu_flows} calculations based on UNIs provisioned
+        # Wait Until Keyword Succeeds    ${timeout}    5s    Validate Device Flows
+        # ...    ${onu_device_id}    0
+        # Add Subscriber Access
+        ${podStatusOutput}=    Run    kubectl get pods -n ${NAMESPACE}
+        Log    ${podStatusOutput}
+        ${countBeforeRestart}=    Run    kubectl get pods -n ${NAMESPACE} | grep Running | wc -l
+        ${podName}    Set Variable     adapter-open-onu
+        Wait Until Keyword Succeeds    ${timeout}    15s    Delete K8s Pods By Label    ${NAMESPACE}    app    ${podName}
+        Sleep    5s
+        Wait Until Keyword Succeeds    ${timeout}    2s    Validate Pods Status By Label    ${NAMESPACE}
+        ...    app    ${podName}    Running
+        Wait Until Keyword Succeeds    ${timeout}    3s    Pods Are Ready By Label    ${NAMESPACE}    app    ${podName}
+        Wait Until Keyword Succeeds    ${timeout}    2s    Execute ONOS CLI Command use single connection    ${ONOS_SSH_IP}
+        ...    ${ONOS_SSH_PORT}    volt-add-subscriber-access ${of_id} ${onu_port}
+        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    360s    5s
+        ...    Validate Device    ENABLED    ACTIVE
+        ...    REACHABLE    ${src['onu']}    onu=True    onu_reason=omci-flows-pushed
+        Run Keyword If    ${has_dataplane} and '${service_type}' != 'mcast'    Run Keyword And Continue On Failure
+        ...    Wait Until Keyword Succeeds    ${timeout}    2s    Sanity Test TT one ONU    ${src}
+        ...    ${dst}    ${suppressaddsubscriber}
+        ...    ELSE IF    ${has_dataplane} and '${service_type}' == 'mcast'    Run Keyword And Continue On Failure
+        ...    Wait Until Keyword Succeeds    ${timeout}    2s    Sanity Test TT MCAST one ONU    ${src}
+        ...    ${dst}    ${suppressaddsubscriber}
+    END
+
 *** Keywords ***
 Setup Suite
     [Documentation]    Set up the test suite
