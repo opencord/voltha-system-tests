@@ -1332,6 +1332,14 @@ Run Iperf Test Client for MCAST
     ${object}=    Evaluate    json.loads(r'''${output}''')    json
     [Return]    ${object}
 
+Run Ping Script In Background
+    [Arguments]    ${ip}    ${user}    ${pass}=${None}    ${container_type}=${None}    ${container_name}=${None}
+    [Documentation]    Runs the 'ping' on remote system in background and stores the result in a file
+    ${result}=    Login And Run Command On Remote System
+    ...    ./ping.sh
+    ...    ${ip}    ${user}    ${pass}    ${container_type}    ${container_name}
+    Log    ${result}
+
 Run Ping In Background
     [Arguments]    ${output_file}    ${dst_ip}    ${iface}    ${ip}    ${user}    ${pass}=${None}
     ...    ${container_type}=${None}    ${container_name}=${None}

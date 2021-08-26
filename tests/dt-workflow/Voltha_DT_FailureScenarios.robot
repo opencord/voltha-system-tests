@@ -562,7 +562,7 @@ Verify restart openonu-adapter container while continuously running ping in back
     [Documentation]    Restart openonu-adapter container after VOLTHA is operational.
     ...    Run the ping continuously in background during container restart,
     ...    and verify that there should be no affect on the dataplane.
-    [Tags]    functionalDt    RestartOpenOnuPingDt    non-critical    notready
+    [Tags]    functionalDt    RestartOpenOnuPingDt    non-critical
     [Setup]    Start Logging    RestartOpenOnuPingDt
     [Teardown]    Run Keywords    Run Keyword If    ${logging}    Collect Logs
     ...           AND             Stop Logging    RestartOpenOnuPingDt
@@ -576,8 +576,10 @@ Verify restart openonu-adapter container while continuously running ping in back
         ${ping_output_file}=    Set Variable    /tmp/${src['onu']}_ping
         Run Keyword If    ${has_dataplane}    Run Keyword And Continue On Failure
         ...    Wait Until Keyword Succeeds    60s    2s
-        ...    Run Ping In Background    ${ping_output_file}    ${dst['dp_iface_ip_qinq']}    ${src['dp_iface_name']}
-        ...    ${src['ip']}    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
+        ...    Run Ping Script In Background    ${src['ip']}    ${src['user']}    ${src['pass']}
+        ...    ${src['container_type']}    ${src['container_name']}
+        # ...    Run Ping In Background    ${ping_output_file}    ${dst['dp_iface_ip_qinq']}    ${src['dp_iface_name']}
+        # ...    ${src['ip']}    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
     END
     ${podStatusOutput}=    Run    kubectl get pods -n ${NAMESPACE}
     Log    ${podStatusOutput}
