@@ -171,12 +171,65 @@
             "serviceName" : "MC"
           } ]
         }, {
+          "id" : "ALPHe3d1cea3-2",
+          "nasPortId" : "ALPHe3d1cea3-2",
+          "uniTagList" : [ {
+            "uniTagMatch" : 35,
+            "ponCTag" : 802,
+            "ponSTag" : 111,
+            "usPonCTagPriority" : 0,
+            "usPonSTagPriority" : 0,
+            "dsPonCTagPriority" : 0,
+            "dsPonSTagPriority" : 0,
+            "technologyProfileId" : 64,
+            "downstreamBandwidthProfile" : "High-Speed-Internet",
+            "upstreamBandwidthProfile" : "TCONT_TYPE4_1Gbps_Peak_User1_HSI_Upstream",
+            "isDhcpRequired" : "true",
+            "serviceName" : "HSIA"
+          }, {
+            "uniTagMatch" : 65,
+            "ponCTag" : 444,
+            "ponSTag" : 333,
+            "usPonCTagPriority" : 7,
+            "usPonSTagPriority" : 7,
+            "dsPonCTagPriority" : 7,
+            "dsPonSTagPriority" : 7,
+            "technologyProfileId" : 65,
+            "downstreamBandwidthProfile" : "VOIP",
+            "upstreamBandwidthProfile" : "TCONT_TYPE1_200Mbps_Fixed_ForVOIP",
+            "isDhcpRequired" : "true",
+            "configuredMacAddress" : "00:00:00:00:00:00",
+            "serviceName" : "VOIP"
+          }, {
+            "uniTagMatch" : 55,
+            "ponCTag" : 55,
+            "ponSTag" : 555,
+            "usPonCTagPriority" : 5,
+            "usPonSTagPriority" : 5,
+            "dsPonCTagPriority" : 5,
+            "dsPonSTagPriority" : 5,
+            "technologyProfileId" : 66,
+            "downstreamBandwidthProfile" : "High-Speed-Internet",
+            "upstreamBandwidthProfile" : "TCONT_TYPE2_500Mbps_Assured_ForVoD",
+            "configuredMacAddress" : "00:00:00:00:00:00",
+            "serviceName" : "VOD",
+            "isDhcpRequired" : "true",
+            "isIgmpRequired" : "true"
+          }, {
+            "ponCTag" : 55,
+            "ponSTag" : 550,
+            "dsPonCTagPriority" : 5,
+            "dsPonSTagPriority" : 5,
+            "technologyProfileId" : 66,
+            "serviceName" : "MC"
+          } ]
+        }, {
           "id" : "ALPHe3d1ceb7-1",
           "nasPortId" : "ALPHe3d1ceb7-1",
           "uniTagList" : [ {
             "uniTagMatch" : 35,
-            "ponCTag" : 101,
-            "ponSTag" : 222,
+            "ponCTag" : 803,
+            "ponSTag" : 111,
             "usPonCTagPriority" : 0,
             "usPonSTagPriority" : 0,
             "dsPonCTagPriority" : 0,
@@ -228,8 +281,8 @@
           "nasPortId" : "ALPHe3d1ceb7-2",
           "uniTagList" : [ {
             "uniTagMatch" : 35,
-            "ponCTag" : 102,
-            "ponSTag" : 222,
+            "ponCTag" : 804,
+            "ponSTag" : 111,
             "usPonCTagPriority" : 0,
             "usPonSTagPriority" : 0,
             "dsPonCTagPriority" : 0,
@@ -261,9 +314,9 @@
             "usPonSTagPriority" : 5,
             "dsPonCTagPriority" : 5,
             "dsPonSTagPriority" : 5,
-            "technologyProfileId" : 67,
+            "technologyProfileId" : 66,
             "downstreamBandwidthProfile" : "High-Speed-Internet",
-            "upstreamBandwidthProfile" : "TCONT_TYPE3_700Mbps_Peak_500Mbps_Assured_ForVoD",
+            "upstreamBandwidthProfile" : "TCONT_TYPE2_500Mbps_Assured_ForVoD",
             "configuredMacAddress" : "90:e2:ba:70:06:5e",
             "serviceName" : "VOD",
             "isDhcpRequired" : "true",
