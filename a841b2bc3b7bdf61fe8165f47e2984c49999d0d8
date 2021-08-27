@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "69dc23cf_0b84517a",
+        "filename": "tests/tt-workflow/Voltha_TT_FailureScenarios.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 476,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2021-08-27T08:12:43Z",
+      "side": 1,
+      "message": "This is a ver \"heavy\" test and moist take a lot of time to complete ue teo the restart of the pod per each subscriber. Do we have a handle on how much time does this test take to complete ? \nAlso please create jira to port tis test to DT/ATT",
+      "revId": "a841b2bc3b7bdf61fe8165f47e2984c49999d0d8",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    }
+  ]
+}
