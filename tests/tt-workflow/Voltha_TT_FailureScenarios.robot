@@ -42,6 +42,7 @@ ${KUBERNETES_YAML}    ${KUBERNETES_CONFIGS_DIR}/${POD_NAME}.yml
 ${HELM_CHARTS_DIR}    ~/helm-charts
 ${VOLTHA_POD_NUM}    8
 ${NAMESPACE}      voltha
+${STACK_NAME}       voltha
 # For below variable value, using deployment name as using grep for
 # parsing radius pod name, we can also use full radius pod name
 ${RESTART_POD_NAME}    radius
@@ -366,7 +367,7 @@ Verify restart ofagent container after subscriber is provisioned for TT
     [Setup]    Start Logging    ofagentRestart-TT
     [Teardown]    Run Keywords    Collect Logs
     ...           AND             Stop Logging    ofagentRestart-TT
-    ...           AND             Scale K8s Deployment    ${NAMESPACE}    voltha-voltha-ofagent    1
+    ...           AND             Scale K8s Deployment    ${NAMESPACE}    ${STACK_NAME}-voltha-ofagent    1
     # set timeout value
     ${waitforRestart}    Set Variable    120s
     ${podStatusOutput}=    Run    kubectl get pods -n ${NAMESPACE}
@@ -384,7 +385,7 @@ Verify restart ofagent container after subscriber is provisioned for TT
     ${countAfterRestart}=    Run    kubectl get pods -n ${NAMESPACE} | grep Running | wc -l
     Should Be Equal As Strings    ${countAfterRestart}    ${countBforRestart}
     # Scale Down the Of-Agent Deployment
-    Scale K8s Deployment    ${NAMESPACE}    voltha-voltha-ofagent    0
+    Scale K8s Deployment    ${NAMESPACE}    ${STACK_NAME}-voltha-ofagent    0
     Sleep    30s
     FOR    ${I}    IN RANGE    0    ${num_all_onus}
         ${src}=    Set Variable    ${hosts.src[${I}]}
@@ -408,7 +409,7 @@ Verify restart ofagent container after subscriber is provisioned for TT
         ...    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
     END
     # Scale Up the Of-Agent Deployment
-    Scale K8s Deployment    ${NAMESPACE}    voltha-voltha-ofagent    1
+    Scale K8s Deployment    ${NAMESPACE}    ${STACK_NAME}-voltha-ofagent    1
     Wait Until Keyword Succeeds    ${waitforRestart}    2s    Validate Pod Status    ofagent    ${NAMESPACE}
     ...    Running
     Run Keyword If    ${has_dataplane}    Clean Up Linux
