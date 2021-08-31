@@ -42,6 +42,7 @@ ${KUBERNETES_YAML}    ${KUBERNETES_CONFIGS_DIR}/${POD_NAME}.yml
 ${HELM_CHARTS_DIR}    ~/helm-charts
 ${VOLTHA_POD_NUM}    8
 ${NAMESPACE}      voltha
+${STACK_NAME}       voltha
 ${DEFAULTSPACE}      default
 ${INFRA_NAMESPACE}    infra
 # For below variable value, using deployment name as using grep for
@@ -350,7 +351,7 @@ Verify restart ofagent container after subscriber is provisioned
     [Setup]    Start Logging    ofagentRestart
     [Teardown]    Run Keywords    Collect Logs
     ...           AND             Stop Logging    ofagentRestart
-    ...           AND             Scale K8s Deployment    ${NAMESPACE}    ${NAMESPACE}-voltha-ofagent    1
+    ...           AND             Scale K8s Deployment    ${NAMESPACE}    ${STACK_NAME}-voltha-ofagent    1
     # set timeout value
     ${waitforRestart}    Set Variable    120s
     ${podStatusOutput}=    Run    kubectl get pods -n ${NAMESPACE}
@@ -368,8 +369,7 @@ Verify restart ofagent container after subscriber is provisioned
     ${countAfterRestart}=    Run    kubectl get pods -n ${NAMESPACE} | grep Running | wc -l
     Should Be Equal As Strings    ${countAfterRestart}    ${countBforRestart}
     # Scale Down the Of-Agent Deployment
-    ${ofagent-deployment}=    Catenate    SEPARATOR=-    ${NAMESPACE}    voltha-ofagent
-    Scale K8s Deployment    ${NAMESPACE}    ${ofagent-deployment}    0
+    Scale K8s Deployment    ${NAMESPACE}    ${STACK_NAME}-voltha-ofagent    0
     Sleep    30s
     FOR    ${I}    IN RANGE    0    ${num_all_onus}
         ${src}=    Set Variable    ${hosts.src[${I}]}
@@ -405,7 +405,7 @@ Verify restart ofagent container after subscriber is provisioned
         ...    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
     END
     # Scale Up the Of-Agent Deployment
-    Scale K8s Deployment    ${NAMESPACE}    ${ofagent-deployment}    1
+    Scale K8s Deployment    ${NAMESPACE}    ${STACK_NAME}-voltha-ofagent    1
     Wait Until Keyword Succeeds    ${waitforRestart}    2s    Validate Pod Status    ofagent    ${NAMESPACE}
     ...    Running
     # Performing Sanity Test to make sure subscribers are all AUTH+DHCP and pingable
@@ -542,17 +542,17 @@ Sanity E2E Test for OLT/ONU on POD With Core Fail and Restart
     END
 
     # Scale down the rw-core deployment to 0 PODs and once confirmed, scale it back to 1
-    Scale K8s Deployment    ${NAMESPACE}    ${NAMESPACE}-voltha-rw-core    0
-    Wait Until Keyword Succeeds    ${timeout}    2s    Pod Does Not Exist    ${NAMESPACE}    ${NAMESPACE}-voltha-rw-core
+    Scale K8s Deployment    ${NAMESPACE}    ${STACK_NAME}-voltha-rw-core    0
+    Wait Until Keyword Succeeds    ${timeout}    2s    Pod Does Not Exist    ${NAMESPACE}    ${STACK_NAME}-voltha-rw-core
     # Ensure the ofagent POD goes "not-ready" as expected
     Wait Until keyword Succeeds    ${timeout}    2s
-    ...    Check Expected Available Deployment Replicas    ${NAMESPACE}    ${NAMESPACE}-voltha-ofagent    0
+    ...    Check Expected Available Deployment Replicas    ${NAMESPACE}    ${STACK_NAME}-voltha-ofagent    0
     # Scale up the core deployment and make sure both it and the ofagent deployment are back
-    Scale K8s Deployment    ${NAMESPACE}    ${NAMESPACE}-voltha-rw-core    1
+    Scale K8s Deployment    ${NAMESPACE}    ${STACK_NAME}-voltha-rw-core    1
     Wait Until Keyword Succeeds    ${timeout}    2s
-    ...    Check Expected Available Deployment Replicas    ${NAMESPACE}    ${NAMESPACE}-voltha-rw-core    1
+    ...    Check Expected Available Deployment Replicas    ${NAMESPACE}    ${STACK_NAME}-voltha-rw-core    1
     Wait Until Keyword Succeeds    ${timeout}    2s
-    ...    Check Expected Available Deployment Replicas    ${NAMESPACE}    ${NAMESPACE}-voltha-ofagent    1
+    ...    Check Expected Available Deployment Replicas    ${NAMESPACE}    ${STACK_NAME}-voltha-ofagent    1
     # For some reason scaling down and up the POD behind a service causes the port forward to stop working,
     # so restart the port forwarding for the API service
     Restart VOLTHA Port Forward    voltha-api
