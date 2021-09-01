@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "03c3331c_4336bc98",
+        "filename": "tests/data/flex-ocp-cord-multi-uni-sadis-TT.json",
+        "patchSetId": 2
+      },
+      "lineNbr": 319,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2021-09-01T10:55:48Z",
+      "side": 1,
+      "message": "@Huseyin, Can you please explain the intention behind this change?",
+      "range": {
+        "startLine": 317,
+        "startChar": 0,
+        "endLine": 319,
+        "endChar": 78
+      },
+      "revId": "96544c16bcaa9d39cb357dfe3c91ebdd22e7ce42",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    }
+  ]
+}
