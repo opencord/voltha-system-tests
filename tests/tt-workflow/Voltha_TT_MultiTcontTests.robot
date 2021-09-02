@@ -74,8 +74,9 @@ Test that the BW is limited to Limiting Bandwidth
     [Setup]    Run Keywords    Start Logging    TcontType1Onu1
     ...        AND             Setup
     [Teardown]    Run Keywords    Collect Logs
-    ...           AND             Stop Logging    TcontType1Onu1
     ...           AND             Delete All Devices and Verify
+    ...           AND             Collect Logs
+    ...           AND             Stop Logging    TcontType1Onu1
     Run Keyword If    ${has_dataplane}    Clean Up Linux
     Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Tests TT
     # Find the ONU as required for this test
@@ -115,8 +116,9 @@ Test that assured BW is allocated as needed on the PON
     [Setup]    Run Keywords    Start Logging    TcontType2Type4Onu1
     ...        AND             Setup
     [Teardown]    Run Keywords    Collect Logs
-    ...           AND             Stop Logging    TcontType2Type4Onu1
     ...           AND             Delete All Devices and Verify
+    ...           AND             Collect Logs
+    ...           AND             Stop Logging    TcontType2Type4Onu1
     Run Keyword If    ${has_dataplane}    Clean Up Linux
     Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test TT
 
@@ -192,8 +194,9 @@ Test that the AIR BW is reserved for a ONU
     [Setup]    Run Keywords    Start Logging    TcontType1Type4Onu1Onu2Onu3
     ...        AND             Setup
     [Teardown]    Run Keywords    Collect Logs
-    ...           AND             Stop Logging    TcontType1Type4Onu1Onu2Onu3
     ...           AND             Delete All Devices and Verify
+    ...           AND             Collect Logs
+    ...           AND             Stop Logging    TcontType1Type4Onu1Onu2Onu3
     # Push multi-tcont sadis to ONOS
     Send File To Onos    ${CURDIR}/../../tests/data/flex-ocp-cord-sadis-TT-multi-tcont.json
     Run Keyword If    ${has_dataplane}    Clean Up Linux
@@ -308,8 +311,9 @@ Verify that non-assured BW is released to assured BW allocation as needed for TT
     [Setup]    Run Keywords    Start Logging    TcontType2Onu1Type3Onu2
     ...        AND             Setup
     [Teardown]    Run Keywords    Collect Logs
-    ...           AND             Stop Logging    TcontType2Onu1Type3Onu2
     ...           AND             Delete All Devices and Verify
+    ...           AND             Collect Logs
+    ...           AND             Stop Logging    TcontType2Onu1Type3Onu2
     # Push multi-tcont sadis to ONOS
     Send File To Onos    ${CURDIR}/../../tests/data/flex-ocp-cord-sadis-TT-multi-tcont.json
     Run Keyword If    ${has_dataplane}    Clean Up Linux
@@ -407,8 +411,9 @@ Verify that best effort BW is released to assured BW requirement as needed and t
     [Setup]    Run Keywords    Start Logging    TcontType4Onu1Type5Onu2
     ...        AND             Setup
     [Teardown]    Run Keywords    Collect Logs
-    ...           AND             Stop Logging    TcontType4Onu1Type5Onu2
     ...           AND             Delete All Devices and Verify
+    ...           AND             Collect Logs
+    ...           AND             Stop Logging    TcontType4Onu1Type5Onu2
     Run Keyword If    ${has_dataplane}    Clean Up Linux
     Send File To Onos    ${CURDIR}/../../tests/data/flex-ocp-cord-sadis-TT-multi-tcont-1.json
     Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test TT

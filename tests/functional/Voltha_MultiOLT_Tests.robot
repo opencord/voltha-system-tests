@@ -130,8 +130,9 @@ Verify OLT Soft Reboot - MultipleOLT
     [Tags]    MultiOLTSoftReboot    functional
     [Setup]    Start Logging    MultiOlt-OLTSoftReboot
     [Teardown]    Run Keywords    Collect Logs
-    ...           AND             Stop Logging    MultiOlt-OLTSoftReboot
     ...           AND             Delete All Devices and Verify
+    ...           AND             Collect Logs
+    ...           AND             Stop Logging    MultiOlt-OLTSoftReboot
     # Execute the test when the number of OLTs are greater than one
     Pass Execution If    ${olt_count} == 1    Skipping test: just one OLT
     Clear All Devices Then Perform Setup And Sanity
