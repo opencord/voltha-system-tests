@@ -466,8 +466,9 @@ Validate authentication on a disabled ONU
     # Creates Devices in the Setup
     [Setup]    Start Logging    DisableONU_AuthCheck
     [Teardown]    Run Keywords    Collect Logs
-    ...           AND             Stop Logging    DisableONU_AuthCheck
     ...           AND             Delete All Devices and Verify
+    ...           AND             Run Keyword If    ${logging}    Collect Logs
+    ...           AND             Stop Logging    DisableONU_AuthCheck
     Clean WPA Process
     FOR    ${I}    IN RANGE    0    ${num_all_onus}
         ${src}=    Set Variable    ${hosts.src[${I}]}
@@ -677,8 +678,9 @@ Test Disable and Enable OLT PON Port
     [Setup]    Run Keywords    Start Logging    DisableEnableOltPonPort
     ...        AND    Setup
     [Teardown]    Run Keywords    Collect Logs
-    ...           AND             Stop Logging    DisableEnableOltPonPort
     ...           AND             Delete All Devices and Verify
+    ...           AND             Run Keyword If    ${logging}    Collect Logs
+    ...           AND             Stop Logging    DisableEnableOltPonPort
     Run Keyword If    ${has_dataplane}    Clean Up Linux
     Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test
     # Multi-OLTs
