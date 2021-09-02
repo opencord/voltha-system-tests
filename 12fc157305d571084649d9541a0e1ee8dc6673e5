@@ -22,6 +22,29 @@
       "revId": "12fc157305d571084649d9541a0e1ee8dc6673e5",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c95dbf9e_6c60a885",
+        "filename": "tests/dt-workflow/Voltha_DT_FailureScenarios.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2021-09-02T07:36:41Z",
+      "side": 1,
+      "message": "Additional to Hardik\u0027s comment I think - if it is really needed - it should be a conditional log: Run Keyword If    ${logging}    Collect Logs",
+      "range": {
+        "startLine": 75,
+        "startChar": 34,
+        "endLine": 75,
+        "endChar": 46
+      },
+      "revId": "12fc157305d571084649d9541a0e1ee8dc6673e5",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
     }
   ]
 }
