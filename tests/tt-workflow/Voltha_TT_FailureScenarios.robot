@@ -71,8 +71,9 @@ Verify ONU after Rebooting Physically for TT
     [Tags]    functionalTT    PowerSwitchOnuRebootTT    PowerSwitch
     [Setup]    Start Logging    RebootOnu_PowerSwitch_TT
     [Teardown]    Run Keywords    Collect Logs
-    ...           AND             Stop Logging    RebootOnu_PowerSwitch_TT
     ...           AND             Delete All Devices and Verify
+    ...           AND             Run Keyword If    ${logging}    Collect Logs
+    ...           AND             Stop Logging    RebootOnu_PowerSwitch_TT
     # Add OLT device
     Setup
     # Performing Sanity Test to make sure subscribers are all DHCP and pingable
@@ -129,8 +130,9 @@ Verify OLT after Rebooting Physically for TT
     [Tags]    functionalTT    PhysicalOltRebootTT
     [Setup]    Start Logging    RebootOlt_Physical_TT
     [Teardown]    Run Keywords    Collect Logs
-    ...           AND             Stop Logging    RebootOlt_Physical_TT
     ...           AND             Delete All Devices and Verify
+    ...           AND             Run Keyword If    ${logging}    Collect Logs
+    ...           AND             Stop Logging    RebootOlt_Physical_TT
     # Add OLT device
     Setup
     # Performing Sanity Test to make sure subscribers are all DHCP and pingable
@@ -177,8 +179,9 @@ Verify ONU Soft Reboot for TT
     [Tags]    functionalTT    OnuSoftRebootTT
     [Setup]    Start Logging    SoftRebootOnu_TT
     [Teardown]    Run Keywords    Collect Logs
-    ...           AND             Stop Logging    SoftRebootOnu_TT
     ...           AND             Delete All Devices and Verify
+    ...           AND             Collect Logs
+    ...           AND             Stop Logging    SoftRebootOnu_TT
     # Add OLT device
     Setup
     # Performing Sanity Test to make sure subscribers are all DHCP and pingable
@@ -229,8 +232,9 @@ Verify OLT Soft Reboot for TT
     [Tags]    functionalTT    OltSoftRebootTT
     [Setup]    Start Logging    SoftRebootOlt_TT
     [Teardown]    Run Keywords    Collect Logs
-    ...           AND             Stop Logging    SoftRebootOlt_TT
     ...           AND             Delete All Devices and Verify
+    ...           AND             Collect Logs
+    ...           AND             Stop Logging    SoftRebootOlt_TT
     # Add OLT device
     Setup
     # Performing Sanity Test to make sure subscribers are all DHCP and pingable
@@ -278,8 +282,9 @@ Verify restart openonu-adapter container after subscriber provisioning for TT
     [Tags]    functionalTT    Restart-OpenOnu-TT
     [Setup]    Start Logging    Restart-OpenOnu-TT
     [Teardown]    Run Keywords    Collect Logs
-    ...           AND             Stop Logging    Restart-OpenOnu-TT
     ...           AND             Delete All Devices and Verify
+    ...           AND             Collect Logs
+    ...           AND             Stop Logging    Restart-OpenOnu-TT
     # Add OLT device
     Setup
     # Performing Sanity Test to make sure subscribers are all DHCP and pingable
@@ -306,8 +311,9 @@ Verify restart openolt-adapter container before subscriber provisioning for TT
     [Tags]    functionalTT    Restart-OpenOlt-Before-Subscription-TT
     [Setup]    Start Logging    Restart-OpenOlt-Before-Subscription-TT
     [Teardown]    Run Keywords    Collect Logs
-    ...           AND             Stop Logging    Restart-OpenOlt-Before-Subscription-TT
     ...           AND             Delete All Devices and Verify
+    ...           AND             Collect Logs
+    ...           AND             Stop Logging    Restart-OpenOlt-Before-Subscription-TT
     # Add OLT device
     Setup
     Run Keyword If    ${has_dataplane}    Clean Up Linux

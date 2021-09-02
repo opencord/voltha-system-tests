@@ -74,8 +74,9 @@ Verify ONU after rebooting physically
     [Tags]    functional   PowerSwitch
     [Setup]    Start Logging    ONUreboot_PowerSwitch
     [Teardown]    Run Keywords    Collect Logs
-    ...           AND             Stop Logging    ONUreboot_PowerSwitch
     ...           AND             Delete All Devices and Verify
+    ...           AND             Run Keyword If    ${logging}    Collect Logs
+    ...           AND             Stop Logging    ONUreboot_PowerSwitch
     # Add OLT device
     setup
     # Performing Sanity Test to make sure subscribers are all AUTH+DHCP and pingable
@@ -147,8 +148,9 @@ Verify OLT after rebooting physically
     [Tags]    functional   PhysicalOLTReboot
     [Setup]    Start Logging    PhysicalOLTReboot
     [Teardown]    Run Keywords    Collect Logs
-    ...           AND             Stop Logging    PhysicalOLTReboot
     ...           AND             Delete All Devices and Verify
+    ...           AND             Run Keyword If    ${logging}    Collect Logs
+    ...           AND             Stop Logging    PhysicalOLTReboot
     # Add OLT device
     setup
     # Performing Sanity Test to make sure subscribers are all AUTH+DHCP and pingable

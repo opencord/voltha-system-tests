@@ -119,8 +119,9 @@ Verify OLT Soft Reboot for DT - Multiple OLT
     [Tags]    MultiOLTSoftRebootDt    functionalDt
     [Setup]    Start Logging    MultiOLTSoftRebootDt
     [Teardown]    Run Keywords    Collect Logs
-    ...           AND             Stop Logging    MultiOLTSoftRebootDt
     ...           AND             Delete All Devices and Verify
+    ...           AND             Run Keyword If    ${logging}    Collect Logs
+    ...           AND             Stop Logging    MultiOLTSoftRebootDt
     Pass Execution If    ${olt_count} == 1    Skipping test: just one OLT
     Clear All Devices Then Perform Setup And Sanity
     # Reboot the first OLT

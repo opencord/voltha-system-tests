@@ -72,8 +72,9 @@ Verify ONU after Rebooting Physically for DT
     [Tags]    functionalDt    PowerSwitchOnuRebootDt    VOL-2819    PowerSwitch
     [Setup]    Start Logging    RebootOnu_PowerSwitch_Dt
     [Teardown]    Run Keywords    Run Keyword If    ${logging}    Collect Logs
-    ...           AND             Stop Logging    RebootOnu_PowerSwitch_Dt
     ...           AND             Delete All Devices and Verify
+    ...           AND             Run Keyword If    ${logging}    Collect Logs
+    ...           AND             Stop Logging    RebootOnu_PowerSwitch_Dt
     # Add OLT device
     Setup
     # Performing Sanity Test to make sure subscribers are all DHCP and pingable
@@ -137,8 +138,9 @@ Verify OLT after Rebooting Physically for DT
     [Tags]    functionalDt   PhysicalOltRebootDt   VOL-2817
     [Setup]    Start Logging    RebootOlt_Physical_Dt
     [Teardown]    Run Keywords    Run Keyword If    ${logging}    Collect Logs
-    ...           AND             Stop Logging    RebootOlt_Physical_Dt
     ...           AND             Delete All Devices and Verify
+    ...           AND             Run Keyword If    ${logging}    Collect Logs
+    ...           AND             Stop Logging    RebootOlt_Physical_Dt
     # Add OLT device
     Setup
     # Performing Sanity Test to make sure subscribers are all DHCP and pingable
