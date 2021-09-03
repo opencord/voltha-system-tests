@@ -22,6 +22,30 @@
       "revId": "a6d5b39028af6f55ad7512bd3f992986ea93f371",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "773efaaa_8e2d6196",
+        "filename": "libraries/k8s.robot",
+        "patchSetId": 3
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1000007
+      },
+      "writtenOn": "2021-09-03T15:54:14Z",
+      "side": 1,
+      "message": "we can probably deprecate the first one, given that the new will work even for a single POD",
+      "parentUuid": "0c0af29b_914b6e22",
+      "range": {
+        "startLine": 54,
+        "startChar": 0,
+        "endLine": 77,
+        "endChar": 7
+      },
+      "revId": "a6d5b39028af6f55ad7512bd3f992986ea93f371",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
     }
   ]
 }
