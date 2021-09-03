@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0c0af29b_914b6e22",
+        "filename": "libraries/k8s.robot",
+        "patchSetId": 3
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2021-09-03T14:12:20Z",
+      "side": 1,
+      "message": "I think first/old one can be modified to behave similar to second/new keyword. Also, looks like some tabs on L72.",
+      "range": {
+        "startLine": 54,
+        "startChar": 0,
+        "endLine": 77,
+        "endChar": 7
+      },
+      "revId": "a6d5b39028af6f55ad7512bd3f992986ea93f371",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    }
+  ]
+}
