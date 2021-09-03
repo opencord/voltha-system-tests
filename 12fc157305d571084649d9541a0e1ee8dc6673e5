@@ -45,6 +45,54 @@
       "revId": "12fc157305d571084649d9541a0e1ee8dc6673e5",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d18122f0_6a00b1d0",
+        "filename": "tests/dt-workflow/Voltha_DT_FailureScenarios.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1000127
+      },
+      "writtenOn": "2021-09-03T17:37:53Z",
+      "side": 1,
+      "message": "The \"Delete All Devices and Verify\" verifies that entries are cleared in ONOS but it does not dump the actual values. Sometimes (due to bug in voltha stack) the entries are not cleared and the \"Collect Logs\" step post \"Delete All Devices and Verify\" would actually help to see which are those entries that are not cleared.",
+      "parentUuid": "805028fd_db16e868",
+      "range": {
+        "startLine": 75,
+        "startChar": 0,
+        "endLine": 75,
+        "endChar": 46
+      },
+      "revId": "12fc157305d571084649d9541a0e1ee8dc6673e5",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "86500baa_421eb837",
+        "filename": "tests/dt-workflow/Voltha_DT_FailureScenarios.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1000127
+      },
+      "writtenOn": "2021-09-03T17:37:53Z",
+      "side": 1,
+      "message": "OK. I can change it that way.",
+      "parentUuid": "c95dbf9e_6c60a885",
+      "range": {
+        "startLine": 75,
+        "startChar": 34,
+        "endLine": 75,
+        "endChar": 46
+      },
+      "revId": "12fc157305d571084649d9541a0e1ee8dc6673e5",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
     }
   ]
 }
