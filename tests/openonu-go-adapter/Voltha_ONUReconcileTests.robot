@@ -190,7 +190,7 @@ Teardown Suite
     Run Keyword If    ${pausebeforecleanup}    Pause Execution    Press OK to continue with clean up!
     Run Keyword If    ${pausebeforecleanup}    Log    Teardown will be continued...    console=yes
     Run Keyword If    ${teardown_device}    Delete All Devices and Verify
-    Run Keyword If    ${usekill2restart}    Restart Pod    ${namespace}    open-onu
+    Run Keyword If    ${usekill2restart}    Restart Pod By Label    ${namespace}    app    adapter-open-onu
     Run Keyword Unless    ${etcdcheckintestteardown}    Wait Until Keyword Succeeds    ${timeout}    1s
     ...    Validate Onu Data In Etcd    0    ${kvstoreprefix}    without_pm_data=False
     Wait for Ports in ONOS for all OLTs      ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}  0   BBSM    ${timeout}
@@ -204,7 +204,8 @@ Setup Test
     ...    ${olt_ssh_ip}    ${olt_user}    ${olt_pass}
     Run Keyword If    ${has_dataplane}    Sleep    60s
     #restart open-onu pod to reset crash loop back off mechansim of kubenetes
-    Run Keyword If    "${firsttest}"=="False" and "${usekill2restart}"=="True"    Restart Pod    ${namespace}    open-onu
+    Run Keyword If    "${firsttest}"=="False" and "${usekill2restart}"=="True"
+    ...    Restart Pod By Label    ${namespace}    app    adapter-open-onu
     Run Keyword If    "${firsttest}"=="False"    Sleep    35s
     ${firsttest}    Set Variable    False
     Set Suite Variable    ${firsttest}
