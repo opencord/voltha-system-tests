@@ -878,6 +878,15 @@ Commit ONU Device Image
     Should Be Equal As Integers    ${rc}    0
     Validate ONU Device Image    ${output}    ${ver}    ${id}    DOWNLOAD_STARTED    NO_ERROR    IMAGE_COMMITTING
 
+Abort ONU Device Image
+    [Documentation]    Aborts the given ONU software image
+    [Arguments]    ${ver}    ${id}    ${download_state}    ${expected_reason}    ${image_state}
+    ${rc}    ${output}=    Run and Return Rc and Output
+    ...    voltctl -c ${VOLTCTL_CONFIG} device onuimage abort ${ver} ${id} -o json
+    Log    ${output}
+    Should Be Equal As Integers    ${rc}    0
+    Validate ONU Device Image    ${output}    ${ver}    ${id}    ${download_state}    ${expected_reason}    ${image_state}
+
 Verify ONU Device Image Status
     [Documentation]    Verfies the ONU device image state
     [Arguments]    ${image_version}    ${dev_id}    ${download_state}    ${expected_reason}    ${image_state}
