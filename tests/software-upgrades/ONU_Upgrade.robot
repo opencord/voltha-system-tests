@@ -85,9 +85,10 @@ Test ONU Upgrade
     ...    Check [VOL-3903] for more details
     [Tags]    functional   ONUUpgrade
     [Setup]    Start Logging    ONUUpgrade
-    [Teardown]    Run Keywords    Collect Logs
-    ...           AND             Stop Logging    ONUUpgrade
+    [Teardown]    Run Keywords    Run Keyword If    ${logging}    Collect Logs
     ...           AND             Delete All Devices and Verify
+    ...           AND             Restart And Check BBSIM    ${NAMESPACE}
+    ...           AND             Stop Logging    ONUUpgrade
     Test ONU Upgrade All OLTs
 
 Test ONU Upgrade All Activate and Commit Combinations
@@ -98,11 +99,12 @@ Test ONU Upgrade All Activate and Commit Combinations
     ...    onu_image_name, onu_image_url, onu_image_version, onu_image_crc, onu_image_local_dir
     ...    Note: The TC expects the image url and other parameters to be common for all ONUs on all BBSim
     ...    Check [VOL-4250] for more details
-    [Tags]    functional   ONUUpgradeAllCombies    notready
+    [Tags]    functional   ONUUpgradeAllCombies
     [Setup]    Start Logging    ONUUpgradeAllCombies
-    [Teardown]    Run Keywords    Collect Logs
-    ...           AND             Stop Logging    ONUUpgradeAllCombies
+    [Teardown]    Run Keywords    Run Keyword If    ${logging}    Collect Logs
     ...           AND             Delete All Devices and Verify
+    ...           AND             Restart And Check BBSIM    ${NAMESPACE}
+    ...           AND             Stop Logging    ONUUpgradeAllCombies
     ${false_false}=    Create Dictionary    activate    false    commit    false
     ${true_false}=     Create Dictionary    activate    true     commit    false
     ${false_true}=     Create Dictionary    activate    false    commit    true
@@ -111,6 +113,7 @@ Test ONU Upgrade All Activate and Commit Combinations
     FOR    ${item}     IN      @{flag_list}
         Test ONU Upgrade All OLTs    ${item['activate']}    ${item['commit']}
         Delete All Devices and Verify
+        Restart And Check BBSIM    ${NAMESPACE}
     END
 
 Test ONU Upgrade Correct Indication of Download Wrong Url
@@ -120,9 +123,10 @@ Test ONU Upgrade Correct Indication of Download Wrong Url
     ...    Check [VOL-4257] for more details
     [Tags]    functional   ONUUpgradeDownloadWrongUrl
     [Setup]    Start Logging    ONUUpgradeDownloadWrongUrl
-    [Teardown]    Run Keywords    Collect Logs
-    ...           AND             Stop Logging    ONUUpgradeDownloadWrongUrl
+    [Teardown]    Run Keywords    Run Keyword If    ${logging}    Collect Logs
     ...           AND             Delete All Devices and Verify
+    ...           AND             Restart And Check BBSIM    ${NAMESPACE}
+    ...           AND             Stop Logging    ONUUpgradeDownloadWrongUrl
     # Add OLT device
     Setup
     # Performing Sanity Test to make sure subscribers are all DHCP and pingable
@@ -151,9 +155,10 @@ Test ONU Upgrade Correct Indication of Download Failure
     ...    Check [VOL-3935] for more details
     [Tags]    functional   ONUUpgradeDownloadFailure
     [Setup]    Start Logging    ONUUpgradeDownloadFailure
-    [Teardown]    Run Keywords    Collect Logs
-    ...           AND             Stop Logging    ONUUpgradeDownloadFailure
+    [Teardown]    Run Keywords    Run Keyword If    ${logging}    Collect Logs
     ...           AND             Delete All Devices and Verify
+    ...           AND             Restart And Check BBSIM    ${NAMESPACE}
+    ...           AND             Stop Logging    ONUUpgradeDownloadFailure
     # Add OLT device
     Setup
     # Performing Sanity Test to make sure subscribers are all DHCP and pingable
@@ -165,6 +170,34 @@ Test ONU Upgrade Correct Indication of Download Failure
         ${bbsim_pod}=    Get Pod Name By Label    ${NAMESPACE}    release     ${bbsim_rel}
         Test ONU Upgrade Download Failure Per OLT    ${bbsim_pod}    ${olt_serial_number}
         ...    dwlstate=DOWNLOAD_FAILED       reason=CANCELLED_ON_ONU_STATE           imgstate=IMAGE_UNKNOWN
+        List ONUs    ${NAMESPACE}    ${bbsim_pod}
+    END
+    # Additional Verification
+    Wait Until Keyword Succeeds    ${timeout}    2s    Delete All Devices and Verify
+    Setup
+    Run Keyword If    ${has_dataplane}    Clean Up Linux
+    Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test
+
+Test ONU Upgrade Correct Indication of Download Abort
+    [Documentation]    Validates the ONU Upgrade download abort will be indicated correctly and
+    ...    doesn't affect the system functionality
+    ...    Performs the sanity and verifies all the ONUs are authenticated/DHCP/pingable
+    ...    Check [VOL-4318] for more details
+    [Tags]    functional   ONUUpgradeDownloadAbort
+    [Setup]    Start Logging    ONUUpgradeDownloadAbort
+    [Teardown]    Run Keywords    Run Keyword If    ${logging}    Collect Logs
+    ...           AND             Delete All Devices and Verify
+    ...           AND             Stop Logging    ONUUpgradeDownloadAbort
+    # Add OLT device
+    Setup
+    # Performing Sanity Test to make sure subscribers are all DHCP and pingable
+    Run Keyword If    ${has_dataplane}    Clean Up Linux
+    Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test
+    FOR    ${J}    IN RANGE    0    ${num_olts}
+        ${olt_serial_number}=    Set Variable    ${list_olts}[${J}][sn]
+        ${bbsim_rel}=    Catenate    SEPARATOR=    bbsim    ${J}
+        ${bbsim_pod}=    Get Pod Name By Label    ${NAMESPACE}    release     ${bbsim_rel}
+        Test ONU Upgrade Download Abort Per OLT    ${bbsim_pod}    ${olt_serial_number}
         List ONUs    ${NAMESPACE}    ${bbsim_pod}
     END
     # Additional Verification
@@ -260,6 +293,40 @@ Test ONU Upgrade Download Failure Per OLT
         ...    ${onu_device_id}    ${dwlstate}    ${reason}    ${imgstate}
         Wait Until Keyword Succeeds    ${timeout}    5s    Perform Sanity Test     ${suppressaddsubscriber}
     END
+
+Test ONU Upgrade Download Abort Per OLT
+    [Documentation]    This keyword performs the ONU Upgrade Dowload Abort test on single OLT
+    [Arguments]    ${bbsim_pod}    ${olt_serial_number}    ${url}=${image_url}
+    FOR    ${I}    IN RANGE    0    ${num_all_onus}
+        ${src}=    Set Variable    ${hosts.src[${I}]}
+        ${dst}=    Set Variable    ${hosts.dst[${I}]}
+        Continue For Loop If    "${olt_serial_number}"!="${src['olt']}"
+        ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
+        # Download Image
+        Download ONU Device Image    ${image_version}    ${url}    ${image_vendor}
+        ...    ${image_activate_on_success}    ${image_commit_on_success}    ${image_crc}    ${onu_device_id}
+        Abort ONU Device Image    ${image_version}    ${onu_device_id}
+        ...    DOWNLOAD_CANCELLED    CANCELLED_ON_REQUEST    IMAGE_DOWNLOADING
+        Wait Until Keyword Succeeds    ${timeout}    2s    Verify ONU Device Image Status    ${image_version}
+        ...    ${onu_device_id}    DOWNLOAD_CANCELLED    CANCELLED_ON_REQUEST    IMAGE_DOWNLOADING
+        #   !!!    Expected is image is not visible in list   !!!
+        Wait Until Keyword Succeeds    ${timeout}    2s    Verify ONU Device Image List    ${onu_device_id}
+        ...    ${image_version}    False    False    True
+        Wait Until Keyword Succeeds    ${timeout}    5s    Perform Sanity Test     ${suppressaddsubscriber}
+    END
+
+Restart And Check BBSIM
+    [Documentation]    This keyword restarts bbsim and waits for it to come up again
+    ...    Following steps will be executed:
+    ...    - restart bbsim adaptor
+    ...    - check bbsim adaptor is ready again
+    [Arguments]    ${namespace}
+    ${bbsim_apps}   Create List    bbsim
+    ${label_key}    Set Variable   app
+    ${bbsim_label_value}    Set Variable   bbsim
+    Restart Pod By Label    ${namespace}    ${label_key}    ${bbsim_label_value}
+    Sleep    5s
+    Wait For Pods Ready    ${namespace}    ${bbsim_apps}
 
 Setup Suite
     [Documentation]    Set up the test suite

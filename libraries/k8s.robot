@@ -40,27 +40,19 @@ Lookup Service PORT
     Should Be Equal as Integers    ${rc}    0
     [Return]    ${port}
 
-Restart Pod
-    [Arguments]    ${namespace}    ${name}
-    [Documentation]    *DEPRECATED* Use Restart Pod By Label instead
-    ${rc}    ${restart_pod_name}=    Run and Return Rc and Output
-    ...    kubectl get pods -n ${namespace} | grep ${name} | awk 'NR==1{print $1}'
-    Log    ${restart_pod_name}
-    Should Not Be Empty    ${restart_pod_name}    Unable to parse pod name
-    ${rc}    ${output}=    Run and Return Rc and Output
-    ...    kubectl delete pod ${restart_pod_name} -n ${namespace} --grace-period=0 --force
-    Log    ${output}
-
 Restart Pod By Label
     [Arguments]    ${namespace}    ${label_key}   ${label_value}
-    [Documentation]    Uses kubectl to force delete pod
+    [Documentation]    Uses kubectl to force delete pod(s)
     ${rc}    ${restart_pod_name}=    Run and Return Rc and Output
     ...    kubectl get pods -n ${namespace} -l ${label_key}=${label_value} --no-headers | awk '{print $1}'
     Log    ${restart_pod_name}
     Should Not Be Empty    ${restart_pod_name}    Unable to parse pod name
-    ${rc}    ${output}=    Run and Return Rc and Output
-    ...    kubectl delete pod ${restart_pod_name} -n ${namespace} --grace-period=0 --force
-    Log    ${output}
+    @{pods}=    Split String    ${restart_pod_name}    separator=${\n}
+    FOR    ${pod_name}    IN      @{pods}
+        ${rc}    ${output}=    Run and Return Rc and Output
+        ...    kubectl delete pod ${pod_name} -n ${namespace} --grace-period=0 --force
+        Log    ${output}
+    END
 
 Exec Pod
     [Arguments]    ${namespace}    ${name}    ${command}
@@ -447,9 +439,15 @@ Does Deployment Have Replicas
 Pods Are Ready By Label
     [Arguments]    ${namespace}    ${key}    ${value}
     [Documentation]    Check that all pods with a label are ready
-    ${output}=    Run
-    ...    kubectl -n ${namespace} get pods -l ${key}=${value} -o=jsonpath="{.items[].status.containerStatuses[].ready}"
-    Should Not Contain    ${output}    false
+    ${pod_names}=    Get Pod Name By Label    ${namespace}    ${key}    ${value}
+    Should Not Be Empty    ${pod_names}    Unable to parse pod name
+    @{pods}=    Split String    ${pod_names}    separator=${\n}
+    ${lenght}=    Get Length    ${pods}
+    FOR    ${I}    IN RANGE    0    ${lenght}
+        ${output}=    Run
+        ...    kubectl -n ${namespace} get pods -l ${key}=${value} -o=jsonpath="{.items[${I}].status.containerStatuses[].ready}"
+        Should Not Contain    ${output}    false
+    END
 
 Wait For Pods Ready
     [Arguments]    ${namespace}    ${list_apps}

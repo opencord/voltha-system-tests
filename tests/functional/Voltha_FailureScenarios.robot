@@ -681,7 +681,7 @@ Verify restart ofagent container before subscriber is provisioned
     Log    ${podStatusOutput}
     ${countBforRestart}=    Run    kubectl get pods -n ${NAMESPACE} | grep Running | wc -l
     ${podName}    Set Variable     ofagent
-    Restart Pod    ${NAMESPACE}    ${podName}
+    Restart Pod By Label   ${NAMESPACE}    app    ${podName}
     Wait Until Keyword Succeeds    ${waitforRestart}    2s    Validate Pod Status    ofagent    ${NAMESPACE}
     ...    Running
     FOR    ${I}    IN RANGE    0    ${num_all_onus}
