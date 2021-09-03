@@ -62,6 +62,20 @@ Restart Pod By Label
     ...    kubectl delete pod ${restart_pod_name} -n ${namespace} --grace-period=0 --force
     Log    ${output}
 
+Restart Pods By Label
+    [Arguments]    ${namespace}    ${label_key}   ${label_value}
+    [Documentation]    Uses kubectl to force delete pods
+    ${rc}    ${restart_pod_name}=    Run and Return Rc and Output
+    ...    kubectl get pods -n ${namespace} -l ${label_key}=${label_value} --no-headers | awk '{print $1}'
+    Log    ${restart_pod_name}
+    Should Not Be Empty    ${restart_pod_name}    Unable to parse pod name
+    @{pods} = 	Split String 	${restart_pod_name} 	separator=${\n}
+    FOR    ${pod_name}    IN      @{pods}
+        ${rc}    ${output}=    Run and Return Rc and Output
+        ...    kubectl delete pod ${pod_name} -n ${namespace} --grace-period=0 --force
+        Log    ${output}
+    END
+
 Exec Pod
     [Arguments]    ${namespace}    ${name}    ${command}
     [Documentation]    Uses kubectl to execute a command in the pod and return the output
@@ -447,9 +461,15 @@ Does Deployment Have Replicas
 Pods Are Ready By Label
     [Arguments]    ${namespace}    ${key}    ${value}
     [Documentation]    Check that all pods with a label are ready
-    ${output}=    Run
-    ...    kubectl -n ${namespace} get pods -l ${key}=${value} -o=jsonpath="{.items[].status.containerStatuses[].ready}"
-    Should Not Contain    ${output}    false
+    ${pod_names}=    Get Pod Name By Label    ${namespace}    ${key}    ${value}
+    Should Not Be Empty    ${pod_names}    Unable to parse pod name
+    @{pods} = 	Split String 	${pod_names} 	separator=${\n}
+    ${lenght}=    Get Length    ${pods}
+    FOR    ${I}    IN RANGE    0    ${lenght}
+        ${output}=    Run
+        ...    kubectl -n ${namespace} get pods -l ${key}=${value} -o=jsonpath="{.items[${I}].status.containerStatuses[].ready}"
+        Should Not Contain    ${output}    false
+    END
 
 Wait For Pods Ready
     [Arguments]    ${namespace}    ${list_apps}
