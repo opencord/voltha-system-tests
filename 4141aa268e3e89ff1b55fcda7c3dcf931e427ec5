@@ -16,6 +16,24 @@
       "revId": "4141aa268e3e89ff1b55fcda7c3dcf931e427ec5",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "769b3912_0b0d065f",
+        "filename": "tests/tt-workflow/Voltha_TT_FailureScenarios.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 477,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2021-09-03T03:16:42Z",
+      "side": 1,
+      "message": "Yes, will add rw-core and of-agent restart scenarios as well. Planning to add in multiple patches.\nAgreed, I can plan to add a TC to bring down the entire stack at once and verify the dataplane.",
+      "parentUuid": "adcbd5ee_49fb8d14",
+      "revId": "4141aa268e3e89ff1b55fcda7c3dcf931e427ec5",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": true
     }
   ]
 }
