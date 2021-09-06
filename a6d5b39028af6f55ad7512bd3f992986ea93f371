@@ -46,6 +46,30 @@
       "revId": "a6d5b39028af6f55ad7512bd3f992986ea93f371",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0008b8b4_00067563",
+        "filename": "libraries/k8s.robot",
+        "patchSetId": 3
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2021-09-06T09:49:58Z",
+      "side": 1,
+      "message": "deprecated \u0027Restart Pod\u0027 is removed (corresponding testsuites adapted). There is only one keyword left to restart pod(s). Works for single as well as for multiple pods.\nTabs removed.",
+      "parentUuid": "773efaaa_8e2d6196",
+      "range": {
+        "startLine": 54,
+        "startChar": 0,
+        "endLine": 77,
+        "endChar": 7
+      },
+      "revId": "a6d5b39028af6f55ad7512bd3f992986ea93f371",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
+      "unresolved": false
     }
   ]
 }
