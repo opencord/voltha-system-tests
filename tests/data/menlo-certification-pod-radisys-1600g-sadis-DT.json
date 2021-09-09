@@ -49,7 +49,25 @@
                 "isDhcpRequired":false
               }
             ]
+          },
+          {
+            "id":"SCOMa0301e8d-1",
+            "nasPortId":"SCOMa0301e8d-1",
+            "circuitId":"SCOMa0301e8d-1",
+            "remoteId":"SCOMa0301e8d",
+            "uniTagList":[
+              {
+                "uniTagMatch":4096,
+                "ponCTag":4096,
+                "ponSTag":44,
+                "technologyProfileId":64,
+                "upstreamBandwidthProfile": "User_Bandwidth2",
+                "downstreamBandwidthProfile": "User_Bandwidth1",
+                "isDhcpRequired":false
+              }
+            ]
           }
+
         ]
       },
       "bandwidthprofile":{

@@ -32,6 +32,40 @@
                 "isDhcpRequired":false
               }
             ]
+          },
+          {
+            "id":"SCOMa030230f-1",
+            "nasPortId":"SCOMa030230f-1",
+            "circuitId":"SCOMa030230f-1",
+            "remoteId":"SCOMa030230f",
+            "uniTagList":[
+              {
+                "uniTagMatch":4096,
+                "ponCTag":4096,
+                "ponSTag":90,
+                "technologyProfileId":64,
+                "upstreamBandwidthProfile":"User_Bandwidth2",
+                "downstreamBandwidthProfile":"User_Bandwidth1",
+                "isDhcpRequired":false
+              }
+            ]
+          },
+          {
+            "id":"SCOMa030216a-1",
+            "nasPortId":"SCOMa030216a-1",
+            "circuitId":"SCOMa030216a-1",
+            "remoteId":"SCOMa030216a",
+            "uniTagList":[
+              {
+                "uniTagMatch":4096,
+                "ponCTag":4096,
+                "ponSTag":91,
+                "technologyProfileId":64,
+                "upstreamBandwidthProfile":"User_Bandwidth2",
+                "downstreamBandwidthProfile":"User_Bandwidth1",
+                "isDhcpRequired":false
+              }
+            ]
           }
         ]
       },
