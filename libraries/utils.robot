@@ -718,6 +718,7 @@ Teardown
 Teardown Suite
     [Documentation]    Clean up device if desired
     Run Keyword If    ${teardown_device}    Delete All Devices and Verify
+    Run Keyword And Continue On Failure    Collect Logs
     Close All ONOS SSH Connections
 
 Delete Device and Verify
