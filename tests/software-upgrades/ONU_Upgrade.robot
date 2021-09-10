@@ -187,6 +187,7 @@ Test ONU Upgrade Correct Indication of Download Abort
     [Setup]    Start Logging    ONUUpgradeDownloadAbort
     [Teardown]    Run Keywords    Run Keyword If    ${logging}    Collect Logs
     ...           AND             Delete All Devices and Verify
+    ...           AND             Restart And Check BBSIM    ${NAMESPACE}
     ...           AND             Stop Logging    ONUUpgradeDownloadAbort
     # Add OLT device
     Setup
@@ -206,6 +207,34 @@ Test ONU Upgrade Correct Indication of Download Abort
     Run Keyword If    ${has_dataplane}    Clean Up Linux
     Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test
 
+Test ONU Upgrade Correct Indication of Activate Abort
+    [Documentation]    Validates the ONU Upgrade activate abort will be indicated correctly and
+    ...    doesn't affect the system functionality
+    ...    Performs the sanity and verifies all the ONUs are authenticated/DHCP/pingable
+    ...    Check [VOL-4319] for more details
+    [Tags]    functional   ONUUpgradeActivateAbort
+    [Setup]    Start Logging    ONUUpgradeActivateAbort
+    [Teardown]    Run Keywords    Run Keyword If    ${logging}    Collect Logs
+    ...           AND             Delete All Devices and Verify
+    ...           AND             Restart And Check BBSIM    ${NAMESPACE}
+    ...           AND             Stop Logging    ONUUpgradeActivateAbort
+    # Add OLT device
+    Setup
+    # Performing Sanity Test to make sure subscribers are all DHCP and pingable
+    Run Keyword If    ${has_dataplane}    Clean Up Linux
+    Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test
+    FOR    ${J}    IN RANGE    0    ${num_olts}
+        ${olt_serial_number}=    Set Variable    ${list_olts}[${J}][sn]
+        ${bbsim_rel}=    Catenate    SEPARATOR=    bbsim    ${J}
+        ${bbsim_pod}=    Get Pod Name By Label    ${NAMESPACE}    release     ${bbsim_rel}
+        Test ONU Upgrade Activate Abort Per OLT    ${bbsim_pod}    ${olt_serial_number}
+        List ONUs    ${NAMESPACE}    ${bbsim_pod}
+    END
+    # Additional Verification
+    Wait Until Keyword Succeeds    ${timeout}    2s    Delete All Devices and Verify
+    Setup
+    Run Keyword If    ${has_dataplane}    Clean Up Linux
+    Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test
 
 *** Keywords ***
 Test ONU Upgrade All OLTs
@@ -295,7 +324,7 @@ Test ONU Upgrade Download Failure Per OLT
     END
 
 Test ONU Upgrade Download Abort Per OLT
-    [Documentation]    This keyword performs the ONU Upgrade Dowload Abort test on single OLT
+    [Documentation]    This keyword performs the ONU Upgrade Download Abort test on single OLT
     [Arguments]    ${bbsim_pod}    ${olt_serial_number}    ${url}=${image_url}
     FOR    ${I}    IN RANGE    0    ${num_all_onus}
         ${src}=    Set Variable    ${hosts.src[${I}]}
@@ -312,6 +341,30 @@ Test ONU Upgrade Download Abort Per OLT
         #   !!!    Expected is image is not visible in list   !!!
         Wait Until Keyword Succeeds    ${timeout}    2s    Verify ONU Device Image List    ${onu_device_id}
         ...    ${image_version}    False    False    True
+        Wait Until Keyword Succeeds    ${timeout}    5s    Perform Sanity Test     ${suppressaddsubscriber}
+    END
+
+Test ONU Upgrade Activate Abort Per OLT
+    [Documentation]    This keyword performs the ONU Upgrade Activate Abort test on single OLT
+    [Arguments]    ${bbsim_pod}    ${olt_serial_number}    ${url}=${image_url}
+    FOR    ${I}    IN RANGE    0    ${num_all_onus}
+        ${src}=    Set Variable    ${hosts.src[${I}]}
+        ${dst}=    Set Variable    ${hosts.dst[${I}]}
+        Continue For Loop If    "${olt_serial_number}"!="${src['olt']}"
+        ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
+        # Download Image
+        Download ONU Device Image    ${image_version}    ${url}    ${image_vendor}
+        ...    false    false    ${image_crc}    ${onu_device_id}
+        Wait Until Keyword Succeeds    ${timeout}    2s    Verify ONU Device Image Status    ${image_version}
+        ...    ${onu_device_id}    DOWNLOAD_SUCCEEDED    NO_ERROR    IMAGE_INACTIVE
+        Activate ONU Device Image    ${image_version}    true    ${onu_device_id}
+        Abort ONU Device Image    ${image_version}    ${onu_device_id}
+        ...    DOWNLOAD_CANCELLED    CANCELLED_ON_REQUEST    IMAGE_ACTIVATING
+        Wait Until Keyword Succeeds    ${timeout}    2s    Verify ONU Device Image Status    ${image_version}
+        ...    ${onu_device_id}    DOWNLOAD_CANCELLED    CANCELLED_ON_REQUEST    IMAGE_ACTIVATING
+        #   !!!    Expected is image is not visible in list   !!!
+        Wait Until Keyword Succeeds    ${timeout}    2s    Verify ONU Device Image List    ${onu_device_id}
+        ...    ${image_version}    False    True    True
         Wait Until Keyword Succeeds    ${timeout}    5s    Perform Sanity Test     ${suppressaddsubscriber}
     END
 
