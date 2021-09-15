@@ -22,6 +22,29 @@
       },
       "revId": "5b594915ba15edeff138e7f14e8dbcc0a6550215",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fa53b5f5_1d3d4061",
+        "filename": "tests/openonu-go-adapter/Voltha_ONUStateTests.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 415,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2021-09-15T08:19:22Z",
+      "side": 1,
+      "message": "stopping-openomci should be the \"main reason\" than and tech-profile-config-delete-success should be added to the alternative reasons.",
+      "range": {
+        "startLine": 415,
+        "startChar": 4,
+        "endLine": 415,
+        "endChar": 31
+      },
+      "revId": "5b594915ba15edeff138e7f14e8dbcc0a6550215",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     }
   ]
 }
