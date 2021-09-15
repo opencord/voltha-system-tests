@@ -16,6 +16,23 @@
       "message": "This patch is needed for https://gerrit.opencord.org/c/voltha-openonu-adapter-go/+/27181 to get a pass from sanity tests with BBSIM.",
       "revId": "9bff7d208d01bfb0930a93313f1f43e4a9df77ec",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3f99ea1a_15e76df5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000127
+      },
+      "writtenOn": "2021-09-15T00:43:31Z",
+      "side": 1,
+      "message": "To provide a bit more technical context on these changes, basically the ONU state will be at stopping-omci on ONU power off (until it comes back again on power on and flows pushed). The flow processing routine is shutdown in adapter when onu goes down. So we do not process any flows and hence do not update any states that are affected by flow processing.",
+      "revId": "9bff7d208d01bfb0930a93313f1f43e4a9df77ec",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     }
   ]
 }
