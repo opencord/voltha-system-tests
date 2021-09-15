@@ -411,8 +411,8 @@ Do Power Off Power On Onu Device
     [Documentation]    This keyword power off/on all onus and checks the states.
     Power Off ONU Device    ${namespace}
     Sleep    5s
-    ${alternativeonustates}=  Create List     omci-flows-deleted
-    Current State Test All Onus    tech-profile-config-delete-success
+    ${alternativeonustates}=  Create List     omci-flows-deleted    tech-profile-config-delete-success
+    Current State Test All Onus    stopping-openomci
     ...    ENABLED    DISCOVERED    UNREACHABLE    alternativeonustate=${alternativeonustates}
     Power On ONU Device    ${namespace}
     Current State Test All Onus    ${state2test}
