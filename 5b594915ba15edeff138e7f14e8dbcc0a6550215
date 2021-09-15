@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8b036bfe_fbec714f",
+        "filename": "tests/openonu-go-adapter/Voltha_ONUStateTests.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 414,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2021-09-15T08:17:02Z",
+      "side": 1,
+      "message": "Please use at least 2 (better 4) spaces between reasons.\n${alternativeonustates}\u003d  Create List     omci-flows-deleted    stopping-openomci",
+      "range": {
+        "startLine": 414,
+        "startChar": 4,
+        "endLine": 414,
+        "endChar": 82
+      },
+      "revId": "5b594915ba15edeff138e7f14e8dbcc0a6550215",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    }
+  ]
+}
