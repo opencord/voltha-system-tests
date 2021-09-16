@@ -1,6 +1,7 @@
 {
   "comments": [
     {
+      "unresolved": true,
       "key": {
         "uuid": "03c3331c_4336bc98",
         "filename": "tests/data/flex-ocp-cord-multi-uni-sadis-TT.json",
@@ -20,8 +21,31 @@
         "endChar": 78
       },
       "revId": "96544c16bcaa9d39cb357dfe3c91ebdd22e7ce42",
-      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
-      "unresolved": true
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a0bb0064_d7b0b1a8",
+        "filename": "tests/data/flex-ocp-cord-multi-uni-sadis-TT.json",
+        "patchSetId": 2
+      },
+      "lineNbr": 319,
+      "author": {
+        "id": 1000804
+      },
+      "writtenOn": "2021-09-16T14:36:34Z",
+      "side": 1,
+      "message": "That will be testing 2 Different tcont types at different UNIs of the same ONU same service.",
+      "parentUuid": "03c3331c_4336bc98",
+      "range": {
+        "startLine": 317,
+        "startChar": 0,
+        "endLine": 319,
+        "endChar": 78
+      },
+      "revId": "96544c16bcaa9d39cb357dfe3c91ebdd22e7ce42",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     }
   ]
 }
