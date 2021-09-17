@@ -24,6 +24,30 @@
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0a4cc282_c6ca4946",
+        "filename": "tests/openonu-go-adapter/Voltha_ONUStateTests.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 414,
+      "author": {
+        "id": 1000127
+      },
+      "writtenOn": "2021-09-17T18:39:28Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "8b036bfe_fbec714f",
+      "range": {
+        "startLine": 414,
+        "startChar": 4,
+        "endLine": 414,
+        "endChar": 82
+      },
+      "revId": "5b594915ba15edeff138e7f14e8dbcc0a6550215",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fa53b5f5_1d3d4061",
@@ -37,6 +61,30 @@
       "writtenOn": "2021-09-15T08:19:22Z",
       "side": 1,
       "message": "stopping-openomci should be the \"main reason\" than and tech-profile-config-delete-success should be added to the alternative reasons.",
+      "range": {
+        "startLine": 415,
+        "startChar": 4,
+        "endLine": 415,
+        "endChar": 31
+      },
+      "revId": "5b594915ba15edeff138e7f14e8dbcc0a6550215",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d6c94304_0ea41030",
+        "filename": "tests/openonu-go-adapter/Voltha_ONUStateTests.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 415,
+      "author": {
+        "id": 1000127
+      },
+      "writtenOn": "2021-09-17T18:39:28Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "fa53b5f5_1d3d4061",
       "range": {
         "startLine": 415,
         "startChar": 4,
