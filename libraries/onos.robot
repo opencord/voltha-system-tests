@@ -540,6 +540,14 @@ Verify Eapol Flows Added For ONU
     ${eapol_flows_added}=    Execute ONOS CLI Command use single connection    ${ip}    ${port}    ${eapol_flow_cmd}
     Should Not Be Empty    ${eapol_flows_added}
 
+Wait for UNI Ports in ONOS
+    [Documentation]     Checks that all required UNI ports on an OLT have been reported to ONOS
+    [Arguments]     ${ip}    ${port}    ${onu_list}    ${onu_uni_id}=1
+    FOR    ${onu}    IN    @{onu_list}
+        Wait Until Keyword Succeeds    ${timeout}   5s
+        ...     Verify UNI Port Is Enabled  ${ip}    ${port}    ${onu}    ${onu_uni_id}
+    END
+
 Verify UNI Port Is Enabled
     [Arguments]    ${ip}    ${port}    ${onu_name}    ${onu_uni_id}=1
     [Documentation]    Verifies if the ONU's UNI port is enabled in ONOS
@@ -547,6 +555,8 @@ Verify UNI Port Is Enabled
     ...    ports -e | grep portName=${onu_name}-${onu_uni_id}
     Log    ${onu_port_enabled}
     Should Not Be Empty    ${onu_port_enabled}
+
+
 
 Verify UNI Port Is Disabled
     [Arguments]    ${ip}    ${port}    ${onu_name}    ${onu_uni_id}=1
