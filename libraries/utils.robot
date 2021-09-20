@@ -119,7 +119,7 @@ Get ONU List For OLT
     ${onu_list}=    Create List
     FOR    ${I}    IN RANGE    0     ${src_length}
         ${sn}    Evaluate    ${src}[${I}].get("olt")
-        Run Keyword If    '${serial_number}' == '${sn}'    Append To List     ${onu_list}    ${src}[${I}].get("onu")
+        Run Keyword If    '${serial_number}' == '${sn}'    Append To List     ${onu_list}    ${src}[${I}][onu]
         ...  ELSE  Set Variable  ${onu_list}
     END
     [Return]    ${onu_list}
@@ -186,7 +186,6 @@ Check Remote File Contents For WPA Logs
     ...    ${container_type}    ${container_name}    ${prompt}
     [Return]    ${result}
 
-
 Perform Sanity Test
     [Documentation]    This keyword iterate all OLTs and performs Sanity Test Procedure
     ...    for all the ONUs connected to each OLT - ATT workflow
@@ -202,9 +201,6 @@ Perform Sanity Test
         ${nni_port}=    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
         ...    Get NNI Port in ONOS    ${of_id}
         Set Global Variable    ${nni_port}
-        # Verify Default Meter in ONOS (valid only for ATT)
-        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
-        ...    Verify Default Meter Present in ONOS    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${of_id}
         Perform Sanity Test Per OLT    ${of_id}    ${nni_port}    ${olt_serial_number}   ${onu_count}
         ...    ${supress_add_subscriber}
     END
@@ -227,6 +223,9 @@ Perform Sanity Test Per OLT
         # Check ONU port is Enabled in ONOS
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds   120s   2s
         ...    Verify UNI Port Is Enabled   ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${src['onu']}    ${src['uni_id']}
+        # Verify Default Meter in ONOS (valid only for ATT)
+        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
+        ...    Verify Default Meter Present in ONOS    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${of_id}
         # Verify default EAPOL flows are added for the ONU port
         Run Keyword Unless    ${supress_add_subscriber}
         ...    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
