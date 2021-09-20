@@ -119,7 +119,7 @@ Get ONU List For OLT
     ${onu_list}=    Create List
     FOR    ${I}    IN RANGE    0     ${src_length}
         ${sn}    Evaluate    ${src}[${I}].get("olt")
-        Run Keyword If    '${serial_number}' == '${sn}'    Append To List     ${onu_list}    ${src}[${I}].get("onu")
+        Run Keyword If    '${serial_number}' == '${sn}'    Append To List     ${onu_list}    ${src}[${I}][onu]
         ...  ELSE  Set Variable  ${onu_list}
     END
     [Return]    ${onu_list}
@@ -186,7 +186,6 @@ Check Remote File Contents For WPA Logs
     ...    ${container_type}    ${container_name}    ${prompt}
     [Return]    ${result}
 
-
 Perform Sanity Test
     [Documentation]    This keyword iterate all OLTs and performs Sanity Test Procedure
     ...    for all the ONUs connected to each OLT - ATT workflow
@@ -202,9 +201,6 @@ Perform Sanity Test
         ${nni_port}=    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
         ...    Get NNI Port in ONOS    ${of_id}
         Set Global Variable    ${nni_port}
-        # Verify Default Meter in ONOS (valid only for ATT)
-        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
-        ...    Verify Default Meter Present in ONOS    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${of_id}
         Perform Sanity Test Per OLT    ${of_id}    ${nni_port}    ${olt_serial_number}   ${onu_count}
         ...    ${supress_add_subscriber}
     END
@@ -227,6 +223,9 @@ Perform Sanity Test Per OLT
         # Check ONU port is Enabled in ONOS
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds   120s   2s
         ...    Verify UNI Port Is Enabled   ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${src['onu']}    ${src['uni_id']}
+        # Verify Default Meter in ONOS (valid only for ATT)
+        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
+        ...    Verify Default Meter Present in ONOS    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${of_id}
         # Verify default EAPOL flows are added for the ONU port
         Run Keyword Unless    ${supress_add_subscriber}
         ...    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
@@ -285,6 +284,8 @@ Perform Sanity Test DT
         ${nni_port}=    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
         ...    Get NNI Port in ONOS    ${of_id}
         Set Global Variable    ${nni_port}
+        # Verify that UNI ports are reported to ONOs
+        Wait for UNI Ports in ONOS  ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}  ${list_olts}[${J}][onus]
         Perform Sanity Test DT Per OLT    ${of_id}    ${nni_port}    ${olt_serial_number}    ${num_onus}
         ...    ${supress_add_subscriber}
         # Verify ONOS Flows
@@ -665,6 +666,17 @@ Get Num of Onus From OLT SN
     [Documentation]    Retrieves the corresponding number of ONUs for a given OLT based on serial number specified
     [Arguments]      ${serial_number}
     ${num_of_olt_onus}=    Set Variable    0
+    FOR    ${I}    IN RANGE    0    ${olt_count}
+        ${sn}=    Get From Dictionary    ${olt_ids}[${I}]    sn
+        ${num_of_olt_onus}=    Run Keyword IF    "${serial_number}"=="${sn}"
+        ...    Get From Dictionary    ${list_olts}[${I}]    onucount    ELSE    Set Variable    ${num_of_olt_onus}
+    END
+    [Return]    ${num_of_olt_onus}
+
+Get Onus From OLT SN
+    [Documentation]     Returns a list of ONUs associate with a OLT in pod-configs
+    [Arguments]      ${serial_number}
+    ${olt_onus}=    Create List
     FOR    ${I}    IN RANGE    0    ${olt_count}
         ${sn}=    Get From Dictionary    ${olt_ids}[${I}]    sn
         ${num_of_olt_onus}=    Run Keyword IF    "${serial_number}"=="${sn}"
