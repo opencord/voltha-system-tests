@@ -402,32 +402,32 @@ voltha-dmi-test: vst_venv
 	robot -V $(ROBOT_CONFIG_FILE) $(ROBOT_MISC_ARGS) $(ROBOT_FILE)
 
 # target to invoke single ONU pm data scenarios in ATT workflow
-voltha-pm-data-single-kind-att: ROBOT_MISC_ARGS += -v workflow:ATT
+voltha-pm-data-single-kind-att: ROBOT_MISC_ARGS += -v workflow:ATT -v logging:True
 voltha-pm-data-single-kind-att: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_SINGLE_PON_FILE)
 voltha-pm-data-single-kind-att: voltha-pm-data-tests
 
 # target to invoke single ONU pm data scenarios in DT workflow
-voltha-pm-data-single-kind-dt: ROBOT_MISC_ARGS += -v workflow:DT
+voltha-pm-data-single-kind-dt: ROBOT_MISC_ARGS += -v workflow:DT -v logging:True
 voltha-pm-data-single-kind-dt: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_DT_SINGLE_PON_FILE)
 voltha-pm-data-single-kind-dt: voltha-pm-data-tests
 
 # target to invoke single ONU pm data scenarios in TT workflow
-voltha-pm-data-single-kind-tt: ROBOT_MISC_ARGS += -v workflow:TT
+voltha-pm-data-single-kind-tt: ROBOT_MISC_ARGS += -v workflow:TT -v logging:True
 voltha-pm-data-single-kind-tt: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_TT_SINGLE_PON_FILE)
 voltha-pm-data-single-kind-tt: voltha-pm-data-tests
 
 # target to invoke multiple OLTs pm data scenarios in ATT workflow
-voltha-pm-data-multiolt-kind-att: ROBOT_MISC_ARGS += -v workflow:ATT
+voltha-pm-data-multiolt-kind-att: ROBOT_MISC_ARGS += -v workflow:ATT -v logging:True
 voltha-pm-data-multiolt-kind-att: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_MULTIPLE_OLT_FILE)
 voltha-pm-data-multiolt-kind-att: voltha-pm-data-tests
 
 # target to invoke multiple OLTs pm data scenarios in DT workflow
-voltha-pm-data-multiolt-kind-dt: ROBOT_MISC_ARGS += -v workflow:DT
+voltha-pm-data-multiolt-kind-dt: ROBOT_MISC_ARGS += -v workflow:DT -v logging:True
 voltha-pm-data-multiolt-kind-dt: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_DT_MULTIPLE_OLT_FILE)
 voltha-pm-data-multiolt-kind-dt: voltha-pm-data-tests
 
 # target to invoke multiple OLTs pm data scenarios in TT workflow
-voltha-pm-data-multiolt-kind-tt: ROBOT_MISC_ARGS += -v workflow:TT
+voltha-pm-data-multiolt-kind-tt: ROBOT_MISC_ARGS += -v workflow:TT -v logging:True
 voltha-pm-data-multiolt-kind-tt: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_TT_MULTIPLE_OLT_FILE)
 voltha-pm-data-multiolt-kind-tt: voltha-pm-data-tests
 
