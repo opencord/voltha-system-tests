@@ -828,7 +828,7 @@ Validate ONUs for PON OLT Disable
         ...    Run Keywords
         ...    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
         ...    Validate Device    ENABLED    DISCOVERED
-        ...    UNREACHABLE    ${src['onu']}    onu=True    onu_reason=stopping-openomci
+        ...    UNREACHABLE    ${src['onu']}    onu=True    onu_reason=omci-flows-deleted
         ...    AND    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds   ${timeout}    2s
         ...    Verify UNI Port Is Disabled   ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${src['onu']}    ${src['uni_id']}
         ...    AND    Run Keyword If    ${has_dataplane}    Run Keyword And Continue On Failure
