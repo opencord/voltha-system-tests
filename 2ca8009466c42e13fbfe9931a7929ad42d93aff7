@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "daa73c33_7e6d7ec0",
+        "filename": "libraries/utils.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2021-09-21T04:36:21Z",
+      "side": 1,
+      "message": "Do we really need this? It internally calls `Verify UNI Port Is Enabled` which is already getting called in below `Perform Sanity Test Per OLT`. Am I missing something here?",
+      "range": {
+        "startLine": 205,
+        "startChar": 8,
+        "endLine": 205,
+        "endChar": 34
+      },
+      "revId": "2ca8009466c42e13fbfe9931a7929ad42d93aff7",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    }
+  ]
+}
