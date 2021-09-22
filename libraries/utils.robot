@@ -223,8 +223,9 @@ Perform Sanity Test Per OLT
         # Check ONU port is Enabled in ONOS
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds   120s   2s
         ...    Verify UNI Port Is Enabled   ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${src['onu']}    ${src['uni_id']}
-        # Verify Default Meter in ONOS (valid only for ATT)
-        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
+        # Verify Default Meter in ONOS (valid only for ATT and only if subscriber is not provisioned)
+        Run Keyword Unless    ${supress_add_subscriber}
+        ...    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
         ...    Verify Default Meter Present in ONOS    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${of_id}
         # Verify default EAPOL flows are added for the ONU port
         Run Keyword Unless    ${supress_add_subscriber}
