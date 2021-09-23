@@ -531,7 +531,7 @@ Retrieve OLT PON Ports
     [Return]    ${olt_pon_list}
 
 Retrieve Peer List From OLT PON Port
-    [Arguments]    ${olt_device_id}    ${pon_port}
+    [Arguments]    ${olt_device_id}    ${pon_port}    ${expected_num_peers}=0
     [Documentation]    Retrieves the list of peer device ids list from the OLT PON port
     ${rc}    ${output}=    Run and Return Rc and Output
     ...    voltctl -c ${VOLTCTL_CONFIG} device port list ${olt_device_id} -o json
@@ -550,6 +550,8 @@ Retrieve Peer List From OLT PON Port
     END
     Should Be True    ${matched}    No PON port found for OLT ${olt_device_id}
     ${length}=    Get Length    ${peers}
+    Run Keyword If     ${expected_num_peers}>0    Should Be Equal As Integers    ${length}    ${expected_num_peers}
+    ...    Number of found peers does not match expected number ${length}:${expected_num_peers}
     ${olt_peer_list}=    Create List
     FOR    ${INDEX}    IN RANGE    0    ${length}
         ${value}=    Get From List    ${peers}    ${INDEX}

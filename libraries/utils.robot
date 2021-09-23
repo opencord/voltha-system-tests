@@ -922,6 +922,7 @@ Disable Enable PON Port Per OLT DT
     FOR    ${INDEX0}    IN RANGE    0    ${olt_pon_port_list_len}
         ${olt_pon_port}=    Get From List    ${olt_pon_port_list}    ${INDEX0}
         ${olt_peer_list}=    Retrieve Peer List From OLT PON Port    ${olt_device_id}    ${olt_pon_port}
+        ${olt_peer_list_len}=    Get Length    ${olt_peer_list}
         # Disable the OLT PON Port and Validate OLT Device
         DisableOrEnable OLT PON Port    disable    ${olt_device_id}    ${olt_pon_port}
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
@@ -937,9 +938,8 @@ Disable Enable PON Port Per OLT DT
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
         ...    Validate OLT PON Port Status    ${olt_device_id}    ${olt_pon_port}
         ...    ENABLED    ACTIVE
-        # Waiting extra time for the ONUs to come up
-        Sleep    30s
-        ${olt_peer_list_new}=    Retrieve Peer List From OLT PON Port    ${olt_device_id}    ${olt_pon_port}
+        ${olt_peer_list_new}=    Wait Until Keyword Succeeds    ${timeout}    5s
+        ...    Retrieve Peer List From OLT PON Port    ${olt_device_id}    ${olt_pon_port}    ${olt_peer_list_len}
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
         ...    Validate ONUs for PON OLT Enable DT    ${olt_serial_number}    ${olt_peer_list_new}
     END
