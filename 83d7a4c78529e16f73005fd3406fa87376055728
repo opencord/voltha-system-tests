@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "772f5aec_a1109284",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000007
+      },
+      "writtenOn": "2021-09-24T17:16:39Z",
+      "side": 1,
+      "message": "Needed a second retry in a different place.\nThis is getting the tests to pass but I don\u0027t think it\u0027s enough to guarantee they are checking the right thing.",
+      "revId": "83d7a4c78529e16f73005fd3406fa87376055728",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d91faf2f_87f70eb4",
+        "filename": "tests/openonu-go-adapter/Voltha_ONUReconcileTests.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 304,
+      "author": {
+        "id": 1000007
+      },
+      "writtenOn": "2021-09-24T17:16:39Z",
+      "side": 1,
+      "message": "The ONU device was disabled before restarting the adapter, it\u0027s possible that the state was set to omci-admin-lock before the adapter went down. If you don\u0027t wait for reconciliation to complete you have no guarantee that you are checking the updated state.",
+      "range": {
+        "startLine": 302,
+        "startChar": 0,
+        "endLine": 304,
+        "endChar": 115
+      },
+      "revId": "83d7a4c78529e16f73005fd3406fa87376055728",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    }
+  ]
+}
