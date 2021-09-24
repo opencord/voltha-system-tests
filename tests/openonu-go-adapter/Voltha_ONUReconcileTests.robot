@@ -303,7 +303,7 @@ Do Reconcile For Disabled Onu Device
     ...    ELSE IF    "${workflow}"=="TT"    Current State Test All Onus    omci-admin-lock
     ...    ELSE       Current State Test All Onus    omci-admin-lock    alternativeonustate=${alternativeonustates}
     Wait for all ONU Ports in ONOS Disabled    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}
-    Enable Onu Device
+    Wait Until Keyword Succeeds    ${timeout}    5s    Enable Onu Device
     Run Keyword If    "${workflow}"=="DT"    Perform Sanity Test DT     ${suppressaddsubscriber}
     ...    ELSE IF    "${workflow}"=="TT"    Perform Sanity Tests TT    ${suppressaddsubscriber}
     ...    ELSE       Perform Sanity Test    ${suppressaddsubscriber}
