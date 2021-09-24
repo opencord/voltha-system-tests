@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "af1ff59d_3f60c5c4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2021-09-24T09:40:50Z",
+      "side": 1,
+      "message": "As already stated for a lot of times in slack channel \u0027voltha-kafka-to-grpc\u0027 the oper-state RECONCILING is only available for about 30ms. So the tests will not be stable running, especially for multiple ONUs there will be catching the short-term oper-state mostly not work. Therefore (unfortunately) I have to give a -1.\nI would like to prefer another way to go for the failed test \u0027Reconcile For Disabled Onu Device\u0027:\nWait Until Keyword Succeeds    ${timeout}   5s    Enable Onu Device\nYour thoughts? Thanks",
+      "revId": "4323f0bde7b90ab959ed2459688ef75ea2afec40",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "95e74903_95278f48",
         "filename": "tests/openonu-go-adapter/Voltha_ONUReconcileTests.robot",
         "patchSetId": 1
