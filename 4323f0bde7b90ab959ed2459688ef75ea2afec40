@@ -18,6 +18,23 @@
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "27b6699e_79f20c30",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2021-09-24T12:33:13Z",
+      "side": 1,
+      "message": "superseded by https://gerrit.opencord.org/c/voltha-system-tests/+/27536",
+      "revId": "4323f0bde7b90ab959ed2459688ef75ea2afec40",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "95e74903_95278f48",
