@@ -114,6 +114,35 @@ Current State Test All Onus
     # teardown is used as 'return' for result of Validate ONU Devices With Duration (used for ONUNegativeStateTests)
     [Teardown]    Run Keyword If    "${KEYWORD STATUS}"=="FAIL"    Set Suite Variable    ${StateTestAllONUs}    False
 
+Wait for ONU OperStatus
+    [Documentation]     This keyword waits for the OperStatus on all ONU devices to be ACTIVE
+    [Arguments]     ${oper_status}
+    # note that we need to iterate fast as the operstatus might get updated very quickly
+    Wait Until Keyword Succeeds    ${timeout}    100ms   Check ONU OperStatus  ${oper_status}
+
+Check ONU OperStatus
+    [Documentation]     Checks that all ONUs OperStatus is ACTIVE
+    [Arguments]     ${oper_status}
+    ${List_ONU_Serial}    Create List
+    Build ONU SN List    ${List_ONU_Serial}
+    ${cmd}=    Catenate    voltctl -c ${VOLTCTL_CONFIG} device list -m 8MB -f Type=brcm_openomci_onu
+    ...    --format "{{.SerialNumber}}\t{{.AdminState}}\t{{.OperStatus}}\t{{.ConnectStatus}}\t{{.Reason}}" | grep -v SERIALNUMBER
+    ${rc}    ${output}=    Run and Return Rc and Output    ${cmd}
+    Should Be Equal As Integers    ${rc}    0
+    Log     ${output}
+    @{Results}=    Split String    ${output}    \n
+    FOR    ${Line}    IN     @{Results}
+        ${matched}=    Set Variable    False
+        @{words}=    Split String    ${Line}    \t
+        ${sn}=    Set Variable    ${words[0]}
+        ${opstatus}=    Set Variable    ${words[2]}
+        Log     OperStatus is ${opstatus} for device ${sn}
+        ${matched}=    Set Variable If    '${opstatus}' == '${oper_status}'    True
+        Run Keyword If    ${matched}    Remove Values From List    ${List_ONU_Serial}    ${sn}
+    END
+    Should Be Empty    ${List_ONU_Serial}    OperStatus not matched on ONU(s) ${List_ONU_Serial}
+
+
 Log Ports
     [Documentation]    This keyword logs all port data available in ONOS of first port per ONU
     [Arguments]    ${onlyenabled}=False
