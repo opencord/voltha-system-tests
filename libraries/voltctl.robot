@@ -42,7 +42,7 @@ Create Device
     ${rc}    ${device_id}=    Run and Return Rc and Output
     ...    voltctl -c ${VOLTCTL_CONFIG} device create -t ${type} -H ${ip}:${port}
     Log     ${device_id}
-    Should Be Equal As Integers    ${rc}    0
+    Should Be Equal As Integers    ${rc}    0   Failed to Create Device beause of ${device_id}
     [Return]    ${device_id}
 
 Enable Device
@@ -50,28 +50,28 @@ Enable Device
     [Documentation]    Enables a device in VOLTHA
     ${rc}    ${output}=    Run and Return Rc and Output
     ...    voltctl -c ${VOLTCTL_CONFIG} device enable ${device_id}
-    Should Be Equal As Integers    ${rc}    0
+    Should Be Equal As Integers    ${rc}    0   Failed to Enable Device beause of ${output}
 
 Disable Device
     [Arguments]    ${device_id}
     [Documentation]    Disables a device in VOLTHA
     ${rc}    ${output}=    Run and Return Rc and Output
     ...    voltctl -c ${VOLTCTL_CONFIG} device disable ${device_id}
-    Should Be Equal As Integers    ${rc}    0
+    Should Be Equal As Integers    ${rc}    0   Failed to Disable Device beause of ${output}
 
 Delete Device
     [Arguments]    ${device_id}
     [Documentation]    Deletes a device in VOLTHA
     ${rc}    ${output}=    Run and Return Rc and Output
     ...    voltctl -c ${VOLTCTL_CONFIG} device delete ${device_id}
-    Should Be Equal As Integers    ${rc}    0
+    Should Be Equal As Integers    ${rc}    0   Failed to Delete Device beause of ${output}
 
 Reboot Device
     [Arguments]    ${device_id}
     [Documentation]    Reboot the OLT using voltctl command
     ${rc}    ${output}=    Run and Return Rc and Output
     ...    voltctl -c ${VOLTCTL_CONFIG} device reboot ${device_id}
-    Should Be Equal As Integers    ${rc}    0
+    Should Be Equal As Integers    ${rc}    0   Failed to Reboot Device beause of ${output}
 
 Disable Devices In Voltha
     [Documentation]    Disables all the known devices in voltha
@@ -83,7 +83,7 @@ Disable Devices In Voltha
     Should Be Equal As Integers    ${rc}    0
     ${rc}    ${output}=    Run Keyword If    len('${devices}') != 0    Run and Return Rc and Output
     ...    voltctl -c ${VOLTCTL_CONFIG} device disable ${devices}
-    Run Keyword If    len('${devices}') != 0    Should Be Equal As Integers    ${rc}    0
+    Run Keyword If    len('${devices}') != 0    Should Be Equal As Integers    ${rc}    0   Failed to Disable Devices beause of ${output}
 
 Test Devices Disabled In Voltha
     [Documentation]    Tests to verify that all devices in VOLTHA are disabled
@@ -330,6 +330,7 @@ Validate ONU Devices With Duration
     ...    --format "{{.SerialNumber}}\t{{.AdminState}}\t{{.OperStatus}}\t{{.ConnectStatus}}\t{{.Reason}}" | grep -v SERIALNUMBER
     ${rc}    ${output}=    Run and Return Rc and Output    ${cmd}
     Should Be Equal As Integers    ${rc}    0
+    Log     ${output}
     ${timeCurrent} =    Get Current Date
     ${timeTotalMs} =    Subtract Date From Date    ${timeCurrent}    ${startTime}    result_format=number
     @{Results}=    Split String    ${output}    \n
