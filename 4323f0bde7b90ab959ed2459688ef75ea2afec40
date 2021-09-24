@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "95e74903_95278f48",
+        "filename": "tests/openonu-go-adapter/Voltha_ONUReconcileTests.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 305,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2021-09-24T07:37:19Z",
+      "side": 1,
+      "message": "here we are not checking omci-admin-lock anymore, is this intended ?",
+      "revId": "4323f0bde7b90ab959ed2459688ef75ea2afec40",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    }
+  ]
+}
