@@ -37,6 +37,42 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "46921b85_336ae77d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000007
+      },
+      "writtenOn": "2021-09-24T16:28:54Z",
+      "side": 1,
+      "message": "I think the test need to have a way to wait for the reconcile to have completed, otherwise we have no guarantee that the state we are checking was the one present before the reconciling or after. So far I haven\u0027t seen the test failing and I have never seen the OperState being update after RECONCILING in less than 500ms",
+      "parentUuid": "af1ff59d_3f60c5c4",
+      "revId": "4323f0bde7b90ab959ed2459688ef75ea2afec40",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3d14db7d_15e67673",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000007
+      },
+      "writtenOn": "2021-09-24T16:28:54Z",
+      "side": 1,
+      "message": "While I see the value in 27536 I don\u0027t think that\u0027s enough. We need to guarantee somehow that the reconcile has completed.",
+      "parentUuid": "27b6699e_79f20c30",
+      "revId": "4323f0bde7b90ab959ed2459688ef75ea2afec40",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "95e74903_95278f48",
         "filename": "tests/openonu-go-adapter/Voltha_ONUReconcileTests.robot",
         "patchSetId": 1
@@ -48,6 +84,24 @@
       "writtenOn": "2021-09-24T07:37:19Z",
       "side": 1,
       "message": "here we are not checking omci-admin-lock anymore, is this intended ?",
+      "revId": "4323f0bde7b90ab959ed2459688ef75ea2afec40",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e6d62398_bad8a0fa",
+        "filename": "tests/openonu-go-adapter/Voltha_ONUReconcileTests.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 305,
+      "author": {
+        "id": 1000007
+      },
+      "writtenOn": "2021-09-24T16:28:54Z",
+      "side": 1,
+      "message": "I can add that back, but before checking the OMCI state we need to make sure the reconcile has completed, otherwise we may be checking the state as it was before reconciling",
+      "parentUuid": "95e74903_95278f48",
       "revId": "4323f0bde7b90ab959ed2459688ef75ea2afec40",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     }
