@@ -330,6 +330,7 @@ Validate ONU Devices With Duration
     ...    --format "{{.SerialNumber}}\t{{.AdminState}}\t{{.OperStatus}}\t{{.ConnectStatus}}\t{{.Reason}}" | grep -v SERIALNUMBER
     ${rc}    ${output}=    Run and Return Rc and Output    ${cmd}
     Should Be Equal As Integers    ${rc}    0
+    Log     ${output}
     ${timeCurrent} =    Get Current Date
     ${timeTotalMs} =    Subtract Date From Date    ${timeCurrent}    ${startTime}    result_format=number
     @{Results}=    Split String    ${output}    \n
