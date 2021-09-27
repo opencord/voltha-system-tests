@@ -706,6 +706,8 @@ Delete All Devices and Verify
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
         ...    Validate Deleted Device Cleanup In ONOS    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${olt_serial_number}
     END
+    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
+    ...    Validate Cleanup In ETCD
     # Clear devices from ONOS
     #Remove All Devices From ONOS
     #...    http://karaf:karaf@${ONOS_REST_IP}:${ONOS_REST_PORT}
