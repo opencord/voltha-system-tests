@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4c901445_6b7a5b19",
+        "filename": "libraries/onu_utilities.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1000726
+      },
+      "writtenOn": "2021-09-27T12:26:26Z",
+      "side": 1,
+      "message": "Correct the spelling.",
+      "revId": "9d9e4db1cf5688cfc7b17a45c358670a9706829e",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    }
+  ]
+}
