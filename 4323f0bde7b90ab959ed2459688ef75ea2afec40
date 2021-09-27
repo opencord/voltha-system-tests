@@ -73,6 +73,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "3adbef8b_baeab1b4",
+        "filename": "libraries/onu_utilities.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2021-09-27T07:29:47Z",
+      "side": 1,
+      "message": "I\u0027m still wondering how this can pass with a poll of 100ms when the RECONILING state is 30ms (as per Michael\u0027s and Holger\u0027s thread)",
+      "revId": "4323f0bde7b90ab959ed2459688ef75ea2afec40",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "95e74903_95278f48",
         "filename": "tests/openonu-go-adapter/Voltha_ONUReconcileTests.robot",
         "patchSetId": 1
