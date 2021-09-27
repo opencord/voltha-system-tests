@@ -166,6 +166,29 @@
       },
       "revId": "d257a1e9fee0110203528e1ee12ca5685696c617",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "daefac11_374b9cb6",
+        "filename": "libraries/onu_utilities.robot",
+        "patchSetId": 3
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 1000007
+      },
+      "writtenOn": "2021-09-27T14:20:26Z",
+      "side": 1,
+      "message": "Why are we getting the ONU Image List to check for the operation status?",
+      "range": {
+        "startLine": 194,
+        "startChar": 31,
+        "endLine": 194,
+        "endChar": 49
+      },
+      "revId": "d257a1e9fee0110203528e1ee12ca5685696c617",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     }
   ]
 }
