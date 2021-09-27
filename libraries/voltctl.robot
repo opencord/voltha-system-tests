@@ -926,6 +926,13 @@ Verify ONU Device Image List
     Should Be Equal    '${isValid}'    '${valid}'    Device ${dev_id}: '${isValid}' != '${valid}'
     ...    values=False
 
+Get Onu Image List
+    [Documentation]    Delivers the ONU device image list
+    [Arguments]    ${dev_id}
+    ${rc}    ${output}=    Run and Return Rc and Output
+    ...    voltctl -c ${VOLTCTL_CONFIG} device onuimage list ${dev_id}
+    [return]    ${rc}    ${output}
+
 # pm-data relevant keywords
 Read Default Interval From Pmconfig
     [Documentation]    Reads default interval from pm config
