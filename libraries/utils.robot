@@ -25,6 +25,7 @@ Library           OperatingSystem
 Library           CORDRobot
 Library           ImportResource    resources=CORDRobot
 Resource          ./voltctl.robot
+Resource          ./onu_utilities.robot
 
 *** Keywords ***
 Check CLI Tools Configured
@@ -706,6 +707,8 @@ Delete All Devices and Verify
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
         ...    Validate Deleted Device Cleanup In ONOS    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${olt_serial_number}
     END
+    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
+    ...    Validate Cleanup In ETCD    ${INFRA_NAMESPACE}
     # Clear devices from ONOS
     #Remove All Devices From ONOS
     #...    http://karaf:karaf@${ONOS_REST_IP}:${ONOS_REST_PORT}
@@ -1432,3 +1435,75 @@ Determine Number Of ONU
     END
     ${real_num_onus}=    Get Length    ${onu_list}
     [Return]    ${real_num_onus}
+
+Validate Cleanup In ETCD
+    [Documentation]    The keyword verifies that device, ports, flows, meters are all cleared in ETCD
+    [Arguments]    ${namespace}=default    ${defaultkvstoreprefix}=voltha_voltha
+    ${podname}=    Set Variable    etcd
+    ${kvstoreprefix}=    Get Kv Store Prefix    ${defaultkvstoreprefix}
+    # Log Devices Output and Verify Output Should be Empty
+    ${commandget}=    Catenate
+    ...    /bin/sh -c 'ETCDCTL_API=3 etcdctl get --prefix service/${kvstoreprefix}/devices --keys-only'
+    ${result}=    Exec Pod In Kube    ${namespace}    ${podname}    ${commandget}
+    Log    ${result}
+    Should Be Empty    ${result}    Stale Devices Data in Etcd!
+    # Log Flows Output and Verify Output Should be Empty
+    ${commandget}=    Catenate
+    ...    /bin/sh -c 'ETCDCTL_API=3 etcdctl get --prefix service/${kvstoreprefix}/flows --keys-only'
+    ${result}=    Exec Pod In Kube    ${namespace}    ${podname}    ${commandget}
+    Log    ${result}
+    Should Be Empty    ${result}    Stale Flows Data in Etcd!
+    # Log LogicalDevices Output and Verify Output Should be Empty
+    ${commandget}=    Catenate
+    ...    /bin/sh -c 'ETCDCTL_API=3 etcdctl get --prefix service/${kvstoreprefix}/logical_devices --keys-only'
+    ${result}=    Exec Pod In Kube    ${namespace}    ${podname}    ${commandget}
+    Log    ${result}
+    Should Be Empty    ${result}    Stale Logical Devices Data in Etcd!
+    # Log LogicalFlows Output and Verify Output Should be Empty
+    ${commandget}=    Catenate
+    ...    /bin/sh -c 'ETCDCTL_API=3 etcdctl get --prefix service/${kvstoreprefix}/logical_flows --keys-only'
+    ${result}=    Exec Pod In Kube    ${namespace}    ${podname}    ${commandget}
+    Log    ${result}
+    Should Be Empty    ${result}    Stale Logical Flows Data in Etcd!
+    # Log LogicalMeters Output and Verify Output Should be Empty
+    ${commandget}=    Catenate
+    ...    /bin/sh -c 'ETCDCTL_API=3 etcdctl get --prefix service/${kvstoreprefix}/logical_meters --keys-only'
+    ${result}=    Exec Pod In Kube    ${namespace}    ${podname}    ${commandget}
+    Log    ${result}
+    Should Be Empty    ${result}    Stale Logical Meters Data in Etcd!
+    # Log LogicalPorts Output and Verify Output Should be Empty
+    ${commandget}=    Catenate
+    ...    /bin/sh -c 'ETCDCTL_API=3 etcdctl get --prefix service/${kvstoreprefix}/logical_ports --keys-only'
+    ${result}=    Exec Pod In Kube    ${namespace}    ${podname}    ${commandget}
+    Log    ${result}
+    Should Be Empty    ${result}    Stale Logical Ports Data in Etcd!
+    # Log Openolt Output and Verify Output Should be Empty
+    ${commandget}=    Catenate
+    ...    /bin/sh -c 'ETCDCTL_API=3 etcdctl get --prefix service/${kvstoreprefix}/openolt --keys-only'
+    ${result}=    Exec Pod In Kube    ${namespace}    ${podname}    ${commandget}
+    Log    ${result}
+    Should Be Empty    ${result}    Stale Openolt Data in Etcd!
+    # Log Openonu Output and Verify Output Should be Empty
+    ${commandget}=    Catenate
+    ...    /bin/sh -c 'ETCDCTL_API=3 etcdctl get --prefix service/${kvstoreprefix}/openonu --keys-only'
+    ${result}=    Exec Pod In Kube    ${namespace}    ${podname}    ${commandget}
+    Log    ${result}
+    Should Be Empty    ${result}    Stale Openonu Data in Etcd!
+    # Log Ports Output and Verify Output Should be Empty
+    ${commandget}=    Catenate
+    ...    /bin/sh -c 'ETCDCTL_API=3 etcdctl get --prefix service/${kvstoreprefix}/ports --keys-only'
+    ${result}=    Exec Pod In Kube    ${namespace}    ${podname}    ${commandget}
+    Log    ${result}
+    Should Be Empty    ${result}    Stale Ports Data in Etcd!
+    # Log ResourceInstances Output and Verify Output Should be Empty
+    ${commandget}=    Catenate
+    ...    /bin/sh -c 'ETCDCTL_API=3 etcdctl get --prefix service/${kvstoreprefix}/resource_instances --keys-only'
+    ${result}=    Exec Pod In Kube    ${namespace}    ${podname}    ${commandget}
+    Log    ${result}
+    Should Be Empty    ${result}    Stale Resource Instances Data in Etcd!
+    # Log ResourceManager Output and Verify Output Should be Empty
+    ${commandget}=    Catenate
+    ...    /bin/sh -c 'ETCDCTL_API=3 etcdctl get --prefix service/${kvstoreprefix}/resource_manager --keys-only'
+    ${result}=    Exec Pod In Kube    ${namespace}    ${podname}    ${commandget}
+    Log    ${result}
+    Should Be Empty    ${result}    Stale Resource Manager Data in Etcd!
