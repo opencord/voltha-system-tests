@@ -94,6 +94,30 @@
       },
       "revId": "d257a1e9fee0110203528e1ee12ca5685696c617",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "294fe672_6d1dbd29",
+        "filename": "libraries/onu_utilities.robot",
+        "patchSetId": 3
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2021-09-27T13:45:25Z",
+      "side": 1,
+      "message": "The list is used to prevent double use of device-id. It is needed for tt workflow where same device-id is used multiple for different services.\nSame mechanism is used in Disable Onu Device and Enable Onu Device",
+      "parentUuid": "ec37881c_273813b4",
+      "range": {
+        "startLine": 187,
+        "startChar": 0,
+        "endLine": 187,
+        "endChar": 30
+      },
+      "revId": "d257a1e9fee0110203528e1ee12ca5685696c617",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     }
   ]
 }
