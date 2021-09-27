@@ -181,6 +181,21 @@ Enable Onu Device
         Enable Device    ${onu_device_id}
     END
 
+Operation Of Onu Adaptor Finished
+    [Documentation]    This keyword checks onu adaptor finished named operation.
+    [Arguments]    ${operation}
+    ${onu_list}    Create List
+    FOR    ${I}    IN RANGE    0    ${num_all_onus}
+        ${src}=    Set Variable    ${hosts.src[${I}]}
+        ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
+        ${onu_id}=    Get Index From List    ${onu_list}   ${onu_device_id}
+        Continue For Loop If    -1 != ${onu_id}
+        Append To List    ${onu_list}    ${onu_device_id}
+        ${rc}    ${output}=    Get Onu Image List    ${onu_device_id}
+        Run Keyword If    ${rc}!=0    Schould Not Contain    ${output}    ${operation}
+        ...    Onu adaptor operation ${operation} still in progress.
+    END
+
 Verify MIB Template Data Available
     [Documentation]    This keyword verifies MIB Template Data stored in etcd
     ${namespace}=    Set Variable    default
