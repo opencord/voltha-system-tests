@@ -264,6 +264,7 @@ Do Reconcile In Determined State
     Current State Test All Onus    ${expected_onu_reason}
     Run Keyword If    ${usekill2restart}    Kill And Check Onu Adaptor    ${namespace}
     ...    ELSE    Restart And Check Onu Adaptor    ${namespace}
+    Wait Until Keyword Succeeds    ${timeout}    5s   Operation Of Onu Adaptor Finished    reconciling
     Run Keyword If    "${workflow}"=="DT"    Perform Sanity Test DT
     ...    ELSE IF    "${workflow}"=="TT"    Perform Sanity Tests TT
     ...    ELSE       Perform Sanity Test
@@ -299,6 +300,7 @@ Do Reconcile For Disabled Onu Device
     ...    ELSE       Current State Test All Onus    omci-admin-lock    alternativeonustate=${alternativeonustates}
     Run Keyword If    ${usekill2restart}    Kill And Check Onu Adaptor    ${namespace}
     ...    ELSE    Restart And Check Onu Adaptor    ${namespace}
+    Wait Until Keyword Succeeds    ${timeout}    5s   Operation Of Onu Adaptor Finished    reconciling
     Run Keyword If    "${workflow}"=="DT"    Current State Test All Onus    omci-admin-lock
     ...    ELSE IF    "${workflow}"=="TT"    Current State Test All Onus    omci-admin-lock
     ...    ELSE       Current State Test All Onus    omci-admin-lock    alternativeonustate=${alternativeonustates}
@@ -333,6 +335,7 @@ Do Reconcile In Omci-Flows-Pushed
     ...    ELSE       Perform Sanity Test
     Run Keyword If    ${usekill2restart}    Kill And Check Onu Adaptor    ${namespace}
     ...    ELSE    Restart And Check Onu Adaptor    ${namespace}
+    Wait Until Keyword Succeeds    ${timeout}    5s   Operation Of Onu Adaptor Finished    reconciling
     Run Keyword If    "${workflow}"=="DT"    Perform Sanity Test DT     ${suppressaddsubscriber}
     ...    ELSE IF    "${workflow}"=="TT"    Perform Sanity Tests TT    ${suppressaddsubscriber}
     ...    ELSE       Perform Sanity Test    ${suppressaddsubscriber}
