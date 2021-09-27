@@ -27,8 +27,8 @@
                 "ponCTag":4096,
                 "ponSTag":89,
                 "technologyProfileId":64,
-                "upstreamBandwidthProfile":"User_Bandwidth2",
-                "downstreamBandwidthProfile":"User_Bandwidth1",
+                "upstreamBandwidthProfile": "User_Bandwidth2",
+                "downstreamBandwidthProfile": "User_Bandwidth1",
                 "isDhcpRequired":false
               }
             ]
@@ -44,8 +44,8 @@
                 "ponCTag":4096,
                 "ponSTag":90,
                 "technologyProfileId":64,
-                "upstreamBandwidthProfile":"User_Bandwidth2",
-                "downstreamBandwidthProfile":"User_Bandwidth1",
+                "upstreamBandwidthProfile": "User_Bandwidth2",
+                "downstreamBandwidthProfile": "User_Bandwidth1",
                 "isDhcpRequired":false
               }
             ]
@@ -61,8 +61,8 @@
                 "ponCTag":4096,
                 "ponSTag":91,
                 "technologyProfileId":64,
-                "upstreamBandwidthProfile":"User_Bandwidth2",
-                "downstreamBandwidthProfile":"User_Bandwidth1",
+                "upstreamBandwidthProfile": "User_Bandwidth2",
+                "downstreamBandwidthProfile": "User_Bandwidth1",
                 "isDhcpRequired":false
               }
             ]
