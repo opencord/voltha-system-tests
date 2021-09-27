@@ -553,3 +553,51 @@ Map State
     ...    '${state}'=='11' or '${state}'=='omci-flows-deleted'                     ${state11}
     ...    '${state}'=='12' or '${state}'=='tech-profile-config-delete-success'     ${state12}
     [Return]    ${admin_state}    ${oper_status}    ${connect_status}    ${onu_state_nb}    ${onu_state}
+
+Validate Cleanup In ETCD
+    [Documentation]    The keyword verifies that device, ports, flows, meters are all cleared in ETCD
+    [Arguments]    ${namespace}=default    ${defaultkvstoreprefix}=voltha_voltha
+    ${podname}=    Set Variable    etcd
+    ${kvstoreprefix}=    Get Kv Store Prefix    ${defaultkvstoreprefix}
+    # Log Devices Output and Verify Output Should be Empty
+    ${commandget}=    Catenate
+    ...    /bin/sh -c 'ETCDCTL_API=3 etcdctl get --prefix service/${kvstoreprefix}/devices --keys-only'
+    ${result}=    Exec Pod In Kube    ${namespace}    ${podname}    ${commandget}
+    Log    ${result}
+    Should Be Empty    ${result}    Stale Devices Data in Etcd!
+    # Log Flows Output and Verify Output Should be Empty
+    ${commandget}=    Catenate
+    ...    /bin/sh -c 'ETCDCTL_API=3 etcdctl get --prefix service/${kvstoreprefix}/flows --keys-only'
+    ${result}=    Exec Pod In Kube    ${namespace}    ${podname}    ${commandget}
+    Log    ${result}
+    Should Be Empty    ${result}    Stale Flows Data in Etcd!
+    # Log LogicalDevices Output and Verify Output Should be Empty
+    ${commandget}=    Catenate
+    ...    /bin/sh -c 'ETCDCTL_API=3 etcdctl get --prefix service/${kvstoreprefix}/logical_devices --keys-only'
+    ${result}=    Exec Pod In Kube    ${namespace}    ${podname}    ${commandget}
+    Log    ${result}
+    Should Be Empty    ${result}    Stale Logical Devices Data in Etcd!
+    # Log LogicalFlows Output and Verify Output Should be Empty
+    ${commandget}=    Catenate
+    ...    /bin/sh -c 'ETCDCTL_API=3 etcdctl get --prefix service/${kvstoreprefix}/logical_flows --keys-only'
+    ${result}=    Exec Pod In Kube    ${namespace}    ${podname}    ${commandget}
+    Log    ${result}
+    Should Be Empty    ${result}    Stale Logical Flows Data in Etcd!
+    # Log LogicalMeters Output and Verify Output Should be Empty
+    ${commandget}=    Catenate
+    ...    /bin/sh -c 'ETCDCTL_API=3 etcdctl get --prefix service/${kvstoreprefix}/logical_meters --keys-only'
+    ${result}=    Exec Pod In Kube    ${namespace}    ${podname}    ${commandget}
+    Log    ${result}
+    Should Be Empty    ${result}    Stale Logical Meters Data in Etcd!
+    # Log LogicalPorts Output and Verify Output Should be Empty
+    ${commandget}=    Catenate
+    ...    /bin/sh -c 'ETCDCTL_API=3 etcdctl get --prefix service/${kvstoreprefix}/logical_ports --keys-only'
+    ${result}=    Exec Pod In Kube    ${namespace}    ${podname}    ${commandget}
+    Log    ${result}
+    Should Be Empty    ${result}    Stale Logical Ports Data in Etcd!
+    # Log Ports Output and Verify Output Should be Empty
+    ${commandget}=    Catenate
+    ...    /bin/sh -c 'ETCDCTL_API=3 etcdctl get --prefix service/${kvstoreprefix}/ports --keys-only'
+    ${result}=    Exec Pod In Kube    ${namespace}    ${podname}    ${commandget}
+    Log    ${result}
+    Should Be Empty    ${result}    Stale Ports Data in Etcd!
