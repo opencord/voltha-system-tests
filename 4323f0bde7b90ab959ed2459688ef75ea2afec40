@@ -90,6 +90,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "056549ff_b0f787f6",
+        "filename": "libraries/onu_utilities.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1000007
+      },
+      "writtenOn": "2021-09-27T14:31:11Z",
+      "side": 1,
+      "message": "In Jenkins and in my laptop it never takes less than 500ms, if it took 30ms it may fail, agreed, just I never saw it being that fast",
+      "parentUuid": "3adbef8b_baeab1b4",
+      "revId": "4323f0bde7b90ab959ed2459688ef75ea2afec40",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "95e74903_95278f48",
         "filename": "tests/openonu-go-adapter/Voltha_ONUReconcileTests.robot",
         "patchSetId": 1
