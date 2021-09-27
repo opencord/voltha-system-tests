@@ -18,6 +18,24 @@
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "31dd8405_860243f8",
+        "filename": "libraries/onu_utilities.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2021-09-27T12:45:42Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "4c901445_6b7a5b19",
+      "revId": "9d9e4db1cf5688cfc7b17a45c358670a9706829e",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7b248694_4819e844",
@@ -31,6 +49,24 @@
       "writtenOn": "2021-09-27T12:28:48Z",
       "side": 1,
       "message": "Polling interval 5s could also be a bit smaller here for faster detection of the  adapter operating again, e.g. 2s (also in the other use cases)",
+      "revId": "9d9e4db1cf5688cfc7b17a45c358670a9706829e",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bae1cc54_61c40902",
+        "filename": "tests/openonu-go-adapter/Voltha_ONUReconcileTests.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 267,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2021-09-27T12:45:42Z",
+      "side": 1,
+      "message": "used 1s",
+      "parentUuid": "7b248694_4819e844",
       "revId": "9d9e4db1cf5688cfc7b17a45c358670a9706829e",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     }
