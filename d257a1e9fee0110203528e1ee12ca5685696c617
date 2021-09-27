@@ -189,6 +189,29 @@
       },
       "revId": "d257a1e9fee0110203528e1ee12ca5685696c617",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0cc41bd9_26f65795",
+        "filename": "libraries/onu_utilities.robot",
+        "patchSetId": 3
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 1000007
+      },
+      "writtenOn": "2021-09-27T14:34:34Z",
+      "side": 1,
+      "message": "This does not check that the operation is completed, it check that the device is not in that state.\n\nIf I run this keyword on a device that is in a stable ACTIVE state it will succeed, it gives us no guarantees that the device went to reconciling state and then left it.",
+      "range": {
+        "startLine": 195,
+        "startChar": 8,
+        "endLine": 196,
+        "endChar": 68
+      },
+      "revId": "d257a1e9fee0110203528e1ee12ca5685696c617",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     }
   ]
 }
