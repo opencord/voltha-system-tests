@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "462a7206_c2bf8ae8",
+        "filename": "libraries/onu_utilities.robot",
+        "patchSetId": 3
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2021-09-27T12:49:29Z",
+      "side": 1,
+      "message": "The onu_list is created and populated in this keyword but don\u0027t see it getting used anywhere.",
+      "range": {
+        "startLine": 187,
+        "startChar": 0,
+        "endLine": 187,
+        "endChar": 30
+      },
+      "revId": "d257a1e9fee0110203528e1ee12ca5685696c617",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    }
+  ]
+}
