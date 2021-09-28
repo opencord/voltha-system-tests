@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e7e1539f_501a9ebe",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000007
+      },
+      "writtenOn": "2021-09-28T21:35:04Z",
+      "side": 1,
+      "message": "Passes test for both kafka and grpc based images.\nRan on Kafka based images here: https://jenkins.opencord.org/job/periodic-voltha-openonu-go-test-bbsim/588/parameters/",
+      "revId": "96b223d7b2467a2ff46479784913737a1e74776d",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    }
+  ]
+}

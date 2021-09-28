@@ -71,6 +71,24 @@
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5360b49b_fc6f391a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000007
+      },
+      "writtenOn": "2021-09-28T21:35:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "46921b85_336ae77d",
+      "revId": "4323f0bde7b90ab959ed2459688ef75ea2afec40",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3adbef8b_baeab1b4",
@@ -106,6 +124,24 @@
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9641fe76_92d33ad5",
+        "filename": "libraries/onu_utilities.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1000007
+      },
+      "writtenOn": "2021-09-28T21:35:04Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "056549ff_b0f787f6",
+      "revId": "4323f0bde7b90ab959ed2459688ef75ea2afec40",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "95e74903_95278f48",
@@ -137,6 +173,24 @@
       "side": 1,
       "message": "I can add that back, but before checking the OMCI state we need to make sure the reconcile has completed, otherwise we may be checking the state as it was before reconciling",
       "parentUuid": "95e74903_95278f48",
+      "revId": "4323f0bde7b90ab959ed2459688ef75ea2afec40",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4215e37a_5285c029",
+        "filename": "tests/openonu-go-adapter/Voltha_ONUReconcileTests.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 305,
+      "author": {
+        "id": 1000007
+      },
+      "writtenOn": "2021-09-28T21:35:04Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "e6d62398_bad8a0fa",
       "revId": "4323f0bde7b90ab959ed2459688ef75ea2afec40",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     }
