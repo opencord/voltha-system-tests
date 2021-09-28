@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e5586190_879ebb62",
+        "filename": "tests/functional/Voltha_FailureScenarios.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2021-09-28T09:07:58Z",
+      "side": 1,
+      "message": "not sure about this. can you double check, I think we deploy in the infra namespace",
+      "revId": "6ad56e6a93845f4aa3df81750b01c12bf0a6d27f",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0d17c380_4d39057c",
+        "filename": "tests/functional/Voltha_MultiOLT_Tests.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2021-09-28T09:07:58Z",
+      "side": 1,
+      "message": "same",
+      "revId": "6ad56e6a93845f4aa3df81750b01c12bf0a6d27f",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "efaa5b70_bcfbb1e5",
+        "filename": "tests/functional/Voltha_ONOSHATests.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2021-09-28T09:07:58Z",
+      "side": 1,
+      "message": "same",
+      "revId": "6ad56e6a93845f4aa3df81750b01c12bf0a6d27f",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    }
+  ]
+}
