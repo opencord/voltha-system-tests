@@ -36,7 +36,8 @@ Resource          ../../libraries/bbsim.robot
 Resource          ../../variables/variables.robot
 
 *** Variables ***
-${namespace}      voltha
+${NAMESPACE}      voltha
+${INFRA_NAMESPACE}      default
 ${timeout}        60s
 ${of_id}          0
 ${logical_id}     0
@@ -90,7 +91,7 @@ Setup Suite
     Log    ${LogInfo}    console=yes
     Common Test Suite Setup
     # delete etcd MIB Template Data
-    Delete MIB Template Data
+    Delete MIB Template Data    ${INFRA_NAMESPACE}
 
 Teardown Suite
     [Documentation]    Replaces the Suite Teardown in utils.robot.
@@ -102,7 +103,7 @@ Teardown Suite
     Run Keyword If    ${teardown_device}    Delete All Devices and Verify
     Wait for Ports in ONOS for all OLTs      ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}  0   BBSM
     # delete etcd MIB Template Data (for repeating test)
-    Delete MIB Template Data
+    Delete MIB Template Data    ${INFRA_NAMESPACE}
     Close All ONOS SSH Connections
 
 Perform ONU MIB Template Data Test
@@ -115,18 +116,18 @@ Perform ONU MIB Template Data Test
     # Start first Onu
     ${src}=    Set Variable    ${hosts.src[${0}]}
     Log    \r\nONU ${src['onu']}: startup with MIB upload cycle and storage of template data to etcd.    console=yes
-    ${bbsim_pod}=    Get Pod Name By Label    ${namespace}    release     bbsim0
-    Power On ONU    ${namespace}    ${bbsim_pod}    ${src['onu']}
+    ${bbsim_pod}=    Get Pod Name By Label    ${NAMESPACE}    release     bbsim0
+    Power On ONU    ${NAMESPACE}    ${bbsim_pod}    ${src['onu']}
     ${timeStart}=    Get Current Date
     ${firstonustartup}=    Get ONU Startup Duration    ${firstonu}    ${timeStart}
     # check MIB Template data stored in etcd
     Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    3s
-    ...    Verify MIB Template Data Available
+    ...    Verify MIB Template Data Available    ${INFRA_NAMESPACE}
     # Start second Onu
     ${src}=    Set Variable    ${hosts.src[${1}]}
     Log    ONU ${src['onu']}: startup without MIB upload cycle by using of template data of etcd.    console=yes
-    ${bbsim_pod}=    Get Pod Name By Label    ${namespace}    release     bbsim0
-    Power On ONU    ${namespace}    ${bbsim_pod}    ${src['onu']}
+    ${bbsim_pod}=    Get Pod Name By Label    ${NAMESPACE}    release     bbsim0
+    Power On ONU    ${NAMESPACE}    ${bbsim_pod}    ${src['onu']}
     ${timeStart}=    Get Current Date
     ${secondonustartup}=    Get ONU Startup Duration    ${secondonu}    ${timeStart}
     # compare both durations, second onu should be at least 3 times faster

@@ -183,7 +183,7 @@ Enable Onu Device
 
 Verify MIB Template Data Available
     [Documentation]    This keyword verifies MIB Template Data stored in etcd
-    ${namespace}=    Set Variable    default
+    [Arguments]    ${namespace}=default
     ${podname}=      Set Variable    etcd
     ${commandget}    Catenate
     ...    /bin/sh -c 'ETCDCTL_API=3 etcdctl get --prefix service/voltha/omci_mibs/go_templates/'
@@ -192,7 +192,7 @@ Verify MIB Template Data Available
 
 Delete MIB Template Data
     [Documentation]    This keyword deletes MIB Template Data stored in etcd
-    ${namespace}=    Set Variable    default
+    [Arguments]    ${namespace}=default
     ${podname}=    Set Variable    etcd
     ${commanddel}    Catenate
     ...    /bin/sh -c 'ETCDCTL_API=3 etcdctl del --prefix service/voltha/omci_mibs/go_templates/'
@@ -205,9 +205,8 @@ Delete MIB Template Data
 
 Set Tech Profile
     [Documentation]    This keyword sets the passed TechProfile for the test
-    [Arguments]    ${TechProfile}
+    [Arguments]    ${TechProfile}    ${namespace}=default
     Log To Console    \nTechProfile:${TechProfile}
-    ${namespace}=    Set Variable    default
     ${podname}=    Set Variable    etcd
     ${label}=    Set Variable    app.kubernetes.io/name=${podname}
     ${src}=    Set Variable    ${data_dir}/TechProfile-${TechProfile}.json
@@ -223,8 +222,8 @@ Set Tech Profile
 
 Remove Tech Profile
     [Documentation]    This keyword removes TechProfile
+    [Arguments]    ${namespace}=default
     Log To Console    \nTechProfile:${TechProfile}
-    ${namespace}=    Set Variable    default
     ${podname}=    Set Variable    etcd
     ${command}    Catenate
     ...    /bin/sh -c 'ETCDCTL_API=3 etcdctl del --prefix service/voltha/technology_profiles/XGS-PON/64'
@@ -287,9 +286,9 @@ Do Onu Subscriber Remove Per OLT
 Validate Resource Instances Used Gem Ports
     [Documentation]    This keyword validates resource instances data stored in etcd.
     ...                It checks checks the number of gemport-ids which has matched with used Tech Profile
-    [Arguments]    ${nbofgemports}    ${defaultkvstoreprefix}=voltha_voltha
+    [Arguments]    ${nbofgemports}    ${namespace}=default    ${defaultkvstoreprefix}=voltha_voltha
     ${kvstoreprefix}=    Get Kv Store Prefix    ${defaultkvstoreprefix}
-    ${etcddata}=    Get ONU Go Adapter ETCD Data    ${kvstoreprefix}
+    ${etcddata}=    Get ONU Go Adapter ETCD Data    namespace=${namespace}    defaultkvstoreprefix=${kvstoreprefix}
     #prepare result for json convert
     ${result}=    Prepare ONU Go Adapter ETCD Data For Json    ${etcddata}
     ${jsondata}=    To Json    ${result}
@@ -301,7 +300,8 @@ Validate Resource Instances Used Gem Ports
         # When testing multi-tcont this may need some adjustment.
         Exit For Loop If    not ('uni_config' in $value)
         ${tp_path}=    Get From Dictionary    ${value['uni_config'][0]['PersTpPathMap']}    64
-        ${resourcedata}=    Get Resource Instances ETCD Data    ${tp_path}    ${kvstoreprefix}
+        ${resourcedata}=    Get Resource Instances ETCD Data    ${tp_path}    namespace=${namespace}
+        ...    defaultkvstoreprefix=${kvstoreprefix}
         log    ${resourcedata}
         ${decoderesult}=    volthatools.Tech Profile Decode Resource Instance    ${resourcedata}    return_default=true
         log    ${decoderesult}
@@ -313,8 +313,7 @@ Validate Resource Instances Used Gem Ports
 
 Get Resource Instances ETCD Data
     [Documentation]    This keyword delivers Resource Instances Data stored in etcd
-    [Arguments]    ${tppath}    ${defaultkvstoreprefix}=voltha_voltha
-    ${namespace}=    Set Variable    default
+    [Arguments]    ${tppath}    ${namespace}=default    ${defaultkvstoreprefix}=voltha_voltha
     ${podname}=    Set Variable    etcd
     ${kvstoreprefix}=    Get Kv Store Prefix    ${defaultkvstoreprefix}
     ${commandget}=    Catenate
@@ -330,10 +329,10 @@ Validate Onu Data In Etcd
     ...                It checks unique of  serial_number and combination of pon, onu and uni in tp_path.
     ...                Furthermore it evaluates the values of onu_id and uni_id with values read from tp_path.
     ...                Number of etcd entries has to match with the passed number.
-    [Arguments]    ${nbofetcddata}=${num_all_onus}    ${defaultkvstoreprefix}=voltha_voltha
+    [Arguments]    ${namespace}=default    ${nbofetcddata}=${num_all_onus}    ${defaultkvstoreprefix}=voltha_voltha
     ...            ${without_prefix}=True    ${without_pm_data}=True
     ${kvstoreprefix}=    Get Kv Store Prefix    ${defaultkvstoreprefix}
-    ${etcddata}=    Get ONU Go Adapter ETCD Data    ${kvstoreprefix}    ${without_prefix}    ${without_pm_data}
+    ${etcddata}=    Get ONU Go Adapter ETCD Data    ${namespace}    ${kvstoreprefix}    ${without_prefix}    ${without_pm_data}
     #prepare result for json convert
     ${result}=    Prepare ONU Go Adapter ETCD Data For Json    ${etcddata}
     ${jsondata}=    To Json    ${result}
@@ -369,10 +368,10 @@ Validate Vlan Rules In Etcd
     ...                Furthermore it returns a list of all set_vid.
     ...                In case of a passed dictionary containing set_vids these will be checked for to
     ...                current set-vid depending on setvidequal (True=equal, False=not equal).
-    [Arguments]    ${nbofcookieslice}=1    ${reqmatchvid}=4096    ${prevvlanrules}=${NONE}    ${setvidequal}=False
-    ...            ${defaultkvstoreprefix}=voltha_voltha    ${without_prefix}=True    ${without_pm_data}=True
+    [Arguments]    ${namespace}=default    ${nbofcookieslice}=1    ${reqmatchvid}=4096    ${prevvlanrules}=${NONE}
+    ...    ${setvidequal}=False    ${defaultkvstoreprefix}=voltha_voltha    ${without_prefix}=True    ${without_pm_data}=True
     ${kvstoreprefix}=    Get Kv Store Prefix    ${defaultkvstoreprefix}
-    ${etcddata}=    Get ONU Go Adapter ETCD Data    ${kvstoreprefix}    ${without_prefix}    ${without_pm_data}
+    ${etcddata}=    Get ONU Go Adapter ETCD Data    ${namespace}    ${kvstoreprefix}    ${without_prefix}    ${without_pm_data}
     #prepare result for json convert
     ${result}=    Prepare ONU Go Adapter ETCD Data For Json    ${etcddata}
     ${jsondata}=    To Json    ${result}
@@ -409,8 +408,8 @@ Validate Vlan Rules In Etcd
 
 Get ONU Go Adapter ETCD Data
     [Documentation]    This keyword delivers openonu-go-adapter Data stored in etcd
-    [Arguments]    ${defaultkvstoreprefix}=voltha_voltha    ${without_prefix}=True    ${without_pm_data}=True
-    ${namespace}=    Set Variable    default
+    [Arguments]    ${namespace}=default    ${defaultkvstoreprefix}=voltha_voltha    ${without_prefix}=True
+    ...    ${without_pm_data}=True
     ${podname}=    Set Variable    etcd
     ${kvstoreprefix}=    Get Kv Store Prefix    ${defaultkvstoreprefix}
     ${commandget}=    Catenate
@@ -484,8 +483,7 @@ Validate Uni Id
 
 Delete ONU Go Adapter ETCD Data
     [Documentation]    This keyword deletes openonu-go-adapter Data stored in etcd
-    [Arguments]    ${defaultkvstoreprefix}=voltha_voltha    ${validate}=False
-    ${namespace}=    Set Variable    default
+    [Arguments]    ${namespace}=default    ${defaultkvstoreprefix}=voltha_voltha    ${validate}=False
     ${podname}=    Set Variable    etcd
     ${kvstoreprefix}=    Get Kv Store Prefix    ${defaultkvstoreprefix}
     ${commandget}=    Catenate
@@ -493,7 +491,7 @@ Delete ONU Go Adapter ETCD Data
     ${result}=    Exec Pod In Kube    ${namespace}    ${podname}    ${commandget}
     log    ${result}
     Run Keyword If    ${validate}    Wait Until Keyword Succeeds    ${timeout}    1s
-    ...    Validate Onu Data In Etcd    0    without_pm_data=False
+    ...    Validate Onu Data In Etcd    namespace=${namespace}    nbofetcddata=0    without_pm_data=False
     [Return]    ${result}
 
 Wait for Ports in ONOS for all OLTs

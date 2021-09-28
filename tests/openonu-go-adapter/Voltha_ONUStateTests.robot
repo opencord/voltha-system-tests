@@ -34,7 +34,8 @@ Resource          ../../libraries/bbsim.robot
 Resource          ../../variables/variables.robot
 
 *** Variables ***
-${namespace}      voltha
+${NAMESPACE}      voltha
+${INFRA_NAMESPACE}      default
 ${timeout}        60s
 ${of_id}          0
 ${logical_id}     0
@@ -109,7 +110,7 @@ Check Loaded Tech Profile
     [Tags]    functionalOnuGo   CheckTechProfileOnuGo
     [Setup]    Start Logging    ONUCheckTechProfile
     Run Keyword If    '${onu_state}'=='tech-profile-config-download-success' or '${onu_state}'=='omci-flows-pushed'
-    ...    Do Check Tech Profile
+    ...    Do Check Tech Profile    ${INFRA_NAMESPACE}
     ...    ELSE    Pass Execution    ${skip_message}    skipped
     [Teardown]    Run Keywords    Run Keyword If    ${logging}    Collect Logs
     ...    AND    Stop Logging    ONUCheckTechProfile
@@ -163,7 +164,7 @@ Power Off Power On Onu Device
     [Tags]    functionalOnuGo    PowerOffPowerOnOnuGo
     [Setup]    Start Logging    PowerOffPowerOnONUDevice
     Run Keyword If    '${onu_state}'=='tech-profile-config-download-success' or '${onu_state}'=='omci-flows-pushed'
-    ...    Do Power Off Power On Onu Device
+    ...    Do Power Off Power On Onu Device    ${NAMESPACE}
     ...    ELSE    Pass Execution    ${skip_message}    skipped
     [Teardown]    Run Keywords    Run Keyword If    ${logging}    Collect Logs
     ...    AND    Stop Logging    PowerOffPowerOnONUDevice
@@ -200,8 +201,8 @@ Setup Suite
     ${techprofile}=    Set Variable If    "${techprofile}"=="1T1GEM"    default    ${techprofile}
     Set Suite Variable    ${techprofile}
     Run Keyword If    "${techprofile}"=="default"   Log To Console    \nTechProfile:default (1T1GEM)
-    ...    ELSE IF    "${techprofile}"=="1T4GEM"    Set Tech Profile    1T4GEM
-    ...    ELSE IF    "${techprofile}"=="1T8GEM"    Set Tech Profile    1T8GEM
+    ...    ELSE IF    "${techprofile}"=="1T4GEM"    Set Tech Profile    1T4GEM    ${INFRA_NAMESPACE}
+    ...    ELSE IF    "${techprofile}"=="1T8GEM"    Set Tech Profile    1T8GEM    ${INFRA_NAMESPACE}
     ...    ELSE    Fail    The TechProfile (${techprofile}) is not valid!
     # map the passed onu state to reached and make it visible for test suite
     ${admin_state}    ${oper_status}    ${connect_status}    ${onu_state_nb}    ${onu_state}=
@@ -212,9 +213,9 @@ Setup Suite
     Set Suite Variable    ${onu_state_nb}
     Set Suite Variable    ${onu_state}
     # delete etcd MIB Template Data
-    Delete MIB Template Data
+    Delete MIB Template Data    ${INFRA_NAMESPACE}
     # delete etcd onu data
-    Delete ONU Go Adapter ETCD Data    validate=True
+    Delete ONU Go Adapter ETCD Data    namespace=${INFRA_NAMESPACE}    validate=True
 
 Teardown Suite
     [Documentation]    Replaces the Suite Teardown in utils.robot.
@@ -224,10 +225,11 @@ Teardown Suite
     Run Keyword If    ${pausebeforecleanup}    Pause Execution    Press OK to continue with clean up!
     Run Keyword If    ${pausebeforecleanup}    Log    Teardown will be continued...    console=yes
     Run Keyword If    ${teardown_device}    Delete All Devices and Verify
-    Wait Until Keyword Succeeds    ${timeout}    1s    Validate Onu Data In Etcd    0    ${kvstoreprefix}    without_pm_data=False
+    Wait Until Keyword Succeeds    ${timeout}    1s    Validate Onu Data In Etcd    ${INFRA_NAMESPACE}    0    ${kvstoreprefix}
+    ...    without_pm_data=False
     Wait for Ports in ONOS for all OLTs      ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}  0   BBSM    ${timeout}
     Close All ONOS SSH Connections
-    Remove Tech Profile
+    Remove Tech Profile    ${INFRA_NAMESPACE}
 
 Setup Test
     [Documentation]    Pre-test Setup
@@ -318,12 +320,12 @@ Do Onu Port Check
 
 Do Onu Etcd Data Check
     [Documentation]    Check Onu data stored in etcd
-    Validate Onu Data In Etcd    defaultkvstoreprefix=${kvstoreprefix}
+    Validate Onu Data In Etcd    namespace=${INFRA_NAMESPACE}    defaultkvstoreprefix=${kvstoreprefix}
 
 Do Onu Flow Check
     [Documentation]    This keyword iterate all OLTs and performs Do Onu Flow Checks Per OLT
     # Check and store vlan rules
-    ${firstvlanrules}=    Run Keyword And Continue On Failure    Validate Vlan Rules In Etcd
+    ${firstvlanrules}=    Run Keyword And Continue On Failure    Validate Vlan Rules In Etcd    ${INFRA_NAMESPACE}
     ...    defaultkvstoreprefix=${kvstoreprefix}
     FOR    ${J}    IN RANGE    0    ${num_olts}
         ${olt_serial_number}=    Set Variable    ${list_olts}[${J}][sn]
@@ -348,8 +350,8 @@ Do Onu Flow Check
     #check  for previous state is kept (normally omci-flows-pushed)
     Sleep    10s
     Run Keyword And Continue On Failure    Current State Test All Onus    ${state2test}
-    ${secondvlanrules}=    Run Keyword And Continue On Failure    Validate Vlan Rules In Etcd    nbofcookieslice=3
-    ...    prevvlanrules=${firstvlanrules}    defaultkvstoreprefix=${kvstoreprefix}
+    ${secondvlanrules}=    Run Keyword And Continue On Failure    Validate Vlan Rules In Etcd    namespace=${INFRA_NAMESPACE}
+    ...    nbofcookieslice=3    prevvlanrules=${firstvlanrules}    defaultkvstoreprefix=${kvstoreprefix}
     FOR    ${J}    IN RANGE    0    ${num_olts}
         ${olt_serial_number}=    Set Variable    ${list_olts}[${J}][sn]
         ${of_id}=    Wait Until Keyword Succeeds    ${timeout}    15s    Validate OLT Device in ONOS
@@ -361,12 +363,13 @@ Do Onu Flow Check
     Run Keyword If    ${print2console}    Log    \r\nStart State Test All Onus.    console=yes
     Run Keyword And Continue On Failure    Current State Test All Onus    ${state2test}
     Run Keyword If    ${print2console}    Log    \r\nFinished State Test All Onus.    console=yes
-    Run Keyword And Continue On Failure    Validate Vlan Rules In Etcd    prevvlanrules=${firstvlanrules}
+    Run Keyword And Continue On Failure    Validate Vlan Rules In Etcd    namespace=${INFRA_NAMESPACE}
+    ...    prevvlanrules=${firstvlanrules}
     ...                                    setvidequal=True    defaultkvstoreprefix=${kvstoreprefix}
 
 Do Check Tech Profile
     [Documentation]    This keyword checks the loaded TechProfile
-    ${namespace}=    Set Variable    default
+    [Arguments]    ${namespace}=default
     ${podname}=    Set Variable    etcd
     ${commandget}    Catenate
     ...    /bin/sh -c 'ETCDCTL_API=3 etcdctl get --prefix service/voltha/technology_profiles/XGS-PON/64'
@@ -385,7 +388,8 @@ Do Check Tech Profile
     ${num_of_expected_matches}=    Set Variable If    "${techprofile}"!="default" or ${length}>0    1    0
     Should Be Equal As Integers    ${num_of_expected_matches}    ${num_of_count_matches}
     ...    TechProfile (${TechProfile}) not loaded correctly: found(${num_of_count_matches}) expected(${num_of_expected_matches})
-    Validate Resource Instances Used Gem Ports    ${num_gem_ports}    defaultkvstoreprefix=${kvstoreprefix}
+    Validate Resource Instances Used Gem Ports    ${num_gem_ports}    namespace=${namespace}
+    ...    defaultkvstoreprefix=${kvstoreprefix}
 
 Do Disable Enable Onu Test
     [Documentation]    This keyword disables/enables all onus and checks the states.
@@ -409,6 +413,7 @@ Do Disable Enable Onu Test
 
 Do Power Off Power On Onu Device
     [Documentation]    This keyword power off/on all onus and checks the states.
+    [Arguments]    ${namespace}=voltha
     Power Off ONU Device    ${namespace}
     Sleep    5s
     ${alternativeonustates}=  Create List     omci-flows-deleted

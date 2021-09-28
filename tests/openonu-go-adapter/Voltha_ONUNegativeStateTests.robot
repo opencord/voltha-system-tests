@@ -34,7 +34,8 @@ Resource          ../../libraries/bbsim.robot
 Resource          ../../variables/variables.robot
 
 *** Variables ***
-${namespace}      voltha
+${NAMESPACE}      voltha
+${INFRA_NAMESPACE}      default
 ${timeout}        300s
 ${of_id}          0
 ${logical_id}     0
@@ -101,13 +102,13 @@ Setup Suite
     ${techprofile}=    Set Variable If    "${techprofile}"=="1T1GEM"    default    ${techprofile}
     Set Suite Variable    ${techprofile}
     Run Keyword If    "${techprofile}"=="default"   Log To Console    \nTechProfile:default (1T1GEM)
-    ...    ELSE IF    "${techprofile}"=="1T4GEM"    Set Tech Profile    1T4GEM
-    ...    ELSE IF    "${techprofile}"=="1T8GEM"    Set Tech Profile    1T8GEM
+    ...    ELSE IF    "${techprofile}"=="1T4GEM"    Set Tech Profile    1T4GEM    ${INFRA_NAMESPACE}
+    ...    ELSE IF    "${techprofile}"=="1T8GEM"    Set Tech Profile    1T8GEM    ${INFRA_NAMESPACE}
     ...    ELSE    Fail    The TechProfile (${techprofile}) is not valid!
     # delete etcd MIB Template Data
-    Delete MIB Template Data
+    Delete MIB Template Data    ${INFRA_NAMESPACE}
     # delete etcd onu data
-    Delete ONU Go Adapter ETCD Data    validate=True
+    Delete ONU Go Adapter ETCD Data    namespace=${INFRA_NAMESPACE}    validate=True
 
 Teardown Suite
     [Documentation]    Replaces the Suite Teardown in utils.robot.
@@ -117,7 +118,8 @@ Teardown Suite
     Run Keyword If    ${pausebeforecleanup}    Pause Execution    Press OK to continue with clean up!
     Run Keyword If    ${pausebeforecleanup}    Log    Teardown will be continued...    console=yes
     Run Keyword If    ${teardown_device}    Delete All Devices and Verify
-    Wait Until Keyword Succeeds    ${timeout}    1s    Validate Onu Data In Etcd    0    ${kvstoreprefix}    without_pm_data=False
+    Wait Until Keyword Succeeds    ${timeout}    1s    Validate Onu Data In Etcd    ${INFRA_NAMESPACE}    0    ${kvstoreprefix}
+    ...    without_pm_data=False
     Wait for Ports in ONOS for all OLTs      ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}  0   BBSM    ${timeout}
     Close All ONOS SSH Connections
-    Remove Tech Profile
+    Remove Tech Profile    ${INFRA_NAMESPACE}
