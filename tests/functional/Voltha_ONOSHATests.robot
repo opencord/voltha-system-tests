@@ -40,8 +40,8 @@ ${KUBERNETES_CONFIGS_DIR}    ~/pod-configs/kubernetes-configs
 ${KUBERNETES_YAML}    ${KUBERNETES_CONFIGS_DIR}/${POD_NAME}.yml
 ${HELM_CHARTS_DIR}    ~/helm-charts
 ${VOLTHA_POD_NUM}    8
-${NAMESPACE}      default
-${INFRA_NAMESPACE}      infra
+${NAMESPACE}      voltha
+${INFRA_NAMESPACE}      default
 # For below variable value, using deployment name as using grep for
 # parsing radius pod name, we can also use full radius pod name
 ${RESTART_POD_NAME}    radius
