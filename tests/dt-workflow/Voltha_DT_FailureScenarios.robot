@@ -614,6 +614,8 @@ Verify restart openonu-adapter container while continuously running ping in back
         ...    ${src['container_type']}    ${src['container_name']}
         Check Ping Result    True    ${ping_output}
     END
+    # Verify Control Plane Functionality by Deleting and Re-adding the Subscriber
+    Verify Control Plane After Pod Restart
 
 Verify restart openolt-adapter container while continuously running ping in background for DT
     [Documentation]    Restart openolt-adapter container after VOLTHA is operational.
@@ -667,6 +669,66 @@ Verify restart openolt-adapter container while continuously running ping in back
         ...    ${src['container_type']}    ${src['container_name']}
         Check Ping Result    True    ${ping_output}
     END
+    # Verify Control Plane Functionality by Deleting and Re-adding the Subscriber
+    Verify Control Plane After Pod Restart
+
+Verify restart rw-core container while continuously running ping in background for DT
+    [Documentation]    Restart rw-core container after VOLTHA is operational.
+    ...    Run the ping continuously in background during container restart,
+    ...    and verify that there should be no affect on the dataplane.
+    [Tags]    functionalDt    RestartRwCorePingDt    non-critical
+    [Setup]    Start Logging    RestartRwCorePingDt
+    [Teardown]    Run Keywords    Run Keyword If    ${logging}    Collect Logs
+    ...           AND             Stop Logging    RestartRwCorePingDt
+    Clear All Devices Then Create New Device
+    # Performing Sanity Test to make sure subscribers are all DHCP and pingable
+    Run Keyword If    ${has_dataplane}    Clean Up Linux
+    Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test DT
+    FOR    ${I}    IN RANGE    0    ${num_all_onus}
+        ${src}=    Set Variable    ${hosts.src[${I}]}
+        ${dst}=    Set Variable    ${hosts.dst[${I}]}
+        ${ping_output_file}=    Set Variable    /tmp/${src['onu']}_ping
+        Run Keyword If    ${has_dataplane}    Run Keyword And Continue On Failure
+        ...    Wait Until Keyword Succeeds    60s    2s
+        ...    Run Ping In Background    ${ping_output_file}    ${dst['dp_iface_ip_qinq']}    ${src['dp_iface_name']}
+        ...    ${src['ip']}    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
+    END
+    ${podStatusOutput}=    Run    kubectl get pods -n ${NAMESPACE}
+    Log    ${podStatusOutput}
+    ${countBeforeRestart}=    Run    kubectl get pods -n ${NAMESPACE} | grep Running | wc -l
+    ${podName}    Set Variable     rw-core
+    Wait Until Keyword Succeeds    ${timeout}    15s    Delete K8s Pods By Label    ${NAMESPACE}    app    ${podName}
+    Wait Until Keyword Succeeds    ${timeout}    2s    Validate Pods Status By Label    ${NAMESPACE}
+    ...    app    ${podName}    Running
+    # Wait for 1 min after rw-core is restarted
+    Sleep    60s
+    # For some reason scaling down and up the POD behind a service causes the port forward to stop working,
+    # so restart the port forwarding for the API service
+    Restart VOLTHA Port Forward    voltha-api
+    ${podStatusOutput}=    Run    kubectl get pods -n ${NAMESPACE}
+    Log    ${podStatusOutput}
+    ${countAfterRestart}=    Run    kubectl get pods -n ${NAMESPACE} | grep Running | wc -l
+    Should Be Equal As Strings    ${countAfterRestart}    ${countBeforeRestart}
+    FOR    ${I}    IN RANGE    0    ${num_all_onus}
+        ${src}=    Set Variable    ${hosts.src[${I}]}
+        ${dst}=    Set Variable    ${hosts.dst[${I}]}
+        Run Keyword If    ${has_dataplane}    Run Keyword And Continue On Failure
+        ...    Wait Until Keyword Succeeds    60s    2s
+        ...    Stop Ping Running In Background    ${src['ip']}    ${src['user']}    ${src['pass']}
+        ...    ${src['container_type']}    ${src['container_name']}
+    END
+    FOR    ${I}    IN RANGE    0    ${num_all_onus}
+        ${src}=    Set Variable    ${hosts.src[${I}]}
+        ${dst}=    Set Variable    ${hosts.dst[${I}]}
+        ${ping_output_file}=    Set Variable    /tmp/${src['onu']}_ping
+        ${ping_output}=    Run Keyword If    ${has_dataplane}    Run Keyword And Continue On Failure
+        ...    Wait Until Keyword Succeeds    60s    2s
+        ...    Retrieve Remote File Contents    ${ping_output_file}    ${src['ip']}    ${src['user']}    ${src['pass']}
+        ...    ${src['container_type']}    ${src['container_name']}
+        Check Ping Result    True    ${ping_output}
+    END
+    # Verify Control Plane Functionality by Deleting and Re-adding the Subscriber
+    Verify Control Plane After Pod Restart
 
 *** Keywords ***
 Setup Suite
@@ -687,3 +749,45 @@ Clear All Devices Then Create New Device
     # Execute normal test Setup Keyword
     Setup
 
+Verify Control Plane After Pod Restart
+    [Documentation]    Verifies the control plane functionality after the voltha pod restart
+    ...    by deleting and re-adding the subscriber
+    FOR    ${I}    IN RANGE    0    ${num_all_onus}
+        ${src}=    Set Variable    ${hosts.src[${I}]}
+        ${dst}=    Set Variable    ${hosts.dst[${I}]}
+        ${of_id}=    Get ofID From OLT List    ${src['olt']}
+        ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
+        ${onu_port}=    Wait Until Keyword Succeeds    ${timeout}    2s    Get ONU Port in ONOS    ${src['onu']}
+        ...    ${of_id}
+        # Remove Subscriber Access
+        Wait Until Keyword Succeeds    ${timeout}    2s    Execute ONOS CLI Command use single connection    ${ONOS_SSH_IP}
+        ...    ${ONOS_SSH_PORT}    volt-remove-subscriber-access ${of_id} ${onu_port}
+        Run Keyword If    ${has_dataplane}    Run Keyword And Continue On Failure
+        ...    Wait Until Keyword Succeeds    60s    2s
+        ...    Check Ping    False    ${dst['dp_iface_ip_qinq']}    ${src['dp_iface_name']}
+        ...    ${src['ip']}    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
+        # Disable and Re-Enable the ONU (To replicate DT current workflow)
+        # TODO: Delete and Auto-Discovery Add of ONU (not yet supported)
+        Disable Device    ${onu_device_id}
+        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
+        ...    Validate Device    DISABLED    UNKNOWN
+        ...    REACHABLE    ${src['onu']}
+        Enable Device    ${onu_device_id}
+        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    360s    5s
+        ...    Validate Device    ENABLED    ACTIVE
+        ...    REACHABLE    ${src['onu']}
+        # Add Subscriber Access
+        Wait Until Keyword Succeeds    ${timeout}    2s    Execute ONOS CLI Command use single connection    ${ONOS_SSH_IP}
+        ...    ${ONOS_SSH_PORT}    volt-add-subscriber-access ${of_id} ${onu_port}
+        # Verify subscriber access flows are added for the ONU port
+        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
+        ...    Verify Subscriber Access Flows Added For ONU DT    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${of_id}
+        ...    ${onu_port}    ${nni_port}    ${src['s_tag']}
+        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    360s    5s
+        ...    Validate Device    ENABLED    ACTIVE
+        ...    REACHABLE    ${src['onu']}    onu=True    onu_reason=omci-flows-pushed
+        Run Keyword If    ${has_dataplane}    Run Keyword And Continue On Failure
+        ...    Wait Until Keyword Succeeds    60s    2s
+        ...    Check Ping    True    ${dst['dp_iface_ip_qinq']}    ${src['dp_iface_name']}
+        ...    ${src['ip']}    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
+    END
