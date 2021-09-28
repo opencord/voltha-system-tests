@@ -42,6 +42,7 @@ ${KUBERNETES_YAML}    ${KUBERNETES_CONFIGS_DIR}/${POD_NAME}.yml
 ${HELM_CHARTS_DIR}    ~/helm-charts
 ${VOLTHA_POD_NUM}    8
 ${NAMESPACE}      voltha
+${INFRA_NAMESPACE}      default
 ${STACK_NAME}       voltha
 # For below variable value, using deployment name as using grep for
 # parsing radius pod name, we can also use full radius pod name

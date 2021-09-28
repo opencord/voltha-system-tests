@@ -43,8 +43,7 @@ ${HELM_CHARTS_DIR}    ~/helm-charts
 ${VOLTHA_POD_NUM}    8
 ${NAMESPACE}      voltha
 ${STACK_NAME}       voltha
-${DEFAULTSPACE}      default
-${INFRA_NAMESPACE}    infra
+${INFRA_NAMESPACE}    default
 # For below variable value, using deployment name as using grep for
 # parsing radius pod name, we can also use full radius pod name
 ${RESTART_POD_NAME}    radius
