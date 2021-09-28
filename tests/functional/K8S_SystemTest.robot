@@ -28,7 +28,7 @@ Resource          ../../variables/variables.robot
 ${timeout}        120s
 ${desired_ETCD_cluster_size}    3
 ${minimal_ETCD_cluster_size}    2
-${namespace}      voltha
+${NAMESPACE}      voltha
 ${INFRA_NAMESPACE}    default
 ${ETCD_resources}    statefulsets
 ${ETCD_name}      etcd
@@ -86,11 +86,11 @@ ETCD Failure Test
     #Wait Until Keyword Succeeds    ${timeout}    2s
     #...    Pods Do Not Exist By Label    ${INFRA_NAMESPACE}    ${ETCD_pod_label_key}    ${ETCD_name}
     Wait Until Keyword Succeeds    ${timeout}    2s
-    ...    Pods Are Ready By Label    ${namespace}    ${common_pod_label_key}    ${rwcore_pod_label_value}
+    ...    Pods Are Ready By Label    ${NAMESPACE}    ${common_pod_label_key}    ${rwcore_pod_label_value}
     Wait Until Keyword Succeeds    ${timeout}    2s
-    ...    Pods Are Ready By Label    ${namespace}    ${common_pod_label_key}    ${ofagent_pod_label_value}
+    ...    Pods Are Ready By Label    ${NAMESPACE}    ${common_pod_label_key}    ${ofagent_pod_label_value}
     Wait Until Keyword Succeeds    ${timeout}    2s
-    ...    Pods Are Ready By Label    ${namespace}    ${common_pod_label_key}    ${adapter_openolt_pod_label_value}
+    ...    Pods Are Ready By Label    ${NAMESPACE}    ${common_pod_label_key}    ${adapter_openolt_pod_label_value}
 
 *** Keywords ***
 Get ETCD Replica Count

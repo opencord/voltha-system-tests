@@ -35,7 +35,8 @@ Resource          ../../libraries/power_switch.robot
 Resource          ../../libraries/onu_utilities.robot
 
 *** Variables ***
-${namespace}      voltha
+${NAMESPACE}      voltha
+${INFRA_NAMESPACE}      default
 ${timeout}        60s
 ${of_id}          0
 ${logical_id}     0
@@ -107,8 +108,8 @@ Setup Suite
     ${techprofile}=    Set Variable If    "${techprofile}"=="1T1GEM"    default    ${techprofile}
     Set Suite Variable    ${techprofile}
     Run Keyword If    "${techprofile}"=="default"   Log To Console    \nTechProfile:default (1T1GEM)
-    ...    ELSE IF    "${techprofile}"=="1T4GEM"    Set Tech Profile    1T4GEM
-    ...    ELSE IF    "${techprofile}"=="1T8GEM"    Set Tech Profile    1T8GEM
+    ...    ELSE IF    "${techprofile}"=="1T4GEM"    Set Tech Profile    1T4GEM    ${INFRA_NAMESPACE}
+    ...    ELSE IF    "${techprofile}"=="1T8GEM"    Set Tech Profile    1T8GEM    ${INFRA_NAMESPACE}
     ...    ELSE    Fail    The TechProfile (${techprofile}) is not valid!
     ${switch_type}=    Get Variable Value    ${web_power_switch.type}
     Run Keyword If  "${switch_type}"!=""    Set Global Variable    ${powerswitch_type}    ${switch_type}
@@ -126,17 +127,18 @@ Teardown Suite
     Run Keyword If    ${pausebeforecleanup}    Pause Execution    Press OK to continue with clean up!
     Run Keyword If    ${pausebeforecleanup}    Log    Teardown will be continued...    console=yes
     Run Keyword If    ${teardown_device}    Delete All Devices and Verify
-    Wait Until Keyword Succeeds    ${timeout}    1s    Validate Onu Data In Etcd    0    ${kvstoreprefix}    without_pm_data=False
+    Wait Until Keyword Succeeds    ${timeout}    1s    Validate Onu Data In Etcd    ${INFRA_NAMESPACE}    0    ${kvstoreprefix}
+    ...    without_pm_data=False
     Wait for Ports in ONOS for all OLTs      ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}  0   BBSM    ${timeout}
     Close All ONOS SSH Connections
-    Remove Tech Profile
+    Remove Tech Profile    ${INFRA_NAMESPACE}
 
 Validate Etcd Vlan Rules Added Subscriber
     [Documentation]    This keyword validates Vlan rules of openonu-go-adapter Data stored in etcd.
     ...                It checks the match_vid (=4096) and set_vid when subscriber are added.
     [Arguments]    ${onu_tags_dict}    ${reqmatchvid}=4096    ${defaultkvstoreprefix}=voltha_voltha
     ${kvstoreprefix}=    Get Kv Store Prefix    ${defaultkvstoreprefix}
-    ${etcddata}=    Get ONU Go Adapter ETCD Data    ${kvstoreprefix}    True    True
+    ${etcddata}=    Get ONU Go Adapter ETCD Data    ${INFRA_NAMESPACE}    ${kvstoreprefix}    True    True
     #prepare result for json convert
     ${result}=    Prepare ONU Go Adapter ETCD Data For Json    ${etcddata}
     ${jsondata}=    To Json    ${result}
@@ -178,7 +180,7 @@ Validate Etcd Vlan Rules Removed Subscriber
     ...                It checks the match_vid (=4096) and set_vid when subscriber are removed.
     [Arguments]    ${reqmatchvid}=4096    ${defaultkvstoreprefix}=voltha_voltha
     ${kvstoreprefix}=    Get Kv Store Prefix    ${defaultkvstoreprefix}
-    ${etcddata}=    Get ONU Go Adapter ETCD Data    ${kvstoreprefix}        True    True
+    ${etcddata}=    Get ONU Go Adapter ETCD Data    ${INFRA_NAMESPACE}    ${kvstoreprefix}    True    True
     #prepare result for json convert
     ${result}=    Prepare ONU Go Adapter ETCD Data For Json    ${etcddata}
     ${jsondata}=    To Json    ${result}

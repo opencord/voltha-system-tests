@@ -38,7 +38,8 @@ Resource          ../../libraries/onu_utilities.robot
 Resource          ../../variables/variables.robot
 
 *** Variables ***
-${namespace}      voltha
+${NAMESPACE}      voltha
+${INFRA_NAMESPACE}      default
 ${timeout}        60s
 ${of_id}          0
 ${logical_id}     0
@@ -177,9 +178,9 @@ Setup Suite
     Log    ${LogInfo}    console=yes
     Common Test Suite Setup
     # delete etcd MIB Template Data
-    Delete MIB Template Data
+    Delete MIB Template Data    ${INFRA_NAMESPACE}
     # delete etcd onu data
-    Delete ONU Go Adapter ETCD Data    validate=True
+    Delete ONU Go Adapter ETCD Data    namespace=${INFRA_NAMESPACE}    validate=True
 
 
 Teardown Suite
@@ -190,9 +191,9 @@ Teardown Suite
     Run Keyword If    ${pausebeforecleanup}    Pause Execution    Press OK to continue with clean up!
     Run Keyword If    ${pausebeforecleanup}    Log    Teardown will be continued...    console=yes
     Run Keyword If    ${teardown_device}    Delete All Devices and Verify
-    Run Keyword If    ${usekill2restart}    Restart Pod By Label    ${namespace}    app    adapter-open-onu
+    Run Keyword If    ${usekill2restart}    Restart Pod By Label    ${NAMESPACE}    app    adapter-open-onu
     Run Keyword Unless    ${etcdcheckintestteardown}    Wait Until Keyword Succeeds    ${timeout}    1s
-    ...    Validate Onu Data In Etcd    0    ${kvstoreprefix}    without_pm_data=False
+    ...    Validate Onu Data In Etcd    ${INFRA_NAMESPACE}    0    ${kvstoreprefix}    without_pm_data=False
     Wait for Ports in ONOS for all OLTs      ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}  0   BBSM    ${timeout}
     Close All ONOS SSH Connections
 
@@ -205,7 +206,7 @@ Setup Test
     Run Keyword If    ${has_dataplane}    Sleep    60s
     #restart open-onu pod to reset crash loop back off mechansim of kubenetes
     Run Keyword If    "${firsttest}"=="False" and "${usekill2restart}"=="True"
-    ...    Restart Pod By Label    ${namespace}    app    adapter-open-onu
+    ...    Restart Pod By Label    ${NAMESPACE}    app    adapter-open-onu
     Run Keyword If    "${firsttest}"=="False"    Sleep    35s
     ${firsttest}    Set Variable    False
     Set Suite Variable    ${firsttest}
@@ -238,7 +239,7 @@ Teardown Test
     Delete MIB Template Data
     # check etcd data are empty
     Run Keyword If    ${etcdcheckintestteardown}    Wait Until Keyword Succeeds    ${timeout}    1s
-    ...    Validate Onu Data In Etcd    0    ${kvstoreprefix}    without_pm_data=False
+    ...    Validate Onu Data In Etcd    ${INFRA_NAMESPACE}    0    ${kvstoreprefix}    without_pm_data=False
     Sleep    5s
 
 Do Reconcile In Determined State
@@ -262,8 +263,8 @@ Do Reconcile In Determined State
         Enable Device    ${olt_device_id}
     END
     Current State Test All Onus    ${expected_onu_reason}
-    Run Keyword If    ${usekill2restart}    Kill And Check Onu Adaptor    ${namespace}
-    ...    ELSE    Restart And Check Onu Adaptor    ${namespace}
+    Run Keyword If    ${usekill2restart}    Kill And Check Onu Adaptor    ${NAMESPACE}
+    ...    ELSE    Restart And Check Onu Adaptor    ${NAMESPACE}
     Run Keyword If    "${workflow}"=="DT"    Perform Sanity Test DT
     ...    ELSE IF    "${workflow}"=="TT"    Perform Sanity Tests TT
     ...    ELSE       Perform Sanity Test
@@ -297,8 +298,8 @@ Do Reconcile For Disabled Onu Device
     Run Keyword If    "${workflow}"=="DT"    Current State Test All Onus    omci-admin-lock
     ...    ELSE IF    "${workflow}"=="TT"    Current State Test All Onus    omci-admin-lock
     ...    ELSE       Current State Test All Onus    omci-admin-lock    alternativeonustate=${alternativeonustates}
-    Run Keyword If    ${usekill2restart}    Kill And Check Onu Adaptor    ${namespace}
-    ...    ELSE    Restart And Check Onu Adaptor    ${namespace}
+    Run Keyword If    ${usekill2restart}    Kill And Check Onu Adaptor    ${NAMESPACE}
+    ...    ELSE    Restart And Check Onu Adaptor    ${NAMESPACE}
     Run Keyword If    "${workflow}"=="DT"    Current State Test All Onus    omci-admin-lock
     ...    ELSE IF    "${workflow}"=="TT"    Current State Test All Onus    omci-admin-lock
     ...    ELSE       Current State Test All Onus    omci-admin-lock    alternativeonustate=${alternativeonustates}
@@ -331,8 +332,8 @@ Do Reconcile In Omci-Flows-Pushed
     Run Keyword If    "${workflow}"=="DT"    Perform Sanity Test DT
     ...    ELSE IF    "${workflow}"=="TT"    Perform Sanity Tests TT
     ...    ELSE       Perform Sanity Test
-    Run Keyword If    ${usekill2restart}    Kill And Check Onu Adaptor    ${namespace}
-    ...    ELSE    Restart And Check Onu Adaptor    ${namespace}
+    Run Keyword If    ${usekill2restart}    Kill And Check Onu Adaptor    ${NAMESPACE}
+    ...    ELSE    Restart And Check Onu Adaptor    ${NAMESPACE}
     Run Keyword If    "${workflow}"=="DT"    Perform Sanity Test DT     ${suppressaddsubscriber}
     ...    ELSE IF    "${workflow}"=="TT"    Perform Sanity Tests TT    ${suppressaddsubscriber}
     ...    ELSE       Perform Sanity Test    ${suppressaddsubscriber}

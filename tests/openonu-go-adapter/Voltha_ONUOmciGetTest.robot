@@ -34,7 +34,8 @@ Resource          ../../variables/variables.robot
 Resource          ../../libraries/power_switch.robot
 
 *** Variables ***
-${namespace}      voltha
+${NAMESPACE}      voltha
+${INFRA_NAMESPACE}      default
 ${timeout}        60s
 ${of_id}          0
 ${logical_id}     0
