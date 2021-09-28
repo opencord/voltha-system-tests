@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ee385187_d5fa684d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2021-09-28T08:25:42Z",
+      "side": 1,
+      "message": "Hi Martin, \n\nplease move the grpc library here:\nhttps://gerrit.opencord.org/admin/repos/grpc-robot\nand the Kafka library to\nhttps://gerrit.opencord.org/admin/repos/kafka-robot\n\nSame exact procedure as submitting to the Voltha-system-tests repo. Please let me know if you have issues. ",
+      "revId": "5ac8d5a971d1b291338b4520bb270f78286e2400",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    }
+  ]
+}
