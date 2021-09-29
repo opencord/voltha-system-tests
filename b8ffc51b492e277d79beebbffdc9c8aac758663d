@@ -41,6 +41,30 @@
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7fe6a42e_ea71c006",
+        "filename": "libraries/onu_utilities.robot",
+        "patchSetId": 8
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1000007
+      },
+      "writtenOn": "2021-09-29T14:14:46Z",
+      "side": 1,
+      "message": "the reason to have that is that otherwise the test will fail with the kafka based images. As you said that will fail with the kafka based images and will effectively behave as a Sleep, but I\u0027d rather have that (expecially considering the kafka image will be EOL soon) than introducing a configuration variable.",
+      "parentUuid": "31f98a68_925401ae",
+      "range": {
+        "startLine": 126,
+        "startChar": 3,
+        "endLine": 126,
+        "endChar": 36
+      },
+      "revId": "b8ffc51b492e277d79beebbffdc9c8aac758663d",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ae026c03_d8b31d06",
@@ -87,6 +111,30 @@
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "818a8e9c_1adbbf41",
+        "filename": "libraries/voltctl.robot",
+        "patchSetId": 8
+      },
+      "lineNbr": 333,
+      "author": {
+        "id": 1000007
+      },
+      "writtenOn": "2021-09-29T14:14:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d09ddc3e_8e99aca9",
+      "range": {
+        "startLine": 333,
+        "startChar": 4,
+        "endLine": 333,
+        "endChar": 45
+      },
+      "revId": "b8ffc51b492e277d79beebbffdc9c8aac758663d",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "465f47a4_ea180368",
@@ -110,6 +158,30 @@
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1f575454_bc678fa8",
+        "filename": "tests/openonu-go-adapter/Voltha_ONUReconcileTests.robot",
+        "patchSetId": 8
+      },
+      "lineNbr": 264,
+      "author": {
+        "id": 1000007
+      },
+      "writtenOn": "2021-09-29T14:14:46Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "465f47a4_ea180368",
+      "range": {
+        "startLine": 264,
+        "startChar": 4,
+        "endLine": 264,
+        "endChar": 108
+      },
+      "revId": "b8ffc51b492e277d79beebbffdc9c8aac758663d",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "527fc5ec_57c15384",
@@ -123,6 +195,30 @@
       "writtenOn": "2021-09-29T07:45:48Z",
       "side": 1,
       "message": "Please insert back the check omci-admin-lock like this:\n    Wait for ONU Adapter Reconcile      UNKNOWN\n    Run Keyword If    \"${workflow}\"\u003d\u003d\"DT\"    Current State Test All Onus    omci-admin-lock\n    ...    ELSE IF    \"${workflow}\"\u003d\u003d\"TT\"    Current State Test All Onus    omci-admin-lock\n    ...    ELSE       Current State Test All Onus    omci-admin-lock    alternativeonustate\u003d${alternativeonustates}",
+      "range": {
+        "startLine": 303,
+        "startChar": 4,
+        "endLine": 303,
+        "endChar": 47
+      },
+      "revId": "b8ffc51b492e277d79beebbffdc9c8aac758663d",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8b82bd51_90283449",
+        "filename": "tests/openonu-go-adapter/Voltha_ONUReconcileTests.robot",
+        "patchSetId": 8
+      },
+      "lineNbr": 303,
+      "author": {
+        "id": 1000007
+      },
+      "writtenOn": "2021-09-29T14:14:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "527fc5ec_57c15384",
       "range": {
         "startLine": 303,
         "startChar": 4,
