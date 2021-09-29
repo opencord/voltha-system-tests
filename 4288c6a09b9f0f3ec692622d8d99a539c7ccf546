@@ -33,6 +33,23 @@
       "message": "recheck",
       "revId": "4288c6a09b9f0f3ec692622d8d99a539c7ccf546",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2705ded5_d67c0244",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2021-09-29T08:38:04Z",
+      "side": 1,
+      "message": "Not sure you catch all places, but first of all looks good for me. Thanks for your work, Hardik.",
+      "revId": "4288c6a09b9f0f3ec692622d8d99a539c7ccf546",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     }
   ]
 }
