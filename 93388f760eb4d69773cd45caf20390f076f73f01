@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "80db6613_7a1cc3ba",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2021-09-29T11:58:47Z",
+      "side": 1,
+      "message": "Nice checks, but I have a small hint",
+      "revId": "93388f760eb4d69773cd45caf20390f076f73f01",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d55f235d_a0625bf6",
+        "filename": "libraries/onu_utilities.robot",
+        "patchSetId": 4
+      },
+      "lineNbr": 557,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2021-09-29T11:58:47Z",
+      "side": 1,
+      "message": "Not sure, but would it be better to place this keyword into utils.robot, because onu_utils.robot was designed for various openonu-go-adpter utilities (see documentation on top).",
+      "range": {
+        "startLine": 557,
+        "startChar": 0,
+        "endLine": 557,
+        "endChar": 24
+      },
+      "revId": "93388f760eb4d69773cd45caf20390f076f73f01",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    }
+  ]
+}
