@@ -65,6 +65,30 @@
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7423801e_5d9d2868",
+        "filename": "libraries/onu_utilities.robot",
+        "patchSetId": 8
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2021-09-29T14:21:17Z",
+      "side": 1,
+      "message": "Ok, let\u0027s remove keyword when kafka image EOL is reached in a further small patch.",
+      "parentUuid": "7fe6a42e_ea71c006",
+      "range": {
+        "startLine": 126,
+        "startChar": 3,
+        "endLine": 126,
+        "endChar": 36
+      },
+      "revId": "b8ffc51b492e277d79beebbffdc9c8aac758663d",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ae026c03_d8b31d06",
