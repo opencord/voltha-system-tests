@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b2654965_f288b4c0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2021-09-29T08:11:05Z",
+      "side": 1,
+      "message": "Verified patchset 3 : https://jenkins.opencord.org/view/VOLTHA-2.X-Tests/job/periodic-voltha-openonu-go-test-bbsim/590/console",
+      "revId": "4288c6a09b9f0f3ec692622d8d99a539c7ccf546",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    }
+  ]
+}
