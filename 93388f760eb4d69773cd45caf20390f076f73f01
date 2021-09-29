@@ -18,6 +18,23 @@
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "58a97d98_9a8fd04e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2021-09-29T15:47:42Z",
+      "side": 1,
+      "message": "DO-NOT-MERGE till VOL-4346 is resolved.\nJenkins per-patchset sanity verification will also be fixed once the above issue gets resolved.",
+      "revId": "93388f760eb4d69773cd45caf20390f076f73f01",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d55f235d_a0625bf6",
