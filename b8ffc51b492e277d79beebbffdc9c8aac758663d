@@ -1,0 +1,113 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5d544809_068343be",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2021-09-29T07:45:48Z",
+      "side": 1,
+      "message": "Hi Teo, principialy I aggree with your patch, but with the try to make it run with kafka, you destroy your intention. We have to find a running solution fo both, kafka and grpc. Maybe one way would be to know what is running, kafka or grpc, then we could make a decision. But this will be not best way for future, when only gprc will be used. Currently I do not have any idea to solve this issue.\nI give a -1 due to use of \u0027Run Keyword And Ignore Error\u0027for checking \u0027RECONCILING\u0027. See comment there. Sorry",
+      "revId": "b8ffc51b492e277d79beebbffdc9c8aac758663d",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "31f98a68_925401ae",
+        "filename": "libraries/onu_utilities.robot",
+        "patchSetId": 8
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2021-09-29T07:45:48Z",
+      "side": 1,
+      "message": "What benefit we have with this keyword \u0027Run Keyword And Ignore Error\u0027? In all reconcile testsuites running with kafka in https://jenkins.opencord.org/view/All%20Jobs/job/periodic-voltha-openonu-go-test-bbsim/588/ we never see oper-state RECONCILING! Now your nice keyword does not do what it should. We still have NO guarantee RECONILING was reached, which was your strong requirement. It is only satisfying to pass the test with kafka. A static \u0027Sleep ${timeout}\u0027 would do the same (in case of kafka)! For GRPC I think it will work, but there we should avoid to use \u0027Run Keyword And Ignore Error\u0027.\nIs there the possibility (e.g. environment variable) to detect system is running with kafka or grpc?",
+      "range": {
+        "startLine": 126,
+        "startChar": 3,
+        "endLine": 126,
+        "endChar": 36
+      },
+      "revId": "b8ffc51b492e277d79beebbffdc9c8aac758663d",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d09ddc3e_8e99aca9",
+        "filename": "libraries/voltctl.robot",
+        "patchSetId": 8
+      },
+      "lineNbr": 333,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2021-09-29T07:45:48Z",
+      "side": 1,
+      "message": "Maybe this works too and looks like the changes above:\nShould Be Equal As Integers    ${rc}    0    Failed Validate ONU Devices because of ${output}",
+      "range": {
+        "startLine": 333,
+        "startChar": 4,
+        "endLine": 333,
+        "endChar": 45
+      },
+      "revId": "b8ffc51b492e277d79beebbffdc9c8aac758663d",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "465f47a4_ea180368",
+        "filename": "tests/openonu-go-adapter/Voltha_ONUReconcileTests.robot",
+        "patchSetId": 8
+      },
+      "lineNbr": 264,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2021-09-29T07:45:48Z",
+      "side": 1,
+      "message": "It is not useful to wrap \u0027Current State Test All Onus\u0027 in \u0027Wait Until Keyword Succeeds\u0027, because \u0027Current State Test All Onus\u0027 already includes \u0027Wait Until Keyword Succeeds\u0027.\nI think following is enough here:\nCurrent State Test All Onus    ${expected_onu_reason}",
+      "range": {
+        "startLine": 264,
+        "startChar": 4,
+        "endLine": 264,
+        "endChar": 108
+      },
+      "revId": "b8ffc51b492e277d79beebbffdc9c8aac758663d",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "527fc5ec_57c15384",
+        "filename": "tests/openonu-go-adapter/Voltha_ONUReconcileTests.robot",
+        "patchSetId": 8
+      },
+      "lineNbr": 303,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2021-09-29T07:45:48Z",
+      "side": 1,
+      "message": "Please insert back the check omci-admin-lock like this:\n    Wait for ONU Adapter Reconcile      UNKNOWN\n    Run Keyword If    \"${workflow}\"\u003d\u003d\"DT\"    Current State Test All Onus    omci-admin-lock\n    ...    ELSE IF    \"${workflow}\"\u003d\u003d\"TT\"    Current State Test All Onus    omci-admin-lock\n    ...    ELSE       Current State Test All Onus    omci-admin-lock    alternativeonustate\u003d${alternativeonustates}",
+      "range": {
+        "startLine": 303,
+        "startChar": 4,
+        "endLine": 303,
+        "endChar": 47
+      },
+      "revId": "b8ffc51b492e277d79beebbffdc9c8aac758663d",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    }
+  ]
+}
