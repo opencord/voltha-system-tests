@@ -50,6 +50,24 @@
       "message": "Not sure you catch all places, but first of all looks good for me. Thanks for your work, Hardik.",
       "revId": "4288c6a09b9f0f3ec692622d8d99a539c7ccf546",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c38bd957_43a24c30",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2021-09-29T09:04:48Z",
+      "side": 1,
+      "message": "I tried to cover all. Most changes were related openonu-adapter tests so I have tried to run it here https://jenkins.opencord.org/view/VOLTHA-2.X-Tests/job/periodic-voltha-openonu-go-test-bbsim/590/console and it passed. I expect this to not break any existing Jenkins job at least. If still something missed, will address it as we see in future.",
+      "parentUuid": "2705ded5_d67c0244",
+      "revId": "4288c6a09b9f0f3ec692622d8d99a539c7ccf546",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     }
   ]
 }
