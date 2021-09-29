@@ -35,6 +35,23 @@
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e975e045_70decae2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000127
+      },
+      "writtenOn": "2021-09-29T17:06:19Z",
+      "side": 1,
+      "message": "There are a few more keys that need to be checked for cleanup. Mentioned in review comments.",
+      "revId": "93388f760eb4d69773cd45caf20390f076f73f01",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d55f235d_a0625bf6",
@@ -72,6 +89,30 @@
       "side": 1,
       "message": "Ack",
       "parentUuid": "d55f235d_a0625bf6",
+      "range": {
+        "startLine": 557,
+        "startChar": 0,
+        "endLine": 557,
+        "endChar": 24
+      },
+      "revId": "93388f760eb4d69773cd45caf20390f076f73f01",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6578ad92_96762419",
+        "filename": "libraries/onu_utilities.robot",
+        "patchSetId": 4
+      },
+      "lineNbr": 557,
+      "author": {
+        "id": 1000127
+      },
+      "writtenOn": "2021-09-29T17:06:19Z",
+      "side": 1,
+      "message": "I think there are more keys. Can you add these too?\n\nservice/${kvstoreprefix}/resource_instances\nservice/${kvstoreprefix}/resource_manager\nservice/${kvstoreprefix}/openolt\nservice/${kvstoreprefix}/openonu",
+      "parentUuid": "72ed688b_0677e6b2",
       "range": {
         "startLine": 557,
         "startChar": 0,
