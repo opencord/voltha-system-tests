@@ -43,6 +43,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ae026c03_d8b31d06",
+        "filename": "libraries/onu_utilities.robot",
+        "patchSetId": 8
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2021-09-29T07:52:50Z",
+      "side": 1,
+      "message": "Just one small improvement to avoid multiple check of same ONU in case of TT workflow:\n    ${onu_list}    Create List\n    FOR    ${I}    IN RANGE    0    ${num_all_onus}\n        ${onu_sn}\u003d  Set Variable    ${hosts.src[${I}][\u0027onu\u0027]}\n        ${onu_id}\u003d    Get Index From List    ${onu_list}   ${onu_sn}\n        Continue For Loop If    -1 !\u003d ${onu_id}\n        Append To List    ${onu_list}    ${onu_sn}\n        Wait Until Keyword Succeeds    ${timeout}    100ms  Check ONU OperStatus     ${onu_sn}  ${oper_status}\n    END",
+      "range": {
+        "startLine": 129,
+        "startChar": 4,
+        "endLine": 132,
+        "endChar": 7
+      },
+      "revId": "b8ffc51b492e277d79beebbffdc9c8aac758663d",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d09ddc3e_8e99aca9",
         "filename": "libraries/voltctl.robot",
         "patchSetId": 8
