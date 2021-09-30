@@ -16,6 +16,23 @@
       "message": "Looks good, but for completeness \u0027-kind\u0027 should also removed from all the file names. But this will obviously lead to a neverending story:-)",
       "revId": "f6bd86bf40eaf9eee524394093b951d473abe6e6",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3fefe929_6c5657b8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000127
+      },
+      "writtenOn": "2021-09-30T16:29:26Z",
+      "side": 1,
+      "message": "I have the same set of comments that I provided on the replica changes on voltha-2.8 branch.",
+      "revId": "f6bd86bf40eaf9eee524394093b951d473abe6e6",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     }
   ]
 }
