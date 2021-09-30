@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9c870217_aa8cbc95",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2021-09-30T03:35:23Z",
+      "side": 1,
+      "message": "Nice work Teo! I think this needs to be looked and worked upon everywhere in most of the tests. I will create another JIRA for this activity.",
+      "revId": "4c78e59449c5dc03e01ced05133802a3289d32ce",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    }
+  ]
+}
