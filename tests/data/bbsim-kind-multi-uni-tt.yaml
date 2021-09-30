@@ -14,7 +14,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# Automated deployment configuration for kind-voltha running BBSim
+# Automated deployment configuration for systems running BBSim
 
 # Change default values in tests
 workflow: TT
