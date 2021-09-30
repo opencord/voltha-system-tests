@@ -25,8 +25,7 @@ Brigade](https://drive.google.com/drive/u/1/folders/1BzyBoEURG2pVfyYBXnWUI30uy0F
   Reference - [kubectl](https://kubernetes.io/docs/reference/kubectl/kubectl/)
 
 * `voltctl` and `kubectl` must be properly configured on your system
-  prior to any test executions.  The `kind-voltha` environment will install
-  and configure these tools for you; see below.
+  prior to any test executions.
 
 Directory is structured as follows:
 
@@ -39,57 +38,14 @@ Directory is structured as follows:
 
 ## Setting up a test environment
 
-An easy way to bring up VOLTHA + BBSim for testing is by using
-[kind-voltha](https://github.com/ciena/kind-voltha).  To set
+An easy way to bring up VOLTHA + BBSim for testing is by using the `helm-charts` as described in
+[voltha-helm-charts README](https://github.com/opencord/voltha-helm-charts/blob/master/README.md). To set
 up a minimal environment, first install [Docker](https://docs.docker.com/install/).
 
 > NOTE: Please make sure you are able to run the docker command (your user is
 > in the `docker` group)
 
-If you don't have a Kubernetes cluster, please use the following command to
-set up the cluster provided by [kind-voltha](https://github.com/ciena/kind-voltha)
-and install required tools.
-
-```bash
-git clone https://github.com/ciena/kind-voltha
-cd kind-voltha
-TYPE=minimal WITH_RADIUS=y WITH_BBSIM=y CONFIG_SADIS=y WITH_SIM_ADAPTERS=n ./voltha up
-source minimal-env.sh
-```
-
-If you prefer to use your own Kubernetes cluster, please read the document
-[kind-voltha configuration
-options](https://github.com/ciena/kind-voltha#voltha-up-configuration-options)
-first to see how to configure the `kind-voltha` installation behavior.
-
-> Recommended software versions
-- Helm: v2.14.3
-- Kubernetes: v1.15.5
-- KIND: v0.5.1
-
-You can skip the installation of Kubernetes cluster and Helm by setting
-environment variables.  For example, run the following command to install
-VOLTHA only in an existing cluster.
-
-```bash
-git clone https://github.com/ciena/kind-voltha
-cd kind-voltha
-TYPE=minimal WITH_RADIUS=y WITH_BBSIM=y CONFIG_SADIS=y WITH_SIM_ADAPTERS=n DEPLOY_K8S=n INSTALL_KUBECTL=n INSTALL_HELM=n ./voltha up
-source minimal-env.sh
-```
-
-The Helm values file `kind-voltha/minimal-values.yaml` determines which images will be deployed on the
-Kubernetes cluster.   The default is `master` images from [VOLTHA's Docker
-Hub repository](https://hub.docker.com/u/voltha/).  You can modify this file as needed, for
-example to deploy released images or private test images.
-
-### DT Workflow
-If you want to install voltha for the DT Workflow, add `WITH_RADIUS=n WITH_EAPOL=n WITH_DHCP=n WITH_IGMP=n CONFIG_SADIS=n` flags in the `./voltha up` command above.
-
-### Debug the kind-voltha installation
-
-If you meet any issues when you set up the VOLTHA testing environment by
-running `./voltha up`, you can see the installation logs from the file `kind-voltha/install-minimal.log`.
+Then you can follow all the instructions in the [voltha-helm-charts README](https://github.com/opencord/voltha-helm-charts/blob/master/README.md).
 
 ## Running the sanity tests
 
@@ -129,8 +85,7 @@ used by the tests:
 * ROBOT_FILE: The test suite file in `tests/functional` that will be invoked by `robot`.
 
 * ROBOT_MISC_ARGS: Robot arguments passed directly to `robot`, for example to specify which test
-cases to run.  If you are running in a non-standard environment (e.g., not created by `kind-voltha`)
-you may need to override some default variable settings for your environment.
+cases to run. For some environments you may need to override some default variable settings for your environment.
 See [variables.robot](https://github.com/opencord/voltha-system-tests/blob/master/variables/variables.robot)
 for the list of defaults.
 
@@ -146,20 +101,12 @@ below.
 ### Deploying POD
 
 Deploying POD can be either manual or automated using Jenkins job.
-You can install it manually by following these steps below.
+You can install it manually by following the steps in 
+[voltha-helm-charts README](https://github.com/opencord/voltha-helm-charts/blob/master/README.md)
 
-```bash
-git clone https://github.com/ciena/kind-voltha.git
-cd kind-voltha/
-EXTRA_HELM_FLAGS='-f <PATH_TO_YOUR_K8S_CONFIG_FILE>' WITH_RADIUS=yes WITH_TP=yes DEPLOY_K8S=no INSTALL_KUBECTL=no INSTALL_HELM=no ./voltha up
-```
-
-Note: replace `PATH_TO_YOUR_K8S_CONFIG_FILE` with your Kubernetes configuration
+Note: please add `-f PATH_TO_YOUR_K8S_CONFIG_FILE` to your helm commands with your Kubernetes configuration
 file. To create one please check this
 [example](https://github.com/opencord/pod-configs/blob/master/kubernetes-configs/voltha/flex-ocp-cord.yml).
-For more information on various environment variables with `./voltha up` please
-check the link
-[here](https://github.com/ciena/kind-voltha/blob/master/README.md)
 
 ### Dataplane test prerequisites
 
