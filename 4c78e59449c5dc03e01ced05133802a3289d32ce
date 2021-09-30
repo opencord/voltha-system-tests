@@ -77,6 +77,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "33c02d0f_60be1842",
+        "filename": "libraries/utils.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 1000007
+      },
+      "writtenOn": "2021-09-30T14:27:24Z",
+      "side": 1,
+      "message": "Wondering what the author wanted to achieve is a fair question, but the \"Run Keyword And Continue On Failure\" as a very big downside: the logs that are collected at the end of the test are not representative of the failure, making it really hard to debug.\n\nFor example:\n- Verify ONU in AAA-Users fails\n- We proceed to provision the subscriber\n- Flows are removed and added so we don\u0027t know anymore what was the state when the failure happened",
+      "parentUuid": "d144ff7d_153d1717",
+      "range": {
+        "startLine": 208,
+        "startChar": 0,
+        "endLine": 208,
+        "endChar": 27
+      },
+      "revId": "4c78e59449c5dc03e01ced05133802a3289d32ce",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "1304e3cf_6b75e598",
         "filename": "libraries/utils.robot",
         "patchSetId": 1
