@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6dbf42f4_2ba7b6a0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2021-09-30T09:48:52Z",
+      "side": 1,
+      "message": "Looks good, but for completeness \u0027-kind\u0027 should also removed from all the file names. But this will obviously lead to a neverending story:-)",
+      "revId": "f6bd86bf40eaf9eee524394093b951d473abe6e6",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    }
+  ]
+}
