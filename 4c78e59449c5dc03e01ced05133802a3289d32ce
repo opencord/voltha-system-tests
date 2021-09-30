@@ -33,6 +33,92 @@
       "message": "Great job and I agree with Hardik.",
       "revId": "4c78e59449c5dc03e01ced05133802a3289d32ce",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "333813df_85cbf02f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2021-09-30T07:19:15Z",
+      "side": 1,
+      "message": "We can discuss about the suggestion below. Thanks",
+      "revId": "4c78e59449c5dc03e01ced05133802a3289d32ce",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d144ff7d_153d1717",
+        "filename": "libraries/utils.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2021-09-30T07:19:15Z",
+      "side": 1,
+      "message": "Me again, after some thoughts about multiple use of keyword \u0027Run Keyword And Continue On Failure\u0027 I\u0027m asking, what was the intension of the author. Maybe it was to make as much checks as possible and get as much results as possible before failing. So my suggestion is to keep \u0027Run Keyword And Continue On Failure\u0027 at all places and introduce a Teardown for all corresponding keywords, which checks the keyword status similar already done in \u0027Current State Test All Onus\u0027 in onu-utilities.robot (see https://github.com/opencord/voltha-system-tests/blob/master/libraries/onu_utilities.robot#L115)\nMy suggestion:\n[Teardown]    Run Keyword If    \"${KEYWORD STATUS}\"\u003d\u003d\"FAIL\"    FAIL   Sanity check ATT failed",
+      "range": {
+        "startLine": 208,
+        "startChar": 0,
+        "endLine": 208,
+        "endChar": 27
+      },
+      "revId": "4c78e59449c5dc03e01ced05133802a3289d32ce",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1304e3cf_6b75e598",
+        "filename": "libraries/utils.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 310,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2021-09-30T07:19:15Z",
+      "side": 1,
+      "message": "Same here:\n[Teardown]    Run Keyword If    \"${KEYWORD STATUS}\"\u003d\u003d\"FAIL\"    FAIL   Sanity check DT failed",
+      "range": {
+        "startLine": 310,
+        "startChar": 0,
+        "endLine": 310,
+        "endChar": 30
+      },
+      "revId": "4c78e59449c5dc03e01ced05133802a3289d32ce",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "78a9cd1b_6bf7d429",
+        "filename": "libraries/utils.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 393,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2021-09-30T07:19:15Z",
+      "side": 1,
+      "message": "Same here:\n[Teardown]    Run Keyword If    \"${KEYWORD STATUS}\"\u003d\u003d\"FAIL\"    FAIL   Sanity check \nTT failed",
+      "range": {
+        "startLine": 393,
+        "startChar": 0,
+        "endLine": 393,
+        "endChar": 22
+      },
+      "revId": "4c78e59449c5dc03e01ced05133802a3289d32ce",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     }
   ]
 }
