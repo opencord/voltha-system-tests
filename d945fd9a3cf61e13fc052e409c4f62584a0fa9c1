@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f9323c02_e2c8f9c3",
+        "filename": "README.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1000127
+      },
+      "writtenOn": "2021-09-30T16:27:29Z",
+      "side": 1,
+      "message": "Do we still have this? Also grep for \"kind\" word in this repo to see if there are other references.",
+      "range": {
+        "startLine": 82,
+        "startChar": 10,
+        "endLine": 82,
+        "endChar": 28
+      },
+      "revId": "d945fd9a3cf61e13fc052e409c4f62584a0fa9c1",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    }
+  ]
+}
