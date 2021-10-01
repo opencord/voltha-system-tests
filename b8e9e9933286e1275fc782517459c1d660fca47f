@@ -33,6 +33,23 @@
       "message": "do not merge until: https://gerrit.opencord.org/c/voltha-openonu-adapter-go/+/27725\n",
       "revId": "b8e9e9933286e1275fc782517459c1d660fca47f",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f263b1d5_7b61bd9d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2021-10-01T12:54:23Z",
+      "side": 1,
+      "message": "+1 for the code, -1 until Micahel\u0027s https://gerrit.opencord.org/c/voltha-openonu-adapter-go/+/27725 is merged. ",
+      "revId": "b8e9e9933286e1275fc782517459c1d660fca47f",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     }
   ]
 }
