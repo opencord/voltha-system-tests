@@ -1,6 +1,7 @@
 {
   "comments": [
     {
+      "unresolved": true,
       "key": {
         "uuid": "89681b6a_2cba0f8b",
         "filename": "libraries/kafka-robot/tests/off_target_test.robot",
@@ -20,8 +21,31 @@
         "endChar": 69
       },
       "revId": "92d51c54be7dd3a15023ddea88f3dd8a14f0bdf1",
-      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388",
-      "unresolved": true
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8f40742e_0ff6472f",
+        "filename": "libraries/kafka-robot/tests/off_target_test.robot",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1000739
+      },
+      "writtenOn": "2021-10-01T09:06:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "89681b6a_2cba0f8b",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 69
+      },
+      "revId": "92d51c54be7dd3a15023ddea88f3dd8a14f0bdf1",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     }
   ]
 }
