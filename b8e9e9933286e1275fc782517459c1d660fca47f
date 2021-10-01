@@ -67,6 +67,40 @@
       "message": "Changes LGTM. These should be tested before merging once openonu-adapter-go patch as mentioned by Andrea gets merged.",
       "revId": "b8e9e9933286e1275fc782517459c1d660fca47f",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "63b83b4e_f273d3c6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000666
+      },
+      "writtenOn": "2021-10-01T13:28:47Z",
+      "side": 1,
+      "message": "Basically working, but I\u0027d like to provide an improvement for issues Torsten has already detected himself in his tests.",
+      "revId": "b8e9e9933286e1275fc782517459c1d660fca47f",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6aae6f06_aa5874a7",
+        "filename": "tests/software-upgrades/ONU_Upgrade.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 319,
+      "author": {
+        "id": 1000666
+      },
+      "writtenOn": "2021-10-01T13:28:47Z",
+      "side": 1,
+      "message": "This proceeding is a bit dangerous and might have unintended implications in case the test suite is run multiple times: Here the name \u0027INVALID_IMAGE\u0027 gets connected to the valid URL. As the same name is used in the wrongUrl test, this one may then fail as this image name can be detected as already existing (thus no further attempt for downloading is executed and the expected error can\u0027t be detected).\nI\u0027ll try to provide a solution that anyway more generally is useful to reset the adapter as far as possible to the initial state of the test.",
+      "revId": "b8e9e9933286e1275fc782517459c1d660fca47f",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     }
   ]
 }
