@@ -50,6 +50,23 @@
       "message": "+1 for the code, -1 until Micahel\u0027s https://gerrit.opencord.org/c/voltha-openonu-adapter-go/+/27725 is merged. ",
       "revId": "b8e9e9933286e1275fc782517459c1d660fca47f",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0a09bd3d_61cbe8af",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2021-10-01T12:59:17Z",
+      "side": 1,
+      "message": "Changes LGTM. These should be tested before merging once openonu-adapter-go patch as mentioned by Andrea gets merged.",
+      "revId": "b8e9e9933286e1275fc782517459c1d660fca47f",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     }
   ]
 }
