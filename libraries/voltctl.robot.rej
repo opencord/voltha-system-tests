@@ -1,0 +1,19 @@
+diff a/libraries/voltctl.robot b/libraries/voltctl.robot	(rejected hunks)
+@@ -871,7 +871,7 @@ Activate ONU Device Image
+     ...    voltctl -c ${VOLTCTL_CONFIG} device onuimage activate ${ver} ${commit} ${id} -o json
+     Log    ${output}
+     Should Be Equal As Integers    ${rc}    0
+-    Validate ONU Device Image    ${output}    ${ver}    ${id}    DOWNLOAD_STARTED    NO_ERROR    IMAGE_ACTIVATING
++    Validate ONU Device Image    ${output}    ${ver}    ${id}    DOWNLOAD_SUCCEEDED    NO_ERROR    IMAGE_ACTIVATING
+ 
+ Commit ONU Device Image
+     [Documentation]    Commits the given ONU software image
+@@ -880,7 +880,7 @@ Commit ONU Device Image
+     ...    voltctl -c ${VOLTCTL_CONFIG} device onuimage commit ${ver} ${id} -o json
+     Log    ${output}
+     Should Be Equal As Integers    ${rc}    0
+-    Validate ONU Device Image    ${output}    ${ver}    ${id}    DOWNLOAD_STARTED    NO_ERROR    IMAGE_COMMITTING
++    Validate ONU Device Image    ${output}    ${ver}    ${id}    DOWNLOAD_SUCCEEDED    NO_ERROR    IMAGE_COMMITTING
+ 
+ Abort ONU Device Image
+     [Documentation]    Aborts the given ONU software image
