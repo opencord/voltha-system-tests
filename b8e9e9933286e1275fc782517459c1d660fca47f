@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3ea407fc_8aeaa4a5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2021-10-01T11:13:23Z",
+      "side": 1,
+      "message": "Do not merge before corresponding openonu-go-adapter patch is merged!",
+      "revId": "b8e9e9933286e1275fc782517459c1d660fca47f",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    }
+  ]
+}
