@@ -16,6 +16,29 @@
       "message": "Verified patchset 2: https://jenkins.opencord.org/view/VOLTHA-2.X-Tests/job/build_onf-demo-pod_1T8GEM_voltha_DT_master_test/580/robot/report/dt-workflow/FailureScenarios/log.html ",
       "revId": "f88dca6ceebfc78a8f970cb96b8f38a476a2c548",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3a8a7898_385219f7",
+        "filename": "tests/dt-workflow/Voltha_DT_FailureScenarios.robot",
+        "patchSetId": 4
+      },
+      "lineNbr": 682,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2021-10-01T13:17:33Z",
+      "side": 1,
+      "message": "I\u0027m wondering if there is a way to make this test a keyword somewhere and just make this element the differentiating element for the different workflows.",
+      "range": {
+        "startLine": 682,
+        "startChar": 55,
+        "endLine": 682,
+        "endChar": 77
+      },
+      "revId": "f88dca6ceebfc78a8f970cb96b8f38a476a2c548",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     }
   ]
 }
