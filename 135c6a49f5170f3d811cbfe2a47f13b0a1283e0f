@@ -16,6 +16,23 @@
       "message": "Tested patchset 6: https://jenkins.opencord.org/view/VOLTHA-2.X-Tests/job/build_menlo-certification-pod-radisys-3200g_1T8GEM_voltha_DT_master_test/56/robot/report/dt-workflow/FailureScenarios/log.html",
       "revId": "135c6a49f5170f3d811cbfe2a47f13b0a1283e0f",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d0f2141b_65aa600e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2021-10-04T13:40:04Z",
+      "side": 1,
+      "message": "Also here: https://jenkins.opencord.org/view/VOLTHA-2.X-Tests/job/build_onf-demo-pod_1T8GEM_voltha_DT_master_test/584/console",
+      "revId": "135c6a49f5170f3d811cbfe2a47f13b0a1283e0f",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     }
   ]
 }
