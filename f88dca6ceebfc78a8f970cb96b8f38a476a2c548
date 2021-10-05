@@ -56,6 +56,24 @@
       "message": "Should we introduce additional steps to unprovision and provision subscriber and to sanity test again? This ensures control plane is unaffected by restart of the pod.",
       "revId": "f88dca6ceebfc78a8f970cb96b8f38a476a2c548",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "878c1bfc_d23bf081",
+        "filename": "tests/dt-workflow/Voltha_DT_FailureScenarios.robot",
+        "patchSetId": 4
+      },
+      "lineNbr": 726,
+      "author": {
+        "id": 1000007
+      },
+      "writtenOn": "2021-10-05T17:03:26Z",
+      "side": 1,
+      "message": "Isn\u0027t that guaranteed by \"Check Ping Result\"?\n\nAnyway this keyword will remove the subscriber, disable and enable the ONU and provision the subscriber, then check the flows and ping",
+      "parentUuid": "f283a91c_1dfced8c",
+      "revId": "f88dca6ceebfc78a8f970cb96b8f38a476a2c548",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     }
   ]
 }

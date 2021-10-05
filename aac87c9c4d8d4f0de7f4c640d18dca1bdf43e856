@@ -16,6 +16,29 @@
       "message": "Tested patchset 7:\n1. https://jenkins.opencord.org/view/VOLTHA-2.X-Tests/job/build_menlo-certification-pod-radisys-3200g_1T8GEM_voltha_DT_master_test/57/console : all pass\n2. https://jenkins.opencord.org/view/VOLTHA-2.X-Tests/job/build_onf-demo-pod_1T8GEM_voltha_DT_master_test/585/robot/report/dt-workflow/FailureScenarios/log.html : minor failures, unrelated to tests\n3. https://jenkins.opencord.org/view/VOLTHA-2.X-Tests/job/build_flex-ocp-cord_TP_voltha_TT_master_test/461/console : minor failures, looks unrelated to tests, will do a re-trigger to confirm",
       "revId": "aac87c9c4d8d4f0de7f4c640d18dca1bdf43e856",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "20473ac0_f8483343",
+        "filename": "tests/dt-workflow/Voltha_DT_FailureScenarios.robot",
+        "patchSetId": 7
+      },
+      "lineNbr": 706,
+      "author": {
+        "id": 1000007
+      },
+      "writtenOn": "2021-10-05T17:03:26Z",
+      "side": 1,
+      "message": "the port-forwarding is tied to a POD, if the POD restart the connection drops. We should start thinking about moving the test infrastructure to use Ingress, that will simplify the tests",
+      "range": {
+        "startLine": 705,
+        "startChar": 4,
+        "endLine": 706,
+        "endChar": 56
+      },
+      "revId": "aac87c9c4d8d4f0de7f4c640d18dca1bdf43e856",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     }
   ]
 }
