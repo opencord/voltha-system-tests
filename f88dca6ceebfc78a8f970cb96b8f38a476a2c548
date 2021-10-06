@@ -74,6 +74,24 @@
       "parentUuid": "f283a91c_1dfced8c",
       "revId": "f88dca6ceebfc78a8f970cb96b8f38a476a2c548",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6e0a5fd2_790377a3",
+        "filename": "tests/dt-workflow/Voltha_DT_FailureScenarios.robot",
+        "patchSetId": 4
+      },
+      "lineNbr": 726,
+      "author": {
+        "id": 1000127
+      },
+      "writtenOn": "2021-10-06T04:49:57Z",
+      "side": 1,
+      "message": "\"Check ping result\" will work anyway as the dataplane is unaffected on pod restart. What is interesting to observer is that the pod restart has brought back the pod to a sane state such that it can handle control plane requests for that ONU. Remove-\u003eadd subscriber and then verify dhcp-\u003eping is a good test to check this after pod restart.",
+      "parentUuid": "878c1bfc_d23bf081",
+      "revId": "f88dca6ceebfc78a8f970cb96b8f38a476a2c548",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     }
   ]
 }
