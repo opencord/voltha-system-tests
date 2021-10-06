@@ -39,6 +39,30 @@
       },
       "revId": "aac87c9c4d8d4f0de7f4c640d18dca1bdf43e856",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "92075e23_a12d4c9e",
+        "filename": "tests/dt-workflow/Voltha_DT_FailureScenarios.robot",
+        "patchSetId": 7
+      },
+      "lineNbr": 706,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2021-10-06T04:56:14Z",
+      "side": 1,
+      "message": "Yes, we can work on this as a separate item.",
+      "parentUuid": "20473ac0_f8483343",
+      "range": {
+        "startLine": 705,
+        "startChar": 4,
+        "endLine": 706,
+        "endChar": 56
+      },
+      "revId": "aac87c9c4d8d4f0de7f4c640d18dca1bdf43e856",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     }
   ]
 }
