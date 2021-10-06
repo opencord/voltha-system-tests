@@ -530,6 +530,11 @@ onu-upgrade-test: ROBOT_FILE := ONU_Upgrade.robot
 onu-upgrade-test: ROBOT_CONFIG_FILE := $(ROBOT_SW_UPGRADE_FILE)
 onu-upgrade-test: software-upgrade-test
 
+onos-ha-test: ROBOT_MISC_ARGS +=  -e notready $(ROBOT_DEBUG_LOG_OPT)
+onos-ha-test: ROBOT_FILE := Voltha_ONOSHATests.robot
+onos-ha-test: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_SINGLE_PON_FILE)
+onos-ha-test: voltha-test
+
 software-upgrade-test: vst_venv
 	source ./$</bin/activate ; set -u ;\
 	cd tests/software-upgrades ;\
