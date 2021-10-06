@@ -33,6 +33,24 @@
       "message": "I have the same set of comments that I provided on the replica changes on voltha-2.8 branch.",
       "revId": "f6bd86bf40eaf9eee524394093b951d473abe6e6",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d6d26bf4_df0ac064",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2021-10-06T13:44:31Z",
+      "side": 1,
+      "message": "I can be spared from that change by the fact that we are actually still using a kind cluster to then deploy the helm charts ;)",
+      "parentUuid": "6dbf42f4_2ba7b6a0",
+      "revId": "f6bd86bf40eaf9eee524394093b951d473abe6e6",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     }
   ]
 }
