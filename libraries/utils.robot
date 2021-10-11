@@ -507,24 +507,24 @@ Sanity Test TT MCAST one ONU
     ...       For repeating sanity test without subscriber changes set flag supress_add_subscriber=True.
     ...       In all other (common) cases flag has to be set False (default).
     [Arguments]    ${src}    ${dst}    ${supress_add_subscriber}=False
-    # Check for iperf and jq tools
-    ${stdout}    ${stderr}    ${rc}=    Execute Remote Command    which iperf jq
+    # Check for iperf3 and jq tools
+    ${stdout}    ${stderr}    ${rc}=    Execute Remote Command    which iperf3 jq
     ...    ${src['ip']}    ${src['user']}    ${src['pass']}    ${src['container_type']}
     ...    ${src['container_name']}
-    Pass Execution If    ${rc} != 0    Skipping test: iperf / jq not found on the RG
+    Pass Execution If    ${rc} != 0    Skipping test: iperf3 / jq not found on the RG
 
     #Reset the IP on the interface
     ${output}=    Login And Run Command On Remote System    sudo ifconfig ${src['dp_iface_name']} 0
     ...    ${src['ip']}    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
-    # Kill iperf  on BNG
+    # Kill iperf3  on BNG
     ${rg_output}=    Run Keyword and Continue On Failure    Login And Run Command On Remote System
-    ...    sudo kill -9 `pidof iperf`
+    ...    sudo kill -9 `pidof iperf3`
     ...    ${dst['bng_ip']}    ${dst['bng_user']}    ${dst['bng_pass']}    ${dst['container_type']}
     ...    ${dst['container_name']}
 
     # Setup RG for Multi-cast test
     ${output}=    Login And Run Command On Remote System
-    ...    sudo ifconfig ${src['dp_iface_name']} ${src['mcast_rg']} up ; sudo kill -9 `pidof iperf`
+    ...    sudo ifconfig ${src['dp_iface_name']} ${src['mcast_rg']} up ; sudo kill -9 `pidof iperf3`
     ...    ${src['ip']}    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
     ${output}=    Login And Run Command On Remote System
     ...    sudo ip route add ${src['mcast_grp_subnet_mask']} dev ${src['dp_iface_name']} scope link
@@ -554,16 +554,16 @@ Sanity Test TT MCAST one ONU
     ...    ENABLED    ACTIVE    REACHABLE
     ...    ${src['onu']}    onu=True    onu_reason=${onu_reasons}
 
-    # Setup iperf on the BNG
+    # Setup iperf3 on the BNG
     ${server_output}=    Login And Run Command On Remote System
-    ...    sudo iperf -c ${dst['dp_iface_ip_qinq']} -u -T 32 -t 60 -i 1 &
+    ...    sudo iperf3 -c ${dst['dp_iface_ip_qinq']} -u -T 32 -t 60 -i 1 &
     ...    ${dst['bng_ip']}    ${dst['bng_user']}    ${dst['bng_pass']}    ${dst['container_type']}
     ...    ${dst['container_name']}
 
-    # Setup iperf on the RG
+    # Setup iperf3 on the RG
     ${rg_output}=    Run Keyword and Continue On Failure    Wait Until Keyword Succeeds     90s    5s
     ...    Login And Run Command On Remote System
-    ...    rm -rf /tmp/rg_output ; sudo iperf -s -u -B ${dst['dp_iface_ip_qinq']} -i 1 -D >> /tmp/rg_output
+    ...    rm -rf /tmp/rg_output ; iperf3 -s -B ${dst['dp_iface_ip_qinq']} -i 1 -D >> /tmp/rg_output
     ...    ${src['ip']}    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
     Log    ${rg_output}
     Sleep    60s
@@ -574,15 +574,15 @@ Sanity Test TT MCAST one ONU
     Log    ${output}
     Should Contain    ${output}    KBytes
 
-    # Kill iperf  on BNG
+    # Kill iperf3  on BNG
     ${rg_output}=    Run Keyword and Continue On Failure    Login And Run Command On Remote System
-    ...    sudo kill -9 `pidof iperf`
+    ...    sudo kill -9 `pidof iperf3`
     ...    ${dst['bng_ip']}    ${dst['bng_user']}    ${dst['bng_pass']}    ${dst['container_type']}
     ...    ${dst['container_name']}
 
-    # Kill iperf on the RG
+    # Kill iperf3 on the RG
     ${output}=    Run Keyword and Continue On Failure    Login And Run Command On Remote System
-    ...    sudo kill -9 `pidof iperf`
+    ...    sudo kill -9 `pidof iperf3`
     ...    ${src['ip']}    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
 
 Setup Soak
@@ -1322,9 +1322,9 @@ Run Iperf3 Test Client
 
 Run Iperf Test Client for MCAST
     [Arguments]    ${src}    ${server}    ${args}
-    [Documentation]    Login to ${src} and run the iperf client against ${server} using ${args}.
+    [Documentation]    Login to ${src} and run the iperf3 client against ${server} using ${args}.
     ...    Return a Dictionary containing the results of the test.
-    ${output}    ${stderr}    ${rc}=    Execute Remote Command    sudo iperf -c ${server} ${args} | jq -M -c '.'
+    ${output}    ${stderr}    ${rc}=    Execute Remote Command    sudo iperf3 -c ${server} ${args} | jq -M -c '.'
     ...    ${src['ip']}    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
     Should Be Equal As Integers    ${rc}    0
     ${object}=    Evaluate    json.loads(r'''${output}''')    json
