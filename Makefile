@@ -143,14 +143,14 @@ functional-multiuni-multiolt-att: voltha-test
 
 # target to invoke openonu go adapter
 openonu-go-adapter-test: ROBOT_MISC_ARGS += -v state2test:omci-flows-pushed -v testmode:SingleStateTime
-openonu-go-adapter-test: ROBOT_MISC_ARGS += -v logging:True -i sanityOnuGo -i functionalOnuGo
+openonu-go-adapter-test: ROBOT_MISC_ARGS += -i sanityOnuGo -i functionalOnuGo
 openonu-go-adapter-test: ROBOT_MISC_ARGS += -e notreadyOnuGo $(ROBOT_DEBUG_LOG_OPT)
 openonu-go-adapter-test: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_SINGLE_PON_FILE)
 openonu-go-adapter-test: ROBOT_FILE := Voltha_ONUStateTests.robot
 openonu-go-adapter-test: openonu-go-adapter-tests
 
 # target to invoke test with openonu go adapter applying MIB-Upload-Templating
-mib-upload-templating-openonu-go-adapter-test: ROBOT_MISC_ARGS += -v logging:True -i functionalOnuGo
+mib-upload-templating-openonu-go-adapter-test: ROBOT_MISC_ARGS += -i functionalOnuGo
 mib-upload-templating-openonu-go-adapter-test: ROBOT_MISC_ARGS += -e notreadyOnuGo -X $(ROBOT_DEBUG_LOG_OPT)
 mib-upload-templating-openonu-go-adapter-test: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_MULT_PON_FILE)
 mib-upload-templating-openonu-go-adapter-test: ROBOT_FILE := Voltha_ONUTemplateTests.robot
@@ -164,7 +164,7 @@ openonu-go-adapter-omci-hardening-passed-test: openonu-go-adapter-test
 # target to invoke openonu go adapter failed state test at single ONU with OMCI hardening
 # test should show in case of too small omci_response_rate (<=7) in BBSIM that OMCI hardening does not work
 # test is PASS when ONU does not leave state 'starting-openomci'
-openonu-go-adapter-omci-hardening-failed-test: ROBOT_MISC_ARGS += -v logging:True -v timeout:300s -i NegativeStateTestOnuGo
+openonu-go-adapter-omci-hardening-failed-test: ROBOT_MISC_ARGS += -v timeout:300s -i NegativeStateTestOnuGo
 openonu-go-adapter-omci-hardening-failed-test: ROBOT_MISC_ARGS += -e notreadyOnuGo -X $(ROBOT_DEBUG_LOG_OPT)
 openonu-go-adapter-omci-hardening-failed-test: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_SINGLE_PON_FILE)
 openonu-go-adapter-omci-hardening-failed-test: ROBOT_FILE := Voltha_ONUNegativeStateTests.robot
@@ -207,7 +207,7 @@ reconcile-openonu-go-adapter-tests-tt: ROBOT_MISC_ARGS += -v workflow:TT
 reconcile-openonu-go-adapter-tests-tt: reconcile-openonu-go-adapter-tests
 
 # target to invoke reconcile tests with openonu go adapter at single ONU resp. multiple OLTs
-reconcile-openonu-go-adapter-tests: ROBOT_MISC_ARGS += -v logging:True -i functionalOnuGo
+reconcile-openonu-go-adapter-tests: ROBOT_MISC_ARGS += -i functionalOnuGo
 reconcile-openonu-go-adapter-tests: ROBOT_MISC_ARGS += -e notreadyOnuGo -X $(ROBOT_DEBUG_LOG_OPT)
 reconcile-openonu-go-adapter-tests: ROBOT_FILE := Voltha_ONUReconcileTests.robot
 reconcile-openonu-go-adapter-tests: openonu-go-adapter-tests
@@ -226,7 +226,7 @@ reconcile-openonu-go-adapter-tests: openonu-go-adapter-tests
 
 # target to invoke test with openonu go adapter (applying 1T1GEM tech-profile) with multiple OLTs scenarios with ATT workflow
 openonu-go-adapter-multi-olt-test: ROBOT_MISC_ARGS += -v state2test:omci-flows-pushed -v testmode:SingleStateTime
-openonu-go-adapter-multi-olt-test: ROBOT_MISC_ARGS += -v logging:True -i sanityOnuGo -i functionalOnuGo
+openonu-go-adapter-multi-olt-test: ROBOT_MISC_ARGS += -i sanityOnuGo -i functionalOnuGo
 openonu-go-adapter-multi-olt-test: ROBOT_MISC_ARGS += -e notreadyOnuGo $(ROBOT_DEBUG_LOG_OPT)
 openonu-go-adapter-multi-olt-test: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_MULTIPLE_OLT_FILE)
 openonu-go-adapter-multi-olt-test: ROBOT_FILE := Voltha_ONUStateTests.robot
@@ -236,15 +236,15 @@ sanity-single-kind: ROBOT_MISC_ARGS += -i sanity $(ROBOT_DEBUG_LOG_OPT)
 sanity-single-kind: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_SINGLE_PON_FILE)
 sanity-single-kind: bbsim-kind
 
-sanity-bbsim-att: ROBOT_MISC_ARGS += -v logging:True -v workflow:ATT
+sanity-bbsim-att: ROBOT_MISC_ARGS += -v workflow:ATT
 sanity-bbsim-att: sanity-bbsim
 
-sanity-bbsim-dt: ROBOT_MISC_ARGS += -v logging:True -v workflow:DT
+sanity-bbsim-dt: ROBOT_MISC_ARGS += -v workflow:DT
 sanity-bbsim-dt: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_DT_SINGLE_PON_FILE)
 sanity-bbsim-dt: ROBOT_FILE := Voltha_BBSimTests.robot
 sanity-bbsim-dt: voltha-bbsim-test
 
-sanity-bbsim-tt: ROBOT_MISC_ARGS += -v logging:True -v workflow:TT
+sanity-bbsim-tt: ROBOT_MISC_ARGS += -v workflow:TT
 sanity-bbsim-tt: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_TT_SINGLE_PON_FILE)
 sanity-bbsim-tt: ROBOT_FILE := Voltha_BBSimTests.robot
 sanity-bbsim-tt: voltha-bbsim-test
@@ -407,32 +407,32 @@ voltha-dmi-test: vst_venv
 	robot -V $(ROBOT_CONFIG_FILE) $(ROBOT_MISC_ARGS) $(ROBOT_FILE)
 
 # target to invoke single ONU pm data scenarios in ATT workflow
-voltha-pm-data-single-kind-att: ROBOT_MISC_ARGS += -v workflow:ATT -v logging:True
+voltha-pm-data-single-kind-att: ROBOT_MISC_ARGS += -v workflow:ATT
 voltha-pm-data-single-kind-att: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_SINGLE_PON_FILE)
 voltha-pm-data-single-kind-att: voltha-pm-data-tests
 
 # target to invoke single ONU pm data scenarios in DT workflow
-voltha-pm-data-single-kind-dt: ROBOT_MISC_ARGS += -v workflow:DT -v logging:True
+voltha-pm-data-single-kind-dt: ROBOT_MISC_ARGS += -v workflow:DT
 voltha-pm-data-single-kind-dt: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_DT_SINGLE_PON_FILE)
 voltha-pm-data-single-kind-dt: voltha-pm-data-tests
 
 # target to invoke single ONU pm data scenarios in TT workflow
-voltha-pm-data-single-kind-tt: ROBOT_MISC_ARGS += -v workflow:TT -v logging:True
+voltha-pm-data-single-kind-tt: ROBOT_MISC_ARGS += -v workflow:TT
 voltha-pm-data-single-kind-tt: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_TT_SINGLE_PON_FILE)
 voltha-pm-data-single-kind-tt: voltha-pm-data-tests
 
 # target to invoke multiple OLTs pm data scenarios in ATT workflow
-voltha-pm-data-multiolt-kind-att: ROBOT_MISC_ARGS += -v workflow:ATT -v logging:True
+voltha-pm-data-multiolt-kind-att: ROBOT_MISC_ARGS += -v workflow:ATT
 voltha-pm-data-multiolt-kind-att: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_MULTIPLE_OLT_FILE)
 voltha-pm-data-multiolt-kind-att: voltha-pm-data-tests
 
 # target to invoke multiple OLTs pm data scenarios in DT workflow
-voltha-pm-data-multiolt-kind-dt: ROBOT_MISC_ARGS += -v workflow:DT -v logging:True
+voltha-pm-data-multiolt-kind-dt: ROBOT_MISC_ARGS += -v workflow:DT
 voltha-pm-data-multiolt-kind-dt: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_DT_MULTIPLE_OLT_FILE)
 voltha-pm-data-multiolt-kind-dt: voltha-pm-data-tests
 
 # target to invoke multiple OLTs pm data scenarios in TT workflow
-voltha-pm-data-multiolt-kind-tt: ROBOT_MISC_ARGS += -v workflow:TT -v logging:True
+voltha-pm-data-multiolt-kind-tt: ROBOT_MISC_ARGS += -v workflow:TT
 voltha-pm-data-multiolt-kind-tt: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_TT_MULTIPLE_OLT_FILE)
 voltha-pm-data-multiolt-kind-tt: voltha-pm-data-tests
 

@@ -234,7 +234,7 @@ Test that the AIR BW is reserved for a ONU
     ${onu_port}=    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
     ...    Get ONU Port in ONOS    ${onu_fill_pon_bw}    ${of_id}
     Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2
-    ...    Execute ONOS CLI Command    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}
+    ...    Execute ONOS CLI Command use single connection    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}
     ...    volt-add-subscriber-access ${of_id} ${onu_port}
     Sleep    10s
     ${limiting_bw_us_fill_pon_bw}=    Get Limiting Bandwidth Details    ${us_bw_profile_fill_pon_bw}
@@ -352,7 +352,7 @@ Verify that non-assured BW is released to assured BW allocation as needed for TT
     ${onu_port}=    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
     ...    Get ONU Port in ONOS    ${onu_fill_pon_bw}    ${of_id}
     Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2
-    ...    Execute ONOS CLI Command    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}
+    ...    Execute ONOS CLI Command use single connection    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}
     ...    volt-add-subscriber-access ${of_id} ${onu_port}
     Sleep    10s
     ${limiting_bw_us_fill_pon_bw}=    Get Limiting Bandwidth Details    ${us_bw_profile_fill_pon_bw}
@@ -455,7 +455,7 @@ Verify that best effort BW is released to assured BW requirement as needed and t
     ${onu_port}=    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
     ...    Get ONU Port in ONOS    ${onu_fill_pon_bw}    ${of_id}
     Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2
-    ...    Execute ONOS CLI Command    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}
+    ...    Execute ONOS CLI Command use single connection    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}
     ...    volt-add-subscriber-access ${of_id} ${onu_port}
     Sleep    10s
     ${limiting_bw_us_fill_pon_bw}=    Get Limiting Bandwidth Details    ${us_bw_profile_fill_pon_bw}
