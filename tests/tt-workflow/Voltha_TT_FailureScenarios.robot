@@ -320,6 +320,9 @@ Verify restart ofagent container after subscriber is provisioned for TT
     [Teardown]    Run Keywords    Collect Logs
     ...           AND             Stop Logging    ofagentRestart-TT
     ...           AND             Scale K8s Deployment    ${NAMESPACE}    ${STACK_NAME}-voltha-ofagent    1
+    # Add OLT device
+    Setup
+    Run Keyword If    ${has_dataplane}    Clean Up Linux
     # set timeout value
     ${waitforRestart}    Set Variable    120s
     ${podStatusOutput}=    Run    kubectl get pods -n ${NAMESPACE}
