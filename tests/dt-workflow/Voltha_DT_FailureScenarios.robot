@@ -100,7 +100,7 @@ Verify ONU after Rebooting Physically for DT
         Wait Until Keyword Succeeds    ${timeout}    2s    Execute ONOS CLI Command use single connection    ${ONOS_SSH_IP}
         ...    ${ONOS_SSH_PORT}    volt-remove-subscriber-access ${of_id} ${onu_port}
         # Allow the remove subscriber command to clean up all the flows, schedulers and queues before deleting the device
-        Sleep    5s
+        Sleep    30s
         # Delete ONU Device (To replicate DT workflow)
         Delete Device    ${onu_device_id}
         Sleep    5s

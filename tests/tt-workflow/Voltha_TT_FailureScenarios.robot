@@ -100,7 +100,7 @@ Verify ONU after Rebooting Physically for TT
         # Remove Subscriber Access (To replicate TT workflow)
         Wait Until Keyword Succeeds    ${timeout}    2s    Execute ONOS CLI Command use single connection    ${ONOS_SSH_IP}
         ...    ${ONOS_SSH_PORT}    volt-remove-subscriber-access ${of_id} ${onu_port}
-        Sleep    5s
+        Sleep    30s
         # Enable Power Switch
         Enable Switch Outlet    ${src['power_switch_port']}
         # Check ONU port is Enabled in ONOS
