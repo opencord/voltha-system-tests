@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bf374b2b_a836cbbc",
+        "filename": "tests/tt-workflow/Voltha_TT_FailureScenarios.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2021-10-19T03:46:56Z",
+      "side": 1,
+      "message": "I think we can skip this change for TT (same as ATT) as we are not deleting the device here like DT. Also, I have not observed any issue with TT.",
+      "range": {
+        "startLine": 103,
+        "startChar": 8,
+        "endLine": 103,
+        "endChar": 20
+      },
+      "revId": "18fcc47c93d452081afec7659a0468be783d26b3",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    }
+  ]
+}
