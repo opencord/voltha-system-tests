@@ -57,6 +57,10 @@ ${container_log_dir}    ${None}
 
 ${suppressaddsubscriber}    True
 
+# logging flag to enable Voltha Components Logging, can be passed via the command line too
+# example: -v logging:False
+${logging}    True
+
 *** Test Cases ***
 Reboot TT ONUs Physically - Clean Up
     [Documentation]   This test reboots ONUs physically before execution all the tests

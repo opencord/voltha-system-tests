@@ -57,6 +57,10 @@ ${container_log_dir}    ${None}
 
 ${suppressaddsubscriber}    True
 
+# logging flag to enable Voltha Components Logging, can be passed via the command line too
+# example: -v logging:False
+${logging}    True
+
 # ONU Image to test for Upgrade needs to be passed in the following format:
 ${image_version}    ${EMPTY}
 # Example value: BBSM_IMG_00002

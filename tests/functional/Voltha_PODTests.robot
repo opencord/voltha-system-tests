@@ -63,6 +63,10 @@ ${udp_packet_bytes}      1470    # UDP payload in bytes
 # Per-test logging on failure is turned off by default; set this variable to enable
 ${container_log_dir}    ${None}
 
+# logging flag to enable Voltha Components Logging, can be passed via the command line too
+# example: -v logging:False
+${logging}    True
+
 *** Test Cases ***
 Reboot ONUs Physically
     [Documentation]   This test reboots ONUs physically before execution all the tests

@@ -57,6 +57,10 @@ ${container_log_dir}    ${None}
 
 ${suppressaddsubscriber}    True
 
+# logging flag to enable Voltha Components Logging, can be passed via the command line too
+# example: -v logging:False
+${logging}    True
+
 *** Test Cases ***
 Verify ONU after Rebooting Physically for TT
     [Documentation]    Test the ONU functionality by physically turning on/off ONU.
