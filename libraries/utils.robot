@@ -1114,7 +1114,10 @@ Stop Logging
     Run Keyword If    ${kail_process}    Terminate Process    ${kail_process}
     ${test_logfile}=    Run Keyword If    "${container_log_dir}" != "${None}"
     ...    Join Path    ${container_log_dir}    ${label}-combined.log
-    Run Keyword If Test Passed    Run Keyword If    "${test_logfile}" != "${None}"    Remove File    ${test_logfile}
+    Run Keyword If Test Passed
+    ...    Run Keyword If    "${logging}" == "False"
+    ...    Run Keyword If    "${test_logfile}" != "${None}"
+    ...    Remove File    ${test_logfile}
     Run Keyword If    ${has_dataplane}    Echo Message to OLT Logs     END ${label}
 
 Clean Up Linux

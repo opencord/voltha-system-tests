@@ -57,6 +57,10 @@ ${workflow}    ATT
 # Per-test logging on failure is turned off by default; set this variable to enable
 ${container_log_dir}    ${None}
 
+# logging flag to enable Voltha Components Logging, can be passed via the command line too
+# example: -v logging:False
+${logging}    True
+
 *** Test Cases ***
 Verify restart ONOS instace master of device after subscriber is provisioned
     [Documentation]    Restat ONOS instance master of a given device and check that during restart and after the

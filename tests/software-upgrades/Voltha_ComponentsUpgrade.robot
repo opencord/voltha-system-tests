@@ -57,6 +57,10 @@ ${container_log_dir}    ${None}
 
 ${suppressaddsubscriber}    True
 
+# logging flag to enable Voltha Components Logging, can be passed via the command line too
+# example: -v logging:False
+${logging}    True
+
 # Voltha Components to Test for Software Upgrade need to be passed in the following variable in format:
 # <comp-label>,<comp-container>,<comp-image>*<comp-label>,<comp-container>,<comp-image>*
 # Example: adapter-open-olt,adapter-open-olt,voltha/voltha-openolt-adapter:3.1.3*

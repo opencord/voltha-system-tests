@@ -60,6 +60,10 @@ ${lower_margin_pct}      90      # Allow 10% under the limit
 ${upper_margin_pct}      120      # Allow 20% under the limit
 ${pon_max_bw_capacity_xgs}=    9700000      # Mbps, for xgs-pon OLT, when FEC Disabled
 
+# logging flag to enable Voltha Components Logging, can be passed via the command line too
+# example: -v logging:False
+${logging}    True
+
 *** Test Cases ***
 Test that the BW is limited to Limiting Bandwidth
     [Documentation]    Verify support for Tcont type 1.
