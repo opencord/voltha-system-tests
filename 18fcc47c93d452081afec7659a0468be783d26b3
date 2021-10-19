@@ -22,6 +22,30 @@
       },
       "revId": "18fcc47c93d452081afec7659a0468be783d26b3",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "429ae301_b0b66a43",
+        "filename": "tests/tt-workflow/Voltha_TT_FailureScenarios.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2021-10-19T07:10:38Z",
+      "side": 1,
+      "message": "agreed, we should actually not do it for TT as it might hide issues.",
+      "parentUuid": "bf374b2b_a836cbbc",
+      "range": {
+        "startLine": 103,
+        "startChar": 8,
+        "endLine": 103,
+        "endChar": 20
+      },
+      "revId": "18fcc47c93d452081afec7659a0468be783d26b3",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     }
   ]
 }
