@@ -552,9 +552,9 @@ Verify UNI Port Is Disabled
     [Arguments]    ${ip}    ${port}    ${onu_name}    ${onu_uni_id}=1
     [Documentation]    Verifies if the ONU's UNI port is disabled in ONOS
     ${onu_port_disabled}=    Execute ONOS CLI Command use single connection    ${ip}    ${port}
-    ...    ports -e | grep portName=${onu_name}-${onu_uni_id}
+    ...    ports | grep portName=${onu_name}-${onu_uni_id} | grep state=disabled
     Log    ${onu_port_disabled}
-    Should Be Empty    ${onu_port_disabled}
+    Should Not Be Empty    ${onu_port_disabled}
 
 Verify ONU in AAA-Users
     [Arguments]    ${ip}    ${port}    ${onu_port}
