@@ -282,8 +282,6 @@ Verify restart openolt-adapter container before subscriber provisioning for TT
     [Tags]    functionalTT    Restart-OpenOlt-Before-Subscription-TT
     [Setup]    Start Logging    Restart-OpenOlt-Before-Subscription-TT
     [Teardown]    Run Keywords    Collect Logs
-    ...           AND             Delete All Devices and Verify
-    ...           AND             Collect Logs
     ...           AND             Stop Logging    Restart-OpenOlt-Before-Subscription-TT
     # Add OLT device
     Setup
@@ -320,9 +318,6 @@ Verify restart ofagent container after subscriber is provisioned for TT
     [Teardown]    Run Keywords    Collect Logs
     ...           AND             Stop Logging    ofagentRestart-TT
     ...           AND             Scale K8s Deployment    ${NAMESPACE}    ${STACK_NAME}-voltha-ofagent    1
-    # Add OLT device
-    Setup
-    Run Keyword If    ${has_dataplane}    Clean Up Linux
     # set timeout value
     ${waitforRestart}    Set Variable    120s
     ${podStatusOutput}=    Run    kubectl get pods -n ${NAMESPACE}
