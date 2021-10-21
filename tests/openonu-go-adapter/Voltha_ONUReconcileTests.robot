@@ -263,9 +263,7 @@ Do Reconcile In Determined State
         Enable Device    ${olt_device_id}
     END
     Current State Test All Onus    ${expected_onu_reason}
-    Run Keyword If    ${usekill2restart}    Kill And Check Onu Adaptor    ${NAMESPACE}
-    ...    ELSE    Restart And Check Onu Adaptor    ${NAMESPACE}
-    Wait for ONU Adapter Reconcile      ACTIVE
+    Reconcile Onu Adapter    ${NAMESPACE}    ${usekill2restart}    ACTIVE
     Run Keyword If    "${workflow}"=="DT"    Perform Sanity Test DT
     ...    ELSE IF    "${workflow}"=="TT"    Perform Sanity Tests TT
     ...    ELSE       Perform Sanity Test
@@ -299,9 +297,7 @@ Do Reconcile For Disabled Onu Device
     Run Keyword If    "${workflow}"=="DT"    Current State Test All Onus    omci-admin-lock
     ...    ELSE IF    "${workflow}"=="TT"    Current State Test All Onus    omci-admin-lock
     ...    ELSE       Current State Test All Onus    omci-admin-lock    alternativeonustate=${alternativeonustates}
-    Run Keyword If    ${usekill2restart}    Kill And Check Onu Adaptor    ${NAMESPACE}
-    ...    ELSE    Restart And Check Onu Adaptor    ${NAMESPACE}
-    Wait for ONU Adapter Reconcile      UNKNOWN
+    Reconcile Onu Adapter    ${NAMESPACE}    ${usekill2restart}    UNKNOWN
     Run Keyword If    "${workflow}"=="DT"    Current State Test All Onus    omci-admin-lock
     ...    ELSE IF    "${workflow}"=="TT"    Current State Test All Onus    omci-admin-lock
     ...    ELSE       Current State Test All Onus    omci-admin-lock    alternativeonustate=${alternativeonustates}
@@ -334,9 +330,7 @@ Do Reconcile In Omci-Flows-Pushed
     Run Keyword If    "${workflow}"=="DT"    Perform Sanity Test DT
     ...    ELSE IF    "${workflow}"=="TT"    Perform Sanity Tests TT
     ...    ELSE       Perform Sanity Test
-    Run Keyword If    ${usekill2restart}    Kill And Check Onu Adaptor    ${NAMESPACE}
-    ...    ELSE    Restart And Check Onu Adaptor    ${NAMESPACE}
-    Wait for ONU Adapter Reconcile      ACTIVE
+    Reconcile Onu Adapter    ${NAMESPACE}    ${usekill2restart}    ACTIVE
     Run Keyword If    "${workflow}"=="DT"    Perform Sanity Test DT     ${suppressaddsubscriber}
     ...    ELSE IF    "${workflow}"=="TT"    Perform Sanity Tests TT    ${suppressaddsubscriber}
     ...    ELSE       Perform Sanity Test    ${suppressaddsubscriber}
