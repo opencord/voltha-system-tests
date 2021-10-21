@@ -457,6 +457,14 @@ Wait For Pods Ready
         ...    Pods Are Ready By Label    ${namespace}    app    ${app_name}
     END
 
+Get Pod Ready Timestamp by Label
+    [Arguments]    ${namespace}    ${key}    ${value}
+    [Documentation]    delivers timestamp of pod was ready
+    ${cmd}=    Catenate    kubectl -n ${namespace} get pods -l ${key}=${value} -o=json | jq -r
+    ...    ".items[].status.containerStatuses[].state.running.startedAt"
+    ${output}=    Run   ${cmd}
+    [Return]    ${output}
+
 Check Expected Running Pods Number By Label
     [Arguments]    ${namespace}    ${key}    ${value}    ${number}
     [Documentation]    Succeeds if the desired pod has expected number replicas
@@ -477,6 +485,13 @@ Get Pod Restart Count
     ${rc}    ${count}=    Run and Return Rc and Output
     ...    kubectl get pods -n ${namespace} | grep ${name} | awk 'NR==1{print $4}'
     [Return]    ${count}
+
+Get Pod Age
+    [Arguments]    ${namespace}    ${name}
+    [Documentation]    Returns the age for the given Pod
+    ${rc}    ${age}=    Run and Return Rc and Output
+    ...    kubectl get pods -n ${namespace} | grep ${name} | awk 'NR==1{print $5}'
+    [Return]    ${age}
 
 Verify ONOS Pod Restart
     [Arguments]    ${restarted}=True
