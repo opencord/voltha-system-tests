@@ -434,6 +434,22 @@ Validate ONU Device By Device Id
     Should Be Equal    '${mib_state}'    '${onu_reason}'
     ...    Device ${sn} mib_state incorrect (${mib_state}) values=False
 
+Check all ONU OperStatus
+    [Documentation]     Checks that all ONUs OperStatus is the required one.
+    [Arguments]     ${List_ONU_Serial}   ${oper_status}
+    ${cmd}=    Catenate    voltctl -c ${VOLTCTL_CONFIG} device list -m 8MB -f Type=brcm_openomci_onu
+    ...    --format "{{.SerialNumber}}\t{{.AdminState}}\t{{.OperStatus}}\t{{.ConnectStatus}}\t{{.Reason}}"
+    ...     | grep -v SERIALNUMBER | grep ${oper_status}
+    ${rc}    ${output}=    Run and Return Rc and Output    ${cmd}
+    Should Be Equal As Integers    ${rc}    0
+    @{Results}=    Split String    ${output}    \n
+    FOR    ${Line}    IN     @{Results}
+        @{words}=    Split String    ${Line}    \t
+        ${sn}=    Set Variable    ${words[0]}
+        Remove Values From List    ${List_ONU_Serial}    ${sn}
+    END
+    Should Be Empty    ${List_ONU_Serial}    For ONUs ${List_ONU_Serial} OperStatus ${oper_status} not matched!
+
 
 Compare Lists
     [Documentation]
@@ -700,8 +716,12 @@ Build ONU SN List
     [Arguments]    ${serial_numbers}    ${olt_serial_number}=${EMPTY}    ${num_onus}=${num_all_onus}
     [Documentation]    Appends all ONU SNs for the given OLT to the ${serial_numbers} list
     FOR    ${INDEX}    IN RANGE    0    ${num_onus}
-    Run Keyword IF  "${olt_serial_number}"=="${hosts.src[${INDEX}].olt}" or "${olt_serial_number}"=="${EMPTY}"
-    ...   Append To List    ${serial_numbers}    ${hosts.src[${INDEX}].onu}
+        ${onu_sn}=  Set Variable    ${hosts.src[${INDEX}]['onu']}
+        # skip if we have already append this ONU
+        ${onu_id}=    Get Index From List    ${serial_numbers}   ${onu_sn}
+        Continue For Loop If    -1 != ${onu_id}
+        Run Keyword IF  "${olt_serial_number}"=="${hosts.src[${INDEX}].olt}" or "${olt_serial_number}"=="${EMPTY}"
+        ...   Append To List    ${serial_numbers}    ${onu_sn}
     END
 
 Get SN From Device ID
