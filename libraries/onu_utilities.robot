@@ -114,45 +114,35 @@ Current State Test All Onus
     # teardown is used as 'return' for result of Validate ONU Devices With Duration (used for ONUNegativeStateTests)
     [Teardown]    Run Keyword If    "${KEYWORD STATUS}"=="FAIL"    Set Suite Variable    ${StateTestAllONUs}    False
 
-Wait for ONU Adapter Reconcile
+Wait for all ONU Adapter Reconcile
     [Documentation]     After the OpenONU adapter is restarted waits for all the ONUs to go through the reconciling process
     ...     till they reach the expect OpenStatus
     [Arguments]     ${oper_status}
     # wait for the reconcile to complete
-    # - we check that the first ONU state is set to reconciling. All of the ONUs will be set to reconciling
-    # very quickly at that point
-    # we need the Ignore Error to support he kafka case, in which the reconcile happens meanwhile we're waiting for
-    # the adapter to restart
-    Run Keyword And Ignore Error    Wait Until Keyword Succeeds    ${timeout}
-    ...     100ms  Check ONU OperStatus     ${hosts.src[0]['onu']}  RECONCILING
+    # - we check that communication to openonu-adapter is established again
+    # - we check that all ONUs leave reconcile state by validate a simple voltctl request will not responds with error
+    Wait Until Keyword Succeeds    ${timeout}    1s    Validate Last ONU Communication
+    Wait Until Keyword Succeeds    ${timeout}    1s    Operation Of Onu Adaptor Finished    reconciling
     # - then we wait that all ONU move to the next state
+    ${list_onus}    Create List
+    Build ONU SN List    ${list_onus}
+    Run Keyword And Ignore Error    Wait Until Keyword Succeeds    ${timeout}
+    ...     1s  Check all ONU OperStatus     ${list_onus}  ${oper_status}
+
+Operation Of Onu Adaptor Finished
+    [Documentation]    This keyword checks onu adaptor finished named operation with help of a simple voltctl request.
+    [Arguments]    ${operation}
     ${onu_list}    Create List
     FOR    ${I}    IN RANGE    0    ${num_all_onus}
-        ${onu_sn}=  Set Variable    ${hosts.src[${I}]['onu']}
-        # skip the check if we have already performed it for this ONU
-        ${onu_id}=    Get Index From List    ${onu_list}   ${onu_sn}
+        ${src}=    Set Variable    ${hosts.src[${I}]}
+        ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
+        ${onu_id}=    Get Index From List    ${onu_list}   ${onu_device_id}
         Continue For Loop If    -1 != ${onu_id}
-        Append To List    ${onu_list}    ${onu_sn}
-        Wait Until Keyword Succeeds    ${timeout}    100ms  Check ONU OperStatus     ${onu_sn}  ${oper_status}
+        Append To List    ${onu_list}    ${onu_device_id}
+        ${rc}    ${output}=    Get Onu Image List    ${onu_device_id}
+        Run Keyword If    ${rc}!=0    Should Not Contain    ${output}    ${operation}
+        ...    Onu adaptor operation ${operation} still in progress.
     END
-
-Check ONU OperStatus
-    [Documentation]     Checks that all ONUs OperStatus is ACTIVE
-    [Arguments]     ${sn}   ${oper_status}
-    ${List_ONU_Serial}    Create List
-    Build ONU SN List    ${List_ONU_Serial}
-    ${cmd}=    Catenate    voltctl -c ${VOLTCTL_CONFIG} device list -m 8MB -f Type=brcm_openomci_onu
-    ...    --format "{{.SerialNumber}}\t{{.AdminState}}\t{{.OperStatus}}\t{{.ConnectStatus}}\t{{.Reason}}"
-    ...     | grep -v SERIALNUMBER | grep ${sn}
-    ${rc}    ${output}=    Run and Return Rc and Output    ${cmd}
-    Should Be Equal As Integers    ${rc}    0
-    Log     ${output}
-
-    @{words}=    Split String    ${output}    \t
-    ${sn}=    Set Variable    ${words[0]}
-    ${opstatus}=    Set Variable    ${words[2]}
-    Log     OperStatus is ${opstatus} for device ${sn}
-    Should Be True      '${opstatus}' == '${oper_status}'   OperStatus ${oper_status} not matched on ONU ${sn}
 
 Log Ports
     [Documentation]    This keyword logs all port data available in ONOS of first port per ONU
