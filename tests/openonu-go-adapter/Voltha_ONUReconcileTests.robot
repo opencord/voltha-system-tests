@@ -242,7 +242,7 @@ Teardown Test
     Run Keyword If    ${pausebeforecleanup}    Log    Teardown will be continued...    console=yes
     Run Keyword If    ${teardown_device}    Delete All Devices and Verify
     # delete etcd MIB Template Data
-    Delete MIB Template Data
+    Delete MIB Template Data    ${INFRA_NAMESPACE}
     # check etcd data are empty
     Run Keyword If    ${etcdcheckintestteardown}    Wait Until Keyword Succeeds    ${timeout}    1s
     ...    Validate Onu Data In Etcd    ${INFRA_NAMESPACE}    0    ${kvstoreprefix}    without_pm_data=False

@@ -183,14 +183,14 @@ Validate Pods Status By Name
     Should Not Be Equal    ${pods_status}    ${EMPTY}    Can't filter out Pods with exptected status ${expectedStatus}
 
 Verify All Voltha Pods For Any Error Logs
-    [Arguments]    ${datetime}
+    [Arguments]    ${datetime}  ${namespace}
     [Documentation]    This keyword checks for the error occurence in the voltha pods
     &{errorPodDict}    Create Dictionary
     &{containerDict}    Get Container Dictionary    voltha
     FOR    ${podName}    IN    @{PODLIST1}
         ${containerName}    Get From Dictionary    ${containerDict}    ${podName}
         ${rc}    ${logOutput}    Run And Return Rc And Output
-        ...    kubectl logs --timestamps -n voltha --since-time=${datetime} ${containerName}
+        ...    kubectl logs --timestamps -n ${namespace} --since-time=${datetime} ${containerName}
         Run Keyword And Ignore Error
         ...    Run Keyword If    '${logOutput}'=='${EMPTY}'
         ...    Run Keywords    Log    No Log found in pod ${podName}
@@ -210,7 +210,7 @@ Verify All Voltha Pods For Any Error Logs
     FOR    ${podName}    IN    @{PODLIST2}
         ${containerName}    Get From Dictionary    ${containerDict}    ${podName}
         ${rc}    ${logOutput}    Run And Return Rc And Output
-        ...    kubectl logs --timestamps -n voltha --since-time=${datetime} ${containerName}
+        ...    kubectl logs --timestamps -n ${namespace} --since-time=${datetime} ${containerName}
         Run Keyword And Ignore Error
         ...    Run Keyword If    '${logOutput}'=='${EMPTY}'
         ...    Run Keywords    Log    No Log found in pod ${podName}
@@ -283,19 +283,20 @@ Get Container Dictionary
     [Return]    ${containerDict}
 
 Validate Error For Given Pods
-    [Arguments]    ${datetime}    ${podDict}
+    [Arguments]    ${datetime}    ${podDict}    ${namespace}
     [Documentation]
     ...    This keyword is used to get the list of pods if there is any unexpected error
     ...    in a particular pod(s) given the time-${datetime} from which the log needs to
     ...    be analysed and the dictionary of pods and the error in the dictionary format
     ...    ${podDict] .
     ...
-    ...    Usage: ${returnStatusFlag} Validate Error For Given Pods ${datetime} ${podDict}
+    ...    Usage: ${returnStatusFlag} Validate Error For Given Pods ${datetime} ${podDict}  ${namespace}
     ...
     ...    Arguments:
     ...
     ...    ${datetime} = time from which the log needs to be taken
     ...    ${podDict} = Key-value pair of the pod name and the error msg
+    ...    ${namespace} = the namespace into which look for pods
     ...
     ...    Example: ${podDict} = Set Dictionary ${podDict} radius sample error message.
     ...
@@ -306,7 +307,7 @@ Validate Error For Given Pods
         ${containerName}    Get From Dictionary    ${containerDict}    ${podName}
         ${expectedError}    Get From Dictionary    ${podDict}    ${podName}
         ${rc}    ${logOutput}    Run And Return Rc And Output
-        ...    kubectl logs --timestamps -n voltha --since-time=${datetime} ${containerName}
+        ...    kubectl logs --timestamps -n ${namespace} --since-time=${datetime} ${containerName}
         Run Keyword And Ignore Error
         ...    Run Keyword If    '${logOutput}'=='${EMPTY}'
         ...    Run Keywords    Log    No Log found in pod ${podName}
