@@ -127,7 +127,7 @@ Teardown Suite
     Run Keyword If    ${pausebeforecleanup}    Pause Execution    Press OK to continue with clean up!
     Run Keyword If    ${pausebeforecleanup}    Log    Teardown will be continued...    console=yes
     Run Keyword If    ${teardown_device}    Delete All Devices and Verify
-    Wait Until Keyword Succeeds    ${timeout}    1s    Validate Onu Data In Etcd    ${INFRA_NAMESPACE}    0    ${kvstoreprefix}
+    Wait Until Keyword Succeeds    ${timeout}    1s    Validate Onu Data In Etcd    namespace=${INFRA_NAMESPACE}    0    ${kvstoreprefix}
     ...    without_pm_data=False
     Wait for Ports in ONOS for all OLTs      ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}  0   BBSM    ${timeout}
     Close All ONOS SSH Connections

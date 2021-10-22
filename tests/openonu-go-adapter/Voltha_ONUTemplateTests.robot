@@ -91,7 +91,7 @@ Setup Suite
     Log    ${LogInfo}    console=yes
     Common Test Suite Setup
     # delete etcd MIB Template Data
-    Delete MIB Template Data    ${INFRA_NAMESPACE}
+    Delete MIB Template Data    namespace=${INFRA_NAMESPACE}
 
 Teardown Suite
     [Documentation]    Replaces the Suite Teardown in utils.robot.
@@ -103,7 +103,7 @@ Teardown Suite
     Run Keyword If    ${teardown_device}    Delete All Devices and Verify
     Wait for Ports in ONOS for all OLTs      ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}  0   BBSM
     # delete etcd MIB Template Data (for repeating test)
-    Delete MIB Template Data    ${INFRA_NAMESPACE}
+    Delete MIB Template Data    namespace=${INFRA_NAMESPACE}
     Close All ONOS SSH Connections
 
 Perform ONU MIB Template Data Test

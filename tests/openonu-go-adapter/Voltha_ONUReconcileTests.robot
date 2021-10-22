@@ -178,7 +178,7 @@ Setup Suite
     Log    ${LogInfo}    console=yes
     Common Test Suite Setup
     # delete etcd MIB Template Data
-    Delete MIB Template Data    ${INFRA_NAMESPACE}
+    Delete MIB Template Data    namespace=${INFRA_NAMESPACE}
     # delete etcd onu data
     Delete ONU Go Adapter ETCD Data    namespace=${INFRA_NAMESPACE}    validate=True
 
@@ -193,7 +193,7 @@ Teardown Suite
     Run Keyword If    ${teardown_device}    Delete All Devices and Verify
     Run Keyword If    ${usekill2restart}    Restart Pod By Label    ${NAMESPACE}    app    adapter-open-onu
     Run Keyword Unless    ${etcdcheckintestteardown}    Wait Until Keyword Succeeds    ${timeout}    1s
-    ...    Validate Onu Data In Etcd    ${INFRA_NAMESPACE}    0    ${kvstoreprefix}    without_pm_data=False
+    ...    Validate Onu Data In Etcd    namespace=${INFRA_NAMESPACE}    0    ${kvstoreprefix}    without_pm_data=False
     Wait for Ports in ONOS for all OLTs      ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}  0   BBSM    ${timeout}
     Close All ONOS SSH Connections
 
@@ -236,10 +236,10 @@ Teardown Test
     Run Keyword If    ${pausebeforecleanup}    Log    Teardown will be continued...    console=yes
     Run Keyword If    ${teardown_device}    Delete All Devices and Verify
     # delete etcd MIB Template Data
-    Delete MIB Template Data
+    Delete MIB Template Data    namespace=${INFRA_NAMESPACE}
     # check etcd data are empty
     Run Keyword If    ${etcdcheckintestteardown}    Wait Until Keyword Succeeds    ${timeout}    1s
-    ...    Validate Onu Data In Etcd    ${INFRA_NAMESPACE}    0    ${kvstoreprefix}    without_pm_data=False
+    ...    Validate Onu Data In Etcd    namespace=${INFRA_NAMESPACE}    0    ${kvstoreprefix}    without_pm_data=False
     Sleep    5s
 
 Do Reconcile In Determined State
