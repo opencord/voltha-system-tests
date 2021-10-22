@@ -14,7 +14,7 @@
             "id": "EC1912001814",
             "hardwareIdentifier": "80:a2:35:4d:24:c0",
             "nasId": "EC1912001814",
-            "uplinkPort": 1048576
+            "uplinkPort": 16777216
           },
           {
             "id": "SCOM00001c82-1",

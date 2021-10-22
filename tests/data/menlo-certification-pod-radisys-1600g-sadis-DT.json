@@ -14,7 +14,7 @@
             "id":"722033738988",
             "nasId":"722033738988",
             "hardwareIdentifier": "28:12:02:15:31:31",
-            "uplinkPort":1048576
+            "uplinkPort":16777216
           },
           {
             "id":"SCOM00001c8d-1",

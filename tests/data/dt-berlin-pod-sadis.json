@@ -14,7 +14,7 @@
             "id": "EC1729003539",
             "hardwareIdentifier": "a8:2b:b5:6d:1a:95",
             "nasId": "EC1729003539",
-            "uplinkPort": 1048576
+            "uplinkPort": 16777216
           },
           {
             "id": "ALPHe3d1cf5c-1",

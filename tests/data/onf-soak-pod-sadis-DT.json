@@ -46,7 +46,7 @@
             "hardwareIdentifier": "aa:bb:cc:dd:ee:ff",
             "ipAddress": "10.192.20.206",
             "nasId": "EC1721000208",
-            "uplinkPort": 1048576
+            "uplinkPort": 16777216
           }
         ]
       },
