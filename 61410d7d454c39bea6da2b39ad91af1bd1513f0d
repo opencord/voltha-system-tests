@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ff4bf2e8_9ea3c77c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000666
+      },
+      "writtenOn": "2021-10-22T16:07:18Z",
+      "side": 1,
+      "message": "Just a less important remark.",
+      "revId": "61410d7d454c39bea6da2b39ad91af1bd1513f0d",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "628de8b2_9d52a373",
@@ -20,6 +37,23 @@
         "endLine": 117,
         "endChar": 34
       },
+      "revId": "61410d7d454c39bea6da2b39ad91af1bd1513f0d",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dde4790b_12e85be1",
+        "filename": "libraries/onu_utilities.robot",
+        "patchSetId": 5
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1000666
+      },
+      "writtenOn": "2021-10-22T16:07:18Z",
+      "side": 1,
+      "message": "I suppose the interval can be shorten here a bit, 500ms should work as well. And I guess the extra \u0027reconciling\u0027 parameter is obsolete?",
       "revId": "61410d7d454c39bea6da2b39ad91af1bd1513f0d",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     },
