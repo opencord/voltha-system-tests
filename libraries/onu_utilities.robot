@@ -166,7 +166,7 @@ Kill Adaptor
     [Documentation]    This keyword kills the passed adaptor.
     [Arguments]    ${namespace}    ${name}
     ${cmd}    Catenate
-    ...    kubectl exec -it -n voltha $(kubectl get pods -n ${namespace} | grep ${name} | awk 'NR==1{print $1}')
+    ...    kubectl exec -it -n ${namespace} $(kubectl get pods -n ${namespace} | grep ${name} | awk 'NR==1{print $1}')
     ...     -- /bin/sh -c "kill 1"
     ${rc}    ${output}=    Run and Return Rc and Output    ${cmd}
     Log    ${output}
