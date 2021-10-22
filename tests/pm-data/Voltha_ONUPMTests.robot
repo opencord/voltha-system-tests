@@ -187,7 +187,7 @@ Setup Suite
     Run Keyword If  "${switch_type}"!=""    Set Global Variable    ${powerswitch_type}    ${switch_type}
     # set ${kafka} depending on environment in case of port-forward is needed
     ${rc}    ${kafka}=    Run Keyword If    ${PORT_FORWARDING}    Run and Return Rc and Output
-    ...    kubectl get svc -n default | grep kafka-0-external | awk '{print $1}'
+    ...    kubectl get svc -n ${INFRA_NAMESPACE} | grep kafka-0-external | awk '{print $1}'
     Run Keyword If    ${PORT_FORWARDING}    Should Not Be Empty    ${kafka}    Service kafka-0-external not found
     # start port forwarding if needed (when voltha runs in k8s)
     ${portFwdHandle} =    Run Keyword If    ${PORT_FORWARDING}    Start Process
