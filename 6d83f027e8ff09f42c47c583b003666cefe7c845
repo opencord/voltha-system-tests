@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6145a824_869676ec",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000666
+      },
+      "writtenOn": "2021-10-22T10:01:41Z",
+      "side": 1,
+      "message": "I suppose this patch is currently still on \u0027hold\u0027 to try to find a better solution using the kubernetes \u0027lastcommunication\u0027 information?",
+      "revId": "6d83f027e8ff09f42c47c583b003666cefe7c845",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    }
+  ]
+}
