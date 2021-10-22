@@ -101,7 +101,7 @@ Exec Pod Separate Stderr
     Should Not Be Empty    ${exec_pod_name}    Unable to parse pod name
     @{args}=     Split String    ${command}
     ${result}=    Run Process
-    ...    kubectl     exec     -i     ${exec_pod_name}     -n     ${namespace}     --     @{args}
+    ...    kubectl     exec     -i     ${exec_pod_name}     -n ${namespace}     --     @{args}
     ${stdout}=    Set Variable    ${result.stdout}
     ${stderr}=    Set Variable    ${result.stderr}
     Log    ${stdout}
@@ -189,7 +189,7 @@ Verify All Voltha Pods For Any Error Logs
     FOR    ${podName}    IN    @{PODLIST1}
         ${containerName}    Get From Dictionary    ${containerDict}    ${podName}
         ${rc}    ${logOutput}    Run And Return Rc And Output
-        ...    kubectl logs --timestamps -n voltha --since-time=${datetime} ${containerName}
+        ...    kubectl logs --timestamps -n ${namespace} --since-time=${datetime} ${containerName}
         Run Keyword And Ignore Error
         ...    Run Keyword If    '${logOutput}'=='${EMPTY}'
         ...    Run Keywords    Log    No Log found in pod ${podName}
@@ -209,7 +209,7 @@ Verify All Voltha Pods For Any Error Logs
     FOR    ${podName}    IN    @{PODLIST2}
         ${containerName}    Get From Dictionary    ${containerDict}    ${podName}
         ${rc}    ${logOutput}    Run And Return Rc And Output
-        ...    kubectl logs --timestamps -n voltha --since-time=${datetime} ${containerName}
+        ...    kubectl logs --timestamps -n ${namespace} --since-time=${datetime} ${containerName}
         Run Keyword And Ignore Error
         ...    Run Keyword If    '${logOutput}'=='${EMPTY}'
         ...    Run Keywords    Log    No Log found in pod ${podName}
@@ -305,7 +305,7 @@ Validate Error For Given Pods
         ${containerName}    Get From Dictionary    ${containerDict}    ${podName}
         ${expectedError}    Get From Dictionary    ${podDict}    ${podName}
         ${rc}    ${logOutput}    Run And Return Rc And Output
-        ...    kubectl logs --timestamps -n voltha --since-time=${datetime} ${containerName}
+        ...    kubectl logs --timestamps -n ${namespace} --since-time=${datetime} ${containerName}
         Run Keyword And Ignore Error
         ...    Run Keyword If    '${logOutput}'=='${EMPTY}'
         ...    Run Keywords    Log    No Log found in pod ${podName}
