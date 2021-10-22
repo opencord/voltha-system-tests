@@ -190,7 +190,7 @@ Verify All Voltha Pods For Any Error Logs
     FOR    ${podName}    IN    @{PODLIST1}
         ${containerName}    Get From Dictionary    ${containerDict}    ${podName}
         ${rc}    ${logOutput}    Run And Return Rc And Output
-        ...    kubectl logs --timestamps -n voltha --since-time=${datetime} ${containerName}
+        ...    kubectl logs --timestamps -n ${namespace} --since-time=${datetime} ${containerName}
         Run Keyword And Ignore Error
         ...    Run Keyword If    '${logOutput}'=='${EMPTY}'
         ...    Run Keywords    Log    No Log found in pod ${podName}
@@ -210,7 +210,7 @@ Verify All Voltha Pods For Any Error Logs
     FOR    ${podName}    IN    @{PODLIST2}
         ${containerName}    Get From Dictionary    ${containerDict}    ${podName}
         ${rc}    ${logOutput}    Run And Return Rc And Output
-        ...    kubectl logs --timestamps -n voltha --since-time=${datetime} ${containerName}
+        ...    kubectl logs --timestamps -n ${namespace} --since-time=${datetime} ${containerName}
         Run Keyword And Ignore Error
         ...    Run Keyword If    '${logOutput}'=='${EMPTY}'
         ...    Run Keywords    Log    No Log found in pod ${podName}
@@ -306,7 +306,7 @@ Validate Error For Given Pods
         ${containerName}    Get From Dictionary    ${containerDict}    ${podName}
         ${expectedError}    Get From Dictionary    ${podDict}    ${podName}
         ${rc}    ${logOutput}    Run And Return Rc And Output
-        ...    kubectl logs --timestamps -n voltha --since-time=${datetime} ${containerName}
+        ...    kubectl logs --timestamps -n ${namespace} --since-time=${datetime} ${containerName}
         Run Keyword And Ignore Error
         ...    Run Keyword If    '${logOutput}'=='${EMPTY}'
         ...    Run Keywords    Log    No Log found in pod ${podName}
