@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4ac151a2_a7858f42",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000127
+      },
+      "writtenOn": "2021-10-22T17:48:19Z",
+      "side": 1,
+      "message": "Merge this once voltha-lib-go references are updated in openolt adapter and openonu-go adapter.",
+      "revId": "65b9a4447219a21d8372c693152372c443d93039",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    }
+  ]
+}
