@@ -54,6 +54,10 @@ ${scripts}        ../../scripts
 # Per-test logging on failure is turned off by default; set this variable to enable
 ${container_log_dir}    ${None}
 
+# logging flag to enable Collect Logs, can be passed via the command line too
+# example: -v logging:False
+${logging}    True
+
 *** Test Cases ***
 Verify OLT after Rebooting Physically for DT - Multiple OLT
     [Documentation]    Test the physical reboot of the OLT
@@ -64,7 +68,7 @@ Verify OLT after Rebooting Physically for DT - Multiple OLT
     ...    other OLT are still functional
     [Tags]    functionalDt   MultiOLTPhysicalRebootDt
     [Setup]    Start Logging    MultiOlt_Physical_Dt
-    [Teardown]    Run Keywords    Collect Logs
+    [Teardown]    Run Keywords    Run Keyword If    ${logging}    Collect Logs
     ...           AND             Stop Logging    MultiOlt_Physical_Dt
     # Execute the test when the number of OLTs are greater than one
     Pass Execution If    ${olt_count} == 1    Skipping test: just one OLT
@@ -114,7 +118,7 @@ Verify OLT Soft Reboot for DT - Multiple OLT
     ...    other OLT are still functional
     [Tags]    MultiOLTSoftRebootDt    functionalDt
     [Setup]    Start Logging    MultiOLTSoftRebootDt
-    [Teardown]    Run Keywords    Collect Logs
+    [Teardown]    Run Keywords    Run Keyword If    ${logging}    Collect Logs
     ...           AND             Stop Logging    MultiOLTSoftRebootDt
     ...           AND             Delete All Devices and Verify
     Pass Execution If    ${olt_count} == 1    Skipping test: just one OLT
