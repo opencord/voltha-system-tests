@@ -43,6 +43,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "676fc52e_7aa5bf3e",
+        "filename": "libraries/onu_utilities.robot",
+        "patchSetId": 5
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1000666
+      },
+      "writtenOn": "2021-10-22T16:11:52Z",
+      "side": 1,
+      "message": "I guess apart from reconcilement this might be true if you apply the keyword in case the adapter has really just started (from scratch), which is not the case in the usage here.\nIf you really want we could also check that the adapter has a \u0027long communication time\u0027 before the restart and it is \u0027dramatically\u0027 decreased after the restart ...",
+      "parentUuid": "628de8b2_9d52a373",
+      "range": {
+        "startLine": 117,
+        "startChar": 0,
+        "endLine": 117,
+        "endChar": 34
+      },
+      "revId": "61410d7d454c39bea6da2b39ad91af1bd1513f0d",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "dde4790b_12e85be1",
         "filename": "libraries/onu_utilities.robot",
         "patchSetId": 5
