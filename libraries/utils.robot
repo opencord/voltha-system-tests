@@ -1120,7 +1120,7 @@ Start Logging
     [Arguments]    ${label}
     [Documentation]    Start logging for test ${label}
     ${kail_process}=     Run Keyword If    "${container_log_dir}" != "${None}"   Start Process    kail    -n    ${NAMESPACE}
-    ...    -n    ${INFRA_NAMESPACE}    cwd=${container_log_dir}   stdout=${label}-combined.log
+    ...    -n ${INFRA_NAMESPACE}    cwd=${container_log_dir}   stdout=${label}-combined.log
     Set Test Variable    ${kail_process}
     Run Keyword If    ${has_dataplane}    Echo Message to OLT Logs     START ${label}
 

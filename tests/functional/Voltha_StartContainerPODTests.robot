@@ -265,7 +265,7 @@ Restart Voltha Adapters Simulated
     ...    --set services.kafka.cluster.service=kafka.default.svc --set services.kafka.cluster.port=9092
     ...    --set services.kafka.adapter.address=kafka.default.svc:9092
     ...    --set services.kafka.cluster.address=kafka.default.svc:9092 --set defaults.log_level=WARN
-    ...    --namespace voltha sim onf/voltha-adapter-simulated
+    ...    --namespace ${NAMESPACE} sim onf/voltha-adapter-simulated
     ${rc}    Run And Return Rc    ${cmd}
     Should Be Equal as Integers    ${rc}    0
 
@@ -279,7 +279,7 @@ Restart Voltha Adapters Open OLT
     ...    --set services.kafka.cluster.service=kafka.default.svc --set services.kafka.cluster.port=9092
     ...    --set services.kafka.cluster.address=kafka.default.svc:9092
     ...    --set services.kafka.adapter.address=kafka.default.svc:9092 --set defaults.log_level=WARN
-    ...    --namespace voltha open-olt onf/voltha-adapter-openolt
+    ...    --namespace ${NAMESPACE} open-olt onf/voltha-adapter-openolt
     ${rc}    Run And Return Rc    ${cmd}
     Should Be Equal as Integers    ${rc}    0
 
@@ -293,7 +293,7 @@ Restart Voltha Adapters Open ONU
     ...    --set services.kafka.cluster.service=kafka.default.svc --set services.kafka.cluster.port=9092
     ...    --set services.kafka.adapter.address=kafka.default.svc:9092
     ...    --set services.kafka.cluster.address=kafka.default.svc:9092 --set replicas.adapter_open_onu=1
-    ...    --set defaults.log_level=WARN --namespace voltha open-onu onf/voltha-adapter-openonu
+    ...    --set defaults.log_level=WARN --namespace ${NAMESPACE} open-onu onf/voltha-adapter-openonu
     ${rc}    Run And Return Rc    ${cmd}
     Should Be Equal as Integers    ${rc}    0
 
@@ -310,7 +310,7 @@ Restart Voltha
     ...    --set 'services.controller[0].service=onos-onos-classic-0.onos-onos-classic-hs.default.svc'
     ...    --set 'services.controller[0].port=6653'
     ...    --set 'services.controller[0].address=onos-onos-classic-0.onos-onos-classic-hs.default.svc:6653'
-    ...    --set defaults.log_level=WARN --namespace voltha voltha onf/voltha
+    ...    --set defaults.log_level=WARN --namespace ${NAMESPACE} voltha onf/voltha
     ${rc}    Run And Return Rc    ${cmd}
     Should Be Equal as Integers    ${rc}    0
 

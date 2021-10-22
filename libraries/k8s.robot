@@ -183,14 +183,14 @@ Validate Pods Status By Name
     Should Not Be Equal    ${pods_status}    ${EMPTY}    Can't filter out Pods with exptected status ${expectedStatus}
 
 Verify All Voltha Pods For Any Error Logs
-    [Arguments]    ${datetime}
+    [Arguments]    ${datetime}  ${namespace}
     [Documentation]    This keyword checks for the error occurence in the voltha pods
     &{errorPodDict}    Create Dictionary
     &{containerDict}    Get Container Dictionary    voltha
     FOR    ${podName}    IN    @{PODLIST1}
         ${containerName}    Get From Dictionary    ${containerDict}    ${podName}
         ${rc}    ${logOutput}    Run And Return Rc And Output
-        ...    kubectl logs --timestamps -n voltha --since-time=${datetime} ${containerName}
+        ...    kubectl logs --timestamps -n ${namespace} --since-time=${datetime} ${containerName}
         Run Keyword And Ignore Error
         ...    Run Keyword If    '${logOutput}'=='${EMPTY}'
         ...    Run Keywords    Log    No Log found in pod ${podName}
@@ -210,7 +210,7 @@ Verify All Voltha Pods For Any Error Logs
     FOR    ${podName}    IN    @{PODLIST2}
         ${containerName}    Get From Dictionary    ${containerDict}    ${podName}
         ${rc}    ${logOutput}    Run And Return Rc And Output
-        ...    kubectl logs --timestamps -n voltha --since-time=${datetime} ${containerName}
+        ...    kubectl logs --timestamps -n ${namespace} --since-time=${datetime} ${containerName}
         Run Keyword And Ignore Error
         ...    Run Keyword If    '${logOutput}'=='${EMPTY}'
         ...    Run Keywords    Log    No Log found in pod ${podName}
@@ -306,7 +306,7 @@ Validate Error For Given Pods
         ${containerName}    Get From Dictionary    ${containerDict}    ${podName}
         ${expectedError}    Get From Dictionary    ${podDict}    ${podName}
         ${rc}    ${logOutput}    Run And Return Rc And Output
-        ...    kubectl logs --timestamps -n voltha --since-time=${datetime} ${containerName}
+        ...    kubectl logs --timestamps -n ${namespace} --since-time=${datetime} ${containerName}
         Run Keyword And Ignore Error
         ...    Run Keyword If    '${logOutput}'=='${EMPTY}'
         ...    Run Keywords    Log    No Log found in pod ${podName}
