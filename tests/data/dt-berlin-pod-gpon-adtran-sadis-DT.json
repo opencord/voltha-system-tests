@@ -14,7 +14,7 @@
             "id": "LBADTN2038AD991",
             "hardwareIdentifier": "00:24:45:c2:a4:b2",
             "nasId": "LBADTN2038AD991",
-            "uplinkPort": 1048576
+            "uplinkPort": 16777216
           },
           {
             "id": "SCOMa0302125-1",

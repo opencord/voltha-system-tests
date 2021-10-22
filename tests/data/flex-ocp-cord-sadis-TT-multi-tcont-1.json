@@ -262,7 +262,7 @@
           "id" : "EC1838000853",
           "hardwareIdentifier" : "00:00:00:00:00:01",
           "ipAddress" : "10.192.20.206",
-          "uplinkPort" : "1048576"
+          "uplinkPort" : "16777216"
         } ]
       }
     },
