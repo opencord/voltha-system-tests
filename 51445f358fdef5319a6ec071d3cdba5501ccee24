@@ -26,6 +26,98 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "93ae0293_8398c29d",
+        "filename": "libraries/k8s.robot",
+        "patchSetId": 3
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2021-10-25T12:03:38Z",
+      "side": 1,
+      "message": "This is supposed to be a local argument, we should take it as part of arguments to this keyword may be with voltha as default value. (Else, $NAMESPACE to refer suite variable).",
+      "range": {
+        "startLine": 192,
+        "startChar": 44,
+        "endLine": 192,
+        "endChar": 56
+      },
+      "revId": "51445f358fdef5319a6ec071d3cdba5501ccee24",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "23eab653_4f07698e",
+        "filename": "libraries/k8s.robot",
+        "patchSetId": 3
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2021-10-25T12:03:38Z",
+      "side": 1,
+      "message": "Same as above.",
+      "range": {
+        "startLine": 212,
+        "startChar": 44,
+        "endLine": 212,
+        "endChar": 56
+      },
+      "revId": "51445f358fdef5319a6ec071d3cdba5501ccee24",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c807c7ec_e4623ebd",
+        "filename": "libraries/k8s.robot",
+        "patchSetId": 3
+      },
+      "lineNbr": 308,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2021-10-25T12:03:38Z",
+      "side": 1,
+      "message": "Same as above",
+      "range": {
+        "startLine": 308,
+        "startChar": 44,
+        "endLine": 308,
+        "endChar": 56
+      },
+      "revId": "51445f358fdef5319a6ec071d3cdba5501ccee24",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f60cf6ff_860ff490",
+        "filename": "libraries/utils.robot",
+        "patchSetId": 3
+      },
+      "lineNbr": 1107,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2021-10-25T12:03:38Z",
+      "side": 1,
+      "message": "Any issue with previous implementation?",
+      "range": {
+        "startLine": 1107,
+        "startChar": 106,
+        "endLine": 1107,
+        "endChar": 121
+      },
+      "revId": "51445f358fdef5319a6ec071d3cdba5501ccee24",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "1abbea85_e1ec1545",
         "filename": "tests/openonu-go-adapter/Voltha_ONUFlowChecks.robot",
         "patchSetId": 3
@@ -37,6 +129,30 @@
       "writtenOn": "2021-10-25T06:30:27Z",
       "side": 1,
       "message": "From my point of view \u0027namespace\u003d\u0027 is not needed, because namespace is the first argument of keyword.",
+      "range": {
+        "startLine": 130,
+        "startChar": 84,
+        "endLine": 130,
+        "endChar": 94
+      },
+      "revId": "51445f358fdef5319a6ec071d3cdba5501ccee24",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fec4646a_d5d23abd",
+        "filename": "tests/openonu-go-adapter/Voltha_ONUFlowChecks.robot",
+        "patchSetId": 3
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2021-10-25T12:03:38Z",
+      "side": 1,
+      "message": "Agree.\nTried to execute it here: https://jenkins.opencord.org/view/VOLTHA-2.X-Tests/job/periodic-voltha-openonu-go-test-bbsim/647/console\nGot the error: Keyword \u0027onu_utilities.Validate Onu Data In Etcd\u0027 got positional argument after named arguments.",
+      "parentUuid": "1abbea85_e1ec1545",
       "range": {
         "startLine": 130,
         "startChar": 84,
