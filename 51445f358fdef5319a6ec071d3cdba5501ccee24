@@ -1,0 +1,280 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2e895f61_acdd0cfa",
+        "filename": "libraries/k8s.robot",
+        "patchSetId": 3
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2021-10-25T06:30:27Z",
+      "side": 1,
+      "message": "According robot framework description for Run Process (https://robotframework.org/robotframework/latest/libraries/Process.html#Run%20Process) the arguments for this keyword are:\ncommand\n* arguments\n** configuration\nSo \u0027kubectl\u0027 is here the command.\nStarting from \u0027exec\u0027 till \u0027--\u0027 our arguments. Why don\u0027t we use the same syntax for all erguments, meaning the same number of spaces?\ne.g.: exec -i ${exec_pod_name} -n ${namespace} --\nor: exec    -i    ${exec_pod_name}    -n    ${namespace}    --\nIs there a reason why do you use only one space between -n and ${namespace}?",
+      "range": {
+        "startLine": 104,
+        "startChar": 4,
+        "endLine": 104,
+        "endChar": 94
+      },
+      "revId": "51445f358fdef5319a6ec071d3cdba5501ccee24",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1abbea85_e1ec1545",
+        "filename": "tests/openonu-go-adapter/Voltha_ONUFlowChecks.robot",
+        "patchSetId": 3
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2021-10-25T06:30:27Z",
+      "side": 1,
+      "message": "From my point of view \u0027namespace\u003d\u0027 is not needed, because namespace is the first argument of keyword.",
+      "range": {
+        "startLine": 130,
+        "startChar": 84,
+        "endLine": 130,
+        "endChar": 94
+      },
+      "revId": "51445f358fdef5319a6ec071d3cdba5501ccee24",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4fb86aff_8670789b",
+        "filename": "tests/openonu-go-adapter/Voltha_ONUNegativeStateTests.robot",
+        "patchSetId": 3
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2021-10-25T06:30:27Z",
+      "side": 1,
+      "message": "From my point of view \u0027namespace\u003d\u0027 is not needed, because namespace is the first and single argument of keyword.",
+      "range": {
+        "startLine": 109,
+        "startChar": 32,
+        "endLine": 109,
+        "endChar": 42
+      },
+      "revId": "51445f358fdef5319a6ec071d3cdba5501ccee24",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f93e60c4_d5159e0b",
+        "filename": "tests/openonu-go-adapter/Voltha_ONUNegativeStateTests.robot",
+        "patchSetId": 3
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2021-10-25T06:30:27Z",
+      "side": 1,
+      "message": "From my point of view \u0027namespace\u003d\u0027 is not needed, because namespace is the first argument of keyword.",
+      "range": {
+        "startLine": 121,
+        "startChar": 84,
+        "endLine": 121,
+        "endChar": 94
+      },
+      "revId": "51445f358fdef5319a6ec071d3cdba5501ccee24",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9072d6a2_9bd0f4b8",
+        "filename": "tests/openonu-go-adapter/Voltha_ONUReconcileTests.robot",
+        "patchSetId": 3
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2021-10-25T06:30:27Z",
+      "side": 1,
+      "message": "From my point of view \u0027namespace\u003d\u0027 is not needed, because namespace is the first and single argument of keyword.",
+      "range": {
+        "startLine": 181,
+        "startChar": 32,
+        "endLine": 181,
+        "endChar": 42
+      },
+      "revId": "51445f358fdef5319a6ec071d3cdba5501ccee24",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1e1c3175_18aa32f7",
+        "filename": "tests/openonu-go-adapter/Voltha_ONUReconcileTests.robot",
+        "patchSetId": 3
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2021-10-25T06:30:27Z",
+      "side": 1,
+      "message": "From my point of view \u0027namespace\u003d\u0027 is not needed, because namespace is the first argument of keyword.",
+      "range": {
+        "startLine": 196,
+        "startChar": 40,
+        "endLine": 196,
+        "endChar": 49
+      },
+      "revId": "51445f358fdef5319a6ec071d3cdba5501ccee24",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "94e8b812_a03fda0d",
+        "filename": "tests/openonu-go-adapter/Voltha_ONUReconcileTests.robot",
+        "patchSetId": 3
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2021-10-25T06:30:27Z",
+      "side": 1,
+      "message": "From my point of view \u0027namespace\u003d\u0027 is not needed, because namespace is the first and single argument of keyword.",
+      "range": {
+        "startLine": 239,
+        "startChar": 32,
+        "endLine": 239,
+        "endChar": 41
+      },
+      "revId": "51445f358fdef5319a6ec071d3cdba5501ccee24",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c18663f6_d4deb2e3",
+        "filename": "tests/openonu-go-adapter/Voltha_ONUReconcileTests.robot",
+        "patchSetId": 3
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2021-10-25T06:30:27Z",
+      "side": 1,
+      "message": "From my point of view \u0027namespace\u003d\u0027 is not needed, because namespace is the first argument of keyword.",
+      "range": {
+        "startLine": 242,
+        "startChar": 40,
+        "endLine": 242,
+        "endChar": 49
+      },
+      "revId": "51445f358fdef5319a6ec071d3cdba5501ccee24",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3c3e70bf_fc9d0527",
+        "filename": "tests/openonu-go-adapter/Voltha_ONUStateTests.robot",
+        "patchSetId": 3
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2021-10-25T06:30:27Z",
+      "side": 1,
+      "message": "same",
+      "range": {
+        "startLine": 216,
+        "startChar": 32,
+        "endLine": 216,
+        "endChar": 41
+      },
+      "revId": "51445f358fdef5319a6ec071d3cdba5501ccee24",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8cde1a1a_ba42a324",
+        "filename": "tests/openonu-go-adapter/Voltha_ONUStateTests.robot",
+        "patchSetId": 3
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2021-10-25T06:30:27Z",
+      "side": 1,
+      "message": "same",
+      "range": {
+        "startLine": 228,
+        "startChar": 84,
+        "endLine": 228,
+        "endChar": 93
+      },
+      "revId": "51445f358fdef5319a6ec071d3cdba5501ccee24",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2285f54e_b5a70313",
+        "filename": "tests/openonu-go-adapter/Voltha_ONUTemplateTests.robot",
+        "patchSetId": 3
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2021-10-25T06:30:27Z",
+      "side": 1,
+      "message": "same",
+      "range": {
+        "startLine": 94,
+        "startChar": 32,
+        "endLine": 94,
+        "endChar": 41
+      },
+      "revId": "51445f358fdef5319a6ec071d3cdba5501ccee24",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3ed92896_507ff178",
+        "filename": "tests/openonu-go-adapter/Voltha_ONUTemplateTests.robot",
+        "patchSetId": 3
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2021-10-25T06:30:27Z",
+      "side": 1,
+      "message": "same",
+      "range": {
+        "startLine": 106,
+        "startChar": 32,
+        "endLine": 106,
+        "endChar": 41
+      },
+      "revId": "51445f358fdef5319a6ec071d3cdba5501ccee24",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    }
+  ]
+}
