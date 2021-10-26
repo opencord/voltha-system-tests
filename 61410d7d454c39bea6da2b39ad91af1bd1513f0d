@@ -89,6 +89,30 @@
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0c99a597_a6a050b1",
+        "filename": "libraries/onu_utilities.robot",
+        "patchSetId": 5
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1000007
+      },
+      "writtenOn": "2021-10-26T16:43:55Z",
+      "side": 1,
+      "message": "I think the \"Wait for all ONU Adapter Reconcile\" should fail if the reconcile has not started.\n\nIf we run this keyword against a stable system (no restarts of any kind) what will happen is:\n- Validate Last ONU Communication -\u003e pass as adapter is running\n- Operation Of Onu Adaptor Finished -\u003e pass the status is not reconciling (and we\u0027re not checking it ever was, see comment in that keyword)\n- Check all ONU OperStatus -\u003e pass as status is ACTIVE (the ONU status never changed)\n\nI can test this tomorrow and come back with the results",
+      "parentUuid": "966aa381_e5e5b9b5",
+      "range": {
+        "startLine": 117,
+        "startChar": 0,
+        "endLine": 117,
+        "endChar": 34
+      },
+      "revId": "61410d7d454c39bea6da2b39ad91af1bd1513f0d",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "dde4790b_12e85be1",
@@ -208,6 +232,30 @@
       "side": 1,
       "message": "It checks implicitly one of the possible operations, \u0027deletion\u0027 or \u0027reconciling\u0027 are not running anymore.\nPlease check patchset 6.",
       "parentUuid": "3093b322_3bfea6cb",
+      "range": {
+        "startLine": 143,
+        "startChar": 38,
+        "endLine": 143,
+        "endChar": 85
+      },
+      "revId": "61410d7d454c39bea6da2b39ad91af1bd1513f0d",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8854884b_9e48ebeb",
+        "filename": "libraries/onu_utilities.robot",
+        "patchSetId": 5
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1000007
+      },
+      "writtenOn": "2021-10-26T16:43:55Z",
+      "side": 1,
+      "message": "It doesn\u0027t check that an operation is not running anymore, it just check that an operation is not running at this point in time.",
+      "parentUuid": "1fc243cd_0b9e755e",
       "range": {
         "startLine": 143,
         "startChar": 38,
