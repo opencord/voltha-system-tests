@@ -65,6 +65,30 @@
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "966aa381_e5e5b9b5",
+        "filename": "libraries/onu_utilities.robot",
+        "patchSetId": 5
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2021-10-26T14:08:56Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "676fc52e_7aa5bf3e",
+      "range": {
+        "startLine": 117,
+        "startChar": 0,
+        "endLine": 117,
+        "endChar": 34
+      },
+      "revId": "61410d7d454c39bea6da2b39ad91af1bd1513f0d",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "dde4790b_12e85be1",
@@ -78,6 +102,24 @@
       "writtenOn": "2021-10-22T16:07:18Z",
       "side": 1,
       "message": "I suppose the interval can be shorten here a bit, 500ms should work as well. And I guess the extra \u0027reconciling\u0027 parameter is obsolete?",
+      "revId": "61410d7d454c39bea6da2b39ad91af1bd1513f0d",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "82d82800_e18d76a2",
+        "filename": "libraries/onu_utilities.robot",
+        "patchSetId": 5
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2021-10-26T14:08:56Z",
+      "side": 1,
+      "message": "1s is fast enough\nAbout extra parameter can be discussed. If all reviewe think so, it can be removed and corresponding keyword has to be modified.",
+      "parentUuid": "dde4790b_12e85be1",
       "revId": "61410d7d454c39bea6da2b39ad91af1bd1513f0d",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     },
@@ -105,6 +147,30 @@
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e3394f59_dd0ac7e7",
+        "filename": "libraries/onu_utilities.robot",
+        "patchSetId": 5
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2021-10-26T14:08:56Z",
+      "side": 1,
+      "message": "Please check patchset 6",
+      "parentUuid": "6d85a8b4_7dd5e2a4",
+      "range": {
+        "startLine": 142,
+        "startChar": 31,
+        "endLine": 142,
+        "endChar": 49
+      },
+      "revId": "61410d7d454c39bea6da2b39ad91af1bd1513f0d",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3093b322_3bfea6cb",
@@ -118,6 +184,30 @@
       "writtenOn": "2021-10-22T15:53:19Z",
       "side": 1,
       "message": "this does not check that the operation has completed, only that the operation is not currently happening.",
+      "range": {
+        "startLine": 143,
+        "startChar": 38,
+        "endLine": 143,
+        "endChar": 85
+      },
+      "revId": "61410d7d454c39bea6da2b39ad91af1bd1513f0d",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1fc243cd_0b9e755e",
+        "filename": "libraries/onu_utilities.robot",
+        "patchSetId": 5
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2021-10-26T14:08:56Z",
+      "side": 1,
+      "message": "It checks implicitly one of the possible operations, \u0027deletion\u0027 or \u0027reconciling\u0027 are not running anymore.\nPlease check patchset 6.",
+      "parentUuid": "3093b322_3bfea6cb",
       "range": {
         "startLine": 143,
         "startChar": 38,
