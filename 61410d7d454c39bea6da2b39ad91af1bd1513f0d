@@ -113,6 +113,30 @@
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1451037d_5904447d",
+        "filename": "libraries/onu_utilities.robot",
+        "patchSetId": 5
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2021-10-27T07:02:13Z",
+      "side": 1,
+      "message": "Hi Matteo,\nI removed keyword \"Wait for all ONU Adapter Reconcile\" with patchset 6 and insert instead \"Reconcile ONU Adapter\". This keyword does all:\n- restarts onu-adapter\n- checks the restart (comparing timestamp before restart with timestamp of pod is ready)\n- validate lastCommunication (connection rw-core and onu-adapter is established again)\n- validate onu-adapter is no longer in reconciling with help of a simple voltctl get request (I use list onuimage as agreed with Michael and Holger) resp. onu-adapter is ready again\nSo, whenever you run this keyword \"Reconcile ONU Adapter\" against a stable system you can be sure onu-adapter run through \u0027Reconciling\". Please check the code of patchset 6.",
+      "parentUuid": "0c99a597_a6a050b1",
+      "range": {
+        "startLine": 117,
+        "startChar": 0,
+        "endLine": 117,
+        "endChar": 34
+      },
+      "revId": "61410d7d454c39bea6da2b39ad91af1bd1513f0d",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "dde4790b_12e85be1",
@@ -256,6 +280,30 @@
       "side": 1,
       "message": "It doesn\u0027t check that an operation is not running anymore, it just check that an operation is not running at this point in time.",
       "parentUuid": "1fc243cd_0b9e755e",
+      "range": {
+        "startLine": 143,
+        "startChar": 38,
+        "endLine": 143,
+        "endChar": 85
+      },
+      "revId": "61410d7d454c39bea6da2b39ad91af1bd1513f0d",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "07ea3410_5a37e66f",
+        "filename": "libraries/onu_utilities.robot",
+        "patchSetId": 5
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2021-10-27T07:02:13Z",
+      "side": 1,
+      "message": "Hi Matteo (again),\nmaybe the name of the keyword does not express exactly what it does, but the background for implementing this keyword was to wait until onu-adapter is no longer \u0027blocked\u0027 due running (operation) device \u0027deletion\u0027 or \u0027reconciling\u0027. And this is what the keyword does. Until the used simple voltctl get request returns a RC!\u003d0 and the output contains one of the named operations (\u0027deletion\u0027 or \u0027reconciling\u0027) it fails. Maybe you mix up \u0027operation\u0027 and voltctl request (here list onuimage). Would you like to rename this keyword? I\u0027m open for suggestions. Thanks.\nUnfortunately catching oper-state \u0027RECONCILING\u0027 is not possible with robot due the very small lifetime of this oper-state of about 8-10ms. So I decide to chose this way.",
+      "parentUuid": "8854884b_9e48ebeb",
       "range": {
         "startLine": 143,
         "startChar": 38,
