@@ -137,6 +137,30 @@
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4293a878_088a00d7",
+        "filename": "libraries/onu_utilities.robot",
+        "patchSetId": 5
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1000007
+      },
+      "writtenOn": "2021-10-27T18:45:30Z",
+      "side": 1,
+      "message": "Ok I see your point, the adapter restart is now part of the keyword itself and that\u0027s how you guarantee that the reconcile is happening.\nSorry I missed that yesterday",
+      "parentUuid": "1451037d_5904447d",
+      "range": {
+        "startLine": 117,
+        "startChar": 0,
+        "endLine": 117,
+        "endChar": 34
+      },
+      "revId": "61410d7d454c39bea6da2b39ad91af1bd1513f0d",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "dde4790b_12e85be1",
