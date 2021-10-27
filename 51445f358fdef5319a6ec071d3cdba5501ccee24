@@ -24,6 +24,30 @@
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b1265ea1_2fbf1a98",
+        "filename": "libraries/k8s.robot",
+        "patchSetId": 3
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1000007
+      },
+      "writtenOn": "2021-10-27T21:34:28Z",
+      "side": 1,
+      "message": "No, I think my IDE changed that, restored as it was",
+      "parentUuid": "2e895f61_acdd0cfa",
+      "range": {
+        "startLine": 104,
+        "startChar": 4,
+        "endLine": 104,
+        "endChar": 94
+      },
+      "revId": "51445f358fdef5319a6ec071d3cdba5501ccee24",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "93ae0293_8398c29d",
@@ -37,6 +61,30 @@
       "writtenOn": "2021-10-25T12:03:38Z",
       "side": 1,
       "message": "This is supposed to be a local argument, we should take it as part of arguments to this keyword may be with voltha as default value. (Else, $NAMESPACE to refer suite variable).",
+      "range": {
+        "startLine": 192,
+        "startChar": 44,
+        "endLine": 192,
+        "endChar": 56
+      },
+      "revId": "51445f358fdef5319a6ec071d3cdba5501ccee24",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cd730472_17c6cdb1",
+        "filename": "libraries/k8s.robot",
+        "patchSetId": 3
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 1000007
+      },
+      "writtenOn": "2021-10-27T21:34:28Z",
+      "side": 1,
+      "message": "How can this ${namespace} be different from the global voltha namespace?\nMeaning, what\u0027s the reason to make it a local variable?",
+      "parentUuid": "93ae0293_8398c29d",
       "range": {
         "startLine": 192,
         "startChar": 44,
@@ -116,6 +164,30 @@
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b7c8be05_db5cdccf",
+        "filename": "libraries/utils.robot",
+        "patchSetId": 3
+      },
+      "lineNbr": 1107,
+      "author": {
+        "id": 1000007
+      },
+      "writtenOn": "2021-10-27T21:34:28Z",
+      "side": 1,
+      "message": "nope, restored",
+      "parentUuid": "f60cf6ff_860ff490",
+      "range": {
+        "startLine": 1107,
+        "startChar": 106,
+        "endLine": 1107,
+        "endChar": 121
+      },
+      "revId": "51445f358fdef5319a6ec071d3cdba5501ccee24",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1abbea85_e1ec1545",
@@ -163,6 +235,30 @@
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1e2c1b4c_300c1d10",
+        "filename": "tests/openonu-go-adapter/Voltha_ONUFlowChecks.robot",
+        "patchSetId": 3
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1000007
+      },
+      "writtenOn": "2021-10-27T21:34:28Z",
+      "side": 1,
+      "message": "thanks for checking, removed",
+      "parentUuid": "fec4646a_d5d23abd",
+      "range": {
+        "startLine": 130,
+        "startChar": 84,
+        "endLine": 130,
+        "endChar": 94
+      },
+      "revId": "51445f358fdef5319a6ec071d3cdba5501ccee24",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4fb86aff_8670789b",
@@ -176,6 +272,30 @@
       "writtenOn": "2021-10-25T06:30:27Z",
       "side": 1,
       "message": "From my point of view \u0027namespace\u003d\u0027 is not needed, because namespace is the first and single argument of keyword.",
+      "range": {
+        "startLine": 109,
+        "startChar": 32,
+        "endLine": 109,
+        "endChar": 42
+      },
+      "revId": "51445f358fdef5319a6ec071d3cdba5501ccee24",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7f41344f_8101fca0",
+        "filename": "tests/openonu-go-adapter/Voltha_ONUNegativeStateTests.robot",
+        "patchSetId": 3
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1000007
+      },
+      "writtenOn": "2021-10-27T21:34:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4fb86aff_8670789b",
       "range": {
         "startLine": 109,
         "startChar": 32,
@@ -209,6 +329,30 @@
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "aa9d285f_ddb31241",
+        "filename": "tests/openonu-go-adapter/Voltha_ONUNegativeStateTests.robot",
+        "patchSetId": 3
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1000007
+      },
+      "writtenOn": "2021-10-27T21:34:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f93e60c4_d5159e0b",
+      "range": {
+        "startLine": 121,
+        "startChar": 84,
+        "endLine": 121,
+        "endChar": 94
+      },
+      "revId": "51445f358fdef5319a6ec071d3cdba5501ccee24",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9072d6a2_9bd0f4b8",
@@ -222,6 +366,30 @@
       "writtenOn": "2021-10-25T06:30:27Z",
       "side": 1,
       "message": "From my point of view \u0027namespace\u003d\u0027 is not needed, because namespace is the first and single argument of keyword.",
+      "range": {
+        "startLine": 181,
+        "startChar": 32,
+        "endLine": 181,
+        "endChar": 42
+      },
+      "revId": "51445f358fdef5319a6ec071d3cdba5501ccee24",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "555daaf3_2d64678a",
+        "filename": "tests/openonu-go-adapter/Voltha_ONUReconcileTests.robot",
+        "patchSetId": 3
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1000007
+      },
+      "writtenOn": "2021-10-27T21:34:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9072d6a2_9bd0f4b8",
       "range": {
         "startLine": 181,
         "startChar": 32,
@@ -255,6 +423,30 @@
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bf686293_fe52b5f5",
+        "filename": "tests/openonu-go-adapter/Voltha_ONUReconcileTests.robot",
+        "patchSetId": 3
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 1000007
+      },
+      "writtenOn": "2021-10-27T21:34:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1e1c3175_18aa32f7",
+      "range": {
+        "startLine": 196,
+        "startChar": 40,
+        "endLine": 196,
+        "endChar": 49
+      },
+      "revId": "51445f358fdef5319a6ec071d3cdba5501ccee24",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "94e8b812_a03fda0d",
@@ -268,6 +460,30 @@
       "writtenOn": "2021-10-25T06:30:27Z",
       "side": 1,
       "message": "From my point of view \u0027namespace\u003d\u0027 is not needed, because namespace is the first and single argument of keyword.",
+      "range": {
+        "startLine": 239,
+        "startChar": 32,
+        "endLine": 239,
+        "endChar": 41
+      },
+      "revId": "51445f358fdef5319a6ec071d3cdba5501ccee24",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b5792d28_7bb167a1",
+        "filename": "tests/openonu-go-adapter/Voltha_ONUReconcileTests.robot",
+        "patchSetId": 3
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 1000007
+      },
+      "writtenOn": "2021-10-27T21:34:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "94e8b812_a03fda0d",
       "range": {
         "startLine": 239,
         "startChar": 32,
@@ -301,6 +517,30 @@
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8e4fc004_e2a45120",
+        "filename": "tests/openonu-go-adapter/Voltha_ONUReconcileTests.robot",
+        "patchSetId": 3
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 1000007
+      },
+      "writtenOn": "2021-10-27T21:34:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c18663f6_d4deb2e3",
+      "range": {
+        "startLine": 242,
+        "startChar": 40,
+        "endLine": 242,
+        "endChar": 49
+      },
+      "revId": "51445f358fdef5319a6ec071d3cdba5501ccee24",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3c3e70bf_fc9d0527",
@@ -314,6 +554,30 @@
       "writtenOn": "2021-10-25T06:30:27Z",
       "side": 1,
       "message": "same",
+      "range": {
+        "startLine": 216,
+        "startChar": 32,
+        "endLine": 216,
+        "endChar": 41
+      },
+      "revId": "51445f358fdef5319a6ec071d3cdba5501ccee24",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4431d05e_d7831649",
+        "filename": "tests/openonu-go-adapter/Voltha_ONUStateTests.robot",
+        "patchSetId": 3
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 1000007
+      },
+      "writtenOn": "2021-10-27T21:34:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3c3e70bf_fc9d0527",
       "range": {
         "startLine": 216,
         "startChar": 32,
@@ -347,6 +611,30 @@
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "96b76791_7a785ef5",
+        "filename": "tests/openonu-go-adapter/Voltha_ONUStateTests.robot",
+        "patchSetId": 3
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 1000007
+      },
+      "writtenOn": "2021-10-27T21:34:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8cde1a1a_ba42a324",
+      "range": {
+        "startLine": 228,
+        "startChar": 84,
+        "endLine": 228,
+        "endChar": 93
+      },
+      "revId": "51445f358fdef5319a6ec071d3cdba5501ccee24",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2285f54e_b5a70313",
@@ -370,6 +658,30 @@
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a32b43a7_74e4e3f1",
+        "filename": "tests/openonu-go-adapter/Voltha_ONUTemplateTests.robot",
+        "patchSetId": 3
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1000007
+      },
+      "writtenOn": "2021-10-27T21:34:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2285f54e_b5a70313",
+      "range": {
+        "startLine": 94,
+        "startChar": 32,
+        "endLine": 94,
+        "endChar": 41
+      },
+      "revId": "51445f358fdef5319a6ec071d3cdba5501ccee24",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3ed92896_507ff178",
@@ -383,6 +695,30 @@
       "writtenOn": "2021-10-25T06:30:27Z",
       "side": 1,
       "message": "same",
+      "range": {
+        "startLine": 106,
+        "startChar": 32,
+        "endLine": 106,
+        "endChar": 41
+      },
+      "revId": "51445f358fdef5319a6ec071d3cdba5501ccee24",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "281e384d_51413e12",
+        "filename": "tests/openonu-go-adapter/Voltha_ONUTemplateTests.robot",
+        "patchSetId": 3
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1000007
+      },
+      "writtenOn": "2021-10-27T21:34:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3ed92896_507ff178",
       "range": {
         "startLine": 106,
         "startChar": 32,
