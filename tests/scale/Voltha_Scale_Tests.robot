@@ -64,6 +64,7 @@ ${BBSIM_REST_IP}    127.0.0.1
 ${BBSIM_REST_PORT}    50071
 
 ${NAMESPACE}      default
+${INFRA_NAMESPACE}      default
 
 # Scale pipeline values
 ${stackId}  1

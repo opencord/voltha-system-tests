@@ -39,6 +39,7 @@ Resource          ../../variables/variables.robot
 
 *** Variables ***
 ${namespace}      voltha
+${INFRA_NAMESPACE}      default
 ${timeout}        60s
 ${of_id}          0
 ${logical_id}     0
