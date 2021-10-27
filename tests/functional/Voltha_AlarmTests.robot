@@ -40,6 +40,7 @@ ${VOLTCTL_NAMESPACE}      default
 ${BBSIMCTL_NAMESPACE}      voltha
 ${VOLTCTL_POD_NAME}    voltctl
 ${BBSIMCTL_POD_NAME}    bbsim
+${INFRA_NAMESPACE}      default
 
 *** Test Cases ***
 Ensure required pods Running
