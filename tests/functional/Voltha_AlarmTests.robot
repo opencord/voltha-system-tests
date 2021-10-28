@@ -26,6 +26,7 @@ Resource          ../../libraries/onos.robot
 Resource          ../../libraries/voltctl.robot
 Resource          ../../libraries/utils.robot
 Resource          ../../libraries/k8s.robot
+Resource          ../../libraries/voltha.robot
 Resource          ../../variables/variables.robot
 
 *** Variables ***
