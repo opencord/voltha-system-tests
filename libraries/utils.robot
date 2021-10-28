@@ -386,6 +386,17 @@ Perform Sanity Tests TT
     # run of mcast sanity test is currently limited for real HW
     Run Keyword If    ${has_dataplane}    Perform Sanity Test TT MCAST    ${supress_add_subscriber}
 
+Provision Subscription TT
+    [Documentation]    Provision Subscription TT
+    [Arguments]    ${supress_add_subscriber}=False
+    FOR    ${I}    IN RANGE    0    ${num_all_onus}
+        ${src}=    Set Variable    ${hosts.src[${I}]}
+        ${dst}=    Set Variable    ${hosts.dst[${I}]}
+        ${service_type}=    Get Variable Value    ${src['service_type']}    "null"
+        Run Keyword IF    '${service_type}' != 'mcast'    Provision Subscription for ONU TT    ${src}    ${dst}
+        ...    ${supress_add_subscriber}
+    END
+
 Perform Sanity Test TT
     [Documentation]    This keyword performs Sanity Test Procedure for TT Workflow
     ...    Sanity test performs dhcp and pings (without EAPOL and DHCP flows) for all the ONUs given for the POD
@@ -441,10 +452,9 @@ Perform Sanity Test TT
         # ...    ${List_ONU_Serial}    ${onu_flows}
     END
 
-Sanity Test TT one ONU
-    [Documentation]    This keyword performs sanity test for a single ONU for TT workflow
+Provision Subscription for ONU TT
+    [Documentation]    This keyword performs provision services a single ONU for TT workflow
     ...       Tests for one ONU
-    ...       Assertions apply to HSIA, VoD, VoIP services
     ...       For repeating sanity test without subscriber changes set flag supress_add_subscriber=True.
     ...       In all other (common) cases flag has to be set False (default).
     [Arguments]    ${src}    ${dst}    ${supress_add_subscriber}=False
@@ -467,6 +477,20 @@ Sanity Test TT one ONU
     Wait Until Keyword Succeeds    ${timeout}    5s    Validate Device
     ...    ENABLED    ACTIVE    REACHABLE
     ...    ${src['onu']}    onu=True    onu_reason=${onu_reasons}
+
+Sanity Test TT one ONU
+    [Documentation]    This keyword performs sanity test for a single ONU for TT workflow
+    ...       Tests for one ONU
+    ...       Assertions apply to HSIA, VoD, VoIP services
+    ...       For repeating sanity test without subscriber changes set flag supress_add_subscriber=True.
+    ...       In all other (common) cases flag has to be set False (default).
+    [Arguments]    ${src}    ${dst}    ${supress_add_subscriber}=False
+    Run Keyword And Continue On Failure    Provision Subscription for ONU TT    ${src}    ${dst}
+    ...    ${supress_add_subscriber}
+    ${of_id}=    Wait Until Keyword Succeeds    ${timeout}    15s    Validate OLT Device in ONOS    ${src['olt']}
+    Set Global Variable    ${of_id}
+    ${onu_port}=    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
+    ...    Get ONU Port in ONOS    ${src['onu']}    ${of_id}    ${src['uni_id']}
     # TODO: Yet to Verify on the GPON based Physical POD (VOL-2652)
     Run Keyword If    ${has_dataplane}    Run Keyword And Continue On Failure    Validate DHCP and Ping    True
     ...    True    ${src['dp_iface_name']}    ${src['s_tag']}    ${src['c_tag']}    ${dst['dp_iface_ip_qinq']}
