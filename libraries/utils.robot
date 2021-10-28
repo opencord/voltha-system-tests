@@ -380,6 +380,17 @@ Validate All OLT Flows
         ...    ${List_ONU_Serial}    ${onu_flows}
     END
 
+Provision Subscription TT
+    [Documentation]    Provision Subscription TT
+    [Arguments]    ${supress_add_subscriber}=False
+    FOR    ${I}    IN RANGE    0    ${num_all_onus}
+        ${src}=    Set Variable    ${hosts.src[${I}]}
+        ${dst}=    Set Variable    ${hosts.dst[${I}]}
+        ${service_type}=    Get Variable Value    ${src['service_type']}    "null"
+        Run Keyword IF    '${service_type}' != 'mcast'    Provision Subscription for ONU TT    ${src}    ${dst}
+        ...    ${supress_add_subscriber}
+    END
+
 Perform Sanity Tests TT
     [Documentation]    This keyword performs both Sanity Test Procedure for TT Workflow
     ...    Sanity Test TT for HSIA, VoD, VoIP services and Sanity Test TT for MCAST
@@ -444,6 +455,33 @@ Perform Sanity Test TT
         # Run Keyword    Wait Until Keyword Succeeds    ${timeout}    5s    Validate ONU Flows
         # ...    ${List_ONU_Serial}    ${onu_flows}
     END
+
+Provision Subscription for ONU TT
+    [Documentation]    Provision Subscription for ONU TT
+    ...       Tests for one ONU
+    [Arguments]    ${src}    ${dst}    ${supress_add_subscriber}=False
+    ${of_id}=    Wait Until Keyword Succeeds    ${timeout}    15s    Validate OLT Device in ONOS    ${src['olt']}
+    Set Global Variable    ${of_id}
+    ${nni_port}=    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
+    ...    Get NNI Port in ONOS    ${of_id}
+    Set Global Variable    ${nni_port}
+    ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
+    ${onu_port}=    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
+    ...    Get ONU Port in ONOS    ${src['onu']}    ${of_id}    ${src['uni_id']}
+    # Check ONU port is Enabled in ONOS
+    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds   120s   2s
+    ...    Verify UNI Port Is Enabled   ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${src['onu']}    ${src['uni_id']}
+    Run Keyword Unless    ${supress_add_subscriber}
+    ...    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2
+    ...    Execute ONOS CLI Command use single connection    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}
+    ...    volt-add-subscriber-access ${of_id} ${onu_port}
+    # Verify ONU state in voltha
+    ${onu_reasons}=  Create List     omci-flows-pushed     onu-reenabled
+    # In case of previous dis- and enable of ONU and no further subscriber add actions state will be onu-reenabled
+    Run Keyword If    ${supress_add_subscriber}    Append To List    ${onu_reasons}    onu-reenabled
+    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s    Validate Device
+    ...    ENABLED    ACTIVE    REACHABLE
+    ...    ${src['onu']}    onu=True    onu_reason=${onu_reasons}
 
 Sanity Test TT one ONU
     [Documentation]    This keyword performs sanity test for a single ONU for TT workflow
