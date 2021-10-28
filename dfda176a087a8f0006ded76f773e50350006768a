@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e586c50b_225cfab6",
+        "filename": "tests/tt-workflow/Voltha_TT_MulticastTests.robot",
+        "patchSetId": 3
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2021-10-28T12:30:27Z",
+      "side": 1,
+      "message": "Please use iperf3 for all the scenarios.",
+      "range": {
+        "startLine": 119,
+        "startChar": 72,
+        "endLine": 119,
+        "endChar": 77
+      },
+      "revId": "dfda176a087a8f0006ded76f773e50350006768a",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    }
+  ]
+}
