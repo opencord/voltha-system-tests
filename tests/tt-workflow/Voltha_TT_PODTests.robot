@@ -199,6 +199,7 @@ Verify re-provisioning subscriber after removing provisoned subscriber for TT
         ...    Wait Until Keyword Succeeds    ${timeout}    2s
         ...    Check Ping    False    ${dst['dp_iface_ip_qinq']}    ${src['dp_iface_name']}
         ...    ${src['ip']}    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
+        ...    ELSE Sleep    10s    Wait for flows to be deleted
         # Verify VOLTHA flows for ONU under test is Zero
         # TODO: Fix ${onu_flows} calculations based on UNIs provisioned
         # Wait Until Keyword Succeeds    ${timeout}    5s    Validate Device Flows
