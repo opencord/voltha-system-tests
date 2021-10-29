@@ -121,6 +121,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "65d7b904_62602991",
+        "filename": "libraries/k8s.robot",
+        "patchSetId": 3
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 1000007
+      },
+      "writtenOn": "2021-10-29T17:55:36Z",
+      "side": 1,
+      "message": "This keyword is checking the VOLTHA pods for errors, is there a case in which the namespace can be different than the global configured namespace?",
+      "parentUuid": "65d49ad0_1e665d21",
+      "range": {
+        "startLine": 192,
+        "startChar": 44,
+        "endLine": 192,
+        "endChar": 56
+      },
+      "revId": "51445f358fdef5319a6ec071d3cdba5501ccee24",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "23eab653_4f07698e",
         "filename": "libraries/k8s.robot",
         "patchSetId": 3
