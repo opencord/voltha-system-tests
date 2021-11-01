@@ -39,6 +39,30 @@
       },
       "revId": "dfda176a087a8f0006ded76f773e50350006768a",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fcf32363_3558bb5f",
+        "filename": "tests/tt-workflow/Voltha_TT_MulticastTests.robot",
+        "patchSetId": 3
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1000804
+      },
+      "writtenOn": "2021-11-01T13:26:08Z",
+      "side": 1,
+      "message": "iperf3 is not supported in iperf3 currently. I did some manual tests but didn\u0027t start UDP Stream with specific channel IP, successfully.\nSo, we should use iperf2 in multicast tests.\n\nRef Comment from iperf community: https://github.com/esnet/iperf/issues/27#:~:text\u003dClosing.%20This%20is%20a%20feature%20that%20we%27re%20choosing%20not%20to%20support.%20Users%20who%20want%20to%20do%20throughput%20testing%20on%20multicast%20groups%20should%20use%20iperf2%20(or%20some%20other%20suitable%20tool).",
+      "parentUuid": "e586c50b_225cfab6",
+      "range": {
+        "startLine": 119,
+        "startChar": 72,
+        "endLine": 119,
+        "endChar": 77
+      },
+      "revId": "dfda176a087a8f0006ded76f773e50350006768a",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     }
   ]
 }
