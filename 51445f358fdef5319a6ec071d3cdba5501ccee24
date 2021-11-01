@@ -145,6 +145,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b00aa58a_d8575cc4",
+        "filename": "libraries/k8s.robot",
+        "patchSetId": 3
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2021-11-01T09:19:18Z",
+      "side": 1,
+      "message": "I don\u0027t know the answer to that question! BUT as Hardik already mentioned above it is supposed to be a local argument. So add it as argument as suggested by Hardik.\nk8s.robot is a library which can be called in different contents. Are you sure there will be always a suite variable called ${NAMESPACE}?\nCurrently it will work fine, at least robot is NOT case sensitiv, but from my point of view it is not recommendated resp we should avoid use of suite variables in libraries and I think it is not future-proof.\nAt least it is your decision.",
+      "parentUuid": "65d7b904_62602991",
+      "range": {
+        "startLine": 192,
+        "startChar": 44,
+        "endLine": 192,
+        "endChar": 56
+      },
+      "revId": "51445f358fdef5319a6ec071d3cdba5501ccee24",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "23eab653_4f07698e",
         "filename": "libraries/k8s.robot",
         "patchSetId": 3
