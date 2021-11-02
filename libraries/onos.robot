@@ -839,28 +839,34 @@ Validate Deleted Device Cleanup In ONOS
     # Fetch OF Id for OLT
     ${olt_of_id}=    Wait Until Keyword Succeeds    ${timeout}    5s    Validate OLT Device in ONOS    ${olt_serial_number}
     # Verify Ports are Removed
-    ${port_count}=    Execute ONOS CLI Command use single connection     ${ip}    ${port}
-    ...    ports ${olt_of_id} | grep -v ${olt_of_id} | wc -l
+    ${port}=    Execute ONOS CLI Command use single connection     ${ip}    ${port}
+    ...    ports ${olt_of_id} | grep -v ${olt_of_id}
+    ${port_count}=      Get Line Count      ${port}
     Should Be Equal As Integers    ${port_count}    0
     # Verify Subscribers are Removed
-    ${sub_count}=    Execute ONOS CLI Command use single connection     ${ip}    ${port}
-    ...    volt-programmed-subscribers | grep ${olt_of_id} | wc -l
+    ${sub}=    Execute ONOS CLI Command use single connection     ${ip}    ${port}
+    ...    volt-programmed-subscribers | grep ${olt_of_id}
+    ${sub_count}=      Get Line Count      ${sub}
     Should Be Equal As Integers    ${sub_count}    0
     # Verify Flows are Removed
-    ${flow_count}=    Execute ONOS CLI Command use single connection     ${ip}    ${port}
-    ...    flows -s -f ${olt_of_id} | grep -v deviceId | wc -l
+    ${flow}=    Execute ONOS CLI Command use single connection     ${ip}    ${port}
+    ...    flows -s -f ${olt_of_id} | grep -v deviceId
+    ${flow_count}=      Get Line Count      ${flow}
     Should Be Equal As Integers    ${flow_count}    0
     # Verify Meters are Removed
-    ${meter_count}=    Execute ONOS CLI Command use single connection     ${ip}    ${port}
-    ...    meters ${olt_of_id} | wc -l
+    ${meter}=    Execute ONOS CLI Command use single connection     ${ip}    ${port}
+    ...    meters ${olt_of_id}
+    ${meter_count}=      Get Line Count      ${meter}
     Should Be Equal As Integers    ${meter_count}    0
     # Verify AAA-Users are Removed
-    ${aaa_count}=    Execute ONOS CLI Command use single connection     ${ip}    ${port}
-    ...    aaa-users ${olt_of_id} | wc -l
+    ${aaa}=    Execute ONOS CLI Command use single connection     ${ip}    ${port}
+    ...    aaa-users ${olt_of_id}
+    ${aaa_count}=      Get Line Count      ${aaa}
     Should Be Equal As Integers    ${aaa_count}    0
     # Verify Dhcp-Allocations are Removed
-    ${dhcp_count}=    Execute ONOS CLI Command use single connection     ${ip}    ${port}
-    ...    dhcpl2relay-allocations ${olt_of_id} | wc -l
+    ${dhcp}=    Execute ONOS CLI Command use single connection     ${ip}    ${port}
+    ...    dhcpl2relay-allocations ${olt_of_id}
+    ${dhcp_count}=      Get Line Count      ${dhcp}
     Should Be Equal As Integers    ${dhcp_count}    0
 
 Delete ONOS App
