@@ -37,6 +37,92 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "43f27051_77dc9f1b",
+        "filename": "libraries/utils.robot",
+        "patchSetId": 3
+      },
+      "lineNbr": 459,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2021-11-02T08:39:56Z",
+      "side": 1,
+      "message": "Looks like the same as \u0027Sanity Test TT one ONU\u0027. We should prevent double coding.\nEither you call this new keyword in \u0027Sanity Test TT one ONU\u0027 (see comment below) or you implement some conditions in \u0027Sanity Test TT one ONU\u0027 instead this new keyword.",
+      "revId": "dfda176a087a8f0006ded76f773e50350006768a",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4f72a503_2fc1e520",
+        "filename": "libraries/utils.robot",
+        "patchSetId": 3
+      },
+      "lineNbr": 464,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2021-11-02T08:39:56Z",
+      "side": 1,
+      "message": "I don\u0027t like to use Global Variables. Please check if this is really necessary. It\u0027s better to use Keyword Arguments and prevent use Global Variables.",
+      "range": {
+        "startLine": 464,
+        "startChar": 4,
+        "endLine": 464,
+        "endChar": 35
+      },
+      "revId": "dfda176a087a8f0006ded76f773e50350006768a",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f99ecc6c_4ea7e21d",
+        "filename": "libraries/utils.robot",
+        "patchSetId": 3
+      },
+      "lineNbr": 467,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2021-11-02T08:39:56Z",
+      "side": 1,
+      "message": "Same above.",
+      "range": {
+        "startLine": 467,
+        "startChar": 4,
+        "endLine": 467,
+        "endChar": 38
+      },
+      "revId": "dfda176a087a8f0006ded76f773e50350006768a",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "38b3706a_f7b672b2",
+        "filename": "libraries/utils.robot",
+        "patchSetId": 3
+      },
+      "lineNbr": 514,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2021-11-02T08:39:56Z",
+      "side": 1,
+      "message": "Accoring to the suggestion above this can be replaced by calling new keyword \u0027Provision Subscription for ONU TT\u0027",
+      "range": {
+        "startLine": 493,
+        "startChar": 4,
+        "endLine": 514,
+        "endChar": 65
+      },
+      "revId": "dfda176a087a8f0006ded76f773e50350006768a",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c6bf4a44_868ba524",
         "filename": "tests/data/flex-ocp-cord-TT-multicast-tests-input.yaml",
         "patchSetId": 3
