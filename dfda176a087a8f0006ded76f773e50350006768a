@@ -18,6 +18,86 @@
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f4ae658e_1a77ec4d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2021-11-02T05:15:12Z",
+      "side": 1,
+      "message": "Triggered the test verification here: https://jenkins.opencord.org/view/VOLTHA-2.X-Tests/job/build_flex-ocp-cord-multi-uni_TP_voltha_TT_master_test/128/robot/report/**/log*.html",
+      "revId": "dfda176a087a8f0006ded76f773e50350006768a",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c6bf4a44_868ba524",
+        "filename": "tests/data/flex-ocp-cord-TT-multicast-tests-input.yaml",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2021-11-02T05:15:12Z",
+      "side": 1,
+      "message": "Update the file name to: flex-ocp-cord-multi-uni-TT-multicast-tests-input.yaml",
+      "revId": "dfda176a087a8f0006ded76f773e50350006768a",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "95df3eab_7af2e78f",
+        "filename": "tests/tt-workflow/Voltha_TT_MulticastTests.robot",
+        "patchSetId": 3
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2021-11-02T05:15:12Z",
+      "side": 1,
+      "message": "Please rename this to something like 2RGSameOnuSameChannel",
+      "range": {
+        "startLine": 69,
+        "startChar": 32,
+        "endLine": 69,
+        "endChar": 40
+      },
+      "revId": "dfda176a087a8f0006ded76f773e50350006768a",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d7afd9c3_dcc8dd16",
+        "filename": "tests/tt-workflow/Voltha_TT_MulticastTests.robot",
+        "patchSetId": 3
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2021-11-02T05:15:12Z",
+      "side": 1,
+      "message": "Rename this as well to something better",
+      "range": {
+        "startLine": 115,
+        "startChar": 0,
+        "endLine": 115,
+        "endChar": 38
+      },
+      "revId": "dfda176a087a8f0006ded76f773e50350006768a",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e586c50b_225cfab6",
