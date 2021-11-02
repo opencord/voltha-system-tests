@@ -276,15 +276,17 @@ Verify Subscriber Access Flows Added Count DT
     [Arguments]    ${ip}    ${port}    ${olt_of_id}    ${expected_flows}
     [Documentation]    Matches for total number of subscriber access flows added for all onus
     ${access_flows_added}=    Execute ONOS CLI Command use single connection    ${ip}    ${port}
-    ...    flows -s ADDED ${olt_of_id} | grep -v deviceId | grep -v ETH_TYPE:lldp | grep -v ETH_TYPE:arp | wc -l
-    Should Be Equal As Integers    ${access_flows_added}    ${expected_flows}
+    ...    flows -s ADDED ${olt_of_id} | grep -v deviceId | grep -v ETH_TYPE:lldp | grep -v ETH_TYPE:arp
+    ${access_flows_added_count}=      Get Line Count      ${access_flows_added}
+    Should Be Equal As Integers    ${access_flows_added_count}    ${expected_flows}
 
 Verify Added Flow Count for OLT TT
     [Arguments]    ${ip}    ${port}    ${olt_of_id}    ${expected_flows}
     [Documentation]    Total number of added flows given OLT with subscriber flows
     ${access_flows_added}=    Execute ONOS CLI Command use single connection    ${ip}    ${port}
-    ...    flows -s ADDED ${olt_of_id} | grep -v deviceId | wc -l
-    Should Be Equal As Integers    ${access_flows_added}    ${expected_flows}
+    ...    flows -s ADDED ${olt_of_id} | grep -v deviceId
+    ${access_flows_added_count}=      Get Line Count      ${access_flows_added}
+    Should Be Equal As Integers    ${access_flows_added_count}    ${expected_flows}
 
 Verify Default Downstream Flows are added in ONOS for OLT TT
     [Arguments]    ${ip}    ${port}    ${olt_of_id}    ${nni_port}
@@ -441,7 +443,7 @@ Verify Meters in ONOS Ietf
     ...     | grep "rate=${us_pir}, burst-size=${us_pbs}" | wc -l
     ${upstream_meter_added}=    Execute ONOS CLI Command use single connection    ${ip}    ${port}
     ...    ${us_meter_cmd}
-    Should Be Equal As Integers    ${upstream_meter_added}    1
+    Should Be Equal As Integers    ${upstream_meter_added}    1   Upstream meter is missing
     # Get downstream bandwidth profile details
     ${ds_cir}    ${ds_cbs}    ${ds_pir}    ${ds_pbs}    ${ds_gir}    Get Bandwidth Profile Details Ietf Rest
     ...    ${ds_bw_profile}
@@ -454,7 +456,7 @@ Verify Meters in ONOS Ietf
     ...     | grep "rate=${ds_pir}, burst-size=${ds_pbs}" | wc -l
     ${downstream_meter_added}=    Execute ONOS CLI Command use single connection    ${ip}    ${port}
     ...    ${ds_meter_cmd}
-    Should Be Equal As Integers    ${downstream_meter_added}    1
+    Should Be Equal As Integers    ${downstream_meter_added}    1   Downstream meter is missing
 
 Verify Meters in ONOS
     [Arguments]    ${ip}    ${port}    ${olt_of_id}    ${onu_port}
@@ -477,7 +479,7 @@ Verify Meters in ONOS
     ...     | grep "rate=${us_pir}, burst-size=${us_pbs}" | grep "rate=${us_air}, burst-size=0" | wc -l
     ${upstream_meter_added}=    Execute ONOS CLI Command use single connection    ${ip}    ${port}
     ...    ${us_meter_cmd}
-    Should Be Equal As Integers    ${upstream_meter_added}    1
+    Should Be Equal As Integers    ${upstream_meter_added}    1     Upstream meter is missing
     Sleep    1s
     # Get downstream bandwidth profile details
     ${ds_cir}    ${ds_cbs}    ${ds_eir}    ${ds_ebs}    ${ds_air}    Get Bandwidth Profile Details
@@ -491,7 +493,7 @@ Verify Meters in ONOS
     ...     | grep "rate=${ds_pir}, burst-size=${ds_pbs}" | grep "rate=${ds_air}, burst-size=0" | wc -l
     ${downstream_meter_added}=    Execute ONOS CLI Command use single connection    ${ip}    ${port}
     ...    ${ds_meter_cmd}
-    Should Be Equal As Integers    ${downstream_meter_added}    1
+    Should Be Equal As Integers    ${downstream_meter_added}    1   Downstream meter is missing
 
 Verify Default Meter Present in ONOS
     [Arguments]    ${ip}    ${port}    ${olt_of_id}
@@ -508,14 +510,15 @@ Verify Default Meter Present in ONOS
     ...     | grep "rate=${pir}, burst-size=${pbs}" | grep "rate=${air}, burst-size=0" | wc -l
     ${default_meter_added}=    Execute ONOS CLI Command use single connection    ${ip}    ${port}
     ...    ${meter_cmd}
-    Should Be Equal As Integers    ${default_meter_added}    1
+    Should Be Equal As Integers    ${default_meter_added}    1      Default Meter not present
 
 Verify Device Flows Removed
     [Arguments]    ${ip}    ${port}    ${olt_of_id}
     [Documentation]    Verifies all flows are removed from the device
     ${device_flows}=    Execute ONOS CLI Command use single connection    ${ip}    ${port}
-    ...    flows -s -f ${olt_of_id} | grep -v deviceId | wc -l
-    Should Be Equal As Integers    ${device_flows}    0
+    ...    flows -s -f ${olt_of_id} | grep -v deviceId
+    ${flow_count}=      Get Line Count      ${device_flows}
+    Should Be Equal As Integers    ${flow_count}    0     Flows not removed
 
 Verify Eapol Flows Added
     [Arguments]    ${ip}    ${port}    ${expected_flows}
@@ -839,29 +842,35 @@ Validate Deleted Device Cleanup In ONOS
     # Fetch OF Id for OLT
     ${olt_of_id}=    Wait Until Keyword Succeeds    ${timeout}    5s    Validate OLT Device in ONOS    ${olt_serial_number}
     # Verify Ports are Removed
-    ${port_count}=    Execute ONOS CLI Command use single connection     ${ip}    ${port}
-    ...    ports ${olt_of_id} | grep -v ${olt_of_id} | wc -l
-    Should Be Equal As Integers    ${port_count}    0
+    ${ports}=    Execute ONOS CLI Command use single connection     ${ip}    ${port}
+    ...    ports ${olt_of_id} | grep -v ${olt_of_id}
+    ${port_count}=      Get Line Count      ${ports}
+    Should Be Equal As Integers    ${port_count}    0   Ports have not been removed from ONOS after cleanup
     # Verify Subscribers are Removed
-    ${sub_count}=    Execute ONOS CLI Command use single connection     ${ip}    ${port}
-    ...    volt-programmed-subscribers | grep ${olt_of_id} | wc -l
-    Should Be Equal As Integers    ${sub_count}    0
+    ${sub}=    Execute ONOS CLI Command use single connection     ${ip}    ${port}
+    ...    volt-programmed-subscribers | grep ${olt_of_id}
+    ${sub_count}=      Get Line Count      ${sub}
+    Should Be Equal As Integers    ${sub_count}    0    Subscribers have not been removed from ONOS after cleanup
     # Verify Flows are Removed
-    ${flow_count}=    Execute ONOS CLI Command use single connection     ${ip}    ${port}
-    ...    flows -s -f ${olt_of_id} | grep -v deviceId | wc -l
-    Should Be Equal As Integers    ${flow_count}    0
+    ${flow}=    Execute ONOS CLI Command use single connection     ${ip}    ${port}
+    ...    flows -s -f ${olt_of_id} | grep -v deviceId
+    ${flow_count}=      Get Line Count      ${flow}
+    Should Be Equal As Integers    ${flow_count}    0   Flows have not been removed from ONOS after cleanup
     # Verify Meters are Removed
-    ${meter_count}=    Execute ONOS CLI Command use single connection     ${ip}    ${port}
-    ...    meters ${olt_of_id} | wc -l
-    Should Be Equal As Integers    ${meter_count}    0
+    ${meter}=    Execute ONOS CLI Command use single connection     ${ip}    ${port}
+    ...    meters ${olt_of_id}
+    ${meter_count}=      Get Line Count      ${meter}
+    Should Be Equal As Integers    ${meter_count}    0  Meters have not been removed from ONOS after cleanup
     # Verify AAA-Users are Removed
-    ${aaa_count}=    Execute ONOS CLI Command use single connection     ${ip}    ${port}
-    ...    aaa-users ${olt_of_id} | wc -l
-    Should Be Equal As Integers    ${aaa_count}    0
+    ${aaa}=    Execute ONOS CLI Command use single connection     ${ip}    ${port}
+    ...    aaa-users ${olt_of_id}
+    ${aaa_count}=      Get Line Count      ${aaa}
+    Should Be Equal As Integers    ${aaa_count}    0    AAA Users have not been removed from ONOS after cleanup
     # Verify Dhcp-Allocations are Removed
-    ${dhcp_count}=    Execute ONOS CLI Command use single connection     ${ip}    ${port}
-    ...    dhcpl2relay-allocations ${olt_of_id} | wc -l
-    Should Be Equal As Integers    ${dhcp_count}    0
+    ${dhcp}=    Execute ONOS CLI Command use single connection     ${ip}    ${port}
+    ...    dhcpl2relay-allocations ${olt_of_id}
+    ${dhcp_count}=      Get Line Count      ${dhcp}
+    Should Be Equal As Integers    ${dhcp_count}    0   DHCP Allocations have not been removed from ONOS after cleanup
 
 Delete ONOS App
     [Arguments]    ${url}    ${app_name}
