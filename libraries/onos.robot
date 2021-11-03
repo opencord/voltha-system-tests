@@ -467,6 +467,9 @@ Verify Meters in ONOS
     Log    ${programmed_sub}
     ${us_bw_profile}    ${ds_bw_profile}    Get Upstream and Downstream Bandwidth Profile Name
     ...    ${programmed_sub}
+    # logging all meters to facilitate debug
+    ${all_meters}=      Execute ONOS CLI Command use single connection    ${ip}    ${port}      meters
+    Log     ${all_meters}
     # Get upstream bandwidth profile details
     ${us_cir}    ${us_cbs}    ${us_eir}    ${us_ebs}    ${us_air}    Get Bandwidth Profile Details
     ...    ${ip}    ${port}    ${us_bw_profile}
@@ -510,6 +513,10 @@ Verify Default Meter Present in ONOS
     ...     | grep "rate=${pir}, burst-size=${pbs}" | grep "rate=${air}, burst-size=0" | wc -l
     ${default_meter_added}=    Execute ONOS CLI Command use single connection    ${ip}    ${port}
     ...    ${meter_cmd}
+    # logging all meters to facilitate debug
+    ${all_meters}=      Execute ONOS CLI Command use single connection    ${ip}    ${port}      meters
+    Log     ${all_meters}
+    # done logging all meters to facilitate debug
     Should Be Equal As Integers    ${default_meter_added}    1      Default Meter not present
 
 Verify Device Flows Removed
