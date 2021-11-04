@@ -96,6 +96,9 @@ Sanity E2E Test for OLT/ONU on POD
     ...           AND             Stop Logging    SanityTest
     Run Keyword If    ${has_dataplane}    Clean Up Linux
     Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test
+    Run Keyword And Ignore Error    Delete All Devices and Verify
+    Run Keyword If    ${has_dataplane}    Clean Up Linux
+    Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test
 
 Test Disable and Enable ONU
     [Documentation]    Validates E2E Ping Connectivity and object states for the given scenario:
