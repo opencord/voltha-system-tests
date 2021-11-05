@@ -92,6 +92,7 @@ ONU Negative State Test
 *** Keywords ***
 Setup Suite
     [Documentation]    Set up the test suite
+    Start Logging Setup or Teardown    Setup-${SUITE NAME}
     ${LogInfo}=    Catenate
     ...    \r\nPassed arguments:
     ...    techprofile:${techprofile},
@@ -109,16 +110,21 @@ Setup Suite
     Delete MIB Template Data
     # delete etcd onu data
     Delete ONU Go Adapter ETCD Data    validate=True
+    Run Keyword If    ${logging}    Collect Logs
+    Stop Logging Setup or Teardown    Setup-${SUITE NAME}
 
 Teardown Suite
     [Documentation]    Replaces the Suite Teardown in utils.robot.
     ...    Cleans up and checks all ONU ports disabled in ONOS.
     ...    Furthermore gives the possibility to pause the execution.
+    Start Logging Setup or Teardown   Teardown-${SUITE NAME}
     Run Keyword If    ${pausebeforecleanup}    Import Library    Dialogs
     Run Keyword If    ${pausebeforecleanup}    Pause Execution    Press OK to continue with clean up!
     Run Keyword If    ${pausebeforecleanup}    Log    Teardown will be continued...    console=yes
     Run Keyword If    ${teardown_device}    Delete All Devices and Verify
     Wait Until Keyword Succeeds    ${timeout}    1s    Validate Onu Data In Etcd    0    ${kvstoreprefix}    without_pm_data=False
     Wait for Ports in ONOS for all OLTs      ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}  0   BBSM    ${timeout}
+    Run Keyword If    ${logging}    Collect Logs
     Close All ONOS SSH Connections
     Remove Tech Profile
+    Stop Logging Setup or Teardown   Teardown-${SUITE NAME}

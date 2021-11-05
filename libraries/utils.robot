@@ -711,8 +711,11 @@ Teardown
 
 Teardown Suite
     [Documentation]    Clean up device if desired
+    Start Logging Setup or Teardown  Teardown-${SUITE NAME}
     Run Keyword If    ${teardown_device}    Delete All Devices and Verify
     Close All ONOS SSH Connections
+    Run Keyword If    Collect Logs
+    Stop Logging Setup or Teardown    Setup-${SUITE NAME}
 
 Delete Device and Verify
     [Arguments]    ${olt_serial_number}
@@ -1104,6 +1107,23 @@ Start Logging
     ...    -n    voltha    -n    infra    cwd=${container_log_dir}   stdout=${label}-combined.log
     Set Test Variable    ${kail_process}
     Run Keyword If    ${has_dataplane}    Echo Message to OLT Logs     START ${label}
+
+Start Logging Setup or Teardown
+    [Arguments]    ${label}
+    [Documentation]    Start logging for suite ${label}
+    ${kail_process}=     Run Keyword If    "${container_log_dir}" != "${None}"   Start Process    kail    -n    ${NAMESPACE}
+    ...    -n    ${INFRA_NAMESPACE}    cwd=${container_log_dir}   stdout=${label}-combined.log
+    Set Suite Variable    ${kail_process}
+    Run Keyword If    ${has_dataplane}    Echo Message to OLT Logs     START ${label}
+
+Stop Logging Setup or Teardown
+    [Arguments]    ${label}
+    [Documentation]    End logging for suite;
+    Run    sync
+    Run Keyword If    ${kail_process}    Terminate Process    ${kail_process}
+    ${test_logfile}=    Run Keyword If    "${container_log_dir}" != "${None}"
+    ...    Join Path    ${container_log_dir}    ${label}-combined.log
+    Run Keyword If    ${has_dataplane}    Echo Message to OLT Logs     END ${label}
 
 Stop Logging
     [Arguments]    ${label}
