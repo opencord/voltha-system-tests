@@ -1,0 +1,17 @@
+diff --git a/tests/openonu-go-adapter/Voltha_ONUReconcileTests.robot b/tests/openonu-go-adapter/Voltha_ONUReconcileTests.robot
+index 3b34d8f9..0e20e36d 100755
+--- a/tests/openonu-go-adapter/Voltha_ONUReconcileTests.robot
++++ b/tests/openonu-go-adapter/Voltha_ONUReconcileTests.robot
+@@ -299,9 +299,9 @@ Do Reconcile For Disabled Onu Device
+     ...    ELSE       Current State Test All Onus    omci-admin-lock    alternativeonustate=${alternativeonustates}
+     Run Keyword If    ${usekill2restart}    Kill And Check Onu Adaptor    ${namespace}
+     ...    ELSE    Restart And Check Onu Adaptor    ${namespace}
+-    Run Keyword If    "${workflow}"=="DT"    Current State Test All Onus    omci-admin-lock
+-    ...    ELSE IF    "${workflow}"=="TT"    Current State Test All Onus    omci-admin-lock
+-    ...    ELSE       Current State Test All Onus    omci-admin-lock    alternativeonustate=${alternativeonustates}
++    Run Keyword If    "${workflow}"=="DT"    Wait Until Keyword Succeeds    ${timeout}    5s    Current State Test All Onus    omci-admin-lock
++    ...    ELSE IF    "${workflow}"=="TT"    Wait Until Keyword Succeeds    ${timeout}    5s    Current State Test All Onus    omci-admin-lock
++    ...    ELSE       Wait Until Keyword Succeeds    ${timeout}    5s    Current State Test All Onus    omci-admin-lock     alternativeonustate=${alternativeonustates}
+     Wait for all ONU Ports in ONOS Disabled    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}
+     Enable Onu Device
+     Run Keyword If    "${workflow}"=="DT"    Perform Sanity Test DT     ${suppressaddsubscriber}

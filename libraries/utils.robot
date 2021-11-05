@@ -51,6 +51,7 @@ Send File To Onos
 
 Common Test Suite Setup
     [Documentation]    Setup the test suite
+    Start Logging    Setup-${SUITE NAME}
     Set Global Variable    ${KUBECTL_CONFIG}    export KUBECONFIG=%{KUBECONFIG}
     Set Global Variable    ${VOLTCTL_CONFIG}    %{VOLTCONFIG}
     ${k8s_node_ip}=    Evaluate    ${nodes}[0].get("ip")
@@ -99,6 +100,8 @@ Common Test Suite Setup
     Set Suite Variable    ${container_list}
     ${datetime}=    Get Current Date
     Set Suite Variable    ${datetime}
+    Run Keywords    Collect Logs
+    ...   AND    Stop Logging    Setup-${SUITE NAME}
 
 Get ONU Count For OLT
     [Arguments]    ${src}    ${serial_number}
@@ -606,6 +609,7 @@ Setup Soak
 Setup
     [Documentation]    Pre-test Setup
     [Arguments]    ${skip_empty_device_list_test}=False
+    Start Logging    Setup-${SUITE NAME}
     #test for empty device list
     Run Keyword If    '${skip_empty_device_list_test}'=='False'    Test Empty Device List
     # TBD: Need for this Sleep
@@ -636,6 +640,8 @@ Setup
         Append To List    ${olt_ids}    ${olt}
     END
     Set Global Variable    ${olt_ids}
+    Run Keywords    Collect Logs
+    ...   AND    Stop Logging    Setup-${SUITE NAME}
 
 Get ofID From OLT List
     [Documentation]    Retrieves the corresponding of_id for the OLT serial number specified
@@ -712,9 +718,12 @@ Teardown
 
 Teardown Suite
     [Documentation]    Clean up device if desired
+    Start Logging    Teardown-${SUITE NAME}
     Run Keyword If    ${teardown_device}    Delete All Devices and Verify
     Run Keyword And Continue On Failure    Collect Logs
     Close All ONOS SSH Connections
+    Run Keywords    Collect Logs
+    ...   AND    Stop Logging    Teardown-${SUITE NAME}
 
 Delete Device and Verify
     [Arguments]    ${olt_serial_number}
@@ -1104,7 +1113,7 @@ Start Logging
     [Documentation]    Start logging for test ${label}
     ${kail_process}=     Run Keyword If    "${container_log_dir}" != "${None}"   Start Process    kail    -n    ${NAMESPACE}
     ...    -n    ${INFRA_NAMESPACE}    cwd=${container_log_dir}   stdout=${label}-combined.log
-    Set Test Variable    ${kail_process}
+    Set Suite Variable    ${kail_process}
     Run Keyword If    ${has_dataplane}    Echo Message to OLT Logs     START ${label}
 
 Stop Logging
