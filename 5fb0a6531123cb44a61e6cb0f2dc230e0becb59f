@@ -1,0 +1,107 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "90c1dbeb_5f090df7",
+        "filename": "libraries/utils.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 644,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2021-11-05T11:43:51Z",
+      "side": 1,
+      "message": "I meant:\nRun Keyword If    ${logging}    Collect Logs\nStop Logging    Setup-${SUITE NAME}",
+      "range": {
+        "startLine": 643,
+        "startChar": 4,
+        "endLine": 644,
+        "endChar": 52
+      },
+      "revId": "5fb0a6531123cb44a61e6cb0f2dc230e0becb59f",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e6dc6ed4_2a34c8bd",
+        "filename": "libraries/utils.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 726,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2021-11-05T11:43:51Z",
+      "side": 1,
+      "message": "Run Keyword If    ${logging}    Collect Logs\nStop Logging    Teardown-${SUITE NAME}",
+      "range": {
+        "startLine": 725,
+        "startChar": 4,
+        "endLine": 726,
+        "endChar": 55
+      },
+      "revId": "5fb0a6531123cb44a61e6cb0f2dc230e0becb59f",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d326fa20_8c8671d2",
+        "filename": "robot.diff",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2021-11-05T11:43:51Z",
+      "side": 1,
+      "message": "I think this, and the 2 further new file can be removed again?!",
+      "revId": "5fb0a6531123cb44a61e6cb0f2dc230e0becb59f",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "15d06ff4_2d4798d1",
+        "filename": "robot_wait.diff",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2021-11-05T11:43:51Z",
+      "side": 1,
+      "message": "same",
+      "revId": "5fb0a6531123cb44a61e6cb0f2dc230e0becb59f",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5757cc81_454cc079",
+        "filename": "robot_wait_enable.diff",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2021-11-05T11:43:51Z",
+      "side": 1,
+      "message": "same",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 70
+      },
+      "revId": "5fb0a6531123cb44a61e6cb0f2dc230e0becb59f",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    }
+  ]
+}

@@ -144,6 +144,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "af4095d9_f28d81bc",
+        "filename": "tests/openonu-go-adapter/Voltha_ONUFlowChecks.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2021-11-05T11:43:51Z",
+      "side": 1,
+      "message": "Ok, according ONOS connection, but I prefer:\nRun Keyword If    ${logging}    Collect Logs\nStop Logging    Teardown-${SUITE NAME}",
+      "parentUuid": "7a2465e9_73bf2f1c",
+      "range": {
+        "startLine": 137,
+        "startChar": 4,
+        "endLine": 138,
+        "endChar": 55
+      },
+      "revId": "46e4bebddb6de238d87bcdf6ef1bd628e4886cb6",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "2ffdef7a_a025d5a8",
         "filename": "tests/openonu-go-adapter/Voltha_ONUNegativeStateTests.robot",
         "patchSetId": 1
