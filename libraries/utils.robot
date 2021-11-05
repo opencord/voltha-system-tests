@@ -606,6 +606,7 @@ Setup Soak
 Setup
     [Documentation]    Pre-test Setup
     [Arguments]    ${skip_empty_device_list_test}=False
+    Start Logging    Setup-${SUITE NAME}
     #test for empty device list
     Run Keyword If    '${skip_empty_device_list_test}'=='False'    Test Empty Device List
     # TBD: Need for this Sleep
@@ -636,6 +637,8 @@ Setup
         Append To List    ${olt_ids}    ${olt}
     END
     Set Global Variable    ${olt_ids}
+    Run Keywords    Collect Logs
+    ...   AND    Stop Logging    Setup-${SUITE NAME}
 
 Get ofID From OLT List
     [Documentation]    Retrieves the corresponding of_id for the OLT serial number specified
@@ -712,9 +715,12 @@ Teardown
 
 Teardown Suite
     [Documentation]    Clean up device if desired
+    Start Logging    Teardown-${SUITE NAME}
     Run Keyword If    ${teardown_device}    Delete All Devices and Verify
     Run Keyword And Continue On Failure    Collect Logs
     Close All ONOS SSH Connections
+    Run Keywords    Collect Logs
+    ...   AND    Stop Logging    Teardown-${SUITE NAME}
 
 Delete Device and Verify
     [Arguments]    ${olt_serial_number}

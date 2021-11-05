@@ -105,6 +105,7 @@ Flows Test
 Setup Suite
     [Documentation]    Set up the test suite inclusive enable device and sanity test of given workflow
     Common Test Suite Setup
+    Start Logging    Setup-${SUITE NAME}
     ${techprofile}=    Set Variable If    "${techprofile}"=="1T1GEM"    default    ${techprofile}
     Set Suite Variable    ${techprofile}
     Run Keyword If    "${techprofile}"=="default"   Log To Console    \nTechProfile:default (1T1GEM)
@@ -118,11 +119,14 @@ Setup Suite
     Run Keyword If    "${workflow}"=="DT"    Perform Sanity Test DT
     ...    ELSE IF    "${workflow}"=="TT"    Perform Sanity Tests TT
     ...    ELSE       Perform Sanity Test
+    Run Keywords    Run Keyword If    ${logging}    Collect Logs
+    ...   AND    Stop Logging    Setup-${SUITE NAME}
 
 Teardown Suite
     [Documentation]    Replaces the Suite Teardown in utils.robot.
     ...    Cleans up and checks all ONU ports disabled in ONOS.
     ...    Furthermore gives the possibility to pause the execution.
+    Start Logging    Teardown-${SUITE NAME}
     Run Keyword If    ${pausebeforecleanup}    Import Library    Dialogs
     Run Keyword If    ${pausebeforecleanup}    Pause Execution    Press OK to continue with clean up!
     Run Keyword If    ${pausebeforecleanup}    Log    Teardown will be continued...    console=yes
@@ -130,6 +134,8 @@ Teardown Suite
     Wait Until Keyword Succeeds    ${timeout}    1s    Validate Onu Data In Etcd    ${INFRA_NAMESPACE}    0    ${kvstoreprefix}
     ...    without_pm_data=False
     Wait for Ports in ONOS for all OLTs      ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}  0   BBSM    ${timeout}
+    Run Keywords    Run Keyword If    ${logging}    Collect Logs
+    ...   AND    Stop Logging    Teardown-${SUITE NAME}
     Close All ONOS SSH Connections
     Remove Tech Profile    ${INFRA_NAMESPACE}
 
