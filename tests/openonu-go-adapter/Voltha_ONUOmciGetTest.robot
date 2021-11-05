@@ -78,6 +78,7 @@ ANI-G Test
 *** Keywords ***
 Setup Suite
     [Documentation]    Set up the test suite inclusive enable device and sanity test of given workflow
+    Start Logging Setup or Teardown    Setup-${SUITE NAME}
     Common Test Suite Setup
     ${switch_type}=    Get Variable Value    ${web_power_switch.type}
     Run Keyword If  "${switch_type}"!=""    Set Global Variable    ${powerswitch_type}    ${switch_type}
@@ -86,3 +87,5 @@ Setup Suite
     Run Keyword If    "${workflow}"=="DT"    Perform Sanity Test DT
     ...    ELSE IF    "${workflow}"=="TT"    Perform Sanity Tests TT
     ...    ELSE       Perform Sanity Test
+    Run Keyword If    ${logging}    Collect Logs
+    Stop Logging Setup or Teardown    Setup-${SUITE NAME}
