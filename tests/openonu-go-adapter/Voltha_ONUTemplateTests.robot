@@ -97,6 +97,7 @@ Teardown Suite
     [Documentation]    Replaces the Suite Teardown in utils.robot.
     ...    Cleans up and checks all ONU ports disabled in ONOS.
     ...    Furthermore gives the possibility to pause the execution.
+    Start Logging Setup or Teardown   Teardown-${SUITE NAME}
     Run Keyword If    ${pausebeforecleanup}    Import Library    Dialogs
     Run Keyword If    ${pausebeforecleanup}    Pause Execution    Press OK to continue with clean up!
     Run Keyword If    ${pausebeforecleanup}    Log    Teardown will be continued...    console=yes
@@ -104,6 +105,8 @@ Teardown Suite
     Wait for Ports in ONOS for all OLTs      ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}  0   BBSM
     # delete etcd MIB Template Data (for repeating test)
     Delete MIB Template Data    ${INFRA_NAMESPACE}
+    Run Keyword If    ${logging}    Collect Logs
+    Stop Logging Setup or Teardown   Teardown-${SUITE NAME}
     Close All ONOS SSH Connections
 
 Perform ONU MIB Template Data Test

@@ -187,6 +187,7 @@ Teardown Suite
     [Documentation]    Replaces the Suite Teardown in utils.robot.
     ...    Cleans up and checks all ONU ports disabled in ONOS.
     ...    Furthermore gives the possibility to pause the execution.
+    Start Logging Setup or Teardown   Teardown-${SUITE NAME}
     Run Keyword If    ${pausebeforecleanup}    Import Library    Dialogs
     Run Keyword If    ${pausebeforecleanup}    Pause Execution    Press OK to continue with clean up!
     Run Keyword If    ${pausebeforecleanup}    Log    Teardown will be continued...    console=yes
@@ -195,6 +196,8 @@ Teardown Suite
     Run Keyword Unless    ${etcdcheckintestteardown}    Wait Until Keyword Succeeds    ${timeout}    1s
     ...    Validate Onu Data In Etcd    ${INFRA_NAMESPACE}    0    ${kvstoreprefix}    without_pm_data=False
     Wait for Ports in ONOS for all OLTs      ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}  0   BBSM    ${timeout}
+    Run Keyword If    ${logging}    Collect Logs
+    Stop Logging Setup or Teardown   Teardown-${SUITE NAME}
     Close All ONOS SSH Connections
 
 Setup Test
