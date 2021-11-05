@@ -1,0 +1,280 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "37f5a9d2_ce2a7ae3",
+        "filename": "tests/openonu-go-adapter/Voltha_ONUFlowChecks.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2021-11-05T11:13:42Z",
+      "side": 1,
+      "message": "You don\u0027t like to move it before \u0027Common Test Suite Setup\u0027? Do you intend to insert logging there too?",
+      "range": {
+        "startLine": 108,
+        "startChar": 4,
+        "endLine": 108,
+        "endChar": 40
+      },
+      "revId": "46e4bebddb6de238d87bcdf6ef1bd628e4886cb6",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5b53275e_01204704",
+        "filename": "tests/openonu-go-adapter/Voltha_ONUFlowChecks.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2021-11-05T11:13:42Z",
+      "side": 1,
+      "message": "Run Keywords not needed here. Collect Logs also not needed (my thoughts)",
+      "range": {
+        "startLine": 122,
+        "startChar": 4,
+        "endLine": 123,
+        "endChar": 52
+      },
+      "revId": "46e4bebddb6de238d87bcdf6ef1bd628e4886cb6",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1462e1d0_e55a8a2d",
+        "filename": "tests/openonu-go-adapter/Voltha_ONUFlowChecks.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2021-11-05T11:13:42Z",
+      "side": 1,
+      "message": "same above.\nAnd why don\u0027t you move it to the end (Stop Logging)?",
+      "range": {
+        "startLine": 137,
+        "startChar": 4,
+        "endLine": 138,
+        "endChar": 55
+      },
+      "revId": "46e4bebddb6de238d87bcdf6ef1bd628e4886cb6",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2ffdef7a_a025d5a8",
+        "filename": "tests/openonu-go-adapter/Voltha_ONUNegativeStateTests.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2021-11-05T11:13:42Z",
+      "side": 1,
+      "message": "same",
+      "range": {
+        "startLine": 113,
+        "startChar": 4,
+        "endLine": 113,
+        "endChar": 64
+      },
+      "revId": "46e4bebddb6de238d87bcdf6ef1bd628e4886cb6",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "be972a04_a4c6faa0",
+        "filename": "tests/openonu-go-adapter/Voltha_ONUNegativeStateTests.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2021-11-05T11:13:42Z",
+      "side": 1,
+      "message": "same",
+      "range": {
+        "startLine": 128,
+        "startChar": 4,
+        "endLine": 129,
+        "endChar": 55
+      },
+      "revId": "46e4bebddb6de238d87bcdf6ef1bd628e4886cb6",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cecf52db_f4772ca5",
+        "filename": "tests/openonu-go-adapter/Voltha_ONUOmciGetTest.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2021-11-05T11:13:42Z",
+      "side": 1,
+      "message": "same",
+      "range": {
+        "startLine": 90,
+        "startChar": 4,
+        "endLine": 90,
+        "endChar": 64
+      },
+      "revId": "46e4bebddb6de238d87bcdf6ef1bd628e4886cb6",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "edecff5c_ac1f6a4f",
+        "filename": "tests/openonu-go-adapter/Voltha_ONUReconcileTests.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2021-11-05T11:13:42Z",
+      "side": 1,
+      "message": "same",
+      "range": {
+        "startLine": 185,
+        "startChar": 4,
+        "endLine": 185,
+        "endChar": 64
+      },
+      "revId": "46e4bebddb6de238d87bcdf6ef1bd628e4886cb6",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9b2d2a2a_2215b170",
+        "filename": "tests/openonu-go-adapter/Voltha_ONUReconcileTests.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2021-11-05T11:13:42Z",
+      "side": 1,
+      "message": "same",
+      "range": {
+        "startLine": 202,
+        "startChar": 4,
+        "endLine": 203,
+        "endChar": 55
+      },
+      "revId": "46e4bebddb6de238d87bcdf6ef1bd628e4886cb6",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "80fecccd_dfd087b3",
+        "filename": "tests/openonu-go-adapter/Voltha_ONUStateTests.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2021-11-05T11:13:42Z",
+      "side": 1,
+      "message": "same",
+      "range": {
+        "startLine": 220,
+        "startChar": 4,
+        "endLine": 220,
+        "endChar": 64
+      },
+      "revId": "46e4bebddb6de238d87bcdf6ef1bd628e4886cb6",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "787b571b_9b15b5fc",
+        "filename": "tests/openonu-go-adapter/Voltha_ONUStateTests.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2021-11-05T11:13:42Z",
+      "side": 1,
+      "message": "same",
+      "range": {
+        "startLine": 235,
+        "startChar": 4,
+        "endLine": 236,
+        "endChar": 55
+      },
+      "revId": "46e4bebddb6de238d87bcdf6ef1bd628e4886cb6",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f9e03575_a536abbc",
+        "filename": "tests/openonu-go-adapter/Voltha_ONUTemplateTests.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2021-11-05T11:13:42Z",
+      "side": 1,
+      "message": "same",
+      "range": {
+        "startLine": 96,
+        "startChar": 4,
+        "endLine": 96,
+        "endChar": 64
+      },
+      "revId": "46e4bebddb6de238d87bcdf6ef1bd628e4886cb6",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ec8618c2_f5cb258f",
+        "filename": "tests/openonu-go-adapter/Voltha_ONUTemplateTests.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2021-11-05T11:13:42Z",
+      "side": 1,
+      "message": "same",
+      "range": {
+        "startLine": 111,
+        "startChar": 4,
+        "endLine": 112,
+        "endChar": 55
+      },
+      "revId": "46e4bebddb6de238d87bcdf6ef1bd628e4886cb6",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    }
+  ]
+}
