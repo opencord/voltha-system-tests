@@ -64,6 +64,24 @@
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "25b0cf67_b88559b7",
+        "filename": "robot.diff",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2021-11-05T15:19:20Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "d326fa20_8c8671d2",
+      "revId": "5fb0a6531123cb44a61e6cb0f2dc230e0becb59f",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "15d06ff4_2d4798d1",
