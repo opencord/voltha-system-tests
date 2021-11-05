@@ -24,6 +24,30 @@
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "37d39a83_70f59811",
+        "filename": "tests/openonu-go-adapter/Voltha_ONUFlowChecks.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2021-11-05T11:36:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "37f5a9d2_ce2a7ae3",
+      "range": {
+        "startLine": 108,
+        "startChar": 4,
+        "endLine": 108,
+        "endChar": 40
+      },
+      "revId": "46e4bebddb6de238d87bcdf6ef1bd628e4886cb6",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5b53275e_01204704",
@@ -49,6 +73,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "105ca93d_1035a4c9",
+        "filename": "tests/openonu-go-adapter/Voltha_ONUFlowChecks.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2021-11-05T11:36:29Z",
+      "side": 1,
+      "message": "why not ? I\u0027d like to see the status at this point in VOLTHA and ONOS",
+      "parentUuid": "5b53275e_01204704",
+      "range": {
+        "startLine": 122,
+        "startChar": 4,
+        "endLine": 123,
+        "endChar": 52
+      },
+      "revId": "46e4bebddb6de238d87bcdf6ef1bd628e4886cb6",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "1462e1d0_e55a8a2d",
         "filename": "tests/openonu-go-adapter/Voltha_ONUFlowChecks.robot",
         "patchSetId": 1
@@ -60,6 +108,30 @@
       "writtenOn": "2021-11-05T11:13:42Z",
       "side": 1,
       "message": "same above.\nAnd why don\u0027t you move it to the end (Stop Logging)?",
+      "range": {
+        "startLine": 137,
+        "startChar": 4,
+        "endLine": 138,
+        "endChar": 55
+      },
+      "revId": "46e4bebddb6de238d87bcdf6ef1bd628e4886cb6",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7a2465e9_73bf2f1c",
+        "filename": "tests/openonu-go-adapter/Voltha_ONUFlowChecks.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2021-11-05T11:36:29Z",
+      "side": 1,
+      "message": "because I want to reuse the same ONOS connection",
+      "parentUuid": "1462e1d0_e55a8a2d",
       "range": {
         "startLine": 137,
         "startChar": 4,
