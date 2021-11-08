@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d0baf4be_05cd994b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000666
+      },
+      "writtenOn": "2021-11-08T17:09:00Z",
+      "side": 1,
+      "message": "Good job, but perhaps some (minor?) questions ...",
+      "revId": "faa36684ed255bc7c47bf5e0cb0b0b21540773a9",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5b4af42f_e79666b6",
+        "filename": "tests/software-upgrades/ONU_Upgrade.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 442,
+      "author": {
+        "id": 1000666
+      },
+      "writtenOn": "2021-11-08T17:09:00Z",
+      "side": 1,
+      "message": "Question: Is \u0027Teardown\u0027 only executed in error case with early exit from test? And what is the ${onu_device_id} in this case? \u0027Remove Adapter Image\u0027 could be executed twice otherwise without need: compare line 484.\nAlso relevant to the other similar key words.",
+      "revId": "faa36684ed255bc7c47bf5e0cb0b0b21540773a9",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "230f447d_9dbd7a97",
+        "filename": "tests/software-upgrades/ONU_Upgrade.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 512,
+      "author": {
+        "id": 1000666
+      },
+      "writtenOn": "2021-11-08T17:09:00Z",
+      "side": 1,
+      "message": "Question: Is it really needed here - perhaps for some error exit? \nOthwerwise it is not needed as each download is already aborted in the run-loop.\nAlso relevant to all similar keywords using the abort already within the device loop.",
+      "revId": "faa36684ed255bc7c47bf5e0cb0b0b21540773a9",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "35f2d388_898de664",
+        "filename": "tests/software-upgrades/ONU_Upgrade.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 724,
+      "author": {
+        "id": 1000666
+      },
+      "writtenOn": "2021-11-08T17:09:00Z",
+      "side": 1,
+      "message": "Test could be extended to verify that only one download to adapter has been down (counter test +2).",
+      "revId": "faa36684ed255bc7c47bf5e0cb0b0b21540773a9",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "00706186_5f0c0d90",
+        "filename": "tests/software-upgrades/ONU_Upgrade.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 725,
+      "author": {
+        "id": 1000666
+      },
+      "writtenOn": "2021-11-08T17:09:00Z",
+      "side": 1,
+      "message": "Compare questions above, not really symmetric: Is the \u0027Remove Adapter Image from ONUs\u0027 missing here for the good-case run (cmp \u0027teardown\u0027 line 694)?",
+      "revId": "faa36684ed255bc7c47bf5e0cb0b0b21540773a9",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    }
+  ]
+}
