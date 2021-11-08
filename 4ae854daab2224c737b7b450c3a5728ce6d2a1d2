@@ -81,6 +81,54 @@
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "46b795a5_7dabf714",
+        "filename": "libraries/utils.robot",
+        "patchSetId": 4
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2021-11-08T17:03:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "67335d05_245f033d",
+      "range": {
+        "startLine": 54,
+        "startChar": 4,
+        "endLine": 54,
+        "endChar": 35
+      },
+      "revId": "4ae854daab2224c737b7b450c3a5728ce6d2a1d2",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4f70a00d_fa3fc1a7",
+        "filename": "libraries/utils.robot",
+        "patchSetId": 4
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2021-11-08T17:03:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3c0aa95a_5c70d615",
+      "range": {
+        "startLine": 54,
+        "startChar": 4,
+        "endLine": 54,
+        "endChar": 58
+      },
+      "revId": "4ae854daab2224c737b7b450c3a5728ce6d2a1d2",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "97e77bbd_086e93d5",
@@ -94,6 +142,30 @@
       "writtenOn": "2021-11-08T07:47:13Z",
       "side": 1,
       "message": "You will do it always? Normally this keyword is used by checking the ${logging} flag.",
+      "range": {
+        "startLine": 103,
+        "startChar": 4,
+        "endLine": 103,
+        "endChar": 16
+      },
+      "revId": "4ae854daab2224c737b7b450c3a5728ce6d2a1d2",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e34fa6c0_d76e47ec",
+        "filename": "libraries/utils.robot",
+        "patchSetId": 4
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2021-11-08T17:03:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "97e77bbd_086e93d5",
       "range": {
         "startLine": 103,
         "startChar": 4,
@@ -151,6 +223,30 @@
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1f81dc02_349fa103",
+        "filename": "libraries/utils.robot",
+        "patchSetId": 4
+      },
+      "lineNbr": 612,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2021-11-08T17:03:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6b362532_6053224f",
+      "range": {
+        "startLine": 612,
+        "startChar": 4,
+        "endLine": 612,
+        "endChar": 58
+      },
+      "revId": "4ae854daab2224c737b7b450c3a5728ce6d2a1d2",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8c729fcd_690223c9",
@@ -164,6 +260,30 @@
       "writtenOn": "2021-11-08T09:54:57Z",
       "side": 1,
       "message": "Already calling this in line 723 above. Can be removed from here.",
+      "range": {
+        "startLine": 725,
+        "startChar": 4,
+        "endLine": 725,
+        "endChar": 16
+      },
+      "revId": "4ae854daab2224c737b7b450c3a5728ce6d2a1d2",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "551e8389_6639da9c",
+        "filename": "libraries/utils.robot",
+        "patchSetId": 4
+      },
+      "lineNbr": 725,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2021-11-08T17:03:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8c729fcd_690223c9",
       "range": {
         "startLine": 725,
         "startChar": 4,
@@ -197,6 +317,30 @@
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0a402877_738ed6d7",
+        "filename": "libraries/utils.robot",
+        "patchSetId": 4
+      },
+      "lineNbr": 1121,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2021-11-08T17:03:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d178b292_a370e387",
+      "range": {
+        "startLine": 1121,
+        "startChar": 41,
+        "endLine": 1121,
+        "endChar": 45
+      },
+      "revId": "4ae854daab2224c737b7b450c3a5728ce6d2a1d2",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "dd3dec85_1131e8fe",
@@ -210,6 +354,30 @@
       "writtenOn": "2021-11-08T09:54:57Z",
       "side": 1,
       "message": "Needs update",
+      "range": {
+        "startLine": 1129,
+        "startChar": 39,
+        "endLine": 1129,
+        "endChar": 105
+      },
+      "revId": "4ae854daab2224c737b7b450c3a5728ce6d2a1d2",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a55d56b2_8af3e81c",
+        "filename": "libraries/utils.robot",
+        "patchSetId": 4
+      },
+      "lineNbr": 1129,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2021-11-08T17:03:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dd3dec85_1131e8fe",
       "range": {
         "startLine": 1129,
         "startChar": 39,
