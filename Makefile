@@ -535,6 +535,13 @@ onu-upgrade-test: ROBOT_FILE := ONU_Upgrade.robot
 onu-upgrade-test: ROBOT_CONFIG_FILE := $(ROBOT_SW_UPGRADE_FILE)
 onu-upgrade-test: software-upgrade-test
 
+# Requirement: Pass ONU image details in following parameters
+# image_version, image_url, image_vendor, image_activate_on_success, image_commit_on_success, image_crc
+onu-upgrade-test-multiolt-kind-att: ROBOT_MISC_ARGS +=  -e notready -i functionalMultipleONUs
+onu-upgrade-test-multiolt-kind-att: ROBOT_FILE := ONU_Upgrade.robot
+onu-upgrade-test-multiolt-kind-att: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_MULTIPLE_OLT_FILE)
+onu-upgrade-test-multiolt-kind-att: software-upgrade-test
+
 software-upgrade-test: vst_venv
 	source ./$</bin/activate ; set -u ;\
 	cd tests/software-upgrades ;\
