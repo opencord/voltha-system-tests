@@ -106,3 +106,12 @@ Verify ONU Device Image On BBSim
     ...    bbsimctl onu list | grep ${onu} | awk '{print $5}'
     Should Be Equal as Integers    ${rc}    0
     Should Be Equal    ${res}    ${internal_state}
+
+Get Images Count
+    [Documentation]    Validates the state of ONU in case of Image Upgrade
+    [Arguments]    ${webserver_port}=50074
+    ${rc}    ${output}=    Run and Return Rc and Output    curl localhost:${webserver_port}/images-count 2>/dev/null
+    Should Be Equal as Integers    ${rc}    0    Could not access images-count of bbsim
+    ${value}=    Fetch From Right    ${output}    :
+    ${count}=    Fetch From Left     ${value}    }
+    [Return]    ${count}
