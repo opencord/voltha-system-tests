@@ -60,6 +60,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "67335d05_245f033d",
+        "filename": "libraries/utils.robot",
+        "patchSetId": 4
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2021-11-08T09:54:57Z",
+      "side": 1,
+      "message": "imo, there is no need to call start-stop logging here as we are not doing anything that will make the change in voltha. I won\u0027t recommend this change.",
+      "range": {
+        "startLine": 54,
+        "startChar": 4,
+        "endLine": 54,
+        "endChar": 35
+      },
+      "revId": "4ae854daab2224c737b7b450c3a5728ce6d2a1d2",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "97e77bbd_086e93d5",
         "filename": "libraries/utils.robot",
         "patchSetId": 4
@@ -99,6 +122,99 @@
         "startChar": 4,
         "endLine": 612,
         "endChar": 58
+      },
+      "revId": "4ae854daab2224c737b7b450c3a5728ce6d2a1d2",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6b362532_6053224f",
+        "filename": "libraries/utils.robot",
+        "patchSetId": 4
+      },
+      "lineNbr": 612,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2021-11-08T09:54:57Z",
+      "side": 1,
+      "message": "As Torsten mentioned we call this keyword from within the test as well. So, doing the start-stop logging here we affect the test level logging in such case. Imo, all the setup scenarios might have already been covered.",
+      "parentUuid": "9a40c9a1_40ea9063",
+      "range": {
+        "startLine": 612,
+        "startChar": 4,
+        "endLine": 612,
+        "endChar": 58
+      },
+      "revId": "4ae854daab2224c737b7b450c3a5728ce6d2a1d2",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8c729fcd_690223c9",
+        "filename": "libraries/utils.robot",
+        "patchSetId": 4
+      },
+      "lineNbr": 725,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2021-11-08T09:54:57Z",
+      "side": 1,
+      "message": "Already calling this in line 723 above. Can be removed from here.",
+      "range": {
+        "startLine": 725,
+        "startChar": 4,
+        "endLine": 725,
+        "endChar": 16
+      },
+      "revId": "4ae854daab2224c737b7b450c3a5728ce6d2a1d2",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d178b292_a370e387",
+        "filename": "libraries/utils.robot",
+        "patchSetId": 4
+      },
+      "lineNbr": 1121,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2021-11-08T09:54:57Z",
+      "side": 1,
+      "message": "suite",
+      "range": {
+        "startLine": 1121,
+        "startChar": 41,
+        "endLine": 1121,
+        "endChar": 45
+      },
+      "revId": "4ae854daab2224c737b7b450c3a5728ce6d2a1d2",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dd3dec85_1131e8fe",
+        "filename": "libraries/utils.robot",
+        "patchSetId": 4
+      },
+      "lineNbr": 1129,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2021-11-08T09:54:57Z",
+      "side": 1,
+      "message": "Needs update",
+      "range": {
+        "startLine": 1129,
+        "startChar": 39,
+        "endLine": 1129,
+        "endChar": 105
       },
       "revId": "4ae854daab2224c737b7b450c3a5728ce6d2a1d2",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
