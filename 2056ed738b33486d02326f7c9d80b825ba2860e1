@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8dfdfbc5_8ae3d9ba",
+        "filename": "tests/openonu-go-adapter/Voltha_ONUFlowChecks.robot",
+        "patchSetId": 4
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2021-11-08T07:47:13Z",
+      "side": 0,
+      "message": "add after this line:\nStop Logging Setup or Teardown    Setup-${SUITE NAME}",
+      "revId": "2056ed738b33486d02326f7c9d80b825ba2860e1",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6dd01a79_a6df688a",
+        "filename": "tests/openonu-go-adapter/Voltha_ONUNegativeStateTests.robot",
+        "patchSetId": 4
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2021-11-08T07:47:13Z",
+      "side": 0,
+      "message": "same above",
+      "revId": "2056ed738b33486d02326f7c9d80b825ba2860e1",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    }
+  ]
+}

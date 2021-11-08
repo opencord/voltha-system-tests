@@ -33,6 +33,184 @@
       "message": "This should really simplify debugging of Setup/Teardown failures!",
       "revId": "4ae854daab2224c737b7b450c3a5728ce6d2a1d2",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3c0aa95a_5c70d615",
+        "filename": "libraries/utils.robot",
+        "patchSetId": 4
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2021-11-08T07:47:13Z",
+      "side": 1,
+      "message": "In most cases this will work fine, but there are some special cases where it will not work e.g. there is an own Suite Setup defined which uses Common Test Suite Setup as a keyword only followed by other keywords (see e.g. Voltha_ONUFlowChecks.robot)\nPlease insert a flag like ${do_not_log}\u003dFalse as argument and check before Start/stop Logging here.\ne.g: Run Keyword If   \u0027${do_not_log}\u0027\u003d\u003d\u0027False\u0027   Start Logging Setup or Teardown    Setup-${TEST NAME}",
+      "range": {
+        "startLine": 54,
+        "startChar": 4,
+        "endLine": 54,
+        "endChar": 58
+      },
+      "revId": "4ae854daab2224c737b7b450c3a5728ce6d2a1d2",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "97e77bbd_086e93d5",
+        "filename": "libraries/utils.robot",
+        "patchSetId": 4
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2021-11-08T07:47:13Z",
+      "side": 1,
+      "message": "You will do it always? Normally this keyword is used by checking the ${logging} flag.",
+      "range": {
+        "startLine": 103,
+        "startChar": 4,
+        "endLine": 103,
+        "endChar": 16
+      },
+      "revId": "4ae854daab2224c737b7b450c3a5728ce6d2a1d2",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9a40c9a1_40ea9063",
+        "filename": "libraries/utils.robot",
+        "patchSetId": 4
+      },
+      "lineNbr": 612,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2021-11-08T07:47:13Z",
+      "side": 1,
+      "message": "This Setup keyword is used sometimes in middle of testcases to setup all the stuff again (e.g. ONU_Upgrade.robot). In this case all previous logs will be overwritten. A possible solution could be a further flag like ${do_not_log}\u003dFalse as argument and check before Start/stop Logging here.\ne.g: Run Keyword If   \u0027${do_not_log}\u0027\u003d\u003d\u0027False\u0027   Start Logging Setup or Teardown    Setup-${TEST NAME}\n\nWhat happens when a Test Case Setup is defined like this:\n    [Setup]    Run Keywords    Start Logging    Testcasename\n    ...        AND             Setup\n\nFurthermore this is a test case setup, so the naming conventions used here not helpful and will (maybe) overwrite already written logs from Suite Setup, or miss I something? Better would be \u0027Setup-${TEST NAME}\u0027?",
+      "range": {
+        "startLine": 612,
+        "startChar": 4,
+        "endLine": 612,
+        "endChar": 58
+      },
+      "revId": "4ae854daab2224c737b7b450c3a5728ce6d2a1d2",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "762f55ce_4e103fbc",
+        "filename": "tests/openonu-go-adapter/Voltha_ONUFlowChecks.robot",
+        "patchSetId": 4
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2021-11-08T07:47:13Z",
+      "side": 1,
+      "message": "See my comments in utils.robot and therefore please insert before Common Test Suite Setup following:\nStart Logging Setup or Teardown    Setup-${SUITE NAME}\nCommon Test Suite Setup    do_not_log\u003dTrue",
+      "range": {
+        "startLine": 107,
+        "startChar": 1,
+        "endLine": 107,
+        "endChar": 27
+      },
+      "revId": "4ae854daab2224c737b7b450c3a5728ce6d2a1d2",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a7bd3afa_a0db99bb",
+        "filename": "tests/openonu-go-adapter/Voltha_ONUNegativeStateTests.robot",
+        "patchSetId": 4
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2021-11-08T07:47:13Z",
+      "side": 1,
+      "message": "same above",
+      "range": {
+        "startLine": 101,
+        "startChar": 4,
+        "endLine": 101,
+        "endChar": 27
+      },
+      "revId": "4ae854daab2224c737b7b450c3a5728ce6d2a1d2",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5d67e853_f6148f9e",
+        "filename": "tests/openonu-go-adapter/Voltha_ONUReconcileTests.robot",
+        "patchSetId": 4
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2021-11-08T07:47:13Z",
+      "side": 1,
+      "message": "same above according suite setup",
+      "range": {
+        "startLine": 171,
+        "startChar": 0,
+        "endLine": 171,
+        "endChar": 11
+      },
+      "revId": "4ae854daab2224c737b7b450c3a5728ce6d2a1d2",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5c0749dd_137fb858",
+        "filename": "tests/openonu-go-adapter/Voltha_ONUStateTests.robot",
+        "patchSetId": 4
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2021-11-08T07:47:13Z",
+      "side": 1,
+      "message": "same above according Suite Setup",
+      "range": {
+        "startLine": 184,
+        "startChar": 0,
+        "endLine": 184,
+        "endChar": 11
+      },
+      "revId": "4ae854daab2224c737b7b450c3a5728ce6d2a1d2",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8d1a8988_14989c48",
+        "filename": "tests/openonu-go-adapter/Voltha_ONUTemplateTests.robot",
+        "patchSetId": 4
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2021-11-08T07:47:13Z",
+      "side": 1,
+      "message": "same above according Suite Setup",
+      "revId": "4ae854daab2224c737b7b450c3a5728ce6d2a1d2",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     }
   ]
 }
