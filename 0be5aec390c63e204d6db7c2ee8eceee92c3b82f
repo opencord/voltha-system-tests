@@ -16,6 +16,52 @@
       "message": "I have not verified this patch",
       "revId": "0be5aec390c63e204d6db7c2ee8eceee92c3b82f",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "95c8310a_9c0edc33",
+        "filename": "libraries/utils.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 688,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2021-11-09T04:36:03Z",
+      "side": 1,
+      "message": "This is okay. But the previous keyword can also be used for the same.\n\n${valid_onu_states}\u003d    Create List    stopping-openomci    omci-flows-deleted\n        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s\n        ...    Validate Device    ENABLED    DISCOVERED\n        ...    UNREACHABLE    ${src[\u0027onu\u0027]}    onu\u003dTrue    onu_reason\u003d${valid_onu_states}",
+      "range": {
+        "startLine": 684,
+        "startChar": 0,
+        "endLine": 688,
+        "endChar": 63
+      },
+      "revId": "0be5aec390c63e204d6db7c2ee8eceee92c3b82f",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e356f86b_b2756627",
+        "filename": "libraries/utils.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 965,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2021-11-09T04:36:03Z",
+      "side": 1,
+      "message": "Same as above.",
+      "range": {
+        "startLine": 959,
+        "startChar": 0,
+        "endLine": 965,
+        "endChar": 63
+      },
+      "revId": "0be5aec390c63e204d6db7c2ee8eceee92c3b82f",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     }
   ]
 }
