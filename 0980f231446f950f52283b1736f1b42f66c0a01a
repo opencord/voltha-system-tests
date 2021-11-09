@@ -41,6 +41,30 @@
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a88be498_33646995",
+        "filename": "tests/openonu-go-adapter/Voltha_ONUReconcileTests.robot",
+        "patchSetId": 5
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2021-11-09T09:17:45Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "bdab5f61_95bb11b8",
+      "range": {
+        "startLine": 172,
+        "startChar": 4,
+        "endLine": 172,
+        "endChar": 44
+      },
+      "revId": "0980f231446f950f52283b1736f1b42f66c0a01a",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "13792d97_a945ef81",
@@ -54,6 +78,24 @@
       "writtenOn": "2021-11-09T07:57:22Z",
       "side": 1,
       "message": "I miss here:\n    Run Keyword If    ${logging}    Collect Logs\n    Stop Logging Setup or Teardown    Setup-${SUITE NAME}",
+      "revId": "0980f231446f950f52283b1736f1b42f66c0a01a",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c5889fac_1c41ae23",
+        "filename": "tests/openonu-go-adapter/Voltha_ONUReconcileTests.robot",
+        "patchSetId": 5
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2021-11-09T09:17:45Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "13792d97_a945ef81",
       "revId": "0980f231446f950f52283b1736f1b42f66c0a01a",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     },
@@ -81,6 +123,30 @@
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e7cb1037_e31a230a",
+        "filename": "tests/openonu-go-adapter/Voltha_ONUReconcileTests.robot",
+        "patchSetId": 5
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2021-11-09T09:17:45Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "a18ec74c_941ff02b",
+      "range": {
+        "startLine": 205,
+        "startChar": 4,
+        "endLine": 205,
+        "endChar": 58
+      },
+      "revId": "0980f231446f950f52283b1736f1b42f66c0a01a",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b340aa57_7263637b",
@@ -94,6 +160,30 @@
       "writtenOn": "2021-11-09T07:57:22Z",
       "side": 1,
       "message": "Should move to Suite setup (see comments above).",
+      "range": {
+        "startLine": 235,
+        "startChar": 4,
+        "endLine": 236,
+        "endChar": 57
+      },
+      "revId": "0980f231446f950f52283b1736f1b42f66c0a01a",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0188381b_672c0e2f",
+        "filename": "tests/openonu-go-adapter/Voltha_ONUReconcileTests.robot",
+        "patchSetId": 5
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2021-11-09T09:17:45Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "b340aa57_7263637b",
       "range": {
         "startLine": 235,
         "startChar": 4,
