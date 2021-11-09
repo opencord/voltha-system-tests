@@ -681,9 +681,10 @@ Validate ONUs After OLT Disable
         ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
         ${onu_port}=    Wait Until Keyword Succeeds    ${timeout}    2s    Get ONU Port in ONOS    ${src['onu']}
         ...    ${of_id}
+        ${valid_onu_states}=    Create List    stopping-openomci    omci-flows-deleted
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
         ...    Validate Device    ENABLED    DISCOVERED
-        ...    UNREACHABLE    ${src['onu']}    onu=True    onu_reason=stopping-openomci
+        ...    UNREACHABLE    ${src['onu']}    onu=True    onu_reason=${valid_onu_states}
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds   ${timeout}    2s
         ...    Verify UNI Port Is Disabled   ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${src['onu']}
         Run Keyword If    ${has_dataplane}    Run Keyword And Continue On Failure
@@ -956,11 +957,12 @@ Validate ONUs for PON OLT Disable DT
         ${onu_port}=    Wait Until Keyword Succeeds    ${timeout}    2s    Get ONU Port in ONOS    ${src['onu']}
         ...    ${of_id}
         ${matched}=    Match ONU in PON OLT Peer List    ${olt_peer_list}    ${onu_device_id}
+        ${valid_onu_states}=    Create List    stopping-openomci    omci-flows-deleted
         Run Keyword If    ${matched}
         ...    Run Keywords
         ...    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
         ...    Validate Device    ENABLED    DISCOVERED
-        ...    UNREACHABLE    ${src['onu']}    onu=True    onu_reason=stopping-openomci
+        ...    UNREACHABLE    ${src['onu']}    onu=True    onu_reason=${valid_onu_states}
         ...    AND    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds   ${timeout}    2s
         ...    Verify UNI Port Is Disabled   ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${src['onu']}
         ...    AND    Run Keyword If    ${has_dataplane}    Run Keyword And Continue On Failure
