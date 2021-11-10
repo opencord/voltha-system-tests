@@ -135,6 +135,30 @@
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "33e23bd3_1226a7ce",
+        "filename": "tests/openonu-go-adapter/Voltha_ONUReconcileTests.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2021-11-10T11:48:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "42c002db_df016b82",
+      "range": {
+        "startLine": 199,
+        "startChar": 4,
+        "endLine": 199,
+        "endChar": 59
+      },
+      "revId": "79f63efb671f237bf3e9c5260069becb8740530f",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cfe929af_4aedb4e3",
@@ -148,6 +172,30 @@
       "writtenOn": "2021-11-10T09:30:21Z",
       "side": 1,
       "message": "Please move at the end of suite teardown.",
+      "range": {
+        "startLine": 234,
+        "startChar": 4,
+        "endLine": 234,
+        "endChar": 59
+      },
+      "revId": "79f63efb671f237bf3e9c5260069becb8740530f",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d2fcab9c_fd28ae63",
+        "filename": "tests/openonu-go-adapter/Voltha_ONUStateTests.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2021-11-10T11:48:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cfe929af_4aedb4e3",
       "range": {
         "startLine": 234,
         "startChar": 4,
