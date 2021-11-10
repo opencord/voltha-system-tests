@@ -175,6 +175,24 @@
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "74008a77_2a08379a",
+        "filename": "tests/software-upgrades/ONU_Upgrade.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 724,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2021-11-10T07:50:08Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "4c4841f2_c48dd9e4",
+      "revId": "faa36684ed255bc7c47bf5e0cb0b0b21540773a9",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "00706186_5f0c0d90",
