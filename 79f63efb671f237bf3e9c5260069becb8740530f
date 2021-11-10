@@ -1,0 +1,136 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cc9ab776_e59fb49b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2021-11-10T09:30:21Z",
+      "side": 1,
+      "message": "some very small comments, very easy to solve.\nPlease do attention to my question according Delete MIB Template Date in Voltha_ONUTemplateTests.robot.",
+      "revId": "79f63efb671f237bf3e9c5260069becb8740530f",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ce32f6d0_00ec9313",
+        "filename": "libraries/utils.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 717,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2021-11-10T09:30:21Z",
+      "side": 1,
+      "message": "Has to be removed.",
+      "range": {
+        "startLine": 717,
+        "startChar": 4,
+        "endLine": 717,
+        "endChar": 22
+      },
+      "revId": "79f63efb671f237bf3e9c5260069becb8740530f",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e31ad7b0_90472d83",
+        "filename": "tests/openonu-go-adapter/Voltha_ONUNegativeStateTests.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2021-11-10T09:30:21Z",
+      "side": 1,
+      "message": "Please do the same modification also in all other test suites.",
+      "range": {
+        "startLine": 130,
+        "startChar": 3,
+        "endLine": 130,
+        "endChar": 59
+      },
+      "revId": "79f63efb671f237bf3e9c5260069becb8740530f",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "42c002db_df016b82",
+        "filename": "tests/openonu-go-adapter/Voltha_ONUReconcileTests.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2021-11-10T09:30:21Z",
+      "side": 1,
+      "message": "Move after \u0027Close All ONOS SSH Connection\"",
+      "range": {
+        "startLine": 199,
+        "startChar": 4,
+        "endLine": 199,
+        "endChar": 59
+      },
+      "revId": "79f63efb671f237bf3e9c5260069becb8740530f",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cfe929af_4aedb4e3",
+        "filename": "tests/openonu-go-adapter/Voltha_ONUStateTests.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2021-11-10T09:30:21Z",
+      "side": 1,
+      "message": "Please move at the end of suite teardown.",
+      "range": {
+        "startLine": 234,
+        "startChar": 4,
+        "endLine": 234,
+        "endChar": 59
+      },
+      "revId": "79f63efb671f237bf3e9c5260069becb8740530f",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9d62dee9_277d05c1",
+        "filename": "tests/openonu-go-adapter/Voltha_ONUTemplateTests.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2021-11-10T09:30:21Z",
+      "side": 1,
+      "message": "Please move at the end of suite teardown",
+      "range": {
+        "startLine": 111,
+        "startChar": 4,
+        "endLine": 111,
+        "endChar": 59
+      },
+      "revId": "79f63efb671f237bf3e9c5260069becb8740530f",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    }
+  ]
+}

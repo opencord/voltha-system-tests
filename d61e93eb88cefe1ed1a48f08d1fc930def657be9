@@ -48,6 +48,30 @@
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b0be8032_a6d1ad20",
+        "filename": "libraries/utils.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 717,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2021-11-10T09:30:21Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "5da473e2_0eb7b4d3",
+      "range": {
+        "startLine": 716,
+        "startChar": 0,
+        "endLine": 717,
+        "endChar": 60
+      },
+      "revId": "d61e93eb88cefe1ed1a48f08d1fc930def657be9",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cb8ff531_a39f58c8",
