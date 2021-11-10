@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9728c0b4_48763a2f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2021-11-10T02:42:29Z",
+      "side": 1,
+      "message": "With this submission we will also need to increase the pipeline timeout value hare from 40 to around 60 : https://github.com/opencord/ci-management/blob/master/jjb/pipeline/voltha/master/software-upgrades.groovy#L80",
+      "revId": "cee32355a55cbdca59ba03496e02fc512099675f",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    }
+  ]
+}
