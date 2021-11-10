@@ -89,6 +89,30 @@
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "905af904_782178d9",
+        "filename": "libraries/utils.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 688,
+      "author": {
+        "id": 1000127
+      },
+      "writtenOn": "2021-11-10T03:46:05Z",
+      "side": 1,
+      "message": "OK. Addressed in latest patch.",
+      "parentUuid": "16745b3e_78b0f288",
+      "range": {
+        "startLine": 684,
+        "startChar": 0,
+        "endLine": 688,
+        "endChar": 63
+      },
+      "revId": "0be5aec390c63e204d6db7c2ee8eceee92c3b82f",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e356f86b_b2756627",
