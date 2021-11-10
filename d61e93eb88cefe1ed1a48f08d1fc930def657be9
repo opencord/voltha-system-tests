@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "5da473e2_0eb7b4d3",
+        "filename": "libraries/utils.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 717,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2021-11-10T09:19:18Z",
+      "side": 1,
+      "message": "${logging} is not present, but good catch",
+      "parentUuid": "32f8793c_b2874aa9",
+      "range": {
+        "startLine": 716,
+        "startChar": 0,
+        "endLine": 717,
+        "endChar": 60
+      },
+      "revId": "d61e93eb88cefe1ed1a48f08d1fc930def657be9",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "cb8ff531_a39f58c8",
         "filename": "tests/openonu-go-adapter/Voltha_ONUNegativeStateTests.robot",
         "patchSetId": 1
@@ -37,6 +61,30 @@
       "writtenOn": "2021-11-10T08:26:16Z",
       "side": 1,
       "message": "Just a thought by me. Would it be more effective in the following way? (Maybe also for master???)\n    Run Keyword If    ${logging}    Collect Logs\n    Close All ONOS SSH Connections\n    Remove Tech Profile\n    Stop Logging Setup or Teardown   Teardown-${SUITE NAME}\nThis is also relevant for similar operations in all the other testsuites.",
+      "range": {
+        "startLine": 127,
+        "startChar": 1,
+        "endLine": 130,
+        "endChar": 23
+      },
+      "revId": "d61e93eb88cefe1ed1a48f08d1fc930def657be9",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2e5d5634_87cbadf8",
+        "filename": "tests/openonu-go-adapter/Voltha_ONUNegativeStateTests.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2021-11-10T09:19:18Z",
+      "side": 1,
+      "message": "yes, let me do it here, master in a future patch when I have to change something already",
+      "parentUuid": "cb8ff531_a39f58c8",
       "range": {
         "startLine": 127,
         "startChar": 1,
