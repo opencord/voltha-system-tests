@@ -41,6 +41,30 @@
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "78f01bb3_3d2839f0",
+        "filename": "libraries/utils.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 717,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2021-11-10T09:47:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ce32f6d0_00ec9313",
+      "range": {
+        "startLine": 717,
+        "startChar": 4,
+        "endLine": 717,
+        "endChar": 22
+      },
+      "revId": "79f63efb671f237bf3e9c5260069becb8740530f",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e31ad7b0_90472d83",
@@ -54,6 +78,30 @@
       "writtenOn": "2021-11-10T09:30:21Z",
       "side": 1,
       "message": "Please do the same modification also in all other test suites.",
+      "range": {
+        "startLine": 130,
+        "startChar": 3,
+        "endLine": 130,
+        "endChar": 59
+      },
+      "revId": "79f63efb671f237bf3e9c5260069becb8740530f",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6cff722a_56eec314",
+        "filename": "tests/openonu-go-adapter/Voltha_ONUNegativeStateTests.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2021-11-10T09:47:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e31ad7b0_90472d83",
       "range": {
         "startLine": 130,
         "startChar": 3,
