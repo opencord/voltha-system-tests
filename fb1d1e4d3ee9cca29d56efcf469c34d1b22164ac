@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bbc1807a_676ea9c2",
+        "filename": "tests/openonu-go-adapter/Voltha_ONUTemplateTests.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2021-11-10T08:26:16Z",
+      "side": 0,
+      "message": "Why do you remove it? It\u0027s already done in \u0027Delete All Devices and Verify\u0027? If so please also remove comment above.",
+      "range": {
+        "startLine": 106,
+        "startChar": 4,
+        "endLine": 106,
+        "endChar": 28
+      },
+      "revId": "fb1d1e4d3ee9cca29d56efcf469c34d1b22164ac",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    }
+  ]
+}
