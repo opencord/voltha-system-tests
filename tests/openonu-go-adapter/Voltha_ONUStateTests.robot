@@ -344,9 +344,7 @@ Do Onu Flow Check
         ${of_id}=    Wait Until Keyword Succeeds    ${timeout}    15s    Validate OLT Device in ONOS
         ...    ${olt_serial_number}
         Set Global Variable    ${of_id}
-        ${nni_port}=    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
-        ...    Get NNI Port in ONOS    ${of_id}
-        Set Global Variable    ${nni_port}
+        ${nni_port}=    Wait Until Keyword Succeeds    ${timeout}    2s    Get NNI Port in ONOS    ${of_id}
         # Verify Default Meter in ONOS (valid only for ATT)
         Do Onu Flow Check Per OLT    ${of_id}    ${nni_port}    ${olt_serial_number}   ${print2console}
     END

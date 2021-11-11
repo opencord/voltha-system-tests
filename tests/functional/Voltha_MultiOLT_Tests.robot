@@ -113,9 +113,7 @@ Verify OLT after rebooting physically - MultipleOLT
         ${of_id}=    Wait Until Keyword Succeeds    ${timeout}    15s    Validate OLT Device in ONOS
         ...    ${olt_serial_number}
         Set Global Variable    ${of_id}
-        ${nni_port}=    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
-        ...    Get NNI Port in ONOS    ${of_id}
-        Set Global Variable    ${nni_port}
+        ${nni_port}=    Wait Until Keyword Succeeds    ${timeout}    2s    Get NNI Port in ONOS    ${of_id}
         ${suppressaddsubscriber}=    Set Variable If    '${J}'=='0'    False    True
         Perform Sanity Test Per OLT    ${of_id}    ${nni_port}    ${olt_serial_number}   ${onu_count}
         ...    ${suppressaddsubscriber}
@@ -184,9 +182,7 @@ Verify OLT Soft Reboot - MultipleOLT
         ${of_id}=    Wait Until Keyword Succeeds    ${timeout}    15s    Validate OLT Device in ONOS
         ...    ${olt_serial_number}
         Set Global Variable    ${of_id}
-        ${nni_port}=    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
-        ...    Get NNI Port in ONOS    ${of_id}
-        Set Global Variable    ${nni_port}
+        ${nni_port}=    Wait Until Keyword Succeeds    ${timeout}    2s    Get NNI Port in ONOS    ${of_id}
         ${suppressaddsubscriber}=    Set Variable If    '${J}'=='0'    False    True
         Perform Sanity Test Per OLT    ${of_id}    ${nni_port}    ${olt_serial_number}   ${onu_count}
         ...    ${suppressaddsubscriber}
