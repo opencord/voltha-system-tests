@@ -648,19 +648,17 @@ Verify Control Plane After Pod Restart TT
         Wait Until Keyword Succeeds    ${timeout}    2s    Execute ONOS CLI Command use single connection    ${ONOS_SSH_IP}
         ...    ${ONOS_SSH_PORT}    volt-remove-subscriber-access ${of_id} ${onu_port}
         Run Keyword If    ${has_dataplane} and '${service_type}' != 'mcast'
-        ...    Wait Until Keyword Succeeds    ${timeout}    2s
+        ...    Wait Until Keyword Succeeds    ${timeout}    5s
         ...    Check Ping    False    ${dst['dp_iface_ip_qinq']}    ${src['dp_iface_name']}
         ...    ${src['ip']}    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
         # Add Subscriber Access
         Wait Until Keyword Succeeds    ${timeout}    2s    Execute ONOS CLI Command use single connection    ${ONOS_SSH_IP}
         ...    ${ONOS_SSH_PORT}    volt-add-subscriber-access ${of_id} ${onu_port}
-        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    360s    5s
+        Wait Until Keyword Succeeds    ${timeout}    5s
         ...    Validate Device    ENABLED    ACTIVE
         ...    REACHABLE    ${src['onu']}    onu=True    onu_reason=omci-flows-pushed
-        Run Keyword If    ${has_dataplane} and '${service_type}' != 'mcast'    Run Keyword And Continue On Failure
-        ...    Wait Until Keyword Succeeds    ${timeout}    2s    Sanity Test TT one ONU    ${src}
-        ...    ${dst}    ${suppressaddsubscriber}
-        ...    ELSE IF    ${has_dataplane} and '${service_type}' == 'mcast'    Run Keyword And Continue On Failure
-        ...    Wait Until Keyword Succeeds    ${timeout}    2s    Sanity Test TT MCAST one ONU    ${src}
-        ...    ${dst}    ${suppressaddsubscriber}
+        Run Keyword If    ${has_dataplane} and '${service_type}' != 'mcast'
+        ...    Sanity Test TT one ONU    ${src}    ${dst}    ${suppressaddsubscriber}
+        ...    ELSE IF    ${has_dataplane} and '${service_type}' == 'mcast'
+        ...    Sanity Test TT MCAST one ONU    ${src}    ${dst}    ${suppressaddsubscriber}
     END
