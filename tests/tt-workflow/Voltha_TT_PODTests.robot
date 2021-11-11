@@ -92,8 +92,7 @@ Sanity E2E Test for TT (HSIA, VoD, VoIP)
     [Teardown]    Run Keywords    Collect Logs
     ...           AND             Stop Logging    SanityTestTT
     Run Keyword If    ${has_dataplane}    Clean Up Linux
-    Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test TT
-    #Run Keyword If    ${has_dataplane}    Clean Up Linux
+    Perform Sanity Test TT
 
 Sanity E2E Test for TT (MCAST)
     [Documentation]    Validates E2E Ping Connectivity and object states for the given scenario:
@@ -106,7 +105,7 @@ Sanity E2E Test for TT (MCAST)
     [Teardown]    Run Keywords    Collect Logs
     ...           AND             Stop Logging    SanityTestTT-MCAST
     Run Keyword If    ${has_dataplane}    Clean Up Linux
-    Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test TT MCAST
+    Perform Sanity Test TT MCAST
 
 Test Disable and Delete OLT for TT
     [Documentation]    Validates E2E Ping Connectivity and object states for the given scenario:
@@ -169,13 +168,13 @@ Test Disable and Delete OLT for TT
         ...    ${olt_serial_number}
         Run Keyword and Continue On Failure    Validate all ONUS for OLT Removed    ${num_all_onus}    ${hosts}
         ...    ${olt_serial_number}    ${timeout}
-        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
+        Wait Until Keyword Succeeds    ${timeout}    5s
         ...    Verify Device Flows Removed    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${of_id}
     END
     # Re-do Setup (Recreate the OLT) and Perform Sanity Test TT
     Run Keyword    Setup
     Run Keyword If    ${has_dataplane}    Clean Up Linux
-    Wait Until Keyword Succeeds    ${timeout}   2s    Perform Sanity Tests TT
+    Perform Sanity Tests TT
 
 Verify re-provisioning subscriber after removing provisoned subscriber for TT
     [Documentation]    Removing/Readding a particular subscriber should have no effect on any other subscriber.
@@ -196,7 +195,7 @@ Verify re-provisioning subscriber after removing provisoned subscriber for TT
         Wait Until Keyword Succeeds    ${timeout}    2s    Execute ONOS CLI Command use single connection    ${ONOS_SSH_IP}
         ...    ${ONOS_SSH_PORT}    volt-remove-subscriber-access ${of_id} ${onu_port}
         Run Keyword If    ${has_dataplane} and '${service_type}' != 'mcast'
-        ...    Wait Until Keyword Succeeds    ${timeout}    2s
+        ...    Wait Until Keyword Succeeds    ${timeout}    5s
         ...    Check Ping    False    ${dst['dp_iface_ip_qinq']}    ${src['dp_iface_name']}
         ...    ${src['ip']}    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
         ...    ELSE    Sleep    10s    Wait for flows to be deleted
@@ -207,15 +206,13 @@ Verify re-provisioning subscriber after removing provisoned subscriber for TT
         # Add Subscriber Access
         Wait Until Keyword Succeeds    ${timeout}    2s    Execute ONOS CLI Command use single connection    ${ONOS_SSH_IP}
         ...    ${ONOS_SSH_PORT}    volt-add-subscriber-access ${of_id} ${onu_port}
-        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    360s    5s
+        Wait Until Keyword Succeeds    ${timeout}    5s
         ...    Validate Device    ENABLED    ACTIVE
         ...    REACHABLE    ${src['onu']}    onu=True    onu_reason=omci-flows-pushed
         Run Keyword If    ${has_dataplane} and '${service_type}' != 'mcast'    Run Keyword And Continue On Failure
-        ...    Wait Until Keyword Succeeds    ${timeout}    2s    Sanity Test TT one ONU    ${src}
-        ...    ${dst}    ${suppressaddsubscriber}
+        ...    Sanity Test TT one ONU    ${src}    ${dst}    ${suppressaddsubscriber}
         ...    ELSE IF    ${has_dataplane} and '${service_type}' == 'mcast'    Run Keyword And Continue On Failure
-        ...    Wait Until Keyword Succeeds    ${timeout}    2s    Sanity Test TT MCAST one ONU    ${src}
-        ...    ${dst}    ${suppressaddsubscriber}
+        ...    Sanity Test TT MCAST one ONU    ${src}    ${dst}    ${suppressaddsubscriber}
     END
 
 Test Disable and Enable ONU for TT
@@ -239,23 +236,21 @@ Test Disable and Enable ONU for TT
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
         ...    Validate Device    DISABLED    UNKNOWN
         ...    REACHABLE    ${src['onu']}    onu=True    onu_reason=omci-admin-lock
-        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds   ${timeout}    2s
+        Wait Until Keyword Succeeds   ${timeout}    2s
         ...    Verify UNI Port Is Disabled   ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${src['onu']}    ${src['uni_id']}
         Run Keyword If    ${has_dataplane}    Run Keyword And Continue On Failure
-        ...    Wait Until Keyword Succeeds    60s    2s
+        ...    Wait Until Keyword Succeeds    ${timeout}    2s
         ...    Check Ping    False    ${dst['dp_iface_ip_qinq']}    ${src['dp_iface_name']}
         ...    ${src['ip']}    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
         Sleep    5s
         Enable Device    ${onu_device_id}
         Run Keyword If    ${has_dataplane} and '${service_type}' == 'mcast'    Clean Up Linux
-        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds   ${timeout}    2s
+        Wait Until Keyword Succeeds   ${timeout}    2s
         ...    Verify UNI Port Is Enabled   ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${src['onu']}    ${src['uni_id']}
         Run Keyword If    ${has_dataplane} and '${service_type}' != 'mcast'    Run Keyword And Continue On Failure
-        ...    Wait Until Keyword Succeeds    ${timeout}    2s    Sanity Test TT one ONU    ${src}
-        ...    ${dst}    ${suppressaddsubscriber}
+        ...    Sanity Test TT one ONU    ${src}    ${dst}    ${suppressaddsubscriber}
         ...    ELSE IF    ${has_dataplane} and '${service_type}' == 'mcast'    Run Keyword And Continue On Failure
-        ...    Wait Until Keyword Succeeds    ${timeout}    2s    Sanity Test TT MCAST one ONU    ${src}
-        ...    ${dst}    ${suppressaddsubscriber}
+        ...    Sanity Test TT MCAST one ONU    ${src}    ${dst}    ${suppressaddsubscriber}
     END
 
 *** Keywords ***
