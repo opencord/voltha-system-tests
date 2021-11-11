@@ -87,6 +87,8 @@ Verify ONU after Rebooting Physically for DT
         ${src}=    Set Variable    ${hosts.src[${I}]}
         ${dst}=    Set Variable    ${hosts.dst[${I}]}
         ${of_id}=    Get ofID From OLT List    ${src['olt']}
+        ${nni_port}=    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
+        ...    Get NNI Port in ONOS    ${of_id}
         ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
         ${onu_port}=    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
         ...    Get ONU Port in ONOS    ${src['onu']}    ${of_id}
@@ -287,6 +289,8 @@ Verify openolt adapter restart before subscriber provisioning for DT
         ${src}=    Set Variable    ${hosts.src[${I}]}
         ${dst}=    Set Variable    ${hosts.dst[${I}]}
         ${of_id}=    Get ofID From OLT List    ${src['olt']}
+        ${nni_port}=    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
+        ...    Get NNI Port in ONOS    ${of_id}
         ${onu_port}=    Wait Until Keyword Succeeds    ${timeout}    2s    Get ONU Port in ONOS    ${src['onu']}
         ...    ${of_id}
         # Add subscriber access and verify that DHCP completes to ensure system is still functioning properly
@@ -338,6 +342,8 @@ Verify restart ofagent container after subscriber is provisioned for DT
         ${src}=    Set Variable    ${hosts.src[${I}]}
         ${dst}=    Set Variable    ${hosts.dst[${I}]}
         ${of_id}=    Get ofID From OLT List    ${src['olt']}
+        ${nni_port}=    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
+        ...    Get NNI Port in ONOS    ${of_id}
         ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
         ${onu_port}=    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
         ...    Get ONU Port in ONOS    ${src['onu']}    ${of_id}
@@ -386,7 +392,6 @@ Sanity E2E Test for OLT/ONU on POD With Core Fail and Restart for DT
         ...    ${olt_serial_number}
         ${nni_port}=    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
         ...    Get NNI Port in ONOS    ${of_id}
-       # Set Global Variable    ${nni_port}
     END
     FOR    ${I}    IN RANGE    0    ${num_all_onus}
         ${src}=    Set Variable    ${hosts.src[${I}]}
@@ -430,6 +435,8 @@ Sanity E2E Test for OLT/ONU on POD With Core Fail and Restart for DT
         ${src}=    Set Variable    ${hosts.src[${I}]}
         ${dst}=    Set Variable    ${hosts.dst[${I}]}
         ${of_id}=    Get ofID From OLT List    ${src['olt']}
+        ${nni_port}=    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
+        ...    Get NNI Port in ONOS    ${of_id}
         ${onu_port}=    Wait Until Keyword Succeeds    ${timeout}    2s    Get ONU Port in ONOS    ${src['onu']}
         ...    ${of_id}
         # Add subscriber access and verify that DHCP completes to ensure system is still functioning properly
@@ -504,6 +511,9 @@ Verify ONU Soft Reboot for DT
     FOR    ${I}    IN RANGE    0    ${num_onus}
         ${src}=    Set Variable    ${hosts.src[${I}]}
         ${dst}=    Set Variable    ${hosts.dst[${I}]}
+        ${of_id}=    Get ofID From OLT List    ${src['olt']}
+        ${nni_port}=    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
+        ...    Get NNI Port in ONOS    ${of_id}
         ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
         ${onu_port}=    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
         ...    Get ONU Port in ONOS    ${src['onu']}    ${of_id}
@@ -756,6 +766,8 @@ Verify Control Plane After Pod Restart DT
         ${src}=    Set Variable    ${hosts.src[${I}]}
         ${dst}=    Set Variable    ${hosts.dst[${I}]}
         ${of_id}=    Get ofID From OLT List    ${src['olt']}
+        ${nni_port}=    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
+        ...    Get NNI Port in ONOS    ${of_id}
         ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
         ${onu_port}=    Wait Until Keyword Succeeds    ${timeout}    2s    Get ONU Port in ONOS    ${src['onu']}
         ...    ${of_id}

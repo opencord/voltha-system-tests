@@ -200,7 +200,6 @@ Perform Sanity Test
         Set Global Variable    ${of_id}
         ${nni_port}=    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
         ...    Get NNI Port in ONOS    ${of_id}
-        Set Global Variable    ${nni_port}
         Perform Sanity Test Per OLT    ${of_id}    ${nni_port}    ${olt_serial_number}   ${onu_count}
         ...    ${supress_add_subscriber}
     END
@@ -282,7 +281,6 @@ Perform Sanity Test DT
         Set Global Variable    ${of_id}
         ${nni_port}=    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
         ...    Get NNI Port in ONOS    ${of_id}
-        Set Global Variable    ${nni_port}
         Perform Sanity Test DT Per OLT    ${of_id}    ${nni_port}    ${olt_serial_number}    ${num_onus}
         ...    ${supress_add_subscriber}
         # Verify ONOS Flows
@@ -454,9 +452,6 @@ Sanity Test TT one ONU
     [Arguments]    ${src}    ${dst}    ${supress_add_subscriber}=False
     ${of_id}=    Wait Until Keyword Succeeds    ${timeout}    15s    Validate OLT Device in ONOS    ${src['olt']}
     Set Global Variable    ${of_id}
-    ${nni_port}=    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
-    ...    Get NNI Port in ONOS    ${of_id}
-    Set Global Variable    ${nni_port}
     ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
     ${onu_port}=    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
     ...    Get ONU Port in ONOS    ${src['onu']}    ${of_id}    ${src['uni_id']}
@@ -533,9 +528,6 @@ Sanity Test TT MCAST one ONU
     # Perform operations for adding subscriber
     ${of_id}=    Wait Until Keyword Succeeds    ${timeout}    15s    Validate OLT Device in ONOS    ${src['olt']}
     Set Global Variable    ${of_id}
-    ${nni_port}=    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
-    ...    Get NNI Port in ONOS    ${of_id}
-    Set Global Variable    ${nni_port}
     ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
     ${onu_port}=    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
     ...    Get ONU Port in ONOS    ${src['onu']}    ${of_id}    ${src['uni_id']}
@@ -594,9 +586,6 @@ Setup Soak
         ${logical_id}=    Get Logical Device ID From SN    ${olt_serial_number}
         ${of_id}=    Wait Until Keyword Succeeds    ${timeout}    15s    Validate OLT Device in ONOS
         ...    ${olt_serial_number}
-        ${nni_port}=    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
-        ...    Get NNI Port in ONOS    ${of_id}
-        Set Global Variable    ${nni_port}
         ${olt}    Create Dictionary    device_id    ${olt_device_id}    logical_id    ${logical_id}
         ...    of_id    ${of_id}    sn    ${olt_serial_number}
         Append To List    ${olt_ids}    ${olt}
@@ -857,6 +846,8 @@ Validate ONUs for PON OLT Enable
         Continue For Loop If    "${olt_sn}"!="${src['olt']}"
         ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
         ${of_id}=    Wait Until Keyword Succeeds    ${timeout}    15s    Validate OLT Device in ONOS    ${src['olt']}
+        ${nni_port}=    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
+        ...    Get NNI Port in ONOS    ${of_id}
         ${onu_port}=    Wait Until Keyword Succeeds    ${timeout}    2s    Get ONU Port in ONOS    ${src['onu']}
         ...    ${of_id}    ${src['uni_id']}
         ${matched}=    Match ONU in PON OLT Peer List    ${olt_peer_list}    ${onu_device_id}
@@ -995,6 +986,8 @@ Validate ONUs for PON OLT Enable DT
         Continue For Loop If    "${olt_sn}"!="${src['olt']}"
         ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
         ${of_id}=    Wait Until Keyword Succeeds    ${timeout}    15s    Validate OLT Device in ONOS    ${src['olt']}
+        ${nni_port}=    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
+        ...    Get NNI Port in ONOS    ${of_id}
         ${onu_port}=    Wait Until Keyword Succeeds    ${timeout}    2s    Get ONU Port in ONOS    ${src['onu']}
         ...    ${of_id}
         ${matched}=    Match ONU in PON OLT Peer List    ${olt_peer_list}    ${onu_device_id}

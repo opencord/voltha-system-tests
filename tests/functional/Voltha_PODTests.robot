@@ -110,6 +110,8 @@ Test Disable and Enable ONU
         ${src}=    Set Variable    ${hosts.src[${I}]}
         ${dst}=    Set Variable    ${hosts.dst[${I}]}
         ${of_id}=    Get ofID From OLT List    ${src['olt']}
+        ${nni_port}=    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
+        ...    Get NNI Port in ONOS    ${of_id}
         ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
         ${onu_port}=    Wait Until Keyword Succeeds    ${timeout}    2s    Get ONU Port in ONOS    ${src['onu']}
         ...    ${of_id}    ${src['uni_id']}
@@ -145,6 +147,8 @@ Test Subscriber Delete and Add
         ${src}=    Set Variable    ${hosts.src[${I}]}
         ${dst}=    Set Variable    ${hosts.dst[${I}]}
         ${of_id}=    Get ofID From OLT List    ${src['olt']}
+        ${nni_port}=    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
+        ...    Get NNI Port in ONOS    ${of_id}
         ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
         ${onu_port}=    Wait Until Keyword Succeeds    ${timeout}    2s    Get ONU Port in ONOS    ${src['onu']}
         ...    ${of_id}    ${src['uni_id']}
@@ -184,6 +188,8 @@ Check DHCP attempt fails when subscriber is not added
         ${src}=    Set Variable    ${hosts.src[${I}]}
         ${dst}=    Set Variable    ${hosts.dst[${I}]}
         ${of_id}=    Get ofID From OLT List    ${src['olt']}
+        ${nni_port}=    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
+        ...    Get NNI Port in ONOS    ${of_id}
         ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
         ${onu_port}=    Wait Until Keyword Succeeds    ${timeout}    2s    Get ONU Port in ONOS    ${src['onu']}
         ...    ${of_id}    ${src['uni_id']}
@@ -237,6 +243,8 @@ Test Disable and Enable ONU scenario for ATT workflow
         ${src}=    Set Variable    ${hosts.src[${I}]}
         ${dst}=    Set Variable    ${hosts.dst[${I}]}
         ${of_id}=    Get ofID From OLT List    ${src['olt']}
+        ${nni_port}=    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
+        ...    Get NNI Port in ONOS    ${of_id}
         ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
         ${onu_port}=    Wait Until Keyword Succeeds    ${timeout}    2s    Get ONU Port in ONOS    ${src['onu']}
         ...    ${of_id}    ${src['uni_id']}
@@ -709,6 +717,8 @@ Data plane Bandwidth profile update verification
     ${src}=    Set Variable    ${hosts.src[${0}]}
     ${dst}=    Set Variable    ${hosts.dst[${0}]}
     ${of_id}=    Get ofID From OLT List    ${src['olt']}
+    ${nni_port}=    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
+    ...    Get NNI Port in ONOS    ${of_id}
     ${onu_port}=    Wait Until Keyword Succeeds    ${timeout}    2s    Get ONU Port in ONOS    ${src['onu']}
     ...    ${of_id}    ${src['uni_id']}
     ${subscriber_id}=    Set Variable    ${of_id}/${onu_port}
