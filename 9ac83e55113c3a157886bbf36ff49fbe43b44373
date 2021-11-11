@@ -3,6 +3,98 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c31b1c7e_2242fe13",
+        "filename": "tests/tt-workflow/Voltha_TT_FailureScenarios.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2021-11-11T14:09:01Z",
+      "side": 1,
+      "message": "Not sure, but we use three different timout values in this suite: ${timeout}, 120s and 360s. Is there a reason why? Or can we unify this value to ${timeout}?",
+      "range": {
+        "startLine": 107,
+        "startChar": 39,
+        "endLine": 107,
+        "endChar": 43
+      },
+      "revId": "9ac83e55113c3a157886bbf36ff49fbe43b44373",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1565dad0_8996fc2f",
+        "filename": "tests/tt-workflow/Voltha_TT_FailureScenarios.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2021-11-11T14:09:01Z",
+      "side": 1,
+      "message": "same",
+      "range": {
+        "startLine": 171,
+        "startChar": 39,
+        "endLine": 171,
+        "endChar": 43
+      },
+      "revId": "9ac83e55113c3a157886bbf36ff49fbe43b44373",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5c6bfc27_2117efc0",
+        "filename": "tests/tt-workflow/Voltha_TT_FailureScenarios.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2021-11-11T14:09:01Z",
+      "side": 1,
+      "message": "same",
+      "range": {
+        "startLine": 209,
+        "startChar": 38,
+        "endLine": 209,
+        "endChar": 42
+      },
+      "revId": "9ac83e55113c3a157886bbf36ff49fbe43b44373",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5ebb9955_d994a084",
+        "filename": "tests/tt-workflow/Voltha_TT_FailureScenarios.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 273,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2021-11-11T14:09:01Z",
+      "side": 1,
+      "message": "same",
+      "range": {
+        "startLine": 273,
+        "startChar": 38,
+        "endLine": 273,
+        "endChar": 43
+      },
+      "revId": "9ac83e55113c3a157886bbf36ff49fbe43b44373",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ad38d7a4_d13582e9",
         "filename": "tests/tt-workflow/Voltha_TT_FailureScenarios.robot",
         "patchSetId": 2
@@ -38,6 +130,29 @@
       "side": 1,
       "message": "ah, missed it. nice catch. we can replace/reduce this to ${timeout} value.",
       "parentUuid": "ad38d7a4_d13582e9",
+      "range": {
+        "startLine": 353,
+        "startChar": 38,
+        "endLine": 353,
+        "endChar": 42
+      },
+      "revId": "9ac83e55113c3a157886bbf36ff49fbe43b44373",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5fa3695c_bf00addb",
+        "filename": "tests/tt-workflow/Voltha_TT_FailureScenarios.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 353,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2021-11-11T14:09:01Z",
+      "side": 1,
+      "message": "upps, andrea was much fasterthan me:-)",
       "range": {
         "startLine": 353,
         "startChar": 38,
