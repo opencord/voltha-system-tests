@@ -24,6 +24,30 @@
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a6255df4_4abbee11",
+        "filename": "tests/tt-workflow/Voltha_TT_FailureScenarios.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 353,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2021-11-11T13:39:46Z",
+      "side": 1,
+      "message": "ah, missed it. nice catch. we can replace/reduce this to ${timeout} value.",
+      "parentUuid": "ad38d7a4_d13582e9",
+      "range": {
+        "startLine": 353,
+        "startChar": 38,
+        "endLine": 353,
+        "endChar": 42
+      },
+      "revId": "9ac83e55113c3a157886bbf36ff49fbe43b44373",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1bc303b0_b11ab130",
@@ -37,6 +61,30 @@
       "writtenOn": "2021-11-11T13:33:14Z",
       "side": 1,
       "message": "we are increasing so to run it less often ?",
+      "range": {
+        "startLine": 651,
+        "startChar": 60,
+        "endLine": 651,
+        "endChar": 62
+      },
+      "revId": "9ac83e55113c3a157886bbf36ff49fbe43b44373",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cd92ade9_268f7044",
+        "filename": "tests/tt-workflow/Voltha_TT_FailureScenarios.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 651,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2021-11-11T13:39:46Z",
+      "side": 1,
+      "message": "yes.",
+      "parentUuid": "1bc303b0_b11ab130",
       "range": {
         "startLine": 651,
         "startChar": 60,

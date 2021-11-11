@@ -22,6 +22,30 @@
       },
       "revId": "f3e492c8746c2016616988611ca03b0a7d207892",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a1ab0fb5_f6f54de7",
+        "filename": "tests/tt-workflow/Voltha_TT_FailureScenarios.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2021-11-11T13:39:46Z",
+      "side": 0,
+      "message": "As part of this work, I will make sure that sanity test should have enough re-tries before actually failing it and so no need to re-try here imo.",
+      "parentUuid": "eddcdc0e_0192a647",
+      "range": {
+        "startLine": 82,
+        "startChar": 4,
+        "endLine": 82,
+        "endChar": 52
+      },
+      "revId": "f3e492c8746c2016616988611ca03b0a7d207892",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     }
   ]
 }
