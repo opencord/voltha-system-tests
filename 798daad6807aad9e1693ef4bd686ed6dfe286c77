@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "73b9be82_045ca005",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2021-11-11T17:24:17Z",
+      "side": 1,
+      "message": "work looks good, one comment. ",
+      "revId": "798daad6807aad9e1693ef4bd686ed6dfe286c77",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7e775b72_751a2211",
+        "filename": "tests/dt-workflow/Voltha_DT_FailureScenarios.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 515,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2021-11-11T17:24:17Z",
+      "side": 1,
+      "message": "I think we can remove this, because if we do not find the NNI it does not really make sense to proceed. Valid for other places in the patchset.",
+      "range": {
+        "startLine": 515,
+        "startChar": 24,
+        "endLine": 515,
+        "endChar": 60
+      },
+      "revId": "798daad6807aad9e1693ef4bd686ed6dfe286c77",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    }
+  ]
+}
