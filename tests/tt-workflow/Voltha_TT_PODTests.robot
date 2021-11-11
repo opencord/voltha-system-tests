@@ -92,8 +92,7 @@ Sanity E2E Test for TT (HSIA, VoD, VoIP)
     [Teardown]    Run Keywords    Collect Logs
     ...           AND             Stop Logging    SanityTestTT
     Run Keyword If    ${has_dataplane}    Clean Up Linux
-    Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test TT
-    #Run Keyword If    ${has_dataplane}    Clean Up Linux
+    Perform Sanity Test TT
 
 Sanity E2E Test for TT (MCAST)
     [Documentation]    Validates E2E Ping Connectivity and object states for the given scenario:
@@ -106,7 +105,7 @@ Sanity E2E Test for TT (MCAST)
     [Teardown]    Run Keywords    Collect Logs
     ...           AND             Stop Logging    SanityTestTT-MCAST
     Run Keyword If    ${has_dataplane}    Clean Up Linux
-    Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test TT MCAST
+    Perform Sanity Test TT MCAST
 
 Test Disable and Delete OLT for TT
     [Documentation]    Validates E2E Ping Connectivity and object states for the given scenario:

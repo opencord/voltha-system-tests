@@ -79,7 +79,7 @@ Test that the BW is limited to Limiting Bandwidth
     ...           AND             Run Keyword If    ${logging}    Collect Logs
     ...           AND             Stop Logging    TcontType1Onu1
     Run Keyword If    ${has_dataplane}    Clean Up Linux
-    Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Tests TT
+    Perform Sanity Tests TT
     # Find the ONU as required for this test
     ${test_onu}=    Set Variable    ${multi_tcont_tests.tcont1[0]}
     ${test_onu_sn}=    Set Variable    ${test_onu['onu']}
@@ -121,7 +121,7 @@ Test that assured BW is allocated as needed on the PON
     ...           AND             Run Keyword If    ${logging}    Collect Logs
     ...           AND             Stop Logging    TcontType2Type4Onu1
     Run Keyword If    ${has_dataplane}    Clean Up Linux
-    Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test TT
+    Perform Sanity Test TT
 
     # The test expects the first entry in multi_tcont_tests.tcont2tcont4 input will be for service: vod and tcont: 2
     # The test expects the second entry in multi_tcont_tests.tcont2tcont4 input will be for service: hsia and tcont: 4
@@ -201,7 +201,7 @@ Test that the AIR BW is reserved for a ONU
     # Push multi-tcont sadis to ONOS
     Send File To Onos    ${CURDIR}/../../tests/data/flex-ocp-cord-sadis-TT-multi-tcont.json
     Run Keyword If    ${has_dataplane}    Clean Up Linux
-    Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test TT
+    Perform Sanity Test TT
 
     # The test expects the first entry in multi_tcont_tests.tcont1tcont4 input will be for service: voip and tcont: 1
     # The test expects the second entry in multi_tcont_tests.tcont1tcont4 input will be for service: hsia and tcont: 4
@@ -231,9 +231,9 @@ Test that the AIR BW is reserved for a ONU
     ${olt_fill_pon_bw}=    Evaluate    ${onus_fill_pon_bw}[0].get("olt")
     ${us_bw_profile_fill_pon_bw}=    Evaluate    ${onus_fill_pon_bw}[0].get("us_bw_profile")
     ${of_id}=    Wait Until Keyword Succeeds    ${timeout}    15s    Validate OLT Device in ONOS    ${olt_fill_pon_bw}
-    ${onu_port}=    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
+    ${onu_port}=    Wait Until Keyword Succeeds    ${timeout}    2s
     ...    Get ONU Port in ONOS    ${onu_fill_pon_bw}    ${of_id}
-    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2
+    Wait Until Keyword Succeeds    ${timeout}    2s
     ...    Execute ONOS CLI Command use single connection    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}
     ...    volt-add-subscriber-access ${of_id} ${onu_port}
     Sleep    10s
@@ -318,7 +318,7 @@ Verify that non-assured BW is released to assured BW allocation as needed for TT
     # Push multi-tcont sadis to ONOS
     Send File To Onos    ${CURDIR}/../../tests/data/flex-ocp-cord-sadis-TT-multi-tcont.json
     Run Keyword If    ${has_dataplane}    Clean Up Linux
-    Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test TT
+    Perform Sanity Test TT
 
     # The test expects the first entry in multi_tcont_tests.tcont2tcont3 input will be for service: vod and tcont: 2
     # The test expects the second entry in multi_tcont_tests.tcont2tcont3 input will be for service: vod and tcont: 3
@@ -349,9 +349,9 @@ Verify that non-assured BW is released to assured BW allocation as needed for TT
     ${olt_fill_pon_bw}=    Evaluate    ${onus_fill_pon_bw}[0].get("olt")
     ${us_bw_profile_fill_pon_bw}=    Evaluate    ${onus_fill_pon_bw}[0].get("us_bw_profile")
     ${of_id}=    Wait Until Keyword Succeeds    ${timeout}    15s    Validate OLT Device in ONOS    ${olt_fill_pon_bw}
-    ${onu_port}=    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
+    ${onu_port}=    Wait Until Keyword Succeeds    ${timeout}    2s
     ...    Get ONU Port in ONOS    ${onu_fill_pon_bw}    ${of_id}
-    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2
+    Wait Until Keyword Succeeds    ${timeout}    2s
     ...    Execute ONOS CLI Command use single connection    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}
     ...    volt-add-subscriber-access ${of_id} ${onu_port}
     Sleep    10s
@@ -417,7 +417,7 @@ Verify that best effort BW is released to assured BW requirement as needed and t
     ...           AND             Stop Logging    TcontType4Onu1Type5Onu2
     Run Keyword If    ${has_dataplane}    Clean Up Linux
     Send File To Onos    ${CURDIR}/../../tests/data/flex-ocp-cord-sadis-TT-multi-tcont-1.json
-    Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test TT
+    Perform Sanity Test TT
 
     # The test expects the first entry in multi_tcont_tests.tcont4tcont5 input will be for service: hsıa and tcont: 4
     # The test expects the second entry in multi_tcont_tests.tcont4tcont5 input will be for service: hsıa and tcont: 5
@@ -452,9 +452,9 @@ Verify that best effort BW is released to assured BW requirement as needed and t
     ${olt_fill_pon_bw}=    Evaluate    ${onus_fill_pon_bw}[0].get("olt")
     ${us_bw_profile_fill_pon_bw}=    Evaluate    ${onus_fill_pon_bw}[0].get("us_bw_profile")
     ${of_id}=    Wait Until Keyword Succeeds    ${timeout}    15s    Validate OLT Device in ONOS    ${olt_fill_pon_bw}
-    ${onu_port}=    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
+    ${onu_port}=    Wait Until Keyword Succeeds    ${timeout}    2s
     ...    Get ONU Port in ONOS    ${onu_fill_pon_bw}    ${of_id}
-    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2
+    Wait Until Keyword Succeeds    ${timeout}    2s
     ...    Execute ONOS CLI Command use single connection    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}
     ...    volt-add-subscriber-access ${of_id} ${onu_port}
     Sleep    10s
