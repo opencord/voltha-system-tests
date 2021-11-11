@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4ac67660_b11efc9a",
+        "filename": "libraries/utils.robot",
+        "patchSetId": 5
+      },
+      "lineNbr": 469,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2021-11-11T12:43:26Z",
+      "side": 1,
+      "message": "Now it is a local variable and not used in scope of keyword. Did you check, if it is really not used? If so, it can be deleted, but I\u0027m not sure.",
+      "range": {
+        "startLine": 469,
+        "startChar": 20,
+        "endLine": 469,
+        "endChar": 31
+      },
+      "revId": "40b07f64929dad20941ee658e1430ffc0e15d247",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f0a72227_04c63844",
+        "filename": "libraries/utils.robot",
+        "patchSetId": 5
+      },
+      "lineNbr": 505,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2021-11-11T12:43:26Z",
+      "side": 1,
+      "message": "I think ${onu_port} is not defined here.",
+      "range": {
+        "startLine": 505,
+        "startChar": 88,
+        "endLine": 505,
+        "endChar": 99
+      },
+      "revId": "40b07f64929dad20941ee658e1430ffc0e15d247",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    }
+  ]
+}
