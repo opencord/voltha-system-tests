@@ -155,6 +155,7 @@ Test Subscriber Delete and Add for DT
         ${src}=    Set Variable    ${hosts.src[${I}]}
         ${dst}=    Set Variable    ${hosts.dst[${I}]}
         ${of_id}=    Get ofID From OLT List    ${src['olt']}
+        ${nni_port}=    Wait Until Keyword Succeeds    ${timeout}    2s    Get NNI Port in ONOS    ${of_id}
         ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
         ${olt_device_id}=    Get OLTDeviceID From OLT List    ${src['olt']}
         ${num_of_olt_onus}=    Get Num of Onus From OLT SN    ${src['olt']}
@@ -668,6 +669,7 @@ Data plane Bandwidth profile update verification for DT
     ${src}=    Set Variable    ${hosts.src[${0}]}
     ${dst}=    Set Variable    ${hosts.dst[${0}]}
     ${of_id}=    Get ofID From OLT List    ${src['olt']}
+    ${nni_port}=    Wait Until Keyword Succeeds    ${timeout}    2s    Get NNI Port in ONOS    ${of_id}
     ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
     ${onu_port}=    Wait Until Keyword Succeeds    ${timeout}    2s    Get ONU Port in ONOS    ${src['onu']}
     ...    ${of_id}    ${src['uni_id']}
