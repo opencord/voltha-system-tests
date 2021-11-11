@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "399f7f1f_8dcee903",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2021-11-11T12:44:22Z",
+      "side": 1,
+      "message": "Before changes: Time taken by job report error: 54min : https://jenkins.opencord.org/view/VOLTHA-2.X-Tests/job/build_flex-ocp-cord_TP_voltha_TT_master_test/502/\nAfter change with patchset-1: 16min : https://jenkins.opencord.org/view/VOLTHA-2.X-Tests/job/build_flex-ocp-cord_TP_voltha_TT_master_test/503/",
+      "revId": "d5f039778c21b01ac81645cabc766cc56bd3e4b4",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    }
+  ]
+}
