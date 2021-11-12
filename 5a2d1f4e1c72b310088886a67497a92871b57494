@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5790c1af_78f4b2c6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2021-11-12T13:04:09Z",
+      "side": 1,
+      "message": "the title of patch is a little bit confusing, but fine for me",
+      "revId": "5a2d1f4e1c72b310088886a67497a92871b57494",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    }
+  ]
+}
