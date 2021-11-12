@@ -24,6 +24,30 @@
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d657480f_a1d390f6",
+        "filename": "libraries/utils.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 458,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2021-11-12T08:32:23Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "64a9826c_cc9f253b",
+      "range": {
+        "startLine": 457,
+        "startChar": 4,
+        "endLine": 458,
+        "endChar": 43
+      },
+      "revId": "f3e492c8746c2016616988611ca03b0a7d207892",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "01d8e911_e6bf2022",
@@ -47,6 +71,30 @@
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e6255b70_a279cfdb",
+        "filename": "libraries/utils.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 537,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2021-11-12T08:32:23Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "01d8e911_e6bf2022",
+      "range": {
+        "startLine": 536,
+        "startChar": 4,
+        "endLine": 537,
+        "endChar": 43
+      },
+      "revId": "f3e492c8746c2016616988611ca03b0a7d207892",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "21290d60_4c16e38a",
@@ -60,6 +108,30 @@
       "writtenOn": "2021-11-12T05:22:41Z",
       "side": 0,
       "message": "same",
+      "range": {
+        "startLine": 597,
+        "startChar": 8,
+        "endLine": 598,
+        "endChar": 47
+      },
+      "revId": "f3e492c8746c2016616988611ca03b0a7d207892",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8f8594b2_fd1a23e0",
+        "filename": "libraries/utils.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 598,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2021-11-12T08:32:23Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "21290d60_4c16e38a",
       "range": {
         "startLine": 597,
         "startChar": 8,
