@@ -24,6 +24,30 @@
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "75359eb5_34a7a698",
+        "filename": "tests/tt-workflow/Voltha_TT_FailureScenarios.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2021-11-12T05:47:14Z",
+      "side": 1,
+      "message": "Here ONU can take sometime to come back up after power switch is re-enabled and hence a little extra timeout.",
+      "parentUuid": "c31b1c7e_2242fe13",
+      "range": {
+        "startLine": 107,
+        "startChar": 39,
+        "endLine": 107,
+        "endChar": 43
+      },
+      "revId": "9ac83e55113c3a157886bbf36ff49fbe43b44373",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1565dad0_8996fc2f",
@@ -37,6 +61,30 @@
       "writtenOn": "2021-11-11T14:09:01Z",
       "side": 1,
       "message": "same",
+      "range": {
+        "startLine": 171,
+        "startChar": 39,
+        "endLine": 171,
+        "endChar": 43
+      },
+      "revId": "9ac83e55113c3a157886bbf36ff49fbe43b44373",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9f61e242_a64fbfeb",
+        "filename": "tests/tt-workflow/Voltha_TT_FailureScenarios.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2021-11-12T05:47:14Z",
+      "side": 1,
+      "message": "In some scenarios, it has been observed that in-band OLTs take some extra time to get discovered but yes, I can reduce this to 120s for now.",
+      "parentUuid": "1565dad0_8996fc2f",
       "range": {
         "startLine": 171,
         "startChar": 39,
@@ -83,6 +131,30 @@
       "writtenOn": "2021-11-11T14:09:01Z",
       "side": 1,
       "message": "same",
+      "range": {
+        "startLine": 273,
+        "startChar": 38,
+        "endLine": 273,
+        "endChar": 43
+      },
+      "revId": "9ac83e55113c3a157886bbf36ff49fbe43b44373",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "94c07e7d_002aeaf4",
+        "filename": "tests/tt-workflow/Voltha_TT_FailureScenarios.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 273,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2021-11-12T05:47:14Z",
+      "side": 1,
+      "message": "will change to 120s",
+      "parentUuid": "5ebb9955_d994a084",
       "range": {
         "startLine": 273,
         "startChar": 38,
