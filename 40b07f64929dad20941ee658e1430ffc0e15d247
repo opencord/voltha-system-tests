@@ -68,6 +68,52 @@
       },
       "revId": "40b07f64929dad20941ee658e1430ffc0e15d247",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "987067c4_39b3c9b5",
+        "filename": "tests/tt-workflow/Voltha_TT_MulticastTests.robot",
+        "patchSetId": 5
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2021-11-12T12:13:31Z",
+      "side": 1,
+      "message": "This can be removed.",
+      "range": {
+        "startLine": 84,
+        "startChar": 4,
+        "endLine": 84,
+        "endChar": 43
+      },
+      "revId": "40b07f64929dad20941ee658e1430ffc0e15d247",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ffe22908_a6b0008d",
+        "filename": "tests/tt-workflow/Voltha_TT_MulticastTests.robot",
+        "patchSetId": 5
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2021-11-12T12:13:31Z",
+      "side": 1,
+      "message": "Not sure if this check will work as expected. Have you checked?",
+      "range": {
+        "startLine": 107,
+        "startChar": 0,
+        "endLine": 108,
+        "endChar": 55
+      },
+      "revId": "40b07f64929dad20941ee658e1430ffc0e15d247",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     }
   ]
 }
