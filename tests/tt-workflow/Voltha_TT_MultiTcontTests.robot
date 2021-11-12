@@ -74,9 +74,7 @@ Test that the BW is limited to Limiting Bandwidth
     [Tags]    functionalTT    VOL-4093
     [Setup]    Run Keywords    Start Logging    TcontType1Onu1
     ...        AND             Setup
-    [Teardown]    Run Keywords    Collect Logs
-    ...           AND             Delete All Devices and Verify
-    ...           AND             Run Keyword If    ${logging}    Collect Logs
+    [Teardown]    Run Keywords    Run Keyword If    ${logging}    Collect Logs
     ...           AND             Stop Logging    TcontType1Onu1
     Run Keyword If    ${has_dataplane}    Clean Up Linux
     Perform Sanity Tests TT
@@ -114,12 +112,10 @@ Test that assured BW is allocated as needed on the PON
     ...    Also, verify that the HSI rate is now truncated to 500Mbps at BNG.
     ...    Note: Currently, only Flex Pod supports the deployment configuration required to test this scenario.
     [Tags]    functionalTT    VOL-4095
-    [Setup]    Run Keywords    Start Logging    TcontType2Type4Onu1
-    ...        AND             Setup
-    [Teardown]    Run Keywords    Collect Logs
-    ...           AND             Delete All Devices and Verify
-    ...           AND             Run Keyword If    ${logging}    Collect Logs
+    [Setup]    Run Keyword    Start Logging    TcontType2Type4Onu1
+    [Teardown]    Run Keywords    Run Keyword If    ${logging}    Collect Logs
     ...           AND             Stop Logging    TcontType2Type4Onu1
+    Clear All Devices Then Create New Device
     Run Keyword If    ${has_dataplane}    Clean Up Linux
     Perform Sanity Test TT
 
@@ -192,12 +188,10 @@ Test that the AIR BW is reserved for a ONU
     ...    Then pump ONU2 and ONU3 HSIA combined. ONUs must be share rest of bw in PON Port. (Expect fixed tcont1)
     ...    Note: Currently, only Flex Pod supports the deployment configuration required to test this scenario.
     [Tags]    functionalTT    VOL-4094
-    [Setup]    Run Keywords    Start Logging    TcontType1Type4Onu1Onu2Onu3
-    ...        AND             Setup
-    [Teardown]    Run Keywords    Collect Logs
-    ...           AND             Delete All Devices and Verify
-    ...           AND             Run Keyword If    ${logging}    Collect Logs
+    [Setup]    Run Keyword    Start Logging    TcontType1Type4Onu1Onu2Onu3
+    [Teardown]    Run Keywords    Run Keyword If    ${logging}    Collect Logs
     ...           AND             Stop Logging    TcontType1Type4Onu1Onu2Onu3
+    Clear All Devices Then Create New Device
     # Push multi-tcont sadis to ONOS
     Send File To Onos    ${CURDIR}/../../tests/data/flex-ocp-cord-sadis-TT-multi-tcont.json
     Run Keyword If    ${has_dataplane}    Clean Up Linux
@@ -309,12 +303,10 @@ Verify that non-assured BW is released to assured BW allocation as needed for TT
     ...    then verify that close to 500Mbps is received at the BNG.
     ...    Also verify that the VoD rate is now truncated to 500Mbps at BNG for ONU2.
     [Tags]    functionalTT    VOL-4096
-    [Setup]    Run Keywords    Start Logging    TcontType2Onu1Type3Onu2
-    ...        AND             Setup
-    [Teardown]    Run Keywords    Collect Logs
-    ...           AND             Delete All Devices and Verify
-    ...           AND             Run Keyword If    ${logging}    Collect Logs
+    [Setup]    Run Keyword    Start Logging    TcontType2Onu1Type3Onu2
+    [Teardown]    Run Keywords    Run Keyword If    ${logging}    Collect Logs
     ...           AND             Stop Logging    TcontType2Onu1Type3Onu2
+    Clear All Devices Then Create New Device
     # Push multi-tcont sadis to ONOS
     Send File To Onos    ${CURDIR}/../../tests/data/flex-ocp-cord-sadis-TT-multi-tcont.json
     Run Keyword If    ${has_dataplane}    Clean Up Linux
@@ -409,12 +401,10 @@ Verify that best effort BW is released to assured BW requirement as needed and t
     ...    If it equally distributes the remaining BW,
     ...    ONU1 should get 150Mbps and ONU2 in total should get 850Mbps (500+200+150Mbps).
     [Tags]    functionalTT    VOL-4097    non-critical
-    [Setup]    Run Keywords    Start Logging    TcontType4Onu1Type5Onu2
-    ...        AND             Setup
-    [Teardown]    Run Keywords    Collect Logs
-    ...           AND             Delete All Devices and Verify
-    ...           AND             Run Keyword If    ${logging}    Collect Logs
+    [Setup]    Run Keyword    Start Logging    TcontType4Onu1Type5Onu2
+    [Teardown]    Run Keywords    Run Keyword If    ${logging}    Collect Logs
     ...           AND             Stop Logging    TcontType4Onu1Type5Onu2
+    Clear All Devices Then Create New Device
     Run Keyword If    ${has_dataplane}    Clean Up Linux
     Send File To Onos    ${CURDIR}/../../tests/data/flex-ocp-cord-sadis-TT-multi-tcont-1.json
     Perform Sanity Test TT
