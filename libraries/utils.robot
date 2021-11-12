@@ -452,20 +452,19 @@ Sanity Test TT one ONU
     Set Global Variable    ${of_id}
     ${nni_port}=    Wait Until Keyword Succeeds    ${timeout}    2s    Get NNI Port in ONOS    ${of_id}
     ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
-    ${onu_port}=    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
+    ${onu_port}=    Wait Until Keyword Succeeds    ${timeout}    2s
     ...    Get ONU Port in ONOS    ${src['onu']}    ${of_id}    ${src['uni_id']}
     # Check ONU port is Enabled in ONOS
-    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds   120s   2s
+    Wait Until Keyword Succeeds   120s   2s
     ...    Verify UNI Port Is Enabled   ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${src['onu']}    ${src['uni_id']}
     Run Keyword Unless    ${supress_add_subscriber}
-    ...    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2
     ...    Execute ONOS CLI Command use single connection    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}
     ...    volt-add-subscriber-access ${of_id} ${onu_port}
     # Verify ONU state in voltha
     ${onu_reasons}=  Create List     omci-flows-pushed     onu-reenabled
     # In case of previous dis- and enable of ONU and no further subscriber add actions state will be onu-reenabled
     Run Keyword If    ${supress_add_subscriber}    Append To List    ${onu_reasons}    onu-reenabled
-    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s    Validate Device
+    Wait Until Keyword Succeeds    ${timeout}    5s    Validate Device
     ...    ENABLED    ACTIVE    REACHABLE
     ...    ${src['onu']}    onu=True    onu_reason=${onu_reasons}
     # TODO: Yet to Verify on the GPON based Physical POD (VOL-2652)
@@ -475,7 +474,7 @@ Sanity Test TT one ONU
     ...    ${dst['dp_iface_name']}    ${dst['ip']}    ${dst['user']}    ${dst['pass']}    ${dst['container_type']}
     ...    ${dst['container_name']}
     Run Keyword IF    '${src['service_type']}'!='hsia'
-    ...    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
+    ...    Wait Until Keyword Succeeds    ${timeout}    2s
     ...    Validate Subscriber DHCP Allocation    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${onu_port}
     ...    ${src['c_tag']}
 
@@ -529,20 +528,19 @@ Sanity Test TT MCAST one ONU
     Set Global Variable    ${of_id}
     ${nni_port}=    Wait Until Keyword Succeeds    ${timeout}    2s    Get NNI Port in ONOS    ${of_id}
     ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
-    ${onu_port}=    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
+    ${onu_port}=    Wait Until Keyword Succeeds    ${timeout}    2s
     ...    Get ONU Port in ONOS    ${src['onu']}    ${of_id}    ${src['uni_id']}
     # Check ONU port is Enabled in ONOS
-    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds   120s   2s
+    Wait Until Keyword Succeeds   120s   2s
     ...    Verify UNI Port Is Enabled   ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${src['onu']}    ${src['uni_id']}
     Run Keyword Unless    ${supress_add_subscriber}
-    ...    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2
     ...    Execute ONOS CLI Command use single connection    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}
     ...    volt-add-subscriber-access ${of_id} ${onu_port}
     # Verify ONU state in voltha
     ${onu_reasons}=  Create List     omci-flows-pushed     onu-reenabled
     # In case of previous dis- and enable of ONU and no further subscriber add actions state will be onu-reenabled
     Run Keyword If    ${supress_add_subscriber}    Append To List    ${onu_reasons}    onu-reenabled
-    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s    Validate Device
+    Wait Until Keyword Succeeds    ${timeout}    5s    Validate Device
     ...    ENABLED    ACTIVE    REACHABLE
     ...    ${src['onu']}    onu=True    onu_reason=${onu_reasons}
 
