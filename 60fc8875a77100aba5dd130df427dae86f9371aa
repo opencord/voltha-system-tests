@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f6c04c25_4a1764bd",
+        "filename": "tests/tt-workflow/Voltha_TT_MulticastTests.robot",
+        "patchSetId": 7
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2021-11-12T14:11:24Z",
+      "side": 1,
+      "message": "This looks strange. Do you mean:\n        ${matched}\u003d    Set Variable If    \u0027${onu}\u0027 \u003d\u003d \u0027${onu_sn}\u0027 and \u0027${service}\u0027 \u003d\u003d \u0027${service_type}\u0027 and \u0027${uni}\u0027 \u003d\u003d \u0027${uni_id}\u0027    True    False",
+      "range": {
+        "startLine": 100,
+        "startChar": 8,
+        "endLine": 101,
+        "endChar": 46
+      },
+      "revId": "60fc8875a77100aba5dd130df427dae86f9371aa",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    }
+  ]
+}
