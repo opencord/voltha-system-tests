@@ -657,8 +657,8 @@ Verify Control Plane After Pod Restart TT
         Wait Until Keyword Succeeds    ${timeout}    5s
         ...    Validate Device    ENABLED    ACTIVE
         ...    REACHABLE    ${src['onu']}    onu=True    onu_reason=omci-flows-pushed
-        Run Keyword If    ${has_dataplane} and '${service_type}' != 'mcast'    Run Keyword And Continue On Failure
+        Run Keyword If    ${has_dataplane} and '${service_type}' != 'mcast'
         ...    Sanity Test TT one ONU    ${src}    ${dst}    ${suppressaddsubscriber}
-        ...    ELSE IF    ${has_dataplane} and '${service_type}' == 'mcast'    Run Keyword And Continue On Failure
+        ...    ELSE IF    ${has_dataplane} and '${service_type}' == 'mcast'
         ...    Sanity Test TT MCAST one ONU    ${src}    ${dst}    ${suppressaddsubscriber}
     END
