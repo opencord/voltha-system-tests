@@ -16,6 +16,46 @@
       "message": "The previous keyword to detect onus have leave reconciling did not work anymore as expected (see https://jenkins.opencord.org/view/All%20Jobs/job/periodic-voltha-multiple-olts-openonu-go-test-bbsim/). A (easier) new keyword derived from the old one replaces it.\nThis is a conclusion of a discussion with Michael and Holger.",
       "revId": "1e617db70cbc042f86c9713defa5d1776c2e8dcc",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2d6492df_179a6e82",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2021-11-12T12:26:02Z",
+      "side": 1,
+      "message": "typos only ",
+      "revId": "1e617db70cbc042f86c9713defa5d1776c2e8dcc",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a3e54a90_fc53b6f1",
+        "filename": "libraries/onu_utilities.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2021-11-12T12:26:02Z",
+      "side": 1,
+      "message": "This keyword checks if all onus are accessible (again) with help of a simple voltctl request. As long as we\u0027ve got an rc!\u003d0 keyword will fail -\u003e onu is not accessible.",
+      "range": {
+        "startLine": 141,
+        "startChar": 23,
+        "endLine": 142,
+        "endChar": 93
+      },
+      "revId": "1e617db70cbc042f86c9713defa5d1776c2e8dcc",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     }
   ]
 }
