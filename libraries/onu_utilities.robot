@@ -130,20 +130,17 @@ Reconcile Onu Adapter
     # - we check that communication to openonu-adapter is established again
     # - we check that all ONUs leave reconcile state by validate a simple voltctl request will not responds with error
     Wait Until Keyword Succeeds    ${timeout}    1s    Validate Last ONU Communication
-    Wait Until Keyword Succeeds    ${timeout}    1s    Operation Of Onu Adaptor Finished    reconciling
+    Wait Until Keyword Succeeds    ${timeout}    1s    Validate All Onus Accessable
     # - then we wait that all ONU move to the next state
     ${list_onus}    Create List
     Build ONU SN List    ${list_onus}
     Run Keyword And Ignore Error    Wait Until Keyword Succeeds    ${timeout}
     ...     1s  Check all ONU OperStatus     ${list_onus}  ${oper_status}
 
-Operation Of Onu Adaptor Finished
-    [Documentation]    This keyword checks onu adaptor finished named operation with help of a simple voltctl request.
-    ...                It is an implicit check. Possible operations are (device) 'deletion' or 'reconciling'.
-    ...                As long as one of the named operations still running we've got an rc!=0 and we will find our
-    ...                'operation' as part of output of get request.
+Validate All Onus Accessable
+    [Documentation]    This keyword checks all onus accessable (again) with help of a simple voltctl request.
+    ...                As long we've got an rc!=0 keyword will fail -> onu is not accessable.
     ...                As get request Onu image list is used, any other get command could be used for this check.
-    [Arguments]    ${operation}
     ${onu_list}    Create List
     FOR    ${I}    IN RANGE    0    ${num_all_onus}
         ${src}=    Set Variable    ${hosts.src[${I}]}
@@ -152,8 +149,7 @@ Operation Of Onu Adaptor Finished
         Continue For Loop If    -1 != ${onu_id}
         Append To List    ${onu_list}    ${onu_device_id}
         ${rc}    ${output}=    Get Onu Image List    ${onu_device_id}
-        Run Keyword If    ${rc}!=0    Should Not Contain    ${output}    ${operation}
-        ...    Onu adaptor operation ${operation} still in progress.
+        Should Be True    ${rc}==0    Onu ${src['onu']} (${onu_device_id}) still not accessable.
     END
 
 Log Ports
