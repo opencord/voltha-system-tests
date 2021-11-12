@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8cdcd84d_e3831eb6",
+        "filename": "tests/tt-workflow/Voltha_TT_MulticastTests.robot",
+        "patchSetId": 10
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2021-11-12T14:43:03Z",
+      "side": 1,
+      "message": "It is still the same and from my point an \u0027and\u0027 is missing beside the missing \u0027False\u0027, but \u0027False\u0027 is not necessary here because it is already set in line 92.",
+      "range": {
+        "startLine": 100,
+        "startChar": 0,
+        "endLine": 101,
+        "endChar": 46
+      },
+      "revId": "32625a75ff03f9967e322998b42b34acb8561419",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    }
+  ]
+}
