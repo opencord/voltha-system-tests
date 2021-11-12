@@ -24,6 +24,30 @@
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "987e1c07_84aea144",
+        "filename": "libraries/utils.robot",
+        "patchSetId": 13
+      },
+      "lineNbr": 492,
+      "author": {
+        "id": 1000804
+      },
+      "writtenOn": "2021-11-12T16:28:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "63be7202_2cf7cd6d",
+      "range": {
+        "startLine": 492,
+        "startChar": 20,
+        "endLine": 492,
+        "endChar": 59
+      },
+      "revId": "98d67bf4fd3c6d4c1c802e62279bd76e9fec2818",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f2d5aba3_0ae2ac53",
