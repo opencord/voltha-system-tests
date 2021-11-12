@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "64a9826c_cc9f253b",
+        "filename": "libraries/utils.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 458,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2021-11-12T05:22:41Z",
+      "side": 0,
+      "message": "this can be kept, as this also verifies nni-port came up fine in onos.",
+      "range": {
+        "startLine": 457,
+        "startChar": 4,
+        "endLine": 458,
+        "endChar": 43
+      },
+      "revId": "f3e492c8746c2016616988611ca03b0a7d207892",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "01d8e911_e6bf2022",
+        "filename": "libraries/utils.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 537,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2021-11-12T05:22:41Z",
+      "side": 0,
+      "message": "same",
+      "range": {
+        "startLine": 536,
+        "startChar": 4,
+        "endLine": 537,
+        "endChar": 43
+      },
+      "revId": "f3e492c8746c2016616988611ca03b0a7d207892",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "21290d60_4c16e38a",
+        "filename": "libraries/utils.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 598,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2021-11-12T05:22:41Z",
+      "side": 0,
+      "message": "same",
+      "range": {
+        "startLine": 597,
+        "startChar": 8,
+        "endLine": 598,
+        "endChar": 47
+      },
+      "revId": "f3e492c8746c2016616988611ca03b0a7d207892",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    }
+  ]
+}
