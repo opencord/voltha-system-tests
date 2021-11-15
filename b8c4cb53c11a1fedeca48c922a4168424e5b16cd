@@ -16,6 +16,29 @@
       "message": "not reviewed line-by-line, but in general the test looks good. \n",
       "revId": "b8c4cb53c11a1fedeca48c922a4168424e5b16cd",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bf119a40_9373eca8",
+        "filename": "libraries/utils.robot",
+        "patchSetId": 16
+      },
+      "lineNbr": 488,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2021-11-15T03:49:47Z",
+      "side": 1,
+      "message": "Remove this.",
+      "range": {
+        "startLine": 488,
+        "startChar": 4,
+        "endLine": 488,
+        "endChar": 43
+      },
+      "revId": "b8c4cb53c11a1fedeca48c922a4168424e5b16cd",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     }
   ]
 }
