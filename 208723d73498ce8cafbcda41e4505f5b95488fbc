@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "caa86834_55ee5dea",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2021-11-16T08:46:31Z",
+      "side": 1,
+      "message": "I\u0027m not so familiar with this feature, but from robot framework point of view it looks good for me.",
+      "revId": "208723d73498ce8cafbcda41e4505f5b95488fbc",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    }
+  ]
+}
