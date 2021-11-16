@@ -16,6 +16,23 @@
       "message": "I\u0027m not so familiar with this feature, but from robot framework point of view it looks good for me.",
       "revId": "208723d73498ce8cafbcda41e4505f5b95488fbc",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "10aa0a22_18be0dcb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2021-11-16T09:23:29Z",
+      "side": 1,
+      "message": "Patchset-2 ran here: https://jenkins.opencord.org/view/VOLTHA-2.X-Tests/job/build_flex-ocp-cord-multi-uni_TP_voltha_TT_master_test/148/console",
+      "revId": "208723d73498ce8cafbcda41e4505f5b95488fbc",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     }
   ]
 }
