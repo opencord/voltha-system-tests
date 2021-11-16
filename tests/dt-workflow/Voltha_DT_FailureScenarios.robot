@@ -80,7 +80,7 @@ Verify ONU after Rebooting Physically for DT
     Setup
     # Performing Sanity Test to make sure subscribers are all DHCP and pingable
     Run Keyword If    ${has_dataplane}    Clean Up Linux
-    Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test DT
+    Perform Sanity Test DT
     Power Switch Connection Suite    ${web_power_switch.ip}    ${web_power_switch.user}    ${web_power_switch.password}
     Run Keyword If    ${has_dataplane}    Clean Up Linux
     FOR    ${I}    IN RANGE    0    ${num_all_onus}
@@ -89,12 +89,12 @@ Verify ONU after Rebooting Physically for DT
         ${of_id}=    Get ofID From OLT List    ${src['olt']}
         ${nni_port}=    Wait Until Keyword Succeeds    ${timeout}    2s    Get NNI Port in ONOS    ${of_id}
         ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
-        ${onu_port}=    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
+        ${onu_port}=    Wait Until Keyword Succeeds    ${timeout}    2s
         ...    Get ONU Port in ONOS    ${src['onu']}    ${of_id}
         # Disable Power Switch
         Disable Switch Outlet    ${src['power_switch_port']}
         Run Keyword If    ${has_dataplane}    Run Keyword And Continue On Failure
-        ...    Wait Until Keyword Succeeds    60s    2s
+        ...    Wait Until Keyword Succeeds    ${timeout}    2s
         ...    Check Ping    False    ${dst['dp_iface_ip_qinq']}    ${src['dp_iface_name']}
         ...    ${src['ip']}    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
         # Remove Subscriber Access (To replicate DT workflow)
@@ -110,17 +110,17 @@ Verify ONU after Rebooting Physically for DT
         # Waiting extra time for the ONU to come up
         Sleep    60s
         # Check ONU port is Enabled in ONOS
-        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds   120s   2s
+        Wait Until Keyword Succeeds    ${timeout}    2s
         ...    Verify UNI Port Is Enabled   ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${src['onu']}
-        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2
+        Wait Until Keyword Succeeds    ${timeout}    2
         ...    Execute ONOS CLI Command use single connection    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}
         ...    volt-add-subscriber-access ${of_id} ${onu_port}
         # Verify ONU state in voltha
-        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    360s    5s    Validate Device
+        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s    Validate Device
         ...    ENABLED    ACTIVE    REACHABLE
         ...    ${src['onu']}    onu=True    onu_reason=omci-flows-pushed
         # Verify subscriber access flows are added for the ONU port
-        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
+        Wait Until Keyword Succeeds    ${timeout}    5s
         ...    Verify Subscriber Access Flows Added For ONU DT    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${of_id}
         ...    ${onu_port}    ${nni_port}    ${src['s_tag']}
         #Run Keyword If    ${has_dataplane}    Clean Up Linux
@@ -147,7 +147,7 @@ Verify OLT after Rebooting Physically for DT
     Setup
     # Performing Sanity Test to make sure subscribers are all DHCP and pingable
     Run Keyword If    ${has_dataplane}    Clean Up Linux
-    Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test DT
+    Perform Sanity Test DT
     # Reboot the OLT from the OLT CLI
     FOR   ${I}    IN RANGE    0    ${olt_count}
         ${olt_user}=    Get From Dictionary    ${list_olts}[${I}]    user
@@ -162,7 +162,7 @@ Verify OLT after Rebooting Physically for DT
         ${src}=    Set Variable    ${hosts.src[${I}]}
         ${dst}=    Set Variable    ${hosts.dst[${I}]}
         Run Keyword If    ${has_dataplane}    Run Keyword And Continue On Failure
-        ...    Wait Until Keyword Succeeds    60s    2s
+        ...    Wait Until Keyword Succeeds    ${timeout}    2s
         ...    Check Ping    False    ${dst['dp_iface_ip_qinq']}    ${src['dp_iface_name']}
         ...    ${src['ip']}    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
     END
@@ -175,14 +175,14 @@ Verify OLT after Rebooting Physically for DT
         ${olt_device_id}=    Get OLTDeviceID From OLT List    ${olt_serial_number}
         Run Keyword If    ${has_dataplane}    Wait Until Keyword Succeeds    120s    10s
         ...    Check Remote System Reachability    True    ${olt_ssh_ip}
-        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    360s    5s
+        Wait Until Keyword Succeeds    360s    5s
         ...    Validate OLT Device    ENABLED    ACTIVE
         ...    REACHABLE    ${olt_serial_number}
     END
     # Waiting extra time for the ONUs to come up
     Sleep    60s
     Run Keyword If    ${has_dataplane}    Clean Up Linux
-    Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test DT
+    Perform Sanity Test DT
 
 Verify restart openonu-adapter container after subscriber provisioning for DT
     [Documentation]    Restart openonu-adapter container after VOLTHA is operational.
@@ -195,7 +195,7 @@ Verify restart openonu-adapter container after subscriber provisioning for DT
     Run Keyword If    '${SOAK_TEST}'=='False'    Setup
     # Performing Sanity Test to make sure subscribers are all DHCP and pingable
     Run Keyword If    ${has_dataplane}    Clean Up Linux
-    Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test DT
+    Perform Sanity Test DT
     ${podStatusOutput}=    Run    kubectl get pods -n ${NAMESPACE}
     Log    ${podStatusOutput}
     ${countBeforeRestart}=    Run    kubectl get pods -n ${NAMESPACE} | grep Running | wc -l
@@ -206,7 +206,7 @@ Verify restart openonu-adapter container after subscriber provisioning for DT
     # Wait for 1 min after openonu adapter is restarted
     Sleep    60s
     Run Keyword If    ${has_dataplane}    Clean Up Linux
-    Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test DT
+    Perform Sanity Test DT
     ${podStatusOutput}=    Run    kubectl get pods -n ${NAMESPACE}
     Log    ${podStatusOutput}
     ${countAfterRestart}=    Run    kubectl get pods -n ${NAMESPACE} | grep Running | wc -l
@@ -225,7 +225,7 @@ Verify restart openolt-adapter container after subscriber provisioning for DT
     Run Keyword If    '${SOAK_TEST}'=='False'    setup
     # Performing Sanity Test to make sure subscribers are all DHCP and pingable
     Run Keyword If    ${has_dataplane}    Clean Up Linux
-    Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test DT
+    Perform Sanity Test DT
     ${podStatusOutput}=    Run    kubectl get pods -n ${NAMESPACE}
     Log    ${podStatusOutput}
     ${countBforRestart}=    Run    kubectl get pods -n ${NAMESPACE} | grep Running | wc -l
@@ -236,7 +236,7 @@ Verify restart openolt-adapter container after subscriber provisioning for DT
     # Wait for 1 min after openolt adapter is restarted
     Sleep    60s
     Run Keyword If    ${has_dataplane}    Clean Up Linux
-    Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test DT
+    Perform Sanity Test DT
     ${podStatusOutput}=    Run    kubectl get pods -n ${NAMESPACE}
     Log    ${podStatusOutput}
     ${countAfterRestart}=    Run    kubectl get pods -n ${NAMESPACE} | grep Running | wc -l
@@ -261,7 +261,7 @@ Verify openolt adapter restart before subscriber provisioning for DT
         ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
         ${onu_port}=    Wait Until Keyword Succeeds    ${timeout}    2s    Get ONU Port in ONOS    ${src['onu']}
         ...    ${of_id}
-        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    360s    5s
+        Wait Until Keyword Succeeds    ${timeout}    5s
         ...    Validate Device        ENABLED    ACTIVE    REACHABLE
         ...    ${onu_device_id}    onu=True    onu_reason=initial-mib-downloaded    by_dev_id=True
     END
@@ -298,7 +298,7 @@ Verify openolt adapter restart before subscriber provisioning for DT
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
         ...    Verify Subscriber Access Flows Added For ONU DT    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${of_id}
         ...    ${onu_port}    ${nni_port}    ${src['s_tag']}
-        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s    Validate Device
+        Wait Until Keyword Succeeds    ${timeout}    5s    Validate Device
         ...    ENABLED    ACTIVE    REACHABLE
         ...    ${src['onu']}    onu=True    onu_reason=omci-flows-pushed
         Run Keyword If    ${has_dataplane}    Run Keyword And Continue On Failure    Validate DHCP and Ping    True
@@ -328,7 +328,7 @@ Verify restart ofagent container after subscriber is provisioned for DT
     Wait Until Keyword Succeeds    ${timeout}    3s    Pods Are Ready By Label    ${NAMESPACE}    app    ${podName}
     # Performing Sanity Test to make sure subscribers are all DHCP and pingable
     Run Keyword If    ${has_dataplane}    Clean Up Linux
-    Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test DT
+    Perform Sanity Test DT
     ${podStatusOutput}=    Run    kubectl get pods -n ${NAMESPACE}
     Log    ${podStatusOutput}
     ${countAfterRestart}=    Run    kubectl get pods -n ${NAMESPACE} | grep Running | wc -l
@@ -342,17 +342,17 @@ Verify restart ofagent container after subscriber is provisioned for DT
         ${of_id}=    Get ofID From OLT List    ${src['olt']}
         ${nni_port}=    Wait Until Keyword Succeeds    ${timeout}    2s    Get NNI Port in ONOS    ${of_id}
         ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
-        ${onu_port}=    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
+        ${onu_port}=    Wait Until Keyword Succeeds    ${timeout}    2s
         ...    Get ONU Port in ONOS    ${src['onu']}    ${of_id}
         # Verify ONU state in voltha
-        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    360s    5s    Validate Device
+        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s    Validate Device
         ...    ENABLED    ACTIVE    REACHABLE
         ...    ${src['onu']}    onu=True    onu_reason=omci-flows-pushed
         # Check ONU port is Disabled in ONOS
-        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds   120s   2s
+        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
         ...    Verify UNI Port Is Disabled   ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${src['onu']}
         # Verify subscriber access flows are added for the ONU port
-        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
+        Wait Until Keyword Succeeds    ${timeout}    5s
         ...    Verify Subscriber Access Flows Added For ONU DT    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${of_id}
         ...    ${onu_port}    ${nni_port}    ${src['s_tag']}
         # Verify Ping
@@ -366,7 +366,7 @@ Verify restart ofagent container after subscriber is provisioned for DT
     ...    Running
     # Performing Sanity Test to make sure subscribers are all DHCP and pingable
     Run Keyword If    ${has_dataplane}    Clean Up Linux
-    Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test DT
+    Perform Sanity Test DT
     Log to console    Pod ${podName} restarted and sanity checks passed successfully
 
 Sanity E2E Test for OLT/ONU on POD With Core Fail and Restart for DT
@@ -438,7 +438,7 @@ Sanity E2E Test for OLT/ONU on POD With Core Fail and Restart for DT
         Wait Until Keyword Succeeds    ${timeout}    2s    Execute ONOS CLI Command use single connection    ${ONOS_SSH_IP}
         ...    ${ONOS_SSH_PORT}    volt-add-subscriber-access ${of_id} ${onu_port}
         # Verify subscriber access flows are added for the ONU port
-        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
+        Wait Until Keyword Succeeds    ${timeout}    5s
         ...    Verify Subscriber Access Flows Added For ONU DT    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${of_id}
         ...    ${onu_port}    ${nni_port}    ${src['s_tag']}
         Run Keyword If    ${has_dataplane}    Run Keyword And Continue On Failure    Validate DHCP and Ping    True
@@ -471,7 +471,7 @@ Verify OLT Soft Reboot for DT
         ${src}=    Set Variable    ${hosts.src[${I}]}
         ${dst}=    Set Variable    ${hosts.dst[${I}]}
         Run Keyword If    ${has_dataplane}    Run Keyword And Continue On Failure
-        ...    Wait Until Keyword Succeeds    60s    2s
+        ...    Wait Until Keyword Succeeds    ${timeout}    2s
         ...    Check Ping    False    ${dst['dp_iface_ip_qinq']}    ${src['dp_iface_name']}
         ...    ${src['ip']}    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
     END
@@ -484,7 +484,7 @@ Verify OLT Soft Reboot for DT
         Run Keyword If    ${has_dataplane}    Wait Until Keyword Succeeds    120s    10s
         ...    Check Remote System Reachability    True    ${olt_ssh_ip}
         # Check OLT states
-        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    360s    5s
+        Wait Until Keyword Succeeds    360s    5s
         ...    Validate OLT Device    ENABLED    ACTIVE
         ...    REACHABLE    ${olt_serial_number}
     END
@@ -492,7 +492,7 @@ Verify OLT Soft Reboot for DT
     Sleep    60s
     #Check after reboot that ONUs are active, DHCP/pingable
     Run Keyword If    ${has_dataplane}    Clean Up Linux
-    Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test DT
+    Perform Sanity Test DT
 
 Verify ONU Soft Reboot for DT
     [Documentation]    Test soft reboot of the ONU using voltctl command
@@ -509,11 +509,11 @@ Verify ONU Soft Reboot for DT
         ${of_id}=    Get ofID From OLT List    ${src['olt']}
         ${nni_port}=    Wait Until Keyword Succeeds    ${timeout}    2s    Get NNI Port in ONOS    ${of_id}
         ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
-        ${onu_port}=    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
+        ${onu_port}=    Wait Until Keyword Succeeds    ${timeout}    2s
         ...    Get ONU Port in ONOS    ${src['onu']}    ${of_id}
         Reboot Device    ${onu_device_id}
         Run Keyword If    ${has_dataplane}    Run Keyword And Continue On Failure
-        ...    Wait Until Keyword Succeeds    60s    2s
+        ...    Wait Until Keyword Succeeds    ${timeout}    2s
         ...    Check Ping    False    ${dst['dp_iface_ip_qinq']}    ${src['dp_iface_name']}
         ...    ${src['ip']}    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
         Verify ping is succesful except for given device     ${num_onus}    ${onu_device_id}
@@ -524,9 +524,9 @@ Verify ONU Soft Reboot for DT
         Delete Device    ${onu_device_id}
         Sleep    40s
         # Check ONU port is Enabled in ONOS
-        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds   120s   2s
+        Wait Until Keyword Succeeds    ${timeout}    2s
         ...    Verify UNI Port Is Enabled   ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${src['onu']}
-        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2
+        Wait Until Keyword Succeeds    ${timeout}    2
         ...    Execute ONOS CLI Command use single connection    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}
         ...    volt-add-subscriber-access ${of_id} ${onu_port}
         # Verify ONU state in voltha
@@ -534,7 +534,7 @@ Verify ONU Soft Reboot for DT
         ...    ENABLED    ACTIVE    REACHABLE
         ...    ${src['onu']}    onu=True    onu_reason=omci-flows-pushed
         # Verify subscriber access flows are added for the ONU port
-        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
+        Wait Until Keyword Succeeds    ${timeout}    5s
         ...    Verify Subscriber Access Flows Added For ONU DT    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${of_id}
         ...    ${onu_port}    ${nni_port}    ${src['s_tag']}
         #Run Keyword If    ${has_dataplane}    Clean Up Linux
@@ -575,13 +575,13 @@ Verify restart openonu-adapter container for DT
     Clear All Devices Then Create New Device
     # Performing Sanity Test to make sure subscribers are all DHCP and pingable
     Run Keyword If    ${has_dataplane}    Clean Up Linux
-    Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test DT
+    Perform Sanity Test DT
     FOR    ${I}    IN RANGE    0    ${num_all_onus}
         ${src}=    Set Variable    ${hosts.src[${I}]}
         ${dst}=    Set Variable    ${hosts.dst[${I}]}
         ${ping_output_file}=    Set Variable    /tmp/${src['onu']}_ping
         Run Keyword If    ${has_dataplane}    Run Keyword And Continue On Failure
-        ...    Wait Until Keyword Succeeds    60s    2s
+        ...    Wait Until Keyword Succeeds    ${timeout}    2s
         ...    Run Ping In Background    ${ping_output_file}    ${dst['dp_iface_ip_qinq']}    ${src['dp_iface_name']}
         ...    ${src['ip']}    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
     END
@@ -602,7 +602,7 @@ Verify restart openonu-adapter container for DT
         ${src}=    Set Variable    ${hosts.src[${I}]}
         ${dst}=    Set Variable    ${hosts.dst[${I}]}
         Run Keyword If    ${has_dataplane}    Run Keyword And Continue On Failure
-        ...    Wait Until Keyword Succeeds    60s    2s
+        ...    Wait Until Keyword Succeeds    ${timeout}    2s
         ...    Stop Ping Running In Background    ${src['ip']}    ${src['user']}    ${src['pass']}
         ...    ${src['container_type']}    ${src['container_name']}
     END
@@ -611,7 +611,7 @@ Verify restart openonu-adapter container for DT
         ${dst}=    Set Variable    ${hosts.dst[${I}]}
         ${ping_output_file}=    Set Variable    /tmp/${src['onu']}_ping
         ${ping_output}=    Run Keyword If    ${has_dataplane}    Run Keyword And Continue On Failure
-        ...    Wait Until Keyword Succeeds    60s    2s
+        ...    Wait Until Keyword Succeeds    ${timeout}    2s
         ...    Retrieve Remote File Contents    ${ping_output_file}    ${src['ip']}    ${src['user']}    ${src['pass']}
         ...    ${src['container_type']}    ${src['container_name']}
         Check Ping Result    True    ${ping_output}
@@ -631,13 +631,13 @@ Verify restart openolt-adapter container for DT
     Clear All Devices Then Create New Device
     # Performing Sanity Test to make sure subscribers are all DHCP and pingable
     Run Keyword If    ${has_dataplane}    Clean Up Linux
-    Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test DT
+    Perform Sanity Test DT
     FOR    ${I}    IN RANGE    0    ${num_all_onus}
         ${src}=    Set Variable    ${hosts.src[${I}]}
         ${dst}=    Set Variable    ${hosts.dst[${I}]}
         ${ping_output_file}=    Set Variable    /tmp/${src['onu']}_ping
         Run Keyword If    ${has_dataplane}    Run Keyword And Continue On Failure
-        ...    Wait Until Keyword Succeeds    60s    2s
+        ...    Wait Until Keyword Succeeds    ${timeout}    2s
         ...    Run Ping In Background    ${ping_output_file}    ${dst['dp_iface_ip_qinq']}    ${src['dp_iface_name']}
         ...    ${src['ip']}    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
     END
@@ -658,7 +658,7 @@ Verify restart openolt-adapter container for DT
         ${src}=    Set Variable    ${hosts.src[${I}]}
         ${dst}=    Set Variable    ${hosts.dst[${I}]}
         Run Keyword If    ${has_dataplane}    Run Keyword And Continue On Failure
-        ...    Wait Until Keyword Succeeds    60s    2s
+        ...    Wait Until Keyword Succeeds    ${timeout}    2s
         ...    Stop Ping Running In Background    ${src['ip']}    ${src['user']}    ${src['pass']}
         ...    ${src['container_type']}    ${src['container_name']}
     END
@@ -667,7 +667,7 @@ Verify restart openolt-adapter container for DT
         ${dst}=    Set Variable    ${hosts.dst[${I}]}
         ${ping_output_file}=    Set Variable    /tmp/${src['onu']}_ping
         ${ping_output}=    Run Keyword If    ${has_dataplane}    Run Keyword And Continue On Failure
-        ...    Wait Until Keyword Succeeds    60s    2s
+        ...    Wait Until Keyword Succeeds    ${timeout}    2s
         ...    Retrieve Remote File Contents    ${ping_output_file}    ${src['ip']}    ${src['user']}    ${src['pass']}
         ...    ${src['container_type']}    ${src['container_name']}
         Check Ping Result    True    ${ping_output}
@@ -687,13 +687,13 @@ Verify restart rw-core container for DT
     Clear All Devices Then Create New Device
     # Performing Sanity Test to make sure subscribers are all DHCP and pingable
     Run Keyword If    ${has_dataplane}    Clean Up Linux
-    Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test DT
+    Perform Sanity Test DT
     FOR    ${I}    IN RANGE    0    ${num_all_onus}
         ${src}=    Set Variable    ${hosts.src[${I}]}
         ${dst}=    Set Variable    ${hosts.dst[${I}]}
         ${ping_output_file}=    Set Variable    /tmp/${src['onu']}_ping
         Run Keyword If    ${has_dataplane}    Run Keyword And Continue On Failure
-        ...    Wait Until Keyword Succeeds    60s    2s
+        ...    Wait Until Keyword Succeeds    ${timeout}    2s
         ...    Run Ping In Background    ${ping_output_file}    ${dst['dp_iface_ip_qinq']}    ${src['dp_iface_name']}
         ...    ${src['ip']}    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
     END
@@ -717,7 +717,7 @@ Verify restart rw-core container for DT
         ${src}=    Set Variable    ${hosts.src[${I}]}
         ${dst}=    Set Variable    ${hosts.dst[${I}]}
         Run Keyword If    ${has_dataplane}    Run Keyword And Continue On Failure
-        ...    Wait Until Keyword Succeeds    60s    2s
+        ...    Wait Until Keyword Succeeds    ${timeout}    2s
         ...    Stop Ping Running In Background    ${src['ip']}    ${src['user']}    ${src['pass']}
         ...    ${src['container_type']}    ${src['container_name']}
     END
@@ -726,7 +726,7 @@ Verify restart rw-core container for DT
         ${dst}=    Set Variable    ${hosts.dst[${I}]}
         ${ping_output_file}=    Set Variable    /tmp/${src['onu']}_ping
         ${ping_output}=    Run Keyword If    ${has_dataplane}    Run Keyword And Continue On Failure
-        ...    Wait Until Keyword Succeeds    60s    2s
+        ...    Wait Until Keyword Succeeds    ${timeout}    2s
         ...    Retrieve Remote File Contents    ${ping_output_file}    ${src['ip']}    ${src['user']}    ${src['pass']}
         ...    ${src['container_type']}    ${src['container_name']}
         Check Ping Result    True    ${ping_output}
@@ -768,17 +768,17 @@ Verify Control Plane After Pod Restart DT
         Wait Until Keyword Succeeds    ${timeout}    2s    Execute ONOS CLI Command use single connection    ${ONOS_SSH_IP}
         ...    ${ONOS_SSH_PORT}    volt-remove-subscriber-access ${of_id} ${onu_port}
         Run Keyword If    ${has_dataplane}    Run Keyword And Continue On Failure
-        ...    Wait Until Keyword Succeeds    60s    2s
+        ...    Wait Until Keyword Succeeds    ${timeout}    2s
         ...    Check Ping    False    ${dst['dp_iface_ip_qinq']}    ${src['dp_iface_name']}
         ...    ${src['ip']}    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
         # Disable and Re-Enable the ONU (To replicate DT current workflow)
         # TODO: Delete and Auto-Discovery Add of ONU (not yet supported)
         Disable Device    ${onu_device_id}
-        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
+        Wait Until Keyword Succeeds    ${timeout}    5s
         ...    Validate Device    DISABLED    UNKNOWN
         ...    REACHABLE    ${src['onu']}
         Enable Device    ${onu_device_id}
-        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    360s    5s
+        Wait Until Keyword Succeeds    ${timeout}    5s
         ...    Validate Device    ENABLED    ACTIVE
         ...    REACHABLE    ${src['onu']}
         # Add Subscriber Access
@@ -788,11 +788,11 @@ Verify Control Plane After Pod Restart DT
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
         ...    Verify Subscriber Access Flows Added For ONU DT    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${of_id}
         ...    ${onu_port}    ${nni_port}    ${src['s_tag']}
-        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    360s    5s
+        Wait Until Keyword Succeeds    ${timeout}    5s
         ...    Validate Device    ENABLED    ACTIVE
         ...    REACHABLE    ${src['onu']}    onu=True    onu_reason=omci-flows-pushed
         Run Keyword If    ${has_dataplane}    Run Keyword And Continue On Failure
-        ...    Wait Until Keyword Succeeds    60s    2s
+        ...    Wait Until Keyword Succeeds    ${timeout}    2s
         ...    Check Ping    True    ${dst['dp_iface_ip_qinq']}    ${src['dp_iface_name']}
         ...    ${src['ip']}    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
     END
