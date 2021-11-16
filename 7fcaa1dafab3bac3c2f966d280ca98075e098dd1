@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ec2d4053_b2b86345",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000127
+      },
+      "writtenOn": "2021-11-16T16:16:40Z",
+      "side": 1,
+      "message": "The ONU vendor specific serial part has to be in small case.",
+      "revId": "7fcaa1dafab3bac3c2f966d280ca98075e098dd1",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    }
+  ]
+}
