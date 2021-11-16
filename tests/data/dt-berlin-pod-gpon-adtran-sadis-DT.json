@@ -83,6 +83,23 @@
                 "isDhcpRequired": false
               }
             ]
+          },
+          {
+            "id": "SCOMa0305fc1-1",
+            "nasPortId": "SCOMa0305fc1-1",
+            "circuitId": "SCOMa0305fc1-1",
+            "remoteId": "LBADTN2038AD991",
+            "uniTagList": [
+              {
+                "uniTagMatch": 4096,
+                "ponCTag": 4096,
+                "ponSTag": 40,
+                "technologyProfileId": 64,
+                "upstreamBandwidthProfile": "User_Bandwidth3",
+                "downstreamBandwidthProfile": "User_Bandwidth3",
+                "isDhcpRequired": false
+              }
+            ]
           }
         ]
       },
