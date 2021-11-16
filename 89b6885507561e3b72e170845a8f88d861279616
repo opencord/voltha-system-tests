@@ -24,6 +24,30 @@
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "85e3a5a1_a18d2207",
+        "filename": "tests/tt-workflow/Voltha_TT_MulticastTests.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1000804
+      },
+      "writtenOn": "2021-11-16T12:13:44Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "adcf801c_df8ca228",
+      "range": {
+        "startLine": 79,
+        "startChar": 4,
+        "endLine": 79,
+        "endChar": 71
+      },
+      "revId": "89b6885507561e3b72e170845a8f88d861279616",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a516b510_8d1ef4d1",
