@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4a21213e_14f00601",
+        "filename": "tests/data/dt-berlin-pod-gpon-adtran-sadis-DT.json",
+        "patchSetId": 1
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1000127
+      },
+      "writtenOn": "2021-11-16T16:14:37Z",
+      "side": 1,
+      "message": "the vendor specific part has to be in small case",
+      "range": {
+        "startLine": 88,
+        "startChar": 19,
+        "endLine": 88,
+        "endChar": 31
+      },
+      "revId": "5d19178a320d54407d5ac5d4cae45be2a3e8dc38",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f64c06e2_78cbb3a3",
+        "filename": "tests/data/dt-berlin-pod-gpon-sadis-DT.json",
+        "patchSetId": 1
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1000127
+      },
+      "writtenOn": "2021-11-16T16:14:37Z",
+      "side": 1,
+      "message": "I think the vendor specific serial number part will all be in small case. So the this will be SCOMa0305f84-1.",
+      "range": {
+        "startLine": 83,
+        "startChar": 19,
+        "endLine": 83,
+        "endChar": 31
+      },
+      "revId": "5d19178a320d54407d5ac5d4cae45be2a3e8dc38",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ade63d92_88cc33bf",
+        "filename": "tests/data/dt-berlin-pod-multi-olt-sadis-DT.json",
+        "patchSetId": 1
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1000127
+      },
+      "writtenOn": "2021-11-16T16:14:37Z",
+      "side": 1,
+      "message": "the vendor specific part has to be in small case",
+      "range": {
+        "startLine": 121,
+        "startChar": 19,
+        "endLine": 121,
+        "endChar": 31
+      },
+      "revId": "5d19178a320d54407d5ac5d4cae45be2a3e8dc38",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    }
+  ]
+}
