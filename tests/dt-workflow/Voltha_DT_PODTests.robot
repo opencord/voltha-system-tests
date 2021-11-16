@@ -46,7 +46,7 @@ ${INFRA_NAMESPACE}      default
 # For below variable value, using deployment name as using grep for
 # parsing radius pod name, we can also use full radius pod name
 ${RESTART_POD_NAME}    radius
-${timeout}        360s
+${timeout}        60s
 ${of_id}          0
 ${logical_id}     0
 ${uprate}         0
@@ -108,7 +108,7 @@ Create Soak BBSim Device
         Wait Until Keyword Succeeds    ${timeout}    5s
         ...    Validate OLT Device    PREPROVISIONED    UNKNOWN    UNKNOWN    ${bbsim_olt_device_id}    by_dev_id=True
         Enable Device    ${bbsim_olt_device_id}
-        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
+        Wait Until Keyword Succeeds    ${timeout}    5s
         ...    Validate OLT Device    ENABLED    ACTIVE    REACHABLE    ${serial_number}
         ${bbsim_olt_of_id}=    Wait Until Keyword Succeeds    ${timeout}    15s    Validate OLT Device in ONOS
         ...    ${serial_number}
@@ -139,7 +139,7 @@ Sanity E2E Test for OLT/ONU on POD for DT
     ...           AND             Stop Logging    SanityTestDt
     Setup    ${SOAK_TEST}
     Run Keyword If    ${has_dataplane}    Clean Up Linux
-    Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test DT
+    Perform Sanity Test DT
 
 Test Subscriber Delete and Add for DT
     [Documentation]    Validates E2E Ping Connectivity and object states for the given scenario:
@@ -165,7 +165,7 @@ Test Subscriber Delete and Add for DT
         Wait Until Keyword Succeeds    ${timeout}    2s    Execute ONOS CLI Command use single connection    ${ONOS_SSH_IP}
         ...    ${ONOS_SSH_PORT}    volt-remove-subscriber-access ${of_id} ${onu_port}
         Run Keyword If    ${has_dataplane}    Run Keyword And Continue On Failure
-        ...    Wait Until Keyword Succeeds    60s    2s
+        ...    Wait Until Keyword Succeeds    ${timeout}    2s
         ...    Check Ping    False    ${dst['dp_iface_ip_qinq']}    ${src['dp_iface_name']}
         ...    ${src['ip']}    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
 
@@ -176,19 +176,19 @@ Test Subscriber Delete and Add for DT
         ...    ${of_id}    ${onos_flows_count}
         # Verify VOLTHA flows for OLT equals twice the number of ONUS (minus ONU under test) + 1 for LLDP
         ${olt_flows}=    Evaluate    2 * ( ${num_of_olt_onus} - 1 ) + 1
-        Run Keyword    Wait Until Keyword Succeeds    ${timeout}    5s    Validate OLT Flows    ${olt_flows}
-        ...    ${olt_device_id}
+        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s    Validate OLT Flows
+        ...    ${olt_flows}    ${olt_device_id}
         # Verify VOLTHA flows for ONU under test is Zero
         Run Keyword    Wait Until Keyword Succeeds    ${timeout}    5s    Validate Device Flows
         ...    ${onu_device_id}    0
         # Disable and Re-Enable the ONU (To replicate DT current workflow)
         # TODO: Delete and Auto-Discovery Add of ONU (not yet supported)
         Disable Device    ${onu_device_id}
-        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
+        Wait Until Keyword Succeeds    ${timeout}    5s
         ...    Validate Device    DISABLED    UNKNOWN
         ...    REACHABLE    ${src['onu']}
         Enable Device    ${onu_device_id}
-        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    360s    5s
+        Wait Until Keyword Succeeds    360s    5s
         ...    Validate Device    ENABLED    ACTIVE
         ...    REACHABLE    ${src['onu']}
         # Add Subscriber Access
@@ -198,12 +198,12 @@ Test Subscriber Delete and Add for DT
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
         ...    Verify Subscriber Access Flows Added For ONU DT    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${of_id}
         ...    ${onu_port}    ${nni_port}    ${src['s_tag']}
-        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    360s    5s
+        Wait Until Keyword Succeeds    ${timeout}    5s
         ...    Validate Device    ENABLED    ACTIVE
         ...    REACHABLE    ${src['onu']}    onu=True    onu_reason=omci-flows-pushed
         # TODO: Yet to Verify on the GPON based Physical POD (VOL-2652)
         Run Keyword If    ${has_dataplane}    Run Keyword And Continue On Failure
-        ...    Wait Until Keyword Succeeds    60s    2s
+        ...    Wait Until Keyword Succeeds    ${timeout}    2s
         ...    Check Ping    True    ${dst['dp_iface_ip_qinq']}    ${src['dp_iface_name']}
         ...    ${src['ip']}    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
     END
@@ -230,11 +230,11 @@ Test Disable and Enable ONU for DT
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
         ...    Validate Device    DISABLED    UNKNOWN
         ...    REACHABLE    ${src['onu']}    onu=True    onu_reason=omci-admin-lock
-        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds   ${timeout}    2s
+        Wait Until Keyword Succeeds   ${timeout}    2s
         ...    Verify UNI Port Is Disabled   ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${src['onu']}
         # TODO: Yet to Verify on the GPON based Physical POD (VOL-2652)
         Run Keyword If    ${has_dataplane}    Run Keyword And Continue On Failure
-        ...    Wait Until Keyword Succeeds    60s    2s
+        ...    Wait Until Keyword Succeeds    ${timeout}    2s
         ...    Check Ping    False    ${dst['dp_iface_ip_qinq']}    ${src['dp_iface_name']}
         ...    ${src['ip']}    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
         Sleep    5s
@@ -242,11 +242,11 @@ Test Disable and Enable ONU for DT
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    360s    5s
         ...    Validate Device    ENABLED    ACTIVE
         ...    REACHABLE    ${src['onu']}    onu=True    onu_reason=onu-reenabled
-        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds   ${timeout}    2s
+        Wait Until Keyword Succeeds   ${timeout}    2s
         ...    Verify UNI Port Is Enabled   ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${src['onu']}
         # TODO: Yet to Verify on the GPON based Physical POD (VOL-2652)
         Run Keyword If    ${has_dataplane}    Run Keyword And Continue On Failure
-        ...    Wait Until Keyword Succeeds    60s    2s
+        ...    Wait Until Keyword Succeeds    ${timeout}    2s
         ...    Check Ping    True    ${dst['dp_iface_ip_qinq']}    ${src['dp_iface_name']}
         ...    ${src['ip']}    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
     END
@@ -266,7 +266,7 @@ Test Disable and Delete OLT for DT
         ${olt_device_id}=    Get OLTDeviceID From OLT List    ${olt_serial_number}
         Disable Device    ${olt_device_id}
         ${of_id}=    Get ofID From OLT List    ${olt_serial_number}
-        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
+        Wait Until Keyword Succeeds    ${timeout}    5s
         ...    Validate OLT Device    DISABLED    UNKNOWN    REACHABLE
         ...    ${olt_serial_number}
         ${num_onus}=    Set Variable    ${list_olts}[${I}][onucount]
@@ -284,8 +284,8 @@ Test Disable and Delete OLT for DT
         ${olt_flows}=    Evaluate    2 * ${num_onus} + 1
         # Number of per ONU Flows equals 2 (one each for downstream and upstream)
         ${onu_flows}=    Set Variable    2
-        Run Keyword    Wait Until Keyword Succeeds    ${timeout}    5s    Validate OLT Flows    ${olt_flows}
-        ...    ${olt_device_id}
+        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s    Validate OLT Flows
+        ...    ${olt_flows}    ${olt_device_id}
         ${List_ONU_Serial}    Create List
         Set Suite Variable    ${List_ONU_Serial}
         Build ONU SN List    ${List_ONU_Serial}    ${olt_serial_number}    ${num_onus}
@@ -299,14 +299,13 @@ Test Disable and Delete OLT for DT
         ...    ${olt_serial_number}
         Run Keyword and Continue On Failure    Validate all ONUS for OLT Removed    ${num_all_onus}    ${hosts}
         ...    ${olt_serial_number}    ${timeout}
-        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
+        Wait Until Keyword Succeeds    ${timeout}    5s
         ...    Verify Device Flows Removed    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${of_id}
     END
     # Re-do Setup (Recreate the OLT) and Perform Sanity Test DT
     Run Keyword    Setup    ${SOAK_TEST}
     Run Keyword If    ${has_dataplane}    Clean Up Linux
-    Wait Until Keyword Succeeds    ${timeout}   2s    Perform Sanity Test DT
-    #Run Keyword If    ${has_dataplane}    Clean Up Linux
+    Perform Sanity Test DT
 
 Test Disable and Enable OLT for DT
     [Documentation]    Validates E2E Ping Connectivity and object states for the given scenario:
@@ -333,12 +332,12 @@ Test Disable and Enable OLT for DT
         ${dst}=    Set Variable    ${hosts.dst[${I}]}
         ${of_id}=    Get ofID From OLT List    ${src['olt']}
         ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
-        ${onu_port}=    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
+        ${onu_port}=    Wait Until Keyword Succeeds    ${timeout}    2s
         ...    Get ONU Port in ONOS    ${src['onu']}    ${of_id}
-        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds   ${timeout}    2s
+        Wait Until Keyword Succeeds   ${timeout}    2s
         ...    Verify UNI Port Is Disabled   ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${src['onu']}
         Run Keyword If    ${has_dataplane}    Run Keyword And Continue On Failure
-        ...    Wait Until Keyword Succeeds    60s    2s
+        ...    Wait Until Keyword Succeeds    ${timeout}    2s
         ...    Check Ping    False    ${dst['dp_iface_ip_qinq']}    ${src['dp_iface_name']}
         ...    ${src['ip']}    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
         # Remove Subscriber Access (To replicate DT workflow)
@@ -362,7 +361,7 @@ Test Disable and Enable OLT for DT
     # Waiting extra time for the ONUs to come up
     Sleep    60s
     Run Keyword If    ${has_dataplane}    Clean Up Linux
-    Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test DT
+    Perform Sanity Test DT
 
 Test Delete and ReAdd OLT for DT
     [Documentation]    Validates E2E Ping Connectivity and object states for the given scenario:
@@ -378,13 +377,13 @@ Test Delete and ReAdd OLT for DT
         ${olt_serial_number}=    Get From Dictionary    ${olt_ids}[${I}]    sn
         ${of_id}=    Get ofID From OLT List    ${olt_serial_number}
         Delete Device and Verify    ${olt_serial_number}
-        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
+        Wait Until Keyword Succeeds    ${timeout}    5s
         ...    Verify Device Flows Removed    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${of_id}
     END
     # Recreate the OLTs
     Setup    ${SOAK_TEST}
     Run Keyword If    ${has_dataplane}    Clean Up Linux
-    Wait Until Keyword Succeeds    ${timeout}   2s    Perform Sanity Test DT
+    Perform Sanity Test DT
 
 Test Disable ONUs and OLT Then Delete ONUs and OLT for DT
     [Documentation]    On deployed POD, disable the ONU, disable the OLT and then delete ONU and OLT.
@@ -403,14 +402,14 @@ Test Disable ONUs and OLT Then Delete ONUs and OLT for DT
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
         ...    Validate Device    ENABLED    ACTIVE
         ...    REACHABLE    ${src['onu']}    onu=True    onu_reason=${onu_reason}
-        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
+        Wait Until Keyword Succeeds    ${timeout}    5s
         ...    Validate OLT Device    ENABLED    ACTIVE
         ...    REACHABLE    ${src['olt']}
         Disable Device    ${onu_device_id}
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
         ...    Validate Device    DISABLED    UNKNOWN
         ...    REACHABLE    ${src['onu']}    onu=false
-        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
+        Wait Until Keyword Succeeds    ${timeout}    5s
         ...    Validate OLT Device    ENABLED    ACTIVE
         ...    REACHABLE    ${src['olt']}
     END
@@ -429,11 +428,11 @@ Test Disable ONUs and OLT Then Delete ONUs and OLT for DT
         ${src}=    Set Variable    ${hosts.src[${I}]}
         ${dst}=    Set Variable    ${hosts.dst[${I}]}
         ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
-        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
+        Wait Until Keyword Succeeds    ${timeout}    5s
         ...    Validate Device    DISABLED    DISCOVERED
         ...    UNREACHABLE    ${src['onu']}    onu=false
         Delete Device    ${onu_device_id}
-        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
+        Wait Until Keyword Succeeds    ${timeout}    5s
         ...    Validate OLT Device    DISABLED    UNKNOWN
         ...    REACHABLE    ${src['olt']}
     END
@@ -449,7 +448,7 @@ Test Disable ONUs and OLT Then Delete ONUs and OLT for DT
     # Re-do Setup (Recreate the OLT) and Perform Sanity Test DT
     Run Keyword    Setup
     Run Keyword If    ${has_dataplane}    Clean Up Linux
-    Wait Until Keyword Succeeds    ${timeout}   2s    Perform Sanity Test DT
+    Perform Sanity Test DT
 
 Data plane verification using TCP for DT
     [Documentation]    Test bandwidth profile is met and not exceeded for each subscriber.
@@ -463,7 +462,7 @@ Data plane verification using TCP for DT
     Run Keyword If    '${SOAK_TEST}'=='False'    Clear All Devices Then Create New Device
     ...    ELSE    Setup Soak
     Run Keyword If    ${has_dataplane}    Clean Up Linux
-    Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test DT
+    Perform Sanity Test DT
 
     #${of_id}=    Wait Until Keyword Succeeds    ${timeout}    15s    Validate OLT Device in ONOS
     #...    ${olt_serial_number}
@@ -664,7 +663,7 @@ Data plane Bandwidth profile update verification for DT
     Delete All Devices And Verify
     Run Keyword If    ${has_dataplane}    Clean Up Linux
     Setup
-    Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test DT
+    Perform Sanity Test DT
     # Update the Bandwidth Profile for the First Subscriber under test
     ${src}=    Set Variable    ${hosts.src[${0}]}
     ${dst}=    Set Variable    ${hosts.dst[${0}]}
@@ -684,11 +683,11 @@ Data plane Bandwidth profile update verification for DT
     # Disable and Re-Enable the ONU (To replicate DT current workflow)
     # TODO: Delete and Auto-Discovery Add of ONU (not yet supported)
     Disable Device    ${onu_device_id}
-    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
+    Wait Until Keyword Succeeds    ${timeout}    5s
     ...    Validate Device    DISABLED    UNKNOWN
     ...    REACHABLE    ${src['onu']}
     Enable Device    ${onu_device_id}
-    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    360s    5s
+    Wait Until Keyword Succeeds    360s    5s
     ...    Validate Device    ENABLED    ACTIVE
     ...    REACHABLE    ${src['onu']}
     # Change the bandwidth profile and load the configuration
@@ -710,7 +709,7 @@ Data plane Bandwidth profile update verification for DT
     ...    ENABLED    ACTIVE    REACHABLE
     ...    ${src['onu']}    onu=True    onu_reason=omci-flows-pushed
     # Verify Meters in ONOS
-    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
+    Wait Until Keyword Succeeds    ${timeout}    5s
     ...    Verify Meters in ONOS Ietf    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${of_id}    ${onu_port}
     Run Keyword If    ${has_dataplane}    Run Keyword And Continue On Failure    Validate DHCP and Ping    True
     ...    True    ${src['dp_iface_name']}    ${src['s_tag']}    ${src['c_tag']}    ${dst['dp_iface_ip_qinq']}
