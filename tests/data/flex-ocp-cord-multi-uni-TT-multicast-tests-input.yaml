@@ -21,9 +21,7 @@ multicast_test_onu_pon_locations:
     -
       onu_1: 'ALPHe3d1cea3'
       onu_2: 'ALPHe3d1ceb7'
-  pon_1:
-    -
-      onu_1: 'ALPHe3d1cfa7'
+      onu_3: 'ALPHe3d1cfa7'
 
 multicast_ip_addresses:
   -
