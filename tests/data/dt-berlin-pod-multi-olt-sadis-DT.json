@@ -116,7 +116,24 @@
                 "downstreamBandwidthProfile": "User_Bandwidth2",
                 "isDhcpRequired": false
               }]
-          }]
+          },
+          {
+            "id": "SCOMA0305F84-1",
+            "nasPortId": "SCOMA0305F84-1",
+            "circuitId": "SCOMA0305F84-1",
+            "remoteId": "EC1912001814",
+            "uniTagList": [
+              {
+                "uniTagMatch": 4096,
+                "ponCTag": 4096,
+                "ponSTag": 39,
+                "technologyProfileId": 64,
+                "upstreamBandwidthProfile": "User_Bandwidth1",
+                "downstreamBandwidthProfile": "User_Bandwidth2",
+                "isDhcpRequired": false
+              }]
+          }
+        ]
       },
       "bandwidthprofile":{
         "integration":{
