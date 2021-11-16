@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b47987a2_19278f9d",
+        "filename": "libraries/utils.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 295,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2021-11-16T09:07:08Z",
+      "side": 1,
+      "message": "Next to this (below) is also a verification (Validate ONU Flows) so I thought to capture all together.",
+      "parentUuid": "3d540487_35ceae00",
+      "range": {
+        "startLine": 295,
+        "startChar": 8,
+        "endLine": 295,
+        "endChar": 44
+      },
+      "revId": "4b78c022a5d97b5b6268a31842d8b9f1011caf33",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ac7de5b6_ced09249",
         "filename": "libraries/utils.robot",
         "patchSetId": 2
@@ -72,6 +96,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c65cbc6c_6300d5d5",
+        "filename": "tests/dt-workflow/Voltha_DT_FailureScenarios.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2021-11-16T09:07:08Z",
+      "side": 1,
+      "message": "After sleep should be okay. Will trigger a run with ${timeout} to verify this.",
+      "parentUuid": "c4cf1b73_f82a3073",
+      "range": {
+        "startLine": 113,
+        "startChar": 38,
+        "endLine": 113,
+        "endChar": 42
+      },
+      "revId": "4b78c022a5d97b5b6268a31842d8b9f1011caf33",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "8f4d182f_7cb3c720",
         "filename": "tests/dt-workflow/Voltha_DT_FailureScenarios.robot",
         "patchSetId": 2
@@ -95,6 +143,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "861f2368_0b9c4a43",
+        "filename": "tests/dt-workflow/Voltha_DT_FailureScenarios.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 527,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2021-11-16T09:07:08Z",
+      "side": 1,
+      "message": "Will trigger a run with ${timeout} to verify.",
+      "parentUuid": "8f4d182f_7cb3c720",
+      "range": {
+        "startLine": 527,
+        "startChar": 38,
+        "endLine": 527,
+        "endChar": 42
+      },
+      "revId": "4b78c022a5d97b5b6268a31842d8b9f1011caf33",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c6b9264c_fa6112bc",
         "filename": "tests/dt-workflow/Voltha_DT_FailureScenarios.robot",
         "patchSetId": 2
@@ -106,6 +178,30 @@
       "writtenOn": "2021-11-16T08:39:57Z",
       "side": 1,
       "message": "not sure, but at other places where \u0027Validate Device\u0027 is called you use ${timeout}. Please check.",
+      "range": {
+        "startLine": 781,
+        "startChar": 39,
+        "endLine": 781,
+        "endChar": 43
+      },
+      "revId": "4b78c022a5d97b5b6268a31842d8b9f1011caf33",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ac6112ff_aee0eac3",
+        "filename": "tests/dt-workflow/Voltha_DT_FailureScenarios.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 781,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2021-11-16T09:07:08Z",
+      "side": 1,
+      "message": "Will trigger a run with ${timeout} to verify this.",
+      "parentUuid": "c6b9264c_fa6112bc",
       "range": {
         "startLine": 781,
         "startChar": 39,
