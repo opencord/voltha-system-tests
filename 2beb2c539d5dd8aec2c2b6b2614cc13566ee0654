@@ -110,6 +110,30 @@
       },
       "revId": "2beb2c539d5dd8aec2c2b6b2614cc13566ee0654",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d38bbc17_a19dedae",
+        "filename": "libraries/onos.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 834,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2021-11-17T14:24:22Z",
+      "side": 1,
+      "message": "Thanks for the info.",
+      "parentUuid": "885758e7_c1066a53",
+      "range": {
+        "startLine": 834,
+        "startChar": 36,
+        "endLine": 834,
+        "endChar": 40
+      },
+      "revId": "2beb2c539d5dd8aec2c2b6b2614cc13566ee0654",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     }
   ]
 }
