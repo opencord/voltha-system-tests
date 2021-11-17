@@ -43,6 +43,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "e899d0d1_74610033",
+        "filename": "libraries/onos.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 818,
+      "author": {
+        "id": 1000007
+      },
+      "writtenOn": "2021-11-17T14:19:30Z",
+      "side": 1,
+      "message": "sounds good, I wasn\u0027t sure the keyword was not used in some other test, I\u0027ll remove it.",
+      "parentUuid": "51013cd2_e2009fa9",
+      "range": {
+        "startLine": 811,
+        "startChar": 0,
+        "endLine": 818,
+        "endChar": 61
+      },
+      "revId": "2beb2c539d5dd8aec2c2b6b2614cc13566ee0654",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "48dd5cd3_98bcf025",
         "filename": "libraries/onos.robot",
         "patchSetId": 1
@@ -54,6 +78,30 @@
       "writtenOn": "2021-11-17T07:52:05Z",
       "side": 1,
       "message": "10 minutes is a long duration. How many flows will be deleted? And will it really need such long duration?",
+      "range": {
+        "startLine": 834,
+        "startChar": 36,
+        "endLine": 834,
+        "endChar": 40
+      },
+      "revId": "2beb2c539d5dd8aec2c2b6b2614cc13566ee0654",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "885758e7_c1066a53",
+        "filename": "libraries/onos.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 834,
+      "author": {
+        "id": 1000007
+      },
+      "writtenOn": "2021-11-17T14:19:30Z",
+      "side": 1,
+      "message": "This keyword is used during the scale test, we\u0027re talking about 4 to 14 thousand flows depending on the workflow.\n\nRegardless the pipeline will stop the job earlier than that as the operators had a requirement to fully program 1024 subscribers in less than 10 minutes (that\u0027s where the number comes from)",
+      "parentUuid": "48dd5cd3_98bcf025",
       "range": {
         "startLine": 834,
         "startChar": 36,
