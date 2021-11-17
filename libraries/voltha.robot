@@ -49,10 +49,14 @@ Restart VOLTHA Port Forward
     ...    grep -v grep |
     ...    awk '{printf(\"%s %s\\n\",$1,$5)}' |
     ...    grep -v bash | awk '{print $1}'
+    ${rc}    ${port-forward}    Run And Return Rc And Output    ps -ef | grep port-forward
+    Log    ${port-forward}
     ${rc}    ${pid}    Run And Return Rc And Output    ${cmd}
     Should Be Equal as Integers    ${rc}    0
     Run Keyword If    '${pid}' != ''    Run And Return Rc    kill -9 ${pid}
     Should Be Equal as Integers    ${rc}    0
+    ${rc}    ${port-forward}    Run And Return Rc And Output    ps -ef | grep port-forward
+    Log    ${port-forward}
 
 Get Kv Store Prefix
     [Documentation]    This keyword delivers the KV Store Prefix read from environment variable KVSTOREPREFIX if present.
