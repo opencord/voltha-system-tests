@@ -116,7 +116,7 @@ Current State Test All Onus
 
 Reconcile Onu Adapter
     [Documentation]     Restarts the openonu adapter and waits for reconciling is finished and expected oper-state is reached
-    [Arguments]     ${namespace}    ${usekill2restart}    ${oper_status}
+    [Arguments]     ${namespace}    ${usekill2restart}    ${oper_status}    ${olt_to_be_deleted_sn}=${EMPTY}
     # get time of restart of openonu adapter
     ${restart_ts}=    Get Current Date
     # restart OpenONU adapter
@@ -126,14 +126,23 @@ Reconcile Onu Adapter
     ${openonu_ready_ts}=    Get Pod Ready Timestamp by Label    ${namespace}    app    adapter-open-onu
     ${restart_duration}=    Subtract Date From Date    ${openonu_ready_ts}    ${restart_ts}
     Should Be True     ${restart_duration}>0
+    # delete the olt passed, if available (special feature)
+    ${olt_to_be_deleted_device_id}=    Run Keyword IF  "${olt_to_be_deleted_sn}"!="${EMPTY}"
+    ...    Get OLTDeviceID From OLT List    ${olt_to_be_deleted_sn}
+    Run Keyword IF  "${olt_to_be_deleted_sn}"!="${EMPTY}"    Delete Device    ${olt_to_be_deleted_device_id}
     # wait for the reconcile to complete
     # - we check that communication to openonu-adapter is established again
     # - we check that all ONUs leave reconcile state by validate a simple voltctl request will not responds with error
     Wait Until Keyword Succeeds    ${timeout}    1s    Validate Last ONU Communication
-    Wait Until Keyword Succeeds    ${timeout}    1s    Validate All Onus Accessible
-    # - then we wait that all ONU move to the next state
+    Wait Until Keyword Succeeds    ${timeout}    1s    Validate All Onus Accessible    ${olt_to_be_deleted_sn}
+    # - then we wait that all ONU move to the next state, except ONU belonging to deleted OLT (special feature)
     ${list_onus}    Create List
-    Build ONU SN List    ${list_onus}
+    FOR    ${J}    IN RANGE    0    ${num_olts}
+        ${olt_serial_number}=    Set Variable    ${list_olts}[${J}][sn]
+        Continue For Loop If    "${olt_to_be_deleted_sn}"=="${olt_serial_number}"
+        Build ONU SN List    ${list_onus}    ${olt_serial_number}
+    END
+    Log    ${list_onus}
     Run Keyword And Ignore Error    Wait Until Keyword Succeeds    ${timeout}
     ...     1s  Check all ONU OperStatus     ${list_onus}  ${oper_status}
 
@@ -141,15 +150,19 @@ Validate All Onus Accessible
     [Documentation]    This keyword checks all onus accessible (again) with help of a simple voltctl request.
     ...                As long we've got an rc!=0 keyword will fail -> onu is not accessible.
     ...                As get request Onu image list is used, any other get command could be used for this check.
+    ...                Will not check ONUs of passed deleted OLT (special feature)
+    [Arguments]     ${deleted_olt}=${EMPTY}
     ${onu_list}    Create List
     FOR    ${I}    IN RANGE    0    ${num_all_onus}
         ${src}=    Set Variable    ${hosts.src[${I}]}
+        ${olt_serial_number}=    Set Variable    ${src['olt']}
+        Continue For Loop If    "${deleted_olt}"=="${olt_serial_number}"
         ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
         ${onu_id}=    Get Index From List    ${onu_list}   ${onu_device_id}
         Continue For Loop If    -1 != ${onu_id}
         Append To List    ${onu_list}    ${onu_device_id}
         ${rc}    ${output}=    Get Onu Image List    ${onu_device_id}
-        Should Be True    ${rc}==0    Onu ${src['onu']} (${onu_device_id}) still not accessable.
+        Should Be True    ${rc}==0    Onu ${src['onu']} (${onu_device_id}) still not accessible.
     END
 
 Log Ports
@@ -400,6 +413,17 @@ Validate Onu Data In Etcd
         Append To List    ${serialnumberlist}    ${serial_number}
     END
 
+Validate Onu Data In Etcd Removed
+    [Documentation]    This keyword validates openonu-go-adapter Data stored in etcd are removed.
+    ...                In case of a device is passed, only this will be checked.
+    [Arguments]    ${namespace}=default    ${device_id}=${EMPTY}    ${defaultkvstoreprefix}=voltha_voltha
+    ...            ${without_pm_data}=True
+    ${kvstoreprefix}=    Get Kv Store Prefix    ${defaultkvstoreprefix}
+    ${etcddata}=    Get ONU Go Adapter ETCD Data    ${namespace}    ${kvstoreprefix}    False    ${without_pm_data}
+    ...             ${device_id}    True
+    Log    ${etcddata}
+    Should Be Empty    ${etcddata}    Stale Openonu Data in Etcd (KV store) ${device_id}
+
 Validate Vlan Rules In Etcd
     [Documentation]    This keyword validates Vlan rules of openonu-go-adapter Data stored in etcd.
     ...                It checks the given number of cookie_slice, match_vid (=4096) and set_vid.
@@ -447,15 +471,19 @@ Validate Vlan Rules In Etcd
 Get ONU Go Adapter ETCD Data
     [Documentation]    This keyword delivers openonu-go-adapter Data stored in etcd
     [Arguments]    ${namespace}=default    ${defaultkvstoreprefix}=voltha_voltha    ${without_prefix}=True
-    ...    ${without_pm_data}=True
+    ...    ${without_pm_data}=True    ${device_id}=${Empty}    ${keys_only}=False
     ${podname}=    Set Variable    etcd
     ${kvstoreprefix}=    Get Kv Store Prefix    ${defaultkvstoreprefix}
     ${commandget}=    Catenate
     ...    /bin/sh -c 'ETCDCTL_API=3 etcdctl get --prefix service/${kvstoreprefix}/openonu'
+    ${commandget}=    Run Keyword If    ${keys_only}     Catenate    ${commandget}     --keys-only
+    ...    ELSE    Set Variable    ${commandget}
     ${commandget}=    Run Keyword If    ${without_prefix}     Catenate    ${commandget}
     ...    | grep -v service/${kvstoreprefix}/openonu
     ...    ELSE    Set Variable    ${commandget}
     ${commandget}=    Run Keyword If    ${without_pm_data}    Catenate    ${commandget}    | grep -v instances_active
+    ...    ELSE    Set Variable    ${commandget}
+    ${commandget}=    Run Keyword If    "${device_id}"!="${Empty}"    Catenate    ${commandget}    | grep ${device_id}
     ...    ELSE    Set Variable    ${commandget}
     ${result}=    Exec Pod In Kube    ${namespace}    ${podname}    ${commandget}
     log    ${result}
