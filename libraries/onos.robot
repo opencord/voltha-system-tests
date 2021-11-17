@@ -808,12 +808,12 @@ List OLTs
     END
     Return From Keyword     ${result}
 
-Count ADDED flows
-    [Documentation]  Count the flows in ADDED state in ONOS
-    [Arguments]  ${ip}    ${port}    ${targetFlows}   ${deviceId}
+Count flows
+    [Documentation]     Count flows in a particular ${state} in ONOS
+    [Arguments]  ${ip}    ${port}    ${targetFlows}   ${deviceId}   ${state}
     ${flows}=    Execute ONOS CLI Command use single connection    ${ip}    ${port}
-    ...     flows -s any ${deviceId} | grep ADDED | wc -l
-    Log     Found ${flows} of ${targetFlows} expected flows on device ${deviceId}
+    ...     flows -s ${state} ${deviceId} | grep -v deviceId | wc -l
+    Log     Found ${state} ${flows} of ${targetFlows} expected flows on device ${deviceId}
     Should Be Equal As Integers    ${targetFlows}    ${flows}
 
 Wait for all flows to in ADDED state
@@ -822,8 +822,15 @@ Wait for all flows to in ADDED state
     ...    ${provisioned}     ${withEapol}    ${withDhcp}     ${withIgmp}     ${withLldp}
     ${targetFlows}=     Calculate flows by workflow     ${workflow}    ${uni_count}    ${olt_count}     ${provisioned}
     ...     ${withEapol}    ${withDhcp}     ${withIgmp}     ${withLldp}
-    Wait Until Keyword Succeeds     10m     5s      Count ADDED flows
-    ...     ${ip}    ${port}  ${targetFlows}  ${deviceId}
+    Wait Until Keyword Succeeds     10m     5s      Count flows
+    ...     ${ip}    ${port}  ${targetFlows}  ${deviceId}   added
+
+Wait for all flows to be removed
+    [Documentation]     Wait for all flows to be removed from a particular device
+    [Arguments]     ${ip}   ${port}     ${deviceId}
+    Wait Until Keyword Succeeds     10m     5s      Count flows
+    ...     ${ip}    ${port}  0  ${deviceId}   any
+
 
 Get Limiting Bandwidth Details
     [Arguments]    ${bandwidth_profile_name}

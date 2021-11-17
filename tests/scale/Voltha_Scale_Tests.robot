@@ -259,6 +259,11 @@ Disable and Delete devices
         Remove Values From List     ${olt_device_ids}   ${olt_device_id}
     END
 
+    ${onos_devices}=    Compute Device IDs
+    FOR     ${deviceId}     IN  @{onos_devices}
+        Wait for all flows to be removed    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}  ${deviceId}
+    END
+
     Set Suite Variable    ${olt_device_ids}
 
 *** Keywords ***
