@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f924a76a_728dc16d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2021-11-17T07:52:05Z",
+      "side": 1,
+      "message": "small comments, more a hint and a question.",
+      "revId": "2beb2c539d5dd8aec2c2b6b2614cc13566ee0654",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "51013cd2_e2009fa9",
+        "filename": "libraries/onos.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 818,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2021-11-17T07:52:05Z",
+      "side": 1,
+      "message": "Due to the fact this keyword is not used anymore it can be removed instead set to deprecated.",
+      "range": {
+        "startLine": 811,
+        "startChar": 0,
+        "endLine": 818,
+        "endChar": 61
+      },
+      "revId": "2beb2c539d5dd8aec2c2b6b2614cc13566ee0654",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "48dd5cd3_98bcf025",
+        "filename": "libraries/onos.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 834,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2021-11-17T07:52:05Z",
+      "side": 1,
+      "message": "10 minutes is a long duration. How many flows will be deleted? And will it really need such long duration?",
+      "range": {
+        "startLine": 834,
+        "startChar": 36,
+        "endLine": 834,
+        "endChar": 40
+      },
+      "revId": "2beb2c539d5dd8aec2c2b6b2614cc13566ee0654",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    }
+  ]
+}
