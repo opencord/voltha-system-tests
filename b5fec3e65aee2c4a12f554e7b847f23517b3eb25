@@ -20,6 +20,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "9f5c3712_aa219e3c",
+        "filename": "libraries/onu_utilities.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2021-11-18T04:30:33Z",
+      "side": 1,
+      "message": "Shouldn\u0027t you also be passing the ${olt_serial_number} here? Else ${list_onus} will still have onus for the deleted olt.",
+      "range": {
+        "startLine": 143,
+        "startChar": 8,
+        "endLine": 143,
+        "endChar": 41
+      },
+      "revId": "b5fec3e65aee2c4a12f554e7b847f23517b3eb25",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d9c64426_832cf5ed",
         "filename": "tests/openonu-go-adapter/Voltha_ONUReconcileTests.robot",
         "patchSetId": 2
