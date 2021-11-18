@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9700474b_eb02bac4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2021-11-18T09:52:21Z",
+      "side": 1,
+      "message": "Ran patchset-4 here: https://jenkins.opencord.org/view/VOLTHA-2.X-Tests/job/build_menlo-certification-pod-radisys-1600g_1T8GEM_voltha_DT_master_test/104/console",
+      "revId": "f7f12af4fbea6e84e5ae684ee8a95482726414bc",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    }
+  ]
+}
