@@ -16,6 +16,46 @@
       "message": "more some questions as comments.",
       "revId": "0ede247d176e2e8a153adf0b85bba703aea33c1f",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6753c66f_2b328acf",
+        "filename": "libraries/utils.robot",
+        "patchSetId": 3
+      },
+      "lineNbr": 295,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2021-11-18T16:06:21Z",
+      "side": 1,
+      "message": "why are we continuing on failure here ?",
+      "revId": "0ede247d176e2e8a153adf0b85bba703aea33c1f",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1f5767cc_b695fca8",
+        "filename": "tests/dt-workflow/Voltha_DT_FailureScenarios.robot",
+        "patchSetId": 3
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2021-11-18T16:06:21Z",
+      "side": 1,
+      "message": "can we remove this continue on failure ?",
+      "range": {
+        "startLine": 119,
+        "startChar": 8,
+        "endLine": 119,
+        "endChar": 43
+      },
+      "revId": "0ede247d176e2e8a153adf0b85bba703aea33c1f",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     }
   ]
 }
