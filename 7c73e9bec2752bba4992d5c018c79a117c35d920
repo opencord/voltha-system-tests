@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f1d3c81c_7c1945df",
+        "filename": "tests/functional/Voltha_PODTests.robot",
+        "patchSetId": 8
+      },
+      "lineNbr": 811,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2021-11-18T13:44:28Z",
+      "side": 1,
+      "message": "I think this can be removed like you do in patch https://gerrit.opencord.org/c/voltha-system-tests/+/29124/2",
+      "range": {
+        "startLine": 811,
+        "startChar": 3,
+        "endLine": 811,
+        "endChar": 54
+      },
+      "revId": "7c73e9bec2752bba4992d5c018c79a117c35d920",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "69a61738_306b294f",
+        "filename": "tests/functional/Voltha_PODTests.robot",
+        "patchSetId": 8
+      },
+      "lineNbr": 823,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2021-11-18T13:44:28Z",
+      "side": 1,
+      "message": "Make a (new) keyword sense, which checks the deletion of the subscriber instead static sleep?",
+      "range": {
+        "startLine": 822,
+        "startChar": 8,
+        "endLine": 823,
+        "endChar": 20
+      },
+      "revId": "7c73e9bec2752bba4992d5c018c79a117c35d920",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    }
+  ]
+}
