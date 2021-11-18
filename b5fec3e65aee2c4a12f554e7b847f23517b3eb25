@@ -41,6 +41,30 @@
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b5f175c0_b559f628",
+        "filename": "libraries/onu_utilities.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2021-11-18T09:38:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9f5c3712_aa219e3c",
+      "range": {
+        "startLine": 143,
+        "startChar": 8,
+        "endLine": 143,
+        "endChar": 41
+      },
+      "revId": "b5fec3e65aee2c4a12f554e7b847f23517b3eb25",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d9c64426_832cf5ed",
@@ -64,6 +88,30 @@
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "38884c6e_7c977b1c",
+        "filename": "tests/openonu-go-adapter/Voltha_ONUReconcileTests.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2021-11-18T09:38:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d9c64426_832cf5ed",
+      "range": {
+        "startLine": 172,
+        "startChar": 13,
+        "endLine": 172,
+        "endChar": 52
+      },
+      "revId": "b5fec3e65aee2c4a12f554e7b847f23517b3eb25",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "84edb916_9f5f4f05",
@@ -77,6 +125,30 @@
       "writtenOn": "2021-11-17T14:59:01Z",
       "side": 1,
       "message": "see comment above",
+      "range": {
+        "startLine": 381,
+        "startChar": 13,
+        "endLine": 381,
+        "endChar": 52
+      },
+      "revId": "b5fec3e65aee2c4a12f554e7b847f23517b3eb25",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4d89c739_0e03a6cb",
+        "filename": "tests/openonu-go-adapter/Voltha_ONUReconcileTests.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 381,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2021-11-18T09:38:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "84edb916_9f5f4f05",
       "range": {
         "startLine": 381,
         "startChar": 13,
