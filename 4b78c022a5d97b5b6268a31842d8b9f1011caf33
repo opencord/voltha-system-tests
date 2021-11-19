@@ -95,6 +95,30 @@
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0b545f66_956ebf56",
+        "filename": "libraries/utils.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 301,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2021-11-19T05:28:54Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "96481982_5ebe80d2",
+      "range": {
+        "startLine": 301,
+        "startChar": 8,
+        "endLine": 301,
+        "endChar": 20
+      },
+      "revId": "4b78c022a5d97b5b6268a31842d8b9f1011caf33",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ac7de5b6_ced09249",
@@ -132,6 +156,30 @@
       "side": 1,
       "message": "for most of them yes, but for the first one coming up maybe not, I\u0027m ok with 120",
       "parentUuid": "ac7de5b6_ced09249",
+      "range": {
+        "startLine": 1019,
+        "startChar": 52,
+        "endLine": 1019,
+        "endChar": 56
+      },
+      "revId": "4b78c022a5d97b5b6268a31842d8b9f1011caf33",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2128b407_533c2d43",
+        "filename": "libraries/utils.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 1019,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2021-11-19T05:28:54Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "8f9df5bd_b380bd0e",
       "range": {
         "startLine": 1019,
         "startChar": 52,
@@ -226,6 +274,30 @@
       "side": 1,
       "message": "agreed, remove static sleep",
       "parentUuid": "7335edc3_12f965b3",
+      "range": {
+        "startLine": 111,
+        "startChar": 8,
+        "endLine": 113,
+        "endChar": 47
+      },
+      "revId": "4b78c022a5d97b5b6268a31842d8b9f1011caf33",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b60eac53_215fff87",
+        "filename": "tests/dt-workflow/Voltha_DT_FailureScenarios.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2021-11-19T05:28:54Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "5b98c31c_bdb55d9d",
       "range": {
         "startLine": 111,
         "startChar": 8,
