@@ -534,7 +534,7 @@ Do ONU Upgrade Downloading Abort Per OLT
         ...    ${onu_device_id}    DOWNLOAD_CANCELLED    CANCELLED_ON_REQUEST    IMAGE_UNKNOWN
         #   !!!    Expected is image is not visible in list   !!!
         Wait Until Keyword Succeeds    ${timeout}    2s    Verify ONU Device Image List    ${onu_device_id}
-        ...    ${image_version}    False    False    True
+        ...    ${image_version}    False    False    False    image_should_not_in_list=True
         Wait Until Keyword Succeeds    ${timeout}    5s    Perform Sanity Test     ${suppressaddsubscriber}
     END
 
@@ -556,7 +556,6 @@ Do ONU Upgrade Downloaded Abort Per OLT
         ...    DOWNLOAD_SUCCEEDED    CANCELLED_ON_REQUEST    IMAGE_INACTIVE
         Wait Until Keyword Succeeds    ${timeout}    2s    Verify ONU Device Image Status    ${image_version}
         ...    ${onu_device_id}    DOWNLOAD_SUCCEEDED    CANCELLED_ON_REQUEST    IMAGE_INACTIVE
-        #   !!!    Expected is image is not visible in list   !!!
         Wait Until Keyword Succeeds    ${timeout}    2s    Verify ONU Device Image List    ${onu_device_id}
         ...    ${image_version}    False    False    True
         Wait Until Keyword Succeeds    ${timeout}    5s    Perform Sanity Test     ${suppressaddsubscriber}
@@ -581,7 +580,6 @@ Do ONU Upgrade Activating Abort Per OLT
         ...    DOWNLOAD_SUCCEEDED    CANCELLED_ON_REQUEST    IMAGE_ACTIVATING
         Wait Until Keyword Succeeds    ${timeout}    2s    Verify ONU Device Image Status    ${image_version}
         ...    ${onu_device_id}    DOWNLOAD_SUCCEEDED    CANCELLED_ON_REQUEST    IMAGE_ACTIVATION_ABORTED
-        #   !!!    Expected is image is not visible in list   !!!
         Wait Until Keyword Succeeds    ${timeout}    2s    Verify ONU Device Image List    ${onu_device_id}
         ...    ${image_version}    False    True    True
         Wait Until Keyword Succeeds    ${timeout}    5s    Perform Sanity Test     ${suppressaddsubscriber}
@@ -608,7 +606,6 @@ Do ONU Upgrade Active Abort Per OLT
         ...    DOWNLOAD_SUCCEEDED    CANCELLED_ON_REQUEST    IMAGE_ACTIVE
         Wait Until Keyword Succeeds    ${timeout}    2s    Verify ONU Device Image Status    ${image_version}
         ...    ${onu_device_id}    DOWNLOAD_SUCCEEDED    CANCELLED_ON_REQUEST    IMAGE_ACTIVE
-        #   !!!    Expected is image is not visible in list   !!!
         Wait Until Keyword Succeeds    ${timeout}    2s    Verify ONU Device Image List    ${onu_device_id}
         ...    ${image_version}    False    True    True
         Wait Until Keyword Succeeds    ${timeout}    5s    Perform Sanity Test     ${suppressaddsubscriber}
@@ -648,7 +645,6 @@ Do ONU Upgrade Committed Abort Per OLT
         ...    DOWNLOAD_UNKNOWN    NO_ERROR    IMAGE_UNKNOWN
         Wait Until Keyword Succeeds    ${timeout}    2s    Verify ONU Device Image Status    ${image_version}
         ...    ${onu_device_id}    DOWNLOAD_UNKNOWN    NO_ERROR    IMAGE_UNKNOWN
-        #   !!!    Expected is image is not visible in list   !!!
         Wait Until Keyword Succeeds    ${timeout}    2s    Verify ONU Device Image List    ${onu_device_id}
         ...    ${image_version}    True    True    True
         Wait Until Keyword Succeeds    ${timeout}    5s    Perform Sanity Test     ${suppressaddsubscriber}

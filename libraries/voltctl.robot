@@ -457,8 +457,8 @@ Validate Last ONU Communication
     ...    --format '{{gosince .LastCommunication}}'
     ${rc}    ${output}=    Run and Return Rc and Output    ${cmd}
     Should Be Equal As Integers    ${rc}    0
-    ${lastcomm}= 	Convert Time 	${output}
-    ${validduration}= 	Convert Time 	${validation_duration}
+    ${lastcomm}=    Convert Time    ${output}
+    ${validduration}=    Convert Time    ${validation_duration}
     Should Be True    ${lastcomm}<=${validduration}
 
 Get Onu Image List
@@ -968,7 +968,7 @@ Verify ONU Device Image Status
 
 Verify ONU Device Image List
     [Documentation]    Verfies the ONU device image list
-    [Arguments]    ${dev_id}    ${image_version}    ${committed}    ${activated}    ${valid}
+    [Arguments]    ${dev_id}    ${image_version}    ${committed}    ${activated}    ${valid}    ${image_should_not_in_list}=False
     ${rc}    ${output}=    Run and Return Rc and Output
     ...    voltctl -c ${VOLTCTL_CONFIG} device onuimage list ${dev_id} -o json
     Should Be Equal As Integers    ${rc}    0
@@ -985,13 +985,15 @@ Verify ONU Device Image List
         ${matched}=    Set Variable If    '${version}' == '${image_version}'    True    False
         Exit For Loop If    ${matched}
     END
-    Should Be True    ${matched}     No ONU Image found with Version ${image_version}
-    Should Be Equal    '${isCommited}'    '${committed}'    Device ${dev_id}: '${isCommited}' != '${committed}'
-    ...    values=False
-    Should Be Equal    '${isActive}'    '${activated}'    Device ${dev_id}: '${isActive}' != '${activated}'
-    ...    values=False
-    Should Be Equal    '${isValid}'    '${valid}'    Device ${dev_id}: '${isValid}' != '${valid}'
-    ...    values=False
+    Run Keyword If    ${image_should_not_in_list}
+    ...            Should Not Be True    ${matched}    ONU Image found unexpectedly with Version ${image_version}
+    ...    ELSE    Should Be True    ${matched}    No ONU Image found with Version ${image_version}
+    Run Keyword If    ${matched}    Should Be Equal    '${isCommited}'    '${committed}'
+    ...    Device ${dev_id}: '${isCommited}' != '${committed}'    values=False
+    Run Keyword If    ${matched}    Should Be Equal    '${isActive}'    '${activated}'
+    ...    Device ${dev_id}: '${isActive}' != '${activated}'    values=False
+    Run Keyword If    ${matched}    Should Be Equal    '${isValid}'    '${valid}'
+    ...    Device ${dev_id}: '${isValid}' != '${valid}'    values=False
 
 # pm-data relevant keywords
 Read Default Interval From Pmconfig
