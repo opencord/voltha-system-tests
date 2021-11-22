@@ -274,27 +274,22 @@ Test Disable and Delete OLT for DT
         Run Keyword    Wait Until Keyword Succeeds    ${timeout}    5s    Validate ONUs After OLT Disable
         ...    ${num_onus}    ${olt_serial_number}
         # Verify ONOS Flows
-        # Number of Access Flows on ONOS equals 4 * the Number of Active ONUs (2 for each downstream and upstream)
-        ${onos_flows_count}=    Evaluate    4 * ${num_onus}
+        # When we disable the device we shouldn't have any flows provisioned on it
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
         ...    Verify Subscriber Access Flows Added Count DT    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}
-        ...    ${of_id}    ${onos_flows_count}
+        ...    ${of_id}    0
         # Verify VOLTHA Flows
-        # Number of per OLT Flows equals Twice the Number of Active ONUs (each for downstream and upstream) + 1 for LLDP
-        ${olt_flows}=    Evaluate    2 * ${num_onus} + 1
-        # Number of per ONU Flows equals 2 (one each for downstream and upstream)
-        ${onu_flows}=    Set Variable    2
-        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s    Validate OLT Flows
-        ...    ${olt_flows}    ${olt_device_id}
+        Run Keyword    Wait Until Keyword Succeeds    ${timeout}    5s    Validate OLT Flows    0
+        ...    ${olt_device_id}
         ${List_ONU_Serial}    Create List
         Set Suite Variable    ${List_ONU_Serial}
         Build ONU SN List    ${List_ONU_Serial}    ${olt_serial_number}    ${num_onus}
         Log    ${List_ONU_Serial}
         Run Keyword    Wait Until Keyword Succeeds    ${timeout}    5s    Validate ONU Flows
-        ...    ${List_ONU_Serial}    ${onu_flows}
+        ...    ${List_ONU_Serial}    0
         # Delete OLT and Validate Empty Device List
         Delete Device    ${olt_device_id}
-        # Check that the OLT and the ONUs are actually removed from the system
+        # Check that the OLT and the ONUs are actually removed< from the system
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s    Validate Device Removed
         ...    ${olt_serial_number}
         Run Keyword and Continue On Failure    Validate all ONUS for OLT Removed    ${num_all_onus}    ${hosts}
