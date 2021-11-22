@@ -139,28 +139,12 @@ Test Disable and Delete OLT for TT
         Run Keyword    Wait Until Keyword Succeeds    ${timeout}    5s    Validate ONUs After OLT Disable
         ...    ${num_onus}    ${olt_serial_number}
         # Verify ONOS Flows
-        # Number of Access Flows on ONOS equals 16 * the Number of Active ONUs + 3 for default LLDP, IGMP and DHCP
-        ${onos_flows_count}=    Run Keyword If    ${has_dataplane}    Evaluate    16 * ${num_of_provisioned_onus} + 3
-        ...    ELSE    Evaluate    15 * ${num_of_provisioned_onus} + 3
+        # When we disable the device we shouldn't have any flows provisioned on it
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
-        ...    Verify Added Flow Count for OLT TT    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${of_id}
-        ...    ${onos_flows_count}
+        ...    Verify Added Flow Count for OLT TT    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${of_id}    0
         # Verify VOLTHA Flows
-        # Number of per OLT Flows equals 10 * Number of Active ONUs  + 3 for default LLDP, IGMP and DHCP
-        ${olt_flows}=    Run Keyword If    ${has_dataplane}    Evaluate    10 * ${num_of_provisioned_onus} + 3
-        ...    ELSE    Evaluate    9 * ${num_of_provisioned_onus} + 3
-        # Number of per ONU Flows equals 6 for 3play service data plane + 4 for Trap to Host Flows
-        ${onu_flows}=    Run Keyword If    ${has_dataplane}    Set Variable    10
-        ...    ELSE    Set Variable    9
-        Run Keyword    Wait Until Keyword Succeeds    ${timeout}    5s    Validate OLT Flows    ${olt_flows}
+        Run Keyword    Wait Until Keyword Succeeds    ${timeout}    5s    Validate OLT Flows    0
         ...    ${olt_device_id}
-        ${List_ONU_Serial}    Create List
-        Set Suite Variable    ${List_ONU_Serial}
-        Build ONU SN List    ${List_ONU_Serial}    ${olt_serial_number}    ${num_onus}
-        Log    ${List_ONU_Serial}
-        # TODO: Fix ${onu_flows} calculations based on UNIs provisioned
-        # Run Keyword    Wait Until Keyword Succeeds    ${timeout}    5s    Validate ONU Flows
-        # ...    ${List_ONU_Serial}    ${onu_flows}
         # Delete OLT and Validate Empty Device List
         Delete Device    ${olt_device_id}
         # Check that the OLT and the ONUs are actually removed from the system
