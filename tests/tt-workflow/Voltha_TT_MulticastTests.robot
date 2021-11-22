@@ -122,9 +122,32 @@ ${suppressaddsubscriber}    True
     ${matched}    ${src_onu1}    ${dst_onu1}=    Get ONU details with Given Sn and Service and UNI    ${test_onu1_sn}    mcast
     ...    ${test_onu1_uni}
     ${matched}    ${src_onu2}    ${dst_onu2}=    Get ONU details with Given Sn and Service and UNI    ${test_onu2_sn}    mcast
-    ...    $${test_onu2_uni}
+    ...    ${test_onu2_uni}
     Wait Until Keyword Succeeds    ${timeout}    15    TT 2 RG MCAST Test    ${src_onu1}    ${dst_onu1}
     ...    ${channel_ip_1}    ${src_onu2}    ${dst_onu2}    ${channel_ip_1}
+
+2 RG Different PON Different ONU Different Channels Multicast Test
+    [Documentation]    Verify that 2 RG which are connected to the different ONUs
+    ...    on the different PON Ports could join the different channels.
+    [Tags]    functionalTT    2RGDifferentOnuandPonDifferentChannels    multicastTT   notready
+    [Setup]    Start Logging    2RGDifferentOnuandPonDifferentChannels
+    [Teardown]    Run Keywords    Collect Logs
+    ...           AND             Stop Logging    2RGDifferentOnuandPonDifferentChannels
+    ${test_onus_pon0}=    Set Variable    ${multicast_test_onu_pon_locations.pon_0[0]}
+    ${test_onus_pon1}=    Set Variable    ${multicast_test_onu_pon_locations.pon_1[0]}
+    ${test_onu1_sn}=    Set Variable    ${test_onus_pon0['onu_1']}
+    ${test_onu1_uni}=    Set Variable    1
+    ${test_onu2_sn}=    Set Variable    ${test_onus_pon1['onu_1']}
+    ${test_onu2_uni}=    Set Variable    1
+    ${channel_ip_list}=    Set Variable    ${multicast_ip_addresses[0]}
+    ${channel_ip_1}=    Set Variable    ${channel_ip_list['channel_1']}
+    ${channel_ip_2}=    Set Variable    ${channel_ip_list['channel_2']}
+    ${matched}    ${src_onu1}    ${dst_onu1}=    Get ONU details with Given Sn and Service and UNI    ${test_onu1_sn}    mcast
+    ...    ${test_onu1_uni}
+    ${matched}    ${src_onu2}    ${dst_onu2}=    Get ONU details with Given Sn and Service and UNI    ${test_onu2_sn}    mcast
+    ...    ${test_onu2_uni}
+    Wait Until Keyword Succeeds    ${timeout}    15    TT 2 RG MCAST Test    ${src_onu1}    ${dst_onu1}
+    ...    ${channel_ip_1}    ${src_onu2}    ${dst_onu2}    ${channel_ip_2}
 
 *** Keywords ***
 Get ONU details with Given Sn and Service and UNI
@@ -274,7 +297,6 @@ Setup Suite
     Run Keyword If    ${has_dataplane}    Clean Up Linux
     Run Keyword    Setup
     Wait Until Keyword Succeeds    ${timeout}    2s    Provision Subscription TT
-
 
 
 Clear All Devices Then Create New Device
