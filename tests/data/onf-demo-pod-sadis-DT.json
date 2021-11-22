@@ -63,10 +63,10 @@
             }]
           },
           {
-            "id": "EC1904000654",
+            "id": "EC1721000216",
             "hardwareIdentifier": "aa:bb:cc:dd:ee:ff",
             "ipAddress": "10.192.20.206",
-            "nasId": "EC1904000654",
+            "nasId": "EC1721000216",
             "uplinkPort": 1048576
           }
         ]
