@@ -279,7 +279,8 @@ Test Disable and Delete OLT for DT
         ...    Verify Subscriber Access Flows Added Count DT    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}
         ...    ${of_id}    0
         # Verify VOLTHA Flows
-        Run Keyword    Wait Until Keyword Succeeds    ${timeout}    5s    Validate OLT Flows    0
+        # OLT should only have 1 default flow for LLDP
+        Run Keyword    Wait Until Keyword Succeeds    ${timeout}    5s    Validate OLT Flows    1
         ...    ${olt_device_id}
         ${List_ONU_Serial}    Create List
         Set Suite Variable    ${List_ONU_Serial}

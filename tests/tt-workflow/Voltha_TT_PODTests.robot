@@ -139,11 +139,11 @@ Test Disable and Delete OLT for TT
         Run Keyword    Wait Until Keyword Succeeds    ${timeout}    5s    Validate ONUs After OLT Disable
         ...    ${num_onus}    ${olt_serial_number}
         # Verify ONOS Flows
-        # When we disable the device we shouldn't have any flows provisioned on it
+        # When we disable the device should only have 3 default flows LLDP, IGMP and DHCP
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
-        ...    Verify Added Flow Count for OLT TT    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${of_id}    0
+        ...    Verify Added Flow Count for OLT TT    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${of_id}    3
         # Verify VOLTHA Flows
-        Run Keyword    Wait Until Keyword Succeeds    ${timeout}    5s    Validate OLT Flows    0
+        Run Keyword    Wait Until Keyword Succeeds    ${timeout}    5s    Validate OLT Flows    3
         ...    ${olt_device_id}
         # Delete OLT and Validate Empty Device List
         Delete Device    ${olt_device_id}
