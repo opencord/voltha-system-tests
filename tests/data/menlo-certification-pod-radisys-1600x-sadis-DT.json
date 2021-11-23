@@ -66,6 +66,23 @@
                 "isDhcpRequired":false
               }
             ]
+          },
+          {
+            "id":"ZYWN67c18b52-1",
+            "nasPortId":"ZYWN67c18b52-1",
+            "circuitId":"ZYWN67c18b52-1",
+            "remoteId":"ZYWN67c18b52",
+            "uniTagList":[
+              {
+                "uniTagMatch":4096,
+                "ponCTag":4096,
+                "ponSTag":93,
+                "technologyProfileId":64,
+                "upstreamBandwidthProfile": "User_Bandwidth2",
+                "downstreamBandwidthProfile": "User_Bandwidth1",
+                "isDhcpRequired":false
+              }
+            ]
           }
         ]
       },
