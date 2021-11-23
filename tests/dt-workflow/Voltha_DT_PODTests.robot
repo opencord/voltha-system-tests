@@ -201,7 +201,14 @@ Test Subscriber Delete and Add for DT
         Wait Until Keyword Succeeds    ${timeout}    5s
         ...    Validate Device    ENABLED    ACTIVE
         ...    REACHABLE    ${src['onu']}    onu=True    onu_reason=omci-flows-pushed
-        # TODO: Yet to Verify on the GPON based Physical POD (VOL-2652)
+        # Workaround for issue seen in VOL-4489. Keep this workaround until VOL-4489 is fixed.
+        Run Keyword If    ${olts['board_technology']} == 'XGS-PON'    Run Keywords
+        ...    Reboot Device    ${onu_device_id}
+        ...    AND    Sleep    2s
+        ...    AND    Wait Until Keyword Succeeds    ${timeout}    5s
+        ...    Validate Device    ENABLED    ACTIVE
+        ...    REACHABLE    ${src['onu']}    onu=True    onu_reason=omci-flows-pushed
+        # Workaround ends here for issue seen in VOL-4489.
         Run Keyword If    ${has_dataplane}    Run Keyword And Continue On Failure
         ...    Wait Until Keyword Succeeds    ${timeout}    2s
         ...    Check Ping    True    ${dst['dp_iface_ip_qinq']}    ${src['dp_iface_name']}
