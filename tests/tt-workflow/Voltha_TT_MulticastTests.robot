@@ -14,7 +14,7 @@
 # FIXME Can we use the same test against BBSim and Hardware?
 
 *** Settings ***
-Documentation     Test various functional end-to-end scenarios for TT workflow
+Documentation     Test various multicast scenarios with given input file for TT workflow
 Suite Setup       Setup Suite
 Test Setup        Setup
 Test Teardown     Teardown
@@ -49,6 +49,7 @@ ${RESTART_POD_NAME}    radius
 ${timeout}        60s
 ${of_id}          0
 ${logical_id}     0
+${multicast_test_duration}     60
 ${has_dataplane}    True
 ${teardown_device}    True
 ${scripts}        ../../scripts
@@ -81,7 +82,7 @@ ${suppressaddsubscriber}    True
     ${matched}    ${src_onu2}    ${dst_onu2}=    Get ONU details with Given Sn and Service and UNI    ${test_onu2_sn}    mcast
     ...    ${test_onu2_uni}
     Wait Until Keyword Succeeds    ${timeout}    15    TT 2 RG MCAST Test    ${src_onu1}    ${dst_onu1}
-    ...    ${channel_ip_1}    ${src_onu2}    ${dst_onu2}    ${channel_ip_1}
+    ...    ${channel_ip_1}    ${src_onu2}    ${dst_onu2}    ${channel_ip_1}    ${multicast_test_duration}
 
 2 RG Same ONU Different Channel Multicast Test
     [Documentation]    Verify that 2 RG which are connected to the same ONU could join the different channel.
@@ -102,7 +103,51 @@ ${suppressaddsubscriber}    True
     ${matched}    ${src_onu2}    ${dst_onu2}=    Get ONU details with Given Sn and Service and UNI    ${test_onu2_sn}    mcast
     ...    ${test_onu2_uni}
     Wait Until Keyword Succeeds    ${timeout}    15    TT 2 RG MCAST Test    ${src_onu1}    ${dst_onu1}
-    ...    ${channel_ip_1}    ${src_onu2}    ${dst_onu2}    ${channel_ip_2}
+    ...    ${channel_ip_1}    ${src_onu2}    ${dst_onu2}    ${channel_ip_2}    ${multicast_test_duration}
+
+2 RG Same PON Different ONU Same Channel Multicast Test
+    [Documentation]    Verify that 2 RG which are connected to the different ONUs
+    ...    on the same PON Ports could join the same channel.
+    [Tags]    functionalTT    2RGSamePonDifferentOnuSameChannel    multicastTT
+    [Setup]    Start Logging    2RGSamePonDifferentOnuSameChannel
+    [Teardown]    Run Keywords    Collect Logs
+    ...           AND             Stop Logging    2RGSamePonDifferentOnuSameChannel
+    ${test_onus_pon0}=    Set Variable    ${multicast_test_onu_pon_locations.pon_0[0]}
+    ${test_onu1_sn}=    Set Variable    ${test_onus_pon0['onu_1']}
+    ${test_onu1_uni}=    Set Variable    1
+    ${test_onu2_sn}=    Set Variable    ${test_onus_pon0['onu_2']}
+    ${test_onu2_uni}=    Set Variable    1
+    ${channel_ip_list}=    Set Variable    ${multicast_ip_addresses[0]}
+    ${channel_ip_1}=    Set Variable    ${channel_ip_list['channel_1']}
+    ${matched}    ${src_onu1}    ${dst_onu1}=    Get ONU details with Given Sn and Service and UNI    ${test_onu1_sn}    mcast
+    ...    ${test_onu1_uni}
+    ${matched}    ${src_onu2}    ${dst_onu2}=    Get ONU details with Given Sn and Service and UNI    ${test_onu2_sn}    mcast
+    ...    ${test_onu2_uni}
+    Wait Until Keyword Succeeds    ${timeout}    15    TT 2 RG MCAST Test    ${src_onu1}    ${dst_onu1}
+    ...    ${channel_ip_1}    ${src_onu2}    ${dst_onu2}    ${channel_ip_1}    ${multicast_test_duration}
+
+2 RG Different PON Different ONU Different Channels Multicast Test
+    [Documentation]    Verify that 2 RG which are connected to the different ONUs
+    ...    on the same PON Ports could join the different channels.
+    [Tags]    functionalTT    2RGSamePonDifferentOnuDifferentChannel    multicastTT
+    [Setup]    Start Logging    2RGSamePonDifferentOnuDifferentChannel
+    [Teardown]    Run Keywords    Collect Logs
+    ...           AND             Stop Logging    2RGSamePonDifferentOnuDifferentChannel
+    ${test_onus_pon0}=    Set Variable    ${multicast_test_onu_pon_locations.pon_0[0]}
+    ${test_onus_pon1}=    Set Variable    ${multicast_test_onu_pon_locations.pon_1[0]}
+    ${test_onu1_sn}=    Set Variable    ${test_onus_pon0['onu_1']}
+    ${test_onu1_uni}=    Set Variable    1
+    ${test_onu2_sn}=    Set Variable    ${test_onus_pon0['onu_2']}
+    ${test_onu2_uni}=    Set Variable    1
+    ${channel_ip_list}=    Set Variable    ${multicast_ip_addresses[0]}
+    ${channel_ip_1}=    Set Variable    ${channel_ip_list['channel_1']}
+    ${channel_ip_2}=    Set Variable    ${channel_ip_list['channel_2']}
+    ${matched}    ${src_onu1}    ${dst_onu1}=    Get ONU details with Given Sn and Service and UNI    ${test_onu1_sn}    mcast
+    ...    ${test_onu1_uni}
+    ${matched}    ${src_onu2}    ${dst_onu2}=    Get ONU details with Given Sn and Service and UNI    ${test_onu2_sn}    mcast
+    ...    ${test_onu2_uni}
+    Wait Until Keyword Succeeds    ${timeout}    15    TT 2 RG MCAST Test    ${src_onu1}    ${dst_onu1}
+    ...    ${channel_ip_1}    ${src_onu2}    ${dst_onu2}    ${channel_ip_2}    ${multicast_test_duration}
 
 2 RG Different PON Different ONU Same Channel Multicast Test
     [Documentation]    Verify that 2 RG which are connected to the different ONUs
@@ -124,7 +169,7 @@ ${suppressaddsubscriber}    True
     ${matched}    ${src_onu2}    ${dst_onu2}=    Get ONU details with Given Sn and Service and UNI    ${test_onu2_sn}    mcast
     ...    ${test_onu2_uni}
     Wait Until Keyword Succeeds    ${timeout}    15    TT 2 RG MCAST Test    ${src_onu1}    ${dst_onu1}
-    ...    ${channel_ip_1}    ${src_onu2}    ${dst_onu2}    ${channel_ip_1}
+    ...    ${channel_ip_1}    ${src_onu2}    ${dst_onu2}    ${channel_ip_1}    ${multicast_test_duration}
 
 2 RG Different PON Different ONU Different Channels Multicast Test
     [Documentation]    Verify that 2 RG which are connected to the different ONUs
@@ -147,7 +192,7 @@ ${suppressaddsubscriber}    True
     ${matched}    ${src_onu2}    ${dst_onu2}=    Get ONU details with Given Sn and Service and UNI    ${test_onu2_sn}    mcast
     ...    ${test_onu2_uni}
     Wait Until Keyword Succeeds    ${timeout}    15    TT 2 RG MCAST Test    ${src_onu1}    ${dst_onu1}
-    ...    ${channel_ip_1}    ${src_onu2}    ${dst_onu2}    ${channel_ip_2}
+    ...    ${channel_ip_1}    ${src_onu2}    ${dst_onu2}    ${channel_ip_2}    ${multicast_test_duration}
 
 *** Keywords ***
 Get ONU details with Given Sn and Service and UNI
@@ -171,8 +216,13 @@ Get ONU details with Given Sn and Service and UNI
 
 
 TT 2 RG MCAST Test
-    [Documentation]    This keyword performs MCAST two RG at the Same Time for TT workflow
+    [Documentation]    This keyword performs MCAST two RG at the Same Time for TT workflow.
+    ...    RG1 and RG2 could be join same channel or different channel.
+    ...    It will run multicast test with given multicast_test_duration variable.
+    ...    RG2 will leave channel after multicast_test_duration/2 seconds.
+    ...    Function verify that RG1's multicast stream is not affected.
     [Arguments]    ${src_rg1}    ${dst_rg1}    ${channel_ip_rg1}    ${src_rg2}    ${dst_rg2}    ${channel_ip_rg2}
+    ...    ${multicast_test_duration}
     # Check for iperf and jq tools RG1
     ${stdout}    ${stderr}    ${rc}=    Execute Remote Command    which iperf jq
     ...    ${src_rg1['ip']}    ${src_rg1['user']}    ${src_rg1['pass']}    ${src_rg1['container_type']}
@@ -227,14 +277,17 @@ TT 2 RG MCAST Test
 
     # Setup iperf on the BNG
     ${server_output}=    Run Keyword If    '${channel_ip_rg1}'=='${channel_ip_rg2}'
-    ...    Login And Run Command On Remote System    sudo iperf -c '${channel_ip_rg1}' -u -T 32 -t 60 -i 1 &
+    ...    Login And Run Command On Remote System
+    ...    sudo iperf -c '${channel_ip_rg1}' -u -T 32 -t ${multicast_test_duration} -i 1 &
     ...    ${dst_rg1['bng_ip']}    ${dst_rg1['bng_user']}    ${dst_rg1['bng_pass']}    ${dst_rg1['container_type']}
     ...    ${dst_rg1['container_name']}
     ...    ELSE    Run Keywords    Run Keyword And Continue On Failure
-    ...    Login And Run Command On Remote System    sudo iperf -c '${channel_ip_rg1}' -u -T 32 -t 60 -i 1 &
+    ...    Login And Run Command On Remote System
+    ...    sudo iperf -c '${channel_ip_rg1}' -u -T 32 -t ${multicast_test_duration} -i 1 &
     ...    ${dst_rg1['bng_ip']}    ${dst_rg1['bng_user']}    ${dst_rg1['bng_pass']}    ${dst_rg1['container_type']}
     ...    ${dst_rg1['container_name']}     AND    Run Keyword And Continue On Failure
-    ...    Login And Run Command On Remote System    sudo iperf -c '${channel_ip_rg2}' -u -T 32 -t 60 -i 1 &
+    ...    Login And Run Command On Remote System
+    ...    sudo iperf -c '${channel_ip_rg2}' -u -T 32 -t ${multicast_test_duration} -i 1 &
     ...    ${dst_rg2['bng_ip']}    ${dst_rg2['bng_user']}    ${dst_rg2['bng_pass']}    ${dst_rg2['container_type']}
     ...    ${dst_rg2['container_name']}
 
@@ -255,24 +308,49 @@ TT 2 RG MCAST Test
     #Logging Outputs and Check iperf UDP Stream Outputs
     Log    ${rg_output_rg1}
     Log    ${rg_output_rg2}
-    Sleep    60s
-    ${output}=    Run Keyword and Continue On Failure     Wait Until Keyword Succeeds     90s    5s
+    ${igmp_leave_time}=     Evaluate    ${multicast_test_duration}/2
+    ${s}=    Set Variable   s
+    ${sleep_time}=    Set Variable   ${igmp_leave_time}${s}
+    Sleep    ${sleep_time}
+
+    # Kill iperf on the RG2
+    ${rg_kill_output_rg2}=    Run Keyword and Continue On Failure    Wait Until Keyword Succeeds     90s    5s
+    ...    Login And Run Command On Remote System    sudo kill -9 `pidof iperf`    ${src_rg2['ip']}    ${src_rg2['user']}
+    ...    ${src_rg2['pass']}    ${src_rg2['container_type']}    ${src_rg2['container_name']}
+    Log    ${rg_kill_output_rg2}
+    Sleep    ${sleep_time}
+
+    ${output_rg1}=    Run Keyword and Continue On Failure     Wait Until Keyword Succeeds     90s    5s
     ...    Login And Run Command On Remote System
     ...    cat /tmp/rg_output | grep KBytes
     ...    ${src_rg1['ip']}    ${src_rg1['user']}    ${src_rg1['pass']}    ${src_rg1['container_type']}
     ...    ${src_rg1['container_name']}
-    Log    ${output}
-    Should Contain    ${output}    KBytes
-    ${output}=    Run Keyword and Continue On Failure     Wait Until Keyword Succeeds     90s    5s
+    Log    ${output_rg1}
+    # Check that RG1's stream count
+    ${output_rg1_count}=    Get Line Count    ${output_rg1}
+    ${output_rg1_count}=    Evaluate    ${output_rg1_count}-1
+    Should Contain    ${output_rg1}    KBytes
+
+    ${output_rg2}=    Run Keyword and Continue On Failure     Wait Until Keyword Succeeds     90s    5s
     ...    Login And Run Command On Remote System
     ...    cat /tmp/rg_output | grep KBytes
     ...    ${src_rg2['ip']}    ${src_rg2['user']}    ${src_rg2['pass']}    ${src_rg2['container_type']}
     ...    ${src_rg2['container_name']}
-    Log    ${output}
-    Should Contain    ${output}    KBytes
+    Log    ${output_rg2}
+    # Check that RG2's stream count
+    ${output_rg2_count}=    Get Line Count      ${output_rg2}
+    ${output_rg2_count}=    Evaluate    ${output_rg2_count}-1
+    Should Contain    ${output_rg2}    KBytes
+
+    # Verify that RG1's stream count is lower than multicast total test duration
+    Should Be Lower Than    ${output_rg1_count}    ${multicast_test_duration}
+    # Verify that RG1's stream count is larger than multicast igmp leave time
+    Should Be Larger Than    ${output_rg1_count}    ${igmp_leave_time}
+    # Verify that RG2's stream count is lower than multicast igmp leave time
+    Should Be Lower Than    ${output_rg2_count}    ${igmp_leave_time}
 
     # Kill iperf  on BNG
-    ${rg_output}=    Run Keyword and Continue On Failure    Login And Run Command On Remote System
+    ${server_output}=    Run Keyword and Continue On Failure    Login And Run Command On Remote System
     ...    sudo kill -9 `pidof iperf`
     ...    ${dst_rg1['bng_ip']}    ${dst_rg1['bng_user']}    ${dst_rg1['bng_pass']}    ${dst_rg1['container_type']}
     ...    ${dst_rg1['container_name']}
@@ -283,11 +361,6 @@ TT 2 RG MCAST Test
     ...    ${src_rg1['ip']}    ${src_rg1['user']}    ${src_rg1['pass']}    ${src_rg1['container_type']}
     ...    ${src_rg1['container_name']}
 
-    # Kill iperf on the RG2
-    ${output}=    Run Keyword and Continue On Failure    Login And Run Command On Remote System
-    ...    sudo kill -9 `pidof iperf`
-    ...    ${src_rg2['ip']}    ${src_rg2['user']}    ${src_rg2['pass']}    ${src_rg2['container_type']}
-    ...    ${src_rg2['container_name']}
 
 Setup Suite
     [Documentation]    Set up the test suite
