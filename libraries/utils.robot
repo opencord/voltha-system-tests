@@ -1244,6 +1244,12 @@ Should Be Larger Than Or Equal To
     Run Keyword If    ${value_1} < ${value_2}
     ...    Fail    The value ${value_1} is not larger than or equal to ${value_2}
 
+Should Be Lower Than
+    [Documentation]    Verify that value_1 is < value_2
+    [Arguments]    ${value_1}    ${value_2}
+    Run Keyword If    ${value_1} >= ${value_2}
+    ...    Fail    The value ${value_1} is not lower than ${value_2}
+
 Should Be Float
     [Documentation]    Verify that value is a floating point number type
     [Arguments]    ${value}
