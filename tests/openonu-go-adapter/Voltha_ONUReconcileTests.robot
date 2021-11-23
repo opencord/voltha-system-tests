@@ -323,14 +323,9 @@ Do Reconcile For Disabled Onu Device
     ...    ELSE IF    "${workflow}"=="TT"    Perform Sanity Tests TT
     ...    ELSE       Perform Sanity Test
     Disable Onu Device
-    ${alternativeonustates}=  Create List     omci-flows-deleted
-    Run Keyword If    "${workflow}"=="DT"    Current State Test All Onus    omci-admin-lock
-    ...    ELSE IF    "${workflow}"=="TT"    Current State Test All Onus    omci-admin-lock
-    ...    ELSE       Current State Test All Onus    omci-admin-lock    alternativeonustate=${alternativeonustates}
+    Current State Test All Onus    tech-profile-config-delete-success
     Reconcile Onu Adapter    ${NAMESPACE}    ${usekill2restart}    UNKNOWN
-    Run Keyword If    "${workflow}"=="DT"    Current State Test All Onus    omci-admin-lock
-    ...    ELSE IF    "${workflow}"=="TT"    Current State Test All Onus    omci-admin-lock
-    ...    ELSE       Current State Test All Onus    omci-admin-lock    alternativeonustate=${alternativeonustates}
+    Current State Test All Onus    tech-profile-config-delete-success
     Wait for all ONU Ports in ONOS Disabled    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}
     Enable Onu Device
     Run Keyword If    "${workflow}"=="DT"    Perform Sanity Test DT     ${suppressaddsubscriber}
@@ -365,10 +360,7 @@ Do Reconcile In Omci-Flows-Pushed
     ...    ELSE IF    "${workflow}"=="TT"    Perform Sanity Tests TT    ${suppressaddsubscriber}
     ...    ELSE       Perform Sanity Test    ${suppressaddsubscriber}
     Disable Onu Device
-    ${alternativeonustates}=  Create List     omci-flows-deleted
-    Run Keyword If    "${workflow}"=="DT"    Current State Test All Onus    omci-admin-lock
-    ...    ELSE IF    "${workflow}"=="TT"    Current State Test All Onus    omci-admin-lock
-    ...    ELSE       Current State Test All Onus    omci-admin-lock    alternativeonustate=${alternativeonustates}
+    Current State Test All Onus    tech-profile-config-delete-success
     Wait for all ONU Ports in ONOS Disabled    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}
     Enable Onu Device
     Run Keyword If    "${workflow}"=="DT"    Perform Sanity Test DT     ${suppressaddsubscriber}
