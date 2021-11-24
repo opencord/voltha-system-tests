@@ -62,6 +62,12 @@ ${logging}    True
 
 ${suppressaddsubscriber}    True
 
+# flag to choose the subscriber provisioning command type in ONOS
+# TT often provision a single services for a subscriber (eg: hsia, voip, ...) one after the other.
+# if set to True, command used is "volt-add-subscriber-unitag"
+# if set to False, comand used is "volt-add-subscriber-access"
+${unitag_sub}    False
+
 *** Test Cases ***
 2 RG Same ONU Same Channel Multicast Test
     [Documentation]    Verify that 2 RG which are connected to the same ONU could join the same channel.

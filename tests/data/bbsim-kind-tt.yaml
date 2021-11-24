@@ -44,24 +44,28 @@ hosts:
       s_tag: '900'
       service_type: 'hsia'
       uni_id: 1
+      tp_id: '64'
     - onu: 'BBSM000a0001'
       olt: 'BBSIM_OLT_10'
       c_tag: '444'
       s_tag: '333'
       uni_id: 1
       service_type: 'voip'
+      tp_id: '65'
     - onu: 'BBSM000a0001'
       olt: 'BBSIM_OLT_10'
       c_tag: '55'
       s_tag: '555'
       service_type: 'vod'
       uni_id: 1
+      tp_id: '66'
     - onu: 'BBSM000a0001'
       olt: 'BBSIM_OLT_10'
       c_tag: '55'
       s_tag: '550'
       service_type: 'mcast'
       uni_id: 1
+      tp_id: '66'
 
   dst:
     - ip: null
