@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "409eb43d_2ddc5aab",
+        "filename": "libraries/utils.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 334,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2021-11-24T12:31:47Z",
+      "side": 0,
+      "message": "Either we can keep this or add onu-reenabled while creating the above onu_reasons list.",
+      "range": {
+        "startLine": 333,
+        "startChar": 0,
+        "endLine": 334,
+        "endChar": 104
+      },
+      "revId": "a5f9cdb0ebbb9e81e07da96a4c965e1fd0696fc3",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    }
+  ]
+}
