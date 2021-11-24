@@ -88,6 +88,30 @@
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e22b3e5b_e0320edc",
+        "filename": "tests/tt-workflow/Voltha_TT_MulticastTests.robot",
+        "patchSetId": 6
+      },
+      "lineNbr": 314,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2021-11-24T09:13:00Z",
+      "side": 1,
+      "message": "Ok, thanks Hardik, I understand. The only way to avoid static sleep here would be another end condition of the iperf process to check, resp. start condition for the kill job. A possible end condition could be the elapsed time of the corresponding process catching by use of ps-command with option etime. This can be done with \u0027Wait Until Keyword succeeds\u0027 too.",
+      "parentUuid": "7ba36df1_20fa674a",
+      "range": {
+        "startLine": 314,
+        "startChar": 3,
+        "endLine": 314,
+        "endChar": 26
+      },
+      "revId": "ca1bd1f5d3279884f66d4862828f939df77e6dfc",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "77103510_8f904bbf",
