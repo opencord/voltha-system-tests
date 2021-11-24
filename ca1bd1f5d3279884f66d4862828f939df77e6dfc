@@ -64,6 +64,30 @@
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7ba36df1_20fa674a",
+        "filename": "tests/tt-workflow/Voltha_TT_MulticastTests.robot",
+        "patchSetId": 6
+      },
+      "lineNbr": 314,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2021-11-24T08:42:47Z",
+      "side": 1,
+      "message": "@Torsten, Here we need the static sleep as we want to kill the below iperf process after a certain time passed. I am not sure if there is a better way to do this.",
+      "parentUuid": "dd609b0d_9bb00a3b",
+      "range": {
+        "startLine": 314,
+        "startChar": 3,
+        "endLine": 314,
+        "endChar": 26
+      },
+      "revId": "ca1bd1f5d3279884f66d4862828f939df77e6dfc",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "77103510_8f904bbf",
@@ -77,6 +101,30 @@
       "writtenOn": "2021-11-24T08:34:29Z",
       "side": 1,
       "message": "see comment before.",
+      "range": {
+        "startLine": 317,
+        "startChar": 101,
+        "endLine": 317,
+        "endChar": 104
+      },
+      "revId": "ca1bd1f5d3279884f66d4862828f939df77e6dfc",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "31eb8ce0_26a80aeb",
+        "filename": "tests/tt-workflow/Voltha_TT_MulticastTests.robot",
+        "patchSetId": 6
+      },
+      "lineNbr": 317,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2021-11-24T08:42:47Z",
+      "side": 1,
+      "message": "This can be ${timeout} value.",
+      "parentUuid": "77103510_8f904bbf",
       "range": {
         "startLine": 317,
         "startChar": 101,
@@ -110,6 +158,30 @@
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3c456f59_47d472dc",
+        "filename": "tests/tt-workflow/Voltha_TT_MulticastTests.robot",
+        "patchSetId": 6
+      },
+      "lineNbr": 321,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2021-11-24T08:42:47Z",
+      "side": 1,
+      "message": "same as first comment response.",
+      "parentUuid": "76452024_f23b73cb",
+      "range": {
+        "startLine": 321,
+        "startChar": 4,
+        "endLine": 321,
+        "endChar": 26
+      },
+      "revId": "ca1bd1f5d3279884f66d4862828f939df77e6dfc",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "94197663_4860cb08",
@@ -123,6 +195,30 @@
       "writtenOn": "2021-11-24T08:34:29Z",
       "side": 1,
       "message": "same",
+      "range": {
+        "startLine": 323,
+        "startChar": 94,
+        "endLine": 323,
+        "endChar": 98
+      },
+      "revId": "ca1bd1f5d3279884f66d4862828f939df77e6dfc",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "62c76171_edb656c7",
+        "filename": "tests/tt-workflow/Voltha_TT_MulticastTests.robot",
+        "patchSetId": 6
+      },
+      "lineNbr": 323,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2021-11-24T08:42:47Z",
+      "side": 1,
+      "message": "@Huseyin, Please update to ${timeout}",
+      "parentUuid": "94197663_4860cb08",
       "range": {
         "startLine": 323,
         "startChar": 94,
