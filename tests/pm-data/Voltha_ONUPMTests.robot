@@ -85,6 +85,12 @@ ${ONU_PON_OPTICAL_INTERVAL}    35s
 # example: -v ONU_UNI_STATUS_INTERVAL:50s
 ${ONU_UNI_STATUS_INTERVAL}    20s
 
+# flag to choose the subscriber provisioning command type in ONOS
+# TT often provision a single services for a subscriber (eg: hsia, voip, ...) one after the other.
+# if set to True, command used is "volt-add-subscriber-unitag"
+# if set to False, comand used is "volt-add-subscriber-access"
+${unitag_sub}    False
+
 *** Test Cases ***
 Check Default Metrics All ONUs
     [Documentation]    Validates the ONU Go adapter pm date resp. Metrics with dafault values
