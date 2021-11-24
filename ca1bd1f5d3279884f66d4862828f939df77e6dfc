@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "87d9e596_2ab5fb9a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2021-11-24T06:57:21Z",
+      "side": 1,
+      "message": "@Huseyin,\nTriggered patchset 6 here: https://jenkins.opencord.org/view/VOLTHA-2.X-Tests/job/build_flex-ocp-cord-multi-uni_TP_voltha_TT_master_test/158/console\nPlease check the errors and address accordingly.",
+      "revId": "ca1bd1f5d3279884f66d4862828f939df77e6dfc",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "30d88f0b_641ff74b",
