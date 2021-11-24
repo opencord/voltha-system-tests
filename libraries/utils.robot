@@ -330,8 +330,6 @@ Perform Sanity Test DT Per OLT
         ...    ${onu_port}    ${nni_port}    ${src['s_tag']}
         # Verify ONU state in voltha
         ${onu_reasons}=  Create List     omci-flows-pushed
-        # In case of previous dis- and enable of ONU and no further subscriber add actions state will be onu-reenabled
-        Run Keyword If    ${supress_add_subscriber}    Append To List    ${onu_reasons}    onu-reenabled
         Wait Until Keyword Succeeds    ${timeout}    5s    Validate Device
         ...    ENABLED    ACTIVE    REACHABLE
         ...    ${src['onu']}    onu=True    onu_reason=${onu_reasons}
@@ -472,8 +470,6 @@ Provision Subscription for ONU TT
     ...    volt-add-subscriber-access ${of_id} ${onu_port}
     # Verify ONU state in voltha
     ${onu_reasons}=  Create List     omci-flows-pushed     onu-reenabled
-    # In case of previous dis- and enable of ONU and no further subscriber add actions state will be onu-reenabled
-    Run Keyword If    ${supress_add_subscriber}    Append To List    ${onu_reasons}    onu-reenabled
     Wait Until Keyword Succeeds    ${timeout}    5s    Validate Device
     ...    ENABLED    ACTIVE    REACHABLE
     ...    ${src['onu']}    onu=True    onu_reason=${onu_reasons}
@@ -561,8 +557,6 @@ Sanity Test TT MCAST one ONU
     ...    volt-add-subscriber-access ${of_id} ${onu_port}
     # Verify ONU state in voltha
     ${onu_reasons}=  Create List     omci-flows-pushed     onu-reenabled
-    # In case of previous dis- and enable of ONU and no further subscriber add actions state will be onu-reenabled
-    Run Keyword If    ${supress_add_subscriber}    Append To List    ${onu_reasons}    onu-reenabled
     Wait Until Keyword Succeeds    ${timeout}    5s    Validate Device
     ...    ENABLED    ACTIVE    REACHABLE
     ...    ${src['onu']}    onu=True    onu_reason=${onu_reasons}
