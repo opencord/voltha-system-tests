@@ -469,7 +469,7 @@ Provision Subscription for ONU TT
     ...    Verify UNI Port Is Enabled   ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${src['onu']}    ${src['uni_id']}
     Run Keyword Unless    ${supress_add_subscriber}
     ...    Execute ONOS CLI Command use single connection    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}
-    ...    volt-add-subscriber-access ${of_id} ${onu_port}
+    ...    volt-add-subscriber-unitag --tpId ${src['tp_id']} --sTag ${src['s_tag']} --cTag ${src['c_tag']} ${src['onu']}-${src['uni_id']}
     # Verify ONU state in voltha
     ${onu_reasons}=  Create List     omci-flows-pushed     onu-reenabled
     # In case of previous dis- and enable of ONU and no further subscriber add actions state will be onu-reenabled
