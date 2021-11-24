@@ -60,6 +60,12 @@ ${container_log_dir}    ${None}
 # example: -v logging:False
 ${logging}    True
 
+# flag to choose the subscriber provisioning command type in ONOS
+# TT often provision a single services for a subscriber (eg: hsia, voip, ...) one after the other.
+# if set to True, command used is "volt-add-subscriber-unitag"
+# if set to False, comand used is "volt-add-subscriber-access"
+${unitag_sub}    False
+
 # For dataplane bandwidth testing
 ${lower_margin_pct}      90      # Allow 10% under the limit
 ${upper_margin_pct}      120      # Allow 20% under the limit

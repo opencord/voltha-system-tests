@@ -62,6 +62,12 @@ ${logging}    True
 
 ${suppressaddsubscriber}    True
 
+# flag to choose the subscriber provisioning command type in ONOS
+# TT often provision a single services for a subscriber (eg: hsia, voip, ...) one after the other.
+# if set to True, command used is "volt-add-subscriber-unitag"
+# if set to False, comand used is "volt-add-subscriber-access"
+${unitag_sub}    False
+
 *** Test Cases ***
 Reboot TT ONUs Physically - Clean Up
     [Documentation]   This test reboots ONUs physically before execution all the tests
@@ -176,8 +182,13 @@ Verify re-provisioning subscriber after removing provisoned subscriber for TT
         ${onu_port}=    Wait Until Keyword Succeeds    ${timeout}    2s    Get ONU Port in ONOS    ${src['onu']}
         ...    ${of_id}    ${src['uni_id']}
         # Remove Subscriber Access
+        ${del_sub_cmd}=    Run Keyword If    ${unitag_sub}
+        ...    Catenate    volt-remove-subscriber-unitag --tpId ${src['tp_id']} --sTag ${src['s_tag']}
+        ...    --cTag ${src['c_tag']} ${src['onu']}-${src['uni_id']}
+        ...    ELSE
+        ...    Set Variable    volt-remove-subscriber-access ${of_id} ${onu_port}
         Wait Until Keyword Succeeds    ${timeout}    2s    Execute ONOS CLI Command use single connection    ${ONOS_SSH_IP}
-        ...    ${ONOS_SSH_PORT}    volt-remove-subscriber-access ${of_id} ${onu_port}
+        ...    ${ONOS_SSH_PORT}    ${del_sub_cmd}
         Run Keyword If    ${has_dataplane} and '${service_type}' != 'mcast'
         ...    Wait Until Keyword Succeeds    ${timeout}    5s
         ...    Check Ping    False    ${dst['dp_iface_ip_qinq']}    ${src['dp_iface_name']}
@@ -188,8 +199,13 @@ Verify re-provisioning subscriber after removing provisoned subscriber for TT
         # Wait Until Keyword Succeeds    ${timeout}    5s    Validate Device Flows
         # ...    ${onu_device_id}    0
         # Add Subscriber Access
+        ${add_sub_cmd}=    Run Keyword If    ${unitag_sub}
+        ...    Catenate    volt-add-subscriber-unitag --tpId ${src['tp_id']} --sTag ${src['s_tag']}
+        ...    --cTag ${src['c_tag']} ${src['onu']}-${src['uni_id']}
+        ...    ELSE
+        ...    Set Variable    volt-add-subscriber-access ${of_id} ${onu_port}
         Wait Until Keyword Succeeds    ${timeout}    2s    Execute ONOS CLI Command use single connection    ${ONOS_SSH_IP}
-        ...    ${ONOS_SSH_PORT}    volt-add-subscriber-access ${of_id} ${onu_port}
+        ...    ${ONOS_SSH_PORT}    ${add_sub_cmd}
         Wait Until Keyword Succeeds    ${timeout}    5s
         ...    Validate Device    ENABLED    ACTIVE
         ...    REACHABLE    ${src['onu']}    onu=True    onu_reason=omci-flows-pushed
