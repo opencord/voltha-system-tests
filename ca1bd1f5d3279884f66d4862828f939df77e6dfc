@@ -39,6 +39,98 @@
       },
       "revId": "ca1bd1f5d3279884f66d4862828f939df77e6dfc",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dd609b0d_9bb00a3b",
+        "filename": "tests/tt-workflow/Voltha_TT_MulticastTests.robot",
+        "patchSetId": 6
+      },
+      "lineNbr": 314,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2021-11-24T08:34:29Z",
+      "side": 1,
+      "message": "In generally we try to avoid static sleeps as much as possible. Due to a following \u0027Wait Until Keyword succeeds\u0027 remove the Sleep and increase the timeout value of \u0027Wait Until Keyword succeeds\u0027 accordingly if needed instead.",
+      "range": {
+        "startLine": 314,
+        "startChar": 3,
+        "endLine": 314,
+        "endChar": 26
+      },
+      "revId": "ca1bd1f5d3279884f66d4862828f939df77e6dfc",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "77103510_8f904bbf",
+        "filename": "tests/tt-workflow/Voltha_TT_MulticastTests.robot",
+        "patchSetId": 6
+      },
+      "lineNbr": 317,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2021-11-24T08:34:29Z",
+      "side": 1,
+      "message": "see comment before.",
+      "range": {
+        "startLine": 317,
+        "startChar": 101,
+        "endLine": 317,
+        "endChar": 104
+      },
+      "revId": "ca1bd1f5d3279884f66d4862828f939df77e6dfc",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "76452024_f23b73cb",
+        "filename": "tests/tt-workflow/Voltha_TT_MulticastTests.robot",
+        "patchSetId": 6
+      },
+      "lineNbr": 321,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2021-11-24T08:34:29Z",
+      "side": 1,
+      "message": "same above",
+      "range": {
+        "startLine": 321,
+        "startChar": 4,
+        "endLine": 321,
+        "endChar": 26
+      },
+      "revId": "ca1bd1f5d3279884f66d4862828f939df77e6dfc",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "94197663_4860cb08",
+        "filename": "tests/tt-workflow/Voltha_TT_MulticastTests.robot",
+        "patchSetId": 6
+      },
+      "lineNbr": 323,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2021-11-24T08:34:29Z",
+      "side": 1,
+      "message": "same",
+      "range": {
+        "startLine": 323,
+        "startChar": 94,
+        "endLine": 323,
+        "endChar": 98
+      },
+      "revId": "ca1bd1f5d3279884f66d4862828f939df77e6dfc",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     }
   ]
 }
