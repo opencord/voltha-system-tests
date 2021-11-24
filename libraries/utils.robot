@@ -466,9 +466,14 @@ Provision Subscription for ONU TT
     # Check ONU port is Enabled in ONOS
     Wait Until Keyword Succeeds    ${timeout}    2s
     ...    Verify UNI Port Is Enabled   ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${src['onu']}    ${src['uni_id']}
+    # Add subscriber
+    ${add_sub_cmd}=    Run Keyword If    ${unitag_sub}
+    ...    Catenate    volt-add-subscriber-unitag --tpId ${src['tp_id']} --sTag ${src['s_tag']}
+    ...    --cTag ${src['c_tag']} ${src['onu']}-${src['uni_id']}
+    ...    ELSE
+    ...    Set Variable    volt-add-subscriber-access ${of_id} ${onu_port}
     Run Keyword Unless    ${supress_add_subscriber}
-    ...    Execute ONOS CLI Command use single connection    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}
-    ...    volt-add-subscriber-access ${of_id} ${onu_port}
+    ...    Execute ONOS CLI Command use single connection    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${add_sub_cmd}
     # Verify ONU state in voltha
     ${onu_reasons}=  Create List     omci-flows-pushed     onu-reenabled
     Wait Until Keyword Succeeds    ${timeout}    5s    Validate Device
