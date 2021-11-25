@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "596b2927_0e3da3a2",
+        "filename": "libraries/utils.robot",
+        "patchSetId": 4
+      },
+      "lineNbr": 470,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2021-11-25T09:16:44Z",
+      "side": 1,
+      "message": "Flag is not defined in other test suites, which are using this keyword too e.g. Voltha_ONUReconcileTests.robot. So it has to be defined for all test suites, or you declare it as Argument of keyword similar ${unitag_sub}\u003dFalse (to keep old behaviour).",
+      "range": {
+        "startLine": 470,
+        "startChar": 41,
+        "endLine": 470,
+        "endChar": 54
+      },
+      "revId": "c7fdf4a12deae0c9a96c8302116da8ee15c6e19e",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    }
+  ]
+}
