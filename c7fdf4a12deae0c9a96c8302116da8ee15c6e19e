@@ -22,6 +22,30 @@
       },
       "revId": "c7fdf4a12deae0c9a96c8302116da8ee15c6e19e",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "41987179_3c408712",
+        "filename": "libraries/utils.robot",
+        "patchSetId": 4
+      },
+      "lineNbr": 470,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2021-11-25T09:20:15Z",
+      "side": 1,
+      "message": "Thanks for the quick review Torsten. The patch is still WIP 😊\nYes, will take care of that. Currently, it is for my local testing.",
+      "parentUuid": "596b2927_0e3da3a2",
+      "range": {
+        "startLine": 470,
+        "startChar": 41,
+        "endLine": 470,
+        "endChar": 54
+      },
+      "revId": "c7fdf4a12deae0c9a96c8302116da8ee15c6e19e",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     }
   ]
 }
