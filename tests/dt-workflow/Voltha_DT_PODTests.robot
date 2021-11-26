@@ -161,7 +161,7 @@ Test Subscriber Delete and Add for DT
         ${olt_device_id}=    Get OLTDeviceID From OLT List    ${src['olt']}
         ${num_of_olt_onus}=    Get Num of Onus From OLT SN    ${src['olt']}
         ${onu_port}=    Wait Until Keyword Succeeds    ${timeout}    2s    Get ONU Port in ONOS    ${src['onu']}
-        ...    ${of_id}
+        ...    ${of_id}    ${src['uni_id']}
         # Remove Subscriber Access
         Wait Until Keyword Succeeds    ${timeout}    2s    Execute ONOS CLI Command use single connection    ${ONOS_SSH_IP}
         ...    ${ONOS_SSH_PORT}    volt-remove-subscriber-access ${of_id} ${onu_port}
@@ -229,13 +229,13 @@ Test Disable and Enable ONU for DT
         ${of_id}=    Get ofID From OLT List    ${src['olt']}
         ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
         ${onu_port}=    Wait Until Keyword Succeeds    ${timeout}    2s    Get ONU Port in ONOS    ${src['onu']}
-        ...    ${of_id}
+        ...    ${of_id}    ${src['uni_id']}
         Disable Device    ${onu_device_id}
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
         ...    Validate Device    DISABLED    UNKNOWN
         ...    REACHABLE    ${src['onu']}    onu=True    onu_reason=tech-profile-config-delete-success
         Wait Until Keyword Succeeds   ${timeout}    2s
-        ...    Verify UNI Port Is Disabled   ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${src['onu']}
+        ...    Verify UNI Port Is Disabled   ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${src['onu']}    ${src['uni_id']}
         # TODO: Yet to Verify on the GPON based Physical POD (VOL-2652)
         Run Keyword If    ${has_dataplane}    Run Keyword And Continue On Failure
         ...    Wait Until Keyword Succeeds    ${timeout}    2s
@@ -247,7 +247,7 @@ Test Disable and Enable ONU for DT
         ...    Validate Device    ENABLED    ACTIVE
         ...    REACHABLE    ${src['onu']}    onu=True    onu_reason=onu-reenabled
         Wait Until Keyword Succeeds   ${timeout}    2s
-        ...    Verify UNI Port Is Enabled   ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${src['onu']}
+        ...    Verify UNI Port Is Enabled   ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${src['onu']}    ${src['uni_id']}
         # Workaround for issue seen in VOL-4489. Keep this workaround until VOL-4489 is fixed.
         Run Keyword If    ${has_dataplane}    Reboot XGSPON ONU    ${src['olt']}    ${src['onu']}    omci-flows-pushed
         # Workaround ends here for issue seen in VOL-4489.
@@ -335,9 +335,9 @@ Test Disable and Enable OLT for DT
         ${of_id}=    Get ofID From OLT List    ${src['olt']}
         ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
         ${onu_port}=    Wait Until Keyword Succeeds    ${timeout}    2s
-        ...    Get ONU Port in ONOS    ${src['onu']}    ${of_id}
+        ...    Get ONU Port in ONOS    ${src['onu']}    ${of_id}    ${src['uni_id']}
         Wait Until Keyword Succeeds   ${timeout}    2s
-        ...    Verify UNI Port Is Disabled   ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${src['onu']}
+        ...    Verify UNI Port Is Disabled   ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${src['onu']}    ${src['uni_id']}
         Run Keyword If    ${has_dataplane}    Run Keyword And Continue On Failure
         ...    Wait Until Keyword Succeeds    ${timeout}    2s
         ...    Check Ping    False    ${dst['dp_iface_ip_qinq']}    ${src['dp_iface_name']}
@@ -479,7 +479,7 @@ Data plane verification using TCP for DT
         Pass Execution If    ${rc} != 0    Skipping test: iperf3 / jq not found on the RG
 
         ${onu_port}=    Wait Until Keyword Succeeds    ${timeout}    2s    Get ONU Port in ONOS    ${src['onu']}
-        ...    ${of_id}
+        ...    ${of_id}    ${src['uni_id']}
         ${subscriber_id}=    Set Variable    ${of_id}/${onu_port}
         ${bandwidth_profile_name}    Get Bandwidth Profile Name For Given Subscriber    ${subscriber_id}
         ...    upstreamBandwidthProfile
@@ -538,7 +538,7 @@ Data plane verification using UDP for DT
         Pass Execution If    ${rc} != 0    Skipping test: iperf3 / jq not found on the RG
 
         ${onu_port}=    Wait Until Keyword Succeeds    ${timeout}    2s    Get ONU Port in ONOS    ${src['onu']}
-        ...    ${of_id}
+        ...    ${of_id}    ${src['uni_id']}
         ${subscriber_id}=    Set Variable    ${of_id}/${onu_port}
         ${bandwidth_profile_name}    Get Bandwidth Profile Name For Given Subscriber    ${subscriber_id}
         ...    upstreamBandwidthProfile
@@ -736,7 +736,7 @@ Data plane Bandwidth profile update verification for DT
         Pass Execution If    ${rc} != 0    Skipping test: iperf3 / jq not found on the RG
 
         ${onu_port}=    Wait Until Keyword Succeeds    ${timeout}    2s    Get ONU Port in ONOS    ${src['onu']}
-        ...    ${of_id}
+        ...    ${of_id}    ${src['uni_id']}
         ${subscriber_id}=    Set Variable    ${of_id}/${onu_port}
         ${bandwidth_profile_name}    Get Bandwidth Profile Name For Given Subscriber    ${subscriber_id}
         ...    upstreamBandwidthProfile
@@ -803,10 +803,10 @@ Test ONU Delete and Auto-Discovery for DT
         ...    Verify No Pending Flows For ONU    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${onu_port}
         # ONU Auto-Discovery
         ${onu_port}=    Wait Until Keyword Succeeds    ${timeout}    2s
-        ...    Get ONU Port in ONOS    ${src['onu']}    ${of_id}
+        ...    Get ONU Port in ONOS    ${src['onu']}    ${of_id}    ${src['uni_id']}
         # Check ONU port is Enabled in ONOS
         Wait Until Keyword Succeeds    ${timeout}    2s
-        ...    Verify UNI Port Is Enabled   ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${src['onu']}
+        ...    Verify UNI Port Is Enabled   ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${src['onu']}    ${src['uni_id']}
         ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
         Run Keyword If    ${has_dataplane}    Clean Up Linux    ${onu_device_id}
         # Verify ONU state in voltha
