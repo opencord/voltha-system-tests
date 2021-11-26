@@ -324,7 +324,7 @@ Perform Sanity Test DT Per OLT
         Continue For Loop If    "${olt_serial_number}"!="${src['olt']}"
         ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
         ${onu_port}=    Wait Until Keyword Succeeds    ${timeout}    2s
-        ...    Get ONU Port in ONOS    ${src['onu']}    ${of_id}
+        ...    Get ONU Port in ONOS    ${src['onu']}    ${of_id}    ${src['uni_id']}
         # Check ONU port is Enabled in ONOS
         Wait Until Keyword Succeeds   120s   2s
         ...    Verify UNI Port Is Enabled   ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${src['onu']}
