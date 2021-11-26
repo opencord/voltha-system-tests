@@ -324,10 +324,10 @@ Perform Sanity Test DT Per OLT
         Continue For Loop If    "${olt_serial_number}"!="${src['olt']}"
         ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
         ${onu_port}=    Wait Until Keyword Succeeds    ${timeout}    2s
-        ...    Get ONU Port in ONOS    ${src['onu']}    ${of_id}
+        ...    Get ONU Port in ONOS    ${src['onu']}    ${of_id}    ${src['uni_id']}
         # Check ONU port is Enabled in ONOS
         Wait Until Keyword Succeeds   120s   2s
-        ...    Verify UNI Port Is Enabled   ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${src['onu']}
+        ...    Verify UNI Port Is Enabled   ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${src['onu']}    ${src['uni_id']}
         Run Keyword Unless    ${supress_add_subscriber}
         ...    Execute ONOS CLI Command use single connection    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}
         ...    volt-add-subscriber-access ${of_id} ${onu_port}
@@ -706,7 +706,7 @@ Validate ONUs After OLT Disable
         ...    Validate Device    ENABLED    DISCOVERED
         ...    UNREACHABLE    ${src['onu']}    onu=True    onu_reason=${valid_onu_states}
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds   ${timeout}    2s
-        ...    Verify UNI Port Is Disabled   ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${src['onu']}
+        ...    Verify UNI Port Is Disabled   ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${src['onu']}    ${src['uni_id']}
         Run Keyword If    ${has_dataplane}    Run Keyword And Continue On Failure
         ...    Wait Until Keyword Succeeds    60s    2s
         ...    Check Ping    False    ${dst['dp_iface_ip_qinq']}    ${src['dp_iface_name']}
@@ -770,10 +770,10 @@ Repeat Sanity Test
         ${src}=    Set Variable    ${hosts.src[${I}]}
         ${dst}=    Set Variable    ${hosts.dst[${I}]}
         ${onu_port}=    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
-        ...    Get ONU Port in ONOS    ${src['onu']}    ${of_id}
+        ...    Get ONU Port in ONOS    ${src['onu']}    ${of_id}    ${src['uni_id']}
         # Check ONU port is Enabled in ONOD
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds   120s   2s
-        ...    Verify UNI Port Is Enabled   ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${src['onu']}
+        ...    Verify UNI Port Is Enabled   ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${src['onu']}    ${src['uni_id']}
         # Verify EAPOL flows are added for the ONU port
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
         ...    Verify Eapol Flows Added For ONU    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${of_id}    ${onu_port}
@@ -978,7 +978,7 @@ Validate ONUs for PON OLT Disable DT
         ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
         ${of_id}=    Wait Until Keyword Succeeds    ${timeout}    15s    Validate OLT Device in ONOS    ${src['olt']}
         ${onu_port}=    Wait Until Keyword Succeeds    ${timeout}    2s    Get ONU Port in ONOS    ${src['onu']}
-        ...    ${of_id}
+        ...    ${of_id}    ${src['uni_id']}
         ${matched}=    Match ONU in PON OLT Peer List    ${olt_peer_list}    ${onu_device_id}
         ${valid_onu_states}=    Create List    stopping-openomci    omci-flows-deleted
         Run Keyword If    ${matched}
@@ -987,7 +987,7 @@ Validate ONUs for PON OLT Disable DT
         ...    Validate Device    ENABLED    DISCOVERED
         ...    UNREACHABLE    ${src['onu']}    onu=True    onu_reason=${valid_onu_states}
         ...    AND    Wait Until Keyword Succeeds   ${timeout}    2s
-        ...    Verify UNI Port Is Disabled   ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${src['onu']}
+        ...    Verify UNI Port Is Disabled   ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${src['onu']}    ${src['uni_id']}
         ...    AND    Run Keyword If    ${has_dataplane}    Run Keyword And Continue On Failure
         ...    Wait Until Keyword Succeeds    ${timeout}    2s
         ...    Check Ping    False    ${dst['dp_iface_ip_qinq']}    ${src['dp_iface_name']}
@@ -1020,7 +1020,7 @@ Validate ONUs for PON OLT Enable DT
         ${of_id}=    Wait Until Keyword Succeeds    ${timeout}    15s    Validate OLT Device in ONOS    ${src['olt']}
         ${nni_port}=    Wait Until Keyword Succeeds    ${timeout}    2s    Get NNI Port in ONOS    ${of_id}
         ${onu_port}=    Wait Until Keyword Succeeds    ${timeout}    2s    Get ONU Port in ONOS    ${src['onu']}
-        ...    ${of_id}
+        ...    ${of_id}    ${src['uni_id']}
         ${matched}=    Match ONU in PON OLT Peer List    ${olt_peer_list}    ${onu_device_id}
         Run Keyword If    ${matched}
         ...    Run Keywords
@@ -1028,7 +1028,7 @@ Validate ONUs for PON OLT Enable DT
         ...    Run Keyword If    ${has_dataplane}    Clean Up Linux    ${onu_device_id}
         # Verify ONU port status
         ...    AND    Wait Until Keyword Succeeds   120s   2s
-        ...    Verify UNI Port Is Enabled   ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${src['onu']}
+        ...    Verify UNI Port Is Enabled   ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${src['onu']}    ${src['uni_id']}
         ...    AND    Wait Until Keyword Succeeds    ${timeout}    2
         ...    Execute ONOS CLI Command use single connection    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}
         ...    volt-add-subscriber-access ${of_id} ${onu_port}
