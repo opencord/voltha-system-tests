@@ -229,6 +229,9 @@ Perform Sanity Test Per OLT
         Run Keyword Unless    ${supress_add_subscriber}
         ...    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
         ...    Verify Eapol Flows Added For ONU    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${of_id}    ${onu_port}
+        # Verify LLDP flow in ONOS
+        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
+        ...     Verify LLDP Flow Added      ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${of_id}      1
         # Verify ONU state in voltha
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s    Validate Device
         ...    ENABLED    ACTIVE    REACHABLE
@@ -288,6 +291,9 @@ Perform Sanity Test DT
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
         ...    Verify Subscriber Access Flows Added Count DT    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${of_id}
         ...    ${onos_flows_count}
+        # Verify LLDP flow in ONOS
+        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
+        ...     Verify LLDP Flow Added      ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${of_id}      1
         # Verify VOLTHA Flows
         # Number of per OLT Flows equals Twice the Number of Active ONUs (each for downstream and upstream) + 1 for LLDP
         ${olt_flows}=    Evaluate    2 * ${num_onus} + 1
@@ -433,6 +439,9 @@ Perform Sanity Test TT
         Wait Until Keyword Succeeds    ${timeout}    5s
         ...    Verify Added Flow Count for OLT TT    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${of_id}
         ...    ${onos_flows_count}
+        # Verify LLDP flow in ONOS
+        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
+        ...     Verify LLDP Flow Added      ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${of_id}      1
         # Verify VOLTHA Flows
         # Number of per OLT Flows equals 10 * Number of Active ONUs  + 3 for default LLDP, IGMP and DHCP
         ${olt_flows}=    Run Keyword If    ${has_dataplane}    Evaluate    10 * ${num_of_provisioned_onus} + 3

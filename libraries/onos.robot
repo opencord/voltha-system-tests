@@ -198,6 +198,14 @@ Get Master Instace in ONOS
     ${master_node}=    Get From Dictionary    ${jsondata}    nodeId
     [Return]    ${master_node}
 
+Verify LLDP Flow Added
+    [Arguments]    ${ip}    ${port}    ${olt_of_id}    ${expected_flows}
+    [Documentation]    Matches for total number of LLDP flows added for one OLT
+    ${lldp_flows_added}=    Execute ONOS CLI Command use single connection    ${ip}    ${port}
+    ...    flows -s ADDED ${olt_of_id} | grep -v deviceId | grep ETH_TYPE:lldp | grep -v ETH_TYPE:arp
+    ${lldp_flows_added_count}=      Get Line Count      ${lldp_flows_added}
+    Should Be Equal As Integers    ${lldp_flows_added_count}    ${expected_flows}
+
 Verify Subscriber Access Flows Added for ONU
     [Arguments]    ${ip}    ${port}    ${olt_of_id}    ${onu_port}    ${nni_port}    ${c_tag}    ${s_tag}
     [Documentation]    Verifies if the Subscriber Access Flows are added in ONOS for the ONU
