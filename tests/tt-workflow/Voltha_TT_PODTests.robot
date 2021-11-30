@@ -255,6 +255,8 @@ Clear All Devices Then Create New Device
 
 Teardown Suite
     [Documentation]    Tear down steps for the suite
+    Start Logging Setup or Teardown  Teardown-${SUITE NAME}
     Run Keyword If    ${has_dataplane}    Clean Up Linux
     Run Keyword If    ${teardown_device}    Delete All Devices And Verify
     Close All ONOS SSH Connections
+    Stop Logging Setup or Teardown    Teardown-${SUITE NAME}
