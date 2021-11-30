@@ -16,6 +16,29 @@
       "message": "recheck",
       "revId": "422d46023e82c124cd2a79f29c70cf2e719f4a0b",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "91629ed2_db8ee0fe",
+        "filename": "libraries/utils.robot",
+        "patchSetId": 6
+      },
+      "lineNbr": 479,
+      "author": {
+        "id": 1000007
+      },
+      "writtenOn": "2021-11-30T17:24:02Z",
+      "side": 1,
+      "message": "should we add \"unitag_sub\" as a parameter instead of having it as a global variable?",
+      "range": {
+        "startLine": 479,
+        "startChar": 43,
+        "endLine": 479,
+        "endChar": 53
+      },
+      "revId": "422d46023e82c124cd2a79f29c70cf2e719f4a0b",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     }
   ]
 }
