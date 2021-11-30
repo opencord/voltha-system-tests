@@ -230,10 +230,10 @@ Perform Sanity Test Per OLT
         ...    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
         ...    Verify Eapol Flows Added For ONU    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${of_id}    ${onu_port}
         # Verify LLDP flow in ONOS
-        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
+        Wait Until Keyword Succeeds    ${timeout}    5s
         ...     Verify LLDP Flow Added      ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${of_id}      1
         # Verify ONU state in voltha
-        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s    Validate Device
+        Run Keyword    Wait Until Keyword Succeeds    ${timeout}    5s    Validate Device
         ...    ENABLED    ACTIVE    REACHABLE
         ...    ${src['onu']}    onu=True    onu_reason=omci-flows-pushed
         # Perform Authentication
@@ -259,7 +259,7 @@ Perform Sanity Test Per OLT
         ...    Verify Eapol Flows Added For ONU    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${of_id}
         ...    ${onu_port}    ${src['c_tag']}
         # Verify Meters in ONOS
-        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
+        Run Keyword    Wait Until Keyword Succeeds    ${timeout}    5s
         ...    Verify Meters in ONOS    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${of_id}    ${onu_port}
         Run Keyword If    ${has_dataplane}    Validate DHCP and Ping    True
         ...    True    ${src['dp_iface_name']}    ${src['s_tag']}    ${src['c_tag']}    ${dst['dp_iface_ip_qinq']}
@@ -292,14 +292,14 @@ Perform Sanity Test DT
         ...    Verify Subscriber Access Flows Added Count DT    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${of_id}
         ...    ${onos_flows_count}
         # Verify LLDP flow in ONOS
-        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
+        Wait Until Keyword Succeeds    ${timeout}    5s
         ...     Verify LLDP Flow Added      ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${of_id}      1
         # Verify VOLTHA Flows
         # Number of per OLT Flows equals Twice the Number of Active ONUs (each for downstream and upstream) + 1 for LLDP
         ${olt_flows}=    Evaluate    2 * ${num_onus} + 1
         # Number of per ONU Flows equals 2 (one each for downstream and upstream)
         ${onu_flows}=    Set Variable    2
-        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s    Validate OLT Flows
+        Run Keyword    Wait Until Keyword Succeeds    ${timeout}    5s    Validate OLT Flows
         ...    ${olt_flows}    ${olt_device_id}
         ${List_ONU_Serial}    Create List
         Set Suite Variable    ${List_ONU_Serial}
@@ -440,7 +440,7 @@ Perform Sanity Test TT
         ...    Verify Added Flow Count for OLT TT    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${of_id}
         ...    ${onos_flows_count}
         # Verify LLDP flow in ONOS
-        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
+        Wait Until Keyword Succeeds    ${timeout}    5s
         ...     Verify LLDP Flow Added      ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${of_id}      1
         # Verify VOLTHA Flows
         # Number of per OLT Flows equals 10 * Number of Active ONUs  + 3 for default LLDP, IGMP and DHCP
