@@ -246,7 +246,9 @@ Test Disable and Enable ONU for DT
         ...    REACHABLE    ${src['onu']}    onu=True    onu_reason=onu-reenabled
         Wait Until Keyword Succeeds   ${timeout}    2s
         ...    Verify UNI Port Is Enabled   ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${src['onu']}
-        # TODO: Yet to Verify on the GPON based Physical POD (VOL-2652)
+        # Workaround for issue seen in VOL-4489. Keep this workaround until VOL-4489 is fixed.
+        Run Keyword If    ${has_dataplane}    Reboot XGSPON ONU    ${src['olt']}    ${src['onu']}    omci-flows-pushed
+        # Workaround ends here for issue seen in VOL-4489.
         Run Keyword If    ${has_dataplane}    Run Keyword And Continue On Failure
         ...    Wait Until Keyword Succeeds    ${timeout}    2s
         ...    Check Ping    True    ${dst['dp_iface_ip_qinq']}    ${src['dp_iface_name']}
