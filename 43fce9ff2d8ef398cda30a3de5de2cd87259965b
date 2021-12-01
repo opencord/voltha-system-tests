@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "71175b22_7df86a71",
+        "filename": "tests/dt-workflow/Voltha_DT_PODTests.robot",
+        "patchSetId": 12
+      },
+      "lineNbr": 804,
+      "author": {
+        "id": 1000127
+      },
+      "writtenOn": "2021-12-01T04:50:02Z",
+      "side": 1,
+      "message": "Where is the subscriber provisioned for it to move to omci-flows-pushed state after it was deleted and re-discovered.",
+      "range": {
+        "startLine": 804,
+        "startChar": 55,
+        "endLine": 804,
+        "endChar": 72
+      },
+      "revId": "43fce9ff2d8ef398cda30a3de5de2cd87259965b",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    }
+  ]
+}
