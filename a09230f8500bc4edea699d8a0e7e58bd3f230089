@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3397fecb_9e94eeb9",
+        "filename": "tests/tt-workflow/Voltha_TT_PODTests.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 279,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2021-12-01T09:02:38Z",
+      "side": 1,
+      "message": "That\u0027s what \u0027Close All ONOS SSH Connections\u0027 does!\nSo it is not needed here!",
+      "range": {
+        "startLine": 279,
+        "startChar": 4,
+        "endLine": 279,
+        "endChar": 36
+      },
+      "revId": "a09230f8500bc4edea699d8a0e7e58bd3f230089",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    }
+  ]
+}
