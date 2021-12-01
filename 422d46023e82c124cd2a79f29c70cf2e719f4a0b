@@ -56,6 +56,30 @@
       },
       "revId": "422d46023e82c124cd2a79f29c70cf2e719f4a0b",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "435a39a7_83854c91",
+        "filename": "libraries/utils.robot",
+        "patchSetId": 6
+      },
+      "lineNbr": 479,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2021-12-01T03:47:11Z",
+      "side": 1,
+      "message": "The scope/value of this variable will always be defined at suite level and will remain the same. So, imo it is okay to have it global.",
+      "parentUuid": "91629ed2_db8ee0fe",
+      "range": {
+        "startLine": 479,
+        "startChar": 43,
+        "endLine": 479,
+        "endChar": 53
+      },
+      "revId": "422d46023e82c124cd2a79f29c70cf2e719f4a0b",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     }
   ]
 }
