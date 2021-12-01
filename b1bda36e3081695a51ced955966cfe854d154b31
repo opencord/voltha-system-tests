@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bfc8cb6a_8b091613",
+        "filename": "tests/tt-workflow/Voltha_TT_MulticastTests.robot",
+        "patchSetId": 13
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2021-12-01T10:03:14Z",
+      "side": 0,
+      "message": "This got removed. Please add it back.",
+      "range": {
+        "startLine": 65,
+        "startChar": 0,
+        "endLine": 69,
+        "endChar": 22
+      },
+      "revId": "b1bda36e3081695a51ced955966cfe854d154b31",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    }
+  ]
+}
