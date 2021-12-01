@@ -46,6 +46,30 @@
       },
       "revId": "43fce9ff2d8ef398cda30a3de5de2cd87259965b",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "38dc0777_23ac88a0",
+        "filename": "tests/dt-workflow/Voltha_DT_PODTests.robot",
+        "patchSetId": 12
+      },
+      "lineNbr": 804,
+      "author": {
+        "id": 1000127
+      },
+      "writtenOn": "2021-12-01T05:19:44Z",
+      "side": 1,
+      "message": "onu delete removes the port at onos and that should remove all the context associated with that port. So the onu should only move to initial-mib-downloaded state.",
+      "parentUuid": "efb947b8_2432ae50",
+      "range": {
+        "startLine": 804,
+        "startChar": 55,
+        "endLine": 804,
+        "endChar": 72
+      },
+      "revId": "43fce9ff2d8ef398cda30a3de5de2cd87259965b",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     }
   ]
 }
