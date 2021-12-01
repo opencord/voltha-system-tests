@@ -22,6 +22,30 @@
       },
       "revId": "43fce9ff2d8ef398cda30a3de5de2cd87259965b",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "efb947b8_2432ae50",
+        "filename": "tests/dt-workflow/Voltha_DT_PODTests.robot",
+        "patchSetId": 12
+      },
+      "lineNbr": 804,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2021-12-01T04:54:40Z",
+      "side": 1,
+      "message": "Since the subscriber was not removed before performing onu delete, shouldn\u0027t it be back automatically on onu-rediscovery? Also while testing, this step was never executed due to failures happening even before this in the test.",
+      "parentUuid": "71175b22_7df86a71",
+      "range": {
+        "startLine": 804,
+        "startChar": 55,
+        "endLine": 804,
+        "endChar": 72
+      },
+      "revId": "43fce9ff2d8ef398cda30a3de5de2cd87259965b",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     }
   ]
 }
