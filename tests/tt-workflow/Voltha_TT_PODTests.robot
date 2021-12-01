@@ -24,6 +24,7 @@ Library           String
 Library           OperatingSystem
 Library           XML
 Library           RequestsLibrary
+Library           SSHLibrary
 Library           ../../libraries/DependencyLibrary.py
 Resource          ../../libraries/onos.robot
 Resource          ../../libraries/voltctl.robot
@@ -275,4 +276,5 @@ Teardown Suite
     Run Keyword If    ${has_dataplane}    Clean Up Linux
     Run Keyword If    ${teardown_device}    Delete All Devices And Verify
     Close All ONOS SSH Connections
+    SSHLibrary.Close All Connections
     Stop Logging Setup or Teardown    Teardown-${SUITE NAME}
