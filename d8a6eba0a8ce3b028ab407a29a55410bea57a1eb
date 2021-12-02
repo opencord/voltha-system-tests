@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a29384e4_a756de90",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2021-12-02T14:07:41Z",
+      "side": 1,
+      "message": "LGTM, but should used as workaround only till VOL-4494 is solved.",
+      "revId": "d8a6eba0a8ce3b028ab407a29a55410bea57a1eb",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    }
+  ]
+}
