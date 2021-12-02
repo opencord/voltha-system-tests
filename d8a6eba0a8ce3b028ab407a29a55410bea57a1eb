@@ -16,6 +16,23 @@
       "message": "LGTM, but should used as workaround only till VOL-4494 is solved.",
       "revId": "d8a6eba0a8ce3b028ab407a29a55410bea57a1eb",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9b7d0753_92176bd2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2021-12-02T14:14:56Z",
+      "side": 1,
+      "message": "Verified here: https://jenkins.opencord.org/view/VOLTHA-2.X-Tests/job/build_flex-ocp-cord-multi-uni_TP_voltha_TT_master_test/181/console",
+      "revId": "d8a6eba0a8ce3b028ab407a29a55410bea57a1eb",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     }
   ]
 }
