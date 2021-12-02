@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "50e5b56a_dcbd5649",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 13
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2021-12-02T04:37:48Z",
+      "side": 1,
+      "message": "Submitting the work as `notready` due to functionality issues in voltha for onu re-discovery (when onu is deleted directly).",
+      "revId": "b75cf1b929e021241954dd77eefdeb80602ab6e7",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    }
+  ]
+}
