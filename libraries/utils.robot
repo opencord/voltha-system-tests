@@ -734,9 +734,11 @@ Teardown
 Teardown Suite
     [Documentation]    Clean up device if desired
     Start Logging Setup or Teardown  Teardown-${SUITE NAME}
+    Run Keyword If    ${has_dataplane}    Clean Up Linux
     Run Keyword If    ${teardown_device}    Delete All Devices and Verify
     Run Keyword And Continue On Failure    Collect Logs
     Close All ONOS SSH Connections
+    Run Keyword If    ${has_dataplane}    Clean Up All Nodes
     Stop Logging Setup or Teardown    Teardown-${SUITE NAME}
 
 Delete Device and Verify
@@ -1543,3 +1545,15 @@ Validate Cleanup In ETCD
     ${result}=    Exec Pod In Kube    ${namespace}    ${podname}    ${commandget}
     Log    ${result}
     Should Be Empty    ${result}    Stale Resource Manager Data in Etcd!
+
+
+Clean Up All Nodes
+    [Documentation]    Login to each node and kill all stale lxc prcoesses
+    ${num_nodes}=    Get Length    ${nodes}
+    FOR    ${I}    IN RANGE    0    ${num_nodes}
+        ${node_ip}=    Evaluate    ${nodes}[${I}].get("ip")
+        ${node_user}=    Evaluate    ${nodes}[${I}].get("user")
+        ${node_pass}=    Evaluate    ${nodes}[${I}].get("pass")
+        Run Keyword And Continue On Failure    Start Remote Command    kill -9 `pidof lxc`
+        ...    ${node_ip}    ${node_user}    ${node_pass}
+    END
