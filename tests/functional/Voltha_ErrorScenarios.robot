@@ -332,3 +332,4 @@ Teardown Suite
     #Restore all ONUs
 #    Run Keyword If    ${has_dataplane}    RestoreONUs    ${num_onus}
     Close All ONOS SSH Connections
+    Run Keyword If    ${has_dataplane}    Clean Up All Nodes
