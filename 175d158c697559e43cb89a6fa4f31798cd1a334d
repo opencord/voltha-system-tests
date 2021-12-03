@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a7e00509_01e57c5b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 18
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2021-12-03T12:47:26Z",
+      "side": 1,
+      "message": "Ran patchset 18 here: https://jenkins.opencord.org/view/VOLTHA-2.X-Tests/job/build_flex-ocp-cord-multi-uni_TP_voltha_TT_master_test/183/console",
+      "revId": "175d158c697559e43cb89a6fa4f31798cd1a334d",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    }
+  ]
+}
