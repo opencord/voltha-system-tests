@@ -16,6 +16,23 @@
       "message": "Ran patchset 18 here: https://jenkins.opencord.org/view/VOLTHA-2.X-Tests/job/build_flex-ocp-cord-multi-uni_TP_voltha_TT_master_test/183/console",
       "revId": "175d158c697559e43cb89a6fa4f31798cd1a334d",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8773f5d4_2f2e2092",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 18
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2021-12-03T12:57:36Z",
+      "side": 1,
+      "message": "The issue still persists with igmp leave for 2 rg joining 2 different channels (but visible only on Onf Flex pod and is working fine on Netsia pod). So as discussed, for now merging this patch as is, let it run over the weekend and close the main multicast story. Will decide next week whether to mark these 2 failure TCs as non-critical and create a new jira (bug) to investigate more on the issue.",
+      "revId": "175d158c697559e43cb89a6fa4f31798cd1a334d",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     }
   ]
 }
