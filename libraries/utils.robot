@@ -1552,7 +1552,6 @@ Validate Cleanup In ETCD
     Log    ${result}
     Should Be Empty    ${result}    Stale Resource Manager Data in Etcd!
 
-
 Clean Up All Nodes
     [Documentation]    Login to each node and kill all stale lxc prcoesses
     ${num_nodes}=    Get Length    ${nodes}
@@ -1562,4 +1561,19 @@ Clean Up All Nodes
         ${node_pass}=    Evaluate    ${nodes}[${I}].get("pass")
         Run Keyword And Continue On Failure    Start Remote Command    kill -9 `pidof lxc`
         ...    ${node_ip}    ${node_user}    ${node_pass}
+    END
+
+Reboot XGSPON ONU
+    [Documentation]   Reboots the XGSPON ONU and verifies the ONU state after the reboot
+    [Arguments]    ${olt_sn}    ${onu_sn}    ${reason}
+    FOR    ${I}    IN RANGE    0    ${num_olts}
+        ${serial_number}    Evaluate    ${olts}[${I}].get("serial")
+        Continue For Loop If    "${serial_number}"!="${olt_sn}"
+        ${board_tech}    Evaluate    ${olts}[${I}].get("board_technology")
+        ${onu_device_id}=    Get Device ID From SN    ${onu_sn}
+        Run Keyword If    "${board_tech}"=="XGS-PON"    Run Keywords
+        ...    Reboot Device    ${onu_device_id}
+        ...    AND    Wait Until Keyword Succeeds    120s    5s
+        ...    Validate Device    ENABLED    ACTIVE
+        ...    REACHABLE    ${onu_sn}    onu=True    onu_reason=${reason}
     END
