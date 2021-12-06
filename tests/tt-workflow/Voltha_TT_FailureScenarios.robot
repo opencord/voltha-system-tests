@@ -681,7 +681,7 @@ Verify Control Plane After Pod Restart TT
         ...    Catenate    volt-add-subscriber-unitag --tpId ${src['tp_id']} --sTag ${src['s_tag']}
         ...    --cTag ${src['c_tag']} ${src['onu']}-${src['uni_id']}
         ...    ELSE
-        ...    Set Variable    volt-add-subscriber-access ${of_id} ${onu_port}`
+        ...    Set Variable    volt-add-subscriber-access ${of_id} ${onu_port}
         Wait Until Keyword Succeeds    ${timeout}    2s    Execute ONOS CLI Command use single connection    ${ONOS_SSH_IP}
         ...    ${ONOS_SSH_PORT}    ${add_sub_cmd}
         Wait Until Keyword Succeeds    ${timeout}    5s
