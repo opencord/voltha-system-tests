@@ -121,6 +121,12 @@ Test Disable and Enable ONU
         ...    Check Ping    False    ${dst['dp_iface_ip_qinq']}    ${src['dp_iface_name']}
         ...    ${src['ip']}    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
         Enable Device    ${onu_device_id}
+        Wait Until Keyword Succeeds    ${timeout}    5s
+        ...    Validate Device    ENABLED    ACTIVE
+        ...    REACHABLE    ${src['onu']}    onu=True    onu_reason=omci-flows-pushed
+        # Workaround for issue seen in VOL-4489. Keep this workaround until VOL-4489 is fixed.
+        Run Keyword If    ${has_dataplane}    Reboot XGSPON ONU    ${src['olt']}    ${src['onu']}    omci-flows-pushed
+        # Workaround ends here for issue seen in VOL-4489.
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
         ...    Validate Subscriber DHCP Allocation    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${onu_port}
         # Verify subscriber access flows are added for the ONU port
@@ -258,6 +264,9 @@ Test Disable and Enable ONU scenario for ATT workflow
         Enable Device    ${onu_device_id}
         Wait Until Keyword Succeeds    ${timeout}    2s    Verify Eapol Flows Added For ONU    ${ONOS_SSH_IP}
         ...    ${ONOS_SSH_PORT}    ${of_id}    ${onu_port}
+        # Workaround for issue seen in VOL-4489. Keep this workaround until VOL-4489 is fixed.
+        Run Keyword If    ${has_dataplane}    Reboot XGSPON ONU    ${src['olt']}    ${src['onu']}    omci-flows-pushed
+        # Workaround ends here for issue seen in VOL-4489.
         Run Keyword If    ${has_dataplane}    Run Keyword And Continue On Failure
         ...    Validate Authentication After Reassociate    True
         ...    ${src['dp_iface_name']}    ${src['ip']}    ${src['user']}    ${src['pass']}

@@ -244,6 +244,11 @@ Test Disable and Enable ONU for TT
         ...    ${src['ip']}    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
         Sleep    5s
         Enable Device    ${onu_device_id}
+        Wait Until Keyword Succeeds   ${timeout}    2s
+        ...    Verify UNI Port Is Enabled   ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${src['onu']}
+        # Workaround for issue seen in VOL-4489. Keep this workaround until VOL-4489 is fixed.
+        Run Keyword If    ${has_dataplane}    Reboot XGSPON ONU    ${src['olt']}    ${src['onu']}    omci-flows-pushed
+        # Workaround ends here for issue seen in VOL-4489.
         Run Keyword If    ${has_dataplane} and '${service_type}' == 'mcast'    Clean Up Linux
         Wait Until Keyword Succeeds   ${timeout}    2s
         ...    Verify UNI Port Is Enabled   ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${src['onu']}    ${src['uni_id']}

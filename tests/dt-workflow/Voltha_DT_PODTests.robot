@@ -841,17 +841,3 @@ Clear All Devices Then Create New Device
     # Execute normal test Setup Keyword
     Setup
 
-Reboot XGSPON ONU
-    [Documentation]   Reboots the XGSPON ONU and verifies the ONU state after the reboot
-    [Arguments]    ${olt_sn}    ${onu_sn}    ${reason}
-    FOR    ${I}    IN RANGE    0    ${num_olts}
-        ${serial_number}    Evaluate    ${olts}[${I}].get("serial")
-        Continue For Loop If    "${serial_number}"!="${olt_sn}"
-        ${board_tech}    Evaluate    ${olts}[${I}].get("board_technology")
-        ${onu_device_id}=    Get Device ID From SN    ${onu_sn}
-        Run Keyword If    "${board_tech}"=="XGS-PON"    Run Keywords
-        ...    Reboot Device    ${onu_device_id}
-        ...    AND    Wait Until Keyword Succeeds    120s    5s
-        ...    Validate Device    ENABLED    ACTIVE
-        ...    REACHABLE    ${onu_sn}    onu=True    onu_reason=${reason}
-    END
