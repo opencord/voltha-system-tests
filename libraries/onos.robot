@@ -818,9 +818,20 @@ List OLTs
 
 Count flows
     [Documentation]     Count flows in a particular ${state} in ONOS
-    [Arguments]  ${ip}    ${port}    ${targetFlows}   ${deviceId}   ${state}
-    ${flows}=    Execute ONOS CLI Command use single connection    ${ip}    ${port}
-    ...     flows -s ${state} ${deviceId} | grep -v deviceId | wc -l
+    ...                 Optionally for a certain onu-port.
+    [Arguments]  ${ip}    ${port}    ${deviceId}   ${state}    ${onu_port}=${EMPTY}
+    ${cmd}=    Catenate    SEPARATOR=    flows -s ${state} ${deviceId} | grep -v deviceId
+    ${cmd}=    Run Keyword If    "${onu_port}"!="${EMPTY}"    Catenate    SEPARATOR=    ${cmd} | grep ${onu_port}
+    ...        ELSE    Set Variable    ${cmd}
+    ${cmd}=    Catenate    SEPARATOR=    ${cmd} | wc -l
+    ${flows}=  Execute ONOS CLI Command use single connection    ${ip}    ${port}    ${cmd}
+    [return]   ${flows}
+
+Validate number of flows
+    [Documentation]     Validates number of flows in a particular ${state} in ONOS
+    ...                 Optionally for a certain onu-port.
+    [Arguments]  ${ip}    ${port}    ${targetFlows}   ${deviceId}   ${state}    ${onu_port}=${EMPTY}
+    ${flows}=    Count flows    ${ip}    ${port}    ${deviceId}   ${state}    ${onu_port}
     Log     Found ${state} ${flows} of ${targetFlows} expected flows on device ${deviceId}
     Should Be Equal As Integers    ${targetFlows}    ${flows}
 
@@ -830,13 +841,13 @@ Wait for all flows to in ADDED state
     ...    ${provisioned}     ${withEapol}    ${withDhcp}     ${withIgmp}     ${withLldp}
     ${targetFlows}=     Calculate flows by workflow     ${workflow}    ${uni_count}    ${olt_count}     ${provisioned}
     ...     ${withEapol}    ${withDhcp}     ${withIgmp}     ${withLldp}
-    Wait Until Keyword Succeeds     10m     5s      Count flows
+    Wait Until Keyword Succeeds     10m     5s      Validate number of flows
     ...     ${ip}    ${port}  ${targetFlows}  ${deviceId}   added
 
 Wait for all flows to be removed
     [Documentation]     Wait for all flows to be removed from a particular device
     [Arguments]     ${ip}   ${port}     ${deviceId}
-    Wait Until Keyword Succeeds     10m     5s      Count flows
+    Wait Until Keyword Succeeds     10m     5s      Validate number of flows
     ...     ${ip}    ${port}  0  ${deviceId}   any
 
 

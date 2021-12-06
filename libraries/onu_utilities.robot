@@ -117,6 +117,7 @@ Current State Test All Onus
 Reconcile Onu Adapter
     [Documentation]     Restarts the openonu adapter and waits for reconciling is finished and expected oper-state is reached
     [Arguments]     ${namespace}    ${usekill2restart}    ${oper_status}    ${olt_to_be_deleted_sn}=${EMPTY}
+    ...             ${flow_delete_params}=&{EMPTY}
     # get time of restart of openonu adapter
     ${restart_ts}=    Get Current Date
     # restart OpenONU adapter
@@ -129,7 +130,11 @@ Reconcile Onu Adapter
     # delete the olt passed, if available (special feature)
     ${olt_to_be_deleted_device_id}=    Run Keyword IF  "${olt_to_be_deleted_sn}"!="${EMPTY}"
     ...    Get OLTDeviceID From OLT List    ${olt_to_be_deleted_sn}
-    Run Keyword IF  "${olt_to_be_deleted_sn}"!="${EMPTY}"    Delete Device    ${olt_to_be_deleted_device_id}
+    Run Keyword If  "${olt_to_be_deleted_sn}"!="${EMPTY}"    Delete Device    ${olt_to_be_deleted_device_id}
+    # remove flows if params passed for it (special feature II)
+    Run Keyword If    ${flow_delete_params}!=&{EMPTY}    Wait Until Keyword Succeeds    ${timeout}    2s
+    ...    Execute ONOS CLI Command use single connection    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}
+    ...    volt-remove-subscriber-access ${flow_delete_params['of_id']} ${flow_delete_params['onu_port']}
     # wait for the reconcile to complete
     # - we check that communication to openonu-adapter is established again
     # - we check that all ONUs leave reconcile state by validate a simple voltctl request will not responds with error
@@ -374,6 +379,67 @@ Get Resource Instances ETCD Data
     log    ${result}
     [Return]    ${result}
 
+Validate Tech Profiles and Flows in ETCD Data Per Onu
+    [Documentation]    This keyword validates tech profiles and flows data stored in etcd per onu.
+    ...                It checks checks presence/absence of tech profiles and flows depending on must_exist.
+    ...                The values/content of tech profiles and flows will be not validated!
+    [Arguments]    ${onu_sn}    ${namespace}=default    ${defaultkvstoreprefix}=voltha_voltha    ${must_exist}=True
+    ${kvstoreprefix}=    Get Kv Store Prefix    ${defaultkvstoreprefix}
+    ${etcddata}=    Get ONU Go Adapter ETCD Data    namespace=${namespace}    defaultkvstoreprefix=${kvstoreprefix}
+    #prepare result for json convert
+    ${result}=    Prepare ONU Go Adapter ETCD Data For Json    ${etcddata}
+    ${jsondata}=    To Json    ${result}
+    ${length}=    Get Length    ${jsondata}
+    log    ${jsondata}
+    ${matched}=    Set Variable    False
+    FOR    ${INDEX}    IN RANGE    0    ${length}
+        ${value}=    Get From List    ${jsondata}    ${INDEX}
+        ${uni_config}=    Get From Dictionary    ${value}     uni_config
+        ${uni_config}=    Set Variable    ${uni_config[0]}
+        ${sn}=    Get From Dictionary    ${value}    serial_number
+        ${matched}=    Set Variable If    '${sn}'=='${onu_sn}'    True    False
+        Exit For Loop If    ${matched}
+    END
+    Should Be True    ${matched}    No ETCD data found for ONU ${onu_sn}
+    Log    ${uni_config}
+    ${tp_path}=    Get From Dictionary    ${uni_config}     PersTpPathMap
+    Log    ${tp_path}
+    ${flow_params}=    Get From Dictionary    ${uni_config}     flow_params
+    Log    ${flow_params}
+    # in case of ATT for ONU with removed flows there is default flow established
+    ${length}=    Get Length    ${flow_params}
+    ${cookieslice}=    Run Keyword If    ${length}>0    Run Keyword If     'cookie_slice' in ${flow_params[0]}
+    ...    Get From Dictionary    ${flow_params[0]}    cookie_slice
+    ${setvid}=    Run Keyword If    ${length}>0      Run Keyword If     'set_vid' in ${flow_params[0]['vlan_rule_params']}
+    ...    Get From Dictionary    ${flow_params[0]['vlan_rule_params']}    set_vid
+    ${cookie_slice_length}=    Run Keyword If    ${length}>0     Run Keyword If     'cookie_slice' in ${flow_params[0]}
+    ...    Get Length    ${cookieslice}
+    Run Keyword If    "${workflow}"=="ATT" and not ${must_exist}    Run Keywords
+    ...    Should Be Equal As Numbers    ${setvid}              4091   AND
+    ...    Should Be Equal As Numbers    ${cookie_slice_length}    1   AND
+    ...    Should Not Be Empty    ${tp_path}   AND
+    ...    Return From Keyword
+    ${tp_path_length}=    Get Length    ${tp_path}
+    # validate tp_path is not Empty for case must_exist, case not must_exist will be validated implicitly with FOR loop
+    Run Keyword If    ${must_exist}    Should Not Be Empty    ${tp_path}
+    ${tp_path_keys}=    Run Keyword If    ${tp_path_length}==0    Create List
+    ...                 ELSE    Get Dictionary Keys    ${tp_path}
+    ${tp_path_values}=    Run Keyword If    ${tp_path_length}==0    Create List
+    ...                   ELSE    Get Dictionary Values    ${tp_path}
+    ${tp_path_empty}=    Set Variable    True
+    Log    ${tp_path_values}
+    Log    ${tp_path_keys}
+    ${expected_tp}=    Set Variable    64
+    # In case of not empty tp_path each value will be checked depending on must_exist
+    FOR    ${key}  IN  @{tp_path_keys}
+        Should Be Equal As Numbers    ${expected_tp}    ${key}
+        ${value}=    Get From Dictionary    ${tp_path}     ${key}
+        Run Keyword If    ${must_exist}    Should Not Be Empty    ${value}
+        ...               ELSE             Should Be Empty        ${value}
+        ${expected_tp}=    Evaluate    ${expected_tp}+1
+    END
+    Run Keyword If    ${must_exist}    Should Not Be Empty    ${flow_params}
+    ...               ELSE             Should Be Empty        ${flow_params}
 
 Validate Onu Data In Etcd
     [Documentation]    This keyword validates openonu-go-adapter Data stored in etcd.
@@ -559,6 +625,28 @@ Delete ONU Go Adapter ETCD Data
     Run Keyword If    ${validate}    Wait Until Keyword Succeeds    ${timeout}    1s
     ...    Validate Onu Data In Etcd    namespace=${namespace}    nbofetcddata=0    without_pm_data=False
     [Return]    ${result}
+
+Validate OLT Flows Per Onu
+    [Documentation]    This keyword validates olt flows per onu
+    ...                It checks checks presence/absence of olt flows depending on must_exist.
+    ...                The values/content of olt flows will be not validated!
+    [Arguments]    ${onu_device_id}    ${must_exist}
+    ${rc}    ${output}=    Run and Return Rc and Output
+    ...    voltctl -c ${VOLTCTL_CONFIG} device flows ${onu_device_id} -m 8MB -o json
+    Should Be Equal As Integers    ${rc}    0
+    ${jsondata}=    To Json    ${output}
+    Log    ${jsondata}
+    # in case of ATT for ONU with removed flows there is default flow established
+    ${length}=    Get Length    ${jsondata}
+    ${value}=    Run Keyword If    ${length}>0    Get From List    ${jsondata}    0
+    ${setvid}=   Run Keyword If    ${length}>0    Run Keyword If     'setvlanid' in ${value}
+    ...    Get From Dictionary    ${value}    setvlanid
+    Run Keyword If    "${workflow}"=="ATT" and not ${must_exist}    Run Keywords
+    ...    Should Be Equal As Numbers    ${setvid}    4091    AND
+    ...    Should Be Equal As Numbers    ${length}    1       AND
+    ...    Return From Keyword
+    Run Keyword If    ${must_exist}    Should Not Be Empty    ${jsondata}
+    ...               ELSE             Should Be Empty        ${jsondata}
 
 Wait for Ports in ONOS for all OLTs
     [Documentation]    Waits untill a certain number of ports are enabled in all OLTs
