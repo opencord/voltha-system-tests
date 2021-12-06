@@ -196,6 +196,24 @@ Olt Deletion After Adapter Restart
     ...    AND    Teardown Test
     ...    AND    Stop Logging    OltDeletionAfterAdapterRestartOnuGo
 
+Flow Deletion After Adapter Restart
+    [Documentation]    Validates the flow(s) deletion after adapter restart
+    ...    - perform sanity test include add subscriber
+    ...    - restart the ONU adapter preferred via "kubectl delete pod"
+    ...    - remove flow(s) from one ONU immediately after the restart has been initiated
+    ...    - wait until the restart of the ONU adapter and the reconcile processing are finished
+    ...    - check removed  flow(s) from ONU
+    ...    - check for not removed flows still the same before restart (if available)
+    [Tags]    functionalOnuGo    FlowDeletionAfterAdapterRestartOnuGo
+    [Setup]    Run Keywords    Start Logging    FlowDeletionAfterAdapterRestartOnuGo
+    ...    AND    Setup Test
+    Run Keyword If    ${has_dataplane}    Clean Up Linux
+    Do Flow Deletion After Adapter Restart
+    [Teardown]    Run Keywords    Run Keyword If    ${logging}    Get Logical Id of OLT
+    ...    AND    Run Keyword If    ${logging}    Collect Logs
+    ...    AND    Teardown Test
+    ...    AND    Stop Logging    FlowDeletionAfterAdapterRestartOnuGo
+
 *** Keywords ***
 Setup Suite
     [Documentation]    Set up the test suite
@@ -394,7 +412,7 @@ Do Olt Deletion After Adapter Restart
         ${olt_device_id}=    Get OLTDeviceID From OLT List    ${olt_serial_number}
         Enable Device    ${olt_device_id}
     END
-    # bring all onus to activ -> OMCI-Flows-Pushed
+    # bring all onus to active -> OMCI-Flows-Pushed
     Run Keyword If    "${workflow}"=="DT"    Perform Sanity Test DT
     ...    ELSE IF    "${workflow}"=="TT"    Perform Sanity Tests TT
     ...    ELSE       Perform Sanity Test
@@ -419,4 +437,94 @@ Do Olt Deletion After Adapter Restart
         ${src}=    Set Variable    ${hosts.src[${I}]}
         Continue For Loop If    "${olt_to_be_deleted}"=="${src['olt']}"
         Current State Test    omci-flows-pushed    ${src['onu']}
+    END
+
+Do Flow Deletion After Adapter Restart
+    [Documentation]    This keyword removes flow(s) after adapter restart and checks removed flow(s)
+    ...    - perform sanity test include add subscriber
+    ...    - restart the ONU adapter preferred via "kubectl delete pod"
+    ...    - remove flow(s) from one ONU immediately after the restart has been initiated
+    ...    - wait until the restart of the ONU adapter and the reconcile processing are finished
+    ...    - check removed  flow(s) from ONU
+    ...    - check for not removed flows still the same before restart (if available)
+    FOR    ${I}    IN RANGE    0    ${num_olts}
+        #get olt serial number
+        ${olt_serial_number}=    Set Variable    ${list_olts}[${I}][sn]
+        #validate olt states
+        ${olt_device_id}=    Get OLTDeviceID From OLT List    ${olt_serial_number}
+        Enable Device    ${olt_device_id}
+    END
+    # bring all onus to active -> OMCI-Flows-Pushed
+    Run Keyword If    "${workflow}"=="DT"    Perform Sanity Test DT
+    ...    ELSE IF    "${workflow}"=="TT"    Perform Sanity Tests TT
+    ...    ELSE       Perform Sanity Test
+    # log ONOS flows before remove
+    ${flow}=    Execute ONOS CLI Command use single connection
+    ...    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    flows -s any ${of_id}
+    Log    ${flow}
+    # validate OLT flows before  remove
+    ${onu_device_id_list}    Create List
+    Build ONU Device Id List    ${onu_device_id_list}
+    Log    ${onu_device_id_list}
+    FOR  ${onu_device_id}  IN  @{onu_device_id_list}
+        Log  ${onu_device_id}
+        ${rc}    ${output}=    Run and Return Rc and Output
+        ...    voltctl -c ${VOLTCTL_CONFIG} device flows ${onu_device_id} -m 8MB -o json
+        Should Be Equal As Integers    ${rc}    0
+        ${jsondata}=    To Json    ${output}
+        Log    ${jsondata}
+    END
+    # Collect data for remove flow(s)
+    ${of_id}=    Wait Until Keyword Succeeds    ${timeout}    15s    Validate OLT Device in ONOS    ${hosts.src[0]['olt']}
+    ${onu_port}=    Wait Until Keyword Succeeds    ${timeout}    2s    Get ONU Port in ONOS    ${hosts.src[0]['onu']}
+    ...    ${of_id}    ${hosts.src[0]['uni_id']}
+    ${params_for_remove_flow}=    Create Dictionary    of_id=${of_id}    onu_port=${onu_port}
+    # Collect number of flows for comparing after Reconcile
+    ${olt_flows_list}    Create List
+    FOR    ${I}    IN RANGE    0    ${num_olts}
+        ${olt_of_id}=    Wait Until Keyword Succeeds    ${timeout}    15s    Validate OLT Device in ONOS    ${list_olts}[${I}][sn]
+        ${flows}=    Count flows    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${olt_of_id}   added
+        ${olt_flows}=    Create Dictionary    olt=${olt_of_id}    flows=${flows}
+        Append To List    ${olt_flows_list}    ${olt_flows}
+    END
+    ${flows_onu}=    Count flows    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${of_id}   added    ${onu_port}
+    # Restart onu adapter with deleting flows from first onu
+    Reconcile Onu Adapter    ${NAMESPACE}    ${usekill2restart}    ACTIVE    flow_delete_params=${params_for_remove_flow}
+    Wait Until Keyword Succeeds    ${timeout}    2
+    ...    Execute ONOS CLI Command use single connection    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}
+    ...    volt-remove-subscriber-access ${of_id} ${onu_port}
+    # validate flows in ONOS after remove
+    ${flow}=    Execute ONOS CLI Command use single connection
+    ...    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    flows -s any ${of_id}
+    Log    ${flow}
+    ${expected_flows_onu}=    Set Variable If   "${workflow}"=="ATT"    1    0
+    Wait Until Keyword Succeeds    ${timeout}    2s    Validate number of flows    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}
+    ...    ${expected_flows_onu}  ${of_id}   any    ${onu_port}
+    # Beside onu port specific flows additional flows deleted depending on workflow
+    ${additional_flows_deleted}=    Set Variable If
+    ...    "${workflow}"=="DT"    1
+    ...    "${workflow}"=="TT"    3
+    ...    "${workflow}"=="ATT"   0
+    FOR    ${I}    IN RANGE    0    ${num_olts}
+        ${olt_of_id}    Wait Until Keyword Succeeds    ${timeout}    15s    Validate OLT Device in ONOS    ${list_olts}[${I}][sn]
+        ${flows}=    Count flows    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${olt_of_id}   added
+        ${expected_flows}=    Run Keyword If    "${of_id}"=="${olt_flows_list}[${I}][olt]"
+        ...    Evaluate    ${olt_flows_list}[${I}][flows]-${flows_onu}-${additional_flows_deleted}
+        ...    ELSE    Set Variable    ${olt_flows_list}[${I}][flows]
+        Log     Found added ${flows} of ${expected_flows} expected flows on device ${list_olts}[${I}][sn]
+        Should Be Equal As Integers    ${expected_flows}    ${flows}
+    END
+    # validate etcd data
+    ${List_ONU_Serial}    Create List
+    Build ONU SN List    ${List_ONU_Serial}
+    ${onu_sn_no_flows}=    Set Variable    ${hosts.src[0]['onu']}
+    FOR  ${onu_sn}  IN  @{List_ONU_Serial}
+        ${must_exist}=    Set Variable If    "${onu_sn}"=="${onu_sn_no_flows}"    False    True
+        Validate Tech Profiles and Flows in ETCD Data Per Onu   ${onu_sn}   ${INFRA_NAMESPACE}   ${kvstoreprefix}  ${must_exist}
+    END
+    ${onu_device_id_no_flows}=    Get Device ID From SN    ${hosts.src[0]['onu']}
+    FOR  ${onu_device_id}  IN  @{onu_device_id_list}
+        Log  ${onu_device_id}
+        ${must_exist}=    Set Variable If    "${onu_device_id}"=="${onu_device_id_no_flows}"    False    True
+        Validate OLT Flows Per Onu   ${onu_device_id}    ${must_exist}
     END
