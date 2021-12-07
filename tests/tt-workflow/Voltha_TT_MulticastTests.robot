@@ -94,7 +94,7 @@ ${unitag_sub}    False
 
 2 RG Same ONU Different Channel Multicast Test
     [Documentation]    Verify that 2 RG which are connected to the same ONU could join the different channel.
-    [Tags]    functionalTT    2RGSameOnuDifferentChannel    multicastTT
+    [Tags]    functionalTT    2RGSameOnuDifferentChannel    multicastTT    non-critical
     [Setup]    Start Logging    2RGSameOnuDifferentChannel
     [Teardown]    Run Keywords    Run Keyword If    ${logging}    Collect Logs
     ...           AND             Stop Logging    2RGSameOnuDifferentChannel
@@ -141,7 +141,7 @@ ${unitag_sub}    False
 2 RG Same PON Different ONU Different Channels Multicast Test
     [Documentation]    Verify that 2 RG which are connected to the different ONUs
     ...    on the same PON Ports could join the different channels.
-    [Tags]    functionalTT    2RGSamePonDifferentOnuDifferentChannel    multicastTT
+    [Tags]    functionalTT    2RGSamePonDifferentOnuDifferentChannel    multicastTT    non-critical
     [Setup]    Start Logging    2RGSamePonDifferentOnuDifferentChannel
     [Teardown]    Run Keywords    Collect Logs
     ...           AND             Stop Logging    2RGSamePonDifferentOnuDifferentChannel
