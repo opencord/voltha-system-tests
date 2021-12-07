@@ -252,7 +252,7 @@ Test Disable and Enable ONU for TT
         Run Keyword If    ${has_dataplane} and '${service_type}' == 'mcast'    Clean Up Linux
         Wait Until Keyword Succeeds   ${timeout}    2s
         ...    Verify UNI Port Is Enabled   ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${src['onu']}    ${src['uni_id']}
-        Run Keyword If    ${has_dataplane} and '${service_type}' != 'mcast'
+        Run Keyword If    '${service_type}' != 'mcast'
         ...    Sanity Test TT one ONU    ${src}    ${dst}    ${suppressaddsubscriber}
         ...    ELSE IF    ${has_dataplane} and '${service_type}' == 'mcast'
         ...    Sanity Test TT MCAST one ONU    ${src}    ${dst}    ${suppressaddsubscriber}
