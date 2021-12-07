@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0e278133_9fcb52ad",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2021-12-07T16:37:29Z",
+      "side": 1,
+      "message": "Issue: https://jenkins.opencord.org/view/VOLTHA-2.X-Tests/job/periodic-voltha-unitag-subscriber-tt-test-bbsim/10/console\nFix triggered here: https://jenkins.opencord.org/view/VOLTHA-2.X-Tests/job/periodic-voltha-unitag-subscriber-tt-test-bbsim/11/console",
+      "revId": "7816798f7ccb596ef680bdf330ab436bca38b4a4",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    }
+  ]
+}
