@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "24f80be5_5a05ebe9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2021-12-07T05:52:40Z",
+      "side": 1,
+      "message": "Refer https://jira.opencord.org/browse/VOL-4512 for more details.",
+      "revId": "8d959b3022a8f774a5ec2a476eb544c7948c3bc4",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    }
+  ]
+}
