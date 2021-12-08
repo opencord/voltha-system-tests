@@ -687,9 +687,6 @@ Verify restart ofagent container before subscriber is provisioned
     Wait Until Keyword Succeeds    ${waitforRestart}    2s    Validate Pod Status    ofagent    ${NAMESPACE}
     ...    Running
     FOR    ${I}    IN RANGE    0    ${num_all_onus}
-        # Add subscriber access and verify that DHCP completes to ensure system is still functioning properly
-        #Wait Until Keyword Succeeds    ${timeout}    2s    Execute ONOS CLI Command use single connection    ${ONOS_SSH_IP}
-        #...    ${ONOS_SSH_PORT}    volt-add-subscriber-access ${of_id} ${onu_port}
         ${src}=    Set Variable    ${hosts.src[${I}]}
         ${dst}=    Set Variable    ${hosts.dst[${I}]}
         ${of_id}=    Get ofID From OLT List    ${src['olt']}
@@ -699,6 +696,17 @@ Verify restart ofagent container before subscriber is provisioned
         # Add subscriber access and verify that DHCP completes to ensure system is still functioning properly
         Wait Until Keyword Succeeds    ${timeout}    2s    Execute ONOS CLI Command use single connection    ${ONOS_SSH_IP}
         ...    ${ONOS_SSH_PORT}    volt-add-subscriber-access ${of_id} ${onu_port}
+        # Verify subscriber access flows are added for the ONU port
+        Wait Until Keyword Succeeds    ${timeout}    5s
+        ...    Verify Subscriber Access Flows Added For ONU    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${of_id}
+        ...    ${onu_port}    ${nni_port}    ${src['c_tag']}    ${src['s_tag']}
+        # Verify subscriber EAPOL flow is installed
+        Wait Until Keyword Succeeds    ${timeout}    5s
+        ...    Verify Eapol Flows Added For ONU    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${of_id}
+        ...    ${onu_port}    ${src['c_tag']}
+        # Verify Meters in ONOS
+        Run Keyword    Wait Until Keyword Succeeds    ${timeout}    5s
+        ...    Verify Meters in ONOS    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${of_id}    ${onu_port}
         Run Keyword If    ${has_dataplane}    Run Keyword And Continue On Failure    Validate DHCP and Ping    True
         ...    True    ${src['dp_iface_name']}    ${src['s_tag']}    ${src['c_tag']}    ${dst['dp_iface_ip_qinq']}
         ...    ${src['ip']}    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
