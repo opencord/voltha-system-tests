@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "950c2f34_b226bcf9",
+        "filename": "tests/functional/Voltha_FailureScenarios.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 692,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2021-12-09T11:43:44Z",
+      "side": 1,
+      "message": "Please remove this.",
+      "range": {
+        "startLine": 690,
+        "startChar": 0,
+        "endLine": 692,
+        "endChar": 83
+      },
+      "revId": "a444fe3ba0342dbe83426fb759b9ad895a1c7c53",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    }
+  ]
+}
