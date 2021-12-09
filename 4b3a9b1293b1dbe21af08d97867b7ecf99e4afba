@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9e7c3485_ec28827f",
+        "filename": "tests/openonu-go-adapter/Voltha_ONUReconcileTests.robot",
+        "patchSetId": 5
+      },
+      "lineNbr": 495,
+      "author": {
+        "id": 1000007
+      },
+      "writtenOn": "2021-12-09T18:57:42Z",
+      "side": 1,
+      "message": "this \"volt-remove-subscriber-access\" is a no-op as it has already been called by \"Reconcile Onu Adapter\" (onu_utilities.robot line 135)",
+      "range": {
+        "startLine": 493,
+        "startChar": 4,
+        "endLine": 495,
+        "endChar": 61
+      },
+      "revId": "4b3a9b1293b1dbe21af08d97867b7ecf99e4afba",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    }
+  ]
+}
