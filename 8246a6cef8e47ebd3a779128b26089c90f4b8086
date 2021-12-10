@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "23552388_4f43fd7b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000127
+      },
+      "writtenOn": "2021-12-10T07:08:27Z",
+      "side": 1,
+      "message": "This fix did not help during tests on the hardware. So, I want to put this patch on hold until further investigation.",
+      "revId": "8246a6cef8e47ebd3a779128b26089c90f4b8086",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3314271e_a1270e63",
