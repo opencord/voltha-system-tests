@@ -39,6 +39,30 @@
       },
       "revId": "a444fe3ba0342dbe83426fb759b9ad895a1c7c53",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "70b128e8_d19f22a0",
+        "filename": "tests/functional/Voltha_FailureScenarios.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 692,
+      "author": {
+        "id": 1000007
+      },
+      "writtenOn": "2021-12-13T21:44:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "950c2f34_b226bcf9",
+      "range": {
+        "startLine": 690,
+        "startChar": 0,
+        "endLine": 692,
+        "endChar": 83
+      },
+      "revId": "a444fe3ba0342dbe83426fb759b9ad895a1c7c53",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     }
   ]
 }
