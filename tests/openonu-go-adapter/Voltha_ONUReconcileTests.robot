@@ -479,14 +479,6 @@ Do Flow Deletion After Adapter Restart
     ${onu_port}=    Wait Until Keyword Succeeds    ${timeout}    2s    Get ONU Port in ONOS    ${hosts.src[0]['onu']}
     ...    ${of_id}    ${hosts.src[0]['uni_id']}
     ${params_for_remove_flow}=    Create Dictionary    of_id=${of_id}    onu_port=${onu_port}
-    # Collect number of flows for comparing after Reconcile
-    ${olt_flows_list}    Create List
-    FOR    ${I}    IN RANGE    0    ${num_olts}
-        ${olt_of_id}=    Wait Until Keyword Succeeds    ${timeout}    15s    Validate OLT Device in ONOS    ${list_olts}[${I}][sn]
-        ${flows}=    Count flows    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${olt_of_id}   added
-        ${olt_flows}=    Create Dictionary    olt=${olt_of_id}    flows=${flows}
-        Append To List    ${olt_flows_list}    ${olt_flows}
-    END
     ${flows_onu}=    Count flows    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${of_id}   added    ${onu_port}
     # Restart onu adapter with deleting flows from first onu
     Reconcile Onu Adapter    ${NAMESPACE}    ${usekill2restart}    ACTIVE    flow_delete_params=${params_for_remove_flow}
@@ -497,19 +489,17 @@ Do Flow Deletion After Adapter Restart
     ${expected_flows_onu}=    Set Variable If   "${workflow}"=="ATT"    1    0
     Wait Until Keyword Succeeds    ${timeout}    2s    Validate number of flows    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}
     ...    ${expected_flows_onu}  ${of_id}   any    ${onu_port}
-    # Beside onu port specific flows additional flows deleted depending on workflow
-    ${additional_flows_deleted}=    Set Variable If
-    ...    "${workflow}"=="DT"    1
-    ...    "${workflow}"=="TT"    3
-    ...    "${workflow}"=="ATT"   0
+    # Beside the onu port specific flows there additional flows on the NNI depending on the workflow
+    ${att_nni_flows}=   Evaluate  2+${num_all_onus}     # LLDP, DHCP + 1 EAPOL per UNI
+    ${nni_flows}=    Set Variable If
+    ...    "${workflow}"=="DT"    1     # LLDP
+    ...    "${workflow}"=="TT"    3     # LLDP, DHCP, IGMP
+    ...    "${workflow}"=="ATT"   ${att_nni_flows}
     FOR    ${I}    IN RANGE    0    ${num_olts}
         ${olt_of_id}    Wait Until Keyword Succeeds    ${timeout}    15s    Validate OLT Device in ONOS    ${list_olts}[${I}][sn]
         ${flows}=    Count flows    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${olt_of_id}   added
-        ${expected_flows}=    Run Keyword If    "${of_id}"=="${olt_flows_list}[${I}][olt]"
-        ...    Evaluate    ${olt_flows_list}[${I}][flows]-${flows_onu}-${additional_flows_deleted}
-        ...    ELSE    Set Variable    ${olt_flows_list}[${I}][flows]
-        Log     Found added ${flows} of ${expected_flows} expected flows on device ${list_olts}[${I}][sn]
-        Should Be Equal As Integers    ${expected_flows}    ${flows}
+        Log     Found added ${flows} of ${nni_flows} expected flows on device ${list_olts}[${I}][sn]
+        Should Be Equal As Integers    ${flows}     ${nni_flows}
     END
     # validate etcd data
     ${List_ONU_Serial}    Create List
