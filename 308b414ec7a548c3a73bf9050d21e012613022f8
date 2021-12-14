@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cea6bb3b_d12bfaca",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2021-12-14T14:31:15Z",
+      "side": 1,
+      "message": "I tested the patch with ATT and 2x OLT each 2xPON each 2x ONU and it failed. Number of ONOS Flows need a dynamic calculation. Please set this patch to abandom.",
+      "revId": "308b414ec7a548c3a73bf9050d21e012613022f8",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    }
+  ]
+}
