@@ -16,6 +16,24 @@
       "message": "is there a way we can do it only for xgspon OLTs ?",
       "revId": "da7ec7dfb43edd4bca2080851a0ff3bd040db6f2",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3ca8ac16_d2a3cc05",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000127
+      },
+      "writtenOn": "2021-12-14T11:34:32Z",
+      "side": 1,
+      "message": "I thought about this, but I do not know if there is a way to put conditional tags for tests",
+      "parentUuid": "044195fc_1e5ff57e",
+      "revId": "da7ec7dfb43edd4bca2080851a0ff3bd040db6f2",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     }
   ]
 }
