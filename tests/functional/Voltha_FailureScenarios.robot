@@ -645,7 +645,7 @@ Verify restart ofagent container before subscriber is provisioned
     [Setup]    Start Logging    ofagentRestart2
     [Teardown]    Run Keywords    Collect Logs
     ...           AND             Stop Logging    ofagentRestart2
-    ...           AND             Scale K8s Deployment    ${NAMESPACE}    ${NAMESPACE}-voltha-ofagent    1
+    ...           AND             Scale K8s Deployment    ${NAMESPACE}    ${STACK_NAME}-voltha-ofagent    1
     Delete All Devices And Verify
     setup
     Run Keyword If    ${has_dataplane}    Clean Up Linux
