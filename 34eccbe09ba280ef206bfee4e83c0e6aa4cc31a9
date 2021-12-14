@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ed1a038f_4a43f1ef",
+        "filename": "tests/functional/Voltha_FailureScenarios.robot",
+        "patchSetId": 5
+      },
+      "lineNbr": 702,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2021-12-14T06:59:02Z",
+      "side": 1,
+      "message": "Here nni_port value also needs to be fetched.\n${nni_port}\u003d    Wait Until Keyword Succeeds    ${timeout}    2s    Get NNI Port in ONOS    ${of_id}",
+      "range": {
+        "startLine": 702,
+        "startChar": 32,
+        "endLine": 702,
+        "endChar": 40
+      },
+      "revId": "34eccbe09ba280ef206bfee4e83c0e6aa4cc31a9",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    }
+  ]
+}
