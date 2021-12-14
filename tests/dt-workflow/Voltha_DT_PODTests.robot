@@ -218,7 +218,8 @@ Test Disable and Enable ONU for DT
     ...    Perform disable on the ONUs and validate that the pings do not succeed
     ...    Perform enable on the ONUs and validate that the pings are successful
     [Tags]    functionalDt    DisableEnableONUDt    soak
-    [Setup]    Start Logging    DisableEnableONUDt
+    [Setup]    Run Keywords    Start Logging    DisableEnableONUDt
+    ...        AND    Run Keyword If    ${has_dataplane}    Set Non-Critical Tag for XGSPON Tech
     [Teardown]    Run Keywords    Run Keyword If    ${logging}    Collect Logs
     ...           AND             Stop Logging    DisableEnableONUDt
     FOR    ${I}    IN RANGE    0    ${num_all_onus}
@@ -391,7 +392,8 @@ Test Disable ONUs and OLT Then Delete ONUs and OLT for DT
     ...    Devices will be removed during the execution of this TC
     ...    so calling setup at the end to add the devices back to avoid the confusion.
     [Tags]    functionalDt    DisableDeleteONUOLTDt
-    [Setup]    Start Logging    DisableDeleteONUOLTDt
+    [Setup]    Run Keywords    Start Logging    DisableDeleteONUOLTDt
+    ...        AND    Run Keyword If    ${has_dataplane}    Set Non-Critical Tag for XGSPON Tech
     [Teardown]    Run Keywords    Run Keyword If    ${logging}    Collect Logs
     ...           AND             Stop Logging    DisableDeleteONUOLTDt
     @{onu_reason}=    Create List    initial-mib-downloaded    omci-flows-pushed
@@ -641,7 +643,8 @@ Test Disable and Enable OLT PON Port for DT
     ...    Perform disable on the OLT PON Port and validate that the pings do not succeed
     ...    Perform enable on the OLT PON Port and validate that the pings are successful
     [Tags]    functionalDt    DisableEnableOltPonPortDt    VOL-2577    soak
-    [Setup]    Start Logging    DisableEnableOltPonPortDt
+    [Setup]    Run Keywords    Start Logging    DisableEnableOltPonPortDt
+    ...        AND    Run Keyword If    ${has_dataplane}    Set Non-Critical Tag for XGSPON Tech
     [Teardown]    Run Keywords    Run Keyword If    ${logging}    Collect Logs
     ...           AND             Stop Logging    DisableEnableOltPonPortDt
     FOR   ${I}    IN RANGE    0    ${olt_count}

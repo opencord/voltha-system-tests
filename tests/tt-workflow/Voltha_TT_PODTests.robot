@@ -221,7 +221,8 @@ Test Disable and Enable ONU for TT
     ...    Perform disable on the ONUs and validate that the pings do not succeed
     ...    Perform enable on the ONUs and validate that the pings are successful
     [Tags]    functionalTT    DisableEnableONUTT
-    [Setup]    Start Logging    DisableEnableONUTT
+    [Setup]    Run Keywords    Start Logging    DisableEnableONUTT
+    ...        AND    Run Keyword If    ${has_dataplane}    Set Non-Critical Tag for XGSPON Tech
     [Teardown]    Run Keywords    Collect Logs
     ...           AND             Stop Logging    DisableEnableONUTT
     FOR    ${I}    IN RANGE    0    ${num_all_onus}
