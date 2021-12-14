@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "044195fc_1e5ff57e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2021-12-14T11:32:42Z",
+      "side": 1,
+      "message": "is there a way we can do it only for xgspon OLTs ?",
+      "revId": "da7ec7dfb43edd4bca2080851a0ff3bd040db6f2",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    }
+  ]
+}
