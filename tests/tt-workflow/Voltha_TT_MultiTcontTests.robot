@@ -193,7 +193,7 @@ Test that the AIR BW is reserved for a ONU
     ...    is received at the BNG.
     ...    Then pump ONU2 and ONU3 HSIA combined. ONUs must be share rest of bw in PON Port. (Expect fixed tcont1)
     ...    Note: Currently, only Flex Pod supports the deployment configuration required to test this scenario.
-    [Tags]    functionalTT    VOL-4094
+    [Tags]    functionalTT    VOL-4094    non-critical
     [Setup]    Run Keyword    Start Logging    TcontType1Type4Onu1Onu2Onu3
     [Teardown]    Run Keywords    Run Keyword If    ${logging}    Collect Logs
     ...           AND             Stop Logging    TcontType1Type4Onu1Onu2Onu3
@@ -308,7 +308,7 @@ Verify that non-assured BW is released to assured BW allocation as needed for TT
     ...    Firstly, pump 500Mbps from the RG of ONU1 for the VoD service and
     ...    then verify that close to 500Mbps is received at the BNG.
     ...    Also verify that the VoD rate is now truncated to 500Mbps at BNG for ONU2.
-    [Tags]    functionalTT    VOL-4096
+    [Tags]    functionalTT    VOL-4096    non-critical
     [Setup]    Run Keyword    Start Logging    TcontType2Onu1Type3Onu2
     [Teardown]    Run Keywords    Run Keyword If    ${logging}    Collect Logs
     ...           AND             Stop Logging    TcontType2Onu1Type3Onu2

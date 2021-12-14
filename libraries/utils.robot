@@ -1577,3 +1577,12 @@ Reboot XGSPON ONU
         ...    Validate Device    ENABLED    ACTIVE
         ...    REACHABLE    ${onu_sn}    onu=True    onu_reason=${reason}
     END
+
+Set Non-Critical Tag for XGSPON Tech
+    [Documentation]    Dynamically sets the test tag for xgs-pon based to non-critical
+    FOR    ${I}    IN RANGE    0    ${num_olts}
+        ${board_tech}    Evaluate    ${olts}[${I}].get("board_technology")
+        Run Keyword If    "${board_tech}"=="XGS-PON"    Run Keywords
+        ...    Set Tags    non-critical
+        ...    AND    Exit For Loop
+    END

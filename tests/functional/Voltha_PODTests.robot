@@ -103,7 +103,8 @@ Test Disable and Enable ONU
     ...    Perform disable on the ONUs and validate that the pings do not succeed
     ...    Perform enable on the ONUs and validate that the pings are successful
     [Tags]    functional    DisableEnableONU    released    multi-uni
-    [Setup]    Start Logging    DisableEnableONU
+    [Setup]    Run Keywords    Start Logging    DisableEnableONU
+    ...        AND    Run Keyword If    ${has_dataplane}    Set Non-Critical Tag for XGSPON Tech
     [Teardown]    Run Keywords    Collect Logs
     ...           AND             Stop Logging    DisableEnableONU
     FOR    ${I}    IN RANGE    0    ${num_all_onus}
@@ -239,7 +240,8 @@ Test Disable and Enable ONU scenario for ATT workflow
     ...    validate that the pings are successful
     ...    VOL-2284
     [Tags]    functional    ATT_DisableEnableONU    released    multi-uni
-    [Setup]    Start Logging    ATT_DisableEnableONU
+    [Setup]    Run Keywords    Start Logging    ATT_DisableEnableONU
+    ...        AND    Run Keyword If    ${has_dataplane}    Set Non-Critical Tag for XGSPON Tech
     [Teardown]    Run Keywords    Collect Logs
     ...           AND             Stop Logging    ATT_DisableEnableONU
     FOR    ${I}    IN RANGE    0    ${num_all_onus}
@@ -690,6 +692,7 @@ Test Disable and Enable OLT PON Port
     ...    Perform enable on the OLT PON Port and validate that the pings are successful
     [Tags]    functional    DisableEnableOltPonPort    VOL-2577    multi-uni
     [Setup]    Run Keywords    Start Logging    DisableEnableOltPonPort
+    ...        AND    Run Keyword If    ${has_dataplane}    Set Non-Critical Tag for XGSPON Tech
     ...        AND    Setup
     [Teardown]    Run Keywords    Collect Logs
     ...           AND             Delete All Devices and Verify
