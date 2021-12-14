@@ -765,20 +765,23 @@ Verify Control Plane After Pod Restart DT
         # Remove Subscriber Access
         Wait Until Keyword Succeeds    ${timeout}    2s    Execute ONOS CLI Command use single connection    ${ONOS_SSH_IP}
         ...    ${ONOS_SSH_PORT}    volt-remove-subscriber-access ${of_id} ${onu_port}
+        # Additional static sleep for subscriber removal
+        Sleep    10s
         Run Keyword If    ${has_dataplane}    Run Keyword And Continue On Failure
         ...    Wait Until Keyword Succeeds    ${timeout}    2s
         ...    Check Ping    False    ${dst['dp_iface_ip_qinq']}    ${src['dp_iface_name']}
         ...    ${src['ip']}    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
         # Disable and Re-Enable the ONU (To replicate DT current workflow)
         # TODO: Delete and Auto-Discovery Add of ONU (not yet supported)
-        Disable Device    ${onu_device_id}
-        Wait Until Keyword Succeeds    ${timeout}    5s
-        ...    Validate Device    DISABLED    UNKNOWN
-        ...    REACHABLE    ${src['onu']}
-        Enable Device    ${onu_device_id}
-        Wait Until Keyword Succeeds    ${timeout}    5s
-        ...    Validate Device    ENABLED    ACTIVE
-        ...    REACHABLE    ${src['onu']}
+        # Temporarily commenting Disable-Enable ONU section because of the issue described in VOL-4489
+        # Disable Device    ${onu_device_id}
+        # Wait Until Keyword Succeeds    ${timeout}    5s
+        # ...    Validate Device    DISABLED    UNKNOWN
+        # ...    REACHABLE    ${src['onu']}
+        # Enable Device    ${onu_device_id}
+        # Wait Until Keyword Succeeds    ${timeout}    5s
+        # ...    Validate Device    ENABLED    ACTIVE
+        # ...    REACHABLE    ${src['onu']}
         # Add Subscriber Access
         Wait Until Keyword Succeeds    ${timeout}    2s    Execute ONOS CLI Command use single connection    ${ONOS_SSH_IP}
         ...    ${ONOS_SSH_PORT}    volt-add-subscriber-access ${of_id} ${onu_port}
