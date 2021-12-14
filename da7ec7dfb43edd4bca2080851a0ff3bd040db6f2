@@ -34,6 +34,24 @@
       "parentUuid": "044195fc_1e5ff57e",
       "revId": "da7ec7dfb43edd4bca2080851a0ff3bd040db6f2",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b1a2e559_da8ae280",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2021-12-14T11:36:54Z",
+      "side": 1,
+      "message": "You mean marking non-critical only for xgspon? I don\u0027t think we can, through the tests here, may be something through pipeline for each such job. But I won\u0027t prefer that.",
+      "parentUuid": "044195fc_1e5ff57e",
+      "revId": "da7ec7dfb43edd4bca2080851a0ff3bd040db6f2",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     }
   ]
 }
