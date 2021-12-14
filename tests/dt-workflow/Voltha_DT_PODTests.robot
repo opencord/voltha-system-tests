@@ -711,6 +711,9 @@ Data plane Bandwidth profile update verification for DT
     # Verify Meters in ONOS
     Wait Until Keyword Succeeds    ${timeout}    5s
     ...    Verify Meters in ONOS Ietf    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${of_id}    ${onu_port}
+    # Workaround for issue seen in VOL-4489. Keep this workaround until VOL-4489 is fixed.
+    Run Keyword If    ${has_dataplane}    Reboot XGSPON ONU    ${src['olt']}    ${src['onu']}    omci-flows-pushed
+    # Workaround ends here for issue seen in VOL-4489.
     Run Keyword If    ${has_dataplane}    Run Keyword And Continue On Failure    Validate DHCP and Ping    True
     ...    True    ${src['dp_iface_name']}    ${src['s_tag']}    ${src['c_tag']}    ${dst['dp_iface_ip_qinq']}
     ...    ${src['ip']}    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
