@@ -102,7 +102,7 @@ Test Disable and Enable ONU
     ...    Assuming that test1 was executed where all the ONUs are authenticated/DHCP/pingable
     ...    Perform disable on the ONUs and validate that the pings do not succeed
     ...    Perform enable on the ONUs and validate that the pings are successful
-    [Tags]    functional    DisableEnableONU    released    multi-uni
+    [Tags]    non-critical    functional    DisableEnableONU    released    multi-uni
     [Setup]    Start Logging    DisableEnableONU
     [Teardown]    Run Keywords    Collect Logs
     ...           AND             Stop Logging    DisableEnableONU
@@ -238,7 +238,7 @@ Test Disable and Enable ONU scenario for ATT workflow
     ...    Perform enable on the ONUs, authentication check, volt-add-subscriber-access and
     ...    validate that the pings are successful
     ...    VOL-2284
-    [Tags]    functional    ATT_DisableEnableONU    released    multi-uni
+    [Tags]    non-critical    functional    ATT_DisableEnableONU    released    multi-uni
     [Setup]    Start Logging    ATT_DisableEnableONU
     [Teardown]    Run Keywords    Collect Logs
     ...           AND             Stop Logging    ATT_DisableEnableONU
@@ -688,7 +688,7 @@ Test Disable and Enable OLT PON Port
     ...    Assuming that all the ONUs are DHCP/pingable (i.e. assuming sanityDt test was executed)
     ...    Perform disable on the OLT PON Port and validate that the pings do not succeed
     ...    Perform enable on the OLT PON Port and validate that the pings are successful
-    [Tags]    functional    DisableEnableOltPonPort    VOL-2577    multi-uni
+    [Tags]    non-critical    functional    DisableEnableOltPonPort    VOL-2577    multi-uni
     [Setup]    Run Keywords    Start Logging    DisableEnableOltPonPort
     ...        AND    Setup
     [Teardown]    Run Keywords    Collect Logs

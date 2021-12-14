@@ -220,7 +220,7 @@ Test Disable and Enable ONU for TT
     ...    Assuming that all the ONUs are DHCP/pingable (i.e. assuming sanitytt test was executed)
     ...    Perform disable on the ONUs and validate that the pings do not succeed
     ...    Perform enable on the ONUs and validate that the pings are successful
-    [Tags]    functionalTT    DisableEnableONUTT
+    [Tags]    non-critical    functionalTT    DisableEnableONUTT
     [Setup]    Start Logging    DisableEnableONUTT
     [Teardown]    Run Keywords    Collect Logs
     ...           AND             Stop Logging    DisableEnableONUTT

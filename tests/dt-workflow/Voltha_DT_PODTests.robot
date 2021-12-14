@@ -217,7 +217,7 @@ Test Disable and Enable ONU for DT
     ...    Assuming that all the ONUs are DHCP/pingable (i.e. assuming sanityDt test was executed)
     ...    Perform disable on the ONUs and validate that the pings do not succeed
     ...    Perform enable on the ONUs and validate that the pings are successful
-    [Tags]    functionalDt    DisableEnableONUDt    soak
+    [Tags]    non-critical    functionalDt    DisableEnableONUDt    soak
     [Setup]    Start Logging    DisableEnableONUDt
     [Teardown]    Run Keywords    Run Keyword If    ${logging}    Collect Logs
     ...           AND             Stop Logging    DisableEnableONUDt
@@ -640,7 +640,7 @@ Test Disable and Enable OLT PON Port for DT
     ...    Assuming that all the ONUs are DHCP/pingable (i.e. assuming sanityDt test was executed)
     ...    Perform disable on the OLT PON Port and validate that the pings do not succeed
     ...    Perform enable on the OLT PON Port and validate that the pings are successful
-    [Tags]    functionalDt    DisableEnableOltPonPortDt    VOL-2577    soak
+    [Tags]    non-critical    functionalDt    DisableEnableOltPonPortDt    VOL-2577    soak
     [Setup]    Start Logging    DisableEnableOltPonPortDt
     [Teardown]    Run Keywords    Run Keyword If    ${logging}    Collect Logs
     ...           AND             Stop Logging    DisableEnableOltPonPortDt
