@@ -253,18 +253,22 @@ Wait for ONUs Leave Igmp Group
 Disable and Delete devices
     [Documentation]  Disable and delete the OLTs in VOLTHA
     [Tags]      non-critical    teardown
-    FOR    ${olt_device_id}    IN  @{olt_device_ids}
-        Disable Device  ${olt_device_id}
-        Delete Device  ${olt_device_id}
-        Remove Values From List     ${olt_device_ids}   ${olt_device_id}
+
+    ${rc}    ${output}=     Run And Return Rc And Output    voltctl -c ${VOLTCTL_CONFIG} device list -f Type=openolt -q
+    Should Be Equal As Integers    ${rc}    0   Failed to get device list from voltctl: ${output}
+    Log     ${output}
+    ${devices}=     Split To Lines  ${output}
+    Log     ${devices}
+
+    FOR     ${id}   IN  @{devices}
+        Disable Device  ${id}
+        Delete Device  ${id}
     END
 
     ${onos_devices}=    Compute Device IDs
     FOR     ${deviceId}     IN  @{onos_devices}
         Wait for all flows to be removed    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}  ${deviceId}
     END
-
-    Set Suite Variable    ${olt_device_ids}
 
 *** Keywords ***
 Setup Suite
