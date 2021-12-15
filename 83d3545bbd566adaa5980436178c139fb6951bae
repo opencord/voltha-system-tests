@@ -33,6 +33,24 @@
       "message": "I think we need to make the \"Test Disable ONUs and OLT Then Delete ONUs and OLT for DT\" non-critical for DT and also remove disable/enable ONUs in pod restart tests.\n",
       "revId": "83d3545bbd566adaa5980436178c139fb6951bae",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d1c23a29_68cebf43",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2021-12-15T05:14:07Z",
+      "side": 1,
+      "message": "Okay, for now I will comment the disable-enable onu device portion from pod restart tests for DT. But for \u0027Test Disable ONUs and OLT Then Delete ONUs and OLT for DT\u0027 scenario we are deleting and re-creating with the root device after disabling the devices. Do we still need a reboot fix/ non-critical tag here?",
+      "parentUuid": "e4fed448_decd88b2",
+      "revId": "83d3545bbd566adaa5980436178c139fb6951bae",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     }
   ]
 }
