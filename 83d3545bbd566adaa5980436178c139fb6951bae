@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3b083420_4aaeb673",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2021-12-15T04:16:37Z",
+      "side": 1,
+      "message": "Triggered: https://jenkins.opencord.org/view/VOLTHA-2.X-Tests/job/build_flex-ocp-cord_TP_voltha_TT_master_test/540/console and https://jenkins.opencord.org/view/VOLTHA-2.X-Tests/job/build_onf-demo-pod_1T8GEM_voltha_DT_master_test/665/console",
+      "revId": "83d3545bbd566adaa5980436178c139fb6951bae",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    }
+  ]
+}
