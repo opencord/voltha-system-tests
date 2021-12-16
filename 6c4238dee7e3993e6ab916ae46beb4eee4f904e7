@@ -16,6 +16,23 @@
       "message": "Patchset 2: https://jenkins.opencord.org/view/All%20Jobs/job/periodic-voltha-openonu-go-test-bbsim/773/console",
       "revId": "6c4238dee7e3993e6ab916ae46beb4eee4f904e7",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a2c561ce_0797a15e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2021-12-16T13:55:12Z",
+      "side": 1,
+      "message": "maybe it\u0027s my ignorance, but why print2console\u003d${print2console} is presente in some places and not in others ?",
+      "revId": "6c4238dee7e3993e6ab916ae46beb4eee4f904e7",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     }
   ]
 }
