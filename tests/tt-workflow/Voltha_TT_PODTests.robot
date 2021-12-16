@@ -257,6 +257,8 @@ Test Disable and Enable ONU for TT
         ...    Sanity Test TT one ONU    ${src}    ${dst}    ${suppressaddsubscriber}
         ...    ELSE IF    ${has_dataplane} and '${service_type}' == 'mcast'
         ...    Sanity Test TT MCAST one ONU    ${src}    ${dst}    ${suppressaddsubscriber}
+        # Additional sleep for bbsim scenarios to avoid quick disable-enable of the ONU
+        Run Keyword If    '${has_dataplane}'=='False'    Sleep    15s
     END
 
 *** Keywords ***
