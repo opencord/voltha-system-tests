@@ -18,6 +18,20 @@ Library           grpc_robot.VolthaTools     WITH NAME    volthatools
 
 
 *** Keywords ***
+Printout ONU Serial Number and Device Id
+    [Documentation]    Printouts the ONU serial number and corresponding device id.
+    [Arguments]    ${onu_sn}=${EMPTY}    ${print2console}=False
+    ${output}=    Set Variable    \r\n
+    ${onu_sn_list}    Create List
+    Run Keyword If    "${onu_sn}"=="${EMPTY}"     Build ONU SN List    ${onu_sn_list}
+    ...               ELSE     Append To List    ${onu_sn_list}    ${onu_sn}
+    FOR    ${sn}    IN    @{onu_sn_list}
+        ${device_id}=    Get Device ID From SN    ${sn}
+        ${output}=    Catenate    ${output}    ONU Serial Number: ${sn} ONU Device ID: ${device_id}\r\n
+    END
+    Log    ${output}
+    Run Keyword If    ${print2console}    Log    ${output}    console=yes
+
 Calculate Timeout
     [Documentation]    Calculates the timeout regarding num-onus in case of more than 4 onus
     [Arguments]    ${basetimeout}=60s

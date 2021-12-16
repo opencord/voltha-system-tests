@@ -104,7 +104,8 @@ Flows Test
     log     ${flowsresult}
     Wait Until Keyword Succeeds    ${timeout}    2s    Run Keyword And Continue On Failure    Run Keyword And Continue On Failure
     ...    Validate Etcd Vlan Rules Added Subscriber    ${onu_tags_dict}    defaultkvstoreprefix=${kvstoreprefix}
-    [Teardown]    Run Keywords    Run Keyword If    ${logging}    Collect Logs
+    [Teardown]    Run Keywords    Printout ONU Serial Number and Device Id
+    ...           AND    Run Keyword If    ${logging}    Collect Logs
     ...           AND    Stop Logging    FlowsTest
 
 *** Keywords ***

@@ -30,6 +30,7 @@ Resource          ../../libraries/voltctl.robot
 Resource          ../../libraries/voltha.robot
 Resource          ../../libraries/utils.robot
 Resource          ../../libraries/k8s.robot
+Resource          ../../libraries/onu_utilities.robot
 Resource          ../../variables/variables.robot
 Resource          ../../libraries/power_switch.robot
 
@@ -78,7 +79,8 @@ ANI-G Test
         Should Contain    ${output}    LASER_BIAS_CURRENT__mA:
         Should Contain    ${output}    TEMPERATURE__Celsius:
     END
-    [Teardown]    Run Keywords    Run Keyword If    ${logging}    Collect Logs
+    [Teardown]    Run Keywords    Printout ONU Serial Number and Device Id
+    ...           AND    Run Keyword If    ${logging}    Collect Logs
     ...           AND    Stop Logging    SanityTestOnuGo
 
 *** Keywords ***

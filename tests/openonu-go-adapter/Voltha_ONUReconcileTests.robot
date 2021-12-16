@@ -99,7 +99,8 @@ Reconcile In Starting-OpenOmci
     ...    AND    Setup Test
     Run Keyword If    ${has_dataplane}    Clean Up Linux
     Do Reconcile In Determined State    starting-openomci
-    [Teardown]    Run Keywords    Run Keyword If    ${logging}    Get Logical Id of OLT
+    [Teardown]    Run Keywords    Printout ONU Serial Number and Device Id    print2console=${print2console}
+    ...    AND    Run Keyword If    ${logging}    Get Logical Id of OLT
     ...    AND    Run Keyword If    ${logging}    Collect Logs
     ...    AND    Teardown Test
     ...    AND    Stop Logging    ReconcileStartingOpenOmciOnuGo
@@ -118,7 +119,8 @@ Reconcile In Initial-Mib-Downloaded
     ...    AND    Setup Test
     Run Keyword If    ${has_dataplane}    Clean Up Linux
     Do Reconcile In Determined State    initial-mib-downloaded
-    [Teardown]    Run Keywords    Run Keyword If    ${logging}    Get Logical Id of OLT
+    [Teardown]    Run Keywords    Printout ONU Serial Number and Device Id    print2console=${print2console}
+    ...    AND    Run Keyword If    ${logging}    Get Logical Id of OLT
     ...    AND    Run Keyword If    ${logging}    Collect Logs
     ...    AND    Teardown Test
     ...    AND    Stop Logging    ReconcileInitialMibDownloadedOnuGo
@@ -143,7 +145,8 @@ Reconcile In Omci-Flows-Pushed
     ...    AND    Setup Test
     Run Keyword If    ${has_dataplane}    Clean Up Linux
     Do Reconcile In Omci-Flows-Pushed
-    [Teardown]    Run Keywords    Run Keyword If    ${logging}    Get Logical Id of OLT
+    [Teardown]    Run Keywords    Printout ONU Serial Number and Device Id    print2console=${print2console}
+    ...    AND    Run Keyword If    ${logging}    Get Logical Id of OLT
     ...    AND    Run Keyword If    ${logging}    Collect Logs
     ...    AND    Teardown Test
     ...    AND    Stop Logging    ReconcileOmciFlowsPushedOnuGo
@@ -167,7 +170,8 @@ Reconcile For Disabled Onu Device
     ...    AND    Setup Test
     Run Keyword If    ${has_dataplane}    Clean Up Linux
     Do Reconcile For Disabled Onu Device
-    [Teardown]    Run Keywords    Run Keyword If    ${logging}    Get Logical Id of OLT
+    [Teardown]    Run Keywords    Printout ONU Serial Number and Device Id    print2console=${print2console}
+    ...    AND    Run Keyword If    ${logging}    Get Logical Id of OLT
     ...    AND    Run Keyword If    ${logging}    Collect Logs
     ...    AND    Teardown Test
     ...    AND    Stop Logging    ReconcileDisabledOnuDeviceOnuGo
@@ -191,7 +195,8 @@ Olt Deletion After Adapter Restart
     ...    AND    Setup Test
     Run Keyword If    ${has_dataplane}    Clean Up Linux
     Do Olt Deletion After Adapter Restart
-    [Teardown]    Run Keywords    Run Keyword If    ${logging}    Get Logical Id of OLT
+    [Teardown]    Run Keywords    Printout ONU Serial Number and Device Id    print2console=${print2console}
+    ...    AND    Run Keyword If    ${logging}    Get Logical Id of OLT
     ...    AND    Run Keyword If    ${logging}    Collect Logs
     ...    AND    Teardown Test
     ...    AND    Stop Logging    OltDeletionAfterAdapterRestartOnuGo
@@ -209,7 +214,8 @@ Flow Deletion After Adapter Restart
     ...    AND    Setup Test
     Run Keyword If    ${has_dataplane}    Clean Up Linux
     Do Flow Deletion After Adapter Restart
-    [Teardown]    Run Keywords    Run Keyword If    ${logging}    Get Logical Id of OLT
+    [Teardown]    Run Keywords    Printout ONU Serial Number and Device Id    print2console=${print2console}
+    ...    AND    Run Keyword If    ${logging}    Get Logical Id of OLT
     ...    AND    Run Keyword If    ${logging}    Collect Logs
     ...    AND    Teardown Test
     ...    AND    Stop Logging    FlowDeletionAfterAdapterRestartOnuGo

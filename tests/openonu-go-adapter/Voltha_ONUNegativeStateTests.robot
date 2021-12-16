@@ -90,7 +90,8 @@ ONU Negative State Test
         Current State Test All Onus    starting-openomci    timeout=1x
         Exit For Loop If    not ${StateTestAllONUs}
     END
-    [Teardown]    Run Keywords    Run Keyword If    ${logging}    Collect Logs
+    [Teardown]    Run Keywords   Printout ONU Serial Number and Device Id    print2console=${print2console}
+    ...    AND    Run Keyword If    ${logging}    Collect Logs
     ...    AND    Stop Logging    ONUStateTest
 
 
