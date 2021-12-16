@@ -226,38 +226,38 @@ Test Disable and Enable ONU for TT
     ...        AND    Run Keyword If    '${has_dataplane}'=='False'    Set Tags    non-critical
     [Teardown]    Run Keywords    Collect Logs
     ...           AND             Stop Logging    DisableEnableONUTT
+    @{onu_list}=    Create List
     FOR    ${I}    IN RANGE    0    ${num_all_onus}
         ${src}=    Set Variable    ${hosts.src[${I}]}
         ${dst}=    Set Variable    ${hosts.dst[${I}]}
-        ${service_type}=    Get Variable Value    ${src['service_type']}    "null"
+        ${sn}=     Set Variable    ${src['onu']}
+        # make sure all actions do only once per onu
+        ${onu_id}=    Get Index From List    ${onu_list}   ${sn}
+        Continue For Loop If    -1 != ${onu_id}
+        Append To List    ${onu_list}    ${sn}
         ${of_id}=    Get ofID From OLT List    ${src['olt']}
         ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
+        Get Onu Ports in ONOS For ALL UNI    ${src['onu']}    ${of_id}
         ${onu_port}=    Wait Until Keyword Succeeds    ${timeout}    2s    Get ONU Port in ONOS    ${src['onu']}
         ...    ${of_id}    ${src['uni_id']}
         Disable Device    ${onu_device_id}
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
         ...    Validate Device    DISABLED    UNKNOWN
-        ...    REACHABLE    ${src['onu']}    onu=True    onu_reason=omci-admin-lock
-        Wait Until Keyword Succeeds   ${timeout}    2s
-        ...    Verify UNI Port Is Disabled   ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${src['onu']}    ${src['uni_id']}
+        ...    REACHABLE    ${src['onu']}    onu=True    onu_reason=tech-profile-config-delete-success
+        Wait For All UNI Ports Are Disabled     ${src['onu']
         Run Keyword If    ${has_dataplane}    Run Keyword And Continue On Failure
         ...    Wait Until Keyword Succeeds    ${timeout}    2s
         ...    Check Ping    False    ${dst['dp_iface_ip_qinq']}    ${src['dp_iface_name']}
         ...    ${src['ip']}    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
         Sleep    5s
         Enable Device    ${onu_device_id}
-        Wait Until Keyword Succeeds   ${timeout}    2s
-        ...    Verify UNI Port Is Enabled   ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${src['onu']}
+        Wait For All UNI Ports Are Enabled     ${src['onu']
         # Workaround for issue seen in VOL-4489. Keep this workaround until VOL-4489 is fixed.
         Run Keyword If    ${has_dataplane}    Reboot XGSPON ONU    ${src['olt']}    ${src['onu']}    omci-flows-pushed
         # Workaround ends here for issue seen in VOL-4489.
-        Run Keyword If    ${has_dataplane} and '${service_type}' == 'mcast'    Clean Up Linux
-        Wait Until Keyword Succeeds   ${timeout}    2s
-        ...    Verify UNI Port Is Enabled   ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${src['onu']}    ${src['uni_id']}
-        Run Keyword If    '${service_type}' != 'mcast'
-        ...    Sanity Test TT one ONU    ${src}    ${dst}    ${suppressaddsubscriber}
-        ...    ELSE IF    ${has_dataplane} and '${service_type}' == 'mcast'
-        ...    Sanity Test TT MCAST one ONU    ${src}    ${dst}    ${suppressaddsubscriber}
+        Run Keyword If    ${has_dataplane}    Clean Up Linux
+        Wait For All UNI Ports Are Enabled     ${src['onu']
+        Perform Sanity Tests TT    ${suppressaddsubscriber}
     END
 
 *** Keywords ***
@@ -283,3 +283,54 @@ Teardown Suite
     Run Keyword If    ${teardown_device}    Delete All Devices And Verify
     Close All ONOS SSH Connections
     Stop Logging Setup or Teardown    Teardown-${SUITE NAME}
+
+
+# temporary keywords, should be moved to libraries afterwards
+Get Onu Ports in ONOS For ALL UNI
+    [Documentation]    Retrieves ONU port for the ONU in ONOS for all UNI-IDs, nothing will return!
+    [Arguments]    ${onu_serial_number}    ${olt_of_id}
+    @{uni_id__list}=    Create List
+    FOR    ${I}    IN RANGE    0    ${num_all_onus}
+        ${src}=    Set Variable    ${hosts.src[${I}]}
+        Continue For Loop If    ${src['onu']} != ${onu_serial_number}
+        ${uni_id}=    Set Variable    ${src['uni_id']}
+        # make sure all actions do only once per uni_id
+        ${onu_id}=    Get Index From List    ${onu_list}   ${sn}
+        Continue For Loop If    -1 != ${onu_id}
+        Append To List    ${onu_list}    ${sn}
+        ${onu_port}=    Wait Until Keyword Succeeds    ${timeout}    2s    Get ONU Port in ONOS    ${onu_serial_number}
+        ...    ${olt_of_id}    ${uni_id]}
+    END
+
+Wait For All UNI Ports Are Disabled
+    [Documentation]    Verifies all UNI Ports of passed ONU are disabled
+    [Arguments]    ${onu_serial_number}
+    @{uni_id__list}=    Create List
+    FOR    ${I}    IN RANGE    0    ${num_all_onus}
+        ${src}=    Set Variable    ${hosts.src[${I}]}
+        Continue For Loop If    ${src['onu']} != ${onu_serial_number}
+        ${uni_id}=    Set Variable    ${src['uni_id']}
+        # make sure all actions do only once per uni_id
+        ${onu_id}=    Get Index From List    ${onu_list}   ${sn}
+        Continue For Loop If    -1 != ${onu_id}
+        Append To List    ${onu_list}    ${sn}
+        Wait Until Keyword Succeeds   ${timeout}    2s
+        ...    Verify UNI Port Is Disabled   ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${onu_serial_number]}    ${uni_id}
+    END
+
+Wait For All UNI Ports Are Enabled
+    [Documentation]    Verifies all UNI Ports of passed ONU are enabled
+    [Arguments]    ${onu_serial_number}
+    @{uni_id__list}=    Create List
+    FOR    ${I}    IN RANGE    0    ${num_all_onus}
+        ${src}=    Set Variable    ${hosts.src[${I}]}
+        Continue For Loop If    ${src['onu']} != ${onu_serial_number}
+        ${uni_id}=    Set Variable    ${src['uni_id']}
+        # make sure all actions do only once per uni_id
+        ${onu_id}=    Get Index From List    ${onu_list}   ${sn}
+        Continue For Loop If    -1 != ${onu_id}
+        Append To List    ${onu_list}    ${sn}
+        Wait Until Keyword Succeeds   ${timeout}    2s
+        ...    Verify UNI Port Is Enabled   ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${onu_serial_number]}    ${uni_id}
+    END
+
