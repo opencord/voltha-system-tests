@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ac5f6723_07de5ed0",
+        "filename": "tests/tt-workflow/Voltha_TT_PODTests.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 246,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2021-12-16T08:00:20Z",
+      "side": 1,
+      "message": "Not sure if increasing sleeps/timeouts or insert of very new sleeps realy solve the issue. From my point of view the test need a redesign, so each ONU device will be disabled/enabled only once and the service as well as the UNIs will be checked at once.",
+      "range": {
+        "startLine": 246,
+        "startChar": 8,
+        "endLine": 246,
+        "endChar": 20
+      },
+      "revId": "27a486fb100634ba8e24fecbdf893df46352878d",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2e2ae7f5_9820d1e8",
+        "filename": "tests/tt-workflow/Voltha_TT_PODTests.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 248,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2021-12-16T08:00:20Z",
+      "side": 1,
+      "message": "same",
+      "range": {
+        "startLine": 248,
+        "startChar": 39,
+        "endLine": 248,
+        "endChar": 49
+      },
+      "revId": "27a486fb100634ba8e24fecbdf893df46352878d",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "db439801_639cb108",
+        "filename": "tests/tt-workflow/Voltha_TT_PODTests.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2021-12-16T08:00:20Z",
+      "side": 1,
+      "message": "same",
+      "range": {
+        "startLine": 261,
+        "startChar": 8,
+        "endLine": 261,
+        "endChar": 69
+      },
+      "revId": "27a486fb100634ba8e24fecbdf893df46352878d",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    }
+  ]
+}
