@@ -83,7 +83,8 @@ ONU MIB Template Data Test
     [Setup]    Run Keywords    Start Logging    ONUMibTemplateTest
     ...    AND    Setup
     Perform ONU MIB Template Data Test
-    [Teardown]    Run Keywords    Run Keyword If    ${logging}    Collect Logs
+    [Teardown]    Run Keywords    Printout ONU Serial Number and Device Id
+    ...    AND    Run Keyword If    ${logging}    Collect Logs
     ...    AND    Stop Logging    ONUMibTemplateTest
 
 

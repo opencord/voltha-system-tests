@@ -104,7 +104,8 @@ ONU State Test
     ...    ELSE IF    "${testmode}"=="Up2State"    Do ONU Up To State Test
     ...    ELSE IF    "${testmode}"=="SingleStateTime"    Do ONU Single State Test Time
     ...    ELSE    Fail    The testmode (${testmode}) is not valid!
-    [Teardown]    Run Keywords    Run Keyword If    ${logging}    Get Logical Id of OLT
+    [Teardown]    Run Keywords    Printout ONU Serial Number and Device Id    print2console=${print2console}
+    ...    AND    Run Keyword If    ${logging}    Get Logical Id of OLT
     ...    AND    Run Keyword If    ${logging}    Collect Logs
     ...    AND    Stop Logging    ONUStateTest
 
@@ -117,7 +118,8 @@ Check Loaded Tech Profile
     Run Keyword If    '${onu_state}'=='tech-profile-config-download-success' or '${onu_state}'=='omci-flows-pushed'
     ...    Do Check Tech Profile    ${INFRA_NAMESPACE}
     ...    ELSE    Pass Execution    ${skip_message}    skipped
-    [Teardown]    Run Keywords    Run Keyword If    ${logging}    Collect Logs
+    [Teardown]    Run Keywords    Printout ONU Serial Number and Device Id    print2console=${print2console}
+    ...    AND    Run Keyword If    ${logging}    Collect Logs
     ...    AND    Stop Logging    ONUCheckTechProfile
 
 Onu Port Check
@@ -128,7 +130,8 @@ Onu Port Check
     Run Keyword If    '${onu_state}'=='tech-profile-config-download-success' or '${onu_state}'=='omci-flows-pushed'
     ...    Do Onu Port Check
     ...    ELSE    Pass Execution    ${skip_message}    skipped
-    [Teardown]    Run Keywords    Run Keyword If    ${logging}    Collect Logs
+    [Teardown]    Run Keywords    Printout ONU Serial Number and Device Id    print2console=${print2console}
+    ...    AND    Run Keyword If    ${logging}    Collect Logs
     ...    AND    Stop Logging    ONUPortTest
 
 Onu Etcd Data Check
@@ -139,7 +142,8 @@ Onu Etcd Data Check
     Run Keyword If    '${onu_state}'=='tech-profile-config-download-success' or '${onu_state}'=='omci-flows-pushed'
     ...    Do Onu Etcd Data Check
     ...    ELSE    Pass Execution    ${skip_message}    skipped
-    [Teardown]    Run Keywords    Run Keyword If    ${logging}    Collect Logs
+    [Teardown]    Run Keywords    Printout ONU Serial Number and Device Id    print2console=${print2console}
+    ...    AND    Run Keyword If    ${logging}    Collect Logs
     ...    AND    Stop Logging    ONUEtcdDataTest
 
 Onu Flow Check
@@ -149,7 +153,8 @@ Onu Flow Check
     [Setup]    Start Logging    ONUFlowTest
     Run Keyword If    '${onu_state}'=='omci-flows-pushed'    Do Onu Flow Check
     ...    ELSE    Pass Execution    ${skip_message}    skipped
-    [Teardown]    Run Keywords    Run Keyword If    ${logging}    Collect Logs
+    [Teardown]    Run Keywords    Printout ONU Serial Number and Device Id    print2console=${print2console}
+    ...    AND    Run Keyword If    ${logging}    Collect Logs
     ...    AND    Stop Logging    ONUFlowTest
 
 Disable Enable Onu Device
@@ -160,7 +165,8 @@ Disable Enable Onu Device
     Run Keyword If    '${onu_state}'=='tech-profile-config-download-success' or '${onu_state}'=='omci-flows-pushed'
     ...    Do Disable Enable Onu Test
     ...    ELSE    Pass Execution    ${skip_message}    skipped
-    [Teardown]    Run Keywords    Run Keyword If    ${logging}    Collect Logs
+    [Teardown]    Run Keywords    Printout ONU Serial Number and Device Id    print2console=${print2console}
+    ...    AND    Run Keyword If    ${logging}    Collect Logs
     ...    AND    Stop Logging    DisableEnableONUDevice
 
 Power Off Power On Onu Device
@@ -171,7 +177,8 @@ Power Off Power On Onu Device
     Run Keyword If    '${onu_state}'=='tech-profile-config-download-success' or '${onu_state}'=='omci-flows-pushed'
     ...    Do Power Off Power On Onu Device    ${NAMESPACE}
     ...    ELSE    Pass Execution    ${skip_message}    skipped
-    [Teardown]    Run Keywords    Run Keyword If    ${logging}    Collect Logs
+    [Teardown]    Run Keywords    Printout ONU Serial Number and Device Id    print2console=${print2console}
+    ...    AND    Run Keyword If    ${logging}    Collect Logs
     ...    AND    Stop Logging    PowerOffPowerOnONUDevice
 
 Soft Reboot Onu Device
@@ -182,7 +189,8 @@ Soft Reboot Onu Device
     Run Keyword If    '${onu_state}'=='tech-profile-config-download-success' or '${onu_state}'=='omci-flows-pushed'
     ...    Do Soft Reboot Onu Device
     ...    ELSE    Pass Execution    ${skip_message}    skipped
-    [Teardown]    Run Keywords    Run Keyword If    ${logging}    Collect Logs
+    [Teardown]    Run Keywords    Printout ONU Serial Number and Device Id    print2console=${print2console}
+    ...    AND    Run Keyword If    ${logging}    Collect Logs
     ...    AND    Stop Logging    SoftRebootONUDevice
 
 *** Keywords ***
