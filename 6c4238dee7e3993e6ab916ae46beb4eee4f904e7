@@ -33,6 +33,24 @@
       "message": "maybe it\u0027s my ignorance, but why print2console\u003d${print2console} is presente in some places and not in others ?",
       "revId": "6c4238dee7e3993e6ab916ae46beb4eee4f904e7",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "196bbcd4_70bc6013",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2021-12-16T14:04:01Z",
+      "side": 1,
+      "message": "It\u0027s a valid question. Variable ${print2console} is available in few test suites. If it is available, it will be passed, else not. print2console is more established for manual testing, not for jenkins jobs.",
+      "parentUuid": "a2c561ce_0797a15e",
+      "revId": "6c4238dee7e3993e6ab916ae46beb4eee4f904e7",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     }
   ]
 }
