@@ -151,6 +151,25 @@ Get ONU Port in ONOS
     Should Be True    ${matched}    No match for ${onu_serial_number} found
     [Return]    ${onu_port}
 
+Get Onu Ports in ONOS For ALL UNI per ONU
+    [Documentation]    Retrieves ONU port(s) for the ONU in ONOS for all UNI-IDs, list of ports will return!
+    [Arguments]    ${onu_serial_number}    ${olt_of_id}
+    @{uni_id_list}=    Create List
+    @{port_list}=      Create List
+    FOR    ${I}    IN RANGE    0    ${num_all_onus}
+        ${src}=    Set Variable    ${hosts.src[${I}]}
+        Continue For Loop If    "${src['onu']}" != "${onu_serial_number}"
+        ${uni_id}=    Set Variable    ${src['uni_id']}
+        # make sure all actions do only once per uni_id
+        ${id}=    Get Index From List    ${uni_id_list}   ${uni_id}
+        Continue For Loop If    -1 != ${id}
+        Append To List    ${uni_id_list}    ${uni_id}
+        ${onu_port}=    Wait Until Keyword Succeeds    ${timeout}    2s    Get ONU Port in ONOS    ${onu_serial_number}
+        ...    ${olt_of_id}    ${uni_id}
+        Append To List    ${port_list}    ${onu_port}
+    END
+    [return]    ${port_list}
+
 Get NNI Port in ONOS
     [Arguments]    ${olt_of_id}
     [Documentation]    Retrieves NNI port for the OLT in ONOS
@@ -573,6 +592,39 @@ Verify UNI Port Is Disabled
     ...    ports | grep portName=${onu_name}-${onu_uni_id} | grep state=disabled
     Log    ${onu_port_disabled}
     Should Not Be Empty    ${onu_port_disabled}
+
+Wait For All UNI Ports Are Disabled per ONU
+    [Documentation]    Verifies all UNI Ports of passed ONU are disabled
+    [Arguments]    ${ip}    ${port}    ${onu_serial_number}
+    @{uni_id_list}=    Create List
+    FOR    ${I}    IN RANGE    0    ${num_all_onus}
+        ${src}=    Set Variable    ${hosts.src[${I}]}
+        Continue For Loop If    "${src['onu']}" != "${onu_serial_number}"
+        ${uni_id}=    Set Variable    ${src['uni_id']}
+        # make sure all actions do only once per uni_id
+        ${id}=    Get Index From List    ${uni_id_list}   ${uni_id}
+        Continue For Loop If    -1 != ${id}
+        Append To List    ${uni_id_list}    ${uni_id}
+        Wait Until Keyword Succeeds   ${timeout}    2s
+        ...    Verify UNI Port Is Disabled   ${ip}    ${port}    ${onu_serial_number}    ${uni_id}
+    END
+
+Wait For All UNI Ports Are Enabled per ONU
+    [Documentation]    Verifies all UNI Ports of passed ONU are enabled
+    [Arguments]    ${ip}    ${port}    ${onu_serial_number}
+    @{uni_id_list}=    Create List
+    FOR    ${I}    IN RANGE    0    ${num_all_onus}
+        ${src}=    Set Variable    ${hosts.src[${I}]}
+        Continue For Loop If    "${src['onu']}" != "${onu_serial_number}"
+        ${uni_id}=    Set Variable    ${src['uni_id']}
+        # make sure all actions do only once per uni_id
+        ${id}=    Get Index From List    ${uni_id_list}   ${uni_id}
+        Continue For Loop If    -1 != ${id}
+        Append To List    ${uni_id_list}    ${uni_id}
+        Wait Until Keyword Succeeds   ${timeout}    2s
+        ...    Verify UNI Port Is Enabled   ${ip}    ${port}    ${onu_serial_number}    ${uni_id}
+    END
+
 
 Verify ONU in AAA-Users
     [Arguments]    ${ip}    ${port}    ${onu_port}
