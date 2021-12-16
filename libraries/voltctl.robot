@@ -772,29 +772,33 @@ Get Parent ID From Device ID
     [Return]    ${pid}
 
 Validate Device Removed
-    [Arguments]    ${id}
+    [Arguments]    ${serialNumber}
     [Documentation]    Verifys that device, ${serial_number}, has been removed
     ${rc}    ${output}=    Run and Return Rc and Output    voltctl -c ${VOLTCTL_CONFIG} device list -o json
     Should Be Equal As Integers    ${rc}    0
     ${jsondata}=    To Json    ${output}
     Log    ${jsondata}
     ${length}=    Get Length    ${jsondata}
-    @{ids}=    Create List
+    @{sns}=    Create List
     FOR    ${INDEX}    IN RANGE    0    ${length}
         ${value}=    Get From List    ${jsondata}    ${INDEX}
-        ${device_id}=    Get From Dictionary    ${value}    id
-        Append To List    ${ids}    ${device_id}
+        ${device_sn}=    Get From Dictionary    ${value}    serialNumber
+        Append To List    ${sns}    ${device_sn}
     END
-    List Should Not Contain Value    ${ids}    ${id}
+    List Should Not Contain Value    ${sns}    ${serialNumber}
 
 Validate all ONUS for OLT Removed
     [Arguments]    ${num_all_onus}    ${hosts}    ${olt_serial_number}    ${timeout}
     [Documentation]    Verifys that all the ONUS for OLT ${serial_number}, has been removed
+    @{onu_list}=    Create List
     FOR    ${J}    IN RANGE    0    ${num_all_onus}
         ${src}=    Set Variable    ${hosts.src[${J}]}
         Continue For Loop If    "${olt_serial_number}"!="${src['olt']}"
-        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
-        ...    Validate Device Removed    ${src['onu']}
+        ${sn}=     Set Variable    ${src['onu']}
+        ${onu_id}=    Get Index From List    ${onu_list}   ${sn}
+        Continue For Loop If    -1 != ${onu_id}
+        Append To List    ${onu_list}    ${sn}
+        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s    Validate Device Removed   ${sn}
     END
 
 Reboot ONU
