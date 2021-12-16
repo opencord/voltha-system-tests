@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ed0edefe_41883660",
+        "filename": "tests/tt-workflow/Voltha_TT_PODTests.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2021-12-16T08:02:17Z",
+      "side": 1,
+      "message": "onu reason after disable device should be set to tech-profile-config-delete-success due introduction of flow deletion after disable device.",
+      "range": {
+        "startLine": 239,
+        "startChar": 57,
+        "endLine": 239,
+        "endChar": 83
+      },
+      "revId": "27a486fb100634ba8e24fecbdf893df46352878d",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ac5f6723_07de5ed0",
         "filename": "tests/tt-workflow/Voltha_TT_PODTests.robot",
         "patchSetId": 2
