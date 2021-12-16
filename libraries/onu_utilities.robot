@@ -429,14 +429,11 @@ Validate Tech Profiles and Flows in ETCD Data Per Onu
     ${tp_path_empty}=    Set Variable    True
     Log    ${tp_path_values}
     Log    ${tp_path_keys}
-    ${expected_tp}=    Set Variable    64
     # In case of not empty tp_path each value will be checked depending on must_exist
     FOR    ${key}  IN  @{tp_path_keys}
-        Should Be Equal As Numbers    ${expected_tp}    ${key}
         ${value}=    Get From Dictionary    ${tp_path}     ${key}
         Run Keyword If    ${must_exist}    Should Not Be Empty    ${value}
         ...               ELSE             Should Be Empty        ${value}
-        ${expected_tp}=    Evaluate    ${expected_tp}+1
     END
     Run Keyword If    ${must_exist}    Should Not Be Empty    ${flow_params}
     ...               ELSE             Should Be Empty        ${flow_params}
@@ -625,6 +622,14 @@ Delete ONU Go Adapter ETCD Data
     Run Keyword If    ${validate}    Wait Until Keyword Succeeds    ${timeout}    1s
     ...    Validate Onu Data In Etcd    namespace=${namespace}    nbofetcddata=0    without_pm_data=False
     [Return]    ${result}
+
+Validate ONOS Flows per OLT
+    [Documentation]    This keyword validates onos flows per olt
+    [Arguments]    ${olt_sn}    ${expected_flows}
+    ${olt_of_id}    Validate OLT Device in ONOS    ${olt_sn}
+    ${flows}=    Count flows    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${olt_of_id}   added
+    Log     Found added ${flows} of ${expected_flows} expected flows on device ${olt_sn}
+    Should Be Equal As Integers    ${expected_flows}    ${flows}
 
 Validate OLT Flows Per Onu
     [Documentation]    This keyword validates olt flows per onu
