@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "870156a6_6c6e3523",
+        "filename": "tests/openonu-go-adapter/Voltha_ONUReconcileTests.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 524,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2021-12-16T09:16:28Z",
+      "side": 1,
+      "message": "This check should be performed in a loop. After the ONU adapter is back after restart and reconciliation, it may take a few seconds for the rw-core to start removing the remaining TPs (65 and 66) and corresponding flows in the TT scenario.",
+      "range": {
+        "startLine": 524,
+        "startChar": 8,
+        "endLine": 524,
+        "endChar": 62
+      },
+      "revId": "396d69ddb48855899c165e497a6e9d71ea1aed0b",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    }
+  ]
+}
