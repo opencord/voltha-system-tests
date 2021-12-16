@@ -223,41 +223,40 @@ Test Disable and Enable ONU for TT
     [Tags]    functionalTT    DisableEnableONUTT
     [Setup]    Run Keywords    Start Logging    DisableEnableONUTT
     ...        AND    Run Keyword If    ${has_dataplane}    Set Non-Critical Tag for XGSPON Tech
-    ...        AND    Run Keyword If    '${has_dataplane}'=='False'    Set Tags    non-critical
     [Teardown]    Run Keywords    Collect Logs
     ...           AND             Stop Logging    DisableEnableONUTT
+    @{onu_list}=    Create List
     FOR    ${I}    IN RANGE    0    ${num_all_onus}
         ${src}=    Set Variable    ${hosts.src[${I}]}
         ${dst}=    Set Variable    ${hosts.dst[${I}]}
-        ${service_type}=    Get Variable Value    ${src['service_type']}    "null"
+        ${sn}=     Set Variable    ${src['onu']}
+        # make sure all actions do only once per onu
+        ${onu_id}=    Get Index From List    ${onu_list}   ${sn}
+        Continue For Loop If    -1 != ${onu_id}
+        Append To List    ${onu_list}    ${sn}
         ${of_id}=    Get ofID From OLT List    ${src['olt']}
         ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
-        ${onu_port}=    Wait Until Keyword Succeeds    ${timeout}    2s    Get ONU Port in ONOS    ${src['onu']}
-        ...    ${of_id}    ${src['uni_id']}
+        ${onu_port}=    Get Onu Ports in ONOS For ALL UNI per ONU    ${src['onu']}    ${of_id}
+        Log    ${onu_port}
         Disable Device    ${onu_device_id}
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
         ...    Validate Device    DISABLED    UNKNOWN
-        ...    REACHABLE    ${src['onu']}    onu=True    onu_reason=omci-admin-lock
-        Wait Until Keyword Succeeds   ${timeout}    2s
-        ...    Verify UNI Port Is Disabled   ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${src['onu']}    ${src['uni_id']}
+        ...    REACHABLE    ${src['onu']}    onu=True    onu_reason=tech-profile-config-delete-success
+        Wait For All UNI Ports Are Disabled per ONU   ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${src['onu']}
         Run Keyword If    ${has_dataplane}    Run Keyword And Continue On Failure
         ...    Wait Until Keyword Succeeds    ${timeout}    2s
         ...    Check Ping    False    ${dst['dp_iface_ip_qinq']}    ${src['dp_iface_name']}
         ...    ${src['ip']}    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
         Sleep    5s
         Enable Device    ${onu_device_id}
-        Wait Until Keyword Succeeds   ${timeout}    2s
-        ...    Verify UNI Port Is Enabled   ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${src['onu']}
+        Wait For All UNI Ports Are Enabled per ONU   ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${src['onu']}
         # Workaround for issue seen in VOL-4489. Keep this workaround until VOL-4489 is fixed.
         Run Keyword If    ${has_dataplane}    Reboot XGSPON ONU    ${src['olt']}    ${src['onu']}    omci-flows-pushed
         # Workaround ends here for issue seen in VOL-4489.
-        Run Keyword If    ${has_dataplane} and '${service_type}' == 'mcast'    Clean Up Linux
-        Wait Until Keyword Succeeds   ${timeout}    2s
-        ...    Verify UNI Port Is Enabled   ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${src['onu']}    ${src['uni_id']}
-        Run Keyword If    '${service_type}' != 'mcast'
-        ...    Sanity Test TT one ONU    ${src}    ${dst}    ${suppressaddsubscriber}
-        ...    ELSE IF    ${has_dataplane} and '${service_type}' == 'mcast'
-        ...    Sanity Test TT MCAST one ONU    ${src}    ${dst}    ${suppressaddsubscriber}
+        Run Keyword If    ${has_dataplane}    Clean Up Linux
+        Run Keyword If    ${has_dataplane}    Wait For All UNI Ports Are Enabled per ONU   ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}
+        ...    ${src['onu']
+        Perform Sanity Tests TT    ${suppressaddsubscriber}
     END
 
 *** Keywords ***
