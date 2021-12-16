@@ -243,9 +243,9 @@ Test Disable and Enable ONU for TT
         ...    Wait Until Keyword Succeeds    ${timeout}    2s
         ...    Check Ping    False    ${dst['dp_iface_ip_qinq']}    ${src['dp_iface_name']}
         ...    ${src['ip']}    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
-        Sleep    5s
+        Sleep    10s
         Enable Device    ${onu_device_id}
-        Wait Until Keyword Succeeds   ${timeout}    2s
+        Wait Until Keyword Succeeds    120s    5s
         ...    Verify UNI Port Is Enabled   ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${src['onu']}
         # Workaround for issue seen in VOL-4489. Keep this workaround until VOL-4489 is fixed.
         Run Keyword If    ${has_dataplane}    Reboot XGSPON ONU    ${src['olt']}    ${src['onu']}    omci-flows-pushed
@@ -257,6 +257,8 @@ Test Disable and Enable ONU for TT
         ...    Sanity Test TT one ONU    ${src}    ${dst}    ${suppressaddsubscriber}
         ...    ELSE IF    ${has_dataplane} and '${service_type}' == 'mcast'
         ...    Sanity Test TT MCAST one ONU    ${src}    ${dst}    ${suppressaddsubscriber}
+        # Additional sleep for bbsim scenarios to avoid quick disable-enable of the ONU
+        Run Keyword If    '${has_dataplane}'=='False'    Sleep    15s
     END
 
 *** Keywords ***
