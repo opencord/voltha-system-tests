@@ -497,27 +497,32 @@ Do Flow Deletion After Adapter Restart
     ${expected_flows_onu}=    Set Variable If   "${workflow}"=="ATT"    1    0
     Wait Until Keyword Succeeds    ${timeout}    2s    Validate number of flows    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}
     ...    ${expected_flows_onu}  ${of_id}   any    ${onu_port}
+    ${flow}=    Execute ONOS CLI Command use single connection
+    ...    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    flows -s any ${of_id}
+    Log    ${flow}
     # Beside onu port specific flows additional flows deleted depending on workflow
     ${additional_flows_deleted}=    Set Variable If
     ...    "${workflow}"=="DT"    1
     ...    "${workflow}"=="TT"    3
     ...    "${workflow}"=="ATT"   0
     FOR    ${I}    IN RANGE    0    ${num_olts}
-        ${olt_of_id}    Wait Until Keyword Succeeds    ${timeout}    15s    Validate OLT Device in ONOS    ${list_olts}[${I}][sn]
-        ${flows}=    Count flows    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${olt_of_id}   added
         ${expected_flows}=    Run Keyword If    "${of_id}"=="${olt_flows_list}[${I}][olt]"
         ...    Evaluate    ${olt_flows_list}[${I}][flows]-${flows_onu}-${additional_flows_deleted}
         ...    ELSE    Set Variable    ${olt_flows_list}[${I}][flows]
-        Log     Found added ${flows} of ${expected_flows} expected flows on device ${list_olts}[${I}][sn]
-        Should Be Equal As Integers    ${expected_flows}    ${flows}
+        Wait Until Keyword Succeeds    ${timeout}    2s    Validate ONOS Flows per OLT    ${list_olts}[${I}][sn]
+        ...    ${expected_flows}
     END
+    ${flow}=    Execute ONOS CLI Command use single connection
+    ...    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    flows -s any ${of_id}
+    Log    ${flow}
     # validate etcd data
     ${List_ONU_Serial}    Create List
     Build ONU SN List    ${List_ONU_Serial}
     ${onu_sn_no_flows}=    Set Variable    ${hosts.src[0]['onu']}
     FOR  ${onu_sn}  IN  @{List_ONU_Serial}
         ${must_exist}=    Set Variable If    "${onu_sn}"=="${onu_sn_no_flows}"    False    True
-        Validate Tech Profiles and Flows in ETCD Data Per Onu   ${onu_sn}   ${INFRA_NAMESPACE}   ${kvstoreprefix}  ${must_exist}
+        Wait Until Keyword Succeeds    ${timeout}    2s    Validate Tech Profiles and Flows in ETCD Data Per Onu
+        ...    ${onu_sn}   ${INFRA_NAMESPACE}   ${kvstoreprefix}  ${must_exist}
     END
     ${onu_device_id_no_flows}=    Get Device ID From SN    ${hosts.src[0]['onu']}
     FOR  ${onu_device_id}  IN  @{onu_device_id_list}
