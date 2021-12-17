@@ -147,6 +147,7 @@ Test Subscriber Delete and Add
     ...    Re-add the subscriber and validate that the pings are successful
     [Tags]    functional    SubAddDelete    released    multi-uni
     [Setup]    Start Logging     SubAddDelete
+    ...        AND    Run Keyword If    ${has_dataplane}    Set Non-Critical Tag for XGSPON Tech
     [Teardown]    Run Keywords    Collect Logs
     ...           AND             Stop Logging    SubAddDelete
     FOR    ${I}    IN RANGE    0    ${num_all_onus}
