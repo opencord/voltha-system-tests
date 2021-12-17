@@ -148,7 +148,8 @@ Test Subscriber Delete and Add for DT
     ...    Disable and Enable the ONU (This is to replicate the existing DT behaviour)
     ...    Re-add the subscriber, and validate that the flows are present and pings are successful
     [Tags]    functionalDt    SubAddDeleteDt    soak
-    [Setup]    Start Logging     SubAddDeleteDt
+    [Setup]    Run Keywords    Start Logging     SubAddDeleteDt
+    ...        AND    Run Keyword If    ${has_dataplane}    Set Non-Critical Tag for XGSPON Tech
     [Teardown]    Run Keywords    Run Keyword If    ${logging}    Collect Logs
     ...           AND             Stop Logging    SubAddDeleteDt
     FOR    ${I}    IN RANGE    0    ${num_all_onus}
