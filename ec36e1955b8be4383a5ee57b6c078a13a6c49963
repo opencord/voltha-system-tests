@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3b2a4e32_704f7743",
+        "filename": "tests/dt-workflow/Voltha_DT_PODTests.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2021-12-17T10:15:19Z",
+      "side": 1,
+      "message": "Add \"Run Keywords\" before this like:\n    [Setup]    Run Keywords    Start Logging    SubAddDeleteDt\n    ...        AND    Run Keyword If    ${has_dataplane}    Set Non-Critical Tag for XGSPON Tech",
+      "revId": "ec36e1955b8be4383a5ee57b6c078a13a6c49963",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "02a97fe4_cf1baa03",
+        "filename": "tests/functional/Voltha_PODTests.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2021-12-17T10:15:19Z",
+      "side": 1,
+      "message": "Same as previous.",
+      "revId": "ec36e1955b8be4383a5ee57b6c078a13a6c49963",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    }
+  ]
+}
