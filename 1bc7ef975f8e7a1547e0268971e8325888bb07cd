@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b4c0bde8_672649bb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2022-01-03T08:25:08Z",
+      "side": 1,
+      "message": "Hi Emrehan, is this a start for the multi-uni work in DT and we should expect updates to this patch ? ",
+      "revId": "1bc7ef975f8e7a1547e0268971e8325888bb07cd",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    }
+  ]
+}
