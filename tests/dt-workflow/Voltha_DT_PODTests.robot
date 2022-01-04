@@ -778,7 +778,7 @@ Data plane Bandwidth profile update verification for DT
 
 Test ONU Delete and Auto-Discovery for DT
     [Documentation]    Tests the voltctl delete and Auto-Discovery of the ONU
-    [Tags]    functionalDt    VOL-3098    ONUAutoDiscoveryDt    notready
+    [Tags]    functionalDt    VOL-3098    ONUAutoDiscoveryDt
     [Setup]    Start Logging    ONUAutoDiscoveryDt
     [Teardown]    Run Keywords    Run Keyword If    ${logging}    Collect Logs
     ...           AND             Stop Logging    ONUAutoDiscoveryDt
