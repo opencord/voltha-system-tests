@@ -778,7 +778,7 @@ Data plane Bandwidth profile update verification for DT
 
 Test ONU Delete and Auto-Discovery for DT
     [Documentation]    Tests the voltctl delete and Auto-Discovery of the ONU
-    [Tags]    functionalDt    VOL-3098    ONUAutoDiscoveryDt    notready
+    [Tags]    functionalDt    VOL-3098    ONUAutoDiscoveryDt
     [Setup]    Start Logging    ONUAutoDiscoveryDt
     [Teardown]    Run Keywords    Run Keyword If    ${logging}    Collect Logs
     ...           AND             Stop Logging    ONUAutoDiscoveryDt
@@ -791,6 +791,8 @@ Test ONU Delete and Auto-Discovery for DT
         ${dst}=    Set Variable    ${hosts.dst[${I}]}
         ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
         ${of_id}=    Get ofID From OLT List    ${src['olt']}
+        ${onu_port}=    Wait Until Keyword Succeeds    ${timeout}    2s
+        ...    Get ONU Port in ONOS    ${src['onu']}    ${of_id}
         ${nni_port}=    Wait Until Keyword Succeeds    ${timeout}    2s    Get NNI Port in ONOS    ${of_id}
         # Delete ONU and Verify Ping Fails
         Delete Device    ${onu_device_id}

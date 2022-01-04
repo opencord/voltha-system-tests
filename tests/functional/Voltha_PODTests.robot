@@ -812,7 +812,7 @@ Data plane Bandwidth profile update verification
 
 Test ONU Delete and Auto-Discovery
     [Documentation]    Tests the voltctl delete and Auto-Discovery of the ONU
-    [Tags]    functional    VOL-3098    ONUAutoDiscovery    notready
+    [Tags]    functional    VOL-3098    ONUAutoDiscovery
     [Setup]    Run Keywords    Start Logging    ONUAutoDiscovery
     ...        AND             Setup
     [Teardown]    Run Keywords    Collect Logs
