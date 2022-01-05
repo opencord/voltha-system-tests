@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ab0a3fb0_decabf18",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2022-01-05T13:52:09Z",
+      "side": 1,
+      "message": "In very seldom cases we dedect an negative restart duration for openonu-go-adapter in case of reconciling. The previous handling took the system timestamp for calculation of restart duration. Due to stored ready timestamp of adapter is cutted after seconds while system timestamp includes millisecs it was possible to get an negative result (very seldom, see https://jenkins.opencord.org/job/patchset-voltha-multiple-olts-openonu-go-test-bbsim/10/). In the corrected version the previous ready timestamp of adapter will take as base. It is much more save and prevent for possible different timezones on the systems.",
+      "revId": "7e9f125ba550561782024027f31a700e89da2a11",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    }
+  ]
+}
