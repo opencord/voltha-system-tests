@@ -132,14 +132,14 @@ Reconcile Onu Adapter
     [Documentation]     Restarts the openonu adapter and waits for reconciling is finished and expected oper-state is reached
     [Arguments]     ${namespace}    ${usekill2restart}    ${oper_status}    ${olt_to_be_deleted_sn}=${EMPTY}
     ...             ${flow_delete_params}=&{EMPTY}
-    # get time of restart of openonu adapter
-    ${restart_ts}=    Get Current Date
+    # get last ready timestamp of openonu adapter
+    ${previous_ready_ts}=    Get Pod Ready Timestamp by Label    ${namespace}    app    adapter-open-onu
     # restart OpenONU adapter
     Run Keyword If    ${usekill2restart}    Kill And Check Onu Adaptor    ${namespace}
     ...    ELSE    Restart And Check Onu Adaptor    ${namespace}
-    #check ready timestamp of openonu adapter, should be younger than restart timestamp
+    #check ready timestamp of openonu adapter, should be younger than the previous ready timestamp
     ${openonu_ready_ts}=    Get Pod Ready Timestamp by Label    ${namespace}    app    adapter-open-onu
-    ${restart_duration}=    Subtract Date From Date    ${openonu_ready_ts}    ${restart_ts}
+    ${restart_duration}=    Subtract Date From Date    ${openonu_ready_ts}    ${previous_ready_ts}
     Should Be True     ${restart_duration}>0
     # delete the olt passed, if available (special feature)
     ${olt_to_be_deleted_device_id}=    Run Keyword IF  "${olt_to_be_deleted_sn}"!="${EMPTY}"
