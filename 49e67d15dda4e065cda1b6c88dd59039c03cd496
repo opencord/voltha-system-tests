@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d5261bbb_2aeca783",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2022-01-11T08:57:38Z",
+      "side": 1,
+      "message": "So far so good, but \u0027onu_utilities.robot\u0027 and \u0027Voltha_ONUReconcileTests.robot\u0027 have to be modified too, or we have to move corresponding keywords to voltctl.robot",
+      "revId": "49e67d15dda4e065cda1b6c88dd59039c03cd496",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    }
+  ]
+}
