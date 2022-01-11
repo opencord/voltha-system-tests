@@ -254,7 +254,7 @@ Disable and Delete devices
     [Documentation]  Disable and delete the OLTs in VOLTHA
     [Tags]      non-critical    teardown
 
-    ${rc}    ${output}=     Run And Return Rc And Output    voltctl -c ${VOLTCTL_CONFIG} device list -f Type=openolt -q
+    ${rc}    ${output}=     Run And Return Rc And Output    voltctl -c ${VOLTCTL_CONFIG} device list -m 32MB -f Type=openolt -q
     Should Be Equal As Integers    ${rc}    0   Failed to get device list from voltctl: ${output}
     Log     ${output}
     ${devices}=     Split To Lines  ${output}
