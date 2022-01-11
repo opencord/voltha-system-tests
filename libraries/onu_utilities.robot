@@ -651,7 +651,7 @@ Validate OLT Flows Per Onu
     ...                The values/content of olt flows will be not validated!
     [Arguments]    ${onu_device_id}    ${must_exist}
     ${rc}    ${output}=    Run and Return Rc and Output
-    ...    voltctl -c ${VOLTCTL_CONFIG} device flows ${onu_device_id} -m 8MB -o json
+    ...    voltctl -c ${VOLTCTL_CONFIG} device flows ${onu_device_id} -m 32MB -o json
     Should Be Equal As Integers    ${rc}    0
     ${jsondata}=    To Json    ${output}
     Log    ${jsondata}
