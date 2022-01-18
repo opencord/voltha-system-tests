@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1192007b_55da89f9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2022-01-18T10:39:48Z",
+      "side": 1,
+      "message": "Triggered for olt-adapter: https://jenkins.opencord.org/view/VOLTHA-2.X-Tests/job/periodic-software-upgrade-test-b[…]2/robot/report/RobotLogs/voltha-component-upgrade/log.html\nonu-adapter: https://jenkins.opencord.org/view/VOLTHA-2.X-Tests/job/periodic-software-upgrade-test-b[…]3/robot/report/RobotLogs/voltha-component-upgrade/log.html\nrw-core: https://jenkins.opencord.org/view/VOLTHA-2.X-Tests/job/periodic-software-upgrade-test-b[…]4/robot/report/RobotLogs/voltha-component-upgrade/log.html\nof-agent: https://jenkins.opencord.org/view/VOLTHA-2.X-Tests/job/periodic-software-upgrade-test-b[…]5/robot/report/RobotLogs/voltha-component-upgrade/log.html\nall components: https://jenkins.opencord.org/view/VOLTHA-2.X-Tests/job/periodic-software-upgrade-test-b[…]6/robot/report/RobotLogs/voltha-component-upgrade/log.html",
+      "revId": "b0823426e3bde25f735d1c373aef6631565b2f0d",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    }
+  ]
+}
