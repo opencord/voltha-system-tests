@@ -34,6 +34,24 @@
       "parentUuid": "31012d6d_45eadd23",
       "revId": "ca816d1b6260c93a1ea04ca18b7131b75352f400",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7d2db074_3cb546a2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2022-01-19T14:27:23Z",
+      "side": 1,
+      "message": "When test suite is used in physical pod tests the tech profiles will be already set correctly?",
+      "parentUuid": "7295b4fb_479cc0f0",
+      "revId": "ca816d1b6260c93a1ea04ca18b7131b75352f400",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     }
   ]
 }
