@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "30caba6c_b894e2c2",
+        "filename": "libraries/onu_utilities.robot",
+        "patchSetId": 3
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2022-01-19T11:54:45Z",
+      "side": 1,
+      "message": "are done",
+      "range": {
+        "startLine": 79,
+        "startChar": 32,
+        "endLine": 79,
+        "endChar": 35
+      },
+      "revId": "c1beeee228bce8970420d354a06b469b0802ff35",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aa80f1e3_339f75e9",
+        "filename": "libraries/onu_utilities.robot",
+        "patchSetId": 3
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2022-01-19T11:54:45Z",
+      "side": 1,
+      "message": "are done",
+      "range": {
+        "startLine": 104,
+        "startChar": 32,
+        "endLine": 104,
+        "endChar": 35
+      },
+      "revId": "c1beeee228bce8970420d354a06b469b0802ff35",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    }
+  ]
+}
