@@ -54,6 +54,7 @@ ROBOT_PM_DATA_FILE     ?= $(ROOT_DIR)/tests/data/pm-data.yaml
 ROBOT_SANITY_MULTI_UNI_SINGLE_PON_FILE     ?= $(ROOT_DIR)/tests/data/bbsim-kind-multi-uni.yaml
 ROBOT_SANITY_MULTI_UNI_MULTIPLE_OLT_FILE     ?= $(ROOT_DIR)/tests/data/bbsim-kind-multi-uni-2OLTx2ONUx2PON.yaml
 ROBOT_SANITY_TT_MULTI_UNI_SINGLE_PON_FILE    ?= $(ROOT_DIR)/tests/data/bbsim-kind-multi-uni-tt.yaml
+ROBOT_SANITY_TT_MULTI_UNI_MULTIPLE_OLT_FILE     ?= $(ROOT_DIR)/tests/data/bbsim-kind-multi-uni-2OLTx2ONUx2PON-tt.yaml
 
 # for backwards compatibility
 sanity-kind: sanity-single-kind
@@ -179,7 +180,7 @@ reconcile-openonu-go-adapter-test-dt: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_DT_SIN
 reconcile-openonu-go-adapter-test-dt: reconcile-openonu-go-adapter-tests-dt
 
 # target to invoke reconcile tests with openonu go adapter at single ONU with TT workflow
-reconcile-openonu-go-adapter-test-tt: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_TT_SINGLE_PON_FILE)
+reconcile-openonu-go-adapter-test-tt: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_TT_MULTI_UNI_SINGLE_PON_FILE)
 reconcile-openonu-go-adapter-test-tt: reconcile-openonu-go-adapter-tests-tt
 
 # target to invoke reconcile tests with openonu go adapter with multiple OLTs scenario with ATT workflow (default workflow)
@@ -191,7 +192,7 @@ reconcile-openonu-go-adapter-multi-olt-test-dt: ROBOT_CONFIG_FILE := $(ROBOT_SAN
 reconcile-openonu-go-adapter-multi-olt-test-dt: reconcile-openonu-go-adapter-tests-dt
 
 # target to invoke reconcile tests with openonu go adapter with multiple OLTs scenario with TT workflow
-reconcile-openonu-go-adapter-multi-olt-test-tt: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_TT_MULTIPLE_OLT_FILE)
+reconcile-openonu-go-adapter-multi-olt-test-tt: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_TT_MULTI_UNI_MULTIPLE_OLT_FILE)
 reconcile-openonu-go-adapter-multi-olt-test-tt: reconcile-openonu-go-adapter-tests-tt
 
 # target to invoke reconcile tests with openonu go adapter with ATT workflow
@@ -203,7 +204,7 @@ reconcile-openonu-go-adapter-tests-dt: ROBOT_MISC_ARGS += -v workflow:DT
 reconcile-openonu-go-adapter-tests-dt: reconcile-openonu-go-adapter-tests
 
 # target to invoke reconcile tests with openonu go adapter with TT workflow
-reconcile-openonu-go-adapter-tests-tt: ROBOT_MISC_ARGS += -v workflow:TT
+reconcile-openonu-go-adapter-tests-tt: ROBOT_MISC_ARGS += -v workflow:TT -v unitag_sub:True
 reconcile-openonu-go-adapter-tests-tt: reconcile-openonu-go-adapter-tests
 
 # target to invoke reconcile tests with openonu go adapter at single ONU resp. multiple OLTs
