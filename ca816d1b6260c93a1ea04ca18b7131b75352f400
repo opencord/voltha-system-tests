@@ -16,6 +16,24 @@
       "message": "Not sure if the test suite is also used for real POD tests. If so, may we have to wrap pre-load of tech profile by \u0027Run Keword Unless  ${has_dataplane}\u0027 (or something similar)!\nYour comments are welcome.  ",
       "revId": "ca816d1b6260c93a1ea04ca18b7131b75352f400",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7295b4fb_479cc0f0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2022-01-19T14:23:18Z",
+      "side": 1,
+      "message": "The suite does get used in physical pod tests. Variable unitag_sub is only used in bbsim based job at the moment. I suggest to use has_dataplane for controlling things between bbsim and physical-pod jobs.",
+      "parentUuid": "31012d6d_45eadd23",
+      "revId": "ca816d1b6260c93a1ea04ca18b7131b75352f400",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     }
   ]
 }
