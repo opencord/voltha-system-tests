@@ -52,6 +52,24 @@
       "parentUuid": "7295b4fb_479cc0f0",
       "revId": "ca816d1b6260c93a1ea04ca18b7131b75352f400",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cf62f774_a60fcb4a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2022-01-19T14:39:49Z",
+      "side": 1,
+      "message": "For TT physical pod tests, TP gets set here: https://github.com/opencord/ci-management/blob/master/jjb/pipeline/voltha/master/physical-build.groovy#L184-L203",
+      "parentUuid": "7d2db074_3cb546a2",
+      "revId": "ca816d1b6260c93a1ea04ca18b7131b75352f400",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     }
   ]
 }
