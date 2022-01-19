@@ -14,8 +14,6 @@
 
 *** Settings ***
 Documentation     Test different Reconcile scenarios of ONU Go adapter with all three workflows ATT, DT and TT.
-...               Test suite is dedicated for only one ONU! Run robot with bbsim-kind.yaml only!
-...               Not for DT/TT workflow!
 ...               Hint: default timeout in BBSim to mimic OLT reboot is 60 seconds!
 ...               This behaviour of BBSim can be modified by 'oltRebootDelay: 60' in BBSim section of helm chart or
 ...               used values.yaml during 'voltha up'.
@@ -220,6 +218,24 @@ Flow Deletion After Adapter Restart
     ...    AND    Teardown Test
     ...    AND    Stop Logging    FlowDeletionAfterAdapterRestartOnuGo
 
+Wrong MDS Counter After Adapter Restart
+    [Documentation]    Validates wrong MDS Counter of ONU after adapter restart
+    ...    - perform sanity test include add subscriber
+    ...    - restart the ONU adapter preferred via "kubectl delete pod"
+    ...    - manipulate MDS counter
+    ...    - wait until the restart of the ONU adapter and the reconcile processing are finished
+    ...    - check all ONUs come up to previous state
+    [Tags]    functionalOnuGo    WrongMDSCounterAfterAdapterRestartOnuGo
+    [Setup]    Run Keywords    Start Logging    WrongMDSCounterAfterAdapterRestartOnuGo
+    ...    AND    Setup Test
+    Run Keyword If    ${has_dataplane}    Clean Up Linux
+    Do Wrong MDS Counter After Adapter Restart
+    [Teardown]    Run Keywords    Printout ONU Serial Number and Device Id    print2console=${print2console}
+    ...    AND    Run Keyword If    ${logging}    Get Logical Id of OLT
+    ...    AND    Run Keyword If    ${logging}    Collect Logs
+    ...    AND    Teardown Test
+    ...    AND    Stop Logging    WrongMDSCounterAfterAdapterRestartOnuGo
+
 *** Keywords ***
 Setup Suite
     [Documentation]    Set up the test suite
@@ -231,6 +247,11 @@ Setup Suite
     ...    kvstoreprefix:${kvstoreprefix}
     Log    ${LogInfo}    console=yes
     Common Test Suite Setup
+    # set tech profiles
+    Run Keyword If    ${unitag_sub} and "${workflow}"=="TT"    Set Tech Profile    TT-HSIA    ${INFRA_NAMESPACE}    64
+    Run Keyword If    ${unitag_sub} and "${workflow}"=="TT"    Set Tech Profile    TT-VoIP    ${INFRA_NAMESPACE}    65
+    Run Keyword If    ${unitag_sub} and "${workflow}"=="TT"    Set Tech Profile    TT-multi-uni-MCAST-AdditionalBW-None
+    ...               ${INFRA_NAMESPACE}    66
     # delete etcd MIB Template Data
     Delete MIB Template Data    ${INFRA_NAMESPACE}
     # delete etcd onu data
@@ -255,6 +276,10 @@ Teardown Suite
     Run Keyword If    ${logging}    Collect Logs
     Stop Logging Setup or Teardown   Teardown-${SUITE NAME}
     Close All ONOS SSH Connections
+    Set Suite Variable    ${TechProfile}    ${EMPTY}
+    Run Keyword If    ${unitag_sub} and "${workflow}"=="TT"    Remove Tech Profile    ${INFRA_NAMESPACE}    64
+    Run Keyword If    ${unitag_sub} and "${workflow}"=="TT"    Remove Tech Profile    ${INFRA_NAMESPACE}    65
+    Run Keyword If    ${unitag_sub} and "${workflow}"=="TT"    Remove Tech Profile    ${INFRA_NAMESPACE}    66
 
 Setup Test
     [Documentation]    Pre-test Setup
@@ -353,9 +378,19 @@ Do Reconcile For Disabled Onu Device
     ...    ELSE       Perform Sanity Test
     Disable Onu Device
     Current State Test All Onus    tech-profile-config-delete-success
+    #check no port is enabled in ONOS
+    Wait for Ports in ONOS for all OLTs    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    0    BBSM
+    Wait for all ONU Ports in ONOS Disabled    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${unitag_sub}
+    # validate etcd data
+    ${List_ONU_Serial}    Create List
+    Build ONU SN List    ${List_ONU_Serial}
+    FOR  ${onu_sn}  IN  @{List_ONU_Serial}
+        Wait Until Keyword Succeeds    ${timeout}    2s    Validate Tech Profiles and Flows in ETCD Data Per Onu
+        ...    ${onu_sn}   ${INFRA_NAMESPACE}   ${kvstoreprefix}  must_exist=False    check_tcont_map_empty=True
+    END
     Reconcile Onu Adapter    ${NAMESPACE}    ${usekill2restart}    UNKNOWN
     Current State Test All Onus    tech-profile-config-delete-success
-    Wait for all ONU Ports in ONOS Disabled    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}
+    Wait for all ONU Ports in ONOS Disabled    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${unitag_sub}
     Enable Onu Device
     Run Keyword If    "${workflow}"=="DT"    Perform Sanity Test DT     ${suppressaddsubscriber}
     ...    ELSE IF    "${workflow}"=="TT"    Perform Sanity Tests TT    ${suppressaddsubscriber}
@@ -390,7 +425,7 @@ Do Reconcile In Omci-Flows-Pushed
     ...    ELSE       Perform Sanity Test    ${suppressaddsubscriber}
     Disable Onu Device
     Current State Test All Onus    tech-profile-config-delete-success
-    Wait for all ONU Ports in ONOS Disabled    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}
+    Wait for all ONU Ports in ONOS Disabled    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${unitag_sub}
     Enable Onu Device
     Run Keyword If    "${workflow}"=="DT"    Perform Sanity Test DT     ${suppressaddsubscriber}
     ...    ELSE IF    "${workflow}"=="TT"    Perform Sanity Tests TT    ${suppressaddsubscriber}
@@ -482,9 +517,19 @@ Do Flow Deletion After Adapter Restart
     END
     # Collect data for remove flow(s)
     ${of_id}=    Wait Until Keyword Succeeds    ${timeout}    15s    Validate OLT Device in ONOS    ${hosts.src[0]['olt']}
-    ${onu_port}=    Wait Until Keyword Succeeds    ${timeout}    2s    Get ONU Port in ONOS    ${hosts.src[0]['onu']}
-    ...    ${of_id}    ${hosts.src[0]['uni_id']}
-    ${params_for_remove_flow}=    Create Dictionary    of_id=${of_id}    onu_port=${onu_port}
+    ${onu_sn}=    Set Variable   ${hosts.src[0]['onu']}
+    ${onu_port_list}    Create List
+    FOR    ${I}    IN RANGE    0    ${num_all_onus}
+        ${src}=    Set Variable    ${hosts.src[${I}]}
+        Continue For Loop If    "${onu_sn}"!="${src['onu']}"
+        ${onu_port}=    Wait Until Keyword Succeeds    ${timeout}    2s    Get ONU Port in ONOS    ${src['onu']}
+        ...    ${of_id}    ${src['uni_id']}
+        ${port_id}=    Get Index From List    ${onu_port_list}   ${onu_port}
+        Continue For Loop If    -1 != ${port_id}
+        Append To List    ${onu_port_list}    ${onu_port}
+    END
+    ${params_for_remove_flow}=    Create Dictionary    unitag=${unitag_sub}    onu_sn=${onu_sn}    of_id=${of_id}
+    ...    onu_port=${onu_port_list[0]}
     # Collect number of flows for comparing after Reconcile
     ${olt_flows_list}    Create List
     FOR    ${I}    IN RANGE    0    ${num_olts}
@@ -493,7 +538,11 @@ Do Flow Deletion After Adapter Restart
         ${olt_flows}=    Create Dictionary    olt=${olt_of_id}    flows=${flows}
         Append To List    ${olt_flows_list}    ${olt_flows}
     END
-    ${flows_onu}=    Count flows    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${of_id}   added    ${onu_port}
+    ${flows_onu}=    Set Variable    0
+    FOR  ${onu_port}  IN  @{onu_port_list}
+        ${flows_onu_port}=    Count flows    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${of_id}   added    ${onu_port}
+        ${flows_onu}=    Evaluate     ${flows_onu} + ${flows_onu_port}
+    END
     # Restart onu adapter with deleting flows from first onu
     Reconcile Onu Adapter    ${NAMESPACE}    ${usekill2restart}    ACTIVE    flow_delete_params=${params_for_remove_flow}
     # validate flows in ONOS after remove
@@ -501,16 +550,19 @@ Do Flow Deletion After Adapter Restart
     ...    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    flows -s any ${of_id}
     Log    ${flow}
     ${expected_flows_onu}=    Set Variable If   "${workflow}"=="ATT"    1    0
-    Wait Until Keyword Succeeds    ${timeout}    2s    Validate number of flows    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}
-    ...    ${expected_flows_onu}  ${of_id}   any    ${onu_port}
+    FOR  ${onu_port}  IN  @{onu_port_list}
+        Wait Until Keyword Succeeds    ${timeout}    2s    Validate number of flows    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}
+        ...    ${expected_flows_onu}  ${of_id}   any    ${onu_port}
+    END
     ${flow}=    Execute ONOS CLI Command use single connection
     ...    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    flows -s any ${of_id}
     Log    ${flow}
-    # Beside onu port specific flows additional flows deleted depending on workflow
-    ${additional_flows_deleted}=    Set Variable If
-    ...    "${workflow}"=="DT"    1
-    ...    "${workflow}"=="TT"    3
-    ...    "${workflow}"=="ATT"   0
+    # Beside onu port specific flows additional flows deleted depending on workflow and number of onu ports
+    ${number_ports}=    Get Length    ${onu_port_list}
+    ${additional_flows_deleted}=    Run Keyword If    "${workflow}"=="DT"    Set Variable    ${number_ports}
+    ...                             ELSE IF           "${workflow}"=="TT"    Evaluate        ${number_ports}*3
+    ...                             ELSE IF           "${workflow}"=="ATT"   Set Variable    0
+    ...                             ELSE                                     Set Variable    0
     FOR    ${I}    IN RANGE    0    ${num_olts}
         ${expected_flows}=    Run Keyword If    "${of_id}"=="${olt_flows_list}[${I}][olt]"
         ...    Evaluate    ${olt_flows_list}[${I}][flows]-${flows_onu}-${additional_flows_deleted}
@@ -536,3 +588,32 @@ Do Flow Deletion After Adapter Restart
         ${must_exist}=    Set Variable If    "${onu_device_id}"=="${onu_device_id_no_flows}"    False    True
         Validate OLT Flows Per Onu   ${onu_device_id}    ${must_exist}
     END
+
+Do Wrong MDS Counter After Adapter Restart
+    [Documentation]    This keyword checks correct handling of a wrong MDS counter after adapter restart
+    ...    - perform sanity test include add subscriber
+    ...    - restart the ONU adapter preferred via "kubectl delete pod"
+    ...    - manipulate MDS counter
+    ...    - wait until the restart of the ONU adapter and the reconcile processing are finished
+    ...    - check all ONUs come up to previous state
+    FOR    ${I}    IN RANGE    0    ${num_olts}
+        #get olt serial number
+        ${olt_serial_number}=    Set Variable    ${list_olts}[${I}][sn]
+        #validate olt states
+        ${olt_device_id}=    Get OLTDeviceID From OLT List    ${olt_serial_number}
+        Enable Device    ${olt_device_id}
+    END
+    Run Keyword If    "${workflow}"=="DT"    Perform Sanity Test DT
+    ...    ELSE IF    "${workflow}"=="TT"    Perform Sanity Tests TT
+    ...    ELSE       Perform Sanity Test
+    Reconcile Onu Adapter    ${NAMESPACE}    ${usekill2restart}    ACTIVE    wrong_MDS_counter=True
+    Run Keyword If    "${workflow}"=="DT"    Perform Sanity Test DT     ${suppressaddsubscriber}
+    ...    ELSE IF    "${workflow}"=="TT"    Perform Sanity Tests TT    ${suppressaddsubscriber}
+    ...    ELSE       Perform Sanity Test    ${suppressaddsubscriber}
+    Disable Onu Device
+    Current State Test All Onus    tech-profile-config-delete-success
+    Wait for all ONU Ports in ONOS Disabled    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${unitag_sub}
+    Enable Onu Device
+    Run Keyword If    "${workflow}"=="DT"    Perform Sanity Test DT     ${suppressaddsubscriber}
+    ...    ELSE IF    "${workflow}"=="TT"    Perform Sanity Tests TT    ${suppressaddsubscriber}
+    ...    ELSE       Perform Sanity Test    ${suppressaddsubscriber}
