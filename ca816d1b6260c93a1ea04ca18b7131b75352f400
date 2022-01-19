@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "31012d6d_45eadd23",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2022-01-19T14:01:14Z",
+      "side": 1,
+      "message": "Not sure if the test suite is also used for real POD tests. If so, may we have to wrap pre-load of tech profile by \u0027Run Keword Unless  ${has_dataplane}\u0027 (or something similar)!\nYour comments are welcome.  ",
+      "revId": "ca816d1b6260c93a1ea04ca18b7131b75352f400",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    }
+  ]
+}
