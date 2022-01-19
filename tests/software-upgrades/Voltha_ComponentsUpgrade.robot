@@ -125,7 +125,7 @@ Test Voltha Components Minor Version Rolling Upgrade
     ...    Requirement: Components to test needs to be passed in robot command variable 'voltha_comps_under_test' in the format:
     ...    <comp-label>,<comp-container>,<comp-image>*<comp-label>,<comp-container>,<comp-image>*
     ...    Check [VOL-4534] for more details
-    [Tags]    functional   VolthaCompMinorVeriRollingUpgrade
+    [Tags]    functional   VolthaCompMinorVerRollingUpgrade
     [Setup]    Start Logging    VolthaCompMinorVerRollingUpgrade
     [Teardown]    Run Keywords    Collect Logs
     ...           AND             Stop Logging    VolthaCompMinorVerRollingUpgrade

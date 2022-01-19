@@ -523,10 +523,17 @@ onos-app-upgrade-test: software-upgrade-test
 
 # Voltha Components to test for Software Upgrade need to be passed in the 'voltha_comps_under_test' variable in format:
 # <comp-label>,<comp-container>,<comp-image>*<comp-label>,<comp-container>,<comp-image>*
-voltha-comp-upgrade-test: ROBOT_MISC_ARGS +=  -e notready -i functional
+voltha-comp-upgrade-test: ROBOT_MISC_ARGS +=  -e notready -i VolthaCompMinorVerUpgrade
 voltha-comp-upgrade-test: ROBOT_FILE := Voltha_ComponentsUpgrade.robot
 voltha-comp-upgrade-test: ROBOT_CONFIG_FILE := $(ROBOT_SW_UPGRADE_FILE)
 voltha-comp-upgrade-test: software-upgrade-test
+
+# Voltha Components to test for Software Upgrade need to be passed in the 'voltha_comps_under_test' variable in format:
+# <comp-label>,<comp-container>,<comp-image>*<comp-label>,<comp-container>,<comp-image>*
+voltha-comp-rolling-upgrade-test: ROBOT_MISC_ARGS +=  -e notready -i VolthaCompMinorVerRollingUpgrade
+voltha-comp-rolling-upgrade-test: ROBOT_FILE := Voltha_ComponentsUpgrade.robot
+voltha-comp-rolling-upgrade-test: ROBOT_CONFIG_FILE := $(ROBOT_SW_UPGRADE_FILE)
+voltha-comp-rolling-upgrade-test: software-upgrade-test
 
 # Requirement: Pass ONU image details in following parameters
 # image_version, image_url, image_vendor, image_activate_on_success, image_commit_on_success, image_crc
