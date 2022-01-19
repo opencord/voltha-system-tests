@@ -82,6 +82,15 @@ Power Off ONU
     ...    bbsimctl onu shutdown ${onu}
     Should Contain    ${result}    successfully    msg=Can not shutdown ${onu}    values=False
 
+Set Wrong MDS Counter ONU
+    [Documentation]    This keyword sets wrong MDS counter for onu device.
+    [Arguments]    ${namespace}    ${bbsim_pod_name}    ${onu}
+    ${result}    ${rc}=    Exec Pod And Return Output And RC    ${namespace}    ${bbsim_pod_name}
+    ...    bbsimctl onu invalidate_mds ${onu}
+    Should Be Equal as Integers    ${rc}    0
+    Should Contain    ${result}    MDS counter of ONU    msg=Can not invalidate MDS counter ${onu}    values=False
+    Should Contain    ${result}    , set to    msg=Can not invalidate MDS counter ${onu}    values=False
+
 Get ONUs List
     [Documentation]    Fetches ONUs via BBSimctl
     [Arguments]    ${namespace}    ${bbsim_pod_name}
