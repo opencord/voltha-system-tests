@@ -32,6 +32,7 @@ Resource          ../../libraries/utils.robot
 Resource          ../../libraries/k8s.robot
 Resource          ../../variables/variables.robot
 Resource          ../../libraries/power_switch.robot
+Resource          ../../libraries/onu_utilities.robot
 
 *** Variables ***
 ${POD_NAME}       flex-ocp-cord
@@ -52,6 +53,7 @@ ${logical_id}     0
 ${has_dataplane}    True
 ${teardown_device}    True
 ${scripts}        ../../scripts
+${data_dir}    ../data
 
 # Per-test logging on failure is turned off by default; set this variable to enable
 ${container_log_dir}    ${None}
@@ -269,6 +271,11 @@ Test Disable and Enable ONU for TT
 Setup Suite
     [Documentation]    Set up the test suite
     Common Test Suite Setup
+    # pre-load tech profiles to use single instance control for HSIA and VoIP, multi instance control for MCAST
+    Run Keyword If    ${unitag_sub} and not ${has_dataplane}   Set Tech Profile    TT-HSIA    ${INFRA_NAMESPACE}    64
+    Run Keyword If    ${unitag_sub} and not ${has_dataplane}    Set Tech Profile    TT-VoIP    ${INFRA_NAMESPACE}    65
+    Run Keyword If    ${unitag_sub} and not ${has_dataplane}    Set Tech Profile    TT-multi-uni-MCAST-AdditionalBW-None
+    ...    ${INFRA_NAMESPACE}    66
     ${switch_type}=    Get Variable Value    ${web_power_switch.type}
     Run Keyword If  "${switch_type}"!=""    Set Global Variable    ${powerswitch_type}    ${switch_type}
 
@@ -287,4 +294,9 @@ Teardown Suite
     Run Keyword If    ${has_dataplane}    Clean Up Linux
     Run Keyword If    ${teardown_device}    Delete All Devices And Verify
     Close All ONOS SSH Connections
+    # remove pre-loaded tech profiles
+    Set Suite Variable    ${TechProfile}    ${EMPTY}
+    Run Keyword If    ${unitag_sub} and not ${has_dataplane}    Remove Tech Profile    ${INFRA_NAMESPACE}    64
+    Run Keyword If    ${unitag_sub} and not ${has_dataplane}    Remove Tech Profile    ${INFRA_NAMESPACE}    65
+    Run Keyword If    ${unitag_sub} and not ${has_dataplane}    Remove Tech Profile    ${INFRA_NAMESPACE}    66
     Stop Logging Setup or Teardown    Teardown-${SUITE NAME}
