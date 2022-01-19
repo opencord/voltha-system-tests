@@ -15,6 +15,7 @@
 *** Settings ***
 Documentation     Library for various openonu-go-adpter utilities
 Library           grpc_robot.VolthaTools     WITH NAME    volthatools
+Resource          ./bbsim.robot
 
 
 *** Keywords ***
@@ -70,10 +71,16 @@ Power On ONU Device
 Power On ONU Device per OLT
     [Documentation]    This keyword turns on the power for all onus.
     [Arguments]    ${namespace}    ${olt_serial_number}    ${bbsim_pod}
+    @{onu_list}=    Create List
     FOR    ${I}    IN RANGE    0    ${num_all_onus}
         ${src}=    Set Variable    ${hosts.src[${I}]}
         Continue For Loop If    "${olt_serial_number}"!="${src['olt']}"
-        Power On ONU    ${namespace}    ${bbsim_pod}    ${src['onu']}
+        ${sn}=     Set Variable    ${src['onu']}
+        # make sure all actions are done only once per onu
+        ${onu_id}=    Get Index From List    ${onu_list}   ${sn}
+        Continue For Loop If    -1 != ${onu_id}
+        Append To List    ${onu_list}    ${sn}
+        Power On ONU    ${namespace}    ${bbsim_pod}    ${sn}
     END
 
 Power Off ONU Device
@@ -89,10 +96,41 @@ Power Off ONU Device
 Power Off ONU Device per OLT
     [Documentation]    This keyword turns off the power for all onus per olt.
     [Arguments]    ${namespace}    ${olt_serial_number}    ${bbsim_pod}
+    @{onu_list}=    Create List
     FOR    ${I}    IN RANGE    0    ${num_all_onus}
         ${src}=    Set Variable    ${hosts.src[${I}]}
         Continue For Loop If    "${olt_serial_number}"!="${src['olt']}"
-        Power Off ONU    ${namespace}    ${bbsim_pod}    ${src['onu']}
+        ${sn}=     Set Variable    ${src['onu']}
+        # make sure all actions are done only once per onu
+        ${onu_id}=    Get Index From List    ${onu_list}   ${sn}
+        Continue For Loop If    -1 != ${onu_id}
+        Append To List    ${onu_list}    ${sn}
+        Power Off ONU    ${namespace}    ${bbsim_pod}    ${sn}
+    END
+
+Set Wrong MDS Counter All ONUs
+    [Documentation]    This keyword sets wrong MDS counter for all onus.
+    [Arguments]    ${namespace}
+    FOR    ${J}    IN RANGE    0    ${num_olts}
+        ${olt_serial_number}=    Set Variable    ${list_olts}[${J}][sn]
+        ${bbsim}=    Catenate    SEPARATOR=    bbsim    ${J}
+        ${bbsim_pod}=    Get Pod Name By Label    ${namespace}    release     ${bbsim}
+        Set Wrong MDS Counter per OLT    ${namespace}   ${olt_serial_number}    ${bbsim_pod}
+    END
+
+Set Wrong MDS Counter per OLT
+    [Documentation]    This keyword sets wrong MDS counter for all onus per olt.
+    [Arguments]    ${namespace}    ${olt_serial_number}    ${bbsim_pod}
+    @{onu_list}=    Create List
+    FOR    ${I}    IN RANGE    0    ${num_all_onus}
+        ${src}=    Set Variable    ${hosts.src[${I}]}
+        Continue For Loop If    "${olt_serial_number}"!="${src['olt']}"
+        ${sn}=     Set Variable    ${src['onu']}
+        # make sure all actions are done only once per onu
+        ${onu_id}=    Get Index From List    ${onu_list}   ${sn}
+        Continue For Loop If    -1 != ${onu_id}
+        Append To List    ${onu_list}    ${sn}
+        Set Wrong MDS Counter ONU    ${namespace}    ${bbsim_pod}    ${sn}
     END
 
 Current State Test
@@ -131,7 +169,7 @@ Current State Test All Onus
 Reconcile Onu Adapter
     [Documentation]     Restarts the openonu adapter and waits for reconciling is finished and expected oper-state is reached
     [Arguments]     ${namespace}    ${usekill2restart}    ${oper_status}    ${olt_to_be_deleted_sn}=${EMPTY}
-    ...             ${flow_delete_params}=&{EMPTY}
+    ...             ${flow_delete_params}=&{EMPTY}    ${wrong_MDS_counter}=False
     # get last ready timestamp of openonu adapter
     ${previous_ready_ts}=    Get Pod Ready Timestamp by Label    ${namespace}    app    adapter-open-onu
     # restart OpenONU adapter
@@ -146,9 +184,10 @@ Reconcile Onu Adapter
     ...    Get OLTDeviceID From OLT List    ${olt_to_be_deleted_sn}
     Run Keyword If  "${olt_to_be_deleted_sn}"!="${EMPTY}"    Delete Device    ${olt_to_be_deleted_device_id}
     # remove flows if params passed for it (special feature II)
-    Run Keyword If    ${flow_delete_params}!=&{EMPTY}    Wait Until Keyword Succeeds    ${timeout}    2s
-    ...    Execute ONOS CLI Command use single connection    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}
-    ...    volt-remove-subscriber-access ${flow_delete_params['of_id']} ${flow_delete_params['onu_port']}
+    Run Keyword If    ${flow_delete_params}!=&{EMPTY}    Remove Flows Conditional    ${flow_delete_params['unitag']}
+    ...    ${flow_delete_params['onu_sn']}    ${flow_delete_params['of_id']}    ${flow_delete_params['onu_port']}
+    # Set wrong MDS counter (for all ONUs) if required (special feature III)
+    Run Keyword If    ${wrong_MDS_counter}    Set Wrong MDS Counter All ONUs   ${namespace}
     # wait for the reconcile to complete
     # - we check that communication to openonu-adapter is established again
     # - we check that all ONUs leave reconcile state by validate a simple voltctl request will not responds with error
@@ -182,6 +221,26 @@ Validate All Onus Accessible
         Append To List    ${onu_list}    ${onu_device_id}
         ${rc}    ${output}=    Get Onu Image List    ${onu_device_id}
         Should Be True    ${rc}==0    Onu ${src['onu']} (${onu_device_id}) still not accessible.
+    END
+
+Remove Flows Conditional
+    [Documentation]    This keyword removes the flows (subscriber) conditional depending on unitag.
+    ...                In case of unitagsub==False (normal case) single subscriber remove will be executed.
+    ...                In case of multi uni each uni id will be deleted.
+    [Arguments]        ${unitagsub}    ${onu_sn}    ${of_id}    ${onu_port}
+    # first handle 'normal' case without uni ports
+    Run Keyword If    ${unitagsub}==False    Wait Until Keyword Succeeds    ${timeout}    2s
+    ...    Execute ONOS CLI Command use single connection    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}
+    ...    volt-remove-subscriber-access ${of_id} ${onu_port}
+    Return From Keyword If    ${unitagsub}==False
+    # handle multi uni case
+    FOR    ${I}    IN RANGE    0    ${num_all_onus}
+        ${src}=    Set Variable    ${hosts.src[${I}]}
+        Continue For Loop If    "${onu_sn}"!="${src['onu']}"
+        ${add_sub_cmd}=   Catenate    volt-remove-subscriber-unitag --tpId ${src['tp_id']} --sTag ${src['s_tag']}
+        ...    --cTag ${src['c_tag']} ${src['onu']}-${src['uni_id']}
+        Wait Until Keyword Succeeds    ${timeout}    2s    Execute ONOS CLI Command use single connection
+        ...    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${add_sub_cmd}
     END
 
 Log Ports
@@ -275,31 +334,32 @@ Delete MIB Template Data
 
 Set Tech Profile
     [Documentation]    This keyword sets the passed TechProfile for the test
-    [Arguments]    ${TechProfile}    ${namespace}=default
-    Log To Console    \nTechProfile:${TechProfile}
+    [Arguments]    ${TechProfile}    ${namespace}=default    ${tp_id}=64
+    Log To Console    \nSet TechProfile:${TechProfile} tp_id:${tp_id}
     ${podname}=    Set Variable    etcd
     ${label}=    Set Variable    app.kubernetes.io/name=${podname}
     ${src}=    Set Variable    ${data_dir}/TechProfile-${TechProfile}.json
     ${dest}=    Set Variable    /tmp/flexpod.json
     ${command}    Catenate
-    ...    /bin/sh -c 'cat    ${dest} | ETCDCTL_API=3 etcdctl put service/voltha/technology_profiles/XGS-PON/64'
+    ...    /bin/sh -c 'cat    ${dest} | ETCDCTL_API=3 etcdctl put service/voltha/technology_profiles/XGS-PON/${tp_id}'
     Copy File To Pod    ${namespace}    ${label}    ${src}    ${dest}
     Exec Pod In Kube    ${namespace}    ${podname}    ${command}
     ${commandget}    Catenate
-    ...    /bin/sh -c 'ETCDCTL_API=3 etcdctl get --prefix service/voltha/technology_profiles/XGS-PON/64'
+    ...    /bin/sh -c 'ETCDCTL_API=3 etcdctl get --prefix service/voltha/technology_profiles/XGS-PON/${tp_id}'
     ${result}=    Exec Pod In Kube    ${namespace}    ${podname}    ${commandget}
     Should Not Be Empty    ${result}    No Tech Profile stored in etcd!
 
 Remove Tech Profile
     [Documentation]    This keyword removes TechProfile
-    [Arguments]    ${namespace}=default
-    Log To Console    \nTechProfile:${TechProfile}
+    [Arguments]    ${namespace}=default    ${tp_id}=64
+    Run Keyword If    "${TechProfile}"!="${EMPTY}"    Log To Console    \nRemove TechProfile:${TechProfile} tp_id:${tp_id}
+    ...    ELSE    Log To Console    \nRemove Tech Profile template at tp_id:${tp_id}
     ${podname}=    Set Variable    etcd
     ${command}    Catenate
-    ...    /bin/sh -c 'ETCDCTL_API=3 etcdctl del --prefix service/voltha/technology_profiles/XGS-PON/64'
+    ...    /bin/sh -c 'ETCDCTL_API=3 etcdctl del --prefix service/voltha/technology_profiles/XGS-PON/${tp_id}'
     Exec Pod In Kube    ${namespace}    ${podname}    ${command}
     ${commandget}    Catenate
-    ...    /bin/sh -c 'ETCDCTL_API=3 etcdctl get --prefix service/voltha/technology_profiles/XGS-PON/64'
+    ...    /bin/sh -c 'ETCDCTL_API=3 etcdctl get --prefix service/voltha/technology_profiles/XGS-PON/${tp_id}'
     Exec Pod In Kube    ${namespace}    ${podname}    ${commandget}
 
 Do Onu Subscriber Add Per OLT
@@ -398,6 +458,7 @@ Validate Tech Profiles and Flows in ETCD Data Per Onu
     ...                It checks checks presence/absence of tech profiles and flows depending on must_exist.
     ...                The values/content of tech profiles and flows will be not validated!
     [Arguments]    ${onu_sn}    ${namespace}=default    ${defaultkvstoreprefix}=voltha_voltha    ${must_exist}=True
+    ...            ${check_tcont_map_empty}=False
     ${kvstoreprefix}=    Get Kv Store Prefix    ${defaultkvstoreprefix}
     ${etcddata}=    Get ONU Go Adapter ETCD Data    namespace=${namespace}    defaultkvstoreprefix=${kvstoreprefix}
     #prepare result for json convert
@@ -411,6 +472,7 @@ Validate Tech Profiles and Flows in ETCD Data Per Onu
         ${uni_config}=    Get From Dictionary    ${value}     uni_config
         ${uni_config}=    Set Variable    ${uni_config[0]}
         ${sn}=    Get From Dictionary    ${value}    serial_number
+        ${tcont_map}=    Get From Dictionary    ${value}     tcont_map
         ${matched}=    Set Variable If    '${sn}'=='${onu_sn}'    True    False
         Exit For Loop If    ${matched}
     END
@@ -451,6 +513,8 @@ Validate Tech Profiles and Flows in ETCD Data Per Onu
     END
     Run Keyword If    ${must_exist}    Should Not Be Empty    ${flow_params}
     ...               ELSE             Should Be Empty        ${flow_params}
+    Run Keyword If    ${check_tcont_map_empty}    Log    ${tcont_map}
+    Run Keyword If    ${check_tcont_map_empty}    Should Be Empty    ${tcont_map}
 
 Validate Onu Data In Etcd
     [Documentation]    This keyword validates openonu-go-adapter Data stored in etcd.
@@ -685,12 +749,14 @@ Wait for Ports in ONOS for all OLTs
 
 Wait for all ONU Ports in ONOS Disabled
     [Documentation]    Waits untill a all ONU ports are disabled in all ONOS
-    [Arguments]    ${host}    ${port}
+    [Arguments]    ${host}    ${port}    ${unitag}=False
     FOR    ${I}    IN RANGE    0    ${num_all_onus}
         ${src}=    Set Variable    ${hosts.src[${I}]}
         ${of_id}=    Wait Until Keyword Succeeds    ${timeout}    15s    Validate OLT Device in ONOS
         ...    ${src['olt']}
-       ${onu_port}=    Wait Until Keyword Succeeds    ${timeout}    2s    Get ONU Port in ONOS    ${src['onu']}    ${of_id}
+        ${onu_uni_id}=    Set Variable If    ${unitag}    ${src['uni_id']}    1
+        ${onu_port}=    Wait Until Keyword Succeeds    ${timeout}    2s    Get ONU Port in ONOS    ${src['onu']}    ${of_id}
+        ...    ${onu_uni_id}
         Wait Until Keyword Succeeds    ${timeout}    2s    Assert ONU Port Is Disabled    ${host}    ${port}    ${of_id}
         ...    ${onu_port}
     END
