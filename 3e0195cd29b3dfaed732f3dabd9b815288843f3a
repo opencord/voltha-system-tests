@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ad1c1bcc_bba3f560",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2022-01-21T08:46:45Z",
+      "side": 1,
+      "message": "voltha test openonu multiolt",
+      "revId": "3e0195cd29b3dfaed732f3dabd9b815288843f3a",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    }
+  ]
+}
