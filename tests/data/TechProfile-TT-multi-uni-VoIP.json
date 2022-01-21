@@ -4,7 +4,7 @@
 	"version": 1,
 	"num_gem_ports": 1,
 	"instance_control": {
-		"onu": "multi-instance",
+		"onu": "single-instance",
 		"uni": "single-instance",
 		"max_gem_payload_size": "auto"
 	},
