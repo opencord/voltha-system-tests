@@ -77,6 +77,12 @@ functional-single-kind-multiuni-att: voltha-test
 voltha-scale: ROBOT_MISC_ARGS += -i activation -v NAMESPACE:voltha $(ROBOT_DEBUG_LOG_OPT)
 voltha-scale: voltha-scale-test
 
+# for onu-upgrade scale pipeline
+# Requirement: Pass ONU image details in following parameters
+# image_version, image_url, image_vendor, image_activate_on_success, image_commit_on_success, image_crc
+voltha-scale-onu-upgrade: ROBOT_MISC_ARGS += -i setup -i activation -i flow-before -i onu-upgrade -v NAMESPACE:voltha -v image_version:BBSM_IMG_00002 -v image_url:http://bbsim0:50074/images/software-image.img -v image_vendor:BBSM -v image_activate_on_success:false -v image_commit_on_success:false -v image_crc:0 $(ROBOT_DEBUG_LOG_OPT)
+voltha-scale-onu-upgrade: voltha-scale-test
+
 # target to invoke DT Workflow Sanity
 sanity-kind-dt: ROBOT_MISC_ARGS += -i sanityDt $(ROBOT_DEBUG_LOG_OPT)
 sanity-kind-dt: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_DT_SINGLE_PON_FILE)

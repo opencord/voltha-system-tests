@@ -144,6 +144,14 @@ Get Device List from Voltha
     Log    ${devices}
     Should Be Equal As Integers    ${rc1}    0
 
+Get ONUs Device IDs from Voltha
+    [Documentation]    Fetches the ONU Device Ids from Voltha
+    ${rc}    ${onus}=    Run and Return Rc and Output
+    ...    voltctl -c ${VOLTCTL_CONFIG} device list -m 32MB | grep -v OLT | awk 'NR>1 {print $1}'
+    Should Be Equal as Integers    ${rc}    0
+    @{onuDevList}=    Split To Lines    ${onus}
+    [Return]    ${onuDevList}
+
 Get Device List from Voltha by type
     [Documentation]    Gets Device List Output from Voltha applying filtering by device type
     [Arguments]  ${type}
