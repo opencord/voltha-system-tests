@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "35869f10_86c4fa07",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2022-01-24T12:56:38Z",
+      "side": 1,
+      "message": "It\u0027s a backporting from master (July 2021)",
+      "revId": "17ec01d87bf3a9b9b274e66dd6810d0729e44531",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    }
+  ]
+}
