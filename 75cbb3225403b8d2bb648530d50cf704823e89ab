@@ -16,6 +16,52 @@
       "message": "this needs to be tested and discussed in ONF",
       "revId": "75cbb3225403b8d2bb648530d50cf704823e89ab",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4851b32d_ea314b7c",
+        "filename": "tests/data/TechProfile-TT-multi-uni-HSIA.json",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2022-01-24T12:21:22Z",
+      "side": 1,
+      "message": "With this change it is the same Tech Profile decleared in TechProfile-TT-HSIA.json.\nIt should be discussed, if we need two TechProfiles with the same content or we delete one. Also it is necessary to change the Tech Profile configuration in case of physical POD Test accordingly.",
+      "range": {
+        "startLine": 7,
+        "startChar": 10,
+        "endLine": 7,
+        "endChar": 16
+      },
+      "revId": "75cbb3225403b8d2bb648530d50cf704823e89ab",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2904f1c3_3507e7b3",
+        "filename": "tests/data/TechProfile-TT-multi-uni-VoIP.json",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2022-01-24T12:21:22Z",
+      "side": 1,
+      "message": "same",
+      "range": {
+        "startLine": 7,
+        "startChar": 10,
+        "endLine": 7,
+        "endChar": 16
+      },
+      "revId": "75cbb3225403b8d2bb648530d50cf704823e89ab",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     }
   ]
 }
