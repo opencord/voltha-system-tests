@@ -194,6 +194,9 @@ Verify re-provisioning subscriber after removing provisoned subscriber for TT
         ...    Check Ping    False    ${dst['dp_iface_ip_qinq']}    ${src['dp_iface_name']}
         ...    ${src['ip']}    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
         ...    ELSE    Sleep    10s    Wait for flows to be deleted
+        Run Keyword If    ${unitag_sub} and '${service_type}' != 'mcast'
+        ...    Wait Until Keyword Succeeds    ${timeout}    2s    Verify UniTag Subscriber    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}
+        ...    ${of_id}    ${onu_port}    ${src['s_tag']}    ${src['c_tag']}    ${src['tp_id']}    False
         # Verify VOLTHA flows for ONU under test is Zero
         # TODO: Fix ${onu_flows} calculations based on UNIs provisioned
         # Wait Until Keyword Succeeds    ${timeout}    5s    Validate Device Flows
@@ -206,6 +209,9 @@ Verify re-provisioning subscriber after removing provisoned subscriber for TT
         ...    Set Variable    volt-add-subscriber-access ${of_id} ${onu_port}
         Wait Until Keyword Succeeds    ${timeout}    2s    Execute ONOS CLI Command use single connection    ${ONOS_SSH_IP}
         ...    ${ONOS_SSH_PORT}    ${add_sub_cmd}
+        Run Keyword If    ${unitag_sub} and '${service_type}' != 'mcast'
+        ...    Wait Until Keyword Succeeds    ${timeout}    2s    Verify UniTag Subscriber    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}
+        ...    ${of_id}    ${onu_port}    ${src['s_tag']}    ${src['c_tag']}    ${src['tp_id']}
         Wait Until Keyword Succeeds    ${timeout}    5s
         ...    Validate Device    ENABLED    ACTIVE
         ...    REACHABLE    ${src['onu']}    onu=True    onu_reason=omci-flows-pushed
