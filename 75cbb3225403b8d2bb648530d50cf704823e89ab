@@ -35,6 +35,23 @@
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d2a4066b_821df505",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2022-01-25T04:39:13Z",
+      "side": 1,
+      "message": "LGTM.",
+      "revId": "75cbb3225403b8d2bb648530d50cf704823e89ab",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4851b32d_ea314b7c",
@@ -48,6 +65,30 @@
       "writtenOn": "2022-01-24T12:21:22Z",
       "side": 1,
       "message": "With this change it is the same Tech Profile decleared in TechProfile-TT-HSIA.json.\nIt should be discussed, if we need two TechProfiles with the same content or we delete one. Also it is necessary to change the Tech Profile configuration in case of physical POD Test accordingly.",
+      "range": {
+        "startLine": 7,
+        "startChar": 10,
+        "endLine": 7,
+        "endChar": 16
+      },
+      "revId": "75cbb3225403b8d2bb648530d50cf704823e89ab",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1ac9547d_d5685052",
+        "filename": "tests/data/TechProfile-TT-multi-uni-HSIA.json",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2022-01-25T04:39:13Z",
+      "side": 1,
+      "message": "Imo, it is okay to have 2 separate files for single and multi-uni TT jobs.",
+      "parentUuid": "4851b32d_ea314b7c",
       "range": {
         "startLine": 7,
         "startChar": 10,
