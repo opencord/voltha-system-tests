@@ -18,6 +18,24 @@
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "15217a12_5838c7a0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2022-01-25T12:12:47Z",
+      "side": 1,
+      "message": "Removed from patch.",
+      "parentUuid": "0bf786bc_1061c20c",
+      "revId": "ca765db24cfe5831c28e9ebc5eaf09d62360a1d2",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "36ec70db_2085c291",
@@ -31,6 +49,30 @@
       "writtenOn": "2022-01-25T04:48:17Z",
       "side": 1,
       "message": "So, now this target will run for multi-uni unlike earlier which is single. Am I right? How about creating a new target for multi-uni in that case?",
+      "range": {
+        "startLine": 183,
+        "startChar": 0,
+        "endLine": 183,
+        "endChar": 36
+      },
+      "revId": "ca765db24cfe5831c28e9ebc5eaf09d62360a1d2",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "811307f4_eec18d0f",
+        "filename": "Makefile",
+        "patchSetId": 8
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2022-01-25T12:12:47Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "36ec70db_2085c291",
       "range": {
         "startLine": 183,
         "startChar": 0,
@@ -64,6 +106,30 @@
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "38f21acd_93559521",
+        "filename": "Makefile",
+        "patchSetId": 8
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2022-01-25T12:12:47Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "8dff9f24_6a8eec8d",
+      "range": {
+        "startLine": 195,
+        "startChar": 0,
+        "endLine": 195,
+        "endChar": 46
+      },
+      "revId": "ca765db24cfe5831c28e9ebc5eaf09d62360a1d2",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "38259055_e96aeb3c",
@@ -77,6 +143,30 @@
       "writtenOn": "2022-01-25T04:48:17Z",
       "side": 1,
       "message": "With Girish\u0027s patch (https://gerrit.opencord.org/c/voltha-system-tests/+/30381/1/tests/data/TechProfile-TT-multi-uni-HSIA.json) I think we can use TT-multi-uni-HSIA (and VoIP) file for consistency in multi-uni case.",
+      "range": {
+        "startLine": 253,
+        "startChar": 59,
+        "endLine": 253,
+        "endChar": 66
+      },
+      "revId": "ca765db24cfe5831c28e9ebc5eaf09d62360a1d2",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a1554692_6d7e4684",
+        "filename": "tests/openonu-go-adapter/Voltha_ONUReconcileTests.robot",
+        "patchSetId": 8
+      },
+      "lineNbr": 253,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2022-01-25T12:12:47Z",
+      "side": 1,
+      "message": "Last conclusion is to keep TT-HSIA and TT-VoIP, but remove TT-multi-uni-HSIA and TT-multi-uni-HSIA from repository.",
+      "parentUuid": "38259055_e96aeb3c",
       "range": {
         "startLine": 253,
         "startChar": 59,
