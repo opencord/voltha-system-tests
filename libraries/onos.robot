@@ -993,3 +993,18 @@ Get ONOS App Details
     ...    curl --fail -sSL ${url}/onos/v1/applications/${app_name}
     Should Be Equal As Integers    ${rc}    0   Can't read app ${app_name} details from ONOS
     [Return]    ${output}
+
+Verify UniTag Subscriber
+    [Documentation]    Verifies the unitag subscriber is provisioned/un-provisioned
+    [Arguments]    ${ip}    ${port}    ${dev_id}    ${onu_port}    ${stag}    ${ctag}    ${tpid}    ${sub_added}=True
+    ${cmd}=    Catenate    SEPARATOR=
+    ...    volt-programmed-subscribers ${dev_id} ${onu_port} | grep "ponCTag=${ctag}, ponSTag=${stag}" | grep technologyProfileId
+    ...    =${tpid} --color=none
+    Log To Console    ${cmd}
+    ${subscriber}=    Execute ONOS CLI Command use single connection     ${ip}    ${port}    ${cmd}
+    Log To Console    ${subscriber}
+    ${sub_count}=    Get Line Count    ${subscriber}
+    Run Keyword If    ${sub_added}
+    ...    Should Be Equal As Integers    ${sub_count}    1    UniTag Subscriber Not Added
+    ...    ELSE
+    ...    Should Be Equal As Integers    ${sub_count}    0    UniTag Subscriber Not Removed
