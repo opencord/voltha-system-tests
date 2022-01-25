@@ -52,6 +52,23 @@
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "749c4015_b891ff37",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2022-01-25T09:31:08Z",
+      "side": 1,
+      "message": "@Girish: Please abandon this patch. Since, with this the single-uni and multi-uni files will be identical, the idea is to keep only one of these. Torsten, will take care of this entire task including updating the pipeline.",
+      "revId": "75cbb3225403b8d2bb648530d50cf704823e89ab",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4851b32d_ea314b7c",
