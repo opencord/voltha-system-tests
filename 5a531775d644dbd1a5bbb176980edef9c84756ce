@@ -50,6 +50,24 @@
       "message": "this is a sequential check, I\u0027m wondering if there is a way to do this in parallel, similar to what teo does with flows and ports with a count.",
       "revId": "5a531775d644dbd1a5bbb176980edef9c84756ce",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "374fcb7d_fa2878d4",
+        "filename": "tests/scale/Voltha_Scale_Tests.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1000007
+      },
+      "writtenOn": "2022-01-25T17:18:49Z",
+      "side": 1,
+      "message": "Yeah considering we\u0027ll have thousands ONUs it would be better to list all the images status and use a grep/filter, but I\u0027m not sure we have such command available, need to check in the APIs",
+      "parentUuid": "9b634aa1_ba6cc7a8",
+      "revId": "5a531775d644dbd1a5bbb176980edef9c84756ce",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     }
   ]
 }

@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d402bf2e_b7e8c5b0",
+        "filename": "libraries/voltctl.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1000007
+      },
+      "writtenOn": "2022-01-25T17:18:49Z",
+      "side": 1,
+      "message": "This will give you the list of ONU IDs without using grep or awk:\n\nvoltctl device list -f Type\u003dbrcm_openomci_onu -q",
+      "range": {
+        "startLine": 150,
+        "startChar": 60,
+        "endLine": 150,
+        "endChar": 73
+      },
+      "revId": "34ea655d8f4eef7c99f9941375625e83c76f84be",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "baa47e93_8a164b2d",
+        "filename": "tests/scale/Voltha_Scale_Tests.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1000007
+      },
+      "writtenOn": "2022-01-25T17:18:49Z",
+      "side": 1,
+      "message": "can we set the example values as defaults? or what is the reason to leave them empty?",
+      "range": {
+        "startLine": 93,
+        "startChar": 17,
+        "endLine": 93,
+        "endChar": 62
+      },
+      "revId": "34ea655d8f4eef7c99f9941375625e83c76f84be",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    }
+  ]
+}
