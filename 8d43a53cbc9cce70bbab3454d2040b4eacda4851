@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7385d4de_3ed731ef",
+        "filename": "tests/tt-workflow/Voltha_TT_PODTests.robot",
+        "patchSetId": 4
+      },
+      "lineNbr": 269,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2022-01-25T04:42:26Z",
+      "side": 1,
+      "message": "With Girish\u0027s patch (https://gerrit.opencord.org/c/voltha-system-tests/+/30381/1/tests/data/TechProfile-TT-multi-uni-HSIA.json) I think we can use TT-multi-uni-HSIA (and VoIP) file for consistency in multi-uni case.",
+      "range": {
+        "startLine": 269,
+        "startChar": 83,
+        "endLine": 269,
+        "endChar": 90
+      },
+      "revId": "8d43a53cbc9cce70bbab3454d2040b4eacda4851",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    }
+  ]
+}
