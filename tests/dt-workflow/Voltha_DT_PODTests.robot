@@ -233,7 +233,7 @@ Test Disable and Enable ONU for DT
         Disable Device    ${onu_device_id}
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
         ...    Validate Device    DISABLED    UNKNOWN
-        ...    REACHABLE    ${src['onu']}    onu=True    onu_reason=omci-admin-lock
+        ...    REACHABLE    ${src['onu']}    onu=True    onu_reason=tech-profile-config-delete-success
         Wait Until Keyword Succeeds   ${timeout}    2s
         ...    Verify UNI Port Is Disabled   ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${src['onu']}
         # TODO: Yet to Verify on the GPON based Physical POD (VOL-2652)
