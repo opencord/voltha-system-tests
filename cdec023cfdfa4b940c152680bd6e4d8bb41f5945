@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a4a0dc4b_abe67fed",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2022-01-27T06:32:24Z",
+      "side": 1,
+      "message": "Verified patchset 3 with latest master: https://jenkins.opencord.org/view/VOLTHA-2.X-Tests/job/periodic-voltha-unitag-subscriber-tt-test-bbsim/86/console",
+      "revId": "cdec023cfdfa4b940c152680bd6e4d8bb41f5945",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    }
+  ]
+}
