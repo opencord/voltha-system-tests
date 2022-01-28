@@ -35,6 +35,24 @@
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9ef86746_f1dc1643",
+        "filename": "tests/scale/Voltha_Scale_Tests.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2022-01-28T11:19:12Z",
+      "side": 1,
+      "message": "As discussed, will keep it as is.",
+      "parentUuid": "2873a857_5e992912",
+      "revId": "5a531775d644dbd1a5bbb176980edef9c84756ce",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9b634aa1_ba6cc7a8",
@@ -66,6 +84,24 @@
       "side": 1,
       "message": "Yeah considering we\u0027ll have thousands ONUs it would be better to list all the images status and use a grep/filter, but I\u0027m not sure we have such command available, need to check in the APIs",
       "parentUuid": "9b634aa1_ba6cc7a8",
+      "revId": "5a531775d644dbd1a5bbb176980edef9c84756ce",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6f884d44_b6683576",
+        "filename": "tests/scale/Voltha_Scale_Tests.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2022-01-28T11:19:12Z",
+      "side": 1,
+      "message": "Currently, I couldn\u0027t find any api which can provide `all` kind-of status.",
+      "parentUuid": "374fcb7d_fa2878d4",
       "revId": "5a531775d644dbd1a5bbb176980edef9c84756ce",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     }

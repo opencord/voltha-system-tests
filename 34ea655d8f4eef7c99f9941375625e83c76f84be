@@ -24,6 +24,30 @@
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "37831431_d0709e03",
+        "filename": "libraries/voltctl.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2022-01-28T11:19:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d402bf2e_b7e8c5b0",
+      "range": {
+        "startLine": 150,
+        "startChar": 60,
+        "endLine": 150,
+        "endChar": 73
+      },
+      "revId": "34ea655d8f4eef7c99f9941375625e83c76f84be",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "baa47e93_8a164b2d",
@@ -37,6 +61,30 @@
       "writtenOn": "2022-01-25T17:18:49Z",
       "side": 1,
       "message": "can we set the example values as defaults? or what is the reason to leave them empty?",
+      "range": {
+        "startLine": 93,
+        "startChar": 17,
+        "endLine": 93,
+        "endChar": 62
+      },
+      "revId": "34ea655d8f4eef7c99f9941375625e83c76f84be",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dd8b4631_a580923b",
+        "filename": "tests/scale/Voltha_Scale_Tests.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2022-01-28T11:19:12Z",
+      "side": 1,
+      "message": "Usually, in tests the expectation is to set such values by passing as params with the robot command. But, in this case I think it is okay to have defaults. Will update. Thanks.",
+      "parentUuid": "baa47e93_8a164b2d",
       "range": {
         "startLine": 93,
         "startChar": 17,
