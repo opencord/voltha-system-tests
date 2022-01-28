@@ -104,6 +104,24 @@
       "parentUuid": "374fcb7d_fa2878d4",
       "revId": "5a531775d644dbd1a5bbb176980edef9c84756ce",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0736e9ce_ceef9ca4",
+        "filename": "tests/scale/Voltha_Scale_Tests.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2022-01-28T11:26:27Z",
+      "side": 1,
+      "message": "I would be ok adding it, please make a proposal in the protos and the upcoming implementation.",
+      "parentUuid": "6f884d44_b6683576",
+      "revId": "5a531775d644dbd1a5bbb176980edef9c84756ce",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     }
   ]
 }
