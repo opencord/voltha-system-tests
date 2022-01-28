@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e3cfcbaf_1fbfcaf5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2022-01-28T11:23:59Z",
+      "side": 1,
+      "message": "Triggered with patchset 3 : https://jenkins.opencord.org/view/voltha-scale-measurements/job/voltha-scale-measurements-master-2-16-32-att-subscribers/3216/robot/report/**/log*.html",
+      "revId": "f8b3ee66ceed1f897473f8d111cb654cd36b84b7",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    }
+  ]
+}
