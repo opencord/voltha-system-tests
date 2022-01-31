@@ -15,7 +15,7 @@
 
 *** Settings ***
 Documentation     Library for various utilities
-Library           SSHLibrary
+Library           SSHLibrary    prompt=REGEXP:[(.)+karaf@root\s>]
 Library           String
 Library           DateTime
 Library           Process
@@ -32,15 +32,15 @@ Resource          ./flows.robot
 Open ONOS SSH Connection
     [Documentation]    Establishes an ssh connection to ONOS contoller
     [Arguments]    ${host}    ${port}    ${user}=karaf    ${pass}=karaf
-    ${conn_id}=    SSHLibrary.Open Connection    ${host}    port=${port}    timeout=300s    alias=ONOS_SSH
-    SSHLibrary.Login    ${user}    ${pass}
+    ${conn_id}=    SSHLibrary.Open Connection    ${host}    port=${port}    alias=ONOS_SSH
+    SSHLibrary.Login    username=${user}    password=${pass}    keep_alive_interval=0.5s    loglevel=TRACE
     ${conn_list_entry}=    Create Dictionary    conn_id=${conn_id}    user=${user}    pass=${pass}
     Append To List    ${connection_list}    ${conn_list_entry}
     ${conn_list_id}=    Get Index From List    ${connection_list}    ${conn_list_entry}
     Set Global Variable    ${connection_list}
     [Return]    ${conn_list_id}
 
-Execute ONOS CLI Command use single connection
+Execute ONOS CLI Command use single connection old
     [Documentation]    Execute ONOS CLI Command use an Open Connection
     ...                In case no connection is open a connection will be opened
     [Arguments]    ${host}    ${port}    ${cmd}
@@ -55,6 +55,29 @@ Execute ONOS CLI Command use single connection
     Run Keyword If    '${PassOrFail}'=='FAIL'    Reconnect ONOS SSH Connection    ${connection_list_id}
     @{result_values}=    Run Keyword If    '${PassOrFail}'=='FAIL'
     ...    SSHLibrary.Execute Command    ${cmd}    return_rc=True    return_stderr=True    return_stdout=True
+    ...    ELSE    Set Variable    @{result_values}
+    ${output}    Set Variable    @{result_values}[0]
+    Log    Command output: ${output}
+    Should Be Empty    @{result_values}[1]
+    Should Be Equal As Integers    @{result_values}[2]    0
+    [Return]    ${output}
+
+Execute ONOS CLI Command use single connection
+    [Documentation]    Execute ONOS CLI Command use an Open Connection
+    ...                In case no connection is open a connection will be opened
+    [Arguments]    ${host}    ${port}    ${cmd}
+    ${connection_list_id}=    Get Conn List Id    ${host}    ${port}
+    ${connection_list_id}=    Run Keyword If    "${connection_list_id}"=="${EMPTY}"
+                              ...    Open ONOS SSH Connection    ${host}    ${port}
+                              ...    ELSE    Set Variable    ${connection_list_id}
+    ${connection_entry}=    Get From List   ${connection_list}    ${connection_list_id}
+    SSHLibrary.Switch Connection   ${connection_entry.conn_id}
+    ${PassOrFail}    @{result_values}    Run Keyword And Ignore Error    SSHLibrary.Execute Command    ${cmd}
+    ...    return_rc=True    return_stderr=True    return_stdout=True
+    Run Keyword If    '${PassOrFail}'=='FAIL'    Reconnect ONOS SSH Connection    ${connection_list_id}
+    Run Keyword If    '${PassOrFail}'=='FAIL'    Write    ${cmd}
+    @{result_values}=    Run Keyword If    '${PassOrFail}'=='FAIL'
+    ...    Read Until Prompt    prompt='strip_prompt=True
     ...    ELSE    Set Variable    @{result_values}
     ${output}    Set Variable    @{result_values}[0]
     Log    Command output: ${output}
@@ -88,8 +111,8 @@ Reconnect ONOS SSH Connection
     SSHLibrary.Switch Connection   ${connection_entry.conn_id}
     Run Keyword And Ignore Error    SSHLibrary.Close Connection
     ${conn_id}=    SSHLibrary.Open Connection    ${oldconndata.host}    port=${oldconndata.port}
-    ...    timeout=300s    alias=ONOS_SSH
-    SSHLibrary.Login    ${user}    ${pass}
+    ...    alias=ONOS_SSH
+    SSHLibrary.Login    username=${user}    password=${pass}    keep_alive_interval=0.5s    loglevel=TRACE
     ${conn_list_entry}=    Create Dictionary    conn_id=${conn_id}    user=${user}    pass=${pass}
     Set List Value    ${connection_list}    ${connection_list_id}    ${conn_list_entry}
     Set Global Variable    ${connection_list}
