@@ -91,6 +91,7 @@ Sanity E2E Test for OLT/ONU on POD
     ...    Validate successful authentication/DHCP/E2E ping for the tech profile that is used
     [Tags]    sanity    test1
     [Setup]    Run Keywords    Start Logging    SanityTest
+    ...        AND    Set Log Level    TRACE
     ...        AND             Setup
     [Teardown]    Run Keywords    Collect Logs
     ...           AND             Stop Logging    SanityTest
