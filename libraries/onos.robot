@@ -33,7 +33,7 @@ Open ONOS SSH Connection
     [Documentation]    Establishes an ssh connection to ONOS contoller
     [Arguments]    ${host}    ${port}    ${user}=karaf    ${pass}=karaf
     ${conn_id}=    SSHLibrary.Open Connection    ${host}    port=${port}    timeout=300s    alias=ONOS_SSH
-    SSHLibrary.Login    ${user}    ${pass}
+    SSHLibrary.Login    username=${user}    password=${pass}    keep_alive_interval=0.5s
     ${conn_list_entry}=    Create Dictionary    conn_id=${conn_id}    user=${user}    pass=${pass}
     Append To List    ${connection_list}    ${conn_list_entry}
     ${conn_list_id}=    Get Index From List    ${connection_list}    ${conn_list_entry}
