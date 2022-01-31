@@ -33,7 +33,7 @@ Open ONOS SSH Connection
     [Documentation]    Establishes an ssh connection to ONOS contoller
     [Arguments]    ${host}    ${port}    ${user}=karaf    ${pass}=karaf
     ${conn_id}=    SSHLibrary.Open Connection    ${host}    port=${port}    timeout=300s    alias=ONOS_SSH
-    SSHLibrary.Login    ${user}    ${pass}
+    SSHLibrary.Login    username=${user}    password=${pass}    keep_alive_interval=0.5s
     ${conn_list_entry}=    Create Dictionary    conn_id=${conn_id}    user=${user}    pass=${pass}
     Append To List    ${connection_list}    ${conn_list_entry}
     ${conn_list_id}=    Get Index From List    ${connection_list}    ${conn_list_entry}
@@ -89,7 +89,7 @@ Reconnect ONOS SSH Connection
     Run Keyword And Ignore Error    SSHLibrary.Close Connection
     ${conn_id}=    SSHLibrary.Open Connection    ${oldconndata.host}    port=${oldconndata.port}
     ...    timeout=300s    alias=ONOS_SSH
-    SSHLibrary.Login    ${user}    ${pass}
+    SSHLibrary.Login    username=${user}    password=${pass}    keep_alive_interval=0.5s
     ${conn_list_entry}=    Create Dictionary    conn_id=${conn_id}    user=${user}    pass=${pass}
     Set List Value    ${connection_list}    ${connection_list_id}    ${conn_list_entry}
     Set Global Variable    ${connection_list}
