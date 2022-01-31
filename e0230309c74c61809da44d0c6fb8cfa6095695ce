@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a97e0b08_4d33f0d3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2022-01-31T17:52:58Z",
+      "side": 1,
+      "message": "Good and interesting work. My comments are only thoughts, nothing seriously.",
+      "revId": "e0230309c74c61809da44d0c6fb8cfa6095695ce",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3436feac_b4831461",
+        "filename": "libraries/onos.robot",
+        "patchSetId": 3
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2022-01-31T17:52:58Z",
+      "side": 1,
+      "message": "\"username\u003d\" and \"password\u003d\" both not necessary, but don\u0027t interfere. So it is your decission to keep or not.",
+      "range": {
+        "startLine": 36,
+        "startChar": 24,
+        "endLine": 36,
+        "endChar": 53
+      },
+      "revId": "e0230309c74c61809da44d0c6fb8cfa6095695ce",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "00170c41_d9ec5b6e",
+        "filename": "libraries/onos.robot",
+        "patchSetId": 3
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2022-01-31T17:52:58Z",
+      "side": 1,
+      "message": "I think 0,5s is very often, I think something between 5s and 30s would be enough.",
+      "range": {
+        "startLine": 36,
+        "startChar": 64,
+        "endLine": 36,
+        "endChar": 88
+      },
+      "revId": "e0230309c74c61809da44d0c6fb8cfa6095695ce",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "678acee3_a9470c76",
+        "filename": "libraries/onos.robot",
+        "patchSetId": 3
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2022-01-31T17:52:58Z",
+      "side": 1,
+      "message": "same",
+      "range": {
+        "startLine": 92,
+        "startChar": 24,
+        "endLine": 92,
+        "endChar": 88
+      },
+      "revId": "e0230309c74c61809da44d0c6fb8cfa6095695ce",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    }
+  ]
+}
