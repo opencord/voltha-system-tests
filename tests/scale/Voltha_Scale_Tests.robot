@@ -172,12 +172,12 @@ Image Download and Validation during ONUs Software Upgrade
     ...    onu_image_name, onu_image_url, onu_image_version, onu_image_crc, onu_image_local_dir
     ...    Note: Expects the image url and other parameters to be common for all ONUs on all BBSim
     [Tags]    onu-upgrade    onu-upgrade-image-download
-    ${onu_device_ids}=    Get ONUs Device IDs from Voltha
-    FOR    ${onu_device_id}    IN    @{onu_device_ids}
-        Download ONU Device Image    ${image_version}    ${image_url}    ${image_vendor}
-        ...    ${image_activate_on_success}    ${image_commit_on_success}
-        ...    ${image_crc}    ${onu_device_id}
-    END
+    @{list_onu_device_id}=    Create List
+    ${list_onu_device_id}=    Get ONUs Device IDs from Voltha
+    ${onu_device_id_str}=    Catenate    @{list_onu_device_id}
+    Download ONU Device Image    ${image_version}    ${image_url}    ${image_vendor}
+    ...    ${image_activate_on_success}    ${image_commit_on_success}
+    ...    ${image_crc}    ${onu_device_id_str}
     ${imageState}=    Run Keyword If    '${image_activate_on_success}'=='true' and '${image_commit_on_success}'=='false'
     ...    Set Variable    IMAGE_ACTIVE
     ...    ELSE IF    '${image_activate_on_success}'=='true' and '${image_commit_on_success}'=='true'
@@ -186,10 +186,10 @@ Image Download and Validation during ONUs Software Upgrade
     ${activated}=    Set Variable If    '${image_activate_on_success}'=='true'    True    False
     ${committed}=    Set Variable If    '${image_activate_on_success}'=='true' and '${image_commit_on_success}'=='true'
     ...    True    False
-    FOR    ${onu_device_id}    IN    @{onu_device_ids}
-        Wait Until Keyword Succeeds    ${timeout}    2s    Verify ONU Device Image Status    ${image_version}
-        ...    ${onu_device_id}    DOWNLOAD_SUCCEEDED    NO_ERROR    ${imageState}
-        Wait Until Keyword Succeeds    ${timeout}    2s    Verify ONU Device Image List    ${onu_device_id}
+    Wait Until Keyword Succeeds    ${timeout}    10s    Verify ONU Device Image Status    ${image_version}
+    ...    ${onu_device_id_str}    DOWNLOAD_SUCCEEDED    NO_ERROR    ${imageState}
+    FOR    ${onu_device_id}    IN    @{list_onu_device_id}
+        Wait Until Keyword Succeeds    ${timeout}    10s    Verify ONU Device Image List    ${onu_device_id}
         ...    ${image_version}    ${committed}    ${activated}    True
     END
 
@@ -200,16 +200,16 @@ Image Activation and Validation during ONUs Software Upgrade
     ...    Note: Expects the image url and other parameters to be common for all ONUs on all BBSim
     [Tags]    onu-upgrade    onu-upgrade-image-activate
     Pass Execution If    '${image_activate_on_success}'=='true'    Skipping test: Image activated in download stage
-    ${onu_device_ids}=    Get ONUs Device IDs from Voltha
-    FOR    ${onu_device_id}    IN    @{onu_device_ids}
-        Activate ONU Device Image    ${image_version}    ${image_commit_on_success}    ${onu_device_id}
-    END
+    @{list_onu_device_id}=    Create List
+    ${list_onu_device_id}=    Get ONUs Device IDs from Voltha
+    ${onu_device_id_str}=    Catenate    @{list_onu_device_id}
+    Activate ONU Device Image    ${image_version}    ${image_commit_on_success}    ${onu_device_id_str}
     ${imageState}=    Set Variable If    '${image_commit_on_success}'=='true'    IMAGE_COMMITTED    IMAGE_ACTIVE
     ${committed}=    Set Variable If    '${image_commit_on_success}'=='true'    True    False
-    FOR    ${onu_device_id}    IN    @{onu_device_ids}
-        Wait Until Keyword Succeeds    ${timeout}    2s    Verify ONU Device Image Status    ${image_version}
-        ...    ${onu_device_id}    DOWNLOAD_SUCCEEDED    NO_ERROR    ${imageState}
-        Wait Until Keyword Succeeds    ${timeout}    2s    Verify ONU Device Image List    ${onu_device_id}
+    Wait Until Keyword Succeeds    ${timeout}    10s    Verify ONU Device Image Status    ${image_version}
+    ...    ${onu_device_id_str}    DOWNLOAD_SUCCEEDED    NO_ERROR    ${imageState}
+    FOR    ${onu_device_id}    IN    @{list_onu_device_id}
+        Wait Until Keyword Succeeds    ${timeout}    10s    Verify ONU Device Image List    ${onu_device_id}
         ...    ${image_version}    ${committed}    True    True
     END
 
@@ -220,14 +220,14 @@ Image Commit and Validation during ONUs Software Upgrade
     ...    Note: Expects the image url and other parameters to be common for all ONUs on all BBSim
     [Tags]    onu-upgrade    onu-upgrade-image-commit
     Pass Execution If    '${image_commit_on_success}'=='true'    Skipping test: Image committed in download or activate stage
-    ${onu_device_ids}=    Get ONUs Device IDs from Voltha
-    FOR    ${onu_device_id}    IN    @{onu_device_ids}
-        Commit ONU Device Image    ${image_version}    ${onu_device_id}
-    END
-    FOR    ${onu_device_id}    IN    @{onu_device_ids}
-        Wait Until Keyword Succeeds    ${timeout}    2s    Verify ONU Device Image Status    ${image_version}
-        ...    ${onu_device_id}    DOWNLOAD_SUCCEEDED    NO_ERROR    IMAGE_COMMITTED
-        Wait Until Keyword Succeeds    ${timeout}    2s    Verify ONU Device Image List    ${onu_device_id}
+    @{list_onu_device_id}=    Create List
+    ${list_onu_device_id}=    Get ONUs Device IDs from Voltha
+    ${onu_device_id_str}=    Catenate    @{list_onu_device_id}
+    Commit ONU Device Image    ${image_version}    ${onu_device_id_str}
+    Wait Until Keyword Succeeds    ${timeout}    10s    Verify ONU Device Image Status    ${image_version}
+    ...    ${onu_device_id_str}    DOWNLOAD_SUCCEEDED    NO_ERROR    IMAGE_COMMITTED
+    FOR    ${onu_device_id}    IN    @{list_onu_device_id}
+        Wait Until Keyword Succeeds    ${timeout}    10s    Verify ONU Device Image List    ${onu_device_id}
         ...    ${image_version}    True    True    True
     END
 

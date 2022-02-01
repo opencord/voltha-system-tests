@@ -906,13 +906,13 @@ Validate ONU Device Image
         ${dwlState}=    Get From Dictionary    ${imageState}    downloadState
         ${reason}=    Get From Dictionary    ${imageState}    reason
         ${imgStatus}=    Get From Dictionary    ${imageState}    imageState
-        Should Be Equal    '${version}'    '${image_version}'    Device ${dev_id}: '${version}' != '${image_version}'
+        Should Be Equal    '${version}'    '${image_version}'    Device ${deviceId}: '${version}' != '${image_version}'
         ...    values=False
-        Should Be Equal    '${dwlState}'    '${download_state}'    Device ${dev_id}: '${dwlState}' != '${download_state}'
+        Should Be Equal    '${dwlState}'    '${download_state}'    Device ${deviceId}: '${dwlState}' != '${download_state}'
         ...    values=False
-        Should Be Equal    '${reason}'    '${expected_reason}'    Device ${dev_id}: '${reason}' != '${expected_reason}'
+        Should Be Equal    '${reason}'    '${expected_reason}'    Device ${deviceId}: '${reason}' != '${expected_reason}'
         ...    values=False
-        Should Be Equal    '${imgStatus}'    '${image_status}'    Device ${dev_id}: '${imgStatus}' != '${image_status}'
+        Should Be Equal    '${imgStatus}'    '${image_status}'    Device ${deviceId}: '${imgStatus}' != '${image_status}'
         ...    values=False
     END
 
