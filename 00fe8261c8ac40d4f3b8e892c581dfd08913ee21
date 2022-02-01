@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c4667647_08992066",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 14
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2022-02-01T11:42:00Z",
+      "side": 1,
+      "message": "As discussed, though some voltha functionality issues are being observed, the work on this test is done, and so the patch can be merged.",
+      "revId": "00fe8261c8ac40d4f3b8e892c581dfd08913ee21",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    }
+  ]
+}
