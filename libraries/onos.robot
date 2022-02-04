@@ -15,7 +15,7 @@
 
 *** Settings ***
 Documentation     Library for various utilities
-Library           SSHLibrary
+Library           SSHLibrary        loglevel=TRACE
 Library           String
 Library           DateTime
 Library           Process
@@ -26,23 +26,34 @@ Resource          ./flows.robot
 
 *** Variables ***
 @{connection_list}
+${alias}    ONOS_SSH
 
 *** Keywords ***
 
 Open ONOS SSH Connection
     [Documentation]    Establishes an ssh connection to ONOS contoller
     [Arguments]    ${host}    ${port}    ${user}=karaf    ${pass}=karaf
-    ${conn_id}=    SSHLibrary.Open Connection    ${host}    port=${port}    timeout=300s    alias=ONOS_SSH
-    SSHLibrary.Login    ${user}    ${pass}
+    ${conn_id}=    SSHLibrary.Open Connection    ${host}    port=${port}    timeout=5s    alias=${alias}
+    SSHLibrary.Login    username=${user}    password=${pass}    keep_alive_interval=30s
+    # set excepted prompt and terminal width to suppress unwanted line feeds
+    SSHLibrary.Set Client Configuration    prompt=karaf@root >    width=400
     ${conn_list_entry}=    Create Dictionary    conn_id=${conn_id}    user=${user}    pass=${pass}
+    ...    host=${host}    port=${port}    alias=${alias}
     Append To List    ${connection_list}    ${conn_list_entry}
     ${conn_list_id}=    Get Index From List    ${connection_list}    ${conn_list_entry}
     Set Global Variable    ${connection_list}
+    # get connection settings, has no functional reason, only for info
+    ${connection_info}=    SSHLibrary.Get Connection
+    # disable highlighting to suppress control sequences
+    ${Written}=    Write    setopt disable-highlighter
+    ${output}=    Read Until Prompt    strip_prompt=True
     [Return]    ${conn_list_id}
 
-Execute ONOS CLI Command use single connection
+Execute ONOS CLI Command use single connection old
     [Documentation]    Execute ONOS CLI Command use an Open Connection
     ...                In case no connection is open a connection will be opened
+    ...                This keyword is deprecated due to job4t exploit prevention in karaf sshd,
+    ...                which leads to a session close after each command execution.
     [Arguments]    ${host}    ${port}    ${cmd}
     ${connection_list_id}=    Get Conn List Id    ${host}    ${port}
     ${connection_list_id}=    Run Keyword If    "${connection_list_id}"=="${EMPTY}"
@@ -60,6 +71,32 @@ Execute ONOS CLI Command use single connection
     Log    Command output: ${output}
     Should Be Empty    @{result_values}[1]
     Should Be Equal As Integers    @{result_values}[2]    0
+    [Return]    ${output}
+
+Execute ONOS CLI Command use single connection
+    [Documentation]    Execute ONOS CLI Command use an Open Connection
+    ...                In case no connection is open a connection will be opened
+    ...                Using Write and Read instead of Execute Command to keep connection alive.
+    [Arguments]    ${host}    ${port}    ${cmd}
+    ${connection_list_id}=    Get Conn List Id    ${host}    ${port}
+    ${connection_list_id}=    Run Keyword If    "${connection_list_id}"=="${EMPTY}"
+                              ...    Open ONOS SSH Connection    ${host}    ${port}
+                              ...    ELSE    Set Variable    ${connection_list_id}
+    ${connection_entry}=    Get From List   ${connection_list}    ${connection_list_id}
+    SSHLibrary.Switch Connection   ${connection_entry.conn_id}
+    ${connection_info}=    SSHLibrary.Get Connection
+    ${PassOrFail}    ${Written}=    Run Keyword And Ignore Error    Write    ${cmd}
+    Run Keyword If    '${PassOrFail}'=='FAIL'    Reconnect ONOS SSH Connection    ${connection_list_id}
+    ${Written}=    Run Keyword If    '${PassOrFail}'=='FAIL'    Write    ${cmd}
+    Log    pass_write: ${Written}
+    ${output}=    Read Until Prompt    strip_prompt=True
+    Log    Result_values: ${output}
+    # we do not use strip of escape sequences integrated in ssh lib, we do it by ourself to have it under control
+    ${output}=    Remove String Using Regexp    ${output}    \\x1b[>=]{0,1}(?:\\[[0-?]*(?:[hlm])[~]{0,1})*
+    # remove the endless spaces and two carrige returns at the end of output
+    ${output}=    Remove String Using Regexp    ${output}    \\s*\\r \\r
+    # now we have the plain output text
+    Log    Stripped Result_values: ${output}
     [Return]    ${output}
 
 Get Conn List Id
@@ -85,14 +122,25 @@ Reconnect ONOS SSH Connection
     ${user}=    Get From Dictionary    ${connection_entry}    user
     ${pass}=    Get From Dictionary    ${connection_entry}    pass
     ${oldconndata}=    Get Connection    ${connection_entry.conn_id}
-    SSHLibrary.Switch Connection   ${connection_entry.conn_id}
-    Run Keyword And Ignore Error    SSHLibrary.Close Connection
-    ${conn_id}=    SSHLibrary.Open Connection    ${oldconndata.host}    port=${oldconndata.port}
-    ...    timeout=300s    alias=ONOS_SSH
-    SSHLibrary.Login    ${user}    ${pass}
+    ${match}=    Set Variable If
+    ...    "${oldconndata.host}"=="${connection_entry.host}" and "${oldconndata.port}"=="${connection_entry.port}"
+    ...    True    False
+    Run Keyword If    ${match}    SSHLibrary.Switch Connection   ${connection_entry.conn_id}
+    Run Keyword If    ${match}    Run Keyword And Ignore Error    SSHLibrary.Close Connection
+    ${conn_id}=    SSHLibrary.Open Connection    ${connection_entry.host}    port=${connection_entry.port}
+    ...    timeout=5s    alias=${alias}
+    SSHLibrary.Login    username=${user}    password=${pass}    keep_alive_interval=30s
+    # set excepted prompt and terminal width to suppress unwanted line feeds
+    SSHLibrary.Set Client Configuration    prompt=karaf@root >    width=400
     ${conn_list_entry}=    Create Dictionary    conn_id=${conn_id}    user=${user}    pass=${pass}
+    ...    host=${connection_entry.host}    port=${connection_entry.port}    alias=${alias}
     Set List Value    ${connection_list}    ${connection_list_id}    ${conn_list_entry}
     Set Global Variable    ${connection_list}
+    # get connection settings, has no functional reason, only for info
+    ${connection_info}=    SSHLibrary.Get Connection
+    # disable highlighting to suppress control sequences
+    ${Written}=    Write    setopt disable-highlighter
+    ${output}=    Read Until Prompt    strip_prompt=True
 
 Close ONOS SSH Connection
     [Documentation]    Close an SSH Connection
