@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b97b32f3_bbd6d324",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2022-02-04T12:47:42Z",
+      "side": 1,
+      "message": "if I could give a +10 I would, amazing work! ",
+      "revId": "726b21655be45d533ce8a5989d48efc8f1055b5a",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "31c96e69_223af5b5",
+        "filename": "libraries/onos.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2022-02-04T12:47:42Z",
+      "side": 1,
+      "message": "I think we can remove this one actually.",
+      "revId": "726b21655be45d533ce8a5989d48efc8f1055b5a",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    }
+  ]
+}
