@@ -248,10 +248,11 @@ Setup Suite
     Log    ${LogInfo}    console=yes
     Common Test Suite Setup
     # set tech profiles
-    Run Keyword If    ${unitag_sub} and "${workflow}"=="TT"    Set Tech Profile    TT-HSIA    ${INFRA_NAMESPACE}    64
-    Run Keyword If    ${unitag_sub} and "${workflow}"=="TT"    Set Tech Profile    TT-VoIP    ${INFRA_NAMESPACE}    65
-    Run Keyword If    ${unitag_sub} and "${workflow}"=="TT"    Set Tech Profile    TT-multi-uni-MCAST-AdditionalBW-None
-    ...               ${INFRA_NAMESPACE}    66
+    ${preload_tech_profile}=   Set Variable If   ${unitag_sub} and "${workflow}"=="TT" and not ${has_dataplane}   True   False
+    Set Suite Variable    ${preload_tech_profile}
+    Run Keyword If   ${preload_tech_profile}   Set Tech Profile   TT-HSIA                                ${INFRA_NAMESPACE}    64
+    Run Keyword If   ${preload_tech_profile}   Set Tech Profile   TT-VoIP                                ${INFRA_NAMESPACE}    65
+    Run Keyword If   ${preload_tech_profile}   Set Tech Profile   TT-multi-uni-MCAST-AdditionalBW-None   ${INFRA_NAMESPACE}    66
     # delete etcd MIB Template Data
     Delete MIB Template Data    ${INFRA_NAMESPACE}
     # delete etcd onu data
@@ -277,9 +278,9 @@ Teardown Suite
     Stop Logging Setup or Teardown   Teardown-${SUITE NAME}
     Close All ONOS SSH Connections
     Set Suite Variable    ${TechProfile}    ${EMPTY}
-    Run Keyword If    ${unitag_sub} and "${workflow}"=="TT"    Remove Tech Profile    ${INFRA_NAMESPACE}    64
-    Run Keyword If    ${unitag_sub} and "${workflow}"=="TT"    Remove Tech Profile    ${INFRA_NAMESPACE}    65
-    Run Keyword If    ${unitag_sub} and "${workflow}"=="TT"    Remove Tech Profile    ${INFRA_NAMESPACE}    66
+    Run Keyword If    ${preload_tech_profile}    Remove Tech Profile    ${INFRA_NAMESPACE}    64
+    Run Keyword If    ${preload_tech_profile}    Remove Tech Profile    ${INFRA_NAMESPACE}    65
+    Run Keyword If    ${preload_tech_profile}    Remove Tech Profile    ${INFRA_NAMESPACE}    66
 
 Setup Test
     [Documentation]    Pre-test Setup
