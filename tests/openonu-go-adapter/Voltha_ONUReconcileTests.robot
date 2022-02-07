@@ -387,6 +387,7 @@ Do Reconcile For Disabled Onu Device
     FOR  ${onu_sn}  IN  @{List_ONU_Serial}
         Wait Until Keyword Succeeds    ${timeout}    2s    Validate Tech Profiles and Flows in ETCD Data Per Onu
         ...    ${onu_sn}   ${INFRA_NAMESPACE}   ${kvstoreprefix}  must_exist=False    check_tcont_map_empty=True
+        ...    check_default_flow_att=False
     END
     Reconcile Onu Adapter    ${NAMESPACE}    ${usekill2restart}    UNKNOWN
     Current State Test All Onus    tech-profile-config-delete-success

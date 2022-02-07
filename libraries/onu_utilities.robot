@@ -458,7 +458,7 @@ Validate Tech Profiles and Flows in ETCD Data Per Onu
     ...                It checks checks presence/absence of tech profiles and flows depending on must_exist.
     ...                The values/content of tech profiles and flows will be not validated!
     [Arguments]    ${onu_sn}    ${namespace}=default    ${defaultkvstoreprefix}=voltha_voltha    ${must_exist}=True
-    ...            ${check_tcont_map_empty}=False
+    ...            ${check_tcont_map_empty}=False    ${check_default_flow_att}=True
     ${kvstoreprefix}=    Get Kv Store Prefix    ${defaultkvstoreprefix}
     ${etcddata}=    Get ONU Go Adapter ETCD Data    namespace=${namespace}    defaultkvstoreprefix=${kvstoreprefix}
     #prepare result for json convert
@@ -490,7 +490,7 @@ Validate Tech Profiles and Flows in ETCD Data Per Onu
     ...    Get From Dictionary    ${flow_params[0]['vlan_rule_params']}    set_vid
     ${cookie_slice_length}=    Run Keyword If    ${length}>0     Run Keyword If     'cookie_slice' in ${flow_params[0]}
     ...    Get Length    ${cookieslice}
-    Run Keyword If    "${workflow}"=="ATT" and not ${must_exist}    Run Keywords
+    Run Keyword If    "${workflow}"=="ATT" and not ${must_exist} and ${check_default_flow_att}    Run Keywords
     ...    Should Be Equal As Numbers    ${setvid}              4091   AND
     ...    Should Be Equal As Numbers    ${cookie_slice_length}    1   AND
     ...    Should Not Be Empty    ${tp_path}   AND
