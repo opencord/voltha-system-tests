@@ -30,6 +30,7 @@ Suite Teardown    Suite Teardown
 ${DEVICEMANAGER_IP}    ${GIVEN_DM_IP}
 ${DEVICEMANAGER_PORT}    ${GIVEN_DM_PORT}
 ${OLT_IP}         ${GIVEN_OLT_IP}
+${OLT_NAME}    ${GIVEN_OLT_NAME}
 
 *** Test Cases ***
 Start and Stop Managing Device In Device Manager
@@ -128,15 +129,14 @@ Set Get LogLevel
 Suite Setup
     [Documentation]  start a managed device in the device manager
     dmi1.Connection Open  ${DEVICEMANAGER_IP}  ${DEVICEMANAGER_PORT}
-    ${name}=  Set Variable  BBSim-BBSIM_OLT_0
-    ${suite_device_uuid}=  Start Managing Device  dmi1  ${OLT_IP}  ${name}
-    ${suite_device_name}=  Evaluate    {'name':'BBSim-BBSIM_OLT_0'}
+    ${suite_device_uuid}=  Start Managing Device  dmi1  ${OLT_IP}  ${OLT_NAME}
+    ${suite_device_name}=  Evaluate    {'name':'${OLT_NAME}'}
     Set Suite Variable  ${suite_device_uuid}
     Set Suite Variable  ${suite_device_name}
 
 Suite Teardown
     [Documentation]   stop a managed device in device manager
-    Stop Managing Device   dmi1    BBSim-BBSIM_OLT_0
+    Stop Managing Device    dmi1    ${OLT_NAME}
     dmi1.Connection Close
     Search For Managed Devices And Stop Managing It     dmi1
 

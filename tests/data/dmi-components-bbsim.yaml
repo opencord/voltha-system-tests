@@ -20,6 +20,7 @@
 GIVEN_DM_IP: 127.0.0.1
 GIVEN_DM_PORT: 50075
 GIVEN_OLT_IP: bbsim0
+GIVEN_OLT_NAME: BBSim-BBSIM_OLT_0
 
 dm_components:
   -
