@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3e713a4e_2f0e41bf",
+        "filename": "libraries/onos.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2022-02-08T19:46:27Z",
+      "side": 1,
+      "message": "there is a double log of ${cmd}",
+      "revId": "2ddb6e8a4d38858c6704a6ec7be8f0fff0376548",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    }
+  ]
+}
