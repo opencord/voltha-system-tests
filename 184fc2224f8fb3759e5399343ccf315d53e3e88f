@@ -16,6 +16,23 @@
       "message": "Verified here: https://jenkins.opencord.org/view/VOLTHA-2.X-Tests/job/periodic-voltha-test-DMI/510/robot/report/bbsim-dmi-hw-management-test/log.html",
       "revId": "184fc2224f8fb3759e5399343ccf315d53e3e88f",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4d80fe10_5b93d6d9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2022-02-08T13:36:31Z",
+      "side": 1,
+      "message": "recheck",
+      "revId": "184fc2224f8fb3759e5399343ccf315d53e3e88f",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     }
   ]
 }
