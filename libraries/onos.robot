@@ -26,27 +26,30 @@ Resource          ./flows.robot
 
 *** Variables ***
 @{connection_list}
-${alias}    ONOS_SSH
+${alias}                  ONOS_SSH
+${ssh_read_timeout}       15s
+${ssh_prompt}             karaf@root >
+${ssh_regexp_prompt}      REGEXP:k.*a.*r.*a.*f.*@.*r.*o.*o.*t.* .*>.*
+${regexp_prompt}          k.*a.*r.*a.*f.*@.*r.*o.*o.*t.* .*>.*
+${ssh_width}              400
+${disable_highlighter}    setopt disable-highlighter
 
 *** Keywords ***
 
 Open ONOS SSH Connection
     [Documentation]    Establishes an ssh connection to ONOS contoller
     [Arguments]    ${host}    ${port}    ${user}=karaf    ${pass}=karaf
-    ${conn_id}=    SSHLibrary.Open Connection    ${host}    port=${port}    timeout=5s    alias=${alias}
+    ${conn_id}=    SSHLibrary.Open Connection    ${host}    port=${port}    timeout=${ssh_read_timeout}    alias=${alias}
     SSHLibrary.Login    username=${user}    password=${pass}    keep_alive_interval=30s
     # set excepted prompt and terminal width to suppress unwanted line feeds
-    SSHLibrary.Set Client Configuration    prompt=REGEXP:k.*a.*r.*a.*f.*@.*r.*o.*o.*t.* .*>.*    width=400
+    SSHLibrary.Set Client Configuration    prompt=${ssh_prompt}    width=${ssh_width}
     ${conn_list_entry}=    Create Dictionary    conn_id=${conn_id}    user=${user}    pass=${pass}
     ...    host=${host}    port=${port}    alias=${alias}
     Append To List    ${connection_list}    ${conn_list_entry}
     ${conn_list_id}=    Get Index From List    ${connection_list}    ${conn_list_entry}
     Set Global Variable    ${connection_list}
-    # get connection settings, has no functional reason, only for info
-    ${connection_info}=    SSHLibrary.Get Connection
     # disable highlighting to suppress control sequences
-    ${Written}=    Write    setopt disable-highlighter
-    ${output}=    Read Until Prompt    strip_prompt=True
+    ${output}=    Execute Single ONOS CLI Command    ${conn_id}    ${disable_highlighter}    do_reconnect=False
     [Return]    ${conn_list_id}
 
 Execute ONOS CLI Command use single connection
@@ -59,14 +62,30 @@ Execute ONOS CLI Command use single connection
                               ...    Open ONOS SSH Connection    ${host}    ${port}
                               ...    ELSE    Set Variable    ${connection_list_id}
     ${connection_entry}=    Get From List   ${connection_list}    ${connection_list_id}
-    SSHLibrary.Switch Connection   ${connection_entry.conn_id}
+    Log    Command: ${cmd}
+    ${output}=    Execute Single ONOS CLI Command    ${connection_entry.conn_id}    ${cmd}
+    [Return]    ${output}
+
+Execute Single ONOS CLI Command
+    [Documentation]    Executes ONOS CLI Command on current connection
+    ...                Using Write and Read instead of Execute Command to keep connection alive.
+    [Arguments]    ${conn_id}    ${cmd}    ${do_reconnect}=True
+    Log    Command: ${cmd}
+    SSHLibrary.Switch Connection   ${conn_id}
+    # get connection settings, has no functional reason, only for info
     ${connection_info}=    SSHLibrary.Get Connection
     ${PassOrFail}    ${Written}=    Run Keyword And Ignore Error    Write    ${cmd}
-    Run Keyword If    '${PassOrFail}'=='FAIL'    Reconnect ONOS SSH Connection    ${connection_list_id}
+    Run Keyword If    '${PassOrFail}'=='FAIL' and ${do_reconnect}    Reconnect ONOS SSH Connection    ${connection_list_id}
     ${Written}=    Run Keyword If    '${PassOrFail}'=='FAIL'    Write    ${cmd}    ELSE    Set Variable   ${Written}
     Log    pass_write: ${Written}
-    ${output}=    Read Until Prompt    strip_prompt=True
+    ${PassOrFail}    ${output}=    Run Keyword And Ignore Error    Read Until Prompt    strip_prompt=True
     Log    Result_values: ${output}
+    ${output_length}=    Get Length    ${output}
+    # remove regexp-prompt if available
+    ${output}=    Remove String Using Regexp    ${output}    ${regexp_prompt}
+    ${output_after}=    Get Length    ${output}
+    Run Keyword If    '${PassOrFail}'=='FAIL' and ${output_length}== ${output_after}  FAIL    SSH access failed for '${cmd}'!
+    ${prompt_exist}    Run Keyword If    '${PassOrFail}'=='FAIL'    Should Match Regexp    ${output}    ${regexp_prompt}
     # we do not use strip of escape sequences integrated in ssh lib, we do it by ourself to have it under control
     ${output}=    Remove String Using Regexp    ${output}    \\x1b[>=]{0,1}(?:\\[[0-?]*(?:[hlm])[~]{0,1})*
     # remove the endless spaces and two carrige returns at the end of output
@@ -104,19 +123,16 @@ Reconnect ONOS SSH Connection
     Run Keyword If    ${match}    SSHLibrary.Switch Connection   ${connection_entry.conn_id}
     Run Keyword If    ${match}    Run Keyword And Ignore Error    SSHLibrary.Close Connection
     ${conn_id}=    SSHLibrary.Open Connection    ${connection_entry.host}    port=${connection_entry.port}
-    ...    timeout=5s    alias=${alias}
+    ...    timeout=${ssh_read_timeout}    alias=${alias}
     SSHLibrary.Login    username=${user}    password=${pass}    keep_alive_interval=30s
     # set excepted prompt and terminal width to suppress unwanted line feeds
-    SSHLibrary.Set Client Configuration    prompt=REGEXP:k.*a.*r.*a.*f.*@.*r.*o.*o.*t.* .*>.*    width=400
+    SSHLibrary.Set Client Configuration    prompt=${ssh_prompt}    width=${ssh_width}
     ${conn_list_entry}=    Create Dictionary    conn_id=${conn_id}    user=${user}    pass=${pass}
     ...    host=${connection_entry.host}    port=${connection_entry.port}    alias=${alias}
     Set List Value    ${connection_list}    ${connection_list_id}    ${conn_list_entry}
     Set Global Variable    ${connection_list}
-    # get connection settings, has no functional reason, only for info
-    ${connection_info}=    SSHLibrary.Get Connection
     # disable highlighting to suppress control sequences
-    ${Written}=    Write    setopt disable-highlighter
-    ${output}=    Read Until Prompt    strip_prompt=True
+    ${output}=    Execute Single ONOS CLI Command    ${conn_id}    ${disable_highlighter}    do_reconnect=False
 
 Close ONOS SSH Connection
     [Documentation]    Close an SSH Connection
