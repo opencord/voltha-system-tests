@@ -33,6 +33,8 @@ ${ssh_regexp_prompt}      REGEXP:k.*a.*r.*a.*f.*@.*r.*o.*o.*t.* .*>.*
 ${regexp_prompt}          k.*a.*r.*a.*f.*@.*r.*o.*o.*t.* .*>.*
 ${ssh_width}              400
 ${disable_highlighter}    setopt disable-highlighter
+# ${keep_alive_interval} is set to 0s means sending the keepalive packet is disabled!
+${keep_alive_interval}    0s
 
 *** Keywords ***
 
@@ -40,7 +42,7 @@ Open ONOS SSH Connection
     [Documentation]    Establishes an ssh connection to ONOS contoller
     [Arguments]    ${host}    ${port}    ${user}=karaf    ${pass}=karaf
     ${conn_id}=    SSHLibrary.Open Connection    ${host}    port=${port}    timeout=${ssh_read_timeout}    alias=${alias}
-    SSHLibrary.Login    username=${user}    password=${pass}    keep_alive_interval=30s
+    SSHLibrary.Login    username=${user}    password=${pass}    keep_alive_interval=${keep_alive_interval}
     # set excepted prompt and terminal width to suppress unwanted line feeds
     SSHLibrary.Set Client Configuration    prompt=${ssh_prompt}    width=${ssh_width}
     ${conn_list_entry}=    Create Dictionary    conn_id=${conn_id}    user=${user}    pass=${pass}
@@ -62,14 +64,14 @@ Execute ONOS CLI Command use single connection
                               ...    Open ONOS SSH Connection    ${host}    ${port}
                               ...    ELSE    Set Variable    ${connection_list_id}
     ${connection_entry}=    Get From List   ${connection_list}    ${connection_list_id}
-    Log    Command: ${cmd}
     ${output}=    Execute Single ONOS CLI Command    ${connection_entry.conn_id}    ${cmd}
+    ...           connection_list_id=${connection_list_id}
     [Return]    ${output}
 
 Execute Single ONOS CLI Command
     [Documentation]    Executes ONOS CLI Command on current connection
     ...                Using Write and Read instead of Execute Command to keep connection alive.
-    [Arguments]    ${conn_id}    ${cmd}    ${do_reconnect}=True
+    [Arguments]    ${conn_id}    ${cmd}    ${do_reconnect}=True    ${connection_list_id}=${EMPTY}
     Log    Command: ${cmd}
     SSHLibrary.Switch Connection   ${conn_id}
     # get connection settings, has no functional reason, only for info
@@ -124,7 +126,7 @@ Reconnect ONOS SSH Connection
     Run Keyword If    ${match}    Run Keyword And Ignore Error    SSHLibrary.Close Connection
     ${conn_id}=    SSHLibrary.Open Connection    ${connection_entry.host}    port=${connection_entry.port}
     ...    timeout=${ssh_read_timeout}    alias=${alias}
-    SSHLibrary.Login    username=${user}    password=${pass}    keep_alive_interval=30s
+    SSHLibrary.Login    username=${user}    password=${pass}    keep_alive_interval=${keep_alive_interval}
     # set excepted prompt and terminal width to suppress unwanted line feeds
     SSHLibrary.Set Client Configuration    prompt=${ssh_prompt}    width=${ssh_width}
     ${conn_list_entry}=    Create Dictionary    conn_id=${conn_id}    user=${user}    pass=${pass}
