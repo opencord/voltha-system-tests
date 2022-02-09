@@ -119,7 +119,7 @@ OLTs in ONOS
 Onu Activation in VOLTHA
     [Documentation]    Check that all ONUs reach the ACTIVE/ENABLED state in VOLTHA
     [Tags]      activation    plot-voltha-onus
-    Wait For ONUs In VOLTHA     ${total_onus}
+    Wait For ONUs In VOLTHA     ${total_onus}    ${timeout}
 
 Port Discovery in ONOS
     [Documentation]    Check that all the UNI ports show up in ONOS
@@ -135,7 +135,7 @@ Flows validation in VOLTHA before subscriber provisioning
     # NOTE fail the test immediately if we're trying to check flows without provisioning them
     Should Be Equal   ${enableFlowProvisioning}     true
     Wait for Logical Devices flows   ${workflow}    ${total_onus}    ${olt}    false
-    ...     ${withEapol}    ${withDhcp}     ${withIgmp}    ${withLLDP}
+    ...     ${withEapol}    ${withDhcp}     ${withIgmp}    ${withLLDP}    ${timeout}
 
 Flows validation in VOLTHA Adapters before subscriber provisioning
     [Documentation]  Check that all flows has been store in devices of type openolt
@@ -247,7 +247,7 @@ Flows validation in VOLTHA after subscriber provisioning
     Should Be Equal   ${enableFlowProvisioning}     true
 
     Wait for Logical Devices flows   ${workflow}    ${total_onus}    ${olt}    true
-    ...     ${withEapol}    ${withDhcp}     ${withIgmp}    ${withLLDP}
+    ...     ${withEapol}    ${withDhcp}     ${withIgmp}    ${withLLDP}    ${timeout}
 
 Flows validation in VOLTHA Adapters after subscriber provisioning
     [Documentation]  Check that all flows has been store in devices of type openolt
