@@ -14,6 +14,12 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+# connection parameter needed for device manager interface tests
+GIVEN_DM_IP: 127.0.0.1
+GIVEN_DM_PORT: 50051
+GIVEN_OLT_IP: 10.34.90.52
+GIVEN_OLT_NAME: adtran-olt-berlin-onf
+
 # Contains all dm components of ADTRAN Device Manager to be checked
 dm_components:
   -
