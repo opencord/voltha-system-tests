@@ -826,9 +826,9 @@ Assert ONUs in Voltha
     Should Be Equal As Integers    ${devices}    ${count}
 
 Wait for ONUs in VOLTHA
-    [Arguments]    ${count}
+    [Arguments]    ${count}    ${timeout}=10m
     [Documentation]    Waits until a certain number of devices reached the ACTIVE/ENABLE state
-    Wait Until Keyword Succeeds     10m     5s      Assert ONUs In Voltha   ${count}
+    Wait Until Keyword Succeeds     ${timeout}     5s      Assert ONUs In Voltha   ${count}
 
 Count Logical Devices flows
     [Documentation]  Count the flows across logical devices in VOLTHA
@@ -849,13 +849,13 @@ Count Logical Devices flows
 
 Wait for Logical Devices flows
     [Documentation]  Waits until the flows have been provisioned in the logical device
-    [Arguments]  ${workflow}    ${uni_count}    ${olt_count}    ${provisioned}
+    [Arguments]  ${workflow}    ${timeout}=10m    ${uni_count}    ${olt_count}    ${provisioned}
     ...     ${withEapol}    ${withDhcp}     ${withIgmp}     ${withLldp}
     ${targetFlows}=     Calculate flows by workflow     ${workflow}    ${uni_count}    ${olt_count}     ${provisioned}
     ...     ${withEapol}    ${withDhcp}     ${withIgmp}    ${withLldp}
     Log     ${targetFlows}
     # TODO extend Validate Logical Device Flows to check the correct number of flows
-    Wait Until Keyword Succeeds     10m     5s  Count Logical Devices flows     ${targetFlows}
+    Wait Until Keyword Succeeds     ${timeout}     5s  Count Logical Devices flows     ${targetFlows}
 
 Count OpenOLT Device Flows
     [Documentation]  Count the flows across openolt devices in VOLTHA
