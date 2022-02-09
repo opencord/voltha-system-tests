@@ -208,7 +208,7 @@ reconcile-openonu-go-adapter-tests-tt: reconcile-openonu-go-adapter-tests
 
 # target to invoke reconcile tests with openonu go adapter at single ONU resp. multiple OLTs
 reconcile-openonu-go-adapter-tests: ROBOT_MISC_ARGS += -i functionalOnuGo
-reconcile-openonu-go-adapter-tests: ROBOT_MISC_ARGS += -e notreadyOnuGo -X $(ROBOT_DEBUG_LOG_OPT)
+reconcile-openonu-go-adapter-tests: ROBOT_MISC_ARGS += -e notreadyOnuGo $(ROBOT_DEBUG_LOG_OPT)
 reconcile-openonu-go-adapter-tests: ROBOT_FILE := Voltha_ONUReconcileTests.robot
 reconcile-openonu-go-adapter-tests: openonu-go-adapter-tests
 
