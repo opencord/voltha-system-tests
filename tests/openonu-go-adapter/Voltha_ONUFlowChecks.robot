@@ -47,8 +47,8 @@ ${scripts}        ../../scripts
 # Per-test logging on failure is turned off by default; set this variable to enable
 ${container_log_dir}    ${None}
 # KV Store Prefix
-# example: -v kvstoreprefix:voltha_voltha
-${kvstoreprefix}    voltha_voltha
+# example: -v kvstoreprefix:voltha/voltha_voltha
+${kvstoreprefix}    voltha/voltha_voltha
 # determines the environment workflow: DT, TT or ATT (default)
 # example: -v workflow:DT
 ${workflow}    ATT
@@ -149,7 +149,7 @@ Teardown Suite
 Validate Etcd Vlan Rules Added Subscriber
     [Documentation]    This keyword validates Vlan rules of openonu-go-adapter Data stored in etcd.
     ...                It checks the match_vid (=4096) and set_vid when subscriber are added.
-    [Arguments]    ${onu_tags_dict}    ${reqmatchvid}=4096    ${defaultkvstoreprefix}=voltha_voltha
+    [Arguments]    ${onu_tags_dict}    ${reqmatchvid}=4096    ${defaultkvstoreprefix}=voltha/voltha_voltha
     ${kvstoreprefix}=    Get Kv Store Prefix    ${defaultkvstoreprefix}
     ${etcddata}=    Get ONU Go Adapter ETCD Data    ${INFRA_NAMESPACE}    ${kvstoreprefix}    True    True
     #prepare result for json convert
@@ -191,7 +191,7 @@ Validate Flow Params Vlan Rules
 Validate Etcd Vlan Rules Removed Subscriber
     [Documentation]    This keyword validates Vlan rules of openonu-go-adapter Data stored in etcd.
     ...                It checks the match_vid (=4096) and set_vid when subscriber are removed.
-    [Arguments]    ${reqmatchvid}=4096    ${defaultkvstoreprefix}=voltha_voltha
+    [Arguments]    ${reqmatchvid}=4096    ${defaultkvstoreprefix}=voltha/voltha_voltha
     ${kvstoreprefix}=    Get Kv Store Prefix    ${defaultkvstoreprefix}
     ${etcddata}=    Get ONU Go Adapter ETCD Data    ${INFRA_NAMESPACE}    ${kvstoreprefix}    True    True
     #prepare result for json convert

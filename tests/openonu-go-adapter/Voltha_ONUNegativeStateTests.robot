@@ -46,8 +46,8 @@ ${scripts}        ../../scripts
 # Per-test logging on failure is turned off by default; set this variable to enable
 ${container_log_dir}    ${None}
 # KV Store Prefix
-# example: -v kvstoreprefix:voltha_voltha
-${kvstoreprefix}    voltha_voltha
+# example: -v kvstoreprefix:voltha/voltha_voltha
+${kvstoreprefix}    voltha/voltha_voltha
 # used tech profile, can be passed via the command line too, valid values: default (=1T1GEM), 1T4GEM, 1T8GEM
 # example: -v techprofile:1T4GEM
 ${techprofile}    default
