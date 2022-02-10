@@ -60,7 +60,7 @@ Restart VOLTHA Port Forward
 
 Get Kv Store Prefix
     [Documentation]    This keyword delivers the KV Store Prefix read from environment variable KVSTOREPREFIX if present.
-    [Arguments]    ${defaultkvstoreprefix}=voltha_voltha
+    [Arguments]    ${defaultkvstoreprefix}=voltha/voltha_voltha
     ${kv_store_prefix}=    Get Environment Variable    KVSTOREPREFIX    default=${defaultkvstoreprefix}
     # while Get Environment Variable does not work correctly, a manual correction follows
     ${kv_store_prefix}=    Set Variable If    "${kv_store_prefix}"=="${EMPTY}"    ${defaultkvstoreprefix}    ${kv_store_prefix}

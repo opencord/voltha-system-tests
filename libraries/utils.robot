@@ -1482,7 +1482,7 @@ Determine Number Of ONU
 
 Validate Cleanup In ETCD
     [Documentation]    The keyword verifies that device, ports, flows, meters are all cleared in ETCD
-    [Arguments]    ${namespace}=default    ${defaultkvstoreprefix}=voltha_voltha
+    [Arguments]    ${namespace}=default    ${defaultkvstoreprefix}=voltha/voltha_voltha
     ${podname}=    Set Variable    etcd
     ${kvstoreprefix}=    Get Kv Store Prefix    ${defaultkvstoreprefix}
     # Log Devices Output and Verify Output Should be Empty

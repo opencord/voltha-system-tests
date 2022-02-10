@@ -416,7 +416,7 @@ Do Onu Subscriber Remove Per OLT
 Validate Resource Instances Used Gem Ports
     [Documentation]    This keyword validates resource instances data stored in etcd.
     ...                It checks checks the number of gemport-ids which has matched with used Tech Profile
-    [Arguments]    ${nbofgemports}    ${namespace}=default    ${defaultkvstoreprefix}=voltha_voltha
+    [Arguments]    ${nbofgemports}    ${namespace}=default    ${defaultkvstoreprefix}=voltha/voltha_voltha
     ${kvstoreprefix}=    Get Kv Store Prefix    ${defaultkvstoreprefix}
     ${etcddata}=    Get ONU Go Adapter ETCD Data    namespace=${namespace}    defaultkvstoreprefix=${kvstoreprefix}
     #prepare result for json convert
@@ -443,7 +443,7 @@ Validate Resource Instances Used Gem Ports
 
 Get Resource Instances ETCD Data
     [Documentation]    This keyword delivers Resource Instances Data stored in etcd
-    [Arguments]    ${tppath}    ${namespace}=default    ${defaultkvstoreprefix}=voltha_voltha
+    [Arguments]    ${tppath}    ${namespace}=default    ${defaultkvstoreprefix}=voltha/voltha_voltha
     ${podname}=    Set Variable    etcd
     ${kvstoreprefix}=    Get Kv Store Prefix    ${defaultkvstoreprefix}
     ${commandget}=    Catenate
@@ -457,7 +457,7 @@ Validate Tech Profiles and Flows in ETCD Data Per Onu
     [Documentation]    This keyword validates tech profiles and flows data stored in etcd per onu.
     ...                It checks checks presence/absence of tech profiles and flows depending on must_exist.
     ...                The values/content of tech profiles and flows will be not validated!
-    [Arguments]    ${onu_sn}    ${namespace}=default    ${defaultkvstoreprefix}=voltha_voltha    ${must_exist}=True
+    [Arguments]    ${onu_sn}    ${namespace}=default    ${defaultkvstoreprefix}=voltha/voltha_voltha    ${must_exist}=True
     ...            ${check_tcont_map_empty}=False    ${check_default_flow_att}=True
     ${kvstoreprefix}=    Get Kv Store Prefix    ${defaultkvstoreprefix}
     ${etcddata}=    Get ONU Go Adapter ETCD Data    namespace=${namespace}    defaultkvstoreprefix=${kvstoreprefix}
@@ -521,7 +521,7 @@ Validate Onu Data In Etcd
     ...                It checks unique of  serial_number and combination of pon, onu and uni in tp_path.
     ...                Furthermore it evaluates the values of onu_id and uni_id with values read from tp_path.
     ...                Number of etcd entries has to match with the passed number.
-    [Arguments]    ${namespace}=default    ${nbofetcddata}=${num_all_onus}    ${defaultkvstoreprefix}=voltha_voltha
+    [Arguments]    ${namespace}=default    ${nbofetcddata}=${num_all_onus}    ${defaultkvstoreprefix}=voltha/voltha_voltha
     ...            ${without_prefix}=True    ${without_pm_data}=True
     ${kvstoreprefix}=    Get Kv Store Prefix    ${defaultkvstoreprefix}
     ${etcddata}=    Get ONU Go Adapter ETCD Data    ${namespace}    ${kvstoreprefix}    ${without_prefix}    ${without_pm_data}
@@ -557,7 +557,7 @@ Validate Onu Data In Etcd
 Validate Onu Data In Etcd Removed
     [Documentation]    This keyword validates openonu-go-adapter Data stored in etcd are removed.
     ...                In case of a device is passed, only this will be checked.
-    [Arguments]    ${namespace}=default    ${device_id}=${EMPTY}    ${defaultkvstoreprefix}=voltha_voltha
+    [Arguments]    ${namespace}=default    ${device_id}=${EMPTY}    ${defaultkvstoreprefix}=voltha/voltha_voltha
     ...            ${without_pm_data}=True
     ${kvstoreprefix}=    Get Kv Store Prefix    ${defaultkvstoreprefix}
     ${etcddata}=    Get ONU Go Adapter ETCD Data    ${namespace}    ${kvstoreprefix}    False    ${without_pm_data}
@@ -572,7 +572,8 @@ Validate Vlan Rules In Etcd
     ...                In case of a passed dictionary containing set_vids these will be checked for to
     ...                current set-vid depending on setvidequal (True=equal, False=not equal).
     [Arguments]    ${namespace}=default    ${nbofcookieslice}=1    ${reqmatchvid}=4096    ${prevvlanrules}=${NONE}
-    ...    ${setvidequal}=False    ${defaultkvstoreprefix}=voltha_voltha    ${without_prefix}=True    ${without_pm_data}=True
+    ...    ${setvidequal}=False    ${defaultkvstoreprefix}=voltha/voltha_voltha
+    ...    ${without_prefix}=True    ${without_pm_data}=True
     ${kvstoreprefix}=    Get Kv Store Prefix    ${defaultkvstoreprefix}
     ${etcddata}=    Get ONU Go Adapter ETCD Data    ${namespace}    ${kvstoreprefix}    ${without_prefix}    ${without_pm_data}
     #prepare result for json convert
@@ -611,7 +612,7 @@ Validate Vlan Rules In Etcd
 
 Get ONU Go Adapter ETCD Data
     [Documentation]    This keyword delivers openonu-go-adapter Data stored in etcd
-    [Arguments]    ${namespace}=default    ${defaultkvstoreprefix}=voltha_voltha    ${without_prefix}=True
+    [Arguments]    ${namespace}=default    ${defaultkvstoreprefix}=voltha/voltha_voltha    ${without_prefix}=True
     ...    ${without_pm_data}=True    ${device_id}=${Empty}    ${keys_only}=False
     ${podname}=    Set Variable    etcd
     ${kvstoreprefix}=    Get Kv Store Prefix    ${defaultkvstoreprefix}
@@ -690,7 +691,7 @@ Validate Uni Id
 
 Delete ONU Go Adapter ETCD Data
     [Documentation]    This keyword deletes openonu-go-adapter Data stored in etcd
-    [Arguments]    ${namespace}=default    ${defaultkvstoreprefix}=voltha_voltha    ${validate}=False
+    [Arguments]    ${namespace}=default    ${defaultkvstoreprefix}=voltha/voltha_voltha    ${validate}=False
     ${podname}=    Set Variable    etcd
     ${kvstoreprefix}=    Get Kv Store Prefix    ${defaultkvstoreprefix}
     ${commandget}=    Catenate

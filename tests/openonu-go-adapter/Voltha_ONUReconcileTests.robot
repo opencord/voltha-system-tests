@@ -53,8 +53,8 @@ ${firsttest}    True
 # example: -v workflow:DT
 ${workflow}    ATT
 # KV Store Prefix
-# example: -v kvstoreprefix:voltha_voltha
-${kvstoreprefix}    voltha_voltha
+# example: -v kvstoreprefix:voltha/voltha_voltha
+${kvstoreprefix}    voltha/voltha_voltha
 # flag debugmode is used, if true timeout calculation various, can be passed via the command line too
 # example: -v debugmode:True
 ${debugmode}    False

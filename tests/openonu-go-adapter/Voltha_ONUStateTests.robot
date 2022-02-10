@@ -46,8 +46,8 @@ ${scripts}        ../../scripts
 # Per-test logging on failure is turned off by default; set this variable to enable
 ${container_log_dir}    ${None}
 # KV Store Prefix
-# example: -v kvstoreprefix:voltha_voltha
-${kvstoreprefix}    voltha_voltha
+# example: -v kvstoreprefix:voltha/voltha_voltha
+${kvstoreprefix}    voltha/voltha_voltha
 # state to test variable, can be passed via the command line too, valid values: 1-6
 # 1 -> activating-onu
 # 2 -> starting-openomci
