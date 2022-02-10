@@ -27,7 +27,7 @@ Resource          ./flows.robot
 *** Variables ***
 @{connection_list}
 ${alias}                  ONOS_SSH
-${ssh_read_timeout}       15s
+${ssh_read_timeout}       60s
 ${ssh_prompt}             karaf@root >
 ${ssh_regexp_prompt}      REGEXP:k.*a.*r.*a.*f.*@.*r.*o.*o.*t.* .*>.*
 ${regexp_prompt}          k.*a.*r.*a.*f.*@.*r.*o.*o.*t.* .*>.*
@@ -82,12 +82,16 @@ Execute Single ONOS CLI Command
     Log    pass_write: ${Written}
     ${PassOrFail}    ${output}=    Run Keyword And Ignore Error    Read Until Prompt    strip_prompt=True
     Log    Result_values: ${output}
+    # remove error printout from ssh library in case of failure
+    ${output}=    Run Keyword If    '${PassOrFail}'=='FAIL'    Fetch From Right    ${output}    Output:
+    ...           ELSE    Set Variable   ${output}
+    ${output}=    Run Keyword If    '${PassOrFail}'=='FAIL'    Get Substring    ${output}    1
+    ...           ELSE    Set Variable   ${output}
     ${output_length}=    Get Length    ${output}
     # remove regexp-prompt if available
     ${output}=    Remove String Using Regexp    ${output}    ${regexp_prompt}
     ${output_after}=    Get Length    ${output}
     Run Keyword If    '${PassOrFail}'=='FAIL' and ${output_length}== ${output_after}  FAIL    SSH access failed for '${cmd}'!
-    ${prompt_exist}    Run Keyword If    '${PassOrFail}'=='FAIL'    Should Match Regexp    ${output}    ${regexp_prompt}
     # we do not use strip of escape sequences integrated in ssh lib, we do it by ourself to have it under control
     ${output}=    Remove String Using Regexp    ${output}    \\x1b[>=]{0,1}(?:\\[[0-?]*(?:[hlm])[~]{0,1})*
     # remove the endless spaces and two carrige returns at the end of output
