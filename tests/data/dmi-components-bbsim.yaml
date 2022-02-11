@@ -15,6 +15,7 @@
 # limitations under the License.
 
 # Automated deployment configuration for systems running BBSim
+has_dataplane: false
 
 # connection parameter needed for device manager interface tests
 GIVEN_DM_IP: 127.0.0.1
