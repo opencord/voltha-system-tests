@@ -26,10 +26,20 @@ Get Managed Devices
     [Arguments]    ${lib_instance}
     ${name_active_olts}=    Create List
     ${response}=    Run Keyword   ${lib_instance}.Hw Management Service Get Managed Devices
-    ${size}=    Get Length  ${response}
-    Return From Keyword If   ${size} == ${0}   ${name_active_olts}
+    Log    ${response}
+    Check Dmi Status    ${response}    OK_STATUS
+    ${keys}=    Create List
+    ${keys}=    Get Dictionary Keys    ${response}
+    ${devices_key_found}=    Set Variable    False
+    ${length}=    Get Length    ${keys}
+    FOR    ${I}    IN RANGE    0    ${length}
+        ${value}=    Get From List    ${keys}    ${I}
+        ${devices_key_found}=    Set Variable If    '${value}'=='devices'    True    False
+        Exit For Loop If    ${devices_key_found}
+    END
+    Return From Keyword If    '${devices_key_found}'=='False'    ${name_active_olts}
     ${devices}=     Get From Dictionary     ${response}     devices
-    FOR     ${device}  IN  @{devices}
+    FOR    ${device}    IN    @{devices}
         ${name}=    Get From Dictionary    ${device}    name
         Append To List  ${name_active_olts}     ${name}
     END
@@ -90,5 +100,5 @@ Stop Managing Device
 Check Dmi Status
     [Documentation]  check if the given state in the given result
     [Arguments]  ${result}  ${state}
-     ${state_in_result}=  Get From Dictionary  ${result}  status
+    ${state_in_result}=  Get From Dictionary  ${result}  status
     Should Be Equal  ${state}  ${state_in_result}

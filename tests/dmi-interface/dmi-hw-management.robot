@@ -32,6 +32,8 @@ ${DEVICEMANAGER_PORT}    ${GIVEN_DM_PORT}
 ${OLT_IP}         ${GIVEN_OLT_IP}
 ${OLT_NAME}    ${GIVEN_OLT_NAME}
 
+${has_dataplane}    True
+
 *** Test Cases ***
 Start and Stop Managing Device In Device Manager
     [Documentation]     add/remove device in device manager (testcase is done by Suite Setup and Suite Teardown)
@@ -69,8 +71,8 @@ Get Configurable Component Inventory Info
         ${res_component}=  Get From Dictionary  ${hwComInfoRes}  component
         ${value_name}=  Get From Dictionary  ${res_component}  name
         Should be Equal  ${value_name}  ${component_name}
-        Set Component Inventory Info Unimplemented  ${suite_device_uuid}  ${component_uuid}  ${component_name}
-        ...    new-value
+        Run Keyword If    '${has_dataplane}'=='False'    Set Component Inventory Info Unimplemented
+        ...    ${suite_device_uuid}    ${component_uuid}    ${component_name}    new-value
     END
 
 Get Loggable Entities
@@ -96,6 +98,7 @@ Set Get Logging Endpoint
     Should Be Equal  ${get_protocol}  ${defined_protocol}
     # remove logging endpoint
     ${defined_endpoint}=  Set Variable
+    ${defined_protocol}=  Set Variable
     Set Log Endpoint  dmi1  ${suite_device_uuid}  ${defined_endpoint}  ${defined_protocol}
 
 Set Get LogLevel
