@@ -16,6 +16,23 @@
       "message": "Verified here: https://jenkins.opencord.org/view/Community-PODs/job/verify_dt-berlin-pod-gpon-adtran_Default_DT_voltha_master_dmi/6/robot/report/RobotLogs/log.html and https://jenkins.opencord.org/view/VOLTHA-2.X-Tests/job/periodic-voltha-test-DMI/516/robot/report/bbsim-dmi-hw-management-test/log.html",
       "revId": "e01d3afba544856f7530a2b1b3aab7b3beeecf52",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "31f723f1_8e845f94",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2022-02-11T07:58:26Z",
+      "side": 1,
+      "message": "recheck",
+      "revId": "e01d3afba544856f7530a2b1b3aab7b3beeecf52",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     }
   ]
 }
