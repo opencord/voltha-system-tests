@@ -96,6 +96,7 @@ Set Get Logging Endpoint
     Should Be Equal  ${get_protocol}  ${defined_protocol}
     # remove logging endpoint
     ${defined_endpoint}=  Set Variable
+    ${defined_protocol}=  Set Variable
     Set Log Endpoint  dmi1  ${suite_device_uuid}  ${defined_endpoint}  ${defined_protocol}
 
 Set Get LogLevel
