@@ -73,6 +73,30 @@
       },
       "revId": "e01d3afba544856f7530a2b1b3aab7b3beeecf52",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7acb8b96_bcf63cb8",
+        "filename": "libraries/dmi-basics.robot",
+        "patchSetId": 4
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2022-02-11T09:44:37Z",
+      "side": 1,
+      "message": "Thanks for the suggestion Torsten. I will update this in the next iteration where I will do some more changes/optimisations in the tests. For now, this is the fix patch.",
+      "parentUuid": "c763746a_8456f18b",
+      "range": {
+        "startLine": 34,
+        "startChar": 4,
+        "endLine": 39,
+        "endChar": 7
+      },
+      "revId": "e01d3afba544856f7530a2b1b3aab7b3beeecf52",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     }
   ]
 }
