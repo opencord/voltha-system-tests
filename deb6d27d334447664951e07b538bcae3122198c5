@@ -33,6 +33,23 @@
       "message": "According to the comment in the suite header, only the ONU adapter is tested for memory leaks by the suite, so that new suites should be created for other images. Wouldn\u0027t it make sense that the ONU adapter also appears in the name of the suite and the test cases?",
       "revId": "deb6d27d334447664951e07b538bcae3122198c5",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "97918424_5634376c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2022-02-11T12:25:10Z",
+      "side": 1,
+      "message": "recheck",
+      "revId": "deb6d27d334447664951e07b538bcae3122198c5",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     }
   ]
 }
