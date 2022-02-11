@@ -951,6 +951,40 @@ Wait for all flows to be removed
     Wait Until Keyword Succeeds     10m     5s      Validate number of flows
     ...     ${ip}    ${port}  0  ${deviceId}   any
 
+Check All Flows Removed
+    [Documentation]    Checks all flows removed per OLT
+    FOR    ${I}    IN RANGE    0    ${num_olts}
+        ${olt_serial_number}=    Set Variable    ${list_olts}[${I}][sn]
+        ${onu_port_list}=    Get ONU Ports per OLT    ${olt_serial_number}
+        ${of_id}=    Wait Until Keyword Succeeds    ${timeout}    15s    Validate OLT Device in ONOS    ${olt_serial_number}
+        Check All Flows Removed per OLT    ${of_id}    ${onu_port_list}
+    END
+
+Check All Flows Removed per OLT
+    [Documentation]    Checks all flows removed per OLT, in case of flow remove, not after delete device!
+    ...                Attention: For ATT there must be the eapol flow still available!
+    [Arguments]        ${of_id}    ${onu_port_list}
+    ${expected_flows_onu}=    Set Variable If   "${workflow}"=="ATT"    1    0
+    FOR  ${onu_port}  IN  @{onu_port_list}
+        Wait Until Keyword Succeeds    ${timeout}    2s    Validate number of flows    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}
+        ...    ${expected_flows_onu}  ${of_id}   any    ${onu_port}
+    END
+
+Get ONU Ports per OLT
+    [Documentation]    Collects all ONU ports per OLT
+    [Arguments]        ${olt}
+    ${onu_port_list}    Create List
+    FOR    ${I}    IN RANGE    0    ${num_all_onus}
+        ${src}=    Set Variable    ${hosts.src[${I}]}
+        Continue For Loop If    "${olt}"!="${src['olt']}"
+        ${of_id}=    Wait Until Keyword Succeeds    ${timeout}    15s    Validate OLT Device in ONOS    ${src['olt']}
+        ${onu_port}=    Wait Until Keyword Succeeds    ${timeout}    2s    Get ONU Port in ONOS    ${src['onu']}
+        ...    ${of_id}    ${src['uni_id']}
+        ${port_id}=    Get Index From List    ${onu_port_list}   ${onu_port}
+        Continue For Loop If    -1 != ${port_id}
+        Append To List    ${onu_port_list}    ${onu_port}
+    END
+    [return]    ${onu_port_list}
 
 Get Limiting Bandwidth Details
     [Arguments]    ${bandwidth_profile_name}

@@ -566,6 +566,35 @@ onu-upgrade-test-multiolt-kind-att: ROBOT_FILE := ONU_Upgrade.robot
 onu-upgrade-test-multiolt-kind-att: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_MULTIPLE_OLT_FILE)
 onu-upgrade-test-multiolt-kind-att: software-upgrade-test
 
+# Voltha Components Memory Leak tests att workflow single kind
+memory-leak-test-single-kind-att: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_SINGLE_PON_FILE)
+memory-leak-test-single-kind-att: voltha-memory-leak-tests
+
+# Voltha Components Memory Leak tests t workflow single kind
+memory-leak-test-single-kind-dt: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_DT_SINGLE_PON_FILE)
+memory-leak-test-single-kind-dt: voltha-memory-leak-tests
+
+# Voltha Components Memory Leak tests tt workflow single kind
+memory-leak-test-single-kind-tt: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_TT_SINGLE_PON_FILE)
+memory-leak-test-single-kind-tt: voltha-memory-leak-tests
+
+# Voltha Components Memory Leak tests att workflow multiple OLTs
+memory-leak-test-multiolt-kind-att: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_MULTIPLE_OLT_FILE)
+memory-leak-test-multiolt-kind-att: voltha-memory-leak-tests
+
+# Voltha Components Memory Leak tests tt workflow multiple OLTs
+memory-leak-test-multiolt-kind-dt: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_DT_MULTIPLE_OLT_FILE)
+memory-leak-test-multiolt-kind-dt: voltha-memory-leak-tests
+
+# Voltha Components Memory Leak tests tt workflow multiple OLTs
+memory-leak-test-multiolt-kind-tt: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_TT_MULTIPLE_OLT_FILE)
+memory-leak-test-multiolt-kind-tt: voltha-memory-leak-tests
+
+voltha-memory-leak-tests: ROBOT_MISC_ARGS += -i functionalMemoryLeak -e notready  --noncritical non-critical
+voltha-memory-leak-tests: ROBOT_MISC_ARGS += $(ROBOT_DEBUG_LOG_OPT)
+voltha-memory-leak-tests: ROBOT_FILE := VOLTHA_Memory_Leak_Tests.robot
+voltha-memory-leak-tests: voltha-memory-leak-test
+
 software-upgrade-test: vst_venv
 	source ./$</bin/activate ; set -u ;\
 	cd tests/software-upgrades ;\
@@ -595,6 +624,10 @@ openonu-go-adapter-tests: vst_venv
 	cd tests/openonu-go-adapter ;\
 	robot -V $(ROBOT_CONFIG_FILE) $(ROBOT_MISC_ARGS) $(ROBOT_FILE)
 
+voltha-memory-leak-test: vst_venv
+	source ./$</bin/activate ; set -u ;\
+	cd tests/memory-leak ;\
+	robot -V $(ROBOT_CONFIG_FILE) $(ROBOT_MISC_ARGS) $(ROBOT_FILE)
 
 # self-test, lint, and setup targets
 

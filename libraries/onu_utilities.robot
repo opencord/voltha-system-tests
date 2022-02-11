@@ -243,6 +243,19 @@ Remove Flows Conditional
         ...    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${add_sub_cmd}
     END
 
+Remove Flows all ONUs
+    [Documentation]    Remove all Flows from all onus
+    FOR    ${I}    IN RANGE    0    ${num_all_onus}
+        # Collect data for remove flow(s)
+        ${src}=    Set Variable    ${hosts.src[${I}]}
+        ${of_id}=    Wait Until Keyword Succeeds    ${timeout}    15s    Validate OLT Device in ONOS    ${src['olt']}
+        ${onu_port}=    Wait Until Keyword Succeeds    ${timeout}    2s    Get ONU Port in ONOS    ${src['onu']}
+        ...    ${of_id}    ${src['uni_id']}
+        ${onu_sn}=    Set Variable   ${src['onu']}
+        # Remove Flows
+        Remove Flows Conditional    ${unitag_sub}    ${onu_sn}    ${of_id}    ${onu_port}
+    END
+
 Log Ports
     [Documentation]    This keyword logs all port data available in ONOS of first port per ONU
     [Arguments]    ${onlyenabled}=False
