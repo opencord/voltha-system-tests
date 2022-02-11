@@ -33,6 +33,46 @@
       "message": "recheck",
       "revId": "e01d3afba544856f7530a2b1b3aab7b3beeecf52",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6bcdf72b_3f007798",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2022-02-11T08:27:27Z",
+      "side": 1,
+      "message": "only a small iprovement comment",
+      "revId": "e01d3afba544856f7530a2b1b3aab7b3beeecf52",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c763746a_8456f18b",
+        "filename": "libraries/dmi-basics.robot",
+        "patchSetId": 4
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2022-02-11T08:27:27Z",
+      "side": 1,
+      "message": "You can also use (is shorter):\nFOR    ${key}    IN    @{keys}\n    ${devices_key_found}\u003d    Set Variable If    \u0027${key}\u0027\u003d\u003d\u0027devices\u0027    True    False\n    Exit For Loop If    ${devices_key_found}\nEND",
+      "range": {
+        "startLine": 34,
+        "startChar": 4,
+        "endLine": 39,
+        "endChar": 7
+      },
+      "revId": "e01d3afba544856f7530a2b1b3aab7b3beeecf52",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     }
   ]
 }
