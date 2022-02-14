@@ -50,6 +50,24 @@
       "message": "recheck",
       "revId": "deb6d27d334447664951e07b538bcae3122198c5",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5096a3dd_59824d2d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2022-02-14T10:54:15Z",
+      "side": 1,
+      "message": "Comment in suite header changed to a common one, test case renamed.",
+      "parentUuid": "efbe08c5_bf83423f",
+      "revId": "deb6d27d334447664951e07b538bcae3122198c5",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     }
   ]
 }
