@@ -76,10 +76,14 @@ Execute Single ONOS CLI Command
     SSHLibrary.Switch Connection   ${conn_id}
     # get connection settings, has no functional reason, only for info
     ${connection_info}=    SSHLibrary.Get Connection
-    ${PassOrFail}    ${Written}=    Run Keyword And Ignore Error    Write    ${cmd}
+    # write the command until it is mirrored
+    ${PassOrFail}    ${Written}=    Run Keyword And Ignore Error    Write Until Expected Output    ${cmd}    expected=${cmd}
+    ...              timeout=5s    retry_interval=1s
     Run Keyword If    '${PassOrFail}'=='FAIL' and ${do_reconnect}    Reconnect ONOS SSH Connection    ${connection_list_id}
-    ${Written}=    Run Keyword If    '${PassOrFail}'=='FAIL'    Write    ${cmd}    ELSE    Set Variable   ${Written}
-    Log    pass_write: ${Written}
+    Run Keyword If    '${PassOrFail}'=='FAIL'    Write Until Expected Output    ${cmd}${\n}    expected=${cmd}    timeout=5s
+    ...               retry_interval=1s
+    # set up the comand - press enter key!
+    ${Written}=    Write    ${EMPTY}
     ${PassOrFail}    ${output}=    Run Keyword And Ignore Error    Read Until Prompt    strip_prompt=True
     Log    Result_values: ${output}
     # remove error printout from ssh library in case of failure
