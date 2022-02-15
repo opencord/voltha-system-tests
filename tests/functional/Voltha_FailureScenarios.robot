@@ -726,6 +726,10 @@ Verify OLT Grpc Disconnection
     END
     # Repeat sanity test without subscriber changes
     Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test    ${suppressaddsubscriber}
+    # Without this sleep there are cases in which the request to disable the device
+    # comes before the Grpc server is restarted and is never executed.
+    # Checking BBSIM's connection status before proceeding would be better, but it is not currently exposed
+    Sleep    15s
     # Additional Verification
     Wait Until Keyword Succeeds    ${timeout}    2s    Delete All Devices and Verify
     Setup
