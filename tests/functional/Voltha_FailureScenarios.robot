@@ -724,6 +724,7 @@ Verify OLT Grpc Disconnection
         ${bbsim_pod}=    Get Pod Name By Label    ${NAMESPACE}    release     ${bbsim_rel}
         Restart Grpc Server    ${NAMESPACE}    ${bbsim_pod}    5
     END
+    Sleep    15s
     # Repeat sanity test without subscriber changes
     Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test    ${suppressaddsubscriber}
     # Additional Verification
