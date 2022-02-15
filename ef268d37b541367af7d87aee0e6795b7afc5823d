@@ -20,6 +20,98 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "dd4b8c8b_4e0671f6",
+        "filename": "tests/memory-leak/VOLTHA_Memory_Leak_Tests.robot",
+        "patchSetId": 3
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2022-02-15T09:53:20Z",
+      "side": 1,
+      "message": "Should be voltha/voltha_voltha",
+      "range": {
+        "startLine": 51,
+        "startChar": 0,
+        "endLine": 52,
+        "endChar": 33
+      },
+      "revId": "ef268d37b541367af7d87aee0e6795b7afc5823d",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5b46f1c5_2374ad03",
+        "filename": "tests/memory-leak/VOLTHA_Memory_Leak_Tests.robot",
+        "patchSetId": 3
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2022-02-15T09:53:20Z",
+      "side": 1,
+      "message": "three",
+      "range": {
+        "startLine": 81,
+        "startChar": 85,
+        "endLine": 81,
+        "endChar": 89
+      },
+      "revId": "ef268d37b541367af7d87aee0e6795b7afc5823d",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7d506e35_fe539c0b",
+        "filename": "tests/memory-leak/VOLTHA_Memory_Leak_Tests.robot",
+        "patchSetId": 3
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2022-02-15T09:53:20Z",
+      "side": 1,
+      "message": "up 😊",
+      "range": {
+        "startLine": 83,
+        "startChar": 52,
+        "endLine": 83,
+        "endChar": 55
+      },
+      "revId": "ef268d37b541367af7d87aee0e6795b7afc5823d",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aee1530c_837db5ed",
+        "filename": "tests/memory-leak/VOLTHA_Memory_Leak_Tests.robot",
+        "patchSetId": 3
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2022-02-15T09:53:20Z",
+      "side": 1,
+      "message": "If we are going to add more voltha-components, then please make it generic.",
+      "range": {
+        "startLine": 87,
+        "startChar": 14,
+        "endLine": 87,
+        "endChar": 29
+      },
+      "revId": "ef268d37b541367af7d87aee0e6795b7afc5823d",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d3c804cf_d411ee6c",
         "filename": "tests/memory-leak/VOLTHA_Memory_Leak_Tests.robot",
         "patchSetId": 3
@@ -55,6 +147,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "3178cdf9_ff28d964",
+        "filename": "tests/memory-leak/VOLTHA_Memory_Leak_Tests.robot",
+        "patchSetId": 3
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2022-02-15T09:53:20Z",
+      "side": 1,
+      "message": "I still don\u0027t get why do we need a sleep for 30s here?",
+      "parentUuid": "c2409e14_6809e26f",
+      "revId": "ef268d37b541367af7d87aee0e6795b7afc5823d",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "2e846b17_dcd155bd",
         "filename": "tests/memory-leak/VOLTHA_Memory_Leak_Tests.robot",
         "patchSetId": 3
@@ -84,6 +194,29 @@
       "side": 1,
       "message": "same.",
       "parentUuid": "2e846b17_dcd155bd",
+      "revId": "ef268d37b541367af7d87aee0e6795b7afc5823d",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fd91dbfd_caf2504c",
+        "filename": "tests/memory-leak/VOLTHA_Memory_Leak_Tests.robot",
+        "patchSetId": 3
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2022-02-15T09:53:20Z",
+      "side": 1,
+      "message": "Can\u0027t we use the existing keyword: https://github.com/opencord/voltha-system-tests/blob/master/libraries/utils.robot#L626-L658 ?",
+      "range": {
+        "startLine": 160,
+        "startChar": 0,
+        "endLine": 187,
+        "endChar": 0
+      },
       "revId": "ef268d37b541367af7d87aee0e6795b7afc5823d",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     }
