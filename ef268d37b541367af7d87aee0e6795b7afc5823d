@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "90fa501a_17fe3388",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2022-02-15T09:31:10Z",
+      "side": 1,
+      "message": "@Torsten, please add make target for this.\nAlso, is there a plan to add more voltha-components into this memory-leak testing? Else, we can move this file to openonu-go-adapter directory.",
+      "revId": "ef268d37b541367af7d87aee0e6795b7afc5823d",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d3c804cf_d411ee6c",
