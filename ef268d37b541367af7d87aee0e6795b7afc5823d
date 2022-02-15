@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d3c804cf_d411ee6c",
+        "filename": "tests/memory-leak/VOLTHA_Memory_Leak_Tests.robot",
+        "patchSetId": 3
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2022-02-15T09:02:58Z",
+      "side": 1,
+      "message": "is there a specific reason you are sleeping 30s ? just for \"cleanness\" ?",
+      "revId": "ef268d37b541367af7d87aee0e6795b7afc5823d",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2e846b17_dcd155bd",
+        "filename": "tests/memory-leak/VOLTHA_Memory_Leak_Tests.robot",
+        "patchSetId": 3
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2022-02-15T09:02:58Z",
+      "side": 1,
+      "message": "same, also, does it take sense to try this with the flows, maybe there are more elements left behind.",
+      "revId": "ef268d37b541367af7d87aee0e6795b7afc5823d",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    }
+  ]
+}
