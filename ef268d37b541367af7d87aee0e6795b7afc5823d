@@ -18,6 +18,24 @@
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c2409e14_6809e26f",
+        "filename": "tests/memory-leak/VOLTHA_Memory_Leak_Tests.robot",
+        "patchSetId": 3
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2022-02-15T09:21:17Z",
+      "side": 1,
+      "message": "Both sleeps were needed to keep test case run successfully. May it can be changed in something similar \u0027Wait Until Keyword Succeeds \u003cany check\u003e\u0027. But for the moment it works.",
+      "parentUuid": "d3c804cf_d411ee6c",
+      "revId": "ef268d37b541367af7d87aee0e6795b7afc5823d",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2e846b17_dcd155bd",
@@ -31,6 +49,24 @@
       "writtenOn": "2022-02-15T09:02:58Z",
       "side": 1,
       "message": "same, also, does it take sense to try this with the flows, maybe there are more elements left behind.",
+      "revId": "ef268d37b541367af7d87aee0e6795b7afc5823d",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9a4b7aea_a5e460f5",
+        "filename": "tests/memory-leak/VOLTHA_Memory_Leak_Tests.robot",
+        "patchSetId": 3
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2022-02-15T09:21:17Z",
+      "side": 1,
+      "message": "same.",
+      "parentUuid": "2e846b17_dcd155bd",
       "revId": "ef268d37b541367af7d87aee0e6795b7afc5823d",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     }
