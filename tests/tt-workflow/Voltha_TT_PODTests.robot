@@ -83,6 +83,8 @@ Reboot TT ONUs Physically - Clean Up
     FOR    ${I}    IN RANGE    0    ${num_all_onus}
         ${src}=    Set Variable    ${hosts.src[${I}]}
         ${dst}=    Set Variable    ${hosts.dst[${I}]}
+        # If the power switch port is not specified, continue
+        Continue For Loop If    '${src['power_switch_port']}' == '${None}'
         Disable Switch Outlet    ${src['power_switch_port']}
         Sleep    10s
         Enable Switch Outlet    ${src['power_switch_port']}
