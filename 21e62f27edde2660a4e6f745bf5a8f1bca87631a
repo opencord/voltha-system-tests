@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f6016512_06092024",
+        "filename": "tests/openonu-go-adapter/Voltha_ONUMibAudit.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2022-02-16T14:10:31Z",
+      "side": 1,
+      "message": "Should not be continued on failure.",
+      "range": {
+        "startLine": 106,
+        "startChar": 8,
+        "endLine": 106,
+        "endChar": 43
+      },
+      "revId": "21e62f27edde2660a4e6f745bf5a8f1bca87631a",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5f8628f4_58c42fa1",
+        "filename": "tests/openonu-go-adapter/Voltha_ONUMibAudit.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2022-02-16T14:10:31Z",
+      "side": 1,
+      "message": "A printout of SNRs and device-ids of ONUs would be helpfull.",
+      "range": {
+        "startLine": 120,
+        "startChar": 4,
+        "endLine": 120,
+        "endChar": 15
+      },
+      "revId": "21e62f27edde2660a4e6f745bf5a8f1bca87631a",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    }
+  ]
+}
