@@ -90,6 +90,8 @@ Verify ONU after rebooting physically
         ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
         ${onu_port}=    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
         ...    Get ONU Port in ONOS    ${src['onu']}    ${of_id}    ${src['uni_id']}
+        # If the power switch port is not specified, continue
+        Continue For Loop If    '${src['power_switch_port']}' == '${None}'
         Disable Switch Outlet    ${src['power_switch_port']}
         Run Keyword If    ${has_dataplane}    Run Keyword And Continue On Failure
         ...    Wait Until Keyword Succeeds    60s    2s
