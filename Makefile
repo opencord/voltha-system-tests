@@ -566,6 +566,35 @@ onu-upgrade-test-multiolt-kind-att: ROBOT_FILE := ONU_Upgrade.robot
 onu-upgrade-test-multiolt-kind-att: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_MULTIPLE_OLT_FILE)
 onu-upgrade-test-multiolt-kind-att: software-upgrade-test
 
+# Voltha openonu MIB Audit tests att workflow single kind
+onu-mib-audit-test-single-kind-att: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_SINGLE_PON_FILE)
+onu-mib-audit-test-single-kind-att: voltha-onu-mib-audit-tests
+
+# Voltha openonu MIB Audit tests t workflow single kind
+onu-mib-audit-test-single-kind-dt: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_DT_SINGLE_PON_FILE)
+onu-mib-audit-test-single-kind-dt: voltha-onu-mib-audit-tests
+
+# Voltha openonu MIB Audit tests tt workflow single kind
+onu-mib-audit-test-single-kind-tt: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_TT_SINGLE_PON_FILE)
+onu-mib-audit-test-single-kind-tt: voltha-onu-mib-audit-tests
+
+# Voltha openonu MIB Audit tests att workflow multiple OLTs
+onu-mib-audit-test-multiolt-kind-att: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_MULTIPLE_OLT_FILE)
+onu-mib-audit-test-multiolt-kind-att: voltha-onu-mib-audit-tests
+
+# Voltha openonu MIB Audit tests tt workflow multiple OLTs
+onu-mib-audit-test-multiolt-kind-dt: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_DT_MULTIPLE_OLT_FILE)
+onu-mib-audit-test-multiolt-kind-dt: voltha-onu-mib-audit-tests
+
+# Voltha openonu MIB Audit tests tt workflow multiple OLTs
+onu-mib-audit-test-multiolt-kind-tt: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_TT_MULTIPLE_OLT_FILE)
+onu-mib-audit-test-multiolt-kind-tt: voltha-onu-mib-audit-tests
+
+voltha-onu-mib-audit-tests: ROBOT_MISC_ARGS += -i functional -e notready  --noncritical non-critical
+voltha-onu-mib-audit-tests: ROBOT_MISC_ARGS += $(ROBOT_DEBUG_LOG_OPT)
+voltha-onu-mib-audit-tests: ROBOT_FILE := Voltha_ONUMibAudit.robot
+voltha-onu-mib-audit-tests: openonu-go-adapter-tests
+
 # Voltha Components Memory Leak tests att workflow single kind
 memory-leak-test-single-kind-att: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_SINGLE_PON_FILE)
 memory-leak-test-single-kind-att: voltha-memory-leak-tests
