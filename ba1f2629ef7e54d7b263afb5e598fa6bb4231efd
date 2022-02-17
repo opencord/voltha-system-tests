@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b358a8c3_7d58aee5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2022-02-17T05:31:02Z",
+      "side": 1,
+      "message": "@Emrehan, please add new make target (in Makefile) for multi-uni for DT, and also a new test input file (in tests/data directory) for bbsim.\nAlso, we will have to check the physical pod deployment files for DT jobs (https://github.com/opencord/pod-configs/tree/master/deployment-configs) for this uni_id parameter to be present in src.",
+      "revId": "ba1f2629ef7e54d7b263afb5e598fa6bb4231efd",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    }
+  ]
+}
