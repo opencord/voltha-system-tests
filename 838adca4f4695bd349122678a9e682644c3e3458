@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a658e360_ff85af4f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2022-02-17T05:21:25Z",
+      "side": 1,
+      "message": "Please check the comment on https://gerrit.opencord.org/c/pod-configs/+/31058 before merging this.",
+      "revId": "838adca4f4695bd349122678a9e682644c3e3458",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    }
+  ]
+}
