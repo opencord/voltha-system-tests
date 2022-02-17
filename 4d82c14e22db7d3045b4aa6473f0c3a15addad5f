@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c9bdfdcb_71206c3b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2022-02-17T09:35:24Z",
+      "side": 1,
+      "message": "Verified patchset-2:\nbbsim: https://jenkins.opencord.org/view/VOLTHA-2.X-Tests/job/periodic-voltha-test-DMI/523/robot/report/bbsim-dmi-hw-management-test/log.html\ndt-berlin-pod: https://jenkins.opencord.org/view/Community-PODs/job/verify_dt-berlin-pod-gpon-adtran_Default_DT_voltha_master_dmi/15/robot/report/RobotLogs/log.html",
+      "revId": "4d82c14e22db7d3045b4aa6473f0c3a15addad5f",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    }
+  ]
+}
