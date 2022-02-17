@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1858b392_e90f8b6d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2022-02-17T10:04:43Z",
+      "side": 1,
+      "message": "Triggered patchset 8 here : https://jenkins.opencord.org/view/VOLTHA-2.X-Tests/job/build_onf-demo-pod_1T8GEM_voltha_DT_master_test/728/console (awaiting results)",
+      "revId": "a0a0f40f44df0884955dc58b0bfce12765fbc16f",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    }
+  ]
+}
