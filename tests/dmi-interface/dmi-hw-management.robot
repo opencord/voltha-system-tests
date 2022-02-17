@@ -53,9 +53,9 @@ Get Inventory Data
         Check Physical Inventory  ${inventory}  ${component}
     END
 
-Get Configurable Component Inventory Info
+Get Set Configurable Component Inventory Info
     [Documentation]  get physical component info of all hw in given yaml file
-    [Tags]  functionalDMI  GetConfigurableComponentInventoryInfoDMI
+    [Tags]  functionalDMI  GetSetConfigurableComponentInventoryInfoDMI
     &{PhyInvReq}=  Evaluate    {'device_uuid':${suite_device_uuid}}
     ${inventory}=  dmi1.Hw Management Service Get Physical Inventory    ${PhyInvReq}
     Check Dmi Status  ${inventory}[0]  OK_STATUS
@@ -71,8 +71,17 @@ Get Configurable Component Inventory Info
         ${res_component}=  Get From Dictionary  ${hwComInfoRes}  component
         ${value_name}=  Get From Dictionary  ${res_component}  name
         Should be Equal  ${value_name}  ${component_name}
-        Run Keyword If    '${has_dataplane}'=='False'    Set Component Inventory Info Unimplemented
-        ...    ${suite_device_uuid}    ${component_uuid}    ${component_name}    new-value
+        # Try setting 'name' field
+        ${set_name_status}=    Set Variable If    ${has_dataplane}    ERROR_STATUS    UNIMPLEMENTED
+        Set Component Inventory Info
+        ...    ${suite_device_uuid}    ${component_uuid}    ${component_name}    name    new-value    ${set_name_status}
+        # Try setting 'alias' field
+        ${set_alias_status}=    Set Variable If    ${has_dataplane}    STATUS_OK    UNIMPLEMENTED
+        Set Component Inventory Info
+        ...    ${suite_device_uuid}    ${component_uuid}    ${component_name}    alias    ${component_name}    ${set_alias_status}
+        # Reset alias field
+        Set Component Inventory Info
+        ...    ${suite_device_uuid}    ${component_uuid}    ${component_name}    alias    ${None}    ${set_alias_status}
     END
 
 Get Loggable Entities
@@ -199,16 +208,17 @@ Get X Loggable Entities
     END
     [Return]  ${entities}
 
-Set Component Inventory Info Unimplemented
+Set Component Inventory Info
     [Documentation]    This keyword sets a new value
-    [Arguments]    ${uuid}    ${component_uuid}    ${component_name}    ${new_value}
-    # try to set a component (note: currently not supported!)
-    ${modifiableComp}=   Evaluate    {'name':'${new_value}'}
+    [Arguments]    ${uuid}    ${component_uuid}    ${component_name}    ${component_field}    ${new_value}    ${status_code}
+    ${modifiableComp}=   Evaluate    {'${component_field}':'${new_value}'}
     ${HWCompSetReq}=    Create Dictionary    device_uuid=${uuid}    component_uuid=${component_uuid}
     Set To Dictionary    ${HWCompSetReq}    component_name=${component_name}    changes=${modifiableComp}
     ${state}    ${response}   Run Keyword And Ignore Error
     ...    dmi1.Hw Management Service Set Hw Component Info    ${HWCompSetReq}
-    Should Contain   ${response}      StatusCode.UNIMPLEMENTED
+    Log    ${response}
+    Run Keyword If    '${state}'=='FAIL'    Should Contain    ${response}    StatusCode.${status_code}
+    ...    ELSE    Check Dmi Status    ${response}    ${status_code}
 
 Set Logging Level
     [Documentation]  set the given loglevel in device
