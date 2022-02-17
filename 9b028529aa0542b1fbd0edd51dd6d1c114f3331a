@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "442d33e9_0f20e458",
+        "filename": "Makefile",
+        "patchSetId": 4
+      },
+      "lineNbr": 571,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2022-02-17T05:18:23Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this (and all below) be \"memory-leak-tests\" (Line 593).",
+      "range": {
+        "startLine": 571,
+        "startChar": 34,
+        "endLine": 571,
+        "endChar": 58
+      },
+      "revId": "9b028529aa0542b1fbd0edd51dd6d1c114f3331a",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aed3e3c8_21b11017",
+        "filename": "Makefile",
+        "patchSetId": 4
+      },
+      "lineNbr": 593,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2022-02-17T05:18:23Z",
+      "side": 1,
+      "message": "Or change this to \"voltha-memory-leak-tests\"",
+      "range": {
+        "startLine": 593,
+        "startChar": 0,
+        "endLine": 593,
+        "endChar": 17
+      },
+      "revId": "9b028529aa0542b1fbd0edd51dd6d1c114f3331a",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3d16dd68_6ba71560",
+        "filename": "Makefile",
+        "patchSetId": 4
+      },
+      "lineNbr": 626,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2022-02-17T05:18:23Z",
+      "side": 1,
+      "message": "Also, please add:\nvoltha-memory-leak-test: ROBOT_MISC_ARGS +\u003d -e notready  --noncritical non-critical",
+      "range": {
+        "startLine": 626,
+        "startChar": 0,
+        "endLine": 626,
+        "endChar": 23
+      },
+      "revId": "9b028529aa0542b1fbd0edd51dd6d1c114f3331a",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1995cad5_e8a8d8a3",
+        "filename": "tests/memory-leak/VOLTHA_Memory_Leak_Tests.robot",
+        "patchSetId": 4
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2022-02-17T05:18:23Z",
+      "side": 1,
+      "message": "Also, add the tag \"functionalMemoryLeak\" based on Makefile changes",
+      "range": {
+        "startLine": 87,
+        "startChar": 4,
+        "endLine": 87,
+        "endChar": 10
+      },
+      "revId": "9b028529aa0542b1fbd0edd51dd6d1c114f3331a",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "44b2b937_b27a129a",
+        "filename": "tests/memory-leak/VOLTHA_Memory_Leak_Tests.robot",
+        "patchSetId": 4
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2022-02-17T05:18:23Z",
+      "side": 1,
+      "message": "Better to move these to libraries/onos.robot as these are generic and can be used elsewhere.",
+      "range": {
+        "startLine": 186,
+        "startChar": 0,
+        "endLine": 218,
+        "endChar": 32
+      },
+      "revId": "9b028529aa0542b1fbd0edd51dd6d1c114f3331a",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    }
+  ]
+}
