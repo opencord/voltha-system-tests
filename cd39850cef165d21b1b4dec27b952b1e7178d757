@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e74a5ff2_1955fd0d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2022-02-22T11:35:09Z",
+      "side": 1,
+      "message": "missing also a make target ? ",
+      "revId": "cd39850cef165d21b1b4dec27b952b1e7178d757",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4263a6be_b03157c2",
+        "filename": "libraries/onos.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 777,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2022-02-22T11:35:09Z",
+      "side": 1,
+      "message": "I think you want to remove \"Hardik\" here. Also, can we use the same keyboard to evaluate if they should be empty ? to avoid duplication at line 1053",
+      "revId": "cd39850cef165d21b1b4dec27b952b1e7178d757",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    }
+  ]
+}
