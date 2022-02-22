@@ -18,6 +18,24 @@
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "73e5ec13_94a5ab3f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2022-02-22T11:41:00Z",
+      "side": 1,
+      "message": "The same make-target (like sanity-kind-tt) can also be used by passing additional param like (-v with_maclearning:True), but I can create another too for quick execution.",
+      "parentUuid": "e74a5ff2_1955fd0d",
+      "revId": "cd39850cef165d21b1b4dec27b952b1e7178d757",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4263a6be_b03157c2",
@@ -31,6 +49,24 @@
       "writtenOn": "2022-02-22T11:35:09Z",
       "side": 1,
       "message": "I think you want to remove \"Hardik\" here. Also, can we use the same keyboard to evaluate if they should be empty ? to avoid duplication at line 1053",
+      "revId": "cd39850cef165d21b1b4dec27b952b1e7178d757",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "15a40b4d_9e073d14",
+        "filename": "libraries/onos.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 777,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2022-02-22T11:41:00Z",
+      "side": 1,
+      "message": "Yes, saw that too. Removing it 😊\nThe other keyword is cleanup step which is for all, and this is per.",
+      "parentUuid": "4263a6be_b03157c2",
       "revId": "cd39850cef165d21b1b4dec27b952b1e7178d757",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     }
