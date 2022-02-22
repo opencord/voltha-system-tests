@@ -409,12 +409,13 @@ Perform Sanity Test TT
     ...    and avoids duplication of code.
     ...    For repeating sanity test without subscriber changes set flag supress_add_subscriber=True.
     ...    In all other (common) cases flag has to be set False (default).
-    [Arguments]    ${supress_add_subscriber}=False
+    [Arguments]    ${supress_add_subscriber}=False    ${maclearning_enabled}=False
     FOR    ${I}    IN RANGE    0    ${num_all_onus}
         ${src}=    Set Variable    ${hosts.src[${I}]}
         ${dst}=    Set Variable    ${hosts.dst[${I}]}
         ${service_type}=    Get Variable Value    ${src['service_type']}    "null"
-        Run Keyword IF    '${service_type}' != 'mcast'    Sanity Test TT one ONU    ${src}    ${dst}    ${supress_add_subscriber}
+        Run Keyword IF    '${service_type}' != 'mcast'    Sanity Test TT one ONU    ${src}    ${dst}
+        ...    ${supress_add_subscriber}    ${maclearning_enabled}
     END
     # Verify Subscriber Access Flow Count
     @{particular_onu_device_port}=      Create List
@@ -495,7 +496,7 @@ Sanity Test TT one ONU
     ...       Assertions apply to HSIA, VoD, VoIP services
     ...       For repeating sanity test without subscriber changes set flag supress_add_subscriber=True.
     ...       In all other (common) cases flag has to be set False (default).
-    [Arguments]    ${src}    ${dst}    ${supress_add_subscriber}=False
+    [Arguments]    ${src}    ${dst}    ${supress_add_subscriber}=False    ${maclearning_enabled}=False
     Provision Subscription for ONU TT    ${src}    ${dst}    ${supress_add_subscriber}
     ${of_id}=    Wait Until Keyword Succeeds    ${timeout}    15s    Validate OLT Device in ONOS    ${src['olt']}
     Set Global Variable    ${of_id}
@@ -507,10 +508,14 @@ Sanity Test TT one ONU
     ...    ${src['ip']}    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
     ...    ${dst['dp_iface_name']}    ${dst['ip']}    ${dst['user']}    ${dst['pass']}    ${dst['container_type']}
     ...    ${dst['container_name']}
-    Run Keyword IF    '${src['service_type']}'!='hsia'
+    Run Keyword If    '${src['service_type']}'!='hsia'
+    ...    Run Keywords
     ...    Wait Until Keyword Succeeds    ${timeout}    2s
     ...    Validate Subscriber DHCP Allocation    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${onu_port}
     ...    ${src['c_tag']}
+    ...    AND    Run Keyword If    ${maclearning_enabled}
+    ...    Wait Until Keyword Succeeds    ${timeout}    5s    Validate Mac Learner Mapping in ONOS
+    ...    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${of_id}    ${onu_port}    ${src['c_tag']}
 
 Perform Sanity Test TT MCAST
     [Documentation]    This keyword performs Sanity Test Procedure for TT Workflow
@@ -715,6 +720,7 @@ Validate ONUs After OLT Disable
 
 Delete All Devices and Verify
     [Documentation]    Remove any devices from VOLTHA and ONOS
+    [Arguments]    ${maclearning_enabled}=False
     # Clear devices from VOLTHA
     Disable Devices In Voltha    Root=true
     Wait Until Keyword Succeeds    ${timeout}    2s    Test Devices Disabled In Voltha    Root=true
@@ -724,6 +730,7 @@ Delete All Devices and Verify
         ${olt_serial_number}=    Set Variable    ${list_olts}[${I}][sn]
         Wait Until Keyword Succeeds    ${timeout}    5s
         ...    Validate Deleted Device Cleanup In ONOS    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${olt_serial_number}
+        ...    ${maclearning_enabled}
     END
     Wait Until Keyword Succeeds    ${timeout}    5s    Validate Cleanup In ETCD    ${INFRA_NAMESPACE}
 
