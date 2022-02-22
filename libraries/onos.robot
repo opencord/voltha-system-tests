@@ -769,6 +769,15 @@ Validate Subscriber DHCP Allocation
     ...    dhcpl2relay-allocations | grep DHCPACK | grep ${onu_port} | grep ${vlan}
     Should Not Be Empty    ${allocations}    ONU port ${onu_port} not found in dhcpl2relay-allocations
 
+Validate Mac Learner Mapping in ONOS
+    [Arguments]    ${ip}    ${port}    ${dev_id}    ${onu_port}    ${vlan}
+    [Documentation]    Verifies the MAC mapping for the client
+    ${mac}=    Execute ONOS CLI Command use single connection    ${ip}    ${port}
+    ...    mac-learner-get-mapping ${dev_id} ${onu_port} ${vlan} | grep -v INFO
+    Log To Console    Hardik: ${mac}
+    Should Not Be Empty    ${mac}
+    ...    No client mac-mapping found with vlan-id: ${vlan} that uses port: ${onu_port} of device: ${dev_id}
+
 Device Is Available In ONOS
     [Arguments]    ${url}    ${dpid}    ${available}=true
     [Documentation]    Validates the device exists and it has the expected availability in ONOS
@@ -1005,7 +1014,7 @@ Get Limiting Bandwidth Details for Fixed and Committed
     [Return]    ${limiting_BW}
 
 Validate Deleted Device Cleanup In ONOS
-    [Arguments]    ${ip}    ${port}    ${olt_serial_number}
+    [Arguments]    ${ip}    ${port}    ${olt_serial_number}    ${maclearning_enabled}=False
     [Documentation]    The keyword verifies that ports, flows, meters, subscribers, dhcp are all cleared in ONOS
     # Fetch OF Id for OLT
     ${olt_of_id}=    Wait Until Keyword Succeeds    ${timeout}    5s    Validate OLT Device in ONOS    ${olt_serial_number}
@@ -1039,6 +1048,12 @@ Validate Deleted Device Cleanup In ONOS
     ...    dhcpl2relay-allocations ${olt_of_id}
     ${dhcp_count}=      Get Line Count      ${dhcp}
     Should Be Equal As Integers    ${dhcp_count}    0   DHCP Allocations have not been removed from ONOS after cleanup
+    # Verify MAC Learner Mappings are Removed
+    ${mac}=    Run Keyword If    ${maclearning_enabled}    Execute ONOS CLI Command use single connection     ${ip}    ${port}
+    ...    mac-learner-get-mapping | grep -v INFO
+    ${mac_count}=    Run Keyword If    ${maclearning_enabled}    Get Line Count    ${mac}
+    ...    ELSE    Set Variable    0
+    Should Be Equal As Integers    ${mac_count}    0   Client MAC Learner Mappings have not been removed from ONOS after cleanup
 
 Delete ONOS App
     [Arguments]    ${url}    ${app_name}

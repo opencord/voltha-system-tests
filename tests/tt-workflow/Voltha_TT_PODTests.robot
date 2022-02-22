@@ -43,7 +43,7 @@ ${KUBERNETES_YAML}    ${KUBERNETES_CONFIGS_DIR}/${POD_NAME}.yml
 ${HELM_CHARTS_DIR}    ~/helm-charts
 ${VOLTHA_POD_NUM}    8
 ${NAMESPACE}      voltha
-${INFRA_NAMESPACE}      default
+${INFRA_NAMESPACE}      infra
 # For below variable value, using deployment name as using grep for
 # parsing radius pod name, we can also use full radius pod name
 ${RESTART_POD_NAME}    radius
@@ -63,6 +63,10 @@ ${container_log_dir}    ${None}
 ${logging}    True
 
 ${suppressaddsubscriber}    True
+
+# flag to choose if mac-learning is enabled, or disabled (i.e. mac-address is configured)
+# example: -v with_maclearning:True
+${with_maclearning}    False
 
 # flag to choose the subscriber provisioning command type in ONOS
 # TT often provision a single services for a subscriber (eg: hsia, voip, ...) one after the other.
@@ -102,7 +106,7 @@ Sanity E2E Test for TT (HSIA, VoD, VoIP)
     [Teardown]    Run Keywords    Collect Logs
     ...           AND             Stop Logging    SanityTestTT
     Run Keyword If    ${has_dataplane}    Clean Up Linux
-    Perform Sanity Test TT
+    Perform Sanity Test TT    maclearning_enabled=${with_maclearning}
 
 Sanity E2E Test for TT (MCAST)
     [Documentation]    Validates E2E Ping Connectivity and object states for the given scenario:
@@ -294,7 +298,7 @@ Teardown Suite
     [Documentation]    Tear down steps for the suite
     Start Logging Setup or Teardown  Teardown-${SUITE NAME}
     Run Keyword If    ${has_dataplane}    Clean Up Linux
-    Run Keyword If    ${teardown_device}    Delete All Devices And Verify
+    Run Keyword If    ${teardown_device}    Delete All Devices And Verify    maclearning_enabled=${with_maclearning}
     Close All ONOS SSH Connections
     # remove pre-loaded tech profiles
     Set Suite Variable    ${TechProfile}    ${EMPTY}
