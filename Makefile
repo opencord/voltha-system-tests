@@ -109,6 +109,11 @@ sanity-kind-tt: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_TT_SINGLE_PON_FILE)
 sanity-kind-tt: ROBOT_FILE := Voltha_TT_PODTests.robot
 sanity-kind-tt: voltha-tt-test
 
+sanity-kind-tt-maclearning: ROBOT_MISC_ARGS += -i sanityTT -v with_maclearning:True $(ROBOT_DEBUG_LOG_OPT)
+sanity-kind-tt-maclearning: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_TT_SINGLE_PON_FILE)
+sanity-kind-tt-maclearning: ROBOT_FILE := Voltha_TT_PODTests.robot
+sanity-kind-tt-maclearning: voltha-tt-test
+
 sanity-kind-multiuni-tt: ROBOT_MISC_ARGS += -i sanityTT $(ROBOT_DEBUG_LOG_OPT)
 sanity-kind-multiuni-tt: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_TT_MULTI_UNI_SINGLE_PON_FILE)
 sanity-kind-multiuni-tt: ROBOT_FILE := Voltha_TT_PODTests.robot
