@@ -107,6 +107,7 @@ Test Voltha Components Minor Version Upgrade
         ...    ${NAMESPACE}    app    ${label}
         Log    ${label}: image, app ver & helm chart after upgrade: ${pod_image_1}, ${app_ver_1} & ${helm_chart_1}
         Restart VOLTHA Port Forward     voltha-api
+        Sleep    15s
         Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test     ${suppressaddsubscriber}
     END
     ${podStatusOutput}=    Run    kubectl get pods -n ${NAMESPACE}
@@ -192,6 +193,7 @@ Test Voltha Components Minor Version Rolling Upgrade
         ...    ${NAMESPACE}    app    ${label}
         Log    ${label}: image, app ver & helm chart after upgrade: ${pod_image_1}, ${app_ver_1} & ${helm_chart_1}
         Restart VOLTHA Port Forward     voltha-api
+        Sleep    15s
         Verify Provisioned Subscribers
         Unprovision Subscribers
     END
