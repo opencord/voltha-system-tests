@@ -192,6 +192,7 @@ Test Voltha Components Minor Version Rolling Upgrade
         ...    ${NAMESPACE}    app    ${label}
         Log    ${label}: image, app ver & helm chart after upgrade: ${pod_image_1}, ${app_ver_1} & ${helm_chart_1}
         Restart VOLTHA Port Forward     voltha-api
+        Sleep    10s
         Verify Provisioned Subscribers
         Unprovision Subscribers
     END
