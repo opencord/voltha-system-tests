@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ad7c05b4_117fdaf9",
+        "filename": "libraries/voltctl.robot",
+        "patchSetId": 3
+      },
+      "lineNbr": 829,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2022-02-24T09:59:06Z",
+      "side": 1,
+      "message": "Imo, It is worth to have some default value (like 10m) for this.",
+      "range": {
+        "startLine": 829,
+        "startChar": 31,
+        "endLine": 829,
+        "endChar": 41
+      },
+      "revId": "e0f12ccc76740184371cd77f6097f1b88ec57eab",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "062728c6_b8a768d6",
+        "filename": "libraries/voltctl.robot",
+        "patchSetId": 3
+      },
+      "lineNbr": 852,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2022-02-24T09:59:06Z",
+      "side": 1,
+      "message": "I prefer to move this to last in the arg list with some default value.",
+      "range": {
+        "startLine": 852,
+        "startChar": 32,
+        "endLine": 852,
+        "endChar": 42
+      },
+      "revId": "e0f12ccc76740184371cd77f6097f1b88ec57eab",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    }
+  ]
+}
