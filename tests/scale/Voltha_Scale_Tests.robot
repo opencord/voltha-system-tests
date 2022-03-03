@@ -186,8 +186,8 @@ Image Download and Validation during ONUs Software Upgrade
     ${activated}=    Set Variable If    '${image_activate_on_success}'=='true'    True    False
     ${committed}=    Set Variable If    '${image_activate_on_success}'=='true' and '${image_commit_on_success}'=='true'
     ...    True    False
-    Wait Until Keyword Succeeds    ${timeout}    10s    Verify ONU Device Image Status    ${image_version}
-    ...    ${onu_device_id_str}    DOWNLOAD_SUCCEEDED    NO_ERROR    ${imageState}
+    Wait for ONUs Image Status in VOLTHA    ${total_onus}    ${image_version}    DOWNLOAD_SUCCEEDED    NO_ERROR    ${imageState}
+    ...    ${timeout}
     FOR    ${onu_device_id}    IN    @{list_onu_device_id}
         Wait Until Keyword Succeeds    ${timeout}    10s    Verify ONU Device Image List    ${onu_device_id}
         ...    ${image_version}    ${committed}    ${activated}    True
@@ -206,8 +206,8 @@ Image Activation and Validation during ONUs Software Upgrade
     Activate ONU Device Image    ${image_version}    ${image_commit_on_success}    ${onu_device_id_str}
     ${imageState}=    Set Variable If    '${image_commit_on_success}'=='true'    IMAGE_COMMITTED    IMAGE_ACTIVE
     ${committed}=    Set Variable If    '${image_commit_on_success}'=='true'    True    False
-    Wait Until Keyword Succeeds    ${timeout}    10s    Verify ONU Device Image Status    ${image_version}
-    ...    ${onu_device_id_str}    DOWNLOAD_SUCCEEDED    NO_ERROR    ${imageState}
+    Wait for ONUs Image Status in VOLTHA    ${total_onus}    ${image_version}    DOWNLOAD_SUCCEEDED    NO_ERROR    ${imageState}
+    ...    ${timeout}
     FOR    ${onu_device_id}    IN    @{list_onu_device_id}
         Wait Until Keyword Succeeds    ${timeout}    10s    Verify ONU Device Image List    ${onu_device_id}
         ...    ${image_version}    ${committed}    True    True
@@ -224,8 +224,8 @@ Image Commit and Validation during ONUs Software Upgrade
     ${list_onu_device_id}=    Get ONUs Device IDs from Voltha
     ${onu_device_id_str}=    Catenate    @{list_onu_device_id}
     Commit ONU Device Image    ${image_version}    ${onu_device_id_str}
-    Wait Until Keyword Succeeds    ${timeout}    10s    Verify ONU Device Image Status    ${image_version}
-    ...    ${onu_device_id_str}    DOWNLOAD_SUCCEEDED    NO_ERROR    IMAGE_COMMITTED
+    Wait for ONUs Image Status in VOLTHA    ${total_onus}    ${image_version}    DOWNLOAD_SUCCEEDED    NO_ERROR    IMAGE_COMMITTED
+    ...    ${timeout}
     FOR    ${onu_device_id}    IN    @{list_onu_device_id}
         Wait Until Keyword Succeeds    ${timeout}    10s    Verify ONU Device Image List    ${onu_device_id}
         ...    ${image_version}    True    True    True
