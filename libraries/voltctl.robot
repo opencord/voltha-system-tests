@@ -978,6 +978,22 @@ Verify ONU Device Image Status
     Validate ONU Device Image    ${output}    ${image_version}    ${dev_id}    ${download_state}    ${expected_reason}
     ...    ${image_state}
 
+Assert ONUs Image Status in Voltha
+    [Arguments]    ${onu_count}    ${image_version}    ${download_state}    ${expected_reason}    ${image_state}
+    [Documentation]    Check that a certain number of devices reached the given image status
+    ${cmd}=    Catenate    voltctl -c ${VOLTCTL_CONFIG} -m 32MB device onuimage status ${image_version}
+    ...    | grep ${download_state} | grep ${expected_reason} | grep ${image_state} | wc -l
+    ${rc}    ${count}=    Run and Return Rc and Output    ${cmd}
+    Should Be Equal As Integers    ${rc}    0
+    Should Be Equal As Integers    ${count}    ${onu_count}
+
+Wait for ONUs Image Status in VOLTHA
+    [Arguments]    ${onu_count}    ${image_version}    ${download_state}    ${expected_reason}    ${image_state}
+    ...    ${timeout}=10m
+    [Documentation]    Waits until a certain number of devices reached the given image status
+    Wait Until Keyword Succeeds    ${timeout}    5s    Assert ONUs Image Status in Voltha    ${onu_count}
+    ...    ${image_version}    ${download_state}    ${expected_reason}    ${image_state}
+
 Verify ONU Device Image List
     [Documentation]    Verfies the ONU device image list
     [Arguments]    ${dev_id}    ${image_version}    ${committed}    ${activated}    ${valid}    ${image_should_not_in_list}=False
