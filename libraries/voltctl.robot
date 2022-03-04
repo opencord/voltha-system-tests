@@ -702,6 +702,18 @@ Build ONU SN List
     ...   Append To List    ${serial_numbers}    ${hosts.src[${INDEX}].onu}
     END
 
+Build ONU Device Id List
+    [Arguments]    ${device_ids}    ${olt_serial_number}=${EMPTY}    ${num_onus}=${num_all_onus}
+    [Documentation]    Appends all ONU Device IDs for the given OLT to the ${serial_numbers} list
+    FOR    ${INDEX}    IN RANGE    0    ${num_onus}
+        ${onu_device_id}=    Get Device ID From SN    ${hosts.src[${INDEX}]['onu']}
+        # skip if we have already append this ONU
+        ${onu_id}=    Get Index From List    ${device_ids}   ${onu_device_id}
+        Continue For Loop If    -1 != ${onu_id}
+        Run Keyword IF  "${olt_serial_number}"=="${hosts.src[${INDEX}].olt}" or "${olt_serial_number}"=="${EMPTY}"
+        ...   Append To List    ${device_ids}    ${onu_device_id}
+    END
+
 Get SN From Device ID
     [Arguments]    ${device_id}
     [Documentation]    Gets the device id by matching for ${device_id}
@@ -832,34 +844,36 @@ Validate ONU Device Image
     [Arguments]    ${data}    ${image_version}    ${dev_id}    ${download_state}    ${expected_reason}    ${image_status}
     ${jsondata}=    To Json    ${data}
     ${length}=    Get Length    ${jsondata}
-    Should Be Equal As Integers    ${length}    1    No record found for ${dev_id} to validate device image
-    ${value}=    Get From List    ${jsondata}    0
-    Log    ${value}
-    ${deviceId}=    Get From Dictionary    ${value}    deviceId
-    Should Be Equal    '${deviceId}'    '${dev_id}'    No match found for ${dev_id} to validate device image
-    ...    values=False
-    ${imageState}=    Get From Dictionary    ${value}    imageState
-    ${version}=    Get From Dictionary    ${imageState}    version
-    ${downloadState}=    Get From Dictionary    ${imageState}    downloadState
-    ${reason}=    Get From Dictionary    ${imageState}    reason
-    ${imageStatus}=    Get From Dictionary    ${imageState}    imageState
-    Should Be Equal    '${version}'    '${image_version}'    Device ${dev_id}: '${version}' != '${image_version}'
-    ...    values=False
-    Should Be Equal    '${downloadState}'    '${download_state}'    Device ${dev_id}: '${downloadState}' != '${download_state}'
-    ...    values=False
-    Should Be Equal    '${reason}'    '${expected_reason}'    Device ${dev_id}: '${reason}' != '${expected_reason}'
-    ...    values=False
-    Should Be Equal    '${imageStatus}'    '${image_status}'    Device ${dev_id}: '${imageStatus}' != '${image_status}'
-    ...    values=False
+    Should Not Be Equal As Integers    ${length}    0    No record to validate device image
+    FOR    ${J}    IN RANGE    0    ${length}
+        ${value}=    Get From List    ${jsondata}    ${J}
+        Log    ${value}
+        ${deviceId}=    Get From Dictionary    ${value}    deviceId
+        Should Contain    ${dev_id}    ${deviceId}    No match found for ${deviceId} to validate device image!
+        ${imageState}=    Get From Dictionary    ${value}    imageState
+        ${version}=    Get From Dictionary    ${imageState}    version
+        ${dwlState}=    Get From Dictionary    ${imageState}    downloadState
+        ${reason}=    Get From Dictionary    ${imageState}    reason
+        ${imgStatus}=    Get From Dictionary    ${imageState}    imageState
+        Should Be Equal    '${version}'    '${image_version}'    Device ${deviceId}: '${version}' != '${image_version}'
+        ...    values=False
+        Should Be Equal    '${dwlState}'    '${download_state}'    Device ${deviceId}: '${dwlState}' != '${download_state}'
+        ...    values=False
+        Should Be Equal    '${reason}'    '${expected_reason}'    Device ${deviceId}: '${reason}' != '${expected_reason}'
+        ...    values=False
+        Should Be Equal    '${imgStatus}'    '${image_status}'    Device ${deviceId}: '${imgStatus}' != '${image_status}'
+        ...    values=False
+    END
 
 Download ONU Device Image
     [Documentation]    Downloads the given ONU software image
     [Arguments]    ${ver}    ${url}    ${vendor}    ${active}    ${commit}    ${crc}    ${id}
+    ...            ${download_state}=DOWNLOAD_STARTED    ${expected_reason}=NO_ERROR    ${image_state}=IMAGE_UNKNOWN
     ${rc}    ${output}=    Run and Return Rc and Output
     ...    voltctl -c ${VOLTCTL_CONFIG} device onuimage download ${ver} ${url} ${vendor} ${active} ${commit} ${crc} ${id} -o json
     Log    ${output}
     Should Be Equal As Integers    ${rc}    0
-    Validate ONU Device Image    ${output}    ${ver}    ${id}    DOWNLOAD_STARTED    NO_ERROR    IMAGE_INACTIVE
+    Validate ONU Device Image    ${output}    ${ver}    ${id}    ${download_state}    ${expected_reason}    ${image_state}
 
 Activate ONU Device Image
     [Documentation]    Activates the given ONU software image
@@ -879,6 +893,30 @@ Commit ONU Device Image
     Should Be Equal As Integers    ${rc}    0
     Validate ONU Device Image    ${output}    ${ver}    ${id}    DOWNLOAD_SUCCEEDED    NO_ERROR    IMAGE_COMMITTING
 
+Abort ONU Device Image
+    [Documentation]    Aborts the given ONU software image
+    [Arguments]    ${ver}    ${id}    ${download_state}    ${expected_reason}    ${image_state}
+    ${rc}    ${output}=    Run and Return Rc and Output
+    ...    voltctl -c ${VOLTCTL_CONFIG} device onuimage abort ${ver} ${id} -o json
+    Log    ${output}
+    Should Be Equal As Integers    ${rc}    0
+    Validate ONU Device Image    ${output}    ${ver}    ${id}    ${download_state}    ${expected_reason}    ${image_state}
+
+Remove Adapter Image
+    [Documentation]    Aborts the upgrade processing for a given ONU software image and thus removes the image from adapter
+    [Arguments]    ${ver}    ${id}
+    ${rc}    ${output}=    Run and Return Rc and Output
+    ...    voltctl -c ${VOLTCTL_CONFIG} device onuimage abort ${ver} ${id} -o json
+    Log    ${output}
+
+Remove Adapter Image from ONUs
+    [Documentation]    Aborts the upgrade processing for a given ONU software image and thus removes the image from adapter
+    ...                for the passed ONUs
+    [Arguments]    ${ver}    ${onu_id_list}
+    FOR  ${onu_device_id}  IN  @{onu_id_list}
+        Remove Adapter Image    ${ver}    ${onu_device_id}
+    END
+
 Verify ONU Device Image Status
     [Documentation]    Verfies the ONU device image state
     [Arguments]    ${image_version}    ${dev_id}    ${download_state}    ${expected_reason}    ${image_state}
@@ -891,7 +929,7 @@ Verify ONU Device Image Status
 
 Verify ONU Device Image List
     [Documentation]    Verfies the ONU device image list
-    [Arguments]    ${dev_id}    ${image_version}    ${committed}    ${activated}    ${valid}
+    [Arguments]    ${dev_id}    ${image_version}    ${committed}    ${activated}    ${valid}    ${image_should_not_in_list}=False
     ${rc}    ${output}=    Run and Return Rc and Output
     ...    voltctl -c ${VOLTCTL_CONFIG} device onuimage list ${dev_id} -o json
     Should Be Equal As Integers    ${rc}    0
@@ -908,13 +946,15 @@ Verify ONU Device Image List
         ${matched}=    Set Variable If    '${version}' == '${image_version}'    True    False
         Exit For Loop If    ${matched}
     END
-    Should Be True    ${matched}     No ONU Image found with Version ${image_version}
-    Should Be Equal    '${isCommited}'    '${committed}'    Device ${dev_id}: '${isCommited}' != '${committed}'
-    ...    values=False
-    Should Be Equal    '${isActive}'    '${activated}'    Device ${dev_id}: '${isActive}' != '${activated}'
-    ...    values=False
-    Should Be Equal    '${isValid}'    '${valid}'    Device ${dev_id}: '${isValid}' != '${valid}'
-    ...    values=False
+    Run Keyword If    ${image_should_not_in_list}
+    ...            Should Not Be True    ${matched}    ONU Image found unexpectedly with Version ${image_version}
+    ...    ELSE    Should Be True    ${matched}    No ONU Image found with Version ${image_version}
+    Run Keyword If    ${matched}    Should Be Equal    '${isCommited}'    '${committed}'
+    ...    Device ${dev_id}: '${isCommited}' != '${committed}'    values=False
+    Run Keyword If    ${matched}    Should Be Equal    '${isActive}'    '${activated}'
+    ...    Device ${dev_id}: '${isActive}' != '${activated}'    values=False
+    Run Keyword If    ${matched}    Should Be Equal    '${isValid}'    '${valid}'
+    ...    Device ${dev_id}: '${isValid}' != '${valid}'    values=False
 
 # pm-data relevant keywords
 Read Default Interval From Pmconfig
