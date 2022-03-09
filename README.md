@@ -31,9 +31,19 @@ Directory is structured as follows:
 
 ```
 ├── tests
-  └── functional/       // feature/functionality tests that should be implemented as new features get developed
-└── libraries           // shared test keywords (functions) across various test suites
-└── variables           // shared variables across various test suites
+  └── functional/           // feature/functionality tests, recovery tests and more, that are specific to ATT workflow
+  └── dt-workflow/          // feature/functionality tests, recovery tests and more, that are specific to DT workflow
+  └── tt-workflow/          // feature/functionality tests, recovery tests and more, that are specific to TT workflow
+  └── scale/                // tests that collect measurements on Voltha performance
+  └── software-upgrades/    // tests for ONOS Applications, Voltha Components and ONU Software Upgrades
+  └── dmi-interface/        // tests for device management interface
+  └── openonu-go-adapter/   // tests state for ONU Go adapter with different operator workflows, different constellations and tech profiles
+  └── bbsim/                // tests that are specific to BBSim functionality
+  └── pm-data/              // tests for Open ONU Go adapter PM data
+  └── memory-leak/          // tests to catch memory leak in Voltha components
+└── libraries               // shared test keywords (functions) across various test suites
+└── variables               // shared variables across various test suites
+└── scripts                 // shared python scripts across various test suites
 ```
 
 ## Setting up a test environment
@@ -76,10 +86,23 @@ View the `report.html` page in a browser to analyze the results.
 If you're running on a remote system, you can start a web server with `python3
 -m http.server`.
 
+### TT Workflow
+To run the sanity tests for the TT Workflow, use `sanity-kind-tt` as the make target.
+```bash
+git clone https://github.com/opencord/voltha-system-tests
+make -C voltha-system-tests sanity-kind-tt
+```
+
+The tests generate three report files in
+`voltha-system-tests/tests/tt-workflow/` (`output.xml`, `report.html`, `log.html`).
+View the `report.html` page in a browser to analyze the results.
+If you're running on a remote system, you can start a web server with `python3
+-m http.server`.
+
 
 ## Test variables
 
-The `make sanity-single-kind` target is a shortcut that specifies a number of variables
+Consider an example, `make sanity-single-kind` target for ATT, which is a shortcut that specifies a number of variables
 used by the tests:
 
 * ROBOT_FILE: The test suite file in `tests/functional` that will be invoked by `robot`.
@@ -133,9 +156,10 @@ for an example.
 
 ## Functional Testcases
 
-All functional test cases are placed under `functional` folder.
+All functional test cases for ATT are placed under `functional` folder.
+For DT, the folder is `dt-workflow`. Similarly for TT, it is `tt-workflow`.
 
-`Voltha_PODTests.robot` consists of functional testcases that can be run on a
+`Voltha_PODTests.robot` and other similar robot files consist of functional testcases that can be run on a
 physical POD.
 
 Each robot testcase has a description in the `Documentation` section.
@@ -153,7 +177,7 @@ Input data are stored in the `data` folder. Few examples of input data could
 be, test specific SADIS configurations, tech profiles etc. Please give
 appropriate file names to the input files.
 
-To trigger tests on the physical POD
+To trigger tests on the physical POD, say for ATT,
 
 ```bash
 git clone https://github.com/opencord/voltha-system-tests
