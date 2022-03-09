@@ -24,6 +24,30 @@
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "26302be4_b914a731",
+        "filename": "README.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2022-03-09T08:35:18Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "087222c8_3168767b",
+      "range": {
+        "startLine": 40,
+        "startChar": 77,
+        "endLine": 40,
+        "endChar": 95
+      },
+      "revId": "540a4c2e015c94cc84e7006ba3a904d3d6cfcb37",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d4ea455d_c82525ec",
@@ -37,6 +61,30 @@
       "writtenOn": "2022-03-09T08:10:22Z",
       "side": 1,
       "message": "these variables are applicable to all make targets correct ?",
+      "range": {
+        "startLine": 105,
+        "startChar": 36,
+        "endLine": 105,
+        "endChar": 47
+      },
+      "revId": "540a4c2e015c94cc84e7006ba3a904d3d6cfcb37",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9d40e3bc_23deeb8c",
+        "filename": "README.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2022-03-09T08:35:18Z",
+      "side": 1,
+      "message": "Yes, the variables are for all. But the mentioned example target is for ATT. Let me try re-phrase this. Thanks.",
+      "parentUuid": "d4ea455d_c82525ec",
       "range": {
         "startLine": 105,
         "startChar": 36,
