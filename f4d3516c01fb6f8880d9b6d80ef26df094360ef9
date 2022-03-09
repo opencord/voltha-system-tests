@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "00b1c829_3fca07a9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2022-03-09T08:10:08Z",
+      "side": 1,
+      "message": "Triggered here:\nATT:\nBBSim: https://jenkins.opencord.org/view/VOLTHA-2.X-Tests/job/periodic-voltha-test-bbsim/1245/robot/report/functional-single-kind/log.html\nPhysical POD: https://jenkins.opencord.org/job/build_flex-ocp-cord_Default_voltha_master_test/953/robot/report/FunctionalTests/log.html\nDT:\nBBSim: https://jenkins.opencord.org/view/VOLTHA-2.X-Tests/job/nightly-voltha-DTflow-sanity-test/766/robot/report/functional-single-kind-dt/log.html\nPhysical POD: https://jenkins.opencord.org/job/build_onf-demo-pod_1T8GEM_voltha_DT_master_test/750/robot/report/dt-workflow/FunctionalTests/log.html\n\nResult: Observed some issues with ATT run.",
+      "revId": "f4d3516c01fb6f8880d9b6d80ef26df094360ef9",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    }
+  ]
+}
