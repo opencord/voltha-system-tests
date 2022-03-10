@@ -614,7 +614,7 @@ Verify restart openonu-adapter container for DT
         ...    Wait Until Keyword Succeeds    ${timeout}    2s
         ...    Retrieve Remote File Contents    ${ping_output_file}    ${src['ip']}    ${src['user']}    ${src['pass']}
         ...    ${src['container_type']}    ${src['container_name']}
-        Check Ping Result    True    ${ping_output}
+        Run Keyword If    ${has_dataplane}    Check Ping Result    True    ${ping_output}
     END
     # Verify Control Plane Functionality by Deleting and Re-adding the Subscriber
     Verify Control Plane After Pod Restart DT
@@ -670,7 +670,7 @@ Verify restart openolt-adapter container for DT
         ...    Wait Until Keyword Succeeds    ${timeout}    2s
         ...    Retrieve Remote File Contents    ${ping_output_file}    ${src['ip']}    ${src['user']}    ${src['pass']}
         ...    ${src['container_type']}    ${src['container_name']}
-        Check Ping Result    True    ${ping_output}
+        Run Keyword If    ${has_dataplane}    Check Ping Result    True    ${ping_output}
     END
     # Verify Control Plane Functionality by Deleting and Re-adding the Subscriber
     Verify Control Plane After Pod Restart DT
@@ -729,7 +729,7 @@ Verify restart rw-core container for DT
         ...    Wait Until Keyword Succeeds    ${timeout}    2s
         ...    Retrieve Remote File Contents    ${ping_output_file}    ${src['ip']}    ${src['user']}    ${src['pass']}
         ...    ${src['container_type']}    ${src['container_name']}
-        Check Ping Result    True    ${ping_output}
+        Run Keyword If    ${has_dataplane}    Check Ping Result    True    ${ping_output}
     END
     # Verify Control Plane Functionality by Deleting and Re-adding the Subscriber
     Verify Control Plane After Pod Restart DT
