@@ -832,11 +832,6 @@ Test ONU Delete and Auto-Discovery
         ${nni_port}=    Wait Until Keyword Succeeds    ${timeout}    2s    Get NNI Port in ONOS    ${of_id}
         ${onu_port}=    Wait Until Keyword Succeeds    ${timeout}    2s
         ...    Get ONU Port in ONOS    ${src['onu']}    ${of_id}
-        # Remove Subscriber Access (To replicate ATT workflow)
-        Execute ONOS CLI Command use single connection    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}
-        ...    volt-remove-subscriber-access ${of_id} ${onu_port}
-        # Additional sleep to let subscriber delete process
-        Sleep    10s
         # Delete ONU and Verify Ping Fails
         Delete Device    ${onu_device_id}
         Run Keyword If    ${has_dataplane}    Verify ping is successful except for given device
@@ -852,9 +847,6 @@ Test ONU Delete and Auto-Discovery
         ...    Verify UNI Port Is Enabled   ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${src['onu']}    ${src['uni_id']}
         ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
         Run Keyword If    ${has_dataplane}    Clean Up Linux    ${onu_device_id}
-        # Verify default EAPOL flows are added for the ONU port
-        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
-        ...    Verify Eapol Flows Added For ONU    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${of_id}    ${onu_port}
         # Verify ONU state in voltha
         Wait Until Keyword Succeeds    ${timeout}    5s    Validate Device    ENABLED    ACTIVE    REACHABLE
         ...    ${src['onu']}    onu=True    onu_reason=omci-flows-pushed
@@ -866,8 +858,6 @@ Test ONU Delete and Auto-Discovery
         ...    ${src['container_type']}    ${src['container_name']}    ${wpa_log}
         Wait Until Keyword Succeeds    ${timeout}    2
         ...    Verify ONU in AAA-Users    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${onu_port}
-        Execute ONOS CLI Command use single connection    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}
-        ...    volt-add-subscriber-access ${of_id} ${onu_port}
         # Verify that no pending flows exist for the ONU port
         Wait Until Keyword Succeeds    ${timeout}    2s
         ...    Verify No Pending Flows For ONU    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${onu_port}
