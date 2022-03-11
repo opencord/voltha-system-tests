@@ -25,6 +25,9 @@ Library           OperatingSystem
 Resource          ./utils.robot
 Resource          ./flows.robot
 
+*** Variables ***
+${voltctlGrpcLimit}     32M
+
 *** Keywords ***
 Test Empty Device List
     [Documentation]    Verify that there are no devices in the system
@@ -838,7 +841,7 @@ Count Logical Devices flows
     ${total_flows}=     Set Variable    0
     FOR     ${device}   IN  @{logical_devices}
         ${rc}    ${flows}=    Run and Return Rc and Output
-        ...    voltctl -c ${VOLTCTL_CONFIG} logicaldevice flows ${device['id']} | grep -v ID | wc -l
+        ...    voltctl -m ${voltctlGrpcLimit} -c ${VOLTCTL_CONFIG} logicaldevice flows ${device['id']} | grep -v ID | wc -l
         Should Be Equal As Integers    ${rc}    0
         ${total_flows}=     Evaluate    ${total_flows} + ${flows}
     END
@@ -865,7 +868,7 @@ Count OpenOLT Device Flows
     ${total_flows}=     Set Variable    0
     FOR     ${device}   IN  @{devices}
         ${rc}    ${flows}=    Run and Return Rc and Output
-        ...     voltctl -c ${VOLTCTL_CONFIG} device flows ${device['id']} | grep -v ID | wc -l
+        ...     voltctl -m ${voltctlGrpcLimit} -c ${VOLTCTL_CONFIG} device flows ${device['id']} | grep -v ID | wc -l
         Should Be Equal As Integers    ${rc}    0
         ${total_flows}=     Evaluate    ${total_flows} + ${flows}
     END
