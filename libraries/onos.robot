@@ -772,6 +772,11 @@ Validate Subscriber DHCP Allocation
 Validate Mac Learner Mapping in ONOS
     [Arguments]    ${ip}    ${port}    ${dev_id}    ${onu_port}    ${vlan}
     [Documentation]    Verifies the MAC mapping for the client
+    # Log all mappings
+    ${output}=    Execute ONOS CLI Command use single connection    ${ip}    ${port}
+    ...    mac-learner-get-mapping
+    Log    ${output}
+    # Validate the required mapping
     ${mac}=    Execute ONOS CLI Command use single connection    ${ip}    ${port}
     ...    mac-learner-get-mapping ${dev_id} ${onu_port} ${vlan} | grep -v INFO
     Should Not Be Empty    ${mac}
