@@ -13,9 +13,13 @@
 # limitations under the License.
 
 *** Settings ***
-Documentation     Test Template handling of ONU Go adapter with BBSIM controlledActivation: only-onu only!
-...               Values.yaml must contain 'onu: 2' and 'controlledActivation: only-onu' under BBSIM!
-...               Run robot with bbsim-kind-2x2.yaml
+Documentation     Test MIB Template handling of ONU Go adapter
+...               with BBSIM controlledActivation: only-onu only!
+...               Set up BBSIM with 'onu=2' (as well as 'pon=2') and 'controlledActivation=only-onu' e.g. with Extra Helm Flags!
+...               Run robot with bbsim-kind-2x2.yaml (needed for test case ONU MIB Template Data Test)
+...               For test cases Unknown ME/Attribute bbsim-kind.yaml would work too.
+...               For Unknown ME set up BBSIM with injectOmciUnknownME=true e.g. with Extra Helm Flags!
+...               For Unknown Attribute set up BBSIM with injectOmciUnknownAttributes=true e.g. with Extra Helm Flags!
 Suite Setup       Setup Suite
 Suite Teardown    Teardown Suite
 Test Setup        Setup
@@ -36,13 +40,13 @@ Resource          ../../libraries/bbsim.robot
 Resource          ../../variables/variables.robot
 
 *** Variables ***
-${NAMESPACE}      voltha
-${INFRA_NAMESPACE}      default
-${timeout}        60s
-${of_id}          0
-${logical_id}     0
-${has_dataplane}    True
-${external_libs}    True
+${NAMESPACE}          voltha
+${INFRA_NAMESPACE}    default
+${timeout}            60s
+${of_id}              0
+${logical_id}         0
+${has_dataplane}      True
+${external_libs}      True
 ${teardown_device}    True
 ${scripts}        ../../scripts
 # Per-test logging on failure is turned off by default; set this variable to enable
@@ -85,8 +89,35 @@ ONU MIB Template Data Test
     Perform ONU MIB Template Data Test
     [Teardown]    Run Keywords    Printout ONU Serial Number and Device Id
     ...    AND    Run Keyword If    ${logging}    Collect Logs
+    ...    AND    Teardown Test
     ...    AND    Stop Logging    ONUMibTemplateTest
 
+ONU MIB Template Unknown ME Test
+    [Documentation]    Validates ONU Go adapter storage of MIB Template Data in etcd in case of unknown ME
+    ...                - setup one ONU
+    ...                - request MIB-Upload-Data by ONU via OMCI
+    ...                - storage MIB-Upload-Data in etcd
+    ...                - check Template-Data in etcd stored (service/voltha/omci_mibs/go_templates/)
+    ...                - Template-Data in etcd stored should contain "UnknownItuG988ManagedEntity"
+    [Tags]    functionalOnuGo    UnknownMeOnuGo
+    [Setup]    Run Keywords    Start Logging    UnknownMeOnuGo
+    ...    AND    Setup
+    Bring Up ONU
+    ${MibTemplateData}=    Get ONU MIB Template Data    ${INFRA_NAMESPACE}
+    ${MibTemplatePrep}=    Prepare ONU Go Adapter ETCD Data For Json    ${MibTemplateData}
+    ${MibTemplateJson}=    To Json    ${MibTemplatePrep}
+    Dictionary Should Contain Key    ${MibTemplateJson[0]}    UnknownItuG988ManagedEntity
+    ${UnknownME}=    Get From Dictionary    ${MibTemplateJson[0]}    UnknownItuG988ManagedEntity
+    Dictionary Should Contain Key    ${UnknownME}    37
+    ${Attributes}=    Get From Dictionary    ${UnknownME['37']}    1
+    ${AttributeMask}=     Get From Dictionary    ${Attributes}    AttributeMask
+    ${AttributeBytes}=    Get From Dictionary    ${Attributes}    AttributeBytes
+	Should be Equal     ${AttributeMask}     8000
+	Should be Equal     ${AttributeBytes}    0025000180000102030405060708090a0b0c0d0e0f101112131415161718191a
+    [Teardown]    Run Keywords    Printout ONU Serial Number and Device Id
+    ...    AND    Run Keyword If    ${logging}    Collect Logs
+    ...    AND    Teardown Test
+    ...    AND    Stop Logging    UnknownMeOnuGo
 
 *** Keywords ***
 Setup Suite
@@ -117,6 +148,16 @@ Teardown Suite
     Run Keyword If    ${logging}    Collect Logs
     Stop Logging Setup or Teardown   Teardown-${SUITE NAME}
     Close All ONOS SSH Connections
+
+Teardown Test
+    [Documentation]    Post-test Teardown
+    Run Keyword If    ${pausebeforecleanup}    Import Library    Dialogs
+    Run Keyword If    ${pausebeforecleanup}    Pause Execution    Press OK to continue with clean up!
+    Run Keyword If    ${pausebeforecleanup}    Log    Teardown will be continued...    console=yes
+    Run Keyword If    ${teardown_device}    Delete All Devices and Verify
+    # delete etcd MIB Template Data
+    Delete MIB Template Data    ${INFRA_NAMESPACE}
+    Sleep    5s
 
 Perform ONU MIB Template Data Test
     [Documentation]    This keyword performs ONU MIB Template Data Test
@@ -160,3 +201,15 @@ Get ONU Startup Duration
     ${timeTotalMs} =    Subtract Date From Date    ${timeCurrent}    ${startTime}    result_format=number
     Log    ONU ${src['onu']}: reached the state ${onu_state} after ${timeTotalMs} sec.    console=yes
     [Return]    ${timeTotalMs}
+
+Bring Up ONU
+    [Documentation]    This keyword brings up onu
+    [Arguments]    ${onu}=0    ${state2reach}=omci-flows-pushed
+    ${src}=    Set Variable    ${hosts.src[${onu}]}
+    ${admin_state}    ${oper_status}    ${connect_status}    ${onu_state_nb}    ${onu_state}=
+    ...    Map State    ${state2reach}
+    ${bbsim_pod}=    Get Pod Name By Label    ${NAMESPACE}    release     bbsim0
+    Power On ONU    ${NAMESPACE}    ${bbsim_pod}    ${src['onu']}
+    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    1s
+    ...    Validate Device    ${admin_state}    ${oper_status}    ${connect_status}
+    ...    ${src['onu']}    onu=True    onu_reason=${onu_state}
