@@ -345,6 +345,19 @@ Delete MIB Template Data
     ${result}=    Exec Pod In Kube    ${namespace}    ${podname}    ${commandget}
     Should Be Empty    ${result}    Could not delete MIB Template Data stored in etcd!
 
+Get ONU MIB Template Data
+    [Documentation]    This keyword delivers MIB Template Data stored in etcd
+    [Arguments]    ${namespace}=default    ${without_prefix}=True
+    ${podname}=      Set Variable    etcd
+    ${commandget}    Catenate
+    ...    /bin/sh -c 'ETCDCTL_API=3 etcdctl get --prefix service/voltha/omci_mibs/go_templates/'
+    ${commandget}=    Run Keyword If    ${without_prefix}     Catenate    ${commandget}
+    ...    | grep -v service/voltha/omci_mibs/go_templates/
+    ...    ELSE    Set Variable    ${commandget}
+    ${result}=    Exec Pod In Kube    ${namespace}    ${podname}    ${commandget}
+    log    ${result}
+    [Return]    ${result}
+
 Set Tech Profile
     [Documentation]    This keyword sets the passed TechProfile for the test
     [Arguments]    ${TechProfile}    ${namespace}=default    ${tp_id}=64
