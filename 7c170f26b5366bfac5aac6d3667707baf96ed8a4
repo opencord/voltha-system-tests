@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "41006cc2_c84236ad",
+        "filename": "tests/openonu-go-adapter/Voltha_ONUTemplateTests.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2022-03-15T09:12:26Z",
+      "side": 1,
+      "message": "Please note, that helm flag \"injectOmciUnknownME\" does not exists yet. It will be introduced with https://jira.opencord.org/browse/VOL-4654 and will swap its meaning with \"injectOmciUnknownAttributes\" once the story above is ready.",
+      "range": {
+        "startLine": 21,
+        "startChar": 51,
+        "endLine": 21,
+        "endChar": 70
+      },
+      "revId": "7c170f26b5366bfac5aac6d3667707baf96ed8a4",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    }
+  ]
+}
