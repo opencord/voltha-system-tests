@@ -170,7 +170,21 @@ Get Logical Device List from Voltha
     ...   voltctl -c ${VOLTCTL_CONFIG} logicaldevice list -m ${voltctlGrpcLimit} -o json
     Log    ${devices}
     Should Be Equal As Integers    ${rc1}    0
-    Return From Keyword     ${devices}
+    ${logical_devices}=    Evaluate    json.loads(r'''${devices}''')    json
+    Return From Keyword     ${logical_devices}
+
+Count Logical Devices in VOLTHA
+    [Arguments]  ${count}
+    ${devices}=    Get Logical Device List from Voltha
+    ${length}=  Get Length  ${devices}
+    Should Be Equal As Integers    ${length}    ${count}
+    Return From Keyword      ${length}
+
+Wait for Logical Devices to be in VOLTHA
+    [Arguments]  ${count}   ${max_wait_time}=10m
+    Wait Until Keyword Succeeds    ${max_wait_time}     5s
+    ...     Count Logical Devices in VOLTHA     ${count}
+
 
 Validate Device
     [Documentation]
@@ -836,12 +850,11 @@ Wait for ONUs in VOLTHA
 Count Logical Devices flows
     [Documentation]  Count the flows across logical devices in VOLTHA
     [Arguments]  ${targetFlows}
-    ${output}=     Get Logical Device List From Voltha
-    ${logical_devices}=    To Json    ${output}
+    ${logical_devices}=     Get Logical Device List From Voltha
     ${total_flows}=     Set Variable    0
     FOR     ${device}   IN  @{logical_devices}
         ${rc}    ${flows}=    Run and Return Rc and Output
-        ...    voltctl -m ${voltctlGrpcLimit} -c ${VOLTCTL_CONFIG} logicaldevice flows ${device['id']} | grep -v ID | wc -l
+        ...    voltctl -m ${voltctlGrpcLimit} -c ${VOLTCTL_CONFIG} logicaldevice flows ${device['id']} | grep -v ID | grep -v "NO FLOW" | wc -l
         Should Be Equal As Integers    ${rc}    0
         ${total_flows}=     Evaluate    ${total_flows} + ${flows}
     END
@@ -868,7 +881,7 @@ Count OpenOLT Device Flows
     ${total_flows}=     Set Variable    0
     FOR     ${device}   IN  @{devices}
         ${rc}    ${flows}=    Run and Return Rc and Output
-        ...     voltctl -m ${voltctlGrpcLimit} -c ${VOLTCTL_CONFIG} device flows ${device['id']} | grep -v ID | wc -l
+        ...     voltctl -m ${voltctlGrpcLimit} -c ${VOLTCTL_CONFIG} device flows ${device['id']} | grep -v ID | grep -v "NO FLOW" | wc -l
         Should Be Equal As Integers    ${rc}    0
         ${total_flows}=     Evaluate    ${total_flows} + ${flows}
     END
