@@ -160,7 +160,7 @@ Flows validation in ONOS before subscriber provisioning
 Wait for subscribers to be Authenticated
     [Documentation]    Check that all subscribers have successfully authenticated
     [Tags]      authentication    plot-onos-auth
-
+    Should Be True     ${withEapol}
     ${onos_devices}=    Compute Device IDs
     FOR     ${deviceId}     IN  @{onos_devices}
         Wait for AAA Authentication     ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}  ${total_onus_per_olt}   ${deviceId}
