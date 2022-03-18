@@ -119,6 +119,33 @@ ONU MIB Template Unknown ME Test
     ...    AND    Teardown Test
     ...    AND    Stop Logging    UnknownMeOnuGo
 
+ONU MIB Template Unknown Attribute Test
+    [Documentation]    Validates ONU Go adapter storage of MIB Template Data in etcd in case of unknown Attribute
+    ...                - setup one ONU
+    ...                - request MIB-Upload-Data by ONU via OMCI
+    ...                - storage MIB-Upload-Data in etcd
+    ...                - check Template-Data in etcd stored (service/voltha/omci_mibs/go_templates/)
+    ...                - Template-Data in etcd stored should contain "UnknownAttributesManagedEntity"
+    [Tags]    functionalOnuGo    UnknownAttributeOnuGo
+    [Setup]    Run Keywords    Start Logging    UnknownAttributeOnuGo
+    ...    AND    Setup
+    Bring Up ONU
+    ${MibTemplateData}=    Get ONU MIB Template Data    ${INFRA_NAMESPACE}
+    ${MibTemplatePrep}=    Prepare ONU Go Adapter ETCD Data For Json    ${MibTemplateData}
+    ${MibTemplateJson}=    To Json    ${MibTemplatePrep}
+    Dictionary Should Contain Key    ${MibTemplateJson[0]}    UnknownAttributesManagedEntity
+    ${UnknownME}=    Get From Dictionary    ${MibTemplateJson[0]}    UnknownAttributesManagedEntity
+    Dictionary Should Contain Key    ${UnknownME}    257
+    ${Attributes}=    Get From Dictionary    ${UnknownME['257']}    0
+    ${AttributeMask}=     Get From Dictionary    ${Attributes}    AttributeMask
+    ${AttributeBytes}=    Get From Dictionary    ${Attributes}    AttributeBytes
+	Should be Equal     ${AttributeMask}     0x0001
+	Should be Equal     ${AttributeBytes}    000100010001000000
+    [Teardown]    Run Keywords    Printout ONU Serial Number and Device Id
+    ...    AND    Run Keyword If    ${logging}    Collect Logs
+    ...    AND    Teardown Test
+    ...    AND    Stop Logging    UnknownMeOnuGo
+
 *** Keywords ***
 Setup Suite
     [Documentation]    Set up the test suite
