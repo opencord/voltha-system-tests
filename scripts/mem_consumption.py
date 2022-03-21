@@ -42,7 +42,7 @@ def main(address, out_folder, namespace="default"):
         print("Downloading mem info from: %s" % r.url)
         container_cpu = r.json()["data"]["result"]
         # print("result for container %s is : " % container, container_cpu)
-        if len(container_cpu) == 1:
+        if len(container_cpu) > 0:
             print(container_cpu[0]["value"][1])
             fp = open(out_folder+"/"+container+".txt", "a")
             result_in_csv_fmt = "%s,%s\n" % (datetime.now().strftime("%H:%M:%S.%f - %b %d %Y"), container_cpu[0]["value"][1])
