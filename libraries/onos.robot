@@ -349,6 +349,109 @@ Verify Subscriber Access Flows Added for ONU DT
     ...    flows -s ADDED ${olt_of_id} | grep IN_PORT:${nni_port} | grep VLAN_VID:Any | grep OUTPUT:${onu_port}
     Should Not Be Empty    ${downstream_flow_1_added}
 
+Verify Subscriber Access Flows Added for DT FTTB
+    [Arguments]    ${ip}    ${port}    ${olt_of_id}    ${onu_port}    ${nni_port}    ${s_tag}    ${c_tag}
+    [Documentation]    Verifies if the Subscriber Access Flows are added in ONOS for the ONU
+    # Upstream
+    # ONU
+    ${us_flow_onu_added}=    Execute ONOS CLI Command use single connection    ${ip}    ${port}
+    ...    flows -s ADDED ${olt_of_id} | grep IN_PORT:${onu_port} | grep VLAN_VID:${c_tag} | grep transition=TABLE:1
+    Should Not Be Empty    ${us_flow_onu_added}
+    # OLT
+    ${us_flow_olt_cmd}=    Catenate
+    ...    flows -s ADDED ${olt_of_id} | grep IN_PORT:${onu_port} | grep VLAN_VID:${c_tag} |
+    ...    grep VLAN_ID:${s_tag} | grep OUTPUT:${nni_port}
+    ${us_flow_olt_added}=    Execute ONOS CLI Command use single connection    ${ip}    ${port}
+    ...    ${us_flow_olt_cmd}
+    Should Not Be Empty    ${us_flow_olt_added}
+    # Downstream
+    # OLT
+    ${ds_flow_olt_cmd}=    Catenate
+    ...    flows -s ADDED ${olt_of_id} | grep IN_PORT:${nni_port} | grep VLAN_VID:${s_tag} |
+    ...    grep VLAN_ID:${c_tag} | grep transition=TABLE:1
+    ${ds_flow_olt_added}=    Execute ONOS CLI Command use single connection    ${ip}    ${port}
+    ...    ${ds_flow_olt_cmd}
+    Should Not Be Empty    ${ds_flow_olt_added}
+    # ONU
+    ${ds_flow_onu_added}=    Execute ONOS CLI Command use single connection    ${ip}    ${port}
+    ...    flows -s ADDED ${olt_of_id} | grep IN_PORT:${nni_port} | grep VLAN_VID:${c_tag} | grep OUTPUT:${onu_port}
+    Should Not Be Empty    ${ds_flow_onu_added}
+
+Verify DPU ANCP Flows Added for DT FTTB
+    [Arguments]    ${ip}    ${port}    ${olt_of_id}    ${onu_port}    ${nni_port}    ${s_tag}    ${c_tag}
+    [Documentation]    Verifies if the DPU ANCP Flows are added in ONOS for the ONU
+    # Upstream
+    # ONU
+    ${us_flow_onu_cmd}=    Catenate
+    ...    flows -s ADDED ${olt_of_id} | grep IN_PORT:${onu_port} | grep VLAN_VID:${c_tag} |
+    ...    grep VLAN_ID:${s_tag} | grep transition=TABLE:1
+    ${us_flow_onu_added}=    Execute ONOS CLI Command use single connection    ${ip}    ${port}
+    ...    ${us_flow_onu_cmd}
+    Should Not Be Empty    ${us_flow_onu_added}
+    # OLT
+    ${us_flow_olt_added}=    Execute ONOS CLI Command use single connection    ${ip}    ${port}
+    ...    flows -s ADDED ${olt_of_id} | grep IN_PORT:${onu_port} | grep VLAN_VID:${s_tag} | grep OUTPUT:${nni_port}
+    Should Not Be Empty    ${us_flow_olt_added}
+    # Downstream
+    # OLT
+    ${ds_flow_olt_added}=    Execute ONOS CLI Command use single connection    ${ip}    ${port}
+    ...    flows -s ADDED ${olt_of_id} | grep IN_PORT:${nni_port} | grep VLAN_VID:${s_tag} | grep transition=TABLE:1
+    Should Not Be Empty    ${ds_flow_olt_added}
+    # ONU
+    ${ds_flow_onu_cmd}=    Catenate
+    ...    flows -s ADDED ${olt_of_id} | grep IN_PORT:${nni_port} | grep VLAN_VID:${s_tag} |
+    ...    grep VLAN_ID:${c_tag} | grep OUTPUT:${onu_port}
+    ${ds_flow_onu_added}=    Execute ONOS CLI Command use single connection    ${ip}    ${port}
+    ...    ${ds_flow_onu_cmd}
+    Should Not Be Empty    ${ds_flow_onu_added}
+
+Verify DPU MGMT Flows Added for DT FTTB
+    [Arguments]    ${ip}    ${port}    ${olt_of_id}    ${onu_port}    ${nni_port}    ${s_tag}    ${c_tag}
+    [Documentation]    Verifies if the DPU MGMT Flows are added in ONOS for the ONU
+    # Upstream
+    # ONU
+    ${us_flow_onu_cmd}=    Catenate
+    ...    flows -s ADDED ${olt_of_id} | grep IN_PORT:${onu_port} | grep VLAN_VID:${c_tag} |
+    ...    grep VLAN_ID:${s_tag} | grep transition=TABLE:1
+    ${us_flow_onu_added}=    Execute ONOS CLI Command use single connection    ${ip}    ${port}
+    ...    ${us_flow_onu_cmd}
+    Should Not Be Empty    ${us_flow_onu_added}
+    # OLT
+    ${us_flow_olt_added}=    Execute ONOS CLI Command use single connection    ${ip}    ${port}
+    ...    flows -s ADDED ${olt_of_id} | grep IN_PORT:${onu_port} | grep VLAN_VID:${s_tag} | grep OUTPUT:${nni_port}
+    Should Not Be Empty    ${us_flow_olt_added}
+    # Downstream
+    # OLT
+    ${ds_flow_olt_added}=    Execute ONOS CLI Command use single connection    ${ip}    ${port}
+    ...    flows -s ADDED ${olt_of_id} | grep IN_PORT:${nni_port} | grep VLAN_VID:${s_tag} | grep transition=TABLE:1
+    Should Not Be Empty    ${ds_flow_olt_added}
+    # ONU
+    ${ds_flow_onu_cmd}=    Catenate
+    ...    flows -s ADDED ${olt_of_id} | grep IN_PORT:${nni_port} | grep VLAN_VID:${s_tag} |
+    ...    grep VLAN_ID:${c_tag} | grep OUTPUT:${onu_port}
+    ${ds_flow_onu_added}=    Execute ONOS CLI Command use single connection    ${ip}    ${port}
+    ...    ${ds_flow_onu_cmd}
+    Should Not Be Empty    ${ds_flow_onu_added}
+
+Verify ONOS Flows Added for DT FTTB
+    [Arguments]    ${ip}    ${port}    ${olt_of_id}    ${onu_port}    ${nni_port}    ${service}
+    [Documentation]    Verifies if the Flows are added in ONOS for the ONU
+    ${num_services}=    Get Length    ${service}
+    FOR     ${I}    IN RANGE    0    ${num_services}
+        ${service_name}=    Set Variable    ${service[${I}]['name']}
+        ${stag}=    Set Variable    ${service[${I}]['s_tag']}
+        ${ctag}=    Set Variable    ${service[${I}]['c_tag']}
+        Run Keyword If    '${service_name}' == 'FTTB_SUBSCRIBER_TRAFFIC'
+        ...    Verify Subscriber Access Flows Added for DT FTTB    ${ip}    ${port}
+        ...    ${olt_of_id}    ${onu_port}    ${nni_port}    ${stag}    ${ctag}
+        ...    ELSE IF    '${service_name}' == 'DPU_ANCP_TRAFFIC'
+        ...    Verify DPU ANCP Flows Added for DT FTTB    ${ip}    ${port}
+        ...    ${olt_of_id}    ${onu_port}    ${nni_port}    ${stag}    ${ctag}
+        ...    ELSE IF    '${service_name}' == 'DPU_MGMT_TRAFFIC'
+        ...    Verify DPU MGMT Flows Added for DT FTTB    ${ip}    ${port}
+        ...    ${olt_of_id}    ${onu_port}    ${nni_port}    ${stag}    ${ctag}
+    END
+
 Verify Subscriber Access Flows Added Count DT
     [Arguments]    ${ip}    ${port}    ${olt_of_id}    ${expected_flows}
     [Documentation]    Matches for total number of subscriber access flows added for all onus
@@ -391,12 +494,25 @@ Verify Default Downstream Flows are added in ONOS for OLT TT
     Should Not Be Empty    ${downstream_flow_igmp_added}
 
 Get Programmed Subscribers
-    [Arguments]    ${ip}    ${port}    ${olt_of_id}    ${onu_port}
+    [Arguments]    ${ip}    ${port}    ${olt_of_id}    ${onu_port}    ${filter}=${EMPTY}
     [Documentation]    Retrieves the subscriber details at a given location
-    ${sub_location}=    Catenate    SEPARATOR=/    ${olt_of_id}    ${onu_port}
-    ${programmed_sub}=    Execute ONOS CLI Command use single connection    ${ip}    ${port}
-    ...    volt-programmed-subscribers | grep ${sub_location}
+    ${cmd}=    Set Variable If    '${filter}' == '${EMPTY}'
+    ...    volt-programmed-subscribers ${olt_of_id} ${onu_port}
+    ...    volt-programmed-subscribers ${olt_of_id} ${onu_port} | grep ${filter} --color=none
+    ${programmed_sub}=    Execute ONOS CLI Command use single connection    ${ip}    ${port}    ${cmd}
     [Return]    ${programmed_sub}
+
+Verify Programmed Subscribers DT FTTB
+    [Arguments]    ${ip}    ${port}    ${olt_of_id}    ${onu_port}    ${service}
+    [Documentation]    Verifies the subscriber is present at a given location
+    ${num_services}=    Get Length    ${service}
+    FOR    ${I}    IN RANGE    0    ${num_services}
+        ${service_name}=    Set Variable    ${service[${I}]['name']}
+        ${programmed_subscriber}=    Get Programmed Subscribers    ${ip}    ${port}    ${olt_of_id}    ${onu_port}
+        ...    ${service_name}
+        Log    ${programmed_subscriber}
+        Should Not Be Empty    ${programmed_subscriber}
+    END
 
 Get Upstream and Downstream Bandwidth Profile Name
     [Arguments]    ${programmed_sub}
@@ -500,11 +616,11 @@ Get Bandwidth Profile Details Ietf Rest
     [Return]    ${cir}    ${cbs}    ${pir}    ${pbs}    ${gir}
 
 Verify Meters in ONOS Ietf
-    [Arguments]    ${ip}    ${port}    ${olt_of_id}    ${onu_port}
+    [Arguments]    ${ip}    ${port}    ${olt_of_id}    ${onu_port}    ${filter}=${EMPTY}
     [Documentation]    Verifies the meters with BW Ietf format (currently, DT workflow uses this format)
     # Get programmed subscriber
     ${programmed_sub}=    Get Programmed Subscribers    ${ip}    ${port}
-    ...    ${olt_of_id}    ${onu_port}
+    ...    ${olt_of_id}    ${onu_port}    ${filter}
     Log    ${programmed_sub}
     ${us_bw_profile}    ${ds_bw_profile}    Get Upstream and Downstream Bandwidth Profile Name
     ...    ${programmed_sub}
