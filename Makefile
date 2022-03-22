@@ -25,7 +25,7 @@ LINT_ARGS ?= --verbose --configure LineTooLong:130 -e LineTooLong \
              --configure TooManyTestCases:50 -e TooManyTestCases \
              --configure TooFewTestSteps:1 \
              --configure TooFewKeywordSteps:1 \
-             --configure FileTooLong:1600 -e FileTooLong \
+             --configure FileTooLong:2000 -e FileTooLong \
              -e TrailingWhitespace
 
 PYTHON_FILES := $(wildcard libraries/*.py)
@@ -55,6 +55,7 @@ ROBOT_SANITY_MULTI_UNI_SINGLE_PON_FILE     ?= $(ROOT_DIR)/tests/data/bbsim-kind-
 ROBOT_SANITY_MULTI_UNI_MULTIPLE_OLT_FILE     ?= $(ROOT_DIR)/tests/data/bbsim-kind-multi-uni-2OLTx2ONUx2PON.yaml
 ROBOT_SANITY_TT_MULTI_UNI_SINGLE_PON_FILE    ?= $(ROOT_DIR)/tests/data/bbsim-kind-multi-uni-tt.yaml
 ROBOT_SANITY_TT_MULTI_UNI_MULTIPLE_OLT_FILE     ?= $(ROOT_DIR)/tests/data/bbsim-kind-multi-uni-2OLTx2ONUx2PON-tt.yaml
+ROBOT_SANITY_DT_FTTB_SINGLE_PON_FILE    ?= $(ROOT_DIR)/tests/data/bbsim-kind-dt-fttb-1OLTx1PONx2ONUx2UNI.yaml
 
 # for backwards compatibility
 sanity-kind: sanity-single-kind
@@ -89,6 +90,12 @@ sanity-kind-dt: ROBOT_MISC_ARGS += -i sanityDt $(ROBOT_DEBUG_LOG_OPT)
 sanity-kind-dt: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_DT_SINGLE_PON_FILE)
 sanity-kind-dt: ROBOT_FILE := Voltha_DT_PODTests.robot
 sanity-kind-dt: voltha-dt-test
+
+# target to invoke DT FTTB Workflow Sanity
+sanity-kind-dt-fttb: ROBOT_MISC_ARGS += -i sanityDtFttb $(ROBOT_DEBUG_LOG_OPT)
+sanity-kind-dt-fttb: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_DT_FTTB_SINGLE_PON_FILE)
+sanity-kind-dt-fttb: ROBOT_FILE := Voltha_DT_FTTB_Tests.robot
+sanity-kind-dt-fttb: voltha-dt-test
 
 functional-single-kind: ROBOT_MISC_ARGS += -i sanityORfunctional -e PowerSwitch $(ROBOT_DEBUG_LOG_OPT)
 functional-single-kind: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_SINGLE_PON_FILE)

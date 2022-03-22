@@ -351,6 +351,69 @@ Perform Sanity Test DT Per OLT
         ...    ${dst['container_name']}
     END
 
+Perform Sanity Test DT FTTB
+    [Documentation]    This keyword iterate all OLTs and performs Sanity Test Procedure for DT-FTTB workflow
+    ...    For repeating sanity test without subscriber changes set flag supress_add_subscriber=True.
+    ...    In all other (common) cases flag has to be set False (default).
+    [Arguments]    ${supress_add_subscriber}=False
+    FOR    ${J}    IN RANGE    0    ${num_olts}
+        ${olt_serial_number}=    Set Variable    ${list_olts}[${J}][sn]
+        ${olt_device_id}=    Get OLTDeviceID From OLT List    ${olt_serial_number}
+        ${of_id}=    Wait Until Keyword Succeeds    ${timeout}    15s    Validate OLT Device in ONOS
+        ...    ${olt_serial_number}
+        ${nni_port}=    Wait Until Keyword Succeeds    ${timeout}    2s    Get NNI Port in ONOS    ${of_id}
+        Perform Sanity Test DT FTTB Per OLT    ${of_id}    ${nni_port}    ${olt_serial_number}
+        ...    ${supress_add_subscriber}
+    END
+
+Perform Sanity Test DT FTTB Per OLT
+    [Arguments]    ${of_id}    ${nni_port}    ${olt_serial_number}    ${supress_add_subscriber}=False
+    [Documentation]    This keyword performs Sanity Test Procedure for DT-FTTB Workflow
+    ...    Sanity test performs dhcp and pings (without EAPOL and DHCP flows) for all the ONUs given for the POD
+    ...    This keyword can be used to call in any other tests where sanity check is required
+    ...    and avoids duplication of code.
+    ...    For repeating sanity test without subscriber changes set flag supress_add_subscriber=True.
+    ...    In all other (common) cases flag has to be set False (default).
+    FOR    ${I}    IN RANGE    0    ${num_all_onus}
+        ${src}=    Set Variable    ${hosts.src[${I}]}
+        ${dst}=    Set Variable    ${hosts.dst[${I}]}
+        Continue For Loop If    "${olt_serial_number}"!="${src['olt']}"
+        ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
+        ${onu_port}=    Wait Until Keyword Succeeds    ${timeout}    2s
+        ...    Get ONU Port in ONOS    ${src['onu']}    ${of_id}    ${src['uni_id']}
+        # Check ONU port is Enabled in ONOS
+        Wait Until Keyword Succeeds   120s   2s
+        ...    Verify UNI Port Is Enabled   ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${src['onu']}    ${src['uni_id']}
+        Run Keyword Unless    ${supress_add_subscriber}
+        ...    Execute ONOS CLI Command use single connection    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}
+        ...    volt-add-subscriber-access ${of_id} ${onu_port}
+        # Verify ONOS flows are added for the ONU port
+        Wait Until Keyword Succeeds    ${timeout}    5s
+        ...    Verify ONOS Flows Added For DT FTTB    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${of_id}
+        ...    ${onu_port}    ${nni_port}    ${src['service']}
+        # Verify that the Subscriber is present at the given location
+        Wait Until Keyword Succeeds    ${timeout}    5s
+        ...    Verify Programmed Subscribers DT FTTB    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${of_id}
+        ...    ${onu_port}    ${src['service']}
+        # Verify ONU state in voltha
+        ${onu_reasons}=  Create List     omci-flows-pushed
+        Wait Until Keyword Succeeds    ${timeout}    5s    Validate Device
+        ...    ENABLED    ACTIVE    REACHABLE
+        ...    ${src['onu']}    onu=True    onu_reason=${onu_reasons}
+        # Verify Meters in ONOS
+        Wait Until Keyword Succeeds    ${timeout}    5s
+        ...    Verify Meters in ONOS Ietf    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${of_id}    ${onu_port}
+        ...    ${src['service'][0]['name']}
+        # Verify Mac Learner Mappings
+        Wait Until Keyword Succeeds    ${timeout}    5s    Validate Mac Learner Mapping in ONOS
+        ...    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${of_id}    ${onu_port}    ${src['service'][2]['s_tag']}
+        Run Keyword If    ${has_dataplane}    Validate DHCP and Ping    True
+        ...    True    ${src['dp_iface_name']}    ${src['s_tag']}    ${src['c_tag']}    ${dst['dp_iface_ip_qinq']}
+        ...    ${src['ip']}    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
+        ...    ${dst['dp_iface_name']}    ${dst['ip']}    ${dst['user']}    ${dst['pass']}    ${dst['container_type']}
+        ...    ${dst['container_name']}
+    END
+
 Validate All OLT Flows
     [Documentation]    This keyword iterate all OLTs and performs Sanity Test Procedure for DT workflow
     FOR    ${J}    IN RANGE    0    ${num_olts}
