@@ -16,6 +16,23 @@
       "message": "recheck",
       "revId": "a7b34bea2934133fb5dbc9296daa903341d4fdb6",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "20bb7dda_5de1c8a7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2022-03-23T10:26:41Z",
+      "side": 1,
+      "message": "looks good to me, patches are not fully merged but this can go in, given that it\u0027s not triggered anywhere. ",
+      "revId": "a7b34bea2934133fb5dbc9296daa903341d4fdb6",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     }
   ]
 }
