@@ -101,7 +101,7 @@ Test Voltha Components Minor Version Upgrade
         ...    ${container}    ${image}
         Wait Until Keyword Succeeds    ${timeout}    3s    Validate Pods Status By Label    ${NAMESPACE}
         ...    app    ${label}    Running
-        Wait Until Keyword Succeeds    ${timeout}    3s    Pods Are Ready By Label    ${NAMESPACE}    app    ${label}
+        Wait Until Keyword Succeeds    180s    5s    Pods Are Ready By Label    ${NAMESPACE}    app    ${label}
         Wait Until Keyword Succeeds    ${timeout}    3s    Verify Pod Image    ${NAMESPACE}    app    ${label}    ${image}
         ${pod_image_1}    ${app_ver_1}    ${helm_chart_1}    Get Pod Image And App Version And Helm Chart By Label
         ...    ${NAMESPACE}    app    ${label}
