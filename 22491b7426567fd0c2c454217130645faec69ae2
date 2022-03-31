@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8aa2c8fd_bdd8d2f8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2022-03-31T14:03:18Z",
+      "side": 1,
+      "message": "@Hardik didn\u0027t mean to overrule you, just testing my new +2 skill! ;-)",
+      "revId": "22491b7426567fd0c2c454217130645faec69ae2",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    }
+  ]
+}
