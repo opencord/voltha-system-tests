@@ -159,6 +159,10 @@ Teardown Suite
 
 Teardown Test
     [Documentation]    Post-test Teardown
+    # log ONOS flows after remove check
+    ${flow}=    Run Keyword If    "${TEST STATUS}"=="FAIL"    Execute ONOS CLI Command use single connection
+    ...    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    flows -s any ${of_id}
+    Run Keyword If    "${TEST STATUS}"=="FAIL"    Log    ${flow}
     Run Keyword If    ${pausebeforecleanup}    Import Library    Dialogs
     Run Keyword If    ${pausebeforecleanup}    Pause Execution    Press OK to continue with clean up!
     Run Keyword If    ${pausebeforecleanup}    Log    Teardown will be continued...    console=yes

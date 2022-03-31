@@ -245,13 +245,18 @@ Remove Flows Conditional
 
 Remove Flows all ONUs
     [Documentation]    Remove all Flows from all onus
+    @{onu_list}=    Create List
     FOR    ${I}    IN RANGE    0    ${num_all_onus}
         # Collect data for remove flow(s)
         ${src}=    Set Variable    ${hosts.src[${I}]}
+        # skip if we have already handled this ONU
+        ${onu_sn}=     Set Variable    ${src['onu']}
+        ${onu_id}=    Get Index From List    ${onu_list}   ${onu_sn}
+        Continue For Loop If    -1 != ${onu_id}
+        Append To List    ${onu_list}    ${onu_sn}
         ${of_id}=    Wait Until Keyword Succeeds    ${timeout}    15s    Validate OLT Device in ONOS    ${src['olt']}
-        ${onu_port}=    Wait Until Keyword Succeeds    ${timeout}    2s    Get ONU Port in ONOS    ${src['onu']}
+        ${onu_port}=    Wait Until Keyword Succeeds    ${timeout}    2s    Get ONU Port in ONOS    ${onu_sn}
         ...    ${of_id}    ${src['uni_id']}
-        ${onu_sn}=    Set Variable   ${src['onu']}
         # Remove Flows
         Remove Flows Conditional    ${unitag_sub}    ${onu_sn}    ${of_id}    ${onu_port}
     END
