@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1c23fc5b_17342f57",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2022-04-01T08:22:31Z",
+      "side": 1,
+      "message": "All three test cases of the test suite able to run separately, there are no dependencies, so exit on failure makes no sense.",
+      "revId": "b1726b0a050e2b8d159488b1ce19534e467e289e",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    }
+  ]
+}
