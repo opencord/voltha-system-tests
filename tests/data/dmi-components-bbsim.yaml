@@ -25,7 +25,7 @@ GIVEN_OLT_NAME: BBSim-BBSIM_OLT_0
 
 dm_components:
   -
-    name: sfp-plus-transceiver-cage-pon-0
+    name: sfp-plus-transceiver-cage-0
     elements:
       -
         element: description
@@ -34,11 +34,20 @@ dm_components:
         element: class
         value: COMPONENT_TYPE_CONTAINER
   -
-    name: sfp-0
+    name: sfp-plus-0
     elements:
       -
         element: description
-        value: XGS-PON
+        value: bbsim-transceiver
       -
         element: class
         value: COMPONENT_TYPE_TRANSCEIVER
+  -
+    name: pon-0
+    elements:
+      -
+        element: description
+        value: bbsim-pon-port
+      -
+        element: class
+        value: COMPONENT_TYPE_PORT
