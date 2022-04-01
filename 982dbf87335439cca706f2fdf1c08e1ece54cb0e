@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2cada0f9_e1ef5d71",
+        "filename": "Makefile",
+        "patchSetId": 2
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2022-04-01T10:02:48Z",
+      "side": 0,
+      "message": "Please remove \"-X\" here as well.",
+      "range": {
+        "startLine": 187,
+        "startChar": 83,
+        "endLine": 187,
+        "endChar": 86
+      },
+      "revId": "982dbf87335439cca706f2fdf1c08e1ece54cb0e",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    }
+  ]
+}
