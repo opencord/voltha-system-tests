@@ -269,10 +269,12 @@ Verify openolt adapter restart before subscriber provisioning for DT
     Scale K8s Deployment by Pod Label    ${NAMESPACE}    app    ${OLT_ADAPTER_APP_LABEL}    0
     Wait Until Keyword Succeeds    ${timeout}    2s    Pods Do Not Exist By Label    ${NAMESPACE}    app
     ...    ${OLT_ADAPTER_APP_LABEL}
+    Sleep    10s
     # Scale up the open OLT adapter deployment and make sure both it and the ofagent deployment are back
     Scale K8s Deployment by Pod Label    ${NAMESPACE}    app    ${OLT_ADAPTER_APP_LABEL}    1
     Wait Until Keyword Succeeds    ${timeout}    2s
     ...    Check Expected Available Deployment Replicas By Pod Label     ${NAMESPACE}    app    ${OLT_ADAPTER_APP_LABEL}    1
+    Wait Until Keyword Succeeds    ${timeout}    3s    Pods Are Ready By Label    ${NAMESPACE}    app    ${OLT_ADAPTER_APP_LABEL}
 
     # Ensure the device is available in ONOS, this represents system connectivity being restored
     FOR   ${I}    IN RANGE    0    ${olt_count}
@@ -294,6 +296,9 @@ Verify openolt adapter restart before subscriber provisioning for DT
         # Add subscriber access and verify that DHCP completes to ensure system is still functioning properly
         Wait Until Keyword Succeeds    ${timeout}    2s    Execute ONOS CLI Command use single connection    ${ONOS_SSH_IP}
         ...    ${ONOS_SSH_PORT}    volt-add-subscriber-access ${of_id} ${onu_port}
+        # Verify Meters in ONOS
+        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
+        ...    Verify Meters in ONOS Ietf    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${of_id}    ${onu_port}
         # Verify subscriber access flows are added for the ONU port
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
         ...    Verify Subscriber Access Flows Added For ONU DT    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${of_id}
