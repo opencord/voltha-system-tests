@@ -91,16 +91,19 @@ Memory Leak Test Openonu Go Adapter
     Run Keyword If    ${print2console}    Log    \r\nStart ${iterations} iterations.    console=yes
     FOR    ${I}    IN RANGE    1    ${iterations} + 1
         Run Keyword If    ${print2console}    Log    \r\nStart iteration ${I} of ${iterations}.    console=yes
-        Run Keyword If    "${workflow}"=="DT"    Run Keyword And Ignore Error    Perform Sanity Test DT
-        ...    ELSE IF    "${workflow}"=="TT"    Run Keyword And Ignore Error    Perform Sanity Tests TT
-        ...    ELSE       Run Keyword And Ignore Error    Perform Sanity Test
+        Run Keyword If    "${workflow}"=="DT"    Perform Sanity Test DT
+        ...    ELSE IF    "${workflow}"=="TT"    Perform Sanity Tests TT
+        ...    ELSE       Perform Sanity Test
         Run Keyword If    ${print2console}    Log    Remove Flows.    console=yes
         Remove Flows all ONUs
         Run Keyword If    ${print2console}    Log    Check Flows removed.    console=yes
         Check All Flows Removed
+        Run Keyword If    ${print2console}    Log    Get ONU Device IDs.    console=yes
+        ${onu_device_id_list}=    Get ONUs Device IDs from Voltha
         Run Keyword If    ${print2console}    Log    Delete ONUs.    console=yes
         Delete Devices In Voltha    Type=brcm_openomci_onu
         Run Keyword If    ${print2console}    Log    Wait for ONUs come back.    console=yes
+        Wait Until Keyword Succeeds    ${timeout}    1s  Check for new ONU Device IDs     ${onu_device_id_list}
         ${list_onus}    Create List
         Build ONU SN List    ${list_onus}
         Wait Until Keyword Succeeds    ${timeout}    1s  Check all ONU OperStatus     ${list_onus}  ACTIVE
@@ -173,3 +176,12 @@ Teardown Test
     Run Keyword If    ${etcdcheckintestteardown}    Wait Until Keyword Succeeds    ${timeout}    1s
     ...    Validate Onu Data In Etcd    ${INFRA_NAMESPACE}    0    ${kvstoreprefix}    without_pm_data=False
     Sleep    5s
+
+Check for new ONU Device IDs
+    [Documentation]    Checks that no old onu device ids stays
+    [Arguments]    ${old_device_ids}
+    ${new_device_ids}=    Get ONUs Device IDs from Voltha
+    Should Not Be Empty    ${new_device_ids}    No new ONU device IDs
+    FOR    ${item}    IN    @{old_device_ids}
+        List Should Not Contain Value    ${new_device_ids}    ${item}    Old device id ${item} still present.
+    END
