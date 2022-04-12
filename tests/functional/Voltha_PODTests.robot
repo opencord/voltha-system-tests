@@ -54,6 +54,8 @@ ${dnrate}         0
 ${has_dataplane}    True
 ${teardown_device}    False
 ${scripts}        ../../scripts
+# flag to reboot OLT through Power Switch
+${power_cycle_olt}    False
 
 # For dataplane bandwidth testing
 ${upper_margin_pct}      105     # Allow 5% over the limit
@@ -69,14 +71,14 @@ ${container_log_dir}    ${None}
 ${logging}    True
 
 *** Test Cases ***
-Reboot ONUs Physically
-    [Documentation]   This test reboots ONUs physically before execution all the tests
+Reboot ONUs and OLTs Physically
+    [Documentation]   This test reboots ONUs and OLTs physically before execution all the tests
     ...    Test case runs only on the PODs that are configured with PowerSwitch that
     ...    controls the power off/on ONUs/OLT remotely (simulating a physical reboot)
-    [Tags]    functional   PowerSwitch    RebootAllONUs
-    [Setup]    Start Logging    RebootAllONUs
+    [Tags]    functional   PowerSwitch    RebootAllONUsOLTs
+    [Setup]    Start Logging    RebootAllONUsOLTs
     [Teardown]    Run Keywords    Collect Logs
-    ...           AND             Stop Logging    RebootAllONUs
+    ...           AND             Stop Logging    RebootAllONUsOLTs
     Power Switch Connection Suite    ${web_power_switch.ip}    ${web_power_switch.user}    ${web_power_switch.password}
     FOR    ${I}    IN RANGE    0    ${num_all_onus}
         ${src}=    Set Variable    ${hosts.src[${I}]}
@@ -87,6 +89,23 @@ Reboot ONUs Physically
         Sleep    10s
         Enable Switch Outlet    ${src['power_switch_port']}
     END
+    Pass Execution If    '${power_cycle_olt}' == 'False'    Skipping OLT(s) Power Switch Reboot
+    # Waiting extra time for the ONUs to come up
+    Sleep    30s
+    FOR   ${I}    IN RANGE    0    ${olt_count}
+        ${olt_serial_number}=    Get From Dictionary    ${olt_ids}[${I}]    sn
+        ${power_switch_port}=    Get From Dictionary    ${list_olts}[${I}]    powerswitchport
+        ${olt_ssh_ip}=    Get From Dictionary    ${list_olts}[${I}]   sship
+        # If the power switch port is not specified, continue
+        Continue For Loop If    '${power_switch_port}' == '${None}'
+        Disable Switch Outlet    ${power_switch_port}
+        Sleep    10s
+        Enable Switch Outlet    ${power_switch_port}
+        Run Keyword If    ${has_dataplane}    Wait Until Keyword Succeeds    120s    10s
+        ...    Check Remote System Reachability    True    ${olt_ssh_ip}
+    END
+    # Waiting extra time for the ONUs to come up
+    Sleep    60s
 
 Sanity E2E Test for OLT/ONU on POD
     [Documentation]    Validates E2E Ping Connectivity and object states for the given scenario:

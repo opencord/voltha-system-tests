@@ -74,13 +74,15 @@ Common Test Suite Setup
         ${serial_number}    Evaluate    ${olts}[${I}].get("serial")
         ${olt_ssh_ip}    Evaluate    ${olts}[${I}].get("sship")
         ${type}    Evaluate    ${olts}[${I}].get("type")
+        ${power_switch_port}    Evaluate    ${olts}[${I}].get("power_switch_port")
         ${orig_olt_port}    Evaluate    ${olts}[${I}].get("oltPort")
         ${port}=    Set Variable If    "${orig_olt_port}" == "None"    ${OLT_PORT}    ${orig_olt_port}
         ${onu_count}=    Get ONU Count For OLT    ${hosts.src}    ${serial_number}
         ${onu_list}=    Get ONU List For OLT    ${hosts.src}    ${serial_number}
         ${olt}    Create Dictionary    ip    ${ip}    user    ${user}    pass
         ...    ${pass}    sn    ${serial_number}   onucount   ${onu_count}    type    ${type}
-        ...    sship    ${olt_ssh_ip}    oltport    ${port}    onus    ${onu_list}
+        ...    sship    ${olt_ssh_ip}    oltport    ${port}    powerswitchport    ${power_switch_port}
+        ...    onus    ${onu_list}
         Append To List    ${list_olts}    ${olt}
     END
     ${num_all_onus}=    Get Length    ${hosts.src}
