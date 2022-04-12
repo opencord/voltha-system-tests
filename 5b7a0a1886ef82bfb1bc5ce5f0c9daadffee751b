@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d4e56a76_7b0c24e6",
+        "filename": "tests/dt-workflow/Voltha_DT_PODTests.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2022-04-12T13:43:43Z",
+      "side": 1,
+      "message": "didn\u0027t we have an OLT timeout (used also inc case of reboot and such ?) maybe we can wait for that time here.",
+      "revId": "5b7a0a1886ef82bfb1bc5ce5f0c9daadffee751b",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c39aed48_85cf51e9",
+        "filename": "tests/functional/Voltha_PODTests.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2022-04-12T13:43:43Z",
+      "side": 1,
+      "message": "same",
+      "revId": "5b7a0a1886ef82bfb1bc5ce5f0c9daadffee751b",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "28fc6fce_24c25130",
+        "filename": "tests/tt-workflow/Voltha_TT_PODTests.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2022-04-12T13:43:43Z",
+      "side": 1,
+      "message": "same. Also these keywords are the same for ATT, DT and TT, any way we can merge them ?",
+      "revId": "5b7a0a1886ef82bfb1bc5ce5f0c9daadffee751b",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    }
+  ]
+}
