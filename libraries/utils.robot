@@ -74,13 +74,15 @@ Common Test Suite Setup
         ${serial_number}    Evaluate    ${olts}[${I}].get("serial")
         ${olt_ssh_ip}    Evaluate    ${olts}[${I}].get("sship")
         ${type}    Evaluate    ${olts}[${I}].get("type")
+        ${power_switch_port}    Evaluate    ${olts}[${I}].get("power_switch_port")
         ${orig_olt_port}    Evaluate    ${olts}[${I}].get("oltPort")
         ${port}=    Set Variable If    "${orig_olt_port}" == "None"    ${OLT_PORT}    ${orig_olt_port}
         ${onu_count}=    Get ONU Count For OLT    ${hosts.src}    ${serial_number}
         ${onu_list}=    Get ONU List For OLT    ${hosts.src}    ${serial_number}
         ${olt}    Create Dictionary    ip    ${ip}    user    ${user}    pass
         ...    ${pass}    sn    ${serial_number}   onucount   ${onu_count}    type    ${type}
-        ...    sship    ${olt_ssh_ip}    oltport    ${port}    onus    ${onu_list}
+        ...    sship    ${olt_ssh_ip}    oltport    ${port}    powerswitchport    ${power_switch_port}
+        ...    onus    ${onu_list}
         Append To List    ${list_olts}    ${olt}
     END
     ${num_all_onus}=    Get Length    ${hosts.src}
@@ -1656,3 +1658,36 @@ Set Non-Critical Tag for XGSPON Tech
         ...    Set Tags    non-critical
         ...    AND    Exit For Loop
     END
+
+Perform Reboot ONUs and OLTs Physically
+    [Documentation]    This keyword reboots ONUs and OLTs physically
+    ...    It runs only on the PODs that are configured with PowerSwitch that
+    ...    controls the power off/on ONUs/OLT remotely (simulating a physical reboot)
+    [Arguments]    ${power_cycle_olt}=False
+    Power Switch Connection Suite    ${web_power_switch.ip}    ${web_power_switch.user}    ${web_power_switch.password}
+    FOR    ${I}    IN RANGE    0    ${num_all_onus}
+        ${src}=    Set Variable    ${hosts.src[${I}]}
+        ${dst}=    Set Variable    ${hosts.dst[${I}]}
+        # If the power switch port is not specified, continue
+        Continue For Loop If    '${src["power_switch_port"]}' == '${None}'
+        Disable Switch Outlet    ${src['power_switch_port']}
+        Sleep    10s
+        Enable Switch Outlet    ${src['power_switch_port']}
+    END
+    Pass Execution If    '${power_cycle_olt}'=='False'    Skipping OLT(s) Power Switch Reboot
+    # Waiting extra time for the ONUs to come up
+    Sleep    30s
+    FOR   ${I}    IN RANGE    0    ${olt_count}
+        ${olt_serial_number}=    Get From Dictionary    ${olt_ids}[${I}]    sn
+        ${power_switch_port}=    Get From Dictionary    ${list_olts}[${I}]    powerswitchport
+        ${olt_ssh_ip}=    Get From Dictionary    ${list_olts}[${I}]   sship
+        # If the power switch port is not specified, continue
+        Continue For Loop If    '${power_switch_port}' == '${None}'
+        Disable Switch Outlet    ${power_switch_port}
+        Sleep    10s
+        Enable Switch Outlet    ${power_switch_port}
+        Run Keyword If    ${has_dataplane}    Wait Until Keyword Succeeds    120s    10s
+        ...    Check Remote System Reachability    True    ${olt_ssh_ip}
+    END
+    # Waiting extra time for the ONUs to come up
+    Sleep    60s
