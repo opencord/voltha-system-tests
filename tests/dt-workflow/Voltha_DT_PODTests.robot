@@ -54,6 +54,8 @@ ${dnrate}         0
 ${has_dataplane}    True
 ${teardown_device}    True
 ${scripts}        ../../scripts
+# flag to reboot OLT through Power Switch
+${power_cycle_olt}    False
 
 # For dataplane bandwidth testing
 ${upper_margin_pct}      105     # Allow 5% over the limit
@@ -73,24 +75,15 @@ ${SOAK_TEST}    False
 ${bbsim_port}    50060
 
 *** Test Cases ***
-Reboot DT ONUs Physically
-    [Documentation]   This test reboots ONUs physically before execution all the tests
+Reboot DT ONUs and OLTs Physically
+    [Documentation]   This test reboots ONUs and OLTs physically before execution all the tests
     ...    Test case runs only on the PODs that are configured with PowerSwitch that
     ...    controls the power off/on ONUs/OLT remotely (simulating a physical reboot)
-    [Tags]    functionalDt   PowerSwitch    RebootAllDTONUs    soak
-    [Setup]    Start Logging    RebootAllDTONUs
+    [Tags]    functionalDt   PowerSwitch    RebootAllDTONUsOLTs    soak
+    [Setup]    Start Logging    RebootAllDTONUsOLTs
     [Teardown]    Run Keywords    Run Keyword If    ${logging}    Collect Logs
-    ...           AND             Stop Logging    RebootAllDTONUs
-    Power Switch Connection Suite    ${web_power_switch.ip}    ${web_power_switch.user}    ${web_power_switch.password}
-    FOR    ${I}    IN RANGE    0    ${num_all_onus}
-        ${src}=    Set Variable    ${hosts.src[${I}]}
-        ${dst}=    Set Variable    ${hosts.dst[${I}]}
-        # If the power switch port is not specified, continue
-        Continue For Loop If    '${src["power_switch_port"]}' == '${None}'
-        Disable Switch Outlet    ${src['power_switch_port']}
-        Sleep    10s
-        Enable Switch Outlet    ${src['power_switch_port']}
-    END
+    ...           AND             Stop Logging    RebootAllDTONUsOLTs
+    Perform Reboot ONUs and OLTs Physically    ${power_cycle_olt}
 
 Create Soak BBSim Device
     [Documentation]    This creates and enables the BBSim device as required by the soak testing

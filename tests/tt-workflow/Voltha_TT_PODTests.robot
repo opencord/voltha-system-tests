@@ -54,6 +54,8 @@ ${has_dataplane}    True
 ${teardown_device}    True
 ${scripts}        ../../scripts
 ${data_dir}    ../data
+# flag to reboot OLT through Power Switch
+${power_cycle_olt}    False
 
 # Per-test logging on failure is turned off by default; set this variable to enable
 ${container_log_dir}    ${None}
@@ -75,24 +77,15 @@ ${with_maclearning}    False
 ${unitag_sub}    False
 
 *** Test Cases ***
-Reboot TT ONUs Physically - Clean Up
-    [Documentation]   This test reboots ONUs physically before execution all the tests
+Reboot TT ONUs and OLTs Physically - Clean Up
+    [Documentation]   This test reboots ONUs and OLTs physically before execution all the tests
     ...    Test case runs only on the PODs that are configured with PowerSwitch that
     ...    controls the power off/on ONUs/OLT remotely (simulating a physical reboot)
-    [Tags]    functionalTT   PowerSwitch    RebootAllTTONUs
-    [Setup]    Start Logging    RebootAllTTONUs
+    [Tags]    functionalTT   PowerSwitch    RebootAllTTONUsOLTs
+    [Setup]    Start Logging    RebootAllTTONUsOLTs
     [Teardown]    Run Keywords    Collect Logs
-    ...           AND             Stop Logging    RebootAllTTONUs
-    Power Switch Connection Suite    ${web_power_switch.ip}    ${web_power_switch.user}    ${web_power_switch.password}
-    FOR    ${I}    IN RANGE    0    ${num_all_onus}
-        ${src}=    Set Variable    ${hosts.src[${I}]}
-        ${dst}=    Set Variable    ${hosts.dst[${I}]}
-        # If the power switch port is not specified, continue
-        Continue For Loop If    '${src["power_switch_port"]}' == '${None}'
-        Disable Switch Outlet    ${src['power_switch_port']}
-        Sleep    10s
-        Enable Switch Outlet    ${src['power_switch_port']}
-    END
+    ...           AND             Stop Logging    RebootAllTTONUsOLTs
+    Perform Reboot ONUs and OLTs Physically    ${power_cycle_olt}
 
 Sanity E2E Test for TT (HSIA, VoD, VoIP)
     [Documentation]    Validates E2E Ping Connectivity and object states for the given scenario:
