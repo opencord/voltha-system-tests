@@ -346,6 +346,10 @@ Verify restart ofagent container after subscriber is provisioned for TT
     [Teardown]    Run Keywords    Collect Logs
     ...           AND             Stop Logging    ofagentRestart-TT
     ...           AND             Scale K8s Deployment    ${NAMESPACE}    ${STACK_NAME}-voltha-ofagent    1
+    ...           AND             Wait Until Keyword Succeeds    ${timeout}    2s
+    ...           Validate Pods Status By Label    ${NAMESPACE}    app    ofagent    Running
+    ...           AND             Wait Until Keyword Succeeds    ${timeout}    3s
+    ...           Pods Are Ready By Label    ${NAMESPACE}    app    ofagent
     # set timeout value
     ${waitforRestart}    Set Variable    120s
     ${podStatusOutput}=    Run    kubectl get pods -n ${NAMESPACE}
@@ -390,6 +394,7 @@ Verify restart ofagent container after subscriber is provisioned for TT
     Scale K8s Deployment    ${NAMESPACE}    ${STACK_NAME}-voltha-ofagent    1
     Wait Until Keyword Succeeds    ${waitforRestart}    2s    Validate Pod Status    ofagent    ${NAMESPACE}
     ...    Running
+    Wait Until Keyword Succeeds    ${timeout}    3s    Pods Are Ready By Label    ${NAMESPACE}    app    ${podName}
     Run Keyword If    ${has_dataplane}    Clean Up Linux
     Perform Sanity Tests TT    ${suppressaddsubscriber}
     Log to console    Pod ${podName} restarted and sanity checks passed successfully
