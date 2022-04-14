@@ -357,6 +357,10 @@ Verify restart ofagent container after subscriber is provisioned
     [Teardown]    Run Keywords    Collect Logs
     ...           AND             Stop Logging    ofagentRestart
     ...           AND             Scale K8s Deployment    ${NAMESPACE}    ${STACK_NAME}-voltha-ofagent    1
+    ...           AND             Wait Until Keyword Succeeds    ${timeout}    2s
+    ...           Validate Pods Status By Label    ${NAMESPACE}    app    ofagent    Running
+    ...           AND             Wait Until Keyword Succeeds    ${timeout}    3s
+    ...           Pods Are Ready By Label    ${NAMESPACE}    app    ofagent
     # set timeout value
     ${waitforRestart}    Set Variable    120s
     ${podStatusOutput}=    Run    kubectl get pods -n ${NAMESPACE}
@@ -414,6 +418,7 @@ Verify restart ofagent container after subscriber is provisioned
     Scale K8s Deployment    ${NAMESPACE}    ${STACK_NAME}-voltha-ofagent    1
     Wait Until Keyword Succeeds    ${waitforRestart}    2s    Validate Pod Status    ofagent    ${NAMESPACE}
     ...    Running
+    Wait Until Keyword Succeeds    ${timeout}    3s    Pods Are Ready By Label    ${NAMESPACE}    app    ${podName}
     # Performing Sanity Test to make sure subscribers are all AUTH+DHCP and pingable
     Run Keyword If    ${has_dataplane}    Clean Up Linux
     Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test    ${suppressaddsubscriber}
