@@ -18,6 +18,24 @@
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "08d80d99_69a539f1",
+        "filename": "tests/dt-workflow/Voltha_DT_PODTests.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2022-04-21T04:46:42Z",
+      "side": 1,
+      "message": "No, we don\u0027t. Also, the above step should verify the OLT reachability. This is some extra time to let OLT and ONUs come stable.",
+      "parentUuid": "d4e56a76_7b0c24e6",
+      "revId": "5b7a0a1886ef82bfb1bc5ce5f0c9daadffee751b",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c39aed48_85cf51e9",
@@ -35,6 +53,24 @@
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "481c0626_0cfb57c2",
+        "filename": "tests/functional/Voltha_PODTests.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2022-04-21T04:46:42Z",
+      "side": 1,
+      "message": "same",
+      "parentUuid": "c39aed48_85cf51e9",
+      "revId": "5b7a0a1886ef82bfb1bc5ce5f0c9daadffee751b",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "28fc6fce_24c25130",
@@ -48,6 +84,24 @@
       "writtenOn": "2022-04-12T13:43:43Z",
       "side": 1,
       "message": "same. Also these keywords are the same for ATT, DT and TT, any way we can merge them ?",
+      "revId": "5b7a0a1886ef82bfb1bc5ce5f0c9daadffee751b",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "49b37c75_a78ac1dc",
+        "filename": "tests/tt-workflow/Voltha_TT_PODTests.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2022-04-21T04:46:42Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "28fc6fce_24c25130",
       "revId": "5b7a0a1886ef82bfb1bc5ce5f0c9daadffee751b",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     }
