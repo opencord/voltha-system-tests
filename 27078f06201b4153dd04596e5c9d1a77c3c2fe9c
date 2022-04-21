@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1d317531_d91a722c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2022-04-21T07:07:45Z",
+      "side": 1,
+      "message": "No +1 due my small comment, please check. Thanks",
+      "revId": "27078f06201b4153dd04596e5c9d1a77c3c2fe9c",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7ac166cb_b3f288e3",
+        "filename": "libraries/utils.robot",
+        "patchSetId": 3
+      },
+      "lineNbr": 1676,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2022-04-21T07:07:45Z",
+      "side": 1,
+      "message": "In case of TT it is possible the same physically ONU could appear several times in host.src list to support various services (hsia, vod, voip, mcast). To prevent multiple restart of same onu something similiar the follwoing should be implemented:\n    @{onu_list}\u003d    Create List\n    FOR    ${I}    IN RANGE    0    ${num_all_onus}\n        ${src}\u003d    Set Variable    ${hosts.src[${I}]}\n        ${dst}\u003d    Set Variable    ${hosts.dst[${I}]}\n        # If the power switch port is not specified, continue\n        Continue For Loop If    \u0027${src[\"power_switch_port\"]}\u0027 \u003d\u003d \u0027${None}\u0027\n        # skip if we have already handled this ONU\n        ${sn}\u003d     Set Variable    ${src[\u0027onu\u0027]}\n        ${onu_id}\u003d    Get Index From List    ${onu_list}   ${sn}\n        Continue For Loop If    -1 !\u003d ${onu_id}\n        Append To List    ${onu_list}    ${sn}\n        Disable Switch Outlet    ${src[\u0027power_switch_port\u0027]}\n        Sleep    10s\n        Enable Switch Outlet    ${src[\u0027power_switch_port\u0027]}\n    END",
+      "range": {
+        "startLine": 1668,
+        "startChar": 4,
+        "endLine": 1676,
+        "endChar": 7
+      },
+      "revId": "27078f06201b4153dd04596e5c9d1a77c3c2fe9c",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    }
+  ]
+}
