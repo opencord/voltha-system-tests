@@ -1684,7 +1684,7 @@ Perform Reboot ONUs and OLTs Physically
     # Waiting extra time for the ONUs to come up
     Sleep    30s
     FOR   ${I}    IN RANGE    0    ${olt_count}
-        ${olt_serial_number}=    Get From Dictionary    ${olt_ids}[${I}]    sn
+        ${olt_serial_number}=    Get From Dictionary    ${list_olts}[${I}]    sn
         ${power_switch_port}=    Get From Dictionary    ${list_olts}[${I}]    powerswitchport
         ${olt_ssh_ip}=    Get From Dictionary    ${list_olts}[${I}]   sship
         # If the power switch port is not specified, continue
