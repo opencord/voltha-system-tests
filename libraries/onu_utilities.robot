@@ -441,6 +441,7 @@ Do Onu Subscriber Remove Per OLT
         ${dst}=    Set Variable    ${hosts.dst[${I}]}
         Continue For Loop If    "${olt_serial_number}"!="${src['olt']}"
         ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
+        ${onu_list}    Create List
         ${onu_port}=    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
         ...    Get ONU Port in ONOS    ${src['onu']}    ${of_id}
         ${of_id_onu_port}=    Catenate    SEPARATOR=-    ${of_id}    ${onu_port}
