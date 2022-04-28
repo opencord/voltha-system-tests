@@ -1697,3 +1697,9 @@ Perform Reboot ONUs and OLTs Physically
     END
     # Waiting extra time for the ONUs to come up
     Sleep    60s
+
+Convert String To Json
+    [Documentation]    This keyword converts a string to a JSON object
+    [Arguments]    ${content}
+    ${json}=    evaluate    json.loads('''${content}''')    json
+    [return]    ${json}
