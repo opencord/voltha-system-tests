@@ -339,6 +339,7 @@ Perform Sanity Test DT Per OLT
         ...    ${onu_port}    ${nni_port}    ${src['s_tag']}
         # Verify ONU state in voltha
         ${onu_reasons}=  Create List     omci-flows-pushed
+        Run Keyword If    ${supress_add_subscriber}    Append To List    ${onu_reasons}    onu-reenabled
         Wait Until Keyword Succeeds    ${timeout}    5s    Validate Device
         ...    ENABLED    ACTIVE    REACHABLE
         ...    ${src['onu']}    onu=True    onu_reason=${onu_reasons}
@@ -399,6 +400,7 @@ Perform Sanity Test DT FTTB Per OLT
         ...    ${onu_port}    ${src['service']}
         # Verify ONU state in voltha
         ${onu_reasons}=  Create List     omci-flows-pushed
+        Run Keyword If    ${supress_add_subscriber}    Append To List    ${onu_reasons}    onu-reenabled
         Wait Until Keyword Succeeds    ${timeout}    5s    Validate Device
         ...    ENABLED    ACTIVE    REACHABLE
         ...    ${src['onu']}    onu=True    onu_reason=${onu_reasons}
