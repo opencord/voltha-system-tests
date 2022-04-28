@@ -36,6 +36,9 @@ ${disable_highlighter}    setopt disable-highlighter
 # ${keep_alive_interval} is set to 0s means sending the keepalive packet is disabled!
 ${keep_alive_interval}    0s
 
+@{http_connection_list}
+${http_alias}                  ONOS
+
 *** Keywords ***
 
 Open ONOS SSH Connection
@@ -160,12 +163,89 @@ Close All ONOS SSH Connections
     SSHLibrary.Close All Connections
     @{connection_list}    Create List
 
+
+Open ONOS HTTP Session
+    [Documentation]    Establishes an http session to ONOS contoller
+    [Arguments]    ${host}    ${port}    ${user}=karaf    ${pass}=karaf
+    ${onos_auth}=    Create List    ${user}    ${pass}
+    Create Session    ${http_alias}    http://${host}:${port}    auth=${onos_auth}
+    ${conn_list_entry}=    Create Dictionary    alias=${http_alias}    user=${user}    pass=${pass}
+    ...    host=${host}    port=${port}
+    Append To List    ${http_connection_list}    ${conn_list_entry}
+    ${conn_list_id}=    Get Index From List    ${http_connection_list}    ${conn_list_entry}
+    Set Global Variable    ${http_connection_list}
+    [Return]    ${conn_list_id}
+
+Execute ONOS Rest API Request use single session
+    [Documentation]    Execute ONOS Rest API Request use an open HTTP session
+    ...                In case no HTTP session is open a session will be established
+    [Arguments]    ${host}    ${port}    ${request}    ${url}
+    ${connection_list_id}=    Get HTTP Conn List Id    ${host}    ${port}
+    ${connection_list_id}=    Run Keyword If    "${connection_list_id}"=="${EMPTY}"
+                              ...    Open ONOS HTTP Session    ${host}    ${port}
+                              ...    ELSE    Set Variable    ${connection_list_id}
+    ${connection_entry}=    Get From List   ${http_connection_list}    ${connection_list_id}
+    ${session_exists}=    Session Exists    ${connection_entry.alias}
+    Run Keyword If    not ${session_exists}   Reconnect ONOS HTTP Session    ${connection_list_id}
+    ${output}=    Execute Single ONOS Rest API Request    ${connection_entry.alias}    ${request}    ${url}
+    ...           connection_list_id=${connection_list_id}
+    [Return]    ${output}
+
+Execute Single ONOS Rest API Request
+    [Documentation]    Executes ONOS Rest API Request
+    [Arguments]    ${alias}    ${request}    ${url}    ${connection_list_id}=${EMPTY}
+    Log    Request: ${request} Url: ${url}
+    ${resp}=    Run Keyword If    "${request}"=="GET"      GET On Session        ${alias}    ${url}    expected_status=Anything
+    ...                ELSE IF    "${request}"=="POST"     POST On Session       ${alias}    ${url}    expected_status=Anything
+    ...                ELSE IF    "${request}"=="PUT"      PUT On Session        ${alias}    ${url}    expected_status=Anything
+    ...                ELSE IF    "${request}"=="DELETE"   DELETE On Session     ${alias}    ${url}    expected_status=Anything
+    ...                ELSE IF    "${request}"=="HEAD"     HEAD On Session       ${alias}    ${url}    expected_status=Anything
+    ...                ELSE IF    "${request}"=="OPTIONS"  OPTIONS On Session    ${alias}    ${url}    expected_status=Anything
+    ...                ELSE IF    "${request}"=="PATCH"    PATCH On Session      ${alias}    ${url}    expected_status=Anything
+    ...                ELSE       FAIL    Unknown request "${request}"!
+    [Return]    ${resp.json()}
+
+Get HTTP Conn List Id
+    [Documentation]    Looks up for an existing session with passed host and port in conection list
+    ...                First match connection will be used.
+    [Arguments]    ${host}    ${port}
+    ${connection_list_id}=    Set Variable    ${EMPTY}
+    ${match}=     Set Variable    False
+    ${length}=    Get Length    ${http_connection_list}
+    FOR    ${INDEX}    IN RANGE    0    ${length}
+        ${Item}=    Get From List    ${http_connection_list}    ${INDEX}
+        ${match}=    Set Variable If    '${Item.host}'=='${host}' and '${Item.port}'=='${port}'    True    False
+        ${connection_list_id}=    Set Variable If    ${match}    ${INDEX}    ${EMPTY}
+        Exit For Loop If    ${match}
+    END
+    [Return]    ${connection_list_id}
+
+Reconnect ONOS HTTP Session
+    [Documentation]    Reconnect an SSH Connection
+    [Arguments]    ${connection_list_id}
+    ${connection_entry}=    Get From List   ${http_connection_list}    ${connection_list_id}
+    ${user}=    Get From Dictionary    ${connection_entry}    user
+    ${pass}=    Get From Dictionary    ${connection_entry}    pass
+    ${host}=    Get From Dictionary    ${connection_entry}    host
+    ${port}=    Get From Dictionary    ${connection_entry}    port
+    ${alias}=   Get From Dictionary    ${connection_entry}    alias
+    ${onos_auth}=    Create List    ${user}    ${pass}
+    Create Session    ${alias}    http://${host}:${port}    auth=${onos_auth}
+    ${conn_list_entry}=    Create Dictionary    alias=${alias}    user=${user}    pass=${pass}
+    ...    host=${connection_entry.host}    port=${connection_entry.port}
+    Set List Value    ${http_connection_list}    ${connection_list_id}    ${conn_list_entry}
+    Set Global Variable    ${http_connection_list}
+
+Close All ONOS HTTP Sessions
+    [Documentation]    Close all HTTP Sessions and clear connection list.
+    Delete All Sessions
+    @{http_connection_list}    Create List
+
 Validate OLT Device in ONOS
     #    FIXME use volt-olts to check that the OLT is ONOS
     [Arguments]    ${serial_number}
     [Documentation]    Checks if olt has been connected to ONOS
-    ${resp}=    Get Request    ONOS    onos/v1/devices
-    ${jsondata}=    To Json    ${resp.content}
+    ${jsondata}=   Execute ONOS Rest API Request use single session   ${ONOS_REST_IP}   ${ONOS_REST_PORT}   GET   onos/v1/devices
     Should Not Be Empty    ${jsondata['devices']}
     ${length}=    Get Length    ${jsondata['devices']}
     @{serial_numbers}=    Create List
@@ -184,9 +264,8 @@ Get ONU Port in ONOS
     [Arguments]    ${onu_serial_number}    ${olt_of_id}    ${onu_uni_id}=1
     [Documentation]    Retrieves ONU port for the ONU in ONOS
     ${onu_serial_number}=    Catenate    SEPARATOR=-    ${onu_serial_number}    ${onu_uni_id}
-    ${resp}=    Get Request    ONOS    onos/v1/devices/${olt_of_id}/ports
-    ${jsondata}=    To Json    ${resp.content}
-    Should Not Be Empty    ${jsondata['ports']}
+    ${jsondata}=   Execute ONOS Rest API Request use single session   ${ONOS_REST_IP}   ${ONOS_REST_PORT}   GET
+    ...    onos/v1/devices/${olt_of_id}/ports
     ${length}=    Get Length    ${jsondata['ports']}
     @{ports}=    Create List
     ${matched}=    Set Variable    False
@@ -223,8 +302,8 @@ Get Onu Ports in ONOS For ALL UNI per ONU
 Get NNI Port in ONOS
     [Arguments]    ${olt_of_id}
     [Documentation]    Retrieves NNI port for the OLT in ONOS
-    ${resp}=    Get Request    ONOS    onos/v1/devices/${olt_of_id}/ports
-    ${jsondata}=    To Json    ${resp.content}
+    ${jsondata}=   Execute ONOS Rest API Request use single session   ${ONOS_REST_IP}   ${ONOS_REST_PORT}   GET
+    ...    onos/v1/devices/${olt_of_id}/ports
     Should Not Be Empty    ${jsondata['ports']}
     ${length}=    Get Length    ${jsondata['ports']}
     @{ports}=    Create List
@@ -243,8 +322,7 @@ Get NNI Port in ONOS
 
 Get FabricSwitch in ONOS
     [Documentation]    Returns of_id of the Fabric Switch in ONOS
-    ${resp}=    Get Request    ONOS    onos/v1/devices
-    ${jsondata}=    To Json    ${resp.content}
+    ${jsondata}=   Execute ONOS Rest API Request use single session   ${ONOS_REST_IP}   ${ONOS_REST_PORT}   GET   onos/v1/devices
     Should Not Be Empty    ${jsondata['devices']}
     ${length}=    Get Length    ${jsondata['devices']}
     ${matched}=    Set Variable    False
@@ -261,8 +339,8 @@ Get FabricSwitch in ONOS
 Get Master Instace in ONOS
     [Arguments]    ${of_id}
     [Documentation]    Returns nodeId of the Master instace for a giver device in ONOS
-    ${resp}=    Get Request    ONOS    onos/v1/mastership/${of_id}/master
-    ${jsondata}=    To Json    ${resp.content}
+    ${jsondata}=   Execute ONOS Rest API Request use single session   ${ONOS_REST_IP}   ${ONOS_REST_PORT}   GET
+    ...    onos/v1/mastership/${of_id}/master
     Should Not Be Empty    ${jsondata['nodeId']}
     ${master_node}=    Get From Dictionary    ${jsondata}    nodeId
     [Return]    ${master_node}
@@ -574,7 +652,7 @@ Get Bandwidth Profile Details Rest
     [Documentation]    Retrieves the details of the given bandwidth profile using REST API
     ${bw_profile_id}=    Remove String    ${bw_profile_id}    '    "
     ${resp}=    Get Request    ONOS    onos/sadis/bandwidthprofile/${bw_profile_id}
-    ${jsondata}=    To Json    ${resp.content}
+    ${jsondata}=    ${resp.json()}
     Should Not Be Empty    ${jsondata['entry']}
     ${length}=    Get Length    ${jsondata['entry']}
     ${matched}=    Set Variable    False
@@ -597,7 +675,7 @@ Get Bandwidth Profile Details Ietf Rest
     [Documentation]    Retrieves the details of the given Ietf standard based bandwidth profile using REST API
     ${bw_profile_id}=    Remove String    ${bw_profile_id}    '    "
     ${resp}=    Get Request    ONOS    onos/sadis/bandwidthprofile/${bw_profile_id}
-    ${jsondata}=    To Json    ${resp.content}
+    ${jsondata}=    ${resp.json()}
     Should Not Be Empty    ${jsondata['entry']}
     ${length}=    Get Length    ${jsondata['entry']}
     ${matched}=    Set Variable    False
@@ -836,7 +914,7 @@ Verify ONU in Groups
     [Documentation]    Verifies that the specified onu_port exists in groups output
     ${result}=    Execute ONOS CLI Command use single connection    ${ip_onos}    ${port_onos}    groups -j
     Log    Groups: ${result}
-    ${groups}=    To Json    ${result}
+    ${groups}=    Convert String To Json    ${result}
     ${length}=    Get Length    ${groups}
     ${buckets}=    Create List
     ${matched}=    Set Variable    False
@@ -957,10 +1035,28 @@ Wait for Olt in ONOS
 Assert Ports in ONOS
     [Arguments]    ${ip}    ${port}     ${count}     ${deviceId}    ${filter}
     [Documentation]    Check that a certain number of ports are enabled in ONOS
-    ${ports}=    Execute ONOS CLI Command use single connection    ${ip}    ${port}
-        ...    ports -e ${deviceId} | grep ${filter} | wc -l
-    Log     Found ${ports} of ${count} expected ports on device ${deviceId}
-    Should Be Equal As Integers    ${ports}    ${count}
+    ...                Attention: With use of Rest APi filter is used only for 'portName'!
+    ${ports}=    Execute ONOS Rest API Request use single session     ${ONOS_REST_IP}    ${ONOS_REST_PORT}
+    ...  GET    onos/v1/devices/${deviceId}/ports
+    Run Keyword If    "${ports}"!="${EMPTY}"    Log   ${ports}
+    ${nb_ports}=    Run Keyword If    "${ports}"!="${EMPTY}"    Get Length    ${ports['ports']}
+    ...                       ELSE    Set Variable    0
+    ${found_ports}=    Set Variable    0
+    FOR    ${I}    IN RANGE    0    ${nb_ports}
+        Log    ${ports['ports'][${I}]}
+        ${filter_found}=   Run Keyword And Return Status   Should Contain   ${ports['ports'][${I}]['annotations']['portName']}
+        ...    ${filter}
+        ${Enabled}=    Set Variable    ${ports['ports'][${I}]['isEnabled']}
+        ${found_ports}=    Run Keyword If   ${filter_found} and ${Enabled}    evaluate    ${found_ports} + 1
+        ...                          ELSE   Set Variable    ${found_ports}
+    END
+    Log     Found ${found_ports} of ${count} expected ports on device ${deviceId}
+    Should Be Equal As Integers    ${found_ports}    ${count}
+# old code with ONOS CLI:
+#    ${ports}=    Execute ONOS CLI Command use single connection    ${ip}    ${port}
+#        ...    ports -e ${deviceId} | grep ${filter} | wc -l
+#    Log     Found ${ports} of ${count} expected ports on device ${deviceId}
+#    Should Be Equal As Integers    ${ports}    ${count}
 
 Wait for Ports in ONOS
     [Arguments]    ${ip}    ${port}    ${count}    ${deviceId}    ${filter}    ${max_wait_time}=10m
@@ -1103,7 +1199,7 @@ Get ONU Ports per OLT
         Continue For Loop If    "${olt}"!="${src['olt']}"
         ${of_id}=    Wait Until Keyword Succeeds    ${timeout}    15s    Validate OLT Device in ONOS    ${src['olt']}
         ${onu_port}=    Wait Until Keyword Succeeds    ${timeout}    2s    Get ONU Port in ONOS    ${src['onu']}
-        ...    ${of_id}    ${src['uni_id']}
+        ...    ${of_id}    ${src['uni_id']}
         ${port_id}=    Get Index From List    ${onu_port_list}   ${onu_port}
         Continue For Loop If    -1 != ${port_id}
         Append To List    ${onu_port_list}    ${onu_port}
@@ -1134,25 +1230,25 @@ Validate Deleted Device Cleanup In ONOS
     # Fetch OF Id for OLT
     ${olt_of_id}=    Wait Until Keyword Succeeds    ${timeout}    5s    Validate OLT Device in ONOS    ${olt_serial_number}
     # Verify Ports are Removed
-    ${ports}=    Execute ONOS CLI Command use single connection     ${ip}    ${port}
-    ...    ports ${olt_of_id} | grep -v ${olt_of_id}
-    ${port_count}=      Get Line Count      ${ports}
-    Should Be Equal As Integers    ${port_count}    0   Ports have not been removed from ONOS after cleanup
+    ${ports}=    Execute ONOS Rest API Request use single session     ${ONOS_REST_IP}    ${ONOS_REST_PORT}
+    ...  GET    onos/v1/devices/${olt_of_id}/ports
+    Log   ${ports}
+    Should Be Empty    ${ports['ports']}    Ports have not been removed from ONOS after cleanup
     # Verify Subscribers are Removed
     ${sub}=    Execute ONOS CLI Command use single connection     ${ip}    ${port}
     ...    volt-programmed-subscribers | grep ${olt_of_id}
     ${sub_count}=      Get Line Count      ${sub}
     Should Be Equal As Integers    ${sub_count}    0    Subscribers have not been removed from ONOS after cleanup
     # Verify Flows are Removed
-    ${flow}=    Execute ONOS CLI Command use single connection     ${ip}    ${port}
-    ...    flows -s -f ${olt_of_id} | grep -v deviceId
-    ${flow_count}=      Get Line Count      ${flow}
-    Should Be Equal As Integers    ${flow_count}    0   Flows have not been removed from ONOS after cleanup
+    ${flow}=    Execute ONOS Rest API Request use single session     ${ONOS_REST_IP}    ${ONOS_REST_PORT}
+    ...    GET    onos/v1/flows/${olt_of_id}
+    Log   ${flow}
+    Should Not Contain      ${flow}    ${olt_of_id}    Flows have not been removed from ONOS after cleanup
     # Verify Meters are Removed
-    ${meter}=    Execute ONOS CLI Command use single connection     ${ip}    ${port}
-    ...    meters ${olt_of_id}
-    ${meter_count}=      Get Line Count      ${meter}
-    Should Be Equal As Integers    ${meter_count}    0  Meters have not been removed from ONOS after cleanup
+    ${meter}=    Execute ONOS Rest API Request use single session     ${ONOS_REST_IP}    ${ONOS_REST_PORT}
+    ...    GET    onos/v1/meters/${olt_of_id}
+	Log    ${meter}
+    Should Be Empty    ${meter['meters']}    Meters have not been removed from ONOS after cleanup
     # Verify AAA-Users are Removed
     ${aaa}=    Execute ONOS CLI Command use single connection     ${ip}    ${port}
     ...    aaa-users ${olt_of_id}
@@ -1164,9 +1260,9 @@ Validate Deleted Device Cleanup In ONOS
     ${dhcp_count}=      Get Line Count      ${dhcp}
     Should Be Equal As Integers    ${dhcp_count}    0   DHCP Allocations have not been removed from ONOS after cleanup
     # Verify MAC Learner Mappings are Removed
-    ${mac}=    Run Keyword If    ${maclearning_enabled}    Execute ONOS CLI Command use single connection     ${ip}    ${port}
-    ...    mac-learner-get-mapping | grep -v INFO
-    ${mac_count}=    Run Keyword If    ${maclearning_enabled}    Get Line Count    ${mac}
+    ${mac}=    Run Keyword If    ${maclearning_enabled}    Execute ONOS Rest API Request use single session     ${ONOS_REST_IP}
+    ...    ${ONOS_REST_IP}    ${ONOS_REST_PORT}    GET    /onos/v2/maclearner/mapping/all
+    ${mac_count}=    Run Keyword If    ${maclearning_enabled}    Get Length    ${mac['data']}
     ...    ELSE    Set Variable    0
     Should Be Equal As Integers    ${mac_count}    0   Client MAC Learner Mappings have not been removed from ONOS after cleanup
 

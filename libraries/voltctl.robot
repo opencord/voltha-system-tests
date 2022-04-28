@@ -33,7 +33,7 @@ Test Empty Device List
     [Documentation]    Verify that there are no devices in the system
     ${rc}    ${output}=    Run and Return Rc and Output    voltctl -c ${VOLTCTL_CONFIG} device list -o json
     Should Be Equal As Integers    ${rc}    0
-    ${jsondata}=    To Json    ${output}
+    ${jsondata}=    Convert String To Json    ${output}
     Log    ${jsondata}
     ${length}=    Get Length    ${jsondata}
     Should Be Equal As Integers    ${length}    0
@@ -186,7 +186,7 @@ Validate Device
     ...    ELSE    Run and Return Rc and Output
     ...    voltctl -c ${VOLTCTL_CONFIG} device list -m ${voltctlGrpcLimit} -f SerialNumber=${id} -o json
     Should Be Equal As Integers    ${rc}    0
-    ${jsondata}=    To Json    ${output}
+    ${jsondata}=    Convert String To Json    ${output}
     Log     ${output}
     ${length}=    Get Length    ${jsondata}
     ${matched}=    Set Variable    False
@@ -262,7 +262,7 @@ Validate Device Port Types
     ${rc}    ${output}=    Run and Return Rc and Output
     ...    voltctl -c ${VOLTCTL_CONFIG} device port list ${device_id} -m ${voltctlGrpcLimit} -o json
     Should Be Equal As Integers    ${rc}    0
-    ${jsondata}=    To Json    ${output}
+    ${jsondata}=    Convert String To Json    ${output}
     Log    ${jsondata}
     ${length}=    Get Length    ${jsondata}
     FOR    ${INDEX}    IN RANGE    0    ${length}
@@ -306,7 +306,7 @@ Validate Device Flows
     ${rc}    ${output}=    Run and Return Rc and Output
     ...    voltctl -c ${VOLTCTL_CONFIG} device flows ${device_id} -m ${voltctlGrpcLimit} -o json
     Should Be Equal As Integers    ${rc}    0
-    ${jsondata}=    To Json    ${output}
+    ${jsondata}=    Convert String To Json    ${output}
     Log    ${jsondata}
     ${length}=    Get Length    ${jsondata}
     Log    'Number of flows = ' ${length}
@@ -409,7 +409,7 @@ Validate ONU Device By Device Id
     ${cmd}    Catenate    voltctl -c ${VOLTCTL_CONFIG} device list --filter=Id=${onu_id} -m ${voltctlGrpcLimit} -o json
     ${rc}    ${output}=    Run and Return Rc and Output    ${cmd}
     Should Be Equal As Integers    ${rc}    0
-    ${jsondata}=    To Json    ${output}
+    ${jsondata}=    Convert String To Json    ${output}
     ${length}=    Get Length    ${jsondata}
     Should Be Equal As Integers    ${length}    1    No match found for ${onu_id} to validate device
     ${value}=    Get From List    ${jsondata}    0
@@ -496,7 +496,7 @@ Validate Logical Device
     [Documentation]    Validate Logical Device is listed
     ${rc}    ${output}=    Run and Return Rc and Output    voltctl -c ${VOLTCTL_CONFIG} logicaldevice list -o json
     Should Be Equal As Integers    ${rc}    0
-    ${jsondata}=    To Json    ${output}
+    ${jsondata}=    Convert String To Json    ${output}
     Log    ${jsondata}
     ${length}=    Get Length    ${jsondata}
     FOR    ${INDEX}    IN RANGE    0    ${length}
@@ -518,7 +518,7 @@ Validate Logical Device Ports
     ${rc}    ${output}=    Run and Return Rc and Output
     ...    voltctl -c ${VOLTCTL_CONFIG} logicaldevice port list ${logical_device_id} -o json
     Should Be Equal As Integers    ${rc}    0
-    ${jsondata}=    To Json    ${output}
+    ${jsondata}=    Convert String To Json    ${output}
     Log    ${jsondata}
     ${length}=    Get Length    ${jsondata}
     Should Be True    ${length} > 0    Number of ports for ${logical_device_id} was 0
@@ -529,7 +529,7 @@ Validate Logical Device Flows
     ${rc}    ${output}=    Run and Return Rc and Output
     ...    voltctl -c ${VOLTCTL_CONFIG} logicaldevice flows ${logical_device_id} -o json
     Should Be Equal As Integers    ${rc}    0
-    ${jsondata}=    To Json    ${output}
+    ${jsondata}=    Convert String To Json    ${output}
     Log    ${jsondata}
     ${length}=    Get Length    ${jsondata}
     Should Be True    ${length} > 0    Number of flows for ${logical_device_id} was 0
@@ -540,7 +540,7 @@ Retrieve ONU UNI Ports
     ${rc}    ${output}=    Run and Return Rc and Output
     ...    voltctl -c ${VOLTCTL_CONFIG} device port list ${onu_device_id} -o json
     Should Be Equal As Integers    ${rc}    0
-    ${jsondata}=    To Json    ${output}
+    ${jsondata}=    Convert String To Json    ${output}
     Log    ${jsondata}
     ${length}=    Get Length    ${jsondata}
     ${onu_uni_list}=    Create List
@@ -561,7 +561,7 @@ Retrieve OLT PON Ports
     ${rc}    ${output}=    Run and Return Rc and Output
     ...    voltctl -c ${VOLTCTL_CONFIG} device port list ${olt_device_id} -o json
     Should Be Equal As Integers    ${rc}    0
-    ${jsondata}=    To Json    ${output}
+    ${jsondata}=    Convert String To Json    ${output}
     Log    ${jsondata}
     ${length}=    Get Length    ${jsondata}
     ${olt_pon_list}=    Create List
@@ -582,7 +582,7 @@ Retrieve Peer List From OLT PON Port
     ${rc}    ${output}=    Run and Return Rc and Output
     ...    voltctl -c ${VOLTCTL_CONFIG} device port list ${olt_device_id} -o json
     Should Be Equal As Integers    ${rc}    0
-    ${jsondata}=    To Json    ${output}
+    ${jsondata}=    Convert String To Json    ${output}
     Log    ${jsondata}
     ${length}=    Get Length    ${jsondata}
     ${matched}=    Set Variable    False
@@ -612,7 +612,7 @@ Validate OLT PON Port Status
     ${rc}    ${output}=    Run and Return Rc and Output
     ...    voltctl -c ${VOLTCTL_CONFIG} device port list ${olt_device_id} -o json
     Should Be Equal As Integers    ${rc}    0
-    ${jsondata}=    To Json    ${output}
+    ${jsondata}=    Convert String To Json    ${output}
     Log    ${jsondata}
     ${length}=    Get Length    ${jsondata}
     ${matched}=    Set Variable    False
@@ -645,7 +645,7 @@ Retrieve Peer List From OLT
     ${rc}    ${output}=    Run and Return Rc and Output
     ...    voltctl -c ${VOLTCTL_CONFIG} device port list ${olt_device_id} -o json
     Should Be Equal As Integers    ${rc}    0
-    ${jsondata}=    To Json    ${output}
+    ${jsondata}=    Convert String To Json    ${output}
     Log    ${jsondata}
     ${length}=    Get Length    ${jsondata}
     ${matched}=    Set Variable    False
@@ -676,7 +676,7 @@ Match OLT Peer Id
     [Documentation]    Lookup the OLT Peer Id in against the list of ONU device Ids
     ${rc}    ${output}=    Run and Return Rc and Output    voltctl -c ${VOLTCTL_CONFIG} device list -o json
     Should Be Equal As Integers    ${rc}    0
-    ${jsondata}=    To Json    ${output}
+    ${jsondata}=    Convert String To Json    ${output}
     Log    ${jsondata}
     ${length}=    Get Length    ${jsondata}
     ${matched}=    Set Variable    False
@@ -702,7 +702,7 @@ Match ONU Peer Id
     ${rc}    ${output}=    Run and Return Rc and Output
     ...    voltctl -c ${VOLTCTL_CONFIG} device port list ${onu_dev_id} -o json
     Should Be Equal As Integers    ${rc}    0
-    ${jsondata}=    To Json    ${output}
+    ${jsondata}=    Convert String To Json    ${output}
     Log    ${jsondata}
     ${length}=    Get Length    ${jsondata}
     ${matched}=    Set Variable    False
@@ -787,7 +787,7 @@ Validate Device Removed
     [Documentation]    Verifys that device, ${serial_number}, has been removed
     ${rc}    ${output}=    Run and Return Rc and Output    voltctl -c ${VOLTCTL_CONFIG} device list -o json
     Should Be Equal As Integers    ${rc}    0
-    ${jsondata}=    To Json    ${output}
+    ${jsondata}=    Convert String To Json    ${output}
     Log    ${jsondata}
     ${length}=    Get Length    ${jsondata}
     @{sns}=    Create List
@@ -837,7 +837,7 @@ Count Logical Devices flows
     [Documentation]  Count the flows across logical devices in VOLTHA
     [Arguments]  ${targetFlows}
     ${output}=     Get Logical Device List From Voltha
-    ${logical_devices}=    To Json    ${output}
+    ${logical_devices}=    Convert String To Json    ${output}
     ${total_flows}=     Set Variable    0
     FOR     ${device}   IN  @{logical_devices}
         ${rc}    ${flows}=    Run and Return Rc and Output
@@ -864,7 +864,7 @@ Count OpenOLT Device Flows
     [Documentation]  Count the flows across openolt devices in VOLTHA
     [Arguments]  ${targetFlows}
     ${output}=     Get Device List from Voltha by type      openolt
-    ${devices}=    To Json    ${output}
+    ${devices}=    Convert String To Json    ${output}
     ${total_flows}=     Set Variable    0
     FOR     ${device}   IN  @{devices}
         ${rc}    ${flows}=    Run and Return Rc and Output
@@ -896,7 +896,7 @@ Wait for OpenOLT Devices flows
 Validate ONU Device Image
     [Documentation]    Validates the ONU device image
     [Arguments]    ${data}    ${image_version}    ${dev_id}    ${download_state}    ${expected_reason}    ${image_status}
-    ${jsondata}=    To Json    ${data}
+    ${jsondata}=    Convert String To Json    ${data}
     ${length}=    Get Length    ${jsondata}
     Should Not Be Equal As Integers    ${length}    0    No record to validate device image
     FOR    ${J}    IN RANGE    0    ${length}
@@ -1003,7 +1003,7 @@ Verify ONU Device Image List
     ${rc}    ${output}=    Run and Return Rc and Output
     ...    voltctl -c ${VOLTCTL_CONFIG} device onuimage list ${dev_id} -o json
     Should Be Equal As Integers    ${rc}    0
-    ${jsondata}=    To Json    ${output}
+    ${jsondata}=    Convert String To Json    ${output}
     Log    ${jsondata}
     ${length}=    Get Length    ${jsondata}
     ${matched}=    Set Variable    False
