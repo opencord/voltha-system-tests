@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "034a1dc0_61cdb64f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2022-04-29T14:44:23Z",
+      "side": 1,
+      "message": "This is great work, unfortunately some APIs are missing in ONOS for this work to be completed. Lets\u0027s wait for the fate of LWC and the resulting NB APIs and then base future work on this. \nlet\u0027s also discuss the findings in our weekly call. ",
+      "revId": "1f7558812559a9a159c3864e61e48340b0d4db4a",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    }
+  ]
+}
