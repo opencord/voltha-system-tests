@@ -1187,13 +1187,14 @@ Echo Message to OLT Logs
         ${olt_ssh_ip}    Evaluate    ${olts}[${I}].get("sship")
         Continue For Loop If    "${olt_user}" == "${None}"
         Continue For Loop If    "${olt_pass}" == "${None}"
-        Wait Until Keyword Succeeds    180s    10s    Execute Remote Command
+        ${command_timeout}=    Set Variable    300s
+        Wait Until Keyword Succeeds    ${command_timeout}    10s    Execute Remote Command
         ...    printf '%s\n' '' '' '${message}' '' >> /var/log/openolt.log
         ...    ${olt_ssh_ip}    ${olt_user}    ${olt_pass}
-        Wait Until Keyword Succeeds    180s    10s    Execute Remote Command
+        Wait Until Keyword Succeeds    ${command_timeout}    10s    Execute Remote Command
         ...    printf '%s\n' '' '' '${message}' '' >> /var/log/dev_mgmt_daemon.log
         ...    ${olt_ssh_ip}    ${olt_user}    ${olt_pass}
-        Wait Until Keyword Succeeds    180s    10s    Execute Remote Command
+        Wait Until Keyword Succeeds    ${command_timeout}    10s    Execute Remote Command
         ...    printf '%s\n' '' '' '${message}' '' >> /var/log/openolt_process_watchdog.log
         ...    ${olt_ssh_ip}    ${olt_user}    ${olt_pass}
     END
