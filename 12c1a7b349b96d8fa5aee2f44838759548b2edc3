@@ -24,6 +24,30 @@
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ce8c65d2_13592b83",
+        "filename": "tests/openonu-go-adapter/Voltha_ONUReconcileTests.robot",
+        "patchSetId": 3
+      },
+      "lineNbr": 401,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2022-05-02T11:36:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d5a2e824_4cc6fe9f",
+      "range": {
+        "startLine": 400,
+        "startChar": 4,
+        "endLine": 401,
+        "endChar": 98
+      },
+      "revId": "12c1a7b349b96d8fa5aee2f44838759548b2edc3",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "be3419e1_d1ac4890",
@@ -37,6 +61,30 @@
       "writtenOn": "2022-05-02T11:22:51Z",
       "side": 1,
       "message": "For TT workflow it should be better to pass ${unitag_sub} like:\nWait for all ONU Ports in ONOS Disabled    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${unitag_sub}",
+      "range": {
+        "startLine": 439,
+        "startChar": 4,
+        "endLine": 439,
+        "endChar": 81
+      },
+      "revId": "12c1a7b349b96d8fa5aee2f44838759548b2edc3",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "97415765_46172f82",
+        "filename": "tests/openonu-go-adapter/Voltha_ONUReconcileTests.robot",
+        "patchSetId": 3
+      },
+      "lineNbr": 439,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2022-05-02T11:36:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "be3419e1_d1ac4890",
       "range": {
         "startLine": 439,
         "startChar": 4,
