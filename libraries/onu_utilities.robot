@@ -396,12 +396,17 @@ Remove Tech Profile
 Do Onu Subscriber Add Per OLT
     [Documentation]    Add Subscriber per OLT
     [Arguments]    ${of_id}    ${olt_serial_number}    ${print2console}=False
+    ${onu_list}    Create List
     FOR    ${I}    IN RANGE    0    ${num_all_onus}
         ${src}=    Set Variable    ${hosts.src[${I}]}
         Continue For Loop If    "${olt_serial_number}"!="${src['olt']}"
         ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
         ${onu_port}=    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
         ...    Get ONU Port in ONOS    ${src['onu']}    ${of_id}
+        ${of_id_onu_port}=    Catenate    SEPARATOR=-    ${of_id}    ${onu_port}
+        ${pair_id}=    Get Index From List    ${onu_list}   ${of_id_onu_port}
+        Continue For Loop If    -1 != ${pair_id}
+        Append To List    ${onu_list}    ${of_id_onu_port}
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2
         ...    Execute ONOS CLI Command use single connection    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}
         ...    volt-add-subscriber-access ${of_id} ${onu_port}
@@ -430,6 +435,7 @@ Do Onu Flow Check Per OLT
 Do Onu Subscriber Remove Per OLT
     [Documentation]    Removes per OLT subscribers in ONOS and Voltha
     [Arguments]    ${of_id}    ${olt_serial_number}    ${print2console}=False
+    ${onu_list}    Create List
     FOR    ${I}    IN RANGE    0    ${num_all_onus}
         ${src}=    Set Variable    ${hosts.src[${I}]}
         ${dst}=    Set Variable    ${hosts.dst[${I}]}
@@ -437,6 +443,10 @@ Do Onu Subscriber Remove Per OLT
         ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
         ${onu_port}=    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
         ...    Get ONU Port in ONOS    ${src['onu']}    ${of_id}
+        ${of_id_onu_port}=    Catenate    SEPARATOR=-    ${of_id}    ${onu_port}
+        ${pair_id}=    Get Index From List    ${onu_list}   ${of_id_onu_port}
+        Continue For Loop If    -1 != ${pair_id}
+        Append To List    ${onu_list}    ${of_id_onu_port}
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2
         ...    Execute ONOS CLI Command use single connection    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}
         ...    volt-remove-subscriber-access ${of_id} ${onu_port}
