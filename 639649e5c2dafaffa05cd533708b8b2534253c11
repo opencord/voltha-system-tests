@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1f73df85_079be4bc",
+        "filename": "libraries/onu_utilities.robot",
+        "patchSetId": 6
+      },
+      "lineNbr": 444,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2022-05-04T11:25:03Z",
+      "side": 1,
+      "message": "This has to remove. Already done in line 438!",
+      "range": {
+        "startLine": 444,
+        "startChar": 7,
+        "endLine": 444,
+        "endChar": 34
+      },
+      "revId": "639649e5c2dafaffa05cd533708b8b2534253c11",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    }
+  ]
+}
