@@ -621,7 +621,10 @@ Do Wrong MDS Counter After Adapter Restart
     ...    ELSE IF    "${workflow}"=="TT"    Perform Sanity Tests TT    ${suppressaddsubscriber}
     ...    ELSE       Perform Sanity Test    ${suppressaddsubscriber}
     Disable Onu Device
-    Current State Test All Onus    tech-profile-config-delete-success
+    ${alternativeonustates}=  Create List     omci-flows-deleted
+    Run Keyword If    "${workflow}"=="DT"    Current State Test All Onus    omci-admin-lock
+    ...    ELSE IF    "${workflow}"=="TT"    Current State Test All Onus    omci-admin-lock
+    ...    ELSE       Current State Test All Onus    omci-admin-lock    alternativeonustate=${alternativeonustates}
     Wait for all ONU Ports in ONOS Disabled    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${unitag_sub}
     Enable Onu Device
     Run Keyword If    "${workflow}"=="DT"    Perform Sanity Test DT     ${suppressaddsubscriber}
