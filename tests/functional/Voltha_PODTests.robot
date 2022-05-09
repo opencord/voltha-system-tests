@@ -305,6 +305,7 @@ Test Disable and Enable OLT
         Wait Until Keyword Succeeds    ${timeout}    5s    Validate OLT Device    DISABLED    UNKNOWN    REACHABLE
         ...    ${olt_serial_number}
     END
+    Sleep    30s
     # Validate the ONUs
     FOR    ${I}    IN RANGE    0    ${num_all_onus}
         ${src}=    Set Variable    ${hosts.src[${I}]}
