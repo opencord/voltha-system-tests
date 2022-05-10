@@ -89,7 +89,7 @@ Verify OLT after rebooting physically - MultipleOLT
         ${olt_serial_number}=    Get From Dictionary    ${list_olts}[0]    sn
         Continue For Loop If    "${olt_serial_number}"!="${src['olt']}"
         Run Keyword If    ${has_dataplane}    Run Keyword And Continue On Failure
-        ...    Wait Until Keyword Succeeds    60s    2s
+        ...    Wait Until Keyword Succeeds    ${timeout}    2s
         ...    Check Ping    False    ${dst['dp_iface_ip_qinq']}    ${src['dp_iface_name']}
         ...    ${src['ip']}    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
     END
@@ -101,7 +101,7 @@ Verify OLT after rebooting physically - MultipleOLT
     ${olt_device_id}=    Get OLTDeviceID From OLT List    ${olt_serial_number}
     Run Keyword If    ${has_dataplane}    Wait Until Keyword Succeeds    120s    10s
     ...    Check Remote System Reachability    True    ${olt_ssh_ip}
-    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    360s    5s
+    Wait Until Keyword Succeeds    360s    5s
     ...    Validate OLT Device    ENABLED    ACTIVE
     ...    REACHABLE    ${olt_serial_number}
     # Waiting extra time for the ONUs to come up
@@ -140,7 +140,7 @@ Verify OLT Soft Reboot - MultipleOLT
     ${olt_ssh_ip}=    Get From Dictionary    ${list_olts}[0]   sship
     ${olt_serial_number}=    Get From Dictionary    ${list_olts}[0]    sn
     ${olt_device_id}=    Get OLTDeviceID From OLT List    ${olt_serial_number}
-    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    360s    5s
+    Wait Until Keyword Succeeds    360s    5s
     ...    Validate OLT Device    ENABLED    ACTIVE
     ...    REACHABLE    ${olt_serial_number}
     # Reboot the OLT using "voltctl device reboot" command
@@ -157,7 +157,7 @@ Verify OLT Soft Reboot - MultipleOLT
         ${olt_serial_number}=    Get From Dictionary    ${list_olts}[0]    sn
         Continue For Loop If    "${olt_serial_number}"!="${src['olt']}"
         Run Keyword If    ${has_dataplane}    Run Keyword And Continue On Failure
-        ...    Wait Until Keyword Succeeds    60s    2s
+        ...    Wait Until Keyword Succeeds    ${timeout}    2s
         ...    Check Ping    False    ${dst['dp_iface_ip_qinq']}    ${src['dp_iface_name']}
         ...    ${src['ip']}    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
     END
@@ -169,7 +169,7 @@ Verify OLT Soft Reboot - MultipleOLT
     Run Keyword If    ${has_dataplane}    Wait Until Keyword Succeeds    120s    10s
     ...    Check Remote System Reachability    True    ${olt_ssh_ip}
     # Check OLT states
-    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    360s    5s
+    Wait Until Keyword Succeeds    360s    5s
     ...    Validate OLT Device    ENABLED    ACTIVE
     ...    REACHABLE    ${olt_serial_number}
     # Waiting extra time for the ONUs to come up
@@ -206,7 +206,7 @@ Clear All Devices Then Perform Setup And Sanity
     Setup
     # Performing Sanity Test to make sure subscribers are all AUTH+DHCP and pingable
     Run Keyword If    ${has_dataplane}    Clean Up Linux
-    Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test
+    Perform Sanity Test
 
 Teardown Suite
     [Documentation]    Clean up ONOS SSH connections
