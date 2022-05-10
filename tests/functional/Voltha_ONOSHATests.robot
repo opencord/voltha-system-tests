@@ -79,8 +79,9 @@ Verify restart ONOS instace master of device after subscriber is provisioned
     Delete All Devices and Verify
     Setup
     Run Keyword If    ${has_dataplane}    Clean Up Linux
-    Run Keyword If   '${workflow}' == 'ATT'    Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test
-    Run Keyword If   '${workflow}' == 'DT'    Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test DT
+    Run Keyword If   '${workflow}' == 'ATT'    Perform Sanity Test
+    Run Keyword If   '${workflow}' == 'DT'    Perform Sanity Test DT
+    Run Keyword If   '${workflow}' == 'TT'    Perform Sanity Tests TT
     FOR   ${I}    IN RANGE    0    ${olt_count}
         ${olt_user}=    Get From Dictionary    ${list_olts}[${I}]    user
         ${olt_pass}=    Get From Dictionary    ${list_olts}[${I}]    pass
@@ -108,6 +109,7 @@ Verify restart ONOS instace master of device after subscriber is provisioned
         Run Keyword If   '${workflow}' == 'DT'    Wait Until Keyword Succeeds    ${timeout}    2s
         ...    Perform Sanity Test DT Per OLT    ${of_id}    ${nni_port}    ${olt_serial_number}    ${num_onus}
     END
+    Run Keyword If   '${workflow}' == 'TT'    Perform Sanity Tests TT
     Log to console    Pod ${podName} deleted and sanity checks passed successfully
 
 *** Keywords ***

@@ -149,7 +149,7 @@ Check deletion of OLT/ONU before disabling
     ...           AND             Stop Logging    DeleteBeforeDisableCheck
     #validate olt states
     Run Keyword If    ${has_dataplane}    Clean Up Linux
-    Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test
+    Perform Sanity Test
     FOR   ${I}    IN RANGE    0    ${olt_count}
         ${olt_user}=    Get From Dictionary    ${list_olts}[${I}]    user
         ${olt_pass}=    Get From Dictionary    ${list_olts}[${I}]    pass
@@ -172,13 +172,13 @@ Check deletion of OLT/ONU before disabling
 	${src}=    Set Variable    ${hosts.src[${I}]}
 	${dst}=    Set Variable    ${hosts.dst[${I}]}
 	${onu_device_id}=    Get Device ID From SN    ${src['onu']}
-	Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s    Validate Device
+	Wait Until Keyword Succeeds    ${timeout}    5s    Validate Device
 	...    ENABLED    ACTIVE    REACHABLE
 	...    ${src['onu']}    onu=True    onu_reason=omci-flows-pushed
 	${rc}    ${output}=    Run and Return Rc and Output    voltctl -c ${VOLTCTL_CONFIG} device delete ${onu_device_id}
 	Log    ${output}
 	Should Contain     ${output}     expected-admin-state:DISABLED
-        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s    Validate Device
+        Wait Until Keyword Succeeds    ${timeout}    5s    Validate Device
         ...    ENABLED    ACTIVE    REACHABLE
         ...    ${src['onu']}    onu=True    onu_reason=omci-flows-pushed
     END
@@ -225,7 +225,7 @@ Check disabling of pre-provisioned OLT before enabling
     FOR    ${I}    IN RANGE    0    ${num_all_onus}
 	${src}=    Set Variable    ${hosts.src[${I}]}
 	${dst}=    Set Variable    ${hosts.dst[${I}]}
-	Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s    Validate Device
+	Wait Until Keyword Succeeds    ${timeout}    5s    Validate Device
 	...    ENABLED    ACTIVE    REACHABLE
 	...    ${src['onu']}    onu=True    onu_reason=${onu_reason}
     END
