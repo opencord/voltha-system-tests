@@ -1,0 +1,1401 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "11be77f2_9d66c36e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2022-05-11T07:52:03Z",
+      "side": 1,
+      "message": "some minor comments",
+      "revId": "c4516790e42ea2eac78b04f56d10a7f820bc1512",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e2824914_82dedaf9",
+        "filename": "libraries/utils.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 923,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2022-05-11T07:52:03Z",
+      "side": 1,
+      "message": "Not sure, but it seems you want to remove all \"Run Keyword And Continue On Failure\". If so, why do you keep this one?\nOn the other hand I\u0027ve learned the keyword was used to collect as much as possible data for verification in error cases.\nFinally it should be uniformed, not mixed. Or is there a reason for the current solution (differentiation/prioritization of checks)?",
+      "range": {
+        "startLine": 923,
+        "startChar": 15,
+        "endLine": 923,
+        "endChar": 50
+      },
+      "revId": "c4516790e42ea2eac78b04f56d10a7f820bc1512",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5ad267fb_d818bd99",
+        "filename": "libraries/utils.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 928,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2022-05-11T07:52:03Z",
+      "side": 1,
+      "message": "same",
+      "range": {
+        "startLine": 928,
+        "startChar": 60,
+        "endLine": 928,
+        "endChar": 95
+      },
+      "revId": "c4516790e42ea2eac78b04f56d10a7f820bc1512",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bd41f22e_823ecb32",
+        "filename": "libraries/utils.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 939,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2022-05-11T07:52:03Z",
+      "side": 1,
+      "message": "same",
+      "range": {
+        "startLine": 939,
+        "startChar": 53,
+        "endLine": 939,
+        "endChar": 88
+      },
+      "revId": "c4516790e42ea2eac78b04f56d10a7f820bc1512",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6206d704_b1121ae0",
+        "filename": "libraries/utils.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 970,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2022-05-11T07:52:03Z",
+      "side": 1,
+      "message": "same",
+      "range": {
+        "startLine": 970,
+        "startChar": 22,
+        "endLine": 970,
+        "endChar": 57
+      },
+      "revId": "c4516790e42ea2eac78b04f56d10a7f820bc1512",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dc41d7d8_b8430867",
+        "filename": "libraries/utils.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 987,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2022-05-11T07:52:03Z",
+      "side": 1,
+      "message": "same",
+      "range": {
+        "startLine": 987,
+        "startChar": 22,
+        "endLine": 987,
+        "endChar": 57
+      },
+      "revId": "c4516790e42ea2eac78b04f56d10a7f820bc1512",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ceeea70c_46ee6160",
+        "filename": "libraries/utils.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 1004,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2022-05-11T07:52:03Z",
+      "side": 1,
+      "message": "same",
+      "range": {
+        "startLine": 1004,
+        "startChar": 53,
+        "endLine": 1004,
+        "endChar": 88
+      },
+      "revId": "c4516790e42ea2eac78b04f56d10a7f820bc1512",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a90a6618_a6869871",
+        "filename": "tests/functional/Voltha_FailureScenarios.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2022-05-11T07:52:03Z",
+      "side": 1,
+      "message": "same as already commented for \"Run Keyword And Continue On Failure\"",
+      "range": {
+        "startLine": 96,
+        "startChar": 46,
+        "endLine": 96,
+        "endChar": 81
+      },
+      "revId": "c4516790e42ea2eac78b04f56d10a7f820bc1512",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a7f2e70a_478fe82a",
+        "filename": "tests/functional/Voltha_FailureScenarios.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2022-05-11T07:52:03Z",
+      "side": 1,
+      "message": "120s are used very often. I would like to suggest to define a variable similar\n${double_timeout}\u003d 120s\nOr if there is a dependency on ${timeout} let it calulate.",
+      "range": {
+        "startLine": 106,
+        "startChar": 38,
+        "endLine": 106,
+        "endChar": 42
+      },
+      "revId": "c4516790e42ea2eac78b04f56d10a7f820bc1512",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6fd1d0ed_16bd5547",
+        "filename": "tests/functional/Voltha_FailureScenarios.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2022-05-11T07:52:03Z",
+      "side": 1,
+      "message": "same as already commented for \"Run Keyword And Continue On Failure\"",
+      "range": {
+        "startLine": 109,
+        "startChar": 8,
+        "endLine": 109,
+        "endChar": 43
+      },
+      "revId": "c4516790e42ea2eac78b04f56d10a7f820bc1512",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "88be1f83_83953e00",
+        "filename": "tests/functional/Voltha_FailureScenarios.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2022-05-11T07:52:03Z",
+      "side": 1,
+      "message": "360s are used very often. I would like to suggest to define a variable similar\n${triple_timeout}\u003d 360s\nOr if there is a dependency on ${timeout} let it calulate.",
+      "range": {
+        "startLine": 112,
+        "startChar": 39,
+        "endLine": 112,
+        "endChar": 43
+      },
+      "revId": "c4516790e42ea2eac78b04f56d10a7f820bc1512",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2ff395f3_a6901283",
+        "filename": "tests/functional/Voltha_FailureScenarios.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2022-05-11T07:52:03Z",
+      "side": 1,
+      "message": "same as already commented for \"Run Keyword And Continue On Failure\"",
+      "range": {
+        "startLine": 119,
+        "startChar": 46,
+        "endLine": 119,
+        "endChar": 81
+      },
+      "revId": "c4516790e42ea2eac78b04f56d10a7f820bc1512",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1a932006_f39afc17",
+        "filename": "tests/functional/Voltha_FailureScenarios.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2022-05-11T07:52:03Z",
+      "side": 1,
+      "message": "same as already commented for \"Run Keyword And Continue On Failure\"",
+      "range": {
+        "startLine": 128,
+        "startChar": 8,
+        "endLine": 128,
+        "endChar": 43
+      },
+      "revId": "c4516790e42ea2eac78b04f56d10a7f820bc1512",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3ed2afec_1943a232",
+        "filename": "tests/functional/Voltha_FailureScenarios.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2022-05-11T07:52:03Z",
+      "side": 1,
+      "message": "same as already commented for \"Run Keyword And Continue On Failure\"",
+      "range": {
+        "startLine": 134,
+        "startChar": 46,
+        "endLine": 134,
+        "endChar": 81
+      },
+      "revId": "c4516790e42ea2eac78b04f56d10a7f820bc1512",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "068b23fa_1728635b",
+        "filename": "tests/functional/Voltha_FailureScenarios.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2022-05-11T07:52:03Z",
+      "side": 1,
+      "message": "same as already commented for \"Run Keyword And Continue On Failure\"",
+      "range": {
+        "startLine": 174,
+        "startChar": 46,
+        "endLine": 174,
+        "endChar": 81
+      },
+      "revId": "c4516790e42ea2eac78b04f56d10a7f820bc1512",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "314356e4_5d596474",
+        "filename": "tests/functional/Voltha_FailureScenarios.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2022-05-11T07:52:03Z",
+      "side": 1,
+      "message": "To prevent \"Sleep 60s\" following suggestion (not tested!!!):\n    ${podName}    Set Variable     ${OLT_ADAPTER_APP_LABEL}\n    Wait Until Keyword Succeeds    ${timeout}    15s    Delete K8s Pods By Label    ${NAMESPACE}    app    ${podName}\n    Sleep 5s\n(    Wait Until Keyword Succeeds    ${timeout}    2s    Validate Pods Status By Label    ${NAMESPACE}\n    ...    app    ${podName}    Running )\n    Wait Until Keyword Succeeds    ${timeout}    3s\n        ...    Pods Are Ready By Label    ${namespace}    app    ${podName}\n\nI think \"Validate Pods Status By Label\" for \"Running\" is sufficient and can be removed too. Therfore the brackets",
+      "range": {
+        "startLine": 215,
+        "startChar": 0,
+        "endLine": 221,
+        "endChar": 16
+      },
+      "revId": "c4516790e42ea2eac78b04f56d10a7f820bc1512",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "caf14bb8_cac53235",
+        "filename": "tests/functional/Voltha_FailureScenarios.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 343,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2022-05-11T07:52:03Z",
+      "side": 1,
+      "message": "same as already commented for \"Run Keyword And Continue On Failure\"",
+      "range": {
+        "startLine": 343,
+        "startChar": 46,
+        "endLine": 343,
+        "endChar": 81
+      },
+      "revId": "c4516790e42ea2eac78b04f56d10a7f820bc1512",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cd4b1bd7_555c0834",
+        "filename": "tests/functional/Voltha_FailureScenarios.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 392,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2022-05-11T07:52:03Z",
+      "side": 1,
+      "message": "same as already commented for \"Run Keyword And Continue On Failure\"",
+      "range": {
+        "startLine": 392,
+        "startChar": 8,
+        "endLine": 392,
+        "endChar": 43
+      },
+      "revId": "c4516790e42ea2eac78b04f56d10a7f820bc1512",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2b4bc483_73d35a77",
+        "filename": "tests/functional/Voltha_FailureScenarios.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 399,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2022-05-11T07:52:03Z",
+      "side": 1,
+      "message": "same as already commented for \"Run Keyword And Continue On Failure\"",
+      "range": {
+        "startLine": 399,
+        "startChar": 8,
+        "endLine": 399,
+        "endChar": 43
+      },
+      "revId": "c4516790e42ea2eac78b04f56d10a7f820bc1512",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "96a86c44_bda344b1",
+        "filename": "tests/functional/Voltha_FailureScenarios.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 403,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2022-05-11T07:52:03Z",
+      "side": 1,
+      "message": "same as already commented for \"Run Keyword And Continue On Failure\"",
+      "range": {
+        "startLine": 403,
+        "startChar": 8,
+        "endLine": 403,
+        "endChar": 43
+      },
+      "revId": "c4516790e42ea2eac78b04f56d10a7f820bc1512",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f1c68dc7_ae3788ac",
+        "filename": "tests/functional/Voltha_FailureScenarios.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 406,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2022-05-11T07:52:03Z",
+      "side": 1,
+      "message": "same as already commented for \"Run Keyword And Continue On Failure\"",
+      "range": {
+        "startLine": 406,
+        "startChar": 8,
+        "endLine": 406,
+        "endChar": 43
+      },
+      "revId": "c4516790e42ea2eac78b04f56d10a7f820bc1512",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1d619afc_cd2a48b1",
+        "filename": "tests/functional/Voltha_FailureScenarios.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 413,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2022-05-11T07:52:03Z",
+      "side": 1,
+      "message": "same as already commented for \"Run Keyword And Continue On Failure\"",
+      "range": {
+        "startLine": 413,
+        "startChar": 46,
+        "endLine": 413,
+        "endChar": 81
+      },
+      "revId": "c4516790e42ea2eac78b04f56d10a7f820bc1512",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "25f1d1a5_7b3e6824",
+        "filename": "tests/functional/Voltha_FailureScenarios.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 479,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2022-05-11T07:52:03Z",
+      "side": 1,
+      "message": "same as already commented for \"Run Keyword And Continue On Failure\"",
+      "range": {
+        "startLine": 479,
+        "startChar": 8,
+        "endLine": 479,
+        "endChar": 43
+      },
+      "revId": "c4516790e42ea2eac78b04f56d10a7f820bc1512",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2031d029_4581d339",
+        "filename": "tests/functional/Voltha_FailureScenarios.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 482,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2022-05-11T07:52:03Z",
+      "side": 1,
+      "message": "same as already commented for \"Run Keyword And Continue On Failure\"",
+      "range": {
+        "startLine": 482,
+        "startChar": 8,
+        "endLine": 482,
+        "endChar": 43
+      },
+      "revId": "c4516790e42ea2eac78b04f56d10a7f820bc1512",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "46f96ae5_aa2ea4a0",
+        "filename": "tests/functional/Voltha_FailureScenarios.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 492,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2022-05-11T07:52:03Z",
+      "side": 1,
+      "message": "same as already commented for \"Run Keyword And Continue On Failure\"",
+      "range": {
+        "startLine": 492,
+        "startChar": 46,
+        "endLine": 492,
+        "endChar": 81
+      },
+      "revId": "c4516790e42ea2eac78b04f56d10a7f820bc1512",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "643db919_2be0fc25",
+        "filename": "tests/functional/Voltha_FailureScenarios.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 495,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2022-05-11T07:52:03Z",
+      "side": 1,
+      "message": "same as already commented for \"Run Keyword And Continue On Failure\"",
+      "range": {
+        "startLine": 495,
+        "startChar": 8,
+        "endLine": 495,
+        "endChar": 43
+      },
+      "revId": "c4516790e42ea2eac78b04f56d10a7f820bc1512",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9cfda4ee_c68fb73b",
+        "filename": "tests/functional/Voltha_FailureScenarios.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 498,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2022-05-11T07:52:03Z",
+      "side": 1,
+      "message": "same as already commented for \"Run Keyword And Continue On Failure\"",
+      "range": {
+        "startLine": 498,
+        "startChar": 8,
+        "endLine": 498,
+        "endChar": 43
+      },
+      "revId": "c4516790e42ea2eac78b04f56d10a7f820bc1512",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8a40cfdf_d77d29f7",
+        "filename": "tests/functional/Voltha_FailureScenarios.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 504,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2022-05-11T07:52:03Z",
+      "side": 1,
+      "message": "same as already commented for \"Run Keyword And Continue On Failure\"",
+      "range": {
+        "startLine": 504,
+        "startChar": 46,
+        "endLine": 504,
+        "endChar": 81
+      },
+      "revId": "c4516790e42ea2eac78b04f56d10a7f820bc1512",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4b08e303_15160843",
+        "filename": "tests/functional/Voltha_FailureScenarios.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 594,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2022-05-11T07:52:03Z",
+      "side": 1,
+      "message": "same as already commented for \"Run Keyword And Continue On Failure\"",
+      "range": {
+        "startLine": 594,
+        "startChar": 46,
+        "endLine": 594,
+        "endChar": 81
+      },
+      "revId": "c4516790e42ea2eac78b04f56d10a7f820bc1512",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f7ea8e7f_feecc1d0",
+        "filename": "tests/functional/Voltha_FailureScenarios.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 599,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2022-05-11T07:52:03Z",
+      "side": 1,
+      "message": "same as already commented for \"Run Keyword And Continue On Failure\"",
+      "range": {
+        "startLine": 599,
+        "startChar": 59,
+        "endLine": 599,
+        "endChar": 94
+      },
+      "revId": "c4516790e42ea2eac78b04f56d10a7f820bc1512",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "81dddb1f_fadf5e41",
+        "filename": "tests/functional/Voltha_FailureScenarios.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 625,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2022-05-11T07:52:03Z",
+      "side": 1,
+      "message": "same as already commented for \"Run Keyword And Continue On Failure\"",
+      "range": {
+        "startLine": 625,
+        "startChar": 46,
+        "endLine": 625,
+        "endChar": 81
+      },
+      "revId": "c4516790e42ea2eac78b04f56d10a7f820bc1512",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eecb6aab_ef201880",
+        "filename": "tests/functional/Voltha_FailureScenarios.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 709,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2022-05-11T07:52:03Z",
+      "side": 1,
+      "message": "same as already commented for \"Run Keyword And Continue On Failure\"",
+      "range": {
+        "startLine": 709,
+        "startChar": 46,
+        "endLine": 709,
+        "endChar": 81
+      },
+      "revId": "c4516790e42ea2eac78b04f56d10a7f820bc1512",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dea05acd_7eed1c91",
+        "filename": "tests/functional/Voltha_FailureScenarios.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 763,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2022-05-11T07:52:03Z",
+      "side": 1,
+      "message": "same as already commented for \"Run Keyword And Continue On Failure\"",
+      "range": {
+        "startLine": 763,
+        "startChar": 46,
+        "endLine": 763,
+        "endChar": 81
+      },
+      "revId": "c4516790e42ea2eac78b04f56d10a7f820bc1512",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c3d0cc0f_050602ba",
+        "filename": "tests/functional/Voltha_FailureScenarios.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 773,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2022-05-11T07:52:03Z",
+      "side": 1,
+      "message": "same as already commented for \"Run Keyword And Continue On Failure\"",
+      "range": {
+        "startLine": 773,
+        "startChar": 8,
+        "endLine": 773,
+        "endChar": 43
+      },
+      "revId": "c4516790e42ea2eac78b04f56d10a7f820bc1512",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a32b47a6_2537690f",
+        "filename": "tests/functional/Voltha_FailureScenarios.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 776,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2022-05-11T07:52:03Z",
+      "side": 1,
+      "message": "same as already commented for \"Run Keyword And Continue On Failure\"",
+      "range": {
+        "startLine": 776,
+        "startChar": 8,
+        "endLine": 776,
+        "endChar": 44
+      },
+      "revId": "c4516790e42ea2eac78b04f56d10a7f820bc1512",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "764b6064_a5aa74df",
+        "filename": "tests/functional/Voltha_FailureScenarios.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 786,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2022-05-11T07:52:03Z",
+      "side": 1,
+      "message": "same as already commented for \"Run Keyword And Continue On Failure\"",
+      "range": {
+        "startLine": 786,
+        "startChar": 46,
+        "endLine": 786,
+        "endChar": 81
+      },
+      "revId": "c4516790e42ea2eac78b04f56d10a7f820bc1512",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f1273b74_319f5e5e",
+        "filename": "tests/functional/Voltha_FailureScenarios.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 801,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2022-05-11T07:52:03Z",
+      "side": 1,
+      "message": "same as already commented for \"Run Keyword And Continue On Failure\"",
+      "range": {
+        "startLine": 801,
+        "startChar": 46,
+        "endLine": 801,
+        "endChar": 81
+      },
+      "revId": "c4516790e42ea2eac78b04f56d10a7f820bc1512",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "58c6b412_7c00b8be",
+        "filename": "tests/functional/Voltha_MultiOLT_Tests.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2022-05-11T07:52:03Z",
+      "side": 1,
+      "message": "same as already mentioned",
+      "range": {
+        "startLine": 102,
+        "startChar": 73,
+        "endLine": 102,
+        "endChar": 77
+      },
+      "revId": "c4516790e42ea2eac78b04f56d10a7f820bc1512",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6489d20e_8d9c1881",
+        "filename": "tests/functional/Voltha_MultiOLT_Tests.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2022-05-11T07:52:03Z",
+      "side": 1,
+      "message": "same as already mentioned",
+      "range": {
+        "startLine": 104,
+        "startChar": 35,
+        "endLine": 104,
+        "endChar": 39
+      },
+      "revId": "c4516790e42ea2eac78b04f56d10a7f820bc1512",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "47c7e03d_bbebb4e8",
+        "filename": "tests/functional/Voltha_MultiOLT_Tests.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2022-05-11T07:52:03Z",
+      "side": 1,
+      "message": "same as already mentioned.",
+      "range": {
+        "startLine": 159,
+        "startChar": 46,
+        "endLine": 159,
+        "endChar": 81
+      },
+      "revId": "c4516790e42ea2eac78b04f56d10a7f820bc1512",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6368fb95_ed3fc150",
+        "filename": "tests/functional/Voltha_ONOSHATests.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2022-05-11T07:52:03Z",
+      "side": 1,
+      "message": "There are really no HA tests for TT?",
+      "range": {
+        "startLine": 82,
+        "startChar": 0,
+        "endLine": 83,
+        "endChar": 68
+      },
+      "revId": "c4516790e42ea2eac78b04f56d10a7f820bc1512",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7f79b316_2ff4ebd6",
+        "filename": "tests/functional/Voltha_PODTests.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2022-05-11T07:52:03Z",
+      "side": 1,
+      "message": "same as already mentioned.",
+      "range": {
+        "startLine": 115,
+        "startChar": 46,
+        "endLine": 115,
+        "endChar": 81
+      },
+      "revId": "c4516790e42ea2eac78b04f56d10a7f820bc1512",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f65d6d70_f4a1c0e2",
+        "filename": "tests/functional/Voltha_PODTests.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2022-05-11T07:52:03Z",
+      "side": 1,
+      "message": "same as already mentioned.",
+      "range": {
+        "startLine": 126,
+        "startChar": 8,
+        "endLine": 126,
+        "endChar": 43
+      },
+      "revId": "c4516790e42ea2eac78b04f56d10a7f820bc1512",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "607a8f54_a4b84824",
+        "filename": "tests/functional/Voltha_PODTests.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2022-05-11T07:52:03Z",
+      "side": 1,
+      "message": "same as already mentioned.",
+      "range": {
+        "startLine": 132,
+        "startChar": 46,
+        "endLine": 132,
+        "endChar": 81
+      },
+      "revId": "c4516790e42ea2eac78b04f56d10a7f820bc1512",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "217a6518_9a8d9cd3",
+        "filename": "tests/functional/Voltha_PODTests.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2022-05-11T07:52:03Z",
+      "side": 1,
+      "message": "same as already mentioned.",
+      "range": {
+        "startLine": 160,
+        "startChar": 46,
+        "endLine": 160,
+        "endChar": 81
+      },
+      "revId": "c4516790e42ea2eac78b04f56d10a7f820bc1512",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e7ee2575_dc8ba32e",
+        "filename": "tests/functional/Voltha_PODTests.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2022-05-11T07:52:03Z",
+      "side": 1,
+      "message": "same as already mentioned.",
+      "range": {
+        "startLine": 166,
+        "startChar": 8,
+        "endLine": 166,
+        "endChar": 43
+      },
+      "revId": "c4516790e42ea2eac78b04f56d10a7f820bc1512",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "075ce255_98606e88",
+        "filename": "tests/functional/Voltha_PODTests.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2022-05-11T07:52:03Z",
+      "side": 1,
+      "message": "same as already mentioned.",
+      "range": {
+        "startLine": 168,
+        "startChar": 8,
+        "endLine": 168,
+        "endChar": 43
+      },
+      "revId": "c4516790e42ea2eac78b04f56d10a7f820bc1512",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fa1b540e_062b3f95",
+        "filename": "tests/functional/Voltha_PODTests.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2022-05-11T07:52:03Z",
+      "side": 1,
+      "message": "same as already mentioned.",
+      "range": {
+        "startLine": 174,
+        "startChar": 46,
+        "endLine": 174,
+        "endChar": 81
+      },
+      "revId": "c4516790e42ea2eac78b04f56d10a7f820bc1512",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a1fc0186_d00885b1",
+        "filename": "tests/functional/Voltha_PODTests.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2022-05-11T07:52:03Z",
+      "side": 1,
+      "message": "same as already mentioned.",
+      "range": {
+        "startLine": 211,
+        "startChar": 46,
+        "endLine": 211,
+        "endChar": 81
+      },
+      "revId": "c4516790e42ea2eac78b04f56d10a7f820bc1512",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c02a2cf6_a9456f2b",
+        "filename": "tests/functional/Voltha_PODTests.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2022-05-11T07:52:03Z",
+      "side": 1,
+      "message": "same as already mentioned.",
+      "range": {
+        "startLine": 218,
+        "startChar": 8,
+        "endLine": 218,
+        "endChar": 43
+      },
+      "revId": "c4516790e42ea2eac78b04f56d10a7f820bc1512",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d8a39bc5_961d27e6",
+        "filename": "tests/functional/Voltha_PODTests.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2022-05-11T07:52:03Z",
+      "side": 1,
+      "message": "same as already mentioned.",
+      "range": {
+        "startLine": 224,
+        "startChar": 46,
+        "endLine": 224,
+        "endChar": 81
+      },
+      "revId": "c4516790e42ea2eac78b04f56d10a7f820bc1512",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "10cb2d77_611426a2",
+        "filename": "tests/functional/Voltha_PODTests.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2022-05-11T07:52:03Z",
+      "side": 1,
+      "message": "same as already mentioned.",
+      "range": {
+        "startLine": 251,
+        "startChar": 38,
+        "endLine": 251,
+        "endChar": 42
+      },
+      "revId": "c4516790e42ea2eac78b04f56d10a7f820bc1512",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2506b064_abee8ef0",
+        "filename": "tests/functional/Voltha_PODTests.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2022-05-11T07:52:03Z",
+      "side": 1,
+      "message": "same as already mentioned.",
+      "range": {
+        "startLine": 257,
+        "startChar": 46,
+        "endLine": 257,
+        "endChar": 81
+      },
+      "revId": "c4516790e42ea2eac78b04f56d10a7f820bc1512",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dc9dcfcd_b1e07b36",
+        "filename": "tests/functional/Voltha_PODTests.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 268,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2022-05-11T07:52:03Z",
+      "side": 1,
+      "message": "same as already mentioned.",
+      "range": {
+        "startLine": 268,
+        "startChar": 46,
+        "endLine": 268,
+        "endChar": 81
+      },
+      "revId": "c4516790e42ea2eac78b04f56d10a7f820bc1512",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1793fd9f_ed26960d",
+        "filename": "tests/functional/Voltha_PODTests.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 280,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2022-05-11T07:52:03Z",
+      "side": 1,
+      "message": "same as already mentioned.",
+      "range": {
+        "startLine": 280,
+        "startChar": 46,
+        "endLine": 280,
+        "endChar": 82
+      },
+      "revId": "c4516790e42ea2eac78b04f56d10a7f820bc1512",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "84048669_b065e0da",
+        "filename": "tests/functional/Voltha_PODTests.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 426,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2022-05-11T07:52:03Z",
+      "side": 1,
+      "message": "same as already mentioned.",
+      "range": {
+        "startLine": 426,
+        "startChar": 39,
+        "endLine": 426,
+        "endChar": 43
+      },
+      "revId": "c4516790e42ea2eac78b04f56d10a7f820bc1512",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "523546be_a20e783a",
+        "filename": "tests/functional/Voltha_PODTests.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 438,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2022-05-11T07:52:03Z",
+      "side": 1,
+      "message": "same as already mentioned.",
+      "range": {
+        "startLine": 438,
+        "startChar": 39,
+        "endLine": 438,
+        "endChar": 43
+      },
+      "revId": "c4516790e42ea2eac78b04f56d10a7f820bc1512",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "75a5c97e_75146dec",
+        "filename": "tests/functional/Voltha_PODTests.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 497,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2022-05-11T07:52:03Z",
+      "side": 1,
+      "message": "same as already mentioned.",
+      "range": {
+        "startLine": 497,
+        "startChar": 46,
+        "endLine": 497,
+        "endChar": 81
+      },
+      "revId": "c4516790e42ea2eac78b04f56d10a7f820bc1512",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c521ff3f_a4bbad97",
+        "filename": "tests/functional/Voltha_PODTests.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 505,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2022-05-11T07:52:03Z",
+      "side": 1,
+      "message": "same as already mentioned.",
+      "range": {
+        "startLine": 505,
+        "startChar": 46,
+        "endLine": 505,
+        "endChar": 81
+      },
+      "revId": "c4516790e42ea2eac78b04f56d10a7f820bc1512",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "97fd83d8_29009bde",
+        "filename": "tests/functional/Voltha_PODTests.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 743,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2022-05-11T07:52:03Z",
+      "side": 1,
+      "message": "same as already mentioned.",
+      "range": {
+        "startLine": 743,
+        "startChar": 4,
+        "endLine": 743,
+        "endChar": 39
+      },
+      "revId": "c4516790e42ea2eac78b04f56d10a7f820bc1512",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4be96435_36924a81",
+        "filename": "tests/functional/Voltha_PODTests.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 752,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2022-05-11T07:52:03Z",
+      "side": 1,
+      "message": "same as already mentioned.",
+      "range": {
+        "startLine": 752,
+        "startChar": 42,
+        "endLine": 752,
+        "endChar": 77
+      },
+      "revId": "c4516790e42ea2eac78b04f56d10a7f820bc1512",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    }
+  ]
+}
