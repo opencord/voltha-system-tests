@@ -1,0 +1,7 @@
+Verified+1: Jenkins Technical User <do-not-reply@opennetworking.org>
+Code-Review+2: Andrea Campanella <andrea.campanella@intel.com>
+Submitted-by: Andrea Campanella <andrea.campanella@intel.com>
+Submitted-at: Wed, 11 May 2022 12:49:01 +0000
+Reviewed-on: https://gerrit.opencord.org/c/voltha-system-tests/+/32446
+Project: voltha-system-tests
+Branch: refs/heads/voltha-2.8
