@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ff080b76_68483f43",
+        "filename": "tests/data/berlin-community-pod-2-gpon-zyxel-sadis-DT.json",
+        "patchSetId": 1
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1000127
+      },
+      "writtenOn": "2022-05-11T23:08:59Z",
+      "side": 1,
+      "message": "Should this be 42 or 43? The above ONU is also 42.",
+      "revId": "4039f1faf230af99145347ac41c1be34cabe234a",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    }
+  ]
+}
