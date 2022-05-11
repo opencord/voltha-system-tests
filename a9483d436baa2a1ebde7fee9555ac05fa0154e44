@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d1384bd8_effa8c50",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2022-05-11T06:29:24Z",
+      "side": 1,
+      "message": "just a small suggestion, if you like;-)",
+      "revId": "a9483d436baa2a1ebde7fee9555ac05fa0154e44",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a866b87f_ad10abea",
+        "filename": "libraries/utils.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 1505,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2022-05-11T06:29:24Z",
+      "side": 1,
+      "message": "Just a suggestion to prevent \u0027Get Length\u0027:\n    FOR    ${node}    IN    @{nodes}\n        ${node_ip}\u003d    Evaluate    ${node}.get(\"ip\")\n        ${node_user}\u003d    Evaluate    ${node}.get(\"user\")\n        ${node_pass}\u003d    Evaluate    ${node}.get(\"pass\")\n        Run Keyword And Continue On Failure    Start Remote Command    kill -9 `pidof lxc`\n        ...    ${node_ip}    ${node_user}    ${node_pass}\n    END",
+      "range": {
+        "startLine": 1498,
+        "startChar": 0,
+        "endLine": 1505,
+        "endChar": 7
+      },
+      "revId": "a9483d436baa2a1ebde7fee9555ac05fa0154e44",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    }
+  ]
+}
