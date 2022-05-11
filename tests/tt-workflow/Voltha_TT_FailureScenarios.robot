@@ -481,12 +481,6 @@ Setup Suite
     ${switch_type}=    Get Variable Value    ${web_power_switch.type}
     Run Keyword If  "${switch_type}"!=""    Set Global Variable    ${powerswitch_type}    ${switch_type}
 
-Teardown Suite
-    [Documentation]    Tear down steps for the suite
-    Run Keyword If    ${has_dataplane}    Clean Up Linux
-    Run Keyword If    ${teardown_device}    Delete All Devices and Verify
-    Close All ONOS SSH Connections
-
 Clear All Devices Then Create New Device
     [Documentation]    Remove any devices from VOLTHA and ONOS & then Create new devices
     # Remove all devices from voltha and onos
