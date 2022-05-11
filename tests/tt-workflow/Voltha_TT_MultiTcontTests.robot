@@ -578,10 +578,3 @@ Clear All Devices Then Create New Device
     Delete All Devices and Verify
     # Execute normal test Setup Keyword
     Setup
-
-
-Teardown Suite
-    [Documentation]    Tear down steps for the suite
-    Run Keyword If    ${has_dataplane}    Clean Up Linux
-    Run Keyword If    ${teardown_device}    Delete All Devices And Verify
-    Close All ONOS SSH Connections
