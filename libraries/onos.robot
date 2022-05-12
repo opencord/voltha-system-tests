@@ -30,7 +30,7 @@ ${alias}                  ONOS_SSH
 ${ssh_read_timeout}       60s
 ${ssh_prompt}             karaf@root >
 ${ssh_regexp_prompt}      REGEXP:k.*a.*r.*a.*f.*@.*r.*o.*o.*t.* .*>.*
-${regexp_prompt}          k.*a.*r.*a.*f.*@.*r.*o.*o.*t.* .*>.*
+${regexp_prompt}          (?ms)(.*)k(.*)a(.*)r(.*)a(.*)f(.*)@(.*)r(.*)o(.*)o(.*)t(.*) (.*)>(.*)
 ${ssh_width}              400
 ${disable_highlighter}    setopt disable-highlighter
 # ${keep_alive_interval} is set to 0s means sending the keepalive packet is disabled!
@@ -91,11 +91,12 @@ Execute Single ONOS CLI Command
     ...           ELSE    Set Variable   ${output}
     ${output}=    Run Keyword If    '${PassOrFail}'=='FAIL'    Get Substring    ${output}    1
     ...           ELSE    Set Variable   ${output}
-    ${output_length}=    Get Length    ${output}
-    # remove regexp-prompt if available
-    ${output}=    Remove String Using Regexp    ${output}    ${regexp_prompt}
-    ${output_after}=    Get Length    ${output}
-    Run Keyword If    '${PassOrFail}'=='FAIL' and ${output_length}== ${output_after}  FAIL    SSH access failed for '${cmd}'!
+    ${match}    ${grp1}    ${grp2}    ${grp3}    ${grp4}    ${grp5}    ${grp6}    ${grp7}    ${grp8}   ${grp9}
+    ...    ${grp10}    ${grp11}    ${grp12}    ${grp13}=    Run Keyword If    '${PassOrFail}'=='FAIL'
+    ...    Should Match Regexp    ${output}    ${regexp_prompt}   SSH access failed for '${cmd}'!    False
+    ${output}=    Run Keyword If    '${PassOrFail}'=='FAIL'    Catenate    SEPARATOR=    ${grp1}    ${grp2}    ${grp3}
+    ...    ${grp4}    ${grp5}    ${grp6}    ${grp7}    ${grp8}   ${grp9}    ${grp10}    ${grp11}    ${grp12}    ${grp13}
+    ...    ELSE    Set Variable    ${output}
     # we do not use strip of escape sequences integrated in ssh lib, we do it by ourself to have it under control
     ${output}=    Remove String Using Regexp    ${output}    \\x1b[>=]{0,1}(?:\\[[0-?]*(?:[hlm])[~]{0,1})*
     # remove the endless spaces and two carrige returns at the end of output
