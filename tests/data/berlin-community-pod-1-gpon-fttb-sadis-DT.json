@@ -1,0 +1,101 @@
+{
+  "apps": {
+    "org.opencord.sadis": {
+      "sadis": {
+        "integration": {
+          "cache": {
+            "enabled": false,
+            "maxsize": 50,
+            "ttl": "PT0m"
+          }
+        },
+        "entries": [
+          {
+            "id": "EC1912001823",
+            "hardwareIdentifier": "80:a2:35:4d:2f:c0",
+            "nasId": "EC1912001823",
+            "uplinkPort": 16777216,
+            "nniDhcpTrapVid": 60
+          },
+          {
+            "id": "ADTN21133f28-1",
+            "nasPortId": "ADTN21133f28-1",
+            "circuitId": "ADTN21133f28-1",
+            "remoteId": "EC1912001823",
+            "uniTagList": [{
+              "ponCTag":4090,
+              "ponSTag":60,
+              "usPonCTagPriority":3,
+              "usPonSTagPriority":7,
+              "technologyProfileId":64,
+              "upstreamBandwidthProfile":"Default",
+              "downstreamBandwidthProfile":"Default",
+              "configuredMacAddress" : "00:24:45:70:87:bc",
+              "isDhcpRequired":true,
+              "serviceName":"DPU_MGMT_TRAFFIC"
+            },
+            {
+              "ponCTag":101,
+              "ponSTag":3101,
+              "technologyProfileId":64,
+              "upstreamBandwidthProfile":"Default",
+              "downstreamBandwidthProfile":"Default",
+              "serviceName":"FTTB_SUBSCRIBER_TRAFFIC"
+            }]
+          }
+        ]
+      },
+      "bandwidthprofile":{
+        "integration":{
+          "cache":{
+            "enabled":true,
+            "maxsize":40,
+            "ttl":"PT1m"
+          }
+        },
+        "entries":[
+          {
+            "id": "Default",
+            "gir": 0,
+            "cbs": 30,
+            "cir": 16000,
+            "pbs": 30,
+            "pir": 32000
+          },
+          {
+            "id":"HSA",
+            "cir":1168192,
+            "cbs":74764288,
+            "pir":1168192,
+            "pbs":74764288
+          },
+          {
+            "id": "User_Bandwidth1",
+            "gir": 50000,
+            "cbs": 10000,
+            "cir": 50000,
+            "pbs": 1000,
+            "pir": 300000
+          },
+          {
+            "id": "User_Bandwidth2",
+            "gir": 100000,
+            "cbs": 5000,
+            "cir": 100000,
+            "pbs": 5000,
+            "pir": 300000
+          },
+          {
+            "id": "User_Bandwidth3",
+            "gir": 100000,
+            "cbs": 5000,
+            "cir": 100000,
+            "pbs": 5000,
+            "pir": 400000
+          }
+
+        ]
+      }
+    }
+  }
+}
