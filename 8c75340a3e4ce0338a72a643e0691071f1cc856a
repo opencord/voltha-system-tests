@@ -18,6 +18,24 @@
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4e62bb50_e40318d4",
+        "filename": "tests/data/berlin-community-pod-1-gpon-fttb-sadis-DT.json",
+        "patchSetId": 2
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2022-05-16T09:39:57Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "539efd15_dc79fc23",
+      "revId": "8c75340a3e4ce0338a72a643e0691071f1cc856a",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1e0f241c_8dbbd79b",
@@ -31,6 +49,24 @@
       "writtenOn": "2022-05-13T09:57:20Z",
       "side": 1,
       "message": "please remove",
+      "revId": "8c75340a3e4ce0338a72a643e0691071f1cc856a",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "43a7f317_c87de7f4",
+        "filename": "tests/data/berlin-community-pod-1-gpon-fttb-sadis-DT.json",
+        "patchSetId": 2
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2022-05-16T09:39:57Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "1e0f241c_8dbbd79b",
       "revId": "8c75340a3e4ce0338a72a643e0691071f1cc856a",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     }
