@@ -50,6 +50,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "97924db4_494ac6f1",
+        "filename": "tests/tt-workflow/Voltha_TT_FailureScenarios.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2022-05-17T13:08:19Z",
+      "side": 1,
+      "message": "You may want to make the change in the ONU Soft Reboot scenario, this is physical reboot, https://github.com/opencord/voltha-system-tests/blob/master/tests/tt-workflow/Voltha_TT_FailureScenarios.robot#L196. Also, why do we want to skip for mcast?",
+      "parentUuid": "9a901ecc_75562040",
+      "range": {
+        "startLine": 114,
+        "startChar": 25,
+        "endLine": 114,
+        "endChar": 74
+      },
+      "revId": "72edebceb12f2e4a169f768ec9e45e68464c7a9a",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "0d20d159_4e89bcf9",
         "filename": "tests/tt-workflow/Voltha_TT_FailureScenarios.robot",
         "patchSetId": 1
