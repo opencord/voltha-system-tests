@@ -477,12 +477,18 @@ Perform Sanity Test TT
     ...    For repeating sanity test without subscriber changes set flag supress_add_subscriber=True.
     ...    In all other (common) cases flag has to be set False (default).
     [Arguments]    ${supress_add_subscriber}=False    ${maclearning_enabled}=False
+    @{onu_list}=    Create List
     FOR    ${I}    IN RANGE    0    ${num_all_onus}
         ${src}=    Set Variable    ${hosts.src[${I}]}
         ${dst}=    Set Variable    ${hosts.dst[${I}]}
         ${service_type}=    Get Variable Value    ${src['service_type']}    "null"
+        ${sn}=     Set Variable    ${src['onu']}
+        # make sure add subscriber will be done only once per onu in case of single tag (not ${unitag_sub})
+        ${onu_id}=    Get Index From List    ${onu_list}   ${sn}
+        ${supression_flag}    Set Variable If    not ${unitag_sub} and -1 != ${onu_id}    True    ${supress_add_subscriber}
+        Append To List    ${onu_list}    ${sn}
         Run Keyword IF    '${service_type}' != 'mcast'    Sanity Test TT one ONU    ${src}    ${dst}
-        ...    ${supress_add_subscriber}    ${maclearning_enabled}
+        ...    ${supression_flag}    ${maclearning_enabled}
     END
     # Verify Subscriber Access Flow Count
     @{particular_onu_device_port}=      Create List
@@ -551,11 +557,18 @@ Provision Subscription for ONU TT
     ...    Set Variable    volt-add-subscriber-access ${of_id} ${onu_port}
     Run Keyword Unless    ${supress_add_subscriber}
     ...    Execute ONOS CLI Command use single connection    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${add_sub_cmd}
+    # Verify no Pending Flows in ONOS in case of subscriber added, it is needed to check the correct ONU state in voltha
+    # First wait for pending flows exist, but sometimes ONOS is so fast, that we don't catch it...so wait max 10s and ignore err
+    Run Keyword Unless    ${supress_add_subscriber}    Run Keyword And Ignore Error
+    ...    Wait Until Keyword Succeeds    10s    1s
+    ...    Verify Pending Flows For ONU    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${onu_port}
+    # Then wait for pending flows are disappeared again
+    Run Keyword Unless    ${supress_add_subscriber}    Wait Until Keyword Succeeds    ${timeout}    2s
+    ...    Verify No Pending Flows For ONU    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${onu_port}
     # Verify ONU state in voltha
     ${onu_reasons}=  Create List     omci-flows-pushed     onu-reenabled
     Wait Until Keyword Succeeds    ${timeout}    5s    Validate Device
-    ...    ENABLED    ACTIVE    REACHABLE
-    ...    ${src['onu']}    onu=True    onu_reason=${onu_reasons}
+    ...    ENABLED    ACTIVE    REACHABLE    ${src['onu']}    onu=True    onu_reason=${onu_reasons}
 
 Sanity Test TT one ONU
     [Documentation]    This keyword performs sanity test for a single ONU for TT workflow
