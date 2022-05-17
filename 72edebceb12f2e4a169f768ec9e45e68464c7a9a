@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b71cf53a_0cf311a1",
+        "filename": "tests/tt-workflow/Voltha_TT_FailureScenarios.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2022-05-17T12:15:11Z",
+      "side": 1,
+      "message": "I don\u0027t this this scenario will run on bbsim (this is hardware specific), so we can remove has_dataplane check. Also, I don\u0027t get why do we need to skip the mcast case?",
+      "range": {
+        "startLine": 114,
+        "startChar": 25,
+        "endLine": 114,
+        "endChar": 74
+      },
+      "revId": "72edebceb12f2e4a169f768ec9e45e68464c7a9a",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0d20d159_4e89bcf9",
+        "filename": "tests/tt-workflow/Voltha_TT_FailureScenarios.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2022-05-17T12:15:11Z",
+      "side": 1,
+      "message": "same",
+      "range": {
+        "startLine": 131,
+        "startChar": 26,
+        "endLine": 131,
+        "endChar": 74
+      },
+      "revId": "72edebceb12f2e4a169f768ec9e45e68464c7a9a",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    }
+  ]
+}
