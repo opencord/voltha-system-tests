@@ -24,6 +24,30 @@
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9a901ecc_75562040",
+        "filename": "tests/tt-workflow/Voltha_TT_FailureScenarios.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2022-05-17T12:48:07Z",
+      "side": 1,
+      "message": "No it runs with bbsim (too) - see https://jenkins.opencord.org/view/VOLTHA-2.X-Tests/job/periodic-voltha-unitag-subscriber-tt-test-bbsim/",
+      "parentUuid": "b71cf53a_0cf311a1",
+      "range": {
+        "startLine": 114,
+        "startChar": 25,
+        "endLine": 114,
+        "endChar": 74
+      },
+      "revId": "72edebceb12f2e4a169f768ec9e45e68464c7a9a",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0d20d159_4e89bcf9",
@@ -37,6 +61,30 @@
       "writtenOn": "2022-05-17T12:15:11Z",
       "side": 1,
       "message": "same",
+      "range": {
+        "startLine": 131,
+        "startChar": 26,
+        "endLine": 131,
+        "endChar": 74
+      },
+      "revId": "72edebceb12f2e4a169f768ec9e45e68464c7a9a",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e115ef8c_fd2c6be1",
+        "filename": "tests/tt-workflow/Voltha_TT_FailureScenarios.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2022-05-17T12:48:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0d20d159_4e89bcf9",
       "range": {
         "startLine": 131,
         "startChar": 26,
