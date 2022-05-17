@@ -22,6 +22,30 @@
       },
       "revId": "a9a3714da192e74f0da3de2afcfd280c5b63715f",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b5c584a0_a62d947a",
+        "filename": "libraries/utils.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 588,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2022-05-17T12:50:30Z",
+      "side": 1,
+      "message": "This statements only suppress actions in case of hsia, so all action will be done for vod, voip (and mcast).",
+      "parentUuid": "e3b22fb5_f0ffc36d",
+      "range": {
+        "startLine": 584,
+        "startChar": 0,
+        "endLine": 588,
+        "endChar": 26
+      },
+      "revId": "a9a3714da192e74f0da3de2afcfd280c5b63715f",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     }
   ]
 }
