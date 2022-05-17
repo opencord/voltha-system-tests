@@ -125,12 +125,11 @@ Verify ONU after Rebooting Physically for TT
         ...    --cTag ${src['c_tag']} ${src['onu']}-${src['uni_id']}
         ...    ELSE
         ...    Set Variable    volt-add-subscriber-access ${of_id} ${onu_port}
-        Wait Until Keyword Succeeds    ${timeout}    2
+        Wait Until Keyword Succeeds    ${timeout}    2s
         ...    Execute ONOS CLI Command use single connection    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${add_sub_cmd}
         # Verify ONU state in voltha
         Wait Until Keyword Succeeds    ${timeout}    5s    Validate Device
-        ...    ENABLED    ACTIVE    REACHABLE
-        ...    ${src['onu']}    onu=True    onu_reason=omci-flows-pushed
+        ...    ENABLED    ACTIVE    REACHABLE    ${src['onu']}    onu=True    onu_reason=omci-flows-pushed
         Run Keyword If    ${has_dataplane} and '${service_type}' != 'mcast'
         ...    Run Keyword And Continue On Failure    Validate DHCP and Ping    True
         ...    True    ${src['dp_iface_name']}    ${src['s_tag']}    ${src['c_tag']}    ${dst['dp_iface_ip_qinq']}
@@ -226,8 +225,8 @@ Verify ONU Soft Reboot for TT
         ...    --cTag ${src['c_tag']} ${src['onu']}-${src['uni_id']}
         ...    ELSE
         ...    Set Variable    volt-remove-subscriber-access ${of_id} ${onu_port}
-        Wait Until Keyword Succeeds    ${timeout}    2s    Execute ONOS CLI Command use single connection    ${ONOS_SSH_IP}
-        ...    ${ONOS_SSH_PORT}    ${del_sub_cmd}
+        Run Keyword If    ${has_dataplane} or '${service_type}' != 'mcast'    Wait Until Keyword Succeeds    ${timeout}    2s
+        ...    Execute ONOS CLI Command use single connection    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${del_sub_cmd}
         # Check ONU port is Enabled in ONOS
         Wait Until Keyword Succeeds    ${timeout}    5s
         ...    Verify UNI Port Is Enabled   ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${src['onu']}
@@ -237,12 +236,11 @@ Verify ONU Soft Reboot for TT
         ...    --cTag ${src['c_tag']} ${src['onu']}-${src['uni_id']}
         ...    ELSE
         ...    Set Variable    volt-add-subscriber-access ${of_id} ${onu_port}
-        Wait Until Keyword Succeeds    ${timeout}    2
+        Run Keyword If    ${has_dataplane} or '${service_type}' != 'mcast'    Wait Until Keyword Succeeds    ${timeout}    2
         ...    Execute ONOS CLI Command use single connection    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${add_sub_cmd}
         # Verify ONU state in voltha
-        Wait Until Keyword Succeeds    ${timeout}    5s    Validate Device
-        ...    ENABLED    ACTIVE    REACHABLE
-        ...    ${src['onu']}    onu=True    onu_reason=omci-flows-pushed
+        Run Keyword If    ${has_dataplane} or '${service_type}' != 'mcast'    Wait Until Keyword Succeeds    ${timeout}    5s
+        ...    Validate Device    ENABLED    ACTIVE    REACHABLE    ${src['onu']}    onu=True    onu_reason=omci-flows-pushed
         Run Keyword If    ${has_dataplane} and '${service_type}' != 'mcast'
         ...    Run Keyword And Continue On Failure    Validate DHCP and Ping    True
         ...    True    ${src['dp_iface_name']}    ${src['s_tag']}    ${src['c_tag']}    ${dst['dp_iface_ip_qinq']}
