@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e3b22fb5_f0ffc36d",
+        "filename": "libraries/utils.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 588,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2022-05-17T12:11:28Z",
+      "side": 1,
+      "message": "As per my understanding with this change we are going to run an ONU only once and not per service, and so we might miss this verification for some service (voip or vod). Please check and confirm.",
+      "range": {
+        "startLine": 584,
+        "startChar": 0,
+        "endLine": 588,
+        "endChar": 26
+      },
+      "revId": "a9a3714da192e74f0da3de2afcfd280c5b63715f",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    }
+  ]
+}
