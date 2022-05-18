@@ -17,9 +17,9 @@
             "uplinkPort": 16777216
           },
           {
-            "id": "ZYXE8CAC752C-1",
-            "nasPortId": "ZYXE8CAC752C-1",
-            "circuitId": "ZYXE8CAC752C-1",
+            "id": "ZYXE8cac752c-1",
+            "nasPortId": "ZYXE8cac752c-1",
+            "circuitId": "ZYXE8cac752c-1",
             "remoteId": "S210Z14009247",
             "uniTagList": [
               {

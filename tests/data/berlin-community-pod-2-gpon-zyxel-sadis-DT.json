@@ -17,9 +17,9 @@
             "uplinkPort": 16777216
           },
           {
-            "id": "SCOM00001C90-1",
-            "nasPortId": "SCOM00001C90-1",
-            "circuitId": "SCOM00001C90-1",
+            "id": "SCOM00001c90-1",
+            "nasPortId": "SCOM00001c90-1",
+            "circuitId": "SCOM00001c90-1",
             "remoteId": "S210Z14009247",
             "uniTagList": [
               {
@@ -34,9 +34,9 @@
             ]
           },
           {
-            "id": "SCOMA030600F-1",
-            "nasPortId": "SCOMA030600F-1",
-            "circuitId": "SCOMA030600F-1",
+            "id": "SCOMa030600f-1",
+            "nasPortId": "SCOMa030600f-1",
+            "circuitId": "SCOMa030600f-1",
             "remoteId": "S210Z14009247",
             "uniTagList": [
               {
