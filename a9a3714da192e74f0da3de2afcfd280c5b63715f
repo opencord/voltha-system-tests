@@ -70,6 +70,30 @@
       },
       "revId": "a9a3714da192e74f0da3de2afcfd280c5b63715f",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "636bbe82_5aa65bc7",
+        "filename": "libraries/utils.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 588,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2022-05-19T03:42:29Z",
+      "side": 1,
+      "message": "Misunderstood the changes. Please ignore this comment.",
+      "parentUuid": "7ca55c8d_018a5b73",
+      "range": {
+        "startLine": 584,
+        "startChar": 0,
+        "endLine": 588,
+        "endChar": 26
+      },
+      "revId": "a9a3714da192e74f0da3de2afcfd280c5b63715f",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     }
   ]
 }
