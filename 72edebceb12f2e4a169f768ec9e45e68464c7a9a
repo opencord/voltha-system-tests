@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5681e7d0_74916428",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2022-05-20T07:57:27Z",
+      "side": 1,
+      "message": "Can we merge this patch with this one https://gerrit.opencord.org/c/voltha-system-tests/+/32539 ? ",
+      "revId": "72edebceb12f2e4a169f768ec9e45e68464c7a9a",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b71cf53a_0cf311a1",
