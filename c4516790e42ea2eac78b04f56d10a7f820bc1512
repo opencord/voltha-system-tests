@@ -66,6 +66,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "6538588e_092d62b3",
+        "filename": "libraries/utils.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 928,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2022-05-20T07:51:50Z",
+      "side": 1,
+      "message": "I think for the ping it\u0027s ok to continue, we will at least be testing the control plane.",
+      "parentUuid": "5ad267fb_d818bd99",
+      "range": {
+        "startLine": 928,
+        "startChar": 60,
+        "endLine": 928,
+        "endChar": 95
+      },
+      "revId": "c4516790e42ea2eac78b04f56d10a7f820bc1512",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "bd41f22e_823ecb32",
         "filename": "libraries/utils.robot",
         "patchSetId": 2
@@ -238,6 +262,30 @@
       "writtenOn": "2022-05-11T07:52:03Z",
       "side": 1,
       "message": "360s are used very often. I would like to suggest to define a variable similar\n${triple_timeout}\u003d 360s\nOr if there is a dependency on ${timeout} let it calulate.",
+      "range": {
+        "startLine": 112,
+        "startChar": 39,
+        "endLine": 112,
+        "endChar": 43
+      },
+      "revId": "c4516790e42ea2eac78b04f56d10a7f820bc1512",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "239561e0_c5c0d14d",
+        "filename": "tests/functional/Voltha_FailureScenarios.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2022-05-20T07:51:50Z",
+      "side": 1,
+      "message": "360 seems a bit excessive for each ONU, are you sure about this ?",
+      "parentUuid": "88be1f83_83953e00",
       "range": {
         "startLine": 112,
         "startChar": 39,
@@ -928,6 +976,30 @@
       "writtenOn": "2022-05-11T07:52:03Z",
       "side": 1,
       "message": "There are really no HA tests for TT?",
+      "range": {
+        "startLine": 82,
+        "startChar": 0,
+        "endLine": 83,
+        "endChar": 68
+      },
+      "revId": "c4516790e42ea2eac78b04f56d10a7f820bc1512",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f89eee93_ccac8f69",
+        "filename": "tests/functional/Voltha_ONOSHATests.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2022-05-20T07:51:50Z",
+      "side": 1,
+      "message": "I think we should add the Perform Sanity Test TT here",
+      "parentUuid": "6368fb95_ed3fc150",
       "range": {
         "startLine": 82,
         "startChar": 0,
