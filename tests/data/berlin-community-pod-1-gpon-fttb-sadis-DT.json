@@ -37,7 +37,7 @@
             {
               "ponCTag":101,
               "ponSTag":3101,
-              "technologyProfileId":64,
+              "technologyProfileId":65,
               "upstreamBandwidthProfile":"Default",
               "downstreamBandwidthProfile":"Default",
               "serviceName":"FTTB_SUBSCRIBER_TRAFFIC"
