@@ -33,6 +33,23 @@
       "message": "Verified on hardware: https://jenkins.opencord.org/view/Community-PODs/job/build_berlin-community-pod-1-gpon-fttb_1T8GEM_voltha_DT_master_test/18/console",
       "revId": "256993e333952d4c437237d006ab61ac054761cb",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "031000c8_d9ed75f4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000127
+      },
+      "writtenOn": "2022-05-24T20:39:34Z",
+      "side": 1,
+      "message": "Was late to check on this.\nDo we need any changes in https://github.com/opencord/pod-configs/blob/master/deployment-configs/berlin-community-pod-1-gpon-fttb-DT.yaml to have section for ANCP traffic? Currently there are entries only for DPU Mgmt and FTTB subscriber traffic.",
+      "revId": "256993e333952d4c437237d006ab61ac054761cb",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     }
   ]
 }
