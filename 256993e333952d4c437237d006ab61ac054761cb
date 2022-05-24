@@ -16,6 +16,23 @@
       "message": "Verified on bbsim: https://jenkins.opencord.org/view/VOLTHA-2.X-Tests/job/periodic-voltha-dt-fttb-test-bbsim/68/robot/report/sanity-kind-dt-fttb/log.html",
       "revId": "256993e333952d4c437237d006ab61ac054761cb",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c78c307e_81861438",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2022-05-24T07:07:04Z",
+      "side": 1,
+      "message": "Verified on hardware: https://jenkins.opencord.org/view/Community-PODs/job/build_berlin-community-pod-1-gpon-fttb_1T8GEM_voltha_DT_master_test/18/console",
+      "revId": "256993e333952d4c437237d006ab61ac054761cb",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     }
   ]
 }
