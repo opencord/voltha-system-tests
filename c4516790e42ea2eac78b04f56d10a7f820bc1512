@@ -18,6 +18,23 @@
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b3df84c8_939e3025",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2022-05-24T04:45:57Z",
+      "side": 1,
+      "message": "Thanks for the review Torsten, Andrea. Addressed the comments. I think we can go ahead with this for now. If required we can re-discuss once Torsten is back from vacation.",
+      "revId": "c4516790e42ea2eac78b04f56d10a7f820bc1512",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e2824914_82dedaf9",
@@ -31,6 +48,30 @@
       "writtenOn": "2022-05-11T07:52:03Z",
       "side": 1,
       "message": "Not sure, but it seems you want to remove all \"Run Keyword And Continue On Failure\". If so, why do you keep this one?\nOn the other hand I\u0027ve learned the keyword was used to collect as much as possible data for verification in error cases.\nFinally it should be uniformed, not mixed. Or is there a reason for the current solution (differentiation/prioritization of checks)?",
+      "range": {
+        "startLine": 923,
+        "startChar": 15,
+        "endLine": 923,
+        "endChar": 50
+      },
+      "revId": "c4516790e42ea2eac78b04f56d10a7f820bc1512",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3273c583_73eb751c",
+        "filename": "libraries/utils.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 923,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2022-05-24T04:45:57Z",
+      "side": 1,
+      "message": "I tried to remove this from places where the failure is critical and it doesn\u0027t make sense to perform the next step. Also, I kept it for keywords where there are multiple in a row and removed only for the last one, so that we can collect as much possible data for the failure reason.",
+      "parentUuid": "e2824914_82dedaf9",
       "range": {
         "startLine": 923,
         "startChar": 15,
@@ -78,6 +119,30 @@
       "side": 1,
       "message": "I think for the ping it\u0027s ok to continue, we will at least be testing the control plane.",
       "parentUuid": "5ad267fb_d818bd99",
+      "range": {
+        "startLine": 928,
+        "startChar": 60,
+        "endLine": 928,
+        "endChar": 95
+      },
+      "revId": "c4516790e42ea2eac78b04f56d10a7f820bc1512",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2cbac2a3_52c2ab5e",
+        "filename": "libraries/utils.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 928,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2022-05-24T04:45:57Z",
+      "side": 1,
+      "message": "Correct Andrea, that is the intention here.",
+      "parentUuid": "6538588e_092d62b3",
       "range": {
         "startLine": 928,
         "startChar": 60,
@@ -216,6 +281,30 @@
       "writtenOn": "2022-05-11T07:52:03Z",
       "side": 1,
       "message": "120s are used very often. I would like to suggest to define a variable similar\n${double_timeout}\u003d 120s\nOr if there is a dependency on ${timeout} let it calulate.",
+      "range": {
+        "startLine": 106,
+        "startChar": 38,
+        "endLine": 106,
+        "endChar": 42
+      },
+      "revId": "c4516790e42ea2eac78b04f56d10a7f820bc1512",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c486b084_1f739f2f",
+        "filename": "tests/functional/Voltha_FailureScenarios.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2022-05-24T04:45:57Z",
+      "side": 1,
+      "message": "I am okay keeping it as is.",
+      "parentUuid": "a7f2e70a_478fe82a",
       "range": {
         "startLine": 106,
         "startChar": 38,
@@ -1000,6 +1089,30 @@
       "side": 1,
       "message": "I think we should add the Perform Sanity Test TT here",
       "parentUuid": "6368fb95_ed3fc150",
+      "range": {
+        "startLine": 82,
+        "startChar": 0,
+        "endLine": 83,
+        "endChar": 68
+      },
+      "revId": "c4516790e42ea2eac78b04f56d10a7f820bc1512",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9e321fa2_ef70c764",
+        "filename": "tests/functional/Voltha_ONOSHATests.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2022-05-24T04:45:57Z",
+      "side": 1,
+      "message": "No, currently I don\u0027t see HA for TT anywhere. I will add the step here and later we can update the Jenkins job as well to run this.",
+      "parentUuid": "f89eee93_ccac8f69",
       "range": {
         "startLine": 82,
         "startChar": 0,
