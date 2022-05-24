@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a0ca6101_e9400306",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2022-05-24T07:54:38Z",
+      "side": 1,
+      "message": "Triggered patchset 3 : https://jenkins.opencord.org/view/VOLTHA-2.X-Tests/job/periodic-voltha-multiple-olts-test-bbsim/717/ and https://jenkins.opencord.org/view/VOLTHA-2.X-Tests/job/periodic-voltha-test-bbsim/1354/",
+      "revId": "ebe32e388761bb2777415a953afa390fdad5b790",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    }
+  ]
+}
