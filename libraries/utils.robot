@@ -407,10 +407,10 @@ Perform Sanity Test DT FTTB Per OLT
         # Verify Meters in ONOS
         Wait Until Keyword Succeeds    ${timeout}    5s
         ...    Verify Meters in ONOS Ietf    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${of_id}    ${onu_port}
-        ...    ${src['service'][0]['name']}
+        ...    FTTB_SUBSCRIBER_TRAFFIC
         # Verify Mac Learner Mappings
         Wait Until Keyword Succeeds    ${timeout}    5s    Validate Mac Learner Mapping in ONOS
-        ...    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${of_id}    ${onu_port}    ${src['service'][2]['s_tag']}
+        ...    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${of_id}    ${onu_port}    ${src['service'][0]['s_tag']}
         Run Keyword If    ${has_dataplane}    Validate DHCP and Ping    True
         ...    True    ${src['dp_iface_name']}    ${src['s_tag']}    ${src['c_tag']}    ${dst['dp_iface_ip_qinq']}
         ...    ${src['ip']}    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
