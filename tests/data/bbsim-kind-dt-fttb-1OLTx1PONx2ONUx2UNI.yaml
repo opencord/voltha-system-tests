@@ -39,6 +39,11 @@ hosts:
       onu: 'BBSM000a0001'
       olt: 'BBSIM_OLT_10'
       service:
+      # maintain the below service order for all the entries
+        -
+          name: DPU_MGMT_TRAFFIC
+          c_tag: '6'
+          s_tag: '60'
         -
           name: FTTB_SUBSCRIBER_TRAFFIC
           c_tag: '101'
@@ -47,15 +52,15 @@ hosts:
           name: DPU_ANCP_TRAFFIC
           c_tag: '4'
           s_tag: '40'
-        -
-          name: DPU_MGMT_TRAFFIC
-          c_tag: '6'
-          s_tag: '60'
       uni_id: '1'
     -
       onu: 'BBSM000a0001'
       olt: 'BBSIM_OLT_10'
       service:
+        -
+          name: DPU_MGMT_TRAFFIC
+          c_tag: '6'
+          s_tag: '60'
         -
           name: FTTB_SUBSCRIBER_TRAFFIC
           c_tag: '102'
@@ -64,15 +69,15 @@ hosts:
           name: DPU_ANCP_TRAFFIC
           c_tag: '4'
           s_tag: '40'
-        -
-          name: DPU_MGMT_TRAFFIC
-          c_tag: '6'
-          s_tag: '60'
       uni_id: '2'
     -
       onu: 'BBSM000a0002'
       olt: 'BBSIM_OLT_10'
       service:
+        -
+          name: DPU_MGMT_TRAFFIC
+          c_tag: '6'
+          s_tag: '60'
         -
           name: FTTB_SUBSCRIBER_TRAFFIC
           c_tag: '105'
@@ -81,10 +86,6 @@ hosts:
           name: DPU_ANCP_TRAFFIC
           c_tag: '4'
           s_tag: '40'
-        -
-          name: DPU_MGMT_TRAFFIC
-          c_tag: '6'
-          s_tag: '60'
       uni_id: '1'
 
   dst:
