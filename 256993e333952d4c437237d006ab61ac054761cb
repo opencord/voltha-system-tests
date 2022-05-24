@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d4ea42ab_1ede20ec",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2022-05-24T04:58:59Z",
+      "side": 1,
+      "message": "Verified on bbsim: https://jenkins.opencord.org/view/VOLTHA-2.X-Tests/job/periodic-voltha-dt-fttb-test-bbsim/68/robot/report/sanity-kind-dt-fttb/log.html",
+      "revId": "256993e333952d4c437237d006ab61ac054761cb",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    }
+  ]
+}
