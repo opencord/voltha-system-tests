@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "960d3a49_3a2c34c7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2022-05-26T07:59:24Z",
+      "side": 1,
+      "message": "Please combine all other voltha-system-tests patches into single Gerrit patch.",
+      "revId": "d375cf4add2f476888d5f7b066b7d7c47c73dd25",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    }
+  ]
+}
