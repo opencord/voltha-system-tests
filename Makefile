@@ -56,6 +56,11 @@ ROBOT_SANITY_MULTI_UNI_MULTIPLE_OLT_FILE     ?= $(ROOT_DIR)/tests/data/bbsim-kin
 ROBOT_SANITY_TT_MULTI_UNI_SINGLE_PON_FILE    ?= $(ROOT_DIR)/tests/data/bbsim-kind-multi-uni-tt.yaml
 ROBOT_SANITY_TT_MULTI_UNI_MULTIPLE_OLT_FILE     ?= $(ROOT_DIR)/tests/data/bbsim-kind-multi-uni-2OLTx2ONUx2PON-tt.yaml
 ROBOT_SANITY_DT_FTTB_SINGLE_PON_FILE    ?= $(ROOT_DIR)/tests/data/bbsim-kind-dt-fttb-1OLTx1PONx2ONUx2UNI.yaml
+ROBOT_SANITY_TIM_SINGLE_PON_FILE    ?= $(ROOT_DIR)/tests/data/bbsim-kind-tim.yaml
+ROBOT_SANITY_TIM_SINGLE_PON_MULTI_ONU_FILE    ?= $(ROOT_DIR)/tests/data/bbsim-kind-tim-OLTxPONx2ONU.yaml
+ROBOT_SANITY_TIM_MULTI_PON_MULTI_ONU_FILE    ?= $(ROOT_DIR)/tests/data/bbsim-kind-tim-OLTx2PONx2ONU.yaml
+ROBOT_SANITY_TIM_MULTI_OLT_MULTI_PON_MULTI_ONU_FILE    ?= $(ROOT_DIR)/tests/data/bbsim-kind-tim-2OLTx2PONx2ONU.yaml
+
 
 # for backwards compatibility
 sanity-kind: sanity-single-kind
@@ -136,6 +141,28 @@ functional-single-kind-multiuni-tt: ROBOT_MISC_ARGS += -i sanityTTORfunctionalTT
 functional-single-kind-multiuni-tt: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_TT_MULTI_UNI_SINGLE_PON_FILE)
 functional-single-kind-multiuni-tt: ROBOT_FILE := Voltha_TT_PODTests.robot
 functional-single-kind-multiuni-tt: voltha-tt-test
+
+# target to invoke TIM Workflow Sanity
+sanity-kind-tim: ROBOT_MISC_ARGS += -i sanityTIM $(ROBOT_DEBUG_LOG_OPT)
+sanity-kind-tim: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_TIM_SINGLE_PON_FILE)
+sanity-kind-tim: ROBOT_FILE := Voltha_TIM_PODTests.robot
+sanity-kind-tim: voltha-tim-test
+
+sanity-kind-tim-multi-onu: ROBOT_MISC_ARGS += -i sanityTIM $(ROBOT_DEBUG_LOG_OPT)
+sanity-kind-tim-multi-onu: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_TIM_SINGLE_PON_MULTI_ONU_FILE)
+sanity-kind-tim-multi-onu: ROBOT_FILE := Voltha_TIM_PODTests.robot
+sanity-kind-tim-multi-onu: voltha-tim-test
+
+sanity-kind-tim-multi-pon-multi-onu: ROBOT_MISC_ARGS += -i sanityTIM $(ROBOT_DEBUG_LOG_OPT)
+sanity-kind-tim-multi-pon-multi-onu: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_TIM_MULTI_PON_MULTI_ONU_FILE)
+sanity-kind-tim-multi-pon-multi-onu: ROBOT_FILE := Voltha_TIM_PODTests.robot
+sanity-kind-tim-multi-pon-multi-onu: voltha-tim-test
+
+sanity-kind-tim-multi-olt-multi-pon-multi-onu: ROBOT_MISC_ARGS += -i sanityTIM $(ROBOT_DEBUG_LOG_OPT)
+sanity-kind-tim-multi-olt-multi-pon-multi-onu: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_TIM_MULTI_OLT_MULTI_PON_MULTI_ONU_FILE)
+sanity-kind-tim-multi-olt-multi-pon-multi-onu: ROBOT_FILE := Voltha_TIM_PODTests.robot
+sanity-kind-tim-multi-olt-multi-pon-multi-onu: voltha-tim-test
+
 
 # target to invoke multiple OLTs Functional scenarios
 functional-multi-olt: ROBOT_MISC_ARGS += -i sanityORfunctional -e PowerSwitch $(ROBOT_DEBUG_LOG_OPT)
@@ -653,6 +680,13 @@ voltha-tt-test: ROBOT_MISC_ARGS += -e notready  --noncritical non-critical
 voltha-tt-test: vst_venv
 	source ./$</bin/activate ; set -u ;\
 	cd tests/tt-workflow ;\
+	robot -V $(ROBOT_CONFIG_FILE) $(ROBOT_MISC_ARGS) $(ROBOT_FILE)
+
+voltha-tim-test: ROBOT_MISC_ARGS += -e notready  --noncritical non-critical
+
+voltha-tim-test: vst_venv
+	source ./$</bin/activate ; set -u ;\
+	cd tests/tim-workflow ;\
 	robot -V $(ROBOT_CONFIG_FILE) $(ROBOT_MISC_ARGS) $(ROBOT_FILE)
 
 voltha-scale-test: vst_venv
