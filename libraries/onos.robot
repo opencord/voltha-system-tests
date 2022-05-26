@@ -461,6 +461,14 @@ Verify Subscriber Access Flows Added Count DT
     ${access_flows_added_count}=      Get Line Count      ${access_flows_added}
     Should Be Equal As Integers    ${access_flows_added_count}    ${expected_flows}
 
+Verify Subscriber Access Flows Added Count TIM
+    [Arguments]    ${ip}    ${port}    ${olt_of_id}    ${expected_flows}
+    [Documentation]    Matches for total number of subscriber access flows added for all onus
+    ${access_flows_added}=    Execute ONOS CLI Command use single connection    ${ip}    ${port}
+    ...    flows -s ADDED ${olt_of_id} | grep -v deviceId
+    ${access_flows_added_count}=      Get Line Count      ${access_flows_added}
+    Should Be Equal As Integers    ${access_flows_added_count}    ${expected_flows}
+
 Verify Added Flow Count for OLT TT
     [Arguments]    ${ip}    ${port}    ${olt_of_id}    ${expected_flows}
     [Documentation]    Total number of added flows given OLT with subscriber flows
@@ -493,6 +501,76 @@ Verify Default Downstream Flows are added in ONOS for OLT TT
     ${downstream_flow_igmp_added}=    Execute ONOS CLI Command use single connection    ${ip}    ${port}
     ...    ${downstream_flow_igmp_cmd}
     Should Not Be Empty    ${downstream_flow_igmp_added}
+
+#Usato
+Verify Downstream Flows for Single OLT NNI Port TIM
+    [Arguments]    ${ip}    ${port}    ${olt_of_id}    ${nni_port}
+    [Documentation]    Verifies if the downstream flows from the NNI port to the CONTROLLER port are added in ONOS for the OLT
+
+    # Verify PPPoE downstream flow for OLT
+    ${downstream_pppoed_cmd}=     Catenate    SEPARATOR=
+    ...    flows -s ADDED ${olt_of_id} | grep IN_PORT:${nni_port} | grep ETH_TYPE:pppoed | grep OUTPUT:CONTROLLER
+    ${downstream_pppoed}=    Execute ONOS CLI Command use single connection    ${ip}    ${port}
+    ...    ${downstream_pppoed_cmd}
+    Should Not Be Empty    ${downstream_pppoed}
+
+    # Verify IGMP downstream flow for OLT
+    ${downstream_igmp_cmd}=     Catenate    SEPARATOR=
+    ...    flows -s ADDED ${olt_of_id} | grep IN_PORT:${nni_port} | grep ETH_TYPE:ipv4 | grep IP_PROTO:2 | grep OUTPUT:CONTROLLER
+    ${downstream_igmp}=    Execute ONOS CLI Command use single connection    ${ip}    ${port}
+    ...    ${downstream_igmp_cmd}
+    Should Not Be Empty    ${downstream_igmp}
+
+    # Verify LLDP downstream flow for OLT
+    ${downstream_lldp_cmd}=     Catenate    SEPARATOR=
+    ...    flows -s ADDED ${olt_of_id} | grep IN_PORT:${nni_port} | grep ETH_TYPE:lldp | grep OUTPUT:CONTROLLER
+    ${downstream_lldp}=    Execute ONOS CLI Command use single connection    ${ip}    ${port}
+    ...    ${downstream_lldp_cmd}
+    Should Not Be Empty    ${downstream_lldp}
+
+Verify Subscriber Access Flows Added for Single ONU Port TIM
+    [Arguments]    ${ip}    ${port}    ${olt_of_id}    ${onu_port}    ${nni_port}    ${c_tag}   ${uni_tag}
+    [Documentation]    Verifies if the Subscriber Access Flows are added in ONOS for the ONU
+
+    # Verify upstream pppoed flow from UNI port to CONTROLLER
+    ${upstream_flow_pppoed_added_cmd}=   Catenate    SEPARATOR=
+    ...     flows -s ADDED ${olt_of_id} | grep IN_PORT:${onu_port} | grep ETH_TYPE:pppoed |
+    ...     grep VLAN_VID:${uni_tag} | grep OUTPUT:CONTROLLER
+    ${upstream_flow_pppoed_added}=    Execute ONOS CLI Command use single connection    ${ip}    ${port}
+    ...    ${upstream_flow_pppoed_added_cmd}
+    Should Not Be Empty    ${upstream_flow_pppoed_added}
+
+    # Verify upstream table=0 flow, from UNI to TABLE 1
+    ${upstream_flow_0_added_cmd}=     Catenate    SEPARATOR=
+    ...     flows -s ADDED ${olt_of_id} | grep IN_PORT:${onu_port} | grep VLAN_VID:${uni_tag} |
+    ...     grep VLAN_ID:${c_tag}  | grep transition=TABLE:1
+    ${upstream_flow_0_added}=    Execute ONOS CLI Command use single connection    ${ip}    ${port}
+    ...    ${upstream_flow_0_added_cmd}
+    Should Not Be Empty    ${upstream_flow_0_added}
+
+    # Verify upstream table=1 flow, from UNI to NNI
+    ${flow_vlan_UNI_to_NNI_cmd}=     Catenate    SEPARATOR=
+    ...    flows -s ADDED ${olt_of_id} | grep table=1 | grep IN_PORT:${onu_port} | grep VLAN_VID:${c_tag} |
+    ...    grep OUTPUT:${nni_port}
+    ${flow_vlan_UNI_to_NNI}=    Execute ONOS CLI Command use single connection    ${ip}    ${port}
+    ...    ${flow_vlan_UNI_to_NNI_cmd}
+    Should Not Be Empty    ${flow_vlan_UNI_to_NNI}
+
+    # Verify downstream table=0 flow, from NNI to TABLE 1
+    ${downstream_flow_0_added_cmd}=     Catenate    SEPARATOR=
+    ...    flows -s ADDED ${olt_of_id} | grep IN_PORT:${nni_port} | grep VLAN_VID:Any |
+    ...    grep transition=TABLE:1
+    ${downstream_flow_0_added}=    Execute ONOS CLI Command use single connection    ${ip}    ${port}
+    ...    ${downstream_flow_0_added_cmd}
+    Should Not Be Empty    ${downstream_flow_0_added}
+
+    # Verify downstream table=1 flow, from NNI to UNI
+    ${downstream_form_NNI_to_UNI_in_table_1_cmd}=     Catenate    SEPARATOR=
+    ...    flows -s ADDED ${olt_of_id} | grep table=1 | grep IN_PORT:${nni_port} | grep VLAN_VID:${c_tag} |
+    ...    grep VLAN_ID:${uni_tag} | grep OUTPUT:${onu_port}
+    ${downstream_form_NNI_to_UNI_in_table_1}=    Execute ONOS CLI Command use single connection    ${ip}    ${port}
+    ...    ${downstream_form_NNI_to_UNI_in_table_1_cmd}
+    Should Not Be Empty    ${downstream_form_NNI_to_UNI_in_table_1}
 
 Get Programmed Subscribers
     [Arguments]    ${ip}    ${port}    ${olt_of_id}    ${onu_port}    ${filter}=${EMPTY}
