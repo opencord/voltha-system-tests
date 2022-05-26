@@ -35,7 +35,9 @@ Calculate flows by workflow
     ...     ${uni_count}    ${olt_count}    ${provisioned}  ${withLldp}
     ...     ELSE IF     $workflow=="tt"     Calculate Tt Flows
     ...     ${uni_count}    ${olt_count}    ${provisioned}  ${withDhcp}     ${withIgmp}     ${withLldp}
-    ...     ELSE    Fail    Workflow ${workflow} should be one of 'att', 'dt', 'tt'
+    ...     ELSE IF     $workflow=="tim"     Calculate Tim Flows
+    ...     ${uni_count}    ${olt_count}    ${provisioned}  ${withPppoe}     ${withIgmp}     ${withLldp}
+    ...     ELSE    Fail    Workflow ${workflow} should be one of 'att', 'dt', 'tt' , 'tim'
     Return From Keyword     ${expectedFlows}
 
 Calculate Att flows
@@ -130,4 +132,31 @@ Calculate Tt flows
     ...     Evaluate     ${totalDhcpFlows} + ${totalLldpFlows} + ${totalIgmpFlows}
     ...     ELSE
     ...     Evaluate    (${uni_count} * 15) + ${totalDhcpFlows} + ${totalLldpFlows} + ${totalIgmpFlows}
+    Return From Keyword     ${flow_count}
+
+Calculate Tim flows
+    [Documentation]  Calculate the flow for the Tim workflow
+    [Arguments]  ${uni_count}    ${olt_count}   ${provisioned}  ${withPppoe}     ${withIgmp}    ${withLldp}
+    # (1 LLDP + 1 PPPoE + 1 IGMP) for each OLTs before provisioning
+    # 1 Any VLAN + (4 * UNIs) * (1 LLDP + 1 PPPoE + 1 IGMP) for each OLTs after provisioning
+    ${anyVlanFlowsCount}=   Evaluate    1
+    ${pppoeFlowsCount}=   Run Keyword If   $withPppoe=='true'
+    ...     Evaluate     1
+    ...     ELSE
+    ...     Evaluate     0
+    ${lldpFlowsCount}=   Run Keyword If   $withLldp=='true'
+    ...     Evaluate     1
+    ...     ELSE
+    ...     Evaluate     0
+    ${igmpFlowsCount}=   Run Keyword If   $withIgmp=='true'
+    ...     Evaluate     1
+    ...     ELSE
+    ...     Evaluate     0
+    ${pppoeFlowsCount}=   Evaluate   ${olt_count} * ${pppoeFlowsCount}
+    ${totalLldpFlows}=   Evaluate   ${olt_count} * ${lldpFlowsCount}
+    ${totalIgmpFlows}=   Evaluate   ${olt_count} * ${igmpFlowsCount}
+    ${flow_count}=  Run Keyword If  $provisioned=='false'
+    ...     Evaluate     ${pppoeFlowsCount} + ${totalLldpFlows} + ${totalIgmpFlows}
+    ...     ELSE
+    ...     Evaluate    ${anyVlanFlowsCount} + (${uni_count} * 4) + ${pppoeFlowsCount} + ${totalLldpFlows} + ${totalIgmpFlows}
     Return From Keyword     ${flow_count}
