@@ -1,0 +1,157 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "721b01a0_526f06c6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2022-05-26T13:34:05Z",
+      "side": 1,
+      "message": "some comments! great work indeed! ",
+      "revId": "c2d2491390c4c09b47ebdec7d030442cb5e4ddb6",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3e0ffa14_954504e0",
+        "filename": "libraries/onos.robot",
+        "patchSetId": 4
+      },
+      "lineNbr": 505,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2022-05-26T13:34:05Z",
+      "side": 1,
+      "message": "please remove this #usato",
+      "revId": "c2d2491390c4c09b47ebdec7d030442cb5e4ddb6",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dba111e6_2e7c4882",
+        "filename": "libraries/utils.robot",
+        "patchSetId": 4
+      },
+      "lineNbr": 1718,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2022-05-26T13:34:05Z",
+      "side": 1,
+      "message": "I think the comment is not correct",
+      "revId": "c2d2491390c4c09b47ebdec7d030442cb5e4ddb6",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e80fb7cc_8b09151c",
+        "filename": "libraries/utils.robot",
+        "patchSetId": 4
+      },
+      "lineNbr": 1727,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2022-05-26T13:34:05Z",
+      "side": 1,
+      "message": "can you use Calculate flows by workflow instead extending that method ?",
+      "revId": "c2d2491390c4c09b47ebdec7d030442cb5e4ddb6",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2b1e31b5_48be474c",
+        "filename": "libraries/utils.robot",
+        "patchSetId": 4
+      },
+      "lineNbr": 1812,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2022-05-26T13:34:05Z",
+      "side": 1,
+      "message": "remove the TODO",
+      "revId": "c2d2491390c4c09b47ebdec7d030442cb5e4ddb6",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e2c86a73_c44b37c5",
+        "filename": "tests/data/bbsim-kind-tim-2OLTx2PONx2ONU.yaml",
+        "patchSetId": 4
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2022-05-26T13:34:05Z",
+      "side": 1,
+      "message": "same, and valid for all of the services here.",
+      "revId": "c2d2491390c4c09b47ebdec7d030442cb5e4ddb6",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "58f1c6c1_2e7832e5",
+        "filename": "tests/data/bbsim-kind-tim-OLTx2PONx2ONU.yaml",
+        "patchSetId": 4
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2022-05-26T13:34:05Z",
+      "side": 1,
+      "message": "same",
+      "revId": "c2d2491390c4c09b47ebdec7d030442cb5e4ddb6",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1533469a_bedb4723",
+        "filename": "tests/data/bbsim-kind-tim-OLTxPONx2ONU.yaml",
+        "patchSetId": 4
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2022-05-26T13:34:05Z",
+      "side": 1,
+      "message": "same once more,",
+      "revId": "c2d2491390c4c09b47ebdec7d030442cb5e4ddb6",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e1b40fc6_e43abc06",
+        "filename": "tests/data/bbsim-kind-tim.yaml",
+        "patchSetId": 4
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2022-05-26T13:34:05Z",
+      "side": 1,
+      "message": "don\u0027t you need the pppoe flag here ?",
+      "revId": "c2d2491390c4c09b47ebdec7d030442cb5e4ddb6",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    }
+  ]
+}
