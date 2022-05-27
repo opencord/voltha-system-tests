@@ -16,6 +16,24 @@
       "message": "Should this be 42 or 43? The above ONU is also 42.",
       "revId": "4039f1faf230af99145347ac41c1be34cabe234a",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b2c94a31_b7b438ce",
+        "filename": "tests/data/berlin-community-pod-2-gpon-zyxel-sadis-DT.json",
+        "patchSetId": 1
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1000116
+      },
+      "writtenOn": "2022-05-27T13:07:37Z",
+      "side": 1,
+      "message": "Done, changed according to pod configs.",
+      "parentUuid": "ff080b76_68483f43",
+      "revId": "4039f1faf230af99145347ac41c1be34cabe234a",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     }
   ]
 }
