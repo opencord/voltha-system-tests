@@ -26,8 +26,8 @@
               "ponCTag":4090,
               "ponSTag":60,
               "usPonCTagPriority":3,
-              "usPonSTagPriority":0,
-              "technologyProfileId":64,
+              "usPonSTagPriority":7,
+              "technologyProfileId":65,
               "upstreamBandwidthProfile":"Default",
               "downstreamBandwidthProfile":"Default",
               "enableMacLearning" : true,
@@ -37,7 +37,7 @@
             {
               "ponCTag":101,
               "ponSTag":3101,
-              "technologyProfileId":65,
+              "technologyProfileId":64,
               "upstreamBandwidthProfile":"Default",
               "downstreamBandwidthProfile":"Default",
               "serviceName":"FTTB_SUBSCRIBER_TRAFFIC"
