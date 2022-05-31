@@ -146,6 +146,52 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a648a26a_1b085c83",
+        "filename": "tests/data/bbsim-kind-tim-2OLTx2PONx2ONU.yaml",
+        "patchSetId": 4
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2022-05-31T11:34:24Z",
+      "side": 1,
+      "message": "if we have 2xOLT each with 2xPON each with 2xONU so we should have at the end 8 ONUs, but you have defined 3 ONUs for the first PON of the first OLT.\nFrom my point of view this ONU should be removed.",
+      "range": {
+        "startLine": 58,
+        "startChar": 6,
+        "endLine": 65,
+        "endChar": 17
+      },
+      "revId": "c2d2491390c4c09b47ebdec7d030442cb5e4ddb6",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d8b2b729_04eaea08",
+        "filename": "tests/data/bbsim-kind-tim-2OLTx2PONx2ONU.yaml",
+        "patchSetId": 4
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2022-05-31T11:34:24Z",
+      "side": 1,
+      "message": "same above, but 3 ONUs for the second PON of the first OLT.",
+      "range": {
+        "startLine": 82,
+        "startChar": 6,
+        "endLine": 89,
+        "endChar": 17
+      },
+      "revId": "c2d2491390c4c09b47ebdec7d030442cb5e4ddb6",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e2c86a73_c44b37c5",
         "filename": "tests/data/bbsim-kind-tim-2OLTx2PONx2ONU.yaml",
         "patchSetId": 4
@@ -157,6 +203,52 @@
       "writtenOn": "2022-05-26T13:34:05Z",
       "side": 1,
       "message": "same, and valid for all of the services here.",
+      "revId": "c2d2491390c4c09b47ebdec7d030442cb5e4ddb6",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5102d0eb_79c7bb58",
+        "filename": "tests/data/bbsim-kind-tim-2OLTx2PONx2ONU.yaml",
+        "patchSetId": 4
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2022-05-31T11:34:24Z",
+      "side": 1,
+      "message": "There are only 2 ONUs defined for the second OLT. Per PON only one ONU.\nPlease add or reorder the ONUs.",
+      "range": {
+        "startLine": 90,
+        "startChar": 6,
+        "endLine": 105,
+        "endChar": 17
+      },
+      "revId": "c2d2491390c4c09b47ebdec7d030442cb5e4ddb6",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "37f6227d_50207ca4",
+        "filename": "tests/data/bbsim-kind-tim-2OLTx2PONx2ONU.yaml",
+        "patchSetId": 4
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2022-05-31T11:34:24Z",
+      "side": 1,
+      "message": "one \u0027dst\u0027 too much, please remove.",
+      "range": {
+        "startLine": 116,
+        "startChar": 4,
+        "endLine": 116,
+        "endChar": 14
+      },
       "revId": "c2d2491390c4c09b47ebdec7d030442cb5e4ddb6",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     },
