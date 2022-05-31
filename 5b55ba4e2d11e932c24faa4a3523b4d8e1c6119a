@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c7d375de_106c2885",
+        "filename": "tests/data/bbsim-kind-tt.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2022-05-31T07:57:16Z",
+      "side": 1,
+      "message": "As I\u0027ve learned it should be \u0027mcast\u0027. This is used also in other yaml-files.\nWhy do you think it has to be changed? What\u0027s the reason?",
+      "range": {
+        "startLine": 66,
+        "startChar": 21,
+        "endLine": 66,
+        "endChar": 23
+      },
+      "revId": "5b55ba4e2d11e932c24faa4a3523b4d8e1c6119a",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    }
+  ]
+}
