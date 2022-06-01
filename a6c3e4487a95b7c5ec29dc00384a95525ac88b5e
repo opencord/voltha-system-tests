@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5758cb73_4e7cc9d9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000127
+      },
+      "writtenOn": "2022-06-01T01:51:28Z",
+      "side": 1,
+      "message": "There is no gem port that consumes pbit0 traffic in TechProfile-1T4GEM-FTTB.json TP. Is that valid? I think the test is failing due to a check related to this. One of the flow (upstream data plane rule for OLT) fails to add due to this. ",
+      "revId": "a6c3e4487a95b7c5ec29dc00384a95525ac88b5e",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    }
+  ]
+}
