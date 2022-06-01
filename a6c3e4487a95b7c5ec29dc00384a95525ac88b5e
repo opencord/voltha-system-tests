@@ -16,6 +16,23 @@
       "message": "There is no gem port that consumes pbit0 traffic in TechProfile-1T4GEM-FTTB.json TP. Is that valid? I think the test is failing due to a check related to this. One of the flow (upstream data plane rule for OLT) fails to add due to this. ",
       "revId": "a6c3e4487a95b7c5ec29dc00384a95525ac88b5e",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "119f8cdb_a73b8ba2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000127
+      },
+      "writtenOn": "2022-06-01T01:53:20Z",
+      "side": 1,
+      "message": "These are the four pbit maps for four GEM ports in the TP. 0b11000000, 0b00110000, 0b00001000, 0b00000110. There is no reference to bit0 in any of the pbit maps. Can you check with Amit if this is a valid configuration? Then we may need some fixes in the stack.",
+      "revId": "a6c3e4487a95b7c5ec29dc00384a95525ac88b5e",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     }
   ]
 }
