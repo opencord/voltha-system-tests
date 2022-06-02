@@ -16,6 +16,24 @@
       "message": "Is the title of the patch still valid?",
       "revId": "e7c68528e2bba636ce97623c51b426a0167fdd6f",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0e6cfda9_8a7b03a5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2022-06-02T06:33:12Z",
+      "side": 1,
+      "message": "The patch will be set to abandon due root cause of issue is not the testcase but in an ONOS App.",
+      "parentUuid": "e5dcede8_82b0aae6",
+      "revId": "e7c68528e2bba636ce97623c51b426a0167fdd6f",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     }
   ]
 }
