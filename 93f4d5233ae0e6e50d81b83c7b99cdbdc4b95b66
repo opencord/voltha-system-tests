@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "66ea1b9c_98152a09",
+        "filename": "libraries/utils.robot",
+        "patchSetId": 6
+      },
+      "lineNbr": 1718,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2022-06-06T08:48:11Z",
+      "side": 1,
+      "message": "Remove trailing spaces. Here and below all places.",
+      "range": {
+        "startLine": 1718,
+        "startChar": 77,
+        "endLine": 1718,
+        "endChar": 78
+      },
+      "revId": "93f4d5233ae0e6e50d81b83c7b99cdbdc4b95b66",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "79fa6efd_f113ee06",
+        "filename": "tests/tim-workflow/Voltha_TIM_PODTests.robot",
+        "patchSetId": 6
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2022-06-06T08:48:11Z",
+      "side": 1,
+      "message": "Please resolve this rebase conflict.",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 6,
+        "endChar": 1
+      },
+      "revId": "93f4d5233ae0e6e50d81b83c7b99cdbdc4b95b66",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    }
+  ]
+}
