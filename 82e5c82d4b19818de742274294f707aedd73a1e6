@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "66e6d7ef_901da711",
+        "filename": "libraries/voltctl.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 840,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2022-06-13T12:34:29Z",
+      "side": 1,
+      "message": "Please correct the indentation",
+      "range": {
+        "startLine": 840,
+        "startChar": 4,
+        "endLine": 840,
+        "endChar": 13
+      },
+      "revId": "82e5c82d4b19818de742274294f707aedd73a1e6",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    }
+  ]
+}
