@@ -833,6 +833,34 @@ Wait for ONUs in VOLTHA
     [Documentation]    Waits until a certain number of devices reached the ACTIVE/ENABLE state
     Wait Until Keyword Succeeds     ${timeout}     5s      Assert ONUs In Voltha   ${count}
 
+Validate ONU Model
+    [Documentation]
+    ...    Parses the output of "voltctl device list" and inspects onu model and optionally Vendor and Vendor-id
+    ...    Iteratively match on each Serial number contained in ${List_ONU_Serial} and inspect passed values
+   [Arguments]    ${List_ONU_Serial}   ${onu_model}    ${onu_vendor}=${EMPTY}    ${onu_vendor_id}=${EMPTY}
+    ${cmd}=    Catenate    voltctl -c ${VOLTCTL_CONFIG} device list -m ${voltctlGrpcLimit} -f Type=brcm_openomci_onu
+    ...    --format "{{.Id}}\t{{.SerialNumber}}\t{{.Vendor}}\t{{.VendorId}}\t{{.Model}}" | grep -v SERIALNUMBER
+    ${rc}    ${output}=    Run and Return Rc and Output    ${cmd}
+    Should Be Equal As Integers    ${rc}    0   Failed Validate ONU model because of ${output}
+    Log     ${output}
+    @{Results}=    Split String    ${output}    \n
+    FOR    ${Line}    IN     @{Results}
+        ${matched}=    Set Variable    False
+        @{words}=      Split String    ${Line}    \t
+        ${id}=         Set Variable    ${words[0]}
+        ${sn}=         Set Variable    ${words[1]}
+        ${vendor}=     Set Variable    ${words[2]}
+        ${vendor_id}=  Set Variable    ${words[3]}
+        ${model}=      Set Variable    ${words[4]}
+        ${onu_id}=     Get Index From List    ${List_ONU_Serial}   ${sn}
+        ${matched}=    Set Variable If    -1 != ${onu_id}    True    False
+        ${matched}=    Set Variable If    '${model}'=='${onu_model}'    ${matched}    False
+        ${matched}=    Set Variable If    '${onu_vendor}'=='${EMPTY}' or '${vendor}'=='${onu_vendor}'    ${matched}    False
+        ${matched}=    Set Variable If    '${onu_vendor_id}'=='${EMPTY}' or '${vendor_id}'=='${onu_vendor_id}'  ${matched}  False
+        Run Keyword If    ${matched}    Remove Values From List    ${List_ONU_Serial}    ${sn}
+    END
+    Should Be Empty    ${List_ONU_Serial}    No valid ONU model found for ${List_ONU_Serial}!
+
 Count Logical Devices flows
     [Documentation]  Count the flows across logical devices in VOLTHA
     [Arguments]  ${targetFlows}
