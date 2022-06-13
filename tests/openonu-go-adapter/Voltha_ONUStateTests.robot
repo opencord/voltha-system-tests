@@ -193,6 +193,18 @@ Soft Reboot Onu Device
     ...    AND    Run Keyword If    ${logging}    Collect Logs
     ...    AND    Stop Logging    SoftRebootONUDevice
 
+Check Onu Model
+    [Documentation]    Checks onu model of all ONU Devices
+    ...    Assuming that ONU State Test was executed where all the ONUs are reached the expected state!
+    [Tags]    functionalOnuGo    CheckModelOnuGo
+    [Setup]    Start Logging    CheckModelOnuGo
+    Run Keyword If    '${onu_state}'=='tech-profile-config-download-success' or '${onu_state}'=='omci-flows-pushed'
+    ...    Do Check Onu Model
+    ...    ELSE    Pass Execution    ${skip_message}    skipped
+    [Teardown]    Run Keywords    Printout ONU Serial Number and Device Id    print2console=${print2console}
+    ...    AND    Run Keyword If    ${logging}    Collect Logs
+    ...    AND    Stop Logging    CheckModelOnuGo
+
 *** Keywords ***
 Setup Suite
     [Documentation]    Set up the test suite
@@ -454,3 +466,12 @@ Do Soft Reboot Onu Device
     Sleep    5s
     Current State Test All Onus    omci-flows-pushed
     Do Onu Port Check
+
+Do Check Onu Model
+    [Documentation]    This keyword checks onu model of all onus.
+    ${list_onus}    Create List
+    Build ONU SN List    ${list_onus}
+    ${onu_model}=        Set Variable    v0.0.1
+    ${onu_vendor}=       Set Variable    BBSM
+    ${onu_vendor_id}=    Set Variable    BBSM
+    Validate ONU Model   ${list_onus}    ${onu_model}    ${onu_vendor}    ${onu_vendor_id}
