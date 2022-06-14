@@ -16,6 +16,46 @@
       "message": "LGTM",
       "revId": "e6c099d17270db39fcac8c6b491f2d0e955d1191",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6dd20378_0b6cf6b2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2022-06-14T06:29:34Z",
+      "side": 1,
+      "message": "only one \u0027beautifying\u0027 comment, but please answer comments by Andrea according \u0027pppoe flag\u0027, thanks.\nGreat work!",
+      "revId": "e6c099d17270db39fcac8c6b491f2d0e955d1191",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "07a63f82_020cbc1a",
+        "filename": "libraries/utils.robot",
+        "patchSetId": 8
+      },
+      "lineNbr": 1778,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2022-06-14T06:29:34Z",
+      "side": 1,
+      "message": "Please correct the indentation",
+      "range": {
+        "startLine": 1773,
+        "startChar": 0,
+        "endLine": 1778,
+        "endChar": 11
+      },
+      "revId": "e6c099d17270db39fcac8c6b491f2d0e955d1191",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     }
   ]
 }
