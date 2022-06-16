@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f9a77134_2e947f8f",
+        "filename": "tests/tim-workflow/Voltha_TIM_PODTests.robot",
+        "patchSetId": 10
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2022-06-16T03:35:12Z",
+      "side": 1,
+      "message": "This test needs to be marked as notready, as the below keyword Perform Sanity Test TIM MCAST is not yet implemented.",
+      "range": {
+        "startLine": 103,
+        "startChar": 14,
+        "endLine": 103,
+        "endChar": 29
+      },
+      "revId": "538012cd8a1535c7085280b22679717c728a8138",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    }
+  ]
+}
