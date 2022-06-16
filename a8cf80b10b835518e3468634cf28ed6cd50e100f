@@ -16,6 +16,23 @@
       "message": "I give a +1, but please note there are 27 unresolved comments!",
       "revId": "a8cf80b10b835518e3468634cf28ed6cd50e100f",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f7e271f9_ad864a02",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000741
+      },
+      "writtenOn": "2022-06-16T07:32:33Z",
+      "side": 1,
+      "message": "tested the patchset-10 with 2 configurations on bbsim : \nhttps://jenkins.opencord.org/view/VOLTHA-2.X-Tests/job/periodic-voltha-test-bbsim/1378/robot/report/sanity-kind-tim/log.html and https://jenkins.opencord.org/view/VOLTHA-2.X-Tests/job/periodic-voltha-multiple-olts-test-bbsim/740/robot/report/sanity-kind-tim-multi-olt-multi-pon-multi-onu/log.html ",
+      "revId": "a8cf80b10b835518e3468634cf28ed6cd50e100f",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     }
   ]
 }
