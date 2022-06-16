@@ -61,6 +61,9 @@ ${logging}    False
 # if True execution will be paused before clean up
 # example: -v pausebeforecleanup:True
 ${pausebeforecleanup}    False
+# Log Level of Helm chart
+# example: -v helmloglevel:WARN
+${helmloglevel}    DEBUG
 ${data_dir}    ../data
 
 # flag to choose the subscriber provisioning command type in ONOS
@@ -146,6 +149,37 @@ ONU MIB Template Unknown Attribute Test
     ...    AND    Teardown Test
     ...    AND    Stop Logging    UnknownAttributeOnuGo
 
+
+ONU MIB Template Data Compare OMCI Baseline and Extended Message
+    [Documentation]    Compares ONU Go adapter storage of MIB Template Data in etcd according OMCI message format
+    ...                - setup one ONU with baseline OMCI message (EXTRA_HELM_FLAGS=" --set omccVersion=163)
+    ...                - request MIB-Upload-Data by ONU via OMCI
+    ...                - storage MIB-Upload-Data in etcd
+    ...                - store setup duration of ONU
+    ...                - check Template-Data in etcd stored (service/%{NAME}/omci_mibs/go_templates/)
+    ...                - store Template-Data
+    ...                - delete all devices and etcd/mib data
+    ...                - setup one ONU with extended OMCI message (EXTRA_HELM_FLAGS=" --set omccVersion=180)
+    ...                - request MIB-Upload-Data by ONU via OMCI
+    ...                - storage MIB-Upload-Data in etcd
+    ...                - store setup duration of ONU
+    ...                - check Template-Data in etcd stored (service/%{NAME}/omci_mibs/go_templates/)
+    ...                - compare both duration
+    ...                - duration of extended msg ONU should be at least less than 80% of the baseline one
+    ...                - compare MIB-Data, should be the same
+    ...                ================= !!! Attention!!! ======================
+    ...                    Should be always the last test case in test suite!
+    ...                It changes BBSIM configuration to OMCI extended messages.
+    ...                ================= !!! Attention!!! ======================
+    [Tags]    functionalOnuGo    MibTemplateOmciBaselineVersusExtendedOnuGo
+    [Setup]    Run Keywords    Start Logging    MibTemplateOmciBaselineVersusExtendedOnuGo
+    ...    AND    Setup
+    Perform ONU MIB Template Compare OMCI Baseline and Extended Message
+    [Teardown]    Run Keywords    Printout ONU Serial Number and Device Id
+    ...    AND    Run Keyword If    ${logging}    Collect Logs
+    ...    AND    Teardown Test
+    ...    AND    Stop Logging    MibTemplateOmciBaselineVersusExtendedOnuGo
+
 *** Keywords ***
 Setup Suite
     [Documentation]    Set up the test suite
@@ -191,7 +225,6 @@ Perform ONU MIB Template Data Test
     ${firstonu}=      Set Variable    0
     ${secondonu}=     Set Variable    1
     ${state2test}=    Set Variable    omci-flows-pushed
-    Set Global Variable    ${state2test}
     Run Keyword If    ${has_dataplane}    Clean Up Linux
     # Start first Onu
     ${src}=    Set Variable    ${hosts.src[${0}]}
@@ -199,7 +232,7 @@ Perform ONU MIB Template Data Test
     ${bbsim_pod}=    Get Pod Name By Label    ${NAMESPACE}    release     bbsim0
     Power On ONU    ${NAMESPACE}    ${bbsim_pod}    ${src['onu']}
     ${timeStart}=    Get Current Date
-    ${firstonustartup}=    Get ONU Startup Duration    ${firstonu}    ${timeStart}
+    ${firstonustartup}=    Get ONU Startup Duration    ${state2test}    ${firstonu}    ${timeStart}
     # check MIB Template data stored in etcd
     Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    3s
     ...    Verify MIB Template Data Available    ${INFRA_NAMESPACE}
@@ -209,19 +242,74 @@ Perform ONU MIB Template Data Test
     ${bbsim_pod}=    Get Pod Name By Label    ${NAMESPACE}    release     bbsim0
     Power On ONU    ${NAMESPACE}    ${bbsim_pod}    ${src['onu']}
     ${timeStart}=    Get Current Date
-    ${secondonustartup}=    Get ONU Startup Duration    ${secondonu}    ${timeStart}
+    ${secondonustartup}=    Get ONU Startup Duration    ${state2test}    ${secondonu}    ${timeStart}
     # compare both durations, second onu should be at least 3 times faster
     ${status}    Evaluate    ${firstonustartup}>=${secondonustartup}*3
     Should Be True    ${status}
     ...    Startup durations (${firstonustartup} and ${secondonustartup}) do not full fill the requirements of 1/10.
 
+Perform ONU MIB Template Compare OMCI Baseline and Extended Message
+    [Documentation]    This keyword performs ONU MIB Template Data Compare OMCI Baseline and Extended Message
+    ${firstonu}=      Set Variable    0
+    ${waittime}=      Set Variable    0ms
+    ${state2test}=    Set Variable    initial-mib-downloaded
+    Run Keyword If    ${has_dataplane}    Clean Up Linux
+    # Start Onu with OMCI Baseline Message
+    ${src}=    Set Variable    ${hosts.src[${firstonu}]}
+    Log    \r\nONU ${src['onu']}: startup with MIB upload cycle and storage of template data to etcd.    console=yes
+    ${bbsim_pod}=    Get Pod Name By Label    ${NAMESPACE}    release     bbsim0
+    Power On ONU    ${NAMESPACE}    ${bbsim_pod}    ${src['onu']}
+    ${timeStart}=    Get Current Date
+    ${baselineonustartup}=    Get ONU Startup Duration    ${state2test}    ${firstonu}    ${timeStart}    ${waittime}
+    # check MIB Template data stored in etcd
+    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    3s
+    ...    Verify MIB Template Data Available    ${INFRA_NAMESPACE}
+    ${MibTemplateDataBaseline}=    Get ONU MIB Template Data    ${INFRA_NAMESPACE}
+    Delete All Devices and Verify
+    Delete MIB Template Data    ${INFRA_NAMESPACE}
+    # Restart BBSIM with OMCI Extended Message
+    ${extra_helm_flags}    Catenate
+    ...    --set onu=2,pon=2,controlledActivation=only-onu,injectOmciUnknownAttributes=true,injectOmciUnknownMe=true
+    ...    --set omccVersion=180
+    Remove BBSIM Helm Charts    ${NAMESPACE}
+    Restart BBSIM               ${NAMESPACE}    extra_helm_flags=${extra_helm_flags}
+    Restart Port Forward BBSIM  ${NAMESPACE}
+    # Start Onu again with OMCI Extended Message
+    Setup
+    ${src}=    Set Variable    ${hosts.src[${firstonu}]}
+    Log    \r\nONU ${src['onu']}: startup with MIB upload cycle and storage of template data to etcd.    console=yes
+    ${bbsim_pod}=    Get Pod Name By Label    ${NAMESPACE}    release     bbsim0
+    Power On ONU    ${NAMESPACE}    ${bbsim_pod}    ${src['onu']}
+    ${timeStart}=    Get Current Date
+    ${extendedonustartup}=    Get ONU Startup Duration    ${state2test}    ${firstonu}    ${timeStart}    ${waittime}
+    # check MIB Template data stored in etcd
+    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    3s
+    ...    Verify MIB Template Data Available    ${INFRA_NAMESPACE}
+    ${MibTemplateDataExtended}=    Get ONU MIB Template Data    ${INFRA_NAMESPACE}
+    # Checks:
+    # - compare durations of MIB download, OMCI extended message duration should be less than %60 of baseline
+    # - both stored MIB tenmplates in ETCD should be equal
+    ${duration_compare}=    Evaluate    ${baselineonustartup}*0,8 > ${extendedonustartup}
+    Should Be True    ${duration_compare}   MIB Template download too slow for OMCI extended message!
+    # remove "TemplateCreated"  e.g. "TemplateCreated":"2022-06-15 11:23:47.306519",
+    ${remove_regexp}    Set Variable    (?ms)"TemplateCreated":"[^"]*",
+    ${MibTemplateDataBaseline}=    Remove String Using Regexp    ${MibTemplateDataBaseline}    ${remove_regexp}
+    ${MibTemplateDataExtended}=    Remove String Using Regexp    ${MibTemplateDataExtended}    ${remove_regexp}
+    # Due to VOL-4721 comparison of MIB templates has to be executed without unknown ME!
+    # After correction of Jira remove the following lines and this comment
+    ${remove_regexp}    Set Variable    (?ms)"UnknownItuG988ManagedEntity":[^}]*}}}
+    ${MibTemplateDataBaseline}=    Remove String Using Regexp    ${MibTemplateDataBaseline}    ${remove_regexp}
+    ${MibTemplateDataExtended}=    Remove String Using Regexp    ${MibTemplateDataExtended}    ${remove_regexp}
+    # end of handling for VOL-4721
+    Should Be Equal As Strings    ${MibTemplateDataBaseline}    ${MibTemplateDataExtended}    MIB Templates not equal!
+
 Get ONU Startup Duration
     [Documentation]    This keyword delivers startup duration of onu
-    [Arguments]    ${onu}    ${starttime}
+    [Arguments]    ${state2test}    ${onu}    ${starttime}    ${waittime}=50ms
     ${src}=    Set Variable    ${hosts.src[${onu}]}
     ${admin_state}    ${oper_status}    ${connect_status}    ${onu_state_nb}    ${onu_state}=
     ...    Map State    ${state2test}
-    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    50ms
+    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    ${waittime}
     ...    Validate Device    ${admin_state}    ${oper_status}    ${connect_status}
     ...    ${src['onu']}    onu=True    onu_reason=${onu_state}
     ${timeCurrent} =    Get Current Date
@@ -240,3 +328,36 @@ Bring Up ONU
     Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    1s
     ...    Validate Device    ${admin_state}    ${oper_status}    ${connect_status}
     ...    ${src['onu']}    onu=True    onu_reason=${onu_state}
+
+# Keywords regarding restart BBSIM
+
+Remove BBSIM Helm Charts
+    [Arguments]    ${namespace}    ${instance}=0
+    [Documentation]    Remove BBSIM helm charts
+    ${cmd}    Catenate    helm delete -n '${namespace}' 'bbsim${instance}'
+    ${rc}    Run And Return Rc    ${cmd}
+    Should Be Equal as Integers    ${rc}    0
+    ${list}    Create List    bbsim${instance}
+    Wait For Pods Not Exist    ${namespace}    ${list}
+
+Restart BBSIM
+    [Documentation]    Restart BBSIM helm chart
+    [Arguments]    ${namespace}    ${instance}=0    ${extra_helm_flags}=${EMPTY}
+    ${cmd}    Catenate
+    ...    helm upgrade --install -n ${namespace} bbsim${instance} onf/bbsim
+    ...    --set olt_id=1${instance}
+    ...    --set global.image_pullPolicy=Always
+    ...    --set global.image_tag=master
+    ...    --set global.image_org=voltha/
+    ...    --set global.image_registry=
+    ...    --set global.log_level=${helmloglevel} ${extra_helm_flags}
+    ${rc}    Run And Return Rc    ${cmd}
+    Should Be Equal as Integers    ${rc}    0
+    ${list}   Create List    bbsim
+    Wait For Pods Ready    ${namespace}    ${list}
+
+Restart Port Forward BBSIM
+    [Documentation]    Restart Port forward BBSIM
+    [Arguments]    ${namespace}    ${instance}=0
+    ${tag}    Catenate    bbsim${instance}
+    Restart VOLTHA Port Forward    ${tag}
