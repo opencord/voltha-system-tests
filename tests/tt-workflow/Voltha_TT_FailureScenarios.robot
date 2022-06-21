@@ -93,9 +93,9 @@ Verify ONU after Rebooting Physically for TT
         ${dst}=    Set Variable    ${hosts.dst[${I}]}
         ${service_type}=    Get Variable Value    ${src['service_type']}    "null"
         ${of_id}=    Get ofID From OLT List    ${src['olt']}
-        ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
         ${onu_port}=    Wait Until Keyword Succeeds    ${timeout}    2s
         ...    Get ONU Port in ONOS    ${src['onu']}    ${of_id}
+        ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
         # If the power switch port is not specified, continue
         Continue For Loop If    '${src["power_switch_port"]}' == '${None}'
         # Disable Power Switch
@@ -211,9 +211,9 @@ Verify ONU Soft Reboot for TT
         ${dst}=    Set Variable    ${hosts.dst[${I}]}
         ${service_type}=    Get Variable Value    ${src['service_type']}    "null"
         ${of_id}=    Get ofID From OLT List    ${src['olt']}
-        ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
         ${onu_port}=    Wait Until Keyword Succeeds    ${timeout}    2s
         ...    Get ONU Port in ONOS    ${src['onu']}    ${of_id}
+        ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
         Reboot Device    ${onu_device_id}
         # TODO: Add verification for MCAST
         Run Keyword If    ${has_dataplane} and '${service_type}' != 'mcast'    Run Keyword And Continue On Failure
@@ -374,9 +374,9 @@ Verify restart ofagent container after subscriber is provisioned for TT
         ${dst}=    Set Variable    ${hosts.dst[${I}]}
         ${service_type}=    Get Variable Value    ${src['service_type']}    "null"
         ${of_id}=    Get ofID From OLT List    ${src['olt']}
-        ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
         ${onu_port}=    Wait Until Keyword Succeeds    ${timeout}    2s
         ...    Get ONU Port in ONOS    ${src['onu']}    ${of_id}
+        ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
         # Verify ONU state in voltha
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s    Validate Device
         ...    ENABLED    ACTIVE    REACHABLE

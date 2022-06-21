@@ -87,9 +87,9 @@ Verify ONU after rebooting physically
         ${dst}=    Set Variable    ${hosts.dst[${I}]}
         ${of_id}=    Get ofID From OLT List    ${src['olt']}
         ${nni_port}=    Wait Until Keyword Succeeds    ${timeout}    2s    Get NNI Port in ONOS    ${of_id}
-        ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
         ${onu_port}=    Wait Until Keyword Succeeds    ${timeout}    2s
         ...    Get ONU Port in ONOS    ${src['onu']}    ${of_id}    ${src['uni_id']}
+        ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
         # If the power switch port is not specified, continue
         Continue For Loop If    '${src["power_switch_port"]}' == '${None}'
         Disable Switch Outlet    ${src['power_switch_port']}
@@ -246,9 +246,9 @@ Check OLT/ONU Authentication After Radius Pod Restart
         ${src}=    Set Variable    ${hosts.src[${I}]}
         ${dst}=    Set Variable    ${hosts.dst[${I}]}
         ${of_id}=    Get ofID From OLT List    ${src['olt']}
-        ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
         ${onu_port}=    Wait Until Keyword Succeeds    ${timeout}    2s
         ...    Get ONU Port in ONOS    ${src['onu']}    ${of_id}    ${src['uni_id']}
+        ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
         Wait Until Keyword Succeeds    ${timeout}    2s
         ...    Verify Eapol Flows Added For ONU    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${of_id}    ${onu_port}
         ...    ${src['c_tag']}
@@ -290,9 +290,9 @@ Verify openolt adapter restart before subscriber provisioning
         ${src}=    Set Variable    ${hosts.src[${I}]}
         ${dst}=    Set Variable    ${hosts.dst[${I}]}
         ${of_id}=    Get ofID From OLT List    ${src['olt']}
-        ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
         ${onu_port}=    Wait Until Keyword Succeeds    ${timeout}    2s    Get ONU Port in ONOS    ${src['onu']}
         ...    ${of_id}    ${src['uni_id']}
+        ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
 
         # Bring up the device and verify it authenticates
         Wait Until Keyword Succeeds    360s    5s    Validate Device        ENABLED    ACTIVE    REACHABLE
@@ -385,9 +385,9 @@ Verify restart ofagent container after subscriber is provisioned
         ${dst}=    Set Variable    ${hosts.dst[${I}]}
         ${of_id}=    Get ofID From OLT List    ${src['olt']}
         ${nni_port}=    Wait Until Keyword Succeeds    ${timeout}    2s    Get NNI Port in ONOS    ${of_id}
-        ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
         ${onu_port}=    Wait Until Keyword Succeeds    ${timeout}    2s
         ...    Get ONU Port in ONOS    ${src['onu']}    ${of_id}    ${src['uni_id']}
+        ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
         # Verify ONU state in voltha
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    360s    5s    Validate Device
         ...    ENABLED    ACTIVE    REACHABLE
@@ -534,9 +534,9 @@ Sanity E2E Test for OLT/ONU on POD With Core Fail and Restart
         ${src}=    Set Variable    ${hosts.src[${I}]}
         ${dst}=    Set Variable    ${hosts.dst[${I}]}
         ${of_id}=    Get ofID From OLT List    ${src['olt']}
-        ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
         ${onu_port}=    Wait Until Keyword Succeeds    ${timeout}    2s    Get ONU Port in ONOS    ${src['onu']}
         ...    ${of_id}    ${src['uni_id']}
+        ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
         # Bring up the device and verify it authenticates
         Wait Until Keyword Succeeds    360s    5s    Validate Device    ENABLED    ACTIVE    REACHABLE
         ...    ${onu_device_id}    onu=True    onu_reason=omci-flows-pushed    by_dev_id=True
@@ -668,9 +668,9 @@ Verify restart ofagent container before subscriber is provisioned
         ${src}=    Set Variable    ${hosts.src[${I}]}
         ${dst}=    Set Variable    ${hosts.dst[${I}]}
         ${of_id}=    Get ofID From OLT List    ${src['olt']}
-        ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
         ${onu_port}=    Wait Until Keyword Succeeds    ${timeout}    2s    Get ONU Port in ONOS    ${src['onu']}
         ...    ${of_id}    ${src['uni_id']}
+        ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
         # Bring up the device and verify it authenticates
         Wait Until Keyword Succeeds    ${timeout}    5s    Validate Device        ENABLED    ACTIVE    REACHABLE
         ...    ${onu_device_id}    onu=True    onu_reason=omci-flows-pushed    by_dev_id=True
@@ -700,9 +700,9 @@ Verify restart ofagent container before subscriber is provisioned
         ${src}=    Set Variable    ${hosts.src[${I}]}
         ${dst}=    Set Variable    ${hosts.dst[${I}]}
         ${of_id}=    Get ofID From OLT List    ${src['olt']}
-        ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
         ${onu_port}=    Wait Until Keyword Succeeds    ${timeout}    2s
         ...    Get ONU Port in ONOS    ${src['onu']}    ${of_id}    ${src['uni_id']}
+        ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
         # Add subscriber access and verify that DHCP completes to ensure system is still functioning properly
         Wait Until Keyword Succeeds    ${timeout}    2s    Execute ONOS CLI Command use single connection    ${ONOS_SSH_IP}
         ...    ${ONOS_SSH_PORT}    volt-add-subscriber-access ${of_id} ${onu_port}
@@ -756,9 +756,9 @@ Verify ONU Soft Reboot
         ${dst}=    Set Variable    ${hosts.dst[${I}]}
         ${of_id}=    Get ofID From OLT List    ${src['olt']}
         ${nni_port}=    Wait Until Keyword Succeeds    ${timeout}    2s    Get NNI Port in ONOS    ${of_id}
-        ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
         ${onu_port}=    Wait Until Keyword Succeeds    ${timeout}    2s
         ...    Get ONU Port in ONOS    ${src['onu']}    ${of_id}
+        ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
         Reboot Device    ${onu_device_id}
         Run Keyword If    ${has_dataplane}    Run Keyword And Continue On Failure
         ...    Wait Until Keyword Succeeds    ${timeout}    2s
