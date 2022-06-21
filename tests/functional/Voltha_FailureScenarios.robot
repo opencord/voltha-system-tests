@@ -534,9 +534,9 @@ Sanity E2E Test for OLT/ONU on POD With Core Fail and Restart
         ${src}=    Set Variable    ${hosts.src[${I}]}
         ${dst}=    Set Variable    ${hosts.dst[${I}]}
         ${of_id}=    Get ofID From OLT List    ${src['olt']}
-        ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
         ${onu_port}=    Wait Until Keyword Succeeds    ${timeout}    2s    Get ONU Port in ONOS    ${src['onu']}
         ...    ${of_id}    ${src['uni_id']}
+        ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
         # Bring up the device and verify it authenticates
         Wait Until Keyword Succeeds    360s    5s    Validate Device    ENABLED    ACTIVE    REACHABLE
         ...    ${onu_device_id}    onu=True    onu_reason=omci-flows-pushed    by_dev_id=True
