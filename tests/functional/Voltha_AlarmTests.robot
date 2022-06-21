@@ -373,6 +373,8 @@ Setup Suite
 Teardown Suite
     [Documentation]    Clean up devices if desired
     ...    kills processes and cleans up interfaces on src+dst servers
+    Delete Kubernetes Resources    ./voltctl.yaml    ${VOLTCTL_NAMESPACE}
+    Wait Until Keyword Succeeds    ${timeout}    5s    Pod Does Not Exist    ${VOLTCTL_NAMESPACE}    ${VOLTCTL_POD_NAME}
     Get ONOS Status    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}
     Run Keyword If    ${has_dataplane}    Clean Up Linux
     Run Keyword If    ${teardown_device}    Delete All Devices and Verify
