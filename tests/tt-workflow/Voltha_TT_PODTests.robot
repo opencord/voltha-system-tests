@@ -195,9 +195,9 @@ Verify re-provisioning subscriber after removing provisoned subscriber for TT
         ${dst}=    Set Variable    ${hosts.dst[${I}]}
         ${service_type}=    Get Variable Value    ${src['service_type']}    "null"
         ${of_id}=    Get ofID From OLT List    ${src['olt']}
-        ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
         ${onu_port}=    Wait Until Keyword Succeeds    ${timeout}    2s    Get ONU Port in ONOS    ${src['onu']}
         ...    ${of_id}    ${src['uni_id']}
+        ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
         # Remove Subscriber Access
         ${del_sub_cmd}=    Run Keyword If    ${unitag_sub}
         ...    Catenate    volt-remove-subscriber-unitag --tpId ${src['tp_id']} --sTag ${src['s_tag']}
@@ -258,9 +258,9 @@ Test Disable and Enable ONU for TT
         Continue For Loop If    -1 != ${onu_id}
         Append To List    ${onu_list}    ${sn}
         ${of_id}=    Get ofID From OLT List    ${src['olt']}
-        ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
         ${onu_port}=    Get Onu Ports in ONOS For ALL UNI per ONU    ${src['onu']}    ${of_id}
         Log    ${onu_port}
+        ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
         Disable Device    ${onu_device_id}
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
         ...    Validate Device    DISABLED    UNKNOWN

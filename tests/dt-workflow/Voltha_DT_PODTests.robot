@@ -222,9 +222,9 @@ Test Disable and Enable ONU for DT
         ${src}=    Set Variable    ${hosts.src[${I}]}
         ${dst}=    Set Variable    ${hosts.dst[${I}]}
         ${of_id}=    Get ofID From OLT List    ${src['olt']}
-        ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
         ${onu_port}=    Wait Until Keyword Succeeds    ${timeout}    2s    Get ONU Port in ONOS    ${src['onu']}
         ...    ${of_id}    ${src['uni_id']}
+        ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
         Disable Device    ${onu_device_id}
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
         ...    Validate Device    DISABLED    UNKNOWN
@@ -332,9 +332,9 @@ Test Disable and Enable OLT for DT
         ${src}=    Set Variable    ${hosts.src[${I}]}
         ${dst}=    Set Variable    ${hosts.dst[${I}]}
         ${of_id}=    Get ofID From OLT List    ${src['olt']}
-        ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
         ${onu_port}=    Wait Until Keyword Succeeds    ${timeout}    2s
         ...    Get ONU Port in ONOS    ${src['onu']}    ${of_id}    ${src['uni_id']}
+        ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
         Wait Until Keyword Succeeds   ${timeout}    2s
         ...    Verify UNI Port Is Disabled   ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${src['onu']}    ${src['uni_id']}
         Run Keyword If    ${has_dataplane}    Run Keyword And Continue On Failure
@@ -672,9 +672,9 @@ Data plane Bandwidth profile update verification for DT
     ${dst}=    Set Variable    ${hosts.dst[${0}]}
     ${of_id}=    Get ofID From OLT List    ${src['olt']}
     ${nni_port}=    Wait Until Keyword Succeeds    ${timeout}    2s    Get NNI Port in ONOS    ${of_id}
-    ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
     ${onu_port}=    Wait Until Keyword Succeeds    ${timeout}    2s    Get ONU Port in ONOS    ${src['onu']}
     ...    ${of_id}    ${src['uni_id']}
+    ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
     ${subscriber_id}=    Set Variable    ${of_id}/${onu_port}
     ${oldBwName}    Get Bandwidth Profile Name For Given Subscriber    ${subscriber_id}    upstreamBandwidthProfile
     # Delete the existing subscriber
@@ -788,10 +788,10 @@ Test ONU Delete and Auto-Discovery for DT
     FOR    ${I}    IN RANGE    0    ${num_all_onus}
         ${src}=    Set Variable    ${hosts.src[${I}]}
         ${dst}=    Set Variable    ${hosts.dst[${I}]}
-        ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
         ${of_id}=    Get ofID From OLT List    ${src['olt']}
         ${onu_port}=    Wait Until Keyword Succeeds    ${timeout}    2s
         ...    Get ONU Port in ONOS    ${src['onu']}    ${of_id}
+        ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
         ${nni_port}=    Wait Until Keyword Succeeds    ${timeout}    2s    Get NNI Port in ONOS    ${of_id}
         # Remove Subscriber
         Execute ONOS CLI Command use single connection    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}
