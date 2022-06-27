@@ -107,6 +107,8 @@ Test Voltha Components Minor Version Upgrade
         ...    ${NAMESPACE}    app    ${label}
         Log    ${label}: image, app ver & helm chart after upgrade: ${pod_image_1}, ${app_ver_1} & ${helm_chart_1}
         Restart VOLTHA Port Forward     voltha-api
+        # Static sleep to let voltctl tcp connection establish
+        Sleep    5s
         Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test     ${suppressaddsubscriber}
     END
     ${podStatusOutput}=    Run    kubectl get pods -n ${NAMESPACE}
@@ -182,7 +184,7 @@ Test Voltha Components Minor Version Rolling Upgrade
         Wait Until Keyword Succeeds    ${timeout}    15s    Deploy Pod New Image    ${NAMESPACE}    ${deployment}
         ...    ${container}    ${image}
         # Static sleep to let image-update progress before initiating subscriber-add system-operation
-        Sleep    2s
+        Sleep    10s
         Provision Subscribers
         Wait Until Keyword Succeeds    ${timeout}    3s    Validate Pods Status By Label    ${NAMESPACE}
         ...    app    ${label}    Running
