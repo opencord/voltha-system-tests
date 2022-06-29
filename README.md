@@ -34,6 +34,7 @@ Directory is structured as follows:
   └── functional/           // feature/functionality tests, recovery tests and more, that are specific to ATT workflow
   └── dt-workflow/          // feature/functionality tests, recovery tests and more, that are specific to DT workflow
   └── tt-workflow/          // feature/functionality tests, recovery tests and more, that are specific to TT workflow
+  └── tim-workflow/         // feature/functionality tests, recovery tests and more, that are specific to TIM workflow
   └── scale/                // tests that collect measurements on Voltha performance
   └── software-upgrades/    // tests for ONOS Applications, Voltha Components and ONU Software Upgrades
   └── dmi-interface/        // tests for device management interface
@@ -95,6 +96,19 @@ make -C voltha-system-tests sanity-kind-tt
 
 The tests generate three report files in
 `voltha-system-tests/tests/tt-workflow/` (`output.xml`, `report.html`, `log.html`).
+View the `report.html` page in a browser to analyze the results.
+If you're running on a remote system, you can start a web server with `python3
+-m http.server`.
+
+### TIM Workflow
+To run the sanity tests for the TIM Workflow, use `sanity-kind-tim` as the make target.
+```bash
+git clone https://github.com/opencord/voltha-system-tests
+make -C voltha-system-tests sanity-kind-tim
+```
+
+The tests generate three report files in
+`voltha-system-tests/tests/tim-workflow/` (`output.xml`, `report.html`, `log.html`).
 View the `report.html` page in a browser to analyze the results.
 If you're running on a remote system, you can start a web server with `python3
 -m http.server`.
