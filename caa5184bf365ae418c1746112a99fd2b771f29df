@@ -22,6 +22,30 @@
       },
       "revId": "caa5184bf365ae418c1746112a99fd2b771f29df",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "71578442_083e03eb",
+        "filename": "libraries/bbsim.robot",
+        "patchSetId": 3
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2022-07-06T11:12:37Z",
+      "side": 1,
+      "message": "Interesting, local \u0027make test\u0027 did not show the issue!",
+      "parentUuid": "963d0b5c_b368c53f",
+      "range": {
+        "startLine": 178,
+        "startChar": 17,
+        "endLine": 178,
+        "endChar": 25
+      },
+      "revId": "caa5184bf365ae418c1746112a99fd2b771f29df",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     }
   ]
 }
