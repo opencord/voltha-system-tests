@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "963d0b5c_b368c53f",
+        "filename": "libraries/bbsim.robot",
+        "patchSetId": 3
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1000671
+      },
+      "writtenOn": "2022-07-06T09:50:35Z",
+      "side": 1,
+      "message": "Please remove superfluous space.",
+      "range": {
+        "startLine": 178,
+        "startChar": 17,
+        "endLine": 178,
+        "endChar": 25
+      },
+      "revId": "caa5184bf365ae418c1746112a99fd2b771f29df",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    }
+  ]
+}
