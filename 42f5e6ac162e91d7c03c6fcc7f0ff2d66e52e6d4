@@ -50,6 +50,24 @@
       "message": "Also, you will need to change the version in the file https://github.com/opencord/voltha-system-tests/blob/master/VERSION to 2.11.0-dev for master branch and during release update to 2.11.0 (For voltha-2.10 branch proceed like 2.10.1, .2 and so on with each submission to that branch).",
       "revId": "42f5e6ac162e91d7c03c6fcc7f0ff2d66e52e6d4",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3d42afa9_260c2b75",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2022-07-06T12:36:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8c8e1dcb_5425155b",
+      "revId": "42f5e6ac162e91d7c03c6fcc7f0ff2d66e52e6d4",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     }
   ]
 }
