@@ -30,6 +30,7 @@ Resource          ../../libraries/voltctl.robot
 Resource          ../../libraries/voltha.robot
 Resource          ../../libraries/utils.robot
 Resource          ../../libraries/k8s.robot
+Resource          ../../libraries/onu_utilities.robot
 Resource          ../../libraries/bbsim.robot
 Resource          ../../variables/variables.robot
 
@@ -89,6 +90,11 @@ ${BBSIM_WEBSERVER_PORT}    50074
 ${BBSIM_INSTANCE}    bbsim0
 # port forward handle
 ${portFwdHandle}     None
+
+# Log Level of Helm chart
+# example: -v helmloglevel:WARN
+${helmloglevel}    DEBUG
+
 
 *** Test Cases ***
 Test ONU Upgrade
@@ -389,6 +395,26 @@ Test ONU Upgrade Correct Indication Multiple Image Download
     Setup
     Run Keyword If    ${has_dataplane}    Clean Up Linux
     Wait Until Keyword Succeeds    ${timeout}    2s    Perform Sanity Test
+
+Test ONU Upgrade Compare OMCI Message Version
+    [Documentation]    Validates the ONU Upgrade duration depending on OMCI message version
+    ...                - setup one ONU with baseline OMCI message (EXTRA_HELM_FLAGS=" --set omccVersion=163)
+    ...                - perform a SW upgrade
+    ...                - store SW upgrade duration
+    ...                - delete all devices
+    ...                - setup one ONU with extended OMCI message (EXTRA_HELM_FLAGS=" --set omccVersion=180)
+    ...                - perform a SW upgrade
+    ...                - store SW upgrade duration
+    ...                - compare both duration
+    ...                - duration of extended msg ONU should be at least less than 80% of the baseline one
+    ...                  Check [VOL-4733] for more details
+    [Tags]    functional    ONUUpgradeOmciBaselineVersusExtendedOnuGo
+    [Setup]    Start Logging    ONUUpgradeOmciBaselineVersusExtendedOnuGo
+    [Teardown]    Run Keywords    Run Keyword If    ${logging}    Collect Logs
+    ...           AND             Delete All Devices and Verify
+    ...           AND             Restart And Check BBSIM    ${NAMESPACE}
+    ...           AND             Stop Logging    ONUUpgradeOmciBaselineVersusExtendedOnuGo
+    Do ONU Upgrade Compare OMCI Message Version
 
 Test ONU Upgrade Image Download Simultaneously
     [Documentation]    Validates the ONU Upgrade Image Download to all ONUs simultaneously.
@@ -694,6 +720,75 @@ Do ONU Upgrade Multiple Image Download Per OLT
         Remove Adapter Image    ${image_version}    ${onu_device_id}
     END
 
+Do ONU Upgrade Compare OMCI Message Version
+    [Documentation]    This keyword performs the ONU Upgrade Compare OMCI Message Version test for the first OLT/ONU
+    [Arguments]    ${activate_on_success}=${image_activate_on_success}    ${commit_on_success}=${image_commit_on_success}
+    [Teardown]     Run Keyword If  '${KEYWORD STATUS}'=='FAIL'    Remove Adapter Image    ${image_version}    ${onu_device_id}
+    ${firstonu}=      Set Variable    0
+    ${outputfile}=    Set variable    ${OUTPUTDIR}/ONU_SW_Upgrade_Time.txt
+    ${omcc_version}    ${is_omcc_extended}=    Get BBSIM OMCC Version    ${NAMESPACE}
+    # Restart BBSIM with OMCI Baseline Message if needed
+    Create File    ${outputfile}    This file contains the SW Upgrade download durations
+    ${extra_helm_flags}    Catenate    --set omccVersion=163
+    Run Keyword If    ${is_omcc_extended}    Restart BBSIM by Helm Charts    ${NAMESPACE}    extra_helm_flags=${extra_helm_flags}
+    # Add OLT device
+    Setup
+    ${src}=    Set Variable    ${hosts.src[${firstonu}]}
+    ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
+    ${admin_state}    ${oper_status}    ${connect_status}    ${onu_state_nb}    ${onu_state}=
+    ...    Map State    omci-flows-pushed
+    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    1s
+    ...    Validate Device    ${admin_state}    ${oper_status}    ${connect_status}
+    ...    ${src['onu']}    onu=True    onu_reason=${onu_state}
+    ${baselineonu}=    Get ONU SW Upgrade Duration    ${firstonu}   ${activate_on_success}    ${commit_on_success}
+    Log    ONU ${src['onu']}: downloaded SW upgrade in ${baselineonu} sec for OMCI baseline message.    console=yes
+    Append To File    ${outputfile}
+    ...    \r\nONU ${src['onu']} downloaded SW upgrade in ${baselineonu} sec for OMCI baseline message.
+    Delete All Devices and Verify
+    # Restart BBSIM with OMCI Extended Message
+    ${extra_helm_flags}=    Run Keyword If    ${is_omcc_extended}     Catenate    --set omccVersion=${omcc_version}
+    ...     ELSE     Catenate    --set omccVersion=180
+    Restart BBSIM by Helm Charts    ${NAMESPACE}    extra_helm_flags=${extra_helm_flags}
+    # Start Onu again with OMCI Extended Message
+    Setup
+    ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
+    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    1s
+    ...    Validate Device    ${admin_state}    ${oper_status}    ${connect_status}
+    ...    ${src['onu']}    onu=True    onu_reason=${onu_state}
+    ${extendedonu}=    Get ONU SW Upgrade Duration    ${firstonu}   ${activate_on_success}    ${commit_on_success}
+    Log    ONU ${src['onu']}: downloaded SW upgrade in ${extendedonu} sec for OMCI extended message.    console=yes
+    Append To File    ${outputfile}
+    ...    \r\nONU ${src['onu']} downloaded SW upgrade in ${extendedonu} sec for OMCI extended message.
+    ${duration_compare}=    Evaluate    ${baselineonu}*0.8 > ${extendedonu}
+    Should Be True    ${duration_compare}   SW Upgrade too slow for OMCI extended message!
+    # Restart BBSIM with OMCI Message Version read at begin of test
+    ${extra_helm_flags}=    Catenate    --set omccVersion=${omcc_version}
+    Run Keyword Unless   ${is_omcc_extended}   Restart BBSIM by Helm Charts   ${NAMESPACE}   extra_helm_flags=${extra_helm_flags}
+
+Get ONU SW Upgrade Duration
+    [Documentation]    This keyword delivers SW Upgrade duration of onu
+    [Arguments]    ${onu}   ${activate_on_success}    ${commit_on_success}
+    ${src}=    Set Variable    ${hosts.src[${onu}]}
+    ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
+    ${timeStart}=    Get Current Date
+    Download ONU Device Image    ${image_version}    ${image_url}    ${image_vendor}
+    ...    ${activate_on_success}    ${commit_on_success}
+    ...    ${image_crc}    ${onu_device_id}
+    ${imageState}=    Run Keyword If    '${activate_on_success}'=='true' and '${commit_on_success}'=='false'
+    ...    Set Variable    IMAGE_ACTIVE
+    ...    ELSE IF    '${activate_on_success}'=='true' and '${commit_on_success}'=='true'
+    ...    Set Variable    IMAGE_COMMITTED
+    ...    ELSE    Set Variable    IMAGE_INACTIVE
+    ${activated}=    Set Variable If    '${activate_on_success}'=='true'    True    False
+    ${committed}=    Set Variable If    '${activate_on_success}'=='true' and '${commit_on_success}'=='true'
+    ...    True    False
+    Wait Until Keyword Succeeds    ${timeout}    0s    Verify ONU Device Image Status    ${image_version}
+    ...    ${onu_device_id}    DOWNLOAD_SUCCEEDED    NO_ERROR    ${imageState}
+    ${timeCurrent} =    Get Current Date
+    ${timeTotalMs} =    Subtract Date From Date    ${timeCurrent}    ${timeStart}    result_format=number
+    Remove Adapter Image    ${image_version}    ${onu_device_id}
+    [Return]    ${timeTotalMs}
+
 Do ONU Upgrade Image Download Simultaneously
     [Documentation]    This keyword performs the ONU Upgrade Image Download Simultaneously on all ONUs test
     [Arguments]    ${url}=${image_url}
@@ -732,28 +827,6 @@ Do ONU Upgrade Image Download Simultaneously
     ${Images_Count_End}=    Get Images Count
     ${Images_Count_Start}=    Evaluate    ${Images_Count_Start}+2
     Should Be Equal as Integers    ${Images_Count_End}    ${Images_Count_Start}   Count of image download not correct!
-
-Restart And Check BBSIM
-    [Documentation]    This keyword restarts bbsim and waits for it to come up again
-    ...    Following steps will be executed:
-    ...    - restart bbsim adaptor
-    ...    - check bbsim adaptor is ready again
-    [Arguments]    ${namespace}
-    ${bbsim_apps}   Create List    bbsim
-    ${label_key}    Set Variable   app
-    ${bbsim_label_value}    Set Variable   bbsim
-    Restart Pod By Label    ${namespace}    ${label_key}    ${bbsim_label_value}
-    Sleep    5s
-    Wait For Pods Ready    ${namespace}    ${bbsim_apps}
-
-Get BBSIM Svc and Webserver Port
-    [Documentation]    This keyword gets bbsim instance and bbsim webserver port from image url
-    @{words}=    Split String    ${image_url}    /
-    ${SvcAndPort}    Set Variable     @{words}[2]
-    ${bbsim_svc}    ${webserver_port}=    Split String    ${SvcAndPort}    :    1
-    ${svc_return}    Set Variable If    '${bbsim_svc}'!='${EMPTY}'    ${bbsim_svc}    ${BBSIM_INSTANCE}
-    ${port_return}   Set Variable If    '${webserver_port}'!='${EMPTY}'    ${webserver_port}    ${BBSIM_WEBSERVER_PORT}
-    [Return]    ${svc_return}    ${port_return}
 
 Setup Suite
     [Documentation]    Set up the test suite
