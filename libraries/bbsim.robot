@@ -124,3 +124,105 @@ Get Images Count
     ${value}=    Fetch From Right    ${output}    :
     ${count}=    Fetch From Left     ${value}    }
     [Return]    ${count}
+
+Restart And Check BBSIM
+    [Documentation]    This keyword restarts bbsim and waits for it to come up again
+    ...    Following steps will be executed:
+    ...    - restart bbsim adaptor
+    ...    - check bbsim adaptor is ready again
+    [Arguments]    ${namespace}
+    ${bbsim_apps}   Create List    bbsim
+    ${label_key}    Set Variable   app
+    ${bbsim_label_value}    Set Variable   bbsim
+    Restart Pod By Label    ${namespace}    ${label_key}    ${bbsim_label_value}
+    Sleep    5s
+    Wait For Pods Ready    ${namespace}    ${bbsim_apps}
+
+Get BBSIM Svc and Webserver Port
+    [Documentation]    This keyword gets bbsim instance and bbsim webserver port from image url
+    @{words}=    Split String    ${image_url}    /
+    ${SvcAndPort}    Set Variable     @{words}[2]
+    ${bbsim_svc}    ${webserver_port}=    Split String    ${SvcAndPort}    :    1
+    ${svc_return}    Set Variable If    '${bbsim_svc}'!='${EMPTY}'    ${bbsim_svc}    ${BBSIM_INSTANCE}
+    ${port_return}   Set Variable If    '${webserver_port}'!='${EMPTY}'    ${webserver_port}    ${BBSIM_WEBSERVER_PORT}
+    [Return]    ${svc_return}    ${port_return}
+
+# keywords regarding OMCC message version
+
+Get BBSIM OMCC Version
+    [Documentation]    Retrieves OMCC Version from BBSIM
+    [Arguments]    ${namespace}    ${instance}=0
+    ${rc}    ${exec_pod_name}=    Run and Return Rc and Output
+    ...    kubectl get pods -n ${namespace} | grep bbsim${instance} | awk 'NR==1{print $1}'
+    Log    ${exec_pod_name}
+    Should Not Be Empty    ${exec_pod_name}    Unable to parse pod name
+    ${rc}    ${output}=    Run and Return Rc and Output
+    ...    kubectl -n ${namespace} get pods ${exec_pod_name} -o=jsonpath="{.spec.containers[].command}"
+    Log    ${output}
+    Should Be Equal as Integers    ${rc}    0
+    Should Not Be Empty    ${output}    Unable to read OMCC Version
+    ${output}=    Remove String    ${output}    "    [    ]
+    @{commands}=    Split String    ${output}    ,
+    ${length}=    Get Length    ${commands}
+    ${match}=    Set Variable    False
+    FOR    ${I}    IN RANGE    0    ${length}
+        ${item}=    Get From List    ${commands}    ${I}
+        ${match}=    Set Variable If    "${item}"=="-omccVersion"    True    ${match}
+        ${omcc_version}=    Run Keyword If    ${match}    Get From List    ${commands}    ${I+1}
+        Exit For Loop IF     ${match}
+    END
+    Should Be True    ${match}    Unable to read OMCC Version
+    ${is_extended}=    Is OMCC Extended Version    ${omcc_version}
+    [return]    ${omcc_version}    ${is_extended}
+
+Is OMCC Extended Version 
+    [Documentation]    Checks passed value and return False (baseline) or True (extended)
+    ...                baseline: 124-130, 160-163
+    ...                extended: 150, 176-180
+    [Arguments]    ${omcc_version}
+    ${is_extended}=    Set Variable If    '${omcc_version}'=='150'    True
+    ...      '${omcc_version}'>='176' and '${omcc_version}'<='180'    True
+    ...                                                               False
+    [return]    ${is_extended}
+
+# Keywords regarding restart BBSIM by Helm Charts
+
+Restart BBSIM by Helm Charts
+    [Documentation]    Restart BBSIM by helm charts
+    ...                Attention: config-yaml file has to pass by ${extra_helm_flags}!
+    [Arguments]    ${namespace}    ${instance}=0    ${extra_helm_flags}=${EMPTY}
+    Remove BBSIM Helm Charts    ${namespace}    ${instance}
+    Restart BBSIM Helm Charts   ${namespace}    ${instance}    extra_helm_flags=${extra_helm_flags}
+    Restart Port Forward BBSIM  ${namespace}    ${instance}
+
+Remove BBSIM Helm Charts
+    [Documentation]    Remove BBSIM helm charts
+    [Arguments]    ${namespace}    ${instance}=0
+    ${cmd}    Catenate    helm delete -n '${namespace}' 'bbsim${instance}'
+    ${rc}    Run And Return Rc    ${cmd}
+    Should Be Equal as Integers    ${rc}    0
+    ${list}    Create List    bbsim${instance}
+    Wait For Pods Not Exist    ${namespace}    ${list}
+
+Restart BBSIM Helm Charts
+    [Documentation]    Restart BBSIM helm charts
+    ...                Attention: config-yaml file has to pass by ${extra_helm_flags}!
+    [Arguments]    ${namespace}    ${instance}=0    ${extra_helm_flags}=${EMPTY}
+    ${cmd}    Catenate
+    ...    helm upgrade --install -n ${namespace} bbsim${instance} onf/bbsim
+    ...    --set olt_id=1${instance}
+    ...    --set global.image_pullPolicy=Always
+    ...    --set global.image_tag=master
+    ...    --set global.image_org=voltha/
+    ...    --set global.image_registry=
+    ...    --set global.log_level=${helmloglevel} ${extra_helm_flags}
+    ${rc}    Run And Return Rc    ${cmd}
+    Should Be Equal as Integers    ${rc}    0
+    ${list}   Create List    bbsim
+    Wait For Pods Ready    ${namespace}    ${list}
+
+Restart Port Forward BBSIM
+    [Documentation]    Restart Port forward BBSIM
+    [Arguments]    ${namespace}    ${instance}=0
+    ${tag}    Catenate    bbsim${instance}
+    Restart VOLTHA Port Forward    ${tag}
