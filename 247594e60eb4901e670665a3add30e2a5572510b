@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "10951012_36544336",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000097
+      },
+      "writtenOn": "2022-07-07T08:41:37Z",
+      "side": 1,
+      "message": "Don\u0027t understand the idea, why we need to bump the version of the repo without any changes in the repo?",
+      "revId": "247594e60eb4901e670665a3add30e2a5572510b",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    }
+  ]
+}
