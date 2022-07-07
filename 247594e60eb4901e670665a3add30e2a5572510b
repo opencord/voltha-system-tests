@@ -16,6 +16,24 @@
       "message": "Don\u0027t understand the idea, why we need to bump the version of the repo without any changes in the repo?",
       "revId": "247594e60eb4901e670665a3add30e2a5572510b",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2fc2d5cb_da66c2dc",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2022-07-07T08:58:39Z",
+      "side": 1,
+      "message": "It was a hint by Hardik, to do that, because https://gerrit.opencord.org/c/voltha-system-tests/+/33018 will be the first change in the repo.",
+      "parentUuid": "10951012_36544336",
+      "revId": "247594e60eb4901e670665a3add30e2a5572510b",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     }
   ]
 }
