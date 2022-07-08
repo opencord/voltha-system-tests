@@ -162,7 +162,9 @@ Get BBSIM OMCC Version
     Should Be Equal as Integers    ${rc}    0
     Should Not Be Empty    ${output}    Unable to read OMCC Version
     ${output}=    Remove String    ${output}    "    [    ]
-    @{commands}=    Split String    ${output}    ,
+    ${is_comma_separated}=    Evaluate    "," in """${output}"""
+    @{commands}=    Run Keyword If    ${is_comma_separated}    Split String    ${output}    ,
+    ...             ELSE    Split String    ${output}
     ${length}=    Get Length    ${commands}
     ${match}=    Set Variable    False
     FOR    ${I}    IN RANGE    0    ${length}

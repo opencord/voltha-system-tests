@@ -723,9 +723,11 @@ Do ONU Upgrade Multiple Image Download Per OLT
 Do ONU Upgrade Compare OMCI Message Version
     [Documentation]    This keyword performs the ONU Upgrade Compare OMCI Message Version test for the first OLT/ONU
     [Arguments]    ${activate_on_success}=${image_activate_on_success}    ${commit_on_success}=${image_commit_on_success}
-    [Teardown]     Run Keyword If  '${KEYWORD STATUS}'=='FAIL'    Remove Adapter Image    ${image_version}    ${onu_device_id}
-    ${firstonu}=      Set Variable    0
-    ${outputfile}=    Set variable    ${OUTPUTDIR}/ONU_SW_Upgrade_Time.txt
+    [Teardown]     Run Keyword If  '${KEYWORD STATUS}'=='FAIL' and '${onu_device_id}'!='${EMPTY}'
+    ...            Remove Adapter Image    ${image_version}    ${onu_device_id}
+    ${onu_device_id}=  Set Variable    ${EMPTY}
+    ${firstonu}=       Set Variable    0
+    ${outputfile}=     Set variable    ${OUTPUTDIR}/ONU_SW_Upgrade_Time.txt
     ${omcc_version}    ${is_omcc_extended}=    Get BBSIM OMCC Version    ${NAMESPACE}
     # Restart BBSIM with OMCI Baseline Message if needed
     Create File    ${outputfile}    This file contains the SW Upgrade download durations
