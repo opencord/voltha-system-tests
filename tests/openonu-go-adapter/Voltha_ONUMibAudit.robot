@@ -116,10 +116,9 @@ Check Mib Audit
         ...    ELSE       Perform Sanity Test    ${suppressaddsubscriber}
         Run Keyword If    ${print2console}    Log    Disable ONUs.    console=yes
         Disable Onu Device
-        ${alternativeonustates}=  Create List     omci-flows-deleted
         Run Keyword If    "${workflow}"=="DT"    Current State Test All Onus    omci-admin-lock
-        ...    ELSE IF    "${workflow}"=="TT"    Current State Test All Onus    omci-admin-lock
-        ...    ELSE       Current State Test All Onus    omci-admin-lock    alternativeonustate=${alternativeonustates}
+        ...    ELSE IF    "${workflow}"=="TT"    Current State Test All Onus    tech-profile-config-delete-success
+        ...    ELSE       Current State Test All Onus    tech-profile-config-delete-success
         #check all ports are disabled in ONOS
         Wait for all ONU Ports in ONOS Disabled    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${unitag_sub}
         Run Keyword If    ${print2console}    Log    Enable ONUs.    console=yes
