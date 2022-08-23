@@ -24,7 +24,9 @@ Library           RequestsLibrary
 Library           OperatingSystem
 Library           CORDRobot
 Library           ImportResource    resources=CORDRobot
+Library           XML
 Resource          ./voltctl.robot
+Resource          ./bbsim.robot
 
 *** Keywords ***
 Check CLI Tools Configured
@@ -217,9 +219,9 @@ Perform Sanity Test Per OLT
         ${src}=    Set Variable    ${hosts.src[${I}]}
         ${dst}=    Set Variable    ${hosts.dst[${I}]}
         Continue For Loop If    "${olt_serial_number}"!="${src['olt']}"
+        ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
         ${onu_port}=    Wait Until Keyword Succeeds    ${timeout}    2s
         ...    Get ONU Port in ONOS    ${src['onu']}    ${of_id}    ${src['uni_id']}
-        ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
         # Check ONU port is Enabled in ONOS
         Wait Until Keyword Succeeds   120s   2s
         ...    Verify UNI Port Is Enabled   ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${src['onu']}    ${src['uni_id']}
@@ -324,9 +326,9 @@ Perform Sanity Test DT Per OLT
         ${src}=    Set Variable    ${hosts.src[${I}]}
         ${dst}=    Set Variable    ${hosts.dst[${I}]}
         Continue For Loop If    "${olt_serial_number}"!="${src['olt']}"
+        ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
         ${onu_port}=    Wait Until Keyword Succeeds    ${timeout}    2s
         ...    Get ONU Port in ONOS    ${src['onu']}    ${of_id}    ${src['uni_id']}
-        ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
         # Check ONU port is Enabled in ONOS
         Wait Until Keyword Succeeds   120s   2s
         ...    Verify UNI Port Is Enabled   ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${src['onu']}    ${src['uni_id']}
@@ -381,9 +383,9 @@ Perform Sanity Test DT FTTB Per OLT
         ${src}=    Set Variable    ${hosts.src[${I}]}
         ${dst}=    Set Variable    ${hosts.dst[${I}]}
         Continue For Loop If    "${olt_serial_number}"!="${src['olt']}"
+        ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
         ${onu_port}=    Wait Until Keyword Succeeds    ${timeout}    2s
         ...    Get ONU Port in ONOS    ${src['onu']}    ${of_id}    ${src['uni_id']}
-        ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
         # Check ONU port is Enabled in ONOS
         Wait Until Keyword Succeeds   120s   2s
         ...    Verify UNI Port Is Enabled   ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${src['onu']}    ${src['uni_id']}
@@ -543,9 +545,9 @@ Provision Subscription for ONU TT
     ${of_id}=    Wait Until Keyword Succeeds    ${timeout}    15s    Validate OLT Device in ONOS    ${src['olt']}
     Set Global Variable    ${of_id}
     ${nni_port}=    Wait Until Keyword Succeeds    ${timeout}    2s    Get NNI Port in ONOS    ${of_id}
+    ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
     ${onu_port}=    Wait Until Keyword Succeeds    ${timeout}    2s
     ...    Get ONU Port in ONOS    ${src['onu']}    ${of_id}    ${src['uni_id']}
-    ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
     # Check ONU port is Enabled in ONOS
     Wait Until Keyword Succeeds    ${timeout}    2s
     ...    Verify UNI Port Is Enabled   ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${src['onu']}    ${src['uni_id']}
@@ -646,9 +648,9 @@ Sanity Test TT MCAST one ONU
     ${of_id}=    Wait Until Keyword Succeeds    ${timeout}    15s    Validate OLT Device in ONOS    ${src['olt']}
     Set Global Variable    ${of_id}
     ${nni_port}=    Wait Until Keyword Succeeds    ${timeout}    2s    Get NNI Port in ONOS    ${of_id}
+    ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
     ${onu_port}=    Wait Until Keyword Succeeds    ${timeout}    2s
     ...    Get ONU Port in ONOS    ${src['onu']}    ${of_id}    ${src['uni_id']}
-    ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
     # Check ONU port is Enabled in ONOS
     Wait Until Keyword Succeeds    ${timeout}    2s
     ...    Verify UNI Port Is Enabled   ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${src['onu']}    ${src['uni_id']}
@@ -783,9 +785,9 @@ Validate ONUs After OLT Disable
         ${dst}=    Set Variable    ${hosts.dst[${I}]}
         Continue For Loop If    "${olt_serial_number}"!="${src['olt']}"
         ${of_id}=    Get ofID From OLT List    ${src['olt']}
+        ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
         ${onu_port}=    Wait Until Keyword Succeeds    ${timeout}    2s    Get ONU Port in ONOS    ${src['onu']}
         ...    ${of_id}
-        ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
         ${valid_onu_states}=    Create List    stopping-openomci    omci-flows-deleted
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
         ...    Validate Device    ENABLED    DISCOVERED
@@ -926,10 +928,10 @@ Validate ONUs for PON OLT Disable
         ${src}=    Set Variable    ${hosts.src[${I}]}
         ${dst}=    Set Variable    ${hosts.dst[${I}]}
         Continue For Loop If    "${olt_sn}"!="${src['olt']}"
+        ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
         ${of_id}=    Wait Until Keyword Succeeds    ${timeout}    15s    Validate OLT Device in ONOS    ${src['olt']}
         ${onu_port}=    Wait Until Keyword Succeeds    ${timeout}    2s    Get ONU Port in ONOS    ${src['onu']}
         ...    ${of_id}    ${src['uni_id']}
-        ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
         ${matched}=    Match ONU in PON OLT Peer List    ${olt_peer_list}    ${onu_device_id}
         Run Keyword If    ${matched}
         ...    Run Keywords
@@ -964,11 +966,11 @@ Validate ONUs for PON OLT Enable
         ${src}=    Set Variable    ${hosts.src[${I}]}
         ${dst}=    Set Variable    ${hosts.dst[${I}]}
         Continue For Loop If    "${olt_sn}"!="${src['olt']}"
+        ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
         ${of_id}=    Wait Until Keyword Succeeds    ${timeout}    15s    Validate OLT Device in ONOS    ${src['olt']}
         ${nni_port}=    Wait Until Keyword Succeeds    ${timeout}    2s    Get NNI Port in ONOS    ${of_id}
         ${onu_port}=    Wait Until Keyword Succeeds    ${timeout}    2s    Get ONU Port in ONOS    ${src['onu']}
         ...    ${of_id}    ${src['uni_id']}
-        ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
         ${matched}=    Match ONU in PON OLT Peer List    ${olt_peer_list}    ${onu_device_id}
         ${wpa_log}=    Run Keyword If    ${has_dataplane} and ${matched}    Catenate    SEPARATOR=.
         ...    /tmp/wpa    ${src['dp_iface_name']}    log
@@ -1062,10 +1064,10 @@ Validate ONUs for PON OLT Disable DT
         ${src}=    Set Variable    ${hosts.src[${I}]}
         ${dst}=    Set Variable    ${hosts.dst[${I}]}
         Continue For Loop If    "${olt_sn}"!="${src['olt']}"
+        ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
         ${of_id}=    Wait Until Keyword Succeeds    ${timeout}    15s    Validate OLT Device in ONOS    ${src['olt']}
         ${onu_port}=    Wait Until Keyword Succeeds    ${timeout}    2s    Get ONU Port in ONOS    ${src['onu']}
         ...    ${of_id}    ${src['uni_id']}
-        ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
         ${matched}=    Match ONU in PON OLT Peer List    ${olt_peer_list}    ${onu_device_id}
         ${valid_onu_states}=    Create List    stopping-openomci    omci-flows-deleted
         Run Keyword If    ${matched}
@@ -1103,11 +1105,11 @@ Validate ONUs for PON OLT Enable DT
         ${src}=    Set Variable    ${hosts.src[${I}]}
         ${dst}=    Set Variable    ${hosts.dst[${I}]}
         Continue For Loop If    "${olt_sn}"!="${src['olt']}"
+        ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
         ${of_id}=    Wait Until Keyword Succeeds    ${timeout}    15s    Validate OLT Device in ONOS    ${src['olt']}
         ${nni_port}=    Wait Until Keyword Succeeds    ${timeout}    2s    Get NNI Port in ONOS    ${of_id}
         ${onu_port}=    Wait Until Keyword Succeeds    ${timeout}    2s    Get ONU Port in ONOS    ${src['onu']}
         ...    ${of_id}    ${src['uni_id']}
-        ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
         ${matched}=    Match ONU in PON OLT Peer List    ${olt_peer_list}    ${onu_device_id}
         Run Keyword If    ${matched}
         ...    Run Keywords
@@ -1752,16 +1754,18 @@ Perform Sanity Test TIM
 
         # Verify VOLTHA Flows
         # Number of per OLT Flows are 3 times the Number of Active ONUs
-        # (for downstream and upstream) + 3 on the NNI port the LLDP, IGMP and PPPoE default flows
-        ${olt_flows}=    Evaluate   3 * ${num_of_provisioned_onus_ports} + 3
+        # (for downstream and upstream flows) + 3 on the NNI port the LLDP, IGMP and PPPoE default flows
+        # In the future there will be the possibility to analyze the single OLT/ONU flow rule
+        # to verify the correctness
+        ${olt_flows}=    Evaluate   6 * ${num_of_provisioned_onus_ports} + 3
         Run Keyword    Wait Until Keyword Succeeds    ${timeout}    5s    Validate OLT Flows
         ...    ${olt_flows}    ${olt_device_id}
         ${List_ONU_Serial}    Create List
         Set Suite Variable    ${List_ONU_Serial}
         Build ONU SN List    ${List_ONU_Serial}    ${olt_serial_number}
         Log    ${List_ONU_Serial}
-        # Number of per ONU Flows equals 3
-        ${onu_flows}=    Set Variable    3
+        # Number of per ONU Flows equals 6
+        ${onu_flows}=    Set Variable    6
         Wait Until Keyword Succeeds    ${timeout}    5s    Validate ONU Flows
         ...    ${List_ONU_Serial}    ${onu_flows}
     END
@@ -1795,9 +1799,9 @@ Perform Sanity Test TIM Per OLT
         ${src}=    Set Variable    ${hosts.src[${I}]}
         ${dst}=    Set Variable    ${hosts.dst[${I}]}
         Continue For Loop If    "${olt_serial_number}"!="${src['olt']}"
+        ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
         ${onu_port}=    Wait Until Keyword Succeeds    ${timeout}    2s
         ...    Get ONU Port in ONOS    ${src['onu']}    ${of_id}    ${src['uni_id']}
-        ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
         # Check ONU port is Enabled in ONOS
         Wait Until Keyword Succeeds   120s   2s
         ...    Verify UNI Port Is Enabled   ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${src['onu']}    ${src['uni_id']}
@@ -1815,11 +1819,95 @@ Perform Sanity Test TIM Per OLT
         ...    ${src['onu']}    onu=True    onu_reason=${onu_reasons}
 
         # Verify subscriber access flows are added for a single ONU puniort
-        Wait Until Keyword Succeeds    ${timeout}    5s
-        ...    Verify Subscriber Access Flows Added For Single ONU Port TIM    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${of_id}
+        #Need to define an IF that use the HSIA if the ONU have a "service_type: 'hsia'"
+        Run Keyword If    '${src['service_type']}' == 'hsia'
+        ...    Wait Until Keyword Succeeds    ${timeout}    5s
+        ...    Verify Subscriber Access Flows Added For HSIA Service Single ONU Port TIM    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${of_id}
+        ...    ${onu_port}    ${nni_port}    ${src['c_tag']}    ${src['uni_tag']}
+
+        #Need to define an IF that use the HSIA if the ONU have a "service_type: 'vod'"
+        Run Keyword If    '${src['service_type']}' == 'vod'
+        ...    Wait Until Keyword Succeeds    ${timeout}    5s
+        ...    Verify Subscriber Access Flows Added For VoD Service On Single ONU Port TIM    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${of_id}
         ...    ${onu_port}    ${nni_port}    ${src['c_tag']}    ${src['uni_tag']}
 
         # TO DO: Verify Meters in ONOS
         #Wait Until Keyword Succeeds    ${timeout}    5s
         #...    Verify Meters in ONOS Ietf    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${of_id}    ${onu_port}
     END
+
+Perform Sanity Test of BBFadapter Aggregation
+    [Documentation]    This test verfy if each OLT and ONU viewed by the BBF-Adapter
+    ...     represent the device in Voltha 
+    ...     (with the correct translation to and from ietf standard)
+    [Arguments]    ${XML}
+    #Extract from the XML of the Device Aggregation different tipe of data structure
+    #One for only OLTs, one for only ONUs and one for Both
+    ${oltes_bbf}=   Get Olts From XML   ${XML}
+    ${onus_bbf}=   Get Onus From XML   ${XML}
+    ${all_devices_bbf}=     Get All Devices   ${XML}
+    #Set up like Global to Simplifie the use in the tests
+    Set Global Variable     ${oltes_bbf}
+    Set Global Variable     ${onus_bbf}
+    Set Global Variable     ${all_devices_bbf}
+
+    #Do the verification for each OLT and its ONUs
+    FOR    ${J}    IN RANGE    0    ${num_olts}
+        ${olt_serial_number}=    Set Variable    ${list_olts}[${J}][sn]
+        ${olt_device_id}=    Get OLTDeviceID From OLT List    ${olt_serial_number}
+        ${num_onus}=    Set Variable    ${list_olts}[${J}][onucount]
+        ${of_id}=    Wait Until Keyword Succeeds    ${timeout}    15s    Validate OLT Device in ONOS
+        ...    ${olt_serial_number}
+        Set Global Variable    ${of_id}     ${olt_device_id}
+        #Validate in VOLTHA if the OLT exist have the correct states
+        Wait Until Keyword Succeeds    ${timeout}    5s    Validate Device
+        ...    ENABLED    ACTIVE    REACHABLE
+        ...    ${olt_serial_number}
+        #Validate in BBF if the OLT exist and have the correct states
+        #State are defined in VOLTHA but internal translate in IETF standard
+        Validate Olt in BBF  ENABLED    ACTIVE    REACHABLE
+        ...     ${olt_serial_number}    ${olt_device_id}
+        #Verify if the OLT in BBF have all the features present in VOLTHA
+        #Is like a Viceversa Check
+        Correct representation check     ${olt_serial_number}    False
+
+        #NNI_port is a place_holder for future tests on services
+        #Do a Test for the OLT configuration and its ONUS
+        ${nni_port}=    Set Variable    0
+        ${supress_add_subscriber}=      Set Variable    False 
+        Perform Sanity BBF Per OLT    ${of_id}    ${nni_port}    ${olt_serial_number}    ${num_onus}
+        ...    ${supress_add_subscriber}
+
+    END
+
+Perform Sanity BBF Per OLT
+    [Arguments]    ${of_id}     ${nni_port}    ${olt_serial_number}    ${num_onus}    ${supress_add_subscriber}=False
+    [Documentation]    This keyword performs Sanity Test Procedure for TIM Workflow
+    ...    Sanity test performs pppoe and flows for all the ONUs (and for each UNIs of a consider ONU)
+    ...    This keyword can be used to call in any other tests where sanity check is required
+    ...    and avoids duplication of code.
+    ...    For repeating sanity test without subscriber changes set flag supress_add_subscriber=True.
+    ...    In all other (common) cases flag has to be set False (default).
+    # Test all the ONUs of the consider OLT
+    FOR    ${I}    IN RANGE    0    ${num_all_onus}
+        ${src}=    Set Variable    ${hosts.src[${I}]}
+        ${dst}=    Set Variable    ${hosts.dst[${I}]}
+        Continue For Loop If    "${olt_serial_number}"!="${src['olt']}"
+        ${onu_device_id}=    Get Device ID From SN in BBF    ${src['onu']}
+
+        # Verify ONU state in BBF
+        ${onu_reasons}=  Create List     omci-flows-pushed
+        Run Keyword    Append To List    ${onu_reasons}    onu-reenabled
+        #Validate in VOLTHA if the ONU exist and have the correct states
+        Wait Until Keyword Succeeds    ${timeout}    5s    Validate Device
+        ...    ENABLED    ACTIVE    REACHABLE
+        ...    ${src['onu']}    onu=True    onu_reason=${onu_reasons}
+        #Validate in BBF if the ONU exist have the correct states
+        #State are defined in VOLTHA but internal translate in IETF standard
+        Validate Onu in BBF  ENABLED    ACTIVE    REACHABLE
+        ...     ${src['onu']}  ${onu_reasons}
+        #Verify if the ONU in BBF have all the features present in VOLTHA
+        #Is like a Viceversa Check
+        Correct representation check    ${src['onu']}   True
+    END
+    

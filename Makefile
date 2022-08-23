@@ -60,6 +60,7 @@ ROBOT_SANITY_TIM_SINGLE_PON_FILE    ?= $(ROOT_DIR)/tests/data/bbsim-kind-tim.yam
 ROBOT_SANITY_TIM_SINGLE_PON_MULTI_ONU_FILE    ?= $(ROOT_DIR)/tests/data/bbsim-kind-tim-OLTxPONx2ONU.yaml
 ROBOT_SANITY_TIM_MULTI_PON_MULTI_ONU_FILE    ?= $(ROOT_DIR)/tests/data/bbsim-kind-tim-OLTx2PONx2ONU.yaml
 ROBOT_SANITY_TIM_MULTI_OLT_MULTI_PON_MULTI_ONU_FILE    ?= $(ROOT_DIR)/tests/data/bbsim-kind-tim-2OLTx2PONx2ONU.yaml
+ROBOT_SANITY_BBF_ADPATER_SINGLE_PON_FILE    ?= $(ROOT_DIR)/tests/data/bbsim-bbf-adapter.yaml
 
 
 # for backwards compatibility
@@ -194,6 +195,12 @@ openonu-go-adapter-test: ROBOT_MISC_ARGS += -e notreadyOnuGo $(ROBOT_DEBUG_LOG_O
 openonu-go-adapter-test: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_SINGLE_PON_FILE)
 openonu-go-adapter-test: ROBOT_FILE := Voltha_ONUStateTests.robot
 openonu-go-adapter-test: openonu-go-adapter-tests
+
+# target to invoke bbf adapter
+bbf-adapter: ROBOT_MISC_ARGS += -i sanityBbfAdapter $(ROBOT_DEBUG_LOG_OPT)
+bbf-adapter: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_BBF_ADPATER_SINGLE_PON_FILE)
+bbf-adapter: ROBOT_FILE := Voltha_BBF_Adapter_Tests.robot
+bbf-adapter: voltha-bbf-adapter-test
 
 # target to invoke test with openonu go adapter applying MIB-Upload-Templating
 mib-upload-templating-openonu-go-adapter-test: ROBOT_MISC_ARGS += -i functionalOnuGo
@@ -697,6 +704,12 @@ voltha-scale-test: vst_venv
 openonu-go-adapter-tests: vst_venv
 	source ./$</bin/activate ; set -u ;\
 	cd tests/openonu-go-adapter ;\
+	robot -V $(ROBOT_CONFIG_FILE) $(ROBOT_MISC_ARGS) $(ROBOT_FILE)
+
+voltha-bbf-adapter-test: ROBOT_MISC_ARGS += -e notready  --noncritical non-critical
+voltha-bbf-adapter-test: vst_venv
+	source ./$</bin/activate ; set -u ;\
+	cd tests/bbf-adapter ;\
 	robot -V $(ROBOT_CONFIG_FILE) $(ROBOT_MISC_ARGS) $(ROBOT_FILE)
 
 voltha-memory-leak-test: vst_venv
