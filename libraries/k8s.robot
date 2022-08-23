@@ -121,6 +121,18 @@ Copy File To Pod
     Log    ${output}
     [return]    ${output}
 
+Copy File From Pod
+    [Arguments]    ${namespace}    ${label}    ${src}    ${dest}
+    [Documentation]    Uses kubectl to copy a file from a pod
+    ${rc}    ${exec_pod_name}=    Run and Return Rc and Output
+    ...    kubectl get pods -n ${namespace} -l ${label} --no-headers | awk 'NR==1{print $1}'
+    Log    ${exec_pod_name}
+    Should Not Be Empty    ${exec_pod_name}    Unable to parse pod name
+    ${rc}    ${output}=     Run and Return Rc and Output
+    ...     kubectl cp -n ${namespace} ${exec_pod_name}:${src} ${dest}
+    Log    ${output}
+    [return]    ${output}
+
 Apply Kubernetes Resources
     [Arguments]    ${resource_yaml}    ${namespace}
     [Documentation]    Use kubectl to create resources given a yaml file
