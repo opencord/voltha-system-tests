@@ -1,0 +1,297 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fe26ad24_d53a94d5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2022-08-24T11:23:41Z",
+      "side": 1,
+      "message": "Good work, left some comments",
+      "revId": "b6f8128aed1f4943bd479e1df267fec2d524fa69",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "74e2ac35_f45f425e",
+        "filename": "libraries/bbf_adapter_utilities.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2022-08-24T11:23:41Z",
+      "side": 1,
+      "message": "Remove all unused Variables",
+      "range": {
+        "startLine": 29,
+        "startChar": 0,
+        "endLine": 38,
+        "endChar": 28
+      },
+      "revId": "b6f8128aed1f4943bd479e1df267fec2d524fa69",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "df2fe176_4be36a89",
+        "filename": "libraries/bbf_adapter_utilities.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2022-08-24T11:23:41Z",
+      "side": 1,
+      "message": "Remove tailing whitespaces",
+      "range": {
+        "startLine": 63,
+        "startChar": 105,
+        "endLine": 63,
+        "endChar": 109
+      },
+      "revId": "b6f8128aed1f4943bd479e1df267fec2d524fa69",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d2bfdee3_fae029d8",
+        "filename": "libraries/bbf_adapter_utilities.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2022-08-24T11:23:41Z",
+      "side": 1,
+      "message": "same, remove tailing whitespaces. There are a lot more tailing whitespaces in the file, please remove them all.",
+      "range": {
+        "startLine": 79,
+        "startChar": 50,
+        "endLine": 79,
+        "endChar": 54
+      },
+      "revId": "b6f8128aed1f4943bd479e1df267fec2d524fa69",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d63662ad_5b4e1784",
+        "filename": "libraries/utils.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2022-08-24T11:23:41Z",
+      "side": 1,
+      "message": "is this really needed here?",
+      "range": {
+        "startLine": 27,
+        "startChar": 0,
+        "endLine": 27,
+        "endChar": 21
+      },
+      "revId": "b6f8128aed1f4943bd479e1df267fec2d524fa69",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "21487bb9_3ac6b87b",
+        "filename": "libraries/utils.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2022-08-24T11:23:41Z",
+      "side": 1,
+      "message": "is it really needed here?",
+      "range": {
+        "startLine": 29,
+        "startChar": 0,
+        "endLine": 29,
+        "endChar": 31
+      },
+      "revId": "b6f8128aed1f4943bd479e1df267fec2d524fa69",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "369b94f1_ac7ee6af",
+        "filename": "libraries/utils.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 1828,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2022-08-24T11:23:41Z",
+      "side": 1,
+      "message": "I think it should be VOD.",
+      "range": {
+        "startLine": 1828,
+        "startChar": 43,
+        "endLine": 1828,
+        "endChar": 47
+      },
+      "revId": "b6f8128aed1f4943bd479e1df267fec2d524fa69",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "67e07791_76748363",
+        "filename": "libraries/utils.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 1841,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2022-08-24T11:23:41Z",
+      "side": 1,
+      "message": "remove tailing whitespaces",
+      "range": {
+        "startLine": 1841,
+        "startChar": 42,
+        "endLine": 1841,
+        "endChar": 43
+      },
+      "revId": "b6f8128aed1f4943bd479e1df267fec2d524fa69",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "556993d7_290c49da",
+        "filename": "libraries/utils.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 1877,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2022-08-24T11:23:41Z",
+      "side": 1,
+      "message": "same",
+      "range": {
+        "startLine": 1877,
+        "startChar": 61,
+        "endLine": 1877,
+        "endChar": 62
+      },
+      "revId": "b6f8128aed1f4943bd479e1df267fec2d524fa69",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "928c70b4_a128596b",
+        "filename": "libraries/utils.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 1885,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2022-08-24T11:23:41Z",
+      "side": 1,
+      "message": "BBF adapter?",
+      "range": {
+        "startLine": 1885,
+        "startChar": 71,
+        "endLine": 1885,
+        "endChar": 83
+      },
+      "revId": "b6f8128aed1f4943bd479e1df267fec2d524fa69",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7b63b324_89821f3c",
+        "filename": "libraries/utils.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 1913,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2022-08-24T11:23:41Z",
+      "side": 1,
+      "message": "same",
+      "range": {
+        "startLine": 1913,
+        "startChar": 0,
+        "endLine": 1913,
+        "endChar": 4
+      },
+      "revId": "b6f8128aed1f4943bd479e1df267fec2d524fa69",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6ef3473d_6c0831eb",
+        "filename": "scripts/bbf_device_aggregation.exp",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2022-08-24T11:23:41Z",
+      "side": 1,
+      "message": "Not sure due this file is generated, but it includes several tailing whitespaces.",
+      "range": {
+        "startLine": 51,
+        "startChar": 0,
+        "endLine": 51,
+        "endChar": 1
+      },
+      "revId": "b6f8128aed1f4943bd479e1df267fec2d524fa69",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f1abf7b1_cad50d6b",
+        "filename": "tests/bbf-adapter/Voltha_BBF_Adapter_Tests.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2022-08-24T11:23:41Z",
+      "side": 1,
+      "message": "it is not used here. So you can remove it.",
+      "range": {
+        "startLine": 73,
+        "startChar": 0,
+        "endLine": 74,
+        "endChar": 34
+      },
+      "revId": "b6f8128aed1f4943bd479e1df267fec2d524fa69",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    }
+  ]
+}
