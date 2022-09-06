@@ -834,6 +834,15 @@ Setup Suite
     [Documentation]    Set up the test suite
     Start Logging Setup or Teardown    Setup-${SUITE NAME}
     Common Test Suite Setup
+    # set log level for org.onosproject.store.device.impl.GossipDeviceStore to TRACE to get reason for hanging ONOS resources
+    ${LogLevelGossipDeviceStore}=    Wait Until Keyword Succeeds    ${timeout}    2s
+        ...    Execute ONOS CLI Command use single connection    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}
+        ...    log:get org.onosproject.store.device.impl.GossipDeviceStore
+    Set Suite Variable    ${LogLevelGossipDeviceStore}
+    Log    Log Level of GossipDeviceStore is ${LogLevelGossipDeviceStore}
+    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
+        ...    Execute ONOS CLI Command use single connection    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}
+        ...    log:set TRACE org.onosproject.store.device.impl.GossipDeviceStore
     Run Keyword If    ${logging}    Collect Logs
     Stop Logging Setup or Teardown    Setup-${SUITE NAME}
 
@@ -843,6 +852,10 @@ Teardown Suite
     # stop port forwarding if still running
     Run Keyword If    ${portFwdHandle}!=None    Terminate Process    ${portFwdHandle}    kill=true
     Run Keyword If    ${has_dataplane}    Clean Up Linux
+    # reset log level for org.onosproject.store.device.impl.GossipDeviceStore to to previous level
+   Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
+        ...    Execute ONOS CLI Command use single connection    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}
+        ...    log:set ${LogLevelGossipDeviceStore} org.onosproject.store.device.impl.GossipDeviceStore
     Run Keyword If    ${logging}    Collect Logs
     Stop Logging Setup or Teardown    Teardown-${SUITE NAME}
     Close All ONOS SSH Connections
