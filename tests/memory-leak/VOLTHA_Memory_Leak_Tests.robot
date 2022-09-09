@@ -91,9 +91,9 @@ Memory Leak Test Openonu Go Adapter
     Run Keyword If    ${print2console}    Log    \r\nStart ${iterations} iterations.    console=yes
     FOR    ${I}    IN RANGE    1    ${iterations} + 1
         Run Keyword If    ${print2console}    Log    \r\nStart iteration ${I} of ${iterations}.    console=yes
-        Run Keyword If    "${workflow}"=="DT"    Perform Sanity Test DT
-        ...    ELSE IF    "${workflow}"=="TT"    Perform Sanity Tests TT
-        ...    ELSE       Perform Sanity Test
+        Run Keyword If    "${workflow}"=="DT"    Run Keyword And Ignore Error    Perform Sanity Test DT
+        ...    ELSE IF    "${workflow}"=="TT"    Run Keyword And Ignore Error    Perform Sanity Tests TT
+        ...    ELSE       Run Keyword And Ignore Error    Perform Sanity Test
         Sleep    5s
         Run Keyword If    ${print2console}    Log    Remove Flows.    console=yes
         Remove Flows all ONUs
@@ -112,8 +112,8 @@ Memory Leak Test Openonu Go Adapter
         ${onu_reason}=  Set Variable If    "${workflow}"=="DT"    initial-mib-downloaded
         ...                                "${workflow}"=="TT"    initial-mib-downloaded
         ...                                "${workflow}"=="ATT"   omci-flows-pushed
-        Wait Until Keyword Succeeds    ${timeout}    1s  Validate ONU Devices  ENABLED  ACTIVE  REACHABLE
-        ...    ${list_onus}    onu_reason=${onu_reason}
+        Run Keyword And Ignore Error    Wait Until Keyword Succeeds    ${timeout}    1s
+        ...    Validate ONU Devices  ENABLED  ACTIVE  REACHABLE    ${list_onus}    onu_reason=${onu_reason}
         Run Keyword If    ${print2console}    Log    End iteration ${I} of ${iterations}.    console=yes
     END
     [Teardown]    Run Keywords    Printout ONU Serial Number and Device Id    print2console=${print2console}
