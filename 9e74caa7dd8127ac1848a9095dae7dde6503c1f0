@@ -16,6 +16,24 @@
       "message": "To stabilize the test suite/jenkins pipeline errors in sanity check and ONU status can be ignored.",
       "revId": "9e74caa7dd8127ac1848a9095dae7dde6503c1f0",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ce1236e0_8ada6267",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2022-09-13T12:24:08Z",
+      "side": 1,
+      "message": "Root cause for instable jenkins runs is located in ONOS/OLT-App, but not corrected. Jira was/is https://jira.opencord.org/browse/VOL-4703.",
+      "parentUuid": "c5b8f6ff_0c251f52",
+      "revId": "9e74caa7dd8127ac1848a9095dae7dde6503c1f0",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     }
   ]
 }
