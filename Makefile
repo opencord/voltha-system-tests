@@ -60,7 +60,8 @@ ROBOT_SANITY_TIM_SINGLE_PON_FILE    ?= $(ROOT_DIR)/tests/data/bbsim-kind-tim.yam
 ROBOT_SANITY_TIM_SINGLE_PON_MULTI_ONU_FILE    ?= $(ROOT_DIR)/tests/data/bbsim-kind-tim-OLTxPONx2ONU.yaml
 ROBOT_SANITY_TIM_MULTI_PON_MULTI_ONU_FILE    ?= $(ROOT_DIR)/tests/data/bbsim-kind-tim-OLTx2PONx2ONU.yaml
 ROBOT_SANITY_TIM_MULTI_OLT_MULTI_PON_MULTI_ONU_FILE    ?= $(ROOT_DIR)/tests/data/bbsim-kind-tim-2OLTx2PONx2ONU.yaml
-
+ROBOT_SANITY_TIM_MCAST_SINGLE_PON_FILE    ?= $(ROOT_DIR)/tests/data/bbsim-kind-tim-Mcast.yaml
+ROBOT_SANITY_TIM_MCAST_MULTI_OLT_MULTI_PON_MULTI_ONU_FILE    ?= $(ROOT_DIR)/tests/data/bbsim-kind-tim-Mcast-2OLTx2PONx2UNI-single_multi_Sub.yaml
 
 # for backwards compatibility
 sanity-kind: sanity-single-kind
@@ -163,6 +164,15 @@ sanity-kind-tim-multi-olt-multi-pon-multi-onu: ROBOT_CONFIG_FILE := $(ROBOT_SANI
 sanity-kind-tim-multi-olt-multi-pon-multi-onu: ROBOT_FILE := Voltha_TIM_PODTests.robot
 sanity-kind-tim-multi-olt-multi-pon-multi-onu: voltha-tim-test
 
+sanity-kind-tim-mcast: ROBOT_MISC_ARGS += -i sanityTIM-MCast $(ROBOT_DEBUG_LOG_OPT)
+sanity-kind-tim-mcast: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_TIM_MCAST_SINGLE_PON_FILE)
+sanity-kind-tim-mcast: ROBOT_FILE := Voltha_TIM_PODTests.robot
+sanity-kind-tim-mcast: voltha-tim-test
+
+sanity-kind-tim-mcast-multi-olt-multi-pon-multi-onu: ROBOT_MISC_ARGS += -i sanityTIM-MCast $(ROBOT_DEBUG_LOG_OPT)
+sanity-kind-tim-mcast-multi-olt-multi-pon-multi-onu: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_TIM_MCAST_MULTI_OLT_MULTI_PON_MULTI_ONU_FILE)
+sanity-kind-tim-mcast-multi-olt-multi-pon-multi-onu: ROBOT_FILE := Voltha_TIM_PODTests.robot
+sanity-kind-tim-mcast-multi-olt-multi-pon-multi-onu: voltha-tim-test
 
 # target to invoke multiple OLTs Functional scenarios
 functional-multi-olt: ROBOT_MISC_ARGS += -i sanityORfunctional -e PowerSwitch $(ROBOT_DEBUG_LOG_OPT)
