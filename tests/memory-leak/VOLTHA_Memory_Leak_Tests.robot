@@ -104,9 +104,11 @@ Memory Leak Test Openonu Go Adapter
         Run Keyword If    ${print2console}    Log    Get ONU Device IDs.    console=yes
         ${onu_device_id_list}=    Get ONUs Device IDs from Voltha
         Run Keyword If    ${print2console}    Log    Delete ONUs.    console=yes
-        Delete Devices In Voltha    Type=brcm_openomci_onu
+        Run Keyword And Ignore Error    Wait Until Keyword Succeeds    ${timeout}    1s
+        ...    Delete Devices In Voltha    Type=brcm_openomci_onu
         Run Keyword If    ${print2console}    Log    Wait for ONUs come back.    console=yes
-        Wait Until Keyword Succeeds    ${timeout}    1s  Check for new ONU Device IDs     ${onu_device_id_list}
+        Run Keyword And Ignore Error    Wait Until Keyword Succeeds    ${timeout}    1s  Check for new ONU Device IDs
+        ...                             ${onu_device_id_list}
         ${list_onus}    Create List
         Build ONU SN List    ${list_onus}
         Wait Until Keyword Succeeds    ${timeout}    1s  Check all ONU OperStatus     ${list_onus}  ACTIVE
