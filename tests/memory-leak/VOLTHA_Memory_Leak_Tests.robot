@@ -86,6 +86,7 @@ Memory Leak Test Openonu Go Adapter
     ...    - wait for onu auto detect
     ...    Attention: Due VOL-4703 is not corrected errors in Sanity Test as well as Check Flows Removed will be ignored!
     ...               This is a temporaly workaround only! Has to be checked after introduction of voltha-go-controller.
+    ...               For same reason errors in Delete Devices In Voltha and Check for new ONU Device IDs will be ignored.
     [Tags]    functionalMemoryLeak    MemoryLeakTestOnuGo
     [Setup]    Run Keywords    Start Logging    MemoryLeakTestOnuGo
     ...        AND             Setup
@@ -104,12 +105,15 @@ Memory Leak Test Openonu Go Adapter
         Run Keyword If    ${print2console}    Log    Get ONU Device IDs.    console=yes
         ${onu_device_id_list}=    Get ONUs Device IDs from Voltha
         Run Keyword If    ${print2console}    Log    Delete ONUs.    console=yes
-        Delete Devices In Voltha    Type=brcm_openomci_onu
+        Run Keyword And Ignore Error    Wait Until Keyword Succeeds    ${timeout}    1s
+        ...    Delete Devices In Voltha    Type=brcm_openomci_onu
         Run Keyword If    ${print2console}    Log    Wait for ONUs come back.    console=yes
-        Wait Until Keyword Succeeds    ${timeout}    1s  Check for new ONU Device IDs     ${onu_device_id_list}
+        Run Keyword And Ignore Error    Wait Until Keyword Succeeds    ${timeout}    1s  Check for new ONU Device IDs
+        ...                             ${onu_device_id_list}
         ${list_onus}    Create List
         Build ONU SN List    ${list_onus}
-        Wait Until Keyword Succeeds    ${timeout}    1s  Check all ONU OperStatus     ${list_onus}  ACTIVE
+        Run Keyword And Ignore Error    Wait Until Keyword Succeeds    ${timeout}    1s
+        ...    Check all ONU OperStatus     ${list_onus}  ACTIVE
         Build ONU SN List    ${list_onus}
         ${onu_reason}=  Set Variable If    "${workflow}"=="DT"    initial-mib-downloaded
         ...                                "${workflow}"=="TT"    initial-mib-downloaded
