@@ -1,0 +1,136 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fc553c74_479d814c",
+        "filename": "libraries/utils.robot",
+        "patchSetId": 4
+      },
+      "lineNbr": 1890,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2022-09-21T09:19:25Z",
+      "side": 1,
+      "message": "From my point of view it is not correct to check onu reason for omci-flows-pushed or initial-mib-downloaded. initial-mib-dowmloaded means there are no flows subscribed, but sanity check should check for subscribtion of flows. \nFurthermore flag suppress_add_sub_subscriber has to be used only for repeating sanity check without changing flows.\nI think here is a further possible onu reason onu-reenabled, but never initial-mib-downloaded.\nI know there is an issue in voltha. In this case no flow update will be sent to openonu-adapter. Then onu reason stays in initial-mib-downloaded, but this is an (unsolved) error. We are working on it...",
+      "range": {
+        "startLine": 1888,
+        "startChar": 0,
+        "endLine": 1890,
+        "endChar": 0
+      },
+      "revId": "f13f338b18b2f6cb9183feb533c63a463d1d22e1",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f73ebf5c_bd33b872",
+        "filename": "scripts/bbf_device_aggregation.exp",
+        "patchSetId": 4
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2022-09-21T09:19:25Z",
+      "side": 1,
+      "message": "Tailing whitespaces?",
+      "range": {
+        "startLine": 126,
+        "startChar": 0,
+        "endLine": 126,
+        "endChar": 1
+      },
+      "revId": "f13f338b18b2f6cb9183feb533c63a463d1d22e1",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "025b2146_7a840a89",
+        "filename": "tests/bbf-adapter/Voltha_BBF_Adapter_Tests.robot",
+        "patchSetId": 4
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2022-09-21T09:19:25Z",
+      "side": 1,
+      "message": "Please remove unused variables. Line 39 - 77.",
+      "revId": "f13f338b18b2f6cb9183feb533c63a463d1d22e1",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7be4556c_a683d2ef",
+        "filename": "tests/bbf-adapter/Voltha_BBF_Adapter_Tests.robot",
+        "patchSetId": 4
+      },
+      "lineNbr": 362,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2022-09-21T09:19:25Z",
+      "side": 1,
+      "message": "onu reason initial-mib-downloaded is wrong here, use onu-reenabled.\nSee my comment regarding this issue in another module...",
+      "range": {
+        "startLine": 360,
+        "startChar": 0,
+        "endLine": 362,
+        "endChar": 0
+      },
+      "revId": "f13f338b18b2f6cb9183feb533c63a463d1d22e1",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "68128c81_7cd1e1dc",
+        "filename": "tests/bbf-adapter/Voltha_BBF_Adapter_Tests.robot",
+        "patchSetId": 4
+      },
+      "lineNbr": 528,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2022-09-21T09:19:25Z",
+      "side": 1,
+      "message": "see my comment above",
+      "range": {
+        "startLine": 527,
+        "startChar": 0,
+        "endLine": 528,
+        "endChar": 113
+      },
+      "revId": "f13f338b18b2f6cb9183feb533c63a463d1d22e1",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8629aa5e_7815d0f5",
+        "filename": "tests/bbf-adapter/Voltha_BBF_Adapter_Tests.robot",
+        "patchSetId": 4
+      },
+      "lineNbr": 569,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2022-09-21T09:19:25Z",
+      "side": 1,
+      "message": "see my comment above",
+      "range": {
+        "startLine": 568,
+        "startChar": 0,
+        "endLine": 569,
+        "endChar": 113
+      },
+      "revId": "f13f338b18b2f6cb9183feb533c63a463d1d22e1",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    }
+  ]
+}
