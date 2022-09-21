@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2268629f_96a136ba",
+        "filename": "libraries/utils.robot",
+        "patchSetId": 2
+      },
+      "lineNbr": 1824,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2022-09-21T08:57:12Z",
+      "side": 1,
+      "message": "After adding the flows (volt-add-subscriber-access) the onu reason should never initial-mib-downloaded, it has to be omci-flows-pushed or onu-reenabled! So the previous statement was correct, the new is wrong. Please change.",
+      "range": {
+        "startLine": 1824,
+        "startChar": 59,
+        "endLine": 1824,
+        "endChar": 81
+      },
+      "revId": "f48aae2148d9cdfe33b0b4da4f07b0c8fa1db836",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    }
+  ]
+}
