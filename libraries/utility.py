@@ -18,6 +18,7 @@ from __future__ import print_function
 import inspect
 import os
 import operator
+import requests
 
 # global definition of keys (find in given 'inventory_data')
 _NAME = 'name'
@@ -136,3 +137,24 @@ def validate(value1, op, value2):
     if op == "range":
         return ((compare(value1, ">=", value2[0])) and (compare(value1, "<=", value2[1])))
     return compare(value1, op, value2)
+
+
+def get_memory_consumptions(address, container, namespace="default"):
+    """
+    Query Prometheus and generate instantaneous memory consumptions for given pods under test
+    :param address: string The address of the Prometheus instance to query
+    :container: string The pod name
+    :param namespace: string The pod namespace
+    :return: memory consumtion value
+    """
+    container_mem_query = ('container_memory_working_set_bytes{namespace="%s",container="%s"}' %
+                           (namespace, container))
+    mem_params = {
+        "query": container_mem_query,
+    }
+    r = requests.get("http://%s/api/v1/query" % address, mem_params)
+    container_cpu = r.json()["data"]["result"]
+    if len(container_cpu) > 0:
+        return container_cpu[0]["value"][1]
+    else:
+        return -1
