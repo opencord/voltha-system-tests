@@ -24,6 +24,7 @@ Library           OperatingSystem
 Library           XML
 Library           RequestsLibrary
 Library           ../../libraries/DependencyLibrary.py
+Library           ../../libraries/utility.py    WITH NAME    utility
 Resource          ../../libraries/onos.robot
 Resource          ../../libraries/voltctl.robot
 Resource          ../../libraries/voltha.robot
@@ -68,7 +69,13 @@ ${etcdcheckintestteardown}    True
 ${data_dir}    ../data
 # number of iterations
 # example: -v iterations:10
-${iterations}    200
+${iterations}    50
+# address of Prometheus
+# example: -v prometheusaddr:0.0.0.0
+${prometheusaddr}    0.0.0.0
+# port of Prometheus
+# example: -v prometheusport:31301
+${prometheusport}    31301
 
 # flag to choose the subscriber provisioning command type in ONOS
 # TT often provision a single services for a subscriber (eg: hsia, voip, ...) one after the other.
@@ -84,45 +91,119 @@ Memory Leak Test Openonu Go Adapter
     ...    - remove flows
     ...    - delete ONU devices
     ...    - wait for onu auto detect
-    ...    Attention: Due VOL-4703 is not corrected errors in Sanity Test as well as Check Flows Removed will be ignored!
+    ...    Attention: Due VOL-4703 is not corrected memory leak tests will run in pipeline for DT workflow only!
     ...               This is a temporaly workaround only! Has to be checked after introduction of voltha-go-controller.
     [Tags]    functionalMemoryLeak    MemoryLeakTestOnuGo
     [Setup]    Run Keywords    Start Logging    MemoryLeakTestOnuGo
     ...        AND             Setup
     Run Keyword If    ${has_dataplane}    Clean Up Linux
+    ${output_file}=    Catenate    SEPARATOR=/    ${OUTPUT DIR}    MemoryConsumptionsOpenOnuAdapter.txt
+    Create File    ${output_file}   This file contains the memory consumptions of openonu adapter.
     Run Keyword If    ${print2console}    Log    \r\nStart ${iterations} iterations.    console=yes
+    ${start_mem_consumption}=    utility.get_memory_consumptions  ${prometheusaddr}:${prometheusport}   adapter-open-onu  voltha
+    Run Keyword If    ${print2console}    Log    \r\nMemory consumptions Start ${start_mem_consumption}    console=yes
+    ${time}=    Get Time
+    Append To File    ${output_file}   \r\nMemory consumptions Start: ${start_mem_consumption} at ${time}.
     FOR    ${I}    IN RANGE    1    ${iterations} + 1
         Run Keyword If    ${print2console}    Log    \r\nStart iteration ${I} of ${iterations}.    console=yes
-        Run Keyword If    "${workflow}"=="DT"    Run Keyword And Ignore Error    Perform Sanity Test DT
-        ...    ELSE IF    "${workflow}"=="TT"    Run Keyword And Ignore Error    Perform Sanity Tests TT
-        ...    ELSE       Run Keyword And Ignore Error    Perform Sanity Test
+        Run Keyword If    "${workflow}"=="DT"    Perform Sanity Test DT
+        ...    ELSE IF    "${workflow}"=="TT"    Perform Sanity Tests TT
+        ...    ELSE       Perform Sanity Test
         Sleep    5s
         Run Keyword If    ${print2console}    Log    Remove Flows.    console=yes
         Remove Flows all ONUs
         Run Keyword If    ${print2console}    Log    Check Flows removed.    console=yes
-        Run Keyword And Ignore Error    Check All Flows Removed
+        Check All Flows Removed
         Run Keyword If    ${print2console}    Log    Get ONU Device IDs.    console=yes
         ${onu_device_id_list}=    Get ONUs Device IDs from Voltha
         Run Keyword If    ${print2console}    Log    Delete ONUs.    console=yes
-        Delete Devices In Voltha    Type=brcm_openomci_onu
+        Wait Until Keyword Succeeds    ${timeout}    1s    Delete Devices In Voltha    Type=brcm_openomci_onu
         Run Keyword If    ${print2console}    Log    Wait for ONUs come back.    console=yes
-        Wait Until Keyword Succeeds    ${timeout}    1s  Check for new ONU Device IDs     ${onu_device_id_list}
+        Wait Until Keyword Succeeds    ${timeout}    1s  Check for new ONU Device IDs    ${onu_device_id_list}
         ${list_onus}    Create List
         Build ONU SN List    ${list_onus}
-        Wait Until Keyword Succeeds    ${timeout}    1s  Check all ONU OperStatus     ${list_onus}  ACTIVE
+        Wait Until Keyword Succeeds    ${timeout}    1s    Check all ONU OperStatus     ${list_onus}  ACTIVE
         Build ONU SN List    ${list_onus}
         ${onu_reason}=  Set Variable If    "${workflow}"=="DT"    initial-mib-downloaded
         ...                                "${workflow}"=="TT"    initial-mib-downloaded
         ...                                "${workflow}"=="ATT"   omci-flows-pushed
-        Run Keyword And Ignore Error    Wait Until Keyword Succeeds    ${timeout}    1s
+        Wait Until Keyword Succeeds    ${timeout}    1s
         ...    Validate ONU Devices  ENABLED  ACTIVE  REACHABLE    ${list_onus}    onu_reason=${onu_reason}
+        ${mem_consumption}=    utility.get_memory_consumptions   ${prometheusaddr}:${prometheusport}   adapter-open-onu   voltha
+        Run Keyword If    ${print2console}    Log    \r\nMemory consumptions ${I} ${mem_consumption}    console=yes
         Run Keyword If    ${print2console}    Log    End iteration ${I} of ${iterations}.    console=yes
+        ${time}=    Get Time
+        Append To File    ${output_file}   \r\nMemory consumptions ${I}: ${mem_consumption} at ${time}.
     END
     [Teardown]    Run Keywords    Printout ONU Serial Number and Device Id    print2console=${print2console}
     ...    AND    Run Keyword If    ${logging}    Get Logical Id of OLT
     ...    AND    Run Keyword If    ${logging}    Collect Logs
     ...    AND    Teardown Test
+    ...    AND    Run Keyword And Ignore Error    Wait Until Keyword Succeeds    300    10s
+    ...           Validate Memory Consumptions    adapter-open-onu    voltha    ${start_mem_consumption}   ${output_file}
     ...    AND    Stop Logging    MemoryLeakTestOnuGo
+
+Memory Leak Test Openolt Adapter
+    [Documentation]   Test of try to catch memory leak in Openolt Adapter for all three workflows, ATT, DT and TT
+    ...    Multiple run of OLT setup and teardown to try to catch memory leak.
+    ...    - do workflow related sanity test (bring up onu to omci flows pushed and setup flows)
+    ...    - delete OLT devices
+    ...    - wait for OLT is removed
+    ...    - add and enable OLT again
+    ...    - wait for ONUs available again
+    ...    Hint: default timeout in BBSim to mimic OLT reboot is 60 seconds!
+    ...    This behaviour of BBSim can be modified by 'oltRebootDelay: 60' in BBSim section of helm chart or
+    ...    used values.yaml during 'voltha up'.
+    ...    Attention: Due VOL-4703 is not corrected memory leak tests will run in pipeline for DT workflow only!
+    ...               This is a temporaly workaround only! Has to be checked after introduction of voltha-go-controller.
+    [Tags]    functionalMemoryLeak    MemoryLeakTestOlt
+    [Setup]    Run Keywords    Start Logging    MemoryLeakTestOlt
+    ...        AND             Setup
+    Run Keyword If    ${has_dataplane}    Clean Up Linux
+    ${output_file}=    Catenate    SEPARATOR=/    ${OUTPUT DIR}    MemoryConsumptionsOpenOltAdapter.txt
+    Create File    ${output_file}   This file contains the memory consumptions of openolt adapter.
+    Run Keyword If    ${print2console}    Log    \r\nStart ${iterations} iterations.    console=yes
+    ${start_mem_consumption}=    utility.get_memory_consumptions  ${prometheusaddr}:${prometheusport}   adapter-open-olt  voltha
+    Run Keyword If    ${print2console}    Log    \r\nMemory consumptions Start ${start_mem_consumption}    console=yes
+    ${time}=    Get Time
+    Append To File    ${output_file}   \r\nMemory consumptions Start: ${start_mem_consumption} at ${time}.
+    FOR    ${I}    IN RANGE    1    ${iterations} + 1
+        Run Keyword If    ${print2console}    Log    \r\nStart iteration ${I} of ${iterations}.    console=yes
+        Run Keyword If    "${workflow}"=="DT"    Perform Sanity Test DT
+        ...    ELSE IF    "${workflow}"=="TT"    Perform Sanity Tests TT
+        ...    ELSE       Perform Sanity Test
+        Sleep    5s
+        Run Keyword If    ${print2console}    Log    Delete OLTs.    console=yes
+        Delete Devices In Voltha    Type=openolt
+        Run Keyword If    ${print2console}    Log    Check OLTs removed.    console=yes
+        Wait Until Keyword Succeeds    ${timeout}    1s    Test Empty Device List
+        Sleep    20s
+        Run Keyword If    ${print2console}    Log    Add OLTs (calling Setup).    console=yes
+        Setup
+        Run Keyword If    ${print2console}    Log    Wait for ONUs come back.    console=yes
+        ${list_onus}    Create List
+        Build ONU SN List    ${list_onus}
+        Wait Until Keyword Succeeds    ${timeout}    1s    Check all ONU OperStatus     ${list_onus}  ACTIVE
+        Build ONU SN List    ${list_onus}
+        ${onu_reason}=  Set Variable If    "${workflow}"=="DT"    initial-mib-downloaded
+        ...                                "${workflow}"=="TT"    initial-mib-downloaded
+        ...                                "${workflow}"=="ATT"   omci-flows-pushed
+        Wait Until Keyword Succeeds    ${timeout}    1s
+        ...    Validate ONU Devices  ENABLED  ACTIVE  REACHABLE    ${list_onus}    onu_reason=${onu_reason}
+        ${mem_consumption}=    utility.get_memory_consumptions   ${prometheusaddr}:${prometheusport}   adapter-open-olt   voltha
+        Run Keyword If    ${print2console}    Log    \r\nMemory consumptions ${I} ${mem_consumption}    console=yes
+        Run Keyword If    ${print2console}    Log    End iteration ${I} of ${iterations}.    console=yes
+        ${time}=    Get Time
+        Append To File    ${output_file}   \r\nMemory consumptions ${I}: ${mem_consumption} at ${time}.
+    END
+    [Teardown]    Run Keywords    Printout ONU Serial Number and Device Id    print2console=${print2console}
+    ...    AND    Run Keyword If    ${logging}    Get Logical Id of OLT
+    ...    AND    Run Keyword If    ${logging}    Collect Logs
+    ...    AND    Teardown Test
+    ...    AND    Run Keyword And Ignore Error    Wait Until Keyword Succeeds    300    10s
+    ...           Validate Memory Consumptions    adapter-open-olt    voltha    ${start_mem_consumption}   ${output_file}
+    ...    AND    Stop Logging    MemoryLeakTestOlt
+
 
 *** Keywords ***
 Setup Suite
@@ -194,3 +275,13 @@ Check for new ONU Device IDs
     FOR    ${item}    IN    @{old_device_ids}
         List Should Not Contain Value    ${new_device_ids}    ${item}    Old device id ${item} still present.
     END
+
+Validate Memory Consumptions
+    [Documentation]    Validates meory consumptions of passed POD
+    [Arguments]    ${container}    ${namespace}    ${start_value}    ${output_file}
+    ${mem_consumption}=    utility.get_memory_consumptions    ${prometheusaddr}:${prometheusport}    ${container}   ${namespace}
+    Run Keyword If    ${print2console}    Log    \r\nMemory consumptions Teardwown ${mem_consumption}    console=yes
+    ${time}=    Get Time
+    Append To File    ${output_file}   \r\nMemory consumptions Teardown: ${mem_consumption} at ${time}.
+    ${upper_bound}=    Evaluate    (${start_value} + (${start_value}*0.3))
+    Should Be True    ${upper_bound} >= ${mem_consumption}
