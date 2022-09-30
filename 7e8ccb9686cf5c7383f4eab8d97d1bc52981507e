@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "015bc7b3_b1efac7f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2022-09-30T11:13:50Z",
+      "side": 1,
+      "message": "Ran successfully here: https://jenkins.opencord.org/view/VOLTHA-2.X-Tests/job/periodic-voltha-memory-leak-test-bbsim/229/",
+      "revId": "7e8ccb9686cf5c7383f4eab8d97d1bc52981507e",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    }
+  ]
+}
