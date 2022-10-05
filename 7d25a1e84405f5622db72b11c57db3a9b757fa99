@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b839c3c9_992aeb8c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000938
+      },
+      "writtenOn": "2022-10-05T14:58:31Z",
+      "side": 1,
+      "message": "I resolved and reply to tto all the drafts.",
+      "revId": "7d25a1e84405f5622db72b11c57db3a9b757fa99",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    }
+  ]
+}

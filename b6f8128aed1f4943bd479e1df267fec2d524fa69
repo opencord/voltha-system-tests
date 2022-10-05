@@ -41,6 +41,30 @@
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7b8bc82a_b2f1d62b",
+        "filename": "libraries/bbf_adapter_utilities.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1000938
+      },
+      "writtenOn": "2022-10-05T14:58:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "74e2ac35_f45f425e",
+      "range": {
+        "startLine": 29,
+        "startChar": 0,
+        "endLine": 38,
+        "endChar": 28
+      },
+      "revId": "b6f8128aed1f4943bd479e1df267fec2d524fa69",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "df2fe176_4be36a89",
@@ -54,6 +78,30 @@
       "writtenOn": "2022-08-24T11:23:41Z",
       "side": 1,
       "message": "Remove tailing whitespaces",
+      "range": {
+        "startLine": 63,
+        "startChar": 105,
+        "endLine": 63,
+        "endChar": 109
+      },
+      "revId": "b6f8128aed1f4943bd479e1df267fec2d524fa69",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3ba6b730_cc2ab6e2",
+        "filename": "libraries/bbf_adapter_utilities.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1000938
+      },
+      "writtenOn": "2022-10-05T14:58:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "df2fe176_4be36a89",
       "range": {
         "startLine": 63,
         "startChar": 105,
@@ -87,6 +135,30 @@
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "99744564_e510b644",
+        "filename": "libraries/bbf_adapter_utilities.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1000938
+      },
+      "writtenOn": "2022-10-05T14:58:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d2bfdee3_fae029d8",
+      "range": {
+        "startLine": 79,
+        "startChar": 50,
+        "endLine": 79,
+        "endChar": 54
+      },
+      "revId": "b6f8128aed1f4943bd479e1df267fec2d524fa69",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d63662ad_5b4e1784",
@@ -100,6 +172,30 @@
       "writtenOn": "2022-08-24T11:23:41Z",
       "side": 1,
       "message": "is this really needed here?",
+      "range": {
+        "startLine": 27,
+        "startChar": 0,
+        "endLine": 27,
+        "endChar": 21
+      },
+      "revId": "b6f8128aed1f4943bd479e1df267fec2d524fa69",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dbaf0155_43d59a9f",
+        "filename": "libraries/utils.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1000938
+      },
+      "writtenOn": "2022-10-05T14:58:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d63662ad_5b4e1784",
       "range": {
         "startLine": 27,
         "startChar": 0,
@@ -133,6 +229,30 @@
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "63750a96_a3d1ef8c",
+        "filename": "libraries/utils.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1000938
+      },
+      "writtenOn": "2022-10-05T14:58:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "21487bb9_3ac6b87b",
+      "range": {
+        "startLine": 29,
+        "startChar": 0,
+        "endLine": 29,
+        "endChar": 31
+      },
+      "revId": "b6f8128aed1f4943bd479e1df267fec2d524fa69",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "369b94f1_ac7ee6af",
@@ -146,6 +266,30 @@
       "writtenOn": "2022-08-24T11:23:41Z",
       "side": 1,
       "message": "I think it should be VOD.",
+      "range": {
+        "startLine": 1828,
+        "startChar": 43,
+        "endLine": 1828,
+        "endChar": 47
+      },
+      "revId": "b6f8128aed1f4943bd479e1df267fec2d524fa69",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "aa2b2caf_5fb42663",
+        "filename": "libraries/utils.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 1828,
+      "author": {
+        "id": 1000938
+      },
+      "writtenOn": "2022-10-05T14:58:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "369b94f1_ac7ee6af",
       "range": {
         "startLine": 1828,
         "startChar": 43,
@@ -179,6 +323,30 @@
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e508f1d9_50d31de5",
+        "filename": "libraries/utils.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 1841,
+      "author": {
+        "id": 1000938
+      },
+      "writtenOn": "2022-10-05T14:58:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "67e07791_76748363",
+      "range": {
+        "startLine": 1841,
+        "startChar": 42,
+        "endLine": 1841,
+        "endChar": 43
+      },
+      "revId": "b6f8128aed1f4943bd479e1df267fec2d524fa69",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "556993d7_290c49da",
@@ -192,6 +360,30 @@
       "writtenOn": "2022-08-24T11:23:41Z",
       "side": 1,
       "message": "same",
+      "range": {
+        "startLine": 1877,
+        "startChar": 61,
+        "endLine": 1877,
+        "endChar": 62
+      },
+      "revId": "b6f8128aed1f4943bd479e1df267fec2d524fa69",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "db1752f4_abe8c803",
+        "filename": "libraries/utils.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 1877,
+      "author": {
+        "id": 1000938
+      },
+      "writtenOn": "2022-10-05T14:58:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "556993d7_290c49da",
       "range": {
         "startLine": 1877,
         "startChar": 61,
@@ -225,6 +417,30 @@
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0e0c8c57_a8b74ada",
+        "filename": "libraries/utils.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 1885,
+      "author": {
+        "id": 1000938
+      },
+      "writtenOn": "2022-10-05T14:58:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "928c70b4_a128596b",
+      "range": {
+        "startLine": 1885,
+        "startChar": 71,
+        "endLine": 1885,
+        "endChar": 83
+      },
+      "revId": "b6f8128aed1f4943bd479e1df267fec2d524fa69",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7b63b324_89821f3c",
@@ -238,6 +454,30 @@
       "writtenOn": "2022-08-24T11:23:41Z",
       "side": 1,
       "message": "same",
+      "range": {
+        "startLine": 1913,
+        "startChar": 0,
+        "endLine": 1913,
+        "endChar": 4
+      },
+      "revId": "b6f8128aed1f4943bd479e1df267fec2d524fa69",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dbac4958_2a54a556",
+        "filename": "libraries/utils.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 1913,
+      "author": {
+        "id": 1000938
+      },
+      "writtenOn": "2022-10-05T14:58:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7b63b324_89821f3c",
       "range": {
         "startLine": 1913,
         "startChar": 0,
@@ -271,6 +511,30 @@
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2ab7ccf8_23a950f0",
+        "filename": "scripts/bbf_device_aggregation.exp",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1000938
+      },
+      "writtenOn": "2022-10-05T14:58:31Z",
+      "side": 1,
+      "message": "I willi try to understand if i can or not eliminate whitespace or tail.\nBu some whitespace separate logically the code and i prefer to mantain it, to who will read and take it like and example.",
+      "parentUuid": "6ef3473d_6c0831eb",
+      "range": {
+        "startLine": 51,
+        "startChar": 0,
+        "endLine": 51,
+        "endChar": 1
+      },
+      "revId": "b6f8128aed1f4943bd479e1df267fec2d524fa69",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f1abf7b1_cad50d6b",
@@ -284,6 +548,30 @@
       "writtenOn": "2022-08-24T11:23:41Z",
       "side": 1,
       "message": "it is not used here. So you can remove it.",
+      "range": {
+        "startLine": 73,
+        "startChar": 0,
+        "endLine": 74,
+        "endChar": 34
+      },
+      "revId": "b6f8128aed1f4943bd479e1df267fec2d524fa69",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bf70d928_5debe99e",
+        "filename": "tests/bbf-adapter/Voltha_BBF_Adapter_Tests.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1000938
+      },
+      "writtenOn": "2022-10-05T14:58:31Z",
+      "side": 1,
+      "message": "On the 1° patch not, ma in the 2° it will be use.",
+      "parentUuid": "f1abf7b1_cad50d6b",
       "range": {
         "startLine": 73,
         "startChar": 0,

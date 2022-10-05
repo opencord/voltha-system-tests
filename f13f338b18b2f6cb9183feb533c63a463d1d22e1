@@ -24,6 +24,30 @@
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3d44c245_ec86339e",
+        "filename": "libraries/utils.robot",
+        "patchSetId": 4
+      },
+      "lineNbr": 1890,
+      "author": {
+        "id": 1000938
+      },
+      "writtenOn": "2022-10-05T14:58:31Z",
+      "side": 1,
+      "message": "Yes you are right, i will eliminate the initial-mib-downloaded, and add before the subscription of the onu",
+      "parentUuid": "fc553c74_479d814c",
+      "range": {
+        "startLine": 1888,
+        "startChar": 0,
+        "endLine": 1890,
+        "endChar": 0
+      },
+      "revId": "f13f338b18b2f6cb9183feb533c63a463d1d22e1",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f73ebf5c_bd33b872",
@@ -37,6 +61,30 @@
       "writtenOn": "2022-09-21T09:19:25Z",
       "side": 1,
       "message": "Tailing whitespaces?",
+      "range": {
+        "startLine": 126,
+        "startChar": 0,
+        "endLine": 126,
+        "endChar": 1
+      },
+      "revId": "f13f338b18b2f6cb9183feb533c63a463d1d22e1",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2d9f2443_40fc753f",
+        "filename": "scripts/bbf_device_aggregation.exp",
+        "patchSetId": 4
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1000938
+      },
+      "writtenOn": "2022-10-05T14:58:31Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "f73ebf5c_bd33b872",
       "range": {
         "startLine": 126,
         "startChar": 0,
@@ -64,6 +112,24 @@
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "76fb3017_c6c14e4f",
+        "filename": "tests/bbf-adapter/Voltha_BBF_Adapter_Tests.robot",
+        "patchSetId": 4
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1000938
+      },
+      "writtenOn": "2022-10-05T14:58:31Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "025b2146_7a840a89",
+      "revId": "f13f338b18b2f6cb9183feb533c63a463d1d22e1",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7be4556c_a683d2ef",
@@ -77,6 +143,30 @@
       "writtenOn": "2022-09-21T09:19:25Z",
       "side": 1,
       "message": "onu reason initial-mib-downloaded is wrong here, use onu-reenabled.\nSee my comment regarding this issue in another module...",
+      "range": {
+        "startLine": 360,
+        "startChar": 0,
+        "endLine": 362,
+        "endChar": 0
+      },
+      "revId": "f13f338b18b2f6cb9183feb533c63a463d1d22e1",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8391504a_714596c1",
+        "filename": "tests/bbf-adapter/Voltha_BBF_Adapter_Tests.robot",
+        "patchSetId": 4
+      },
+      "lineNbr": 362,
+      "author": {
+        "id": 1000938
+      },
+      "writtenOn": "2022-10-05T14:58:31Z",
+      "side": 1,
+      "message": "The test verify if the subscribe is done or not witch is the state that the bbf-adapter see of the ONU.\nYes you are right about the initial-mib-downlaoded are a reason of an UNI port not subscribed, but i need to verify if the Reason of the UNI is understanded in the correct way by the adapter.\n\nAt least now the Adabpet have not the funtionality to have a view of the Onu-Reason, but in the future it will be.",
+      "parentUuid": "7be4556c_a683d2ef",
       "range": {
         "startLine": 360,
         "startChar": 0,
@@ -110,6 +200,30 @@
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a25dc5d9_2680a7d4",
+        "filename": "tests/bbf-adapter/Voltha_BBF_Adapter_Tests.robot",
+        "patchSetId": 4
+      },
+      "lineNbr": 528,
+      "author": {
+        "id": 1000938
+      },
+      "writtenOn": "2022-10-05T14:58:31Z",
+      "side": 1,
+      "message": "Same like in the test before, i need ot verify if the adapter see the correct state of the Onu also in case is not any subscription.",
+      "parentUuid": "68128c81_7cd1e1dc",
+      "range": {
+        "startLine": 527,
+        "startChar": 0,
+        "endLine": 528,
+        "endChar": 113
+      },
+      "revId": "f13f338b18b2f6cb9183feb533c63a463d1d22e1",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8629aa5e_7815d0f5",
@@ -123,6 +237,30 @@
       "writtenOn": "2022-09-21T09:19:25Z",
       "side": 1,
       "message": "see my comment above",
+      "range": {
+        "startLine": 568,
+        "startChar": 0,
+        "endLine": 569,
+        "endChar": 113
+      },
+      "revId": "f13f338b18b2f6cb9183feb533c63a463d1d22e1",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "108f1c83_6c32e8eb",
+        "filename": "tests/bbf-adapter/Voltha_BBF_Adapter_Tests.robot",
+        "patchSetId": 4
+      },
+      "lineNbr": 569,
+      "author": {
+        "id": 1000938
+      },
+      "writtenOn": "2022-10-05T14:58:31Z",
+      "side": 1,
+      "message": "Same Reply above",
+      "parentUuid": "8629aa5e_7815d0f5",
       "range": {
         "startLine": 568,
         "startChar": 0,
