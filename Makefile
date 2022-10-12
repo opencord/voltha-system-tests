@@ -1,4 +1,4 @@
-# Copyright 2017-present Open Networking Foundation
+# Copyright 2017-2022 Open Networking Foundation
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -12,6 +12,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+TOP         ?= .
+MAKEDIR     ?= $(TOP)/makefiles
+
 # use bash for pushd/popd, and to fail quickly. virtualenv's activate
 # has undefined variables, so no -u
 SHELL     := bash -e -o pipefail
@@ -20,13 +23,6 @@ ROOT_DIR  := $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
 
 # Configuration and lists of files for linting/testing
 VERSION   ?= $(shell cat ./VERSION)
-LINT_ARGS ?= --verbose --configure LineTooLong:130 -e LineTooLong \
-             --configure TooManyTestSteps:65 -e TooManyTestSteps \
-             --configure TooManyTestCases:50 -e TooManyTestCases \
-             --configure TooFewTestSteps:1 \
-             --configure TooFewKeywordSteps:1 \
-             --configure FileTooLong:2000 -e FileTooLong \
-             -e TrailingWhitespace
 
 PYTHON_FILES := $(wildcard libraries/*.py)
 ROBOT_FILES  := $(shell find . -name *.robot -print)
@@ -713,30 +709,14 @@ vst_venv:
 	source ./$@/bin/activate ;\
 	python -m pip install -r requirements.txt
 
+##----------------##
+##---]  LINT  [---##
+##----------------##
+include $(MAKEDIR)/lint.mk
+
 test: lint
 
 lint: lint-robot lint-python lint-yaml lint-json
-
-lint-robot: vst_venv
-	source ./$</bin/activate ; set -u ;\
-	rflint $(LINT_ARGS) $(ROBOT_FILES)
-
-# check deps for format and python3 cleanliness
-lint-python: vst_venv
-	source ./$</bin/activate ; set -u ;\
-	pylint --py3k $(PYTHON_FILES) ;\
-	flake8 --max-line-length=99 --count $(PYTHON_FILES)
-
-lint-yaml: vst_venv
-	source ./$</bin/activate ; set -u ;\
-  yamllint -s $(YAML_FILES)
-
-lint-json: vst_venv
-	source ./$</bin/activate ; set -u ;\
-	for jsonfile in $(JSON_FILES); do \
-		echo "Validating json file: $$jsonfile" ;\
-		python -m json.tool $$jsonfile > /dev/null ;\
-	done
 
 # tidy target will be more useful once issue with removing leading comments
 # is resolved: https://github.com/robotframework/robotframework/issues/3263
@@ -785,3 +765,5 @@ voltctl-docker-image-build:
 voltctl-docker-image-install-kind:
 	@if [ "`kind get clusters | grep kind`" = '' ]; then echo "no kind cluster found" && exit 1; fi
 	kind load docker-image --name `kind get clusters | grep kind` opencord/voltctl:local
+
+# [EOF]
