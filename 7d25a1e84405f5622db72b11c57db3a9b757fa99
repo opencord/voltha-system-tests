@@ -16,6 +16,23 @@
       "message": "I resolved and reply to tto all the drafts.",
       "revId": "7d25a1e84405f5622db72b11c57db3a9b757fa99",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "54533e03_c564f769",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000938
+      },
+      "writtenOn": "2022-10-15T11:34:09Z",
+      "side": 1,
+      "message": "Hi Torsten i thin i resolve what you ask have ask me \n\nCan you verify if is all good for your point of view?",
+      "revId": "7d25a1e84405f5622db72b11c57db3a9b757fa99",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     }
   ]
 }
