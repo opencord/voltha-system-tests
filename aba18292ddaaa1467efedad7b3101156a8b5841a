@@ -16,6 +16,23 @@
       "message": "Needs copyright of just 2022.",
       "revId": "aba18292ddaaa1467efedad7b3101156a8b5841a",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d1c681d9_ef9f1175",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2022-10-17T09:12:11Z",
+      "side": 1,
+      "message": "What is the different to patch https://gerrit.opencord.org/c/voltha-system-tests/+/33313?\nCan this here set to abandon?",
+      "revId": "aba18292ddaaa1467efedad7b3101156a8b5841a",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     }
   ]
 }
