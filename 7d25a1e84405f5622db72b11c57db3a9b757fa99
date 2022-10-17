@@ -33,6 +33,92 @@
       "message": "Hi Torsten i thin i resolve what you ask have ask me \n\nCan you verify if is all good for your point of view?",
       "revId": "7d25a1e84405f5622db72b11c57db3a9b757fa99",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "53beb24d_7d7d0485",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2022-10-17T09:03:08Z",
+      "side": 1,
+      "message": "Hi Andrea, I have three further small comments. Did not see it before.",
+      "revId": "7d25a1e84405f5622db72b11c57db3a9b757fa99",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "29d53453_b4af6147",
+        "filename": "tests/data/bbsim-bbf-adapter.yaml",
+        "patchSetId": 6
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2022-10-17T09:03:08Z",
+      "side": 1,
+      "message": "Is it the right workflow? BBF?",
+      "range": {
+        "startLine": 20,
+        "startChar": 0,
+        "endLine": 20,
+        "endChar": 13
+      },
+      "revId": "7d25a1e84405f5622db72b11c57db3a9b757fa99",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0d0ddf2c_cb19c2ad",
+        "filename": "tests/data/bbsim-bbf-adapter_addDelete_tests.yaml",
+        "patchSetId": 6
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2022-10-17T09:03:08Z",
+      "side": 1,
+      "message": "Is it the right workflow? BBF?",
+      "range": {
+        "startLine": 20,
+        "startChar": 0,
+        "endLine": 20,
+        "endChar": 13
+      },
+      "revId": "7d25a1e84405f5622db72b11c57db3a9b757fa99",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1aff50d1_afe47d29",
+        "filename": "tests/data/bbsim-bbf-adapter_addDelete_tests.yaml",
+        "patchSetId": 6
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2022-10-17T09:03:08Z",
+      "side": 1,
+      "message": "You have 4 host sources, so please define also only 4 destinations.\nRemove the 4 lines please.",
+      "range": {
+        "startLine": 80,
+        "startChar": 0,
+        "endLine": 83,
+        "endChar": 14
+      },
+      "revId": "7d25a1e84405f5622db72b11c57db3a9b757fa99",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     }
   ]
 }
