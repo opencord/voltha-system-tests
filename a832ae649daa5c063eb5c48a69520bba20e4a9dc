@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "66b3d3ee_2d91e602",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2022-10-17T09:15:34Z",
+      "side": 1,
+      "message": "Was this the initial patch? I\u0027m a little confused!\nWhat is with patches https://gerrit.opencord.org/c/voltha-system-tests/+/33305 and https://gerrit.opencord.org/c/voltha-system-tests/+/33313? Which one is the final patch?",
+      "revId": "a832ae649daa5c063eb5c48a69520bba20e4a9dc",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    }
+  ]
+}
