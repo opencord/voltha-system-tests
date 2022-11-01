@@ -1,0 +1,9 @@
+## -----------------------------------------------------------------------
+## Regresison tests
+## -----------------------------------------------------------------------
+
+https://jenkins.opencord.org/view/VOLTHA-2.X-Tests/job/periodic-voltha-openonu-go-test-bbsim
+https://jenkins.opencord.org/view/VOLTHA-2.X-Tests/job/periodic-voltha-multiple-olts-test-bbsim
+https://jenkins.opencord.org/view/VOLTHA-2.X-Tests/job/periodic-voltha-multiple-olts-openonu-go-test-bbsim
+
+# [EOF]
