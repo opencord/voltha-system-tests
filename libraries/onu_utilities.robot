@@ -405,11 +405,16 @@ Do Onu Subscriber Add Per OLT
         ...    Get ONU Port in ONOS    ${src['onu']}    ${of_id}
         ${of_id_onu_port}=    Catenate    SEPARATOR=-    ${of_id}    ${onu_port}
         ${pair_id}=    Get Index From List    ${onu_list}   ${of_id_onu_port}
-        Continue For Loop If    -1 != ${pair_id}
+        Continue For Loop If    -1 != ${pair_id} and ${unitag_sub} == False
         Append To List    ${onu_list}    ${of_id_onu_port}
+        # Add subscriber
+        ${add_sub_cmd}=    Run Keyword If    ${unitag_sub}
+        ...    Catenate    volt-add-subscriber-unitag --tpId ${src['tp_id']} --sTag ${src['s_tag']}
+        ...    --cTag ${src['c_tag']} ${src['onu']}-${src['uni_id']}
+        ...    ELSE
+        ...    Set Variable    volt-add-subscriber-access ${of_id} ${onu_port}
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2
-        ...    Execute ONOS CLI Command use single connection    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}
-        ...    volt-add-subscriber-access ${of_id} ${onu_port}
+        ...    Execute ONOS CLI Command use single connection    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${add_sub_cmd}
         Run Keyword If    ${print2console}    Log    \r\n[${I}] volt-add-subscriber-access ${of_id} ${onu_port}.
         ...   console=yes
     END
@@ -479,7 +484,7 @@ Validate Resource Instances Used Gem Ports
         ${gemportids}=    Get From Dictionary    ${decoderesult}    gemport_ids
         ${length}=    Get Length    ${gemportids}
         Should Be Equal As Integers    ${nbofgemports}    ${length}
-        ...    msg=Number of gem ports (${length}) does not match with techprofile ${techprofile}/${nbofgemports}
+        ...    msg=Number of gem ports (${length}) does not match with techprofile ${nbofgemports}
     END
 
 Get Resource Instances ETCD Data
@@ -802,6 +807,23 @@ Wait for all ONU Ports in ONOS Disabled
         Wait Until Keyword Succeeds    ${timeout}    2s    Assert ONU Port Is Disabled    ${host}    ${port}    ${of_id}
         ...    ${onu_port}
     END
+
+Validate Events All ONUs
+    [Documentation]    Validates kafka events for all ONUs
+    [Arguments]    ${list_onu_device_id}    ${expected_event}
+    ${Kafka_Records}=    kafka.Records Get    voltha.events
+    ${RecordsLength}=    Get Length    ${Kafka_Records}
+    FOR    ${Index}    IN RANGE    0    ${RecordsLength}
+        ${metric}=    Set Variable    ${Kafka_Records[${Index}]}
+        ${message}=   Get From Dictionary  ${metric}  message
+        ${event}=     volthatools.Events Decode Event   ${message}    return_default=true
+        Continue For Loop If    not 'device_event' in ${event}
+        ${event_name}=    Get From Dictionary  ${event['device_event']}    device_event_name
+        Continue For Loop If    "${event_name}" != "${expected_event}"
+        ${resource_id}=    Get From Dictionary  ${event['device_event']}    resource_id
+        Remove Values From List    ${list_onu_device_id}    ${resource_id}
+    END
+    Should Be Empty    ${list_onu_device_id}    Missing "${expected_event}" for ONUs ${list_onu_device_id}!
 
 Map State
     [Documentation]    This keyword converts the passed numeric value or name of a onu state to its state values.
