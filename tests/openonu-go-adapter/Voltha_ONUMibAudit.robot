@@ -108,7 +108,8 @@ Check Mib Audit
         ${list_onu_device_id}    Create List
         Build ONU Device Id List    ${list_onu_device_id}
         Run Keyword If    ${print2console}    Log    Check for device events that indicate a failed MDS check.    console=yes
-        Wait Until Keyword Succeeds    ${interval}    5s    Validate MIB Audits All ONUs    ${list_onu_device_id}
+        ${event}=    Set Variable    ONU_MIB_AUDIT_FAILURE_MDS
+        Wait Until Keyword Succeeds    ${interval}    5s    Validate Events All ONUs    ${list_onu_device_id}    ${event}
         kafka.Records Clear
         Run Keyword If    ${print2console}    Log    Sanity Test after MIB Audit.    console=yes
         Run Keyword If    "${workflow}"=="DT"    Perform Sanity Test DT     ${suppressaddsubscriber}
@@ -182,23 +183,6 @@ Teardown Suite
     Run Keyword If    ${preload_tech_profile}    Remove Tech Profile    ${INFRA_NAMESPACE}    64
     Run Keyword If    ${preload_tech_profile}    Remove Tech Profile    ${INFRA_NAMESPACE}    65
     Run Keyword If    ${preload_tech_profile}    Remove Tech Profile    ${INFRA_NAMESPACE}    66
-
-Validate MIB Audits All ONUs
-    [Documentation]    Validates MIB Audit Events per ONU
-    [Arguments]    ${list_onu_device_id}
-    ${Kafka_Records}=    kafka.Records Get    voltha.events
-    ${RecordsLength}=    Get Length    ${Kafka_Records}
-    FOR    ${Index}    IN RANGE    0    ${RecordsLength}
-        ${metric}=    Set Variable    ${Kafka_Records[${Index}]}
-        ${message}=   Get From Dictionary  ${metric}  message
-        ${event}=     volthatools.Events Decode Event   ${message}    return_default=true
-        Continue For Loop If    not 'device_event' in ${event}
-        ${event_name}=    Get From Dictionary  ${event['device_event']}    device_event_name
-        Continue For Loop If    "${event_name}" != "ONU_MIB_AUDIT_FAILURE_MDS"
-        ${resource_id}=    Get From Dictionary  ${event['device_event']}    resource_id
-        Remove Values From List    ${list_onu_device_id}    ${resource_id}
-    END
-    Should Be Empty    ${list_onu_device_id}    Missing MIB Audits for ONUs ${list_onu_device_id}!
 
 Calculate Interval
     [Documentation]    Converts the passed value in seconds, adds percentage and return it w/o unit
