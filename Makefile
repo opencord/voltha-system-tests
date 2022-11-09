@@ -668,6 +668,31 @@ voltha-memory-leak-tests: ROBOT_MISC_ARGS += $(ROBOT_DEBUG_LOG_OPT)
 voltha-memory-leak-tests: ROBOT_FILE := VOLTHA_Memory_Leak_Tests.robot
 voltha-memory-leak-tests: voltha-memory-leak-test
 
+# Voltha openonu robustness tests att workflow
+onu-robustness-test-single-kind-att: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_SINGLE_PON_FILE)
+onu-robustness-test-single-kind-att: ROBOT_MISC_ARGS += -i functional
+onu-robustness-test-single-kind-att: voltha-onu-robustness-tests
+
+# Voltha openonu robustness tests dt workflow
+onu-robustness-test-single-kind-dt: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_DT_SINGLE_PON_FILE)
+onu-robustness-test-single-kind-dt: ROBOT_MISC_ARGS += -i functional
+onu-robustness-test-single-kind-dt: voltha-onu-robustness-tests
+
+# Voltha openonu robustness tests tt workflow
+onu-robustness-test-single-kind-tt: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_TT_SINGLE_PON_FILE)
+onu-robustness-test-single-kind-tt: ROBOT_MISC_ARGS += -i functional
+onu-robustness-test-single-kind-tt: voltha-onu-robustness-tests
+
+# Voltha openonu robustness tests multi-uni tt workflow
+onu-robustness-test-multi-uni-kind-tt: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_TT_MULTI_UNI_SINGLE_PON_FILE)
+onu-robustness-test-multi-uni-kind-tt: ROBOT_MISC_ARGS += -v unitag_sub:True -i functionalMultiUni
+onu-robustness-test-multi-uni-kind-tt: voltha-onu-robustness-tests
+
+voltha-onu-robustness-tests: ROBOT_MISC_ARGS += -e notready  --noncritical non-critical
+voltha-onu-robustness-tests: ROBOT_MISC_ARGS += $(ROBOT_DEBUG_LOG_OPT)
+voltha-onu-robustness-tests: ROBOT_FILE := Voltha_ONUErrorTests.robot
+voltha-onu-robustness-tests: openonu-go-adapter-tests
+
 software-upgrade-test: vst_venv
 	source ./$</bin/activate ; set -u ;\
 	cd tests/software-upgrades ;\
