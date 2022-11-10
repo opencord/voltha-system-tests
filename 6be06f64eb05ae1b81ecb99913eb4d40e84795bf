@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3833ee70_753d6817",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2022-11-10T10:50:24Z",
+      "side": 1,
+      "message": "Patch ran successfully with openonu-go-adapter image hhildebr/voltha-openonu-adapter-go:hh-2.5.0 here: https://jenkins.opencord.org/view/All%20Jobs/job/periodic-voltha-openonu-go-test-bbsim/1485/",
+      "revId": "6be06f64eb05ae1b81ecb99913eb4d40e84795bf",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    }
+  ]
+}
