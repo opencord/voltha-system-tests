@@ -109,10 +109,10 @@
           {
             "id": "Default",
             "gir": 0,
-            "cbs": 30,
-            "cir": 16000,
-            "pbs": 30,
-            "pir": 32000
+            "cbs": 5000,
+            "cir": 32000,
+            "pbs": 5000,
+            "pir": 64000
           },
           {
             "id": "User_Bandwidth1",
