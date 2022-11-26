@@ -15,26 +15,9 @@
 # limitations under the License.
 # -----------------------------------------------------------------------
 
-null 	    :=#
-space	    :=$(null) $(null)
-
-PYTHON      ?= /usr/bin/env python
-
-## -----------------------------------------------------------------------
-## -----------------------------------------------------------------------
-all: try
-
-## -----------------------------------------------------------------------
-## -----------------------------------------------------------------------
-test-args += -m unittest
-check test:
-	$(PYTHON) $(test-args) discover -v
-
-## -----------------------------------------------------------------------
-## -----------------------------------------------------------------------
-help:
-	@echo "USAGE: $(MAKE)"
-	@echo "  all"
-	@echo "  test     Invoke available unit tests (find . -name 'test_*.py')"
+# Parent makefile should include this early so help
+# message will be prefixed by a usage statement.
+help ::
+	@echo "Usage: $(MAKE) [options] [target] ..."
 
 # [EOF]
