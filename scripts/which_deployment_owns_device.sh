@@ -20,9 +20,9 @@ BEST_DEPLOY=
 for DEPLOY in $(kubectl -n voltha get deploy -o 'jsonpath={.items[*].metadata.name}'); do
     if [[ "$DEPLOY" =~ voltha-rw-core-.* ]]; then
         FOUND=$(kubectl -n voltha logs "deploy/$DEPLOY" 2>/dev/null | grep "$DEVICE_ID" | grep -i ownedbyme | tail -1)
-        if [ ! -z "$FOUND" ]; then
+        if [ -n "$FOUND" ]; then
             OWNED=$(echo "$FOUND" | grep '"owned":true')
-            if [ ! -z "$OWNED" ]; then
+            if [ -n "$OWNED" ]; then
                 CUR_DATE=$(echo "$OWNED" | jq -r .ts)
                 CUR_DEPLOY=$DEPLOY
                 if [ -z "$BEST_DEPLOY" ]; then

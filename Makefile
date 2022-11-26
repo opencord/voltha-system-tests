@@ -1,4 +1,6 @@
-# Copyright 2017-2022 Open Networking Foundation
+# -*- makefile -*-
+# -----------------------------------------------------------------------
+# Copyright 2022 Open Networking Foundation
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -11,15 +13,22 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+# -----------------------------------------------------------------------
+
+.DEFAULT_GOAL := sanity-kind
 
 TOP         ?= .
 MAKEDIR     ?= $(TOP)/makefiles
 
-# use bash for pushd/popd, and to fail quickly. virtualenv's activate
-# has undefined variables, so no -u
-SHELL     := bash -e -o pipefail
-
+# Assign early: altered by include
 ROOT_DIR  := $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
+
+##--------------------##
+##---]  INCLUDES  [---##
+##--------------------##
+include $(MAKEDIR)/consts.mk
+include $(MAKEDIR)/help.mk
+include $(MAKEDIR)/patches/include.mk
 
 # Configuration and lists of files for linting/testing
 VERSION   ?= $(shell cat ./VERSION)
@@ -702,12 +711,24 @@ voltha-memory-leak-test: vst_venv
 
 # self-test, lint, and setup targets
 
+# -----------------------------------------------------------------------
 # virtualenv for the robot tools
 # VOL-2724 Invoke pip via python3 to avoid pathname too long on QA jobs
+# Verify installation: make lint -or- make test
+# vol-4874 - python_310_migration.sh
+# -----------------------------------------------------------------------
 vst_venv:
+	@echo "============================="
+	@echo "Installing python virtual env"
+	@echo "============================="
 	virtualenv -p python3 $@ ;\
 	source ./$@/bin/activate ;\
 	python -m pip install -r requirements.txt
+	@echo
+	@echo "========================================"
+	@echo "Applying python 3.10.x migration patches"
+	@echo "========================================"
+	./patches/python_310_migration.sh 'apply'
 
 ##----------------##
 ##---]  LINT  [---##
@@ -715,8 +736,6 @@ vst_venv:
 include $(MAKEDIR)/lint.mk
 
 test: lint
-
-lint: lint-robot lint-python lint-yaml lint-json
 
 # tidy target will be more useful once issue with removing leading comments
 # is resolved: https://github.com/robotframework/robotframework/issues/3263
@@ -735,30 +754,35 @@ TEST_SOURCE := $(wildcard tests/*/*.robot)
 TEST_BASENAME := $(basename $(TEST_SOURCE))
 TEST_DIRS := $(dir $(TEST_SOURCE))
 
-LIB_SOURCE := $(wildcard libraries/*.robot)
+LIB_SOURCE   := $(wildcard libraries/*.robot)
 LIB_BASENAME := $(basename $(LIB_SOURCE))
-LIB_DIRS := $(dir $(LIB_SOURCE))
+LIB_DIRS     := $(sort $(dir $(LIB_SOURCE)))
 
 .PHONY: gendocs lint test
 # In future explore use of --docformat REST - integration w/Sphinx?
 gendocs: vst_venv
 	source ./$</bin/activate ; set -u ;\
 	mkdir -p $@ ;\
-	for dir in ${LIB_DIRS}; do mkdir -p $@/$$dir; done;\
+	mkdir -pv $(LIB_DIRS); \
 	for dir in ${LIB_BASENAME}; do\
-		python -m robot.libdoc --format HTML $$dir.robot $@/$$dir.html ;\
+	    python -m robot.libdoc --format HTML $$dir.robot $@/$$dir.html ;\
 	done ;\
 	for dir in ${TEST_DIRS}; do mkdir -p $@/$$dir; done;\
 	for dir in ${TEST_BASENAME}; do\
 		python -m robot.testdoc $$dir.robot $@/$$dir.html ;\
 	done
 
+## -----------------------------------------------------------------------
+## -----------------------------------------------------------------------
 clean:
-	find . -name output.xml -print
+	$(RM) -r gendocs
+	find . -name output.xml -print # no action performed ?
 
-clean-all: clean
-	rm -rf vst_venv gendocs
+clean-all sterile: clean
+	$(RM) -r vst_venv
 
+## -----------------------------------------------------------------------
+## -----------------------------------------------------------------------
 voltctl-docker-image-build:
 	cd docker && docker build -t opencord/voltctl:local -f Dockerfile.voltctl .
 

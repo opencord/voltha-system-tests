@@ -1,6 +1,6 @@
 # -*- makefile -*-
 # -----------------------------------------------------------------------
-# Copyright 2017-2022 Open Networking Foundation
+# Copyright 2022 Open Networking Foundation
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -15,15 +15,14 @@
 # limitations under the License.
 # -----------------------------------------------------------------------
 
-help::
-	@echo
-	@echo "[LINT]"
+null         :=#
+space        :=$(null) $(null)
+dot          :=.
+HIDE         ?=@
 
-include $(MAKEDIR)/lint/json.mk
-include $(MAKEDIR)/lint/license/include.mk
-include $(MAKEDIR)/lint/python.mk
-include $(MAKEDIR)/lint/robot.mk
-include $(MAKEDIR)/lint/shell.mk
-include $(MAKEDIR)/lint/yaml.mk
+# use bash for pusdh/popd and quick failures.
+# virtual env(s) activate has undefined vars so no -u
+#   ^---+ verify this is still true
+export SHELL := bash -e -o pipefail
 
 # [EOF]
