@@ -22,6 +22,7 @@ help::
 include $(MAKEDIR)/lint/json.mk
 include $(MAKEDIR)/lint/python.mk
 include $(MAKEDIR)/lint/robot.mk
+include $(MAKEDIR)/lint/shell.mk
 include $(MAKEDIR)/lint/yaml.mk
 
 # [EOF]

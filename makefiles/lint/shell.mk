@@ -15,19 +15,18 @@
 # limitations under the License.
 # -----------------------------------------------------------------------
 
-PYTHON_FILES ?= $(error PYTHON_FILES= is required)
+JSON_FILES ?= $(error JSON_FILES= is rqeuired)
 
-.PHONY: lint-python
+.PHONY: lint-shell
 
-lint : lint-python
+lint : lint-shell
 
-lint-python: vst_venv
-	-source ./$</bin/activate \
-	    && set -u \
-	    && pylint $(PYTHON_FILES) \
-	    && flake8 --max-line-length=99 --count $(PYTHON_FILES)
+lint-shell:
+	find . \( -name 'staging' -o -name 'vst_venv' \) -prune \
+	    -o -name '*.sh' ! -name 'activate.sh' -print0 \
+	| xargs -0 -n1 shellcheck
 
 help::
-	@echo "  lint-python          Syntax check using pylint and flake8"
+	@echo "  lint-shell            Syntax check bash,bourne,etc sources"
 
 # [EOF]

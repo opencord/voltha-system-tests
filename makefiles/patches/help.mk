@@ -15,19 +15,10 @@
 # limitations under the License.
 # -----------------------------------------------------------------------
 
-PYTHON_FILES ?= $(error PYTHON_FILES= is required)
-
-.PHONY: lint-python
-
-lint : lint-python
-
-lint-python: vst_venv
-	-source ./$</bin/activate \
-	    && set -u \
-	    && pylint $(PYTHON_FILES) \
-	    && flake8 --max-line-length=99 --count $(PYTHON_FILES)
-
-help::
-	@echo "  lint-python          Syntax check using pylint and flake8"
+help ::
+	@echo
+	@echo "[PATCHES] - helper on the road to python 3.10+ based testing"
+	@echo "  patch-gather         Gather a list of potential patch sources"
+	@echo "  patch-apply          Apply patches to the virtualenv directory"
 
 # [EOF]
