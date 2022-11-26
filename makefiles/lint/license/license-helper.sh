@@ -1,6 +1,6 @@
 # -*- makefile -*-
 # -----------------------------------------------------------------------
-# Copyright 2017-2022 Open Networking Foundation
+# Copyright 2022 Open Networking Foundation
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -15,15 +15,13 @@
 # limitations under the License.
 # -----------------------------------------------------------------------
 
-help::
-	@echo
-	@echo "[LINT]"
+declare -i status=$#
 
-include $(MAKEDIR)/lint/json.mk
-include $(MAKEDIR)/lint/license/include.mk
-include $(MAKEDIR)/lint/python.mk
-include $(MAKEDIR)/lint/robot.mk
-include $(MAKEDIR)/lint/shell.mk
-include $(MAKEDIR)/lint/yaml.mk
+while [ $# -gt 0 ]; do
+    arg="$1"; shift
+    echo "ERROR: Detected missing license header: ${arg}"
+done
+
+[ $status -ne 0 ] && exit 1 || /bin/true
 
 # [EOF]

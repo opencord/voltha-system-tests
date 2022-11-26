@@ -15,26 +15,18 @@
 # limitations under the License.
 # -----------------------------------------------------------------------
 
-null 	    :=#
-space	    :=$(null) $(null)
+JSON_FILES ?= $(error JSON_FILES= is required)
 
-PYTHON      ?= /usr/bin/env python
+.PHONY: lint-shell
 
-## -----------------------------------------------------------------------
-## -----------------------------------------------------------------------
-all: try
+lint : lint-shell
 
-## -----------------------------------------------------------------------
-## -----------------------------------------------------------------------
-test-args += -m unittest
-check test:
-	$(PYTHON) $(test-args) discover -v
+lint-shell:
+	find . \( -name 'staging' -o -name 'vst_venv' \) -prune \
+	    -o -name '*.sh' ! -name 'activate.sh' -print0 \
+	| xargs -0 -n1 shellcheck
 
-## -----------------------------------------------------------------------
-## -----------------------------------------------------------------------
-help:
-	@echo "USAGE: $(MAKE)"
-	@echo "  all"
-	@echo "  test     Invoke available unit tests (find . -name 'test_*.py')"
+help::
+	@echo "  lint-shell           Syntax check bash,bourne,etc sources"
 
 # [EOF]
