@@ -729,6 +729,7 @@ vst_venv:
 	@echo "Applying python 3.10.x migration patches"
 	@echo "========================================"
 	./patches/python_310_migration.sh 'apply'
+	@echo
 
 ##----------------##
 ##---]  LINT  [---##
@@ -761,16 +762,22 @@ LIB_DIRS     := $(sort $(dir $(LIB_SOURCE)))
 .PHONY: gendocs lint test
 # In future explore use of --docformat REST - integration w/Sphinx?
 gendocs: vst_venv
-	source ./$</bin/activate ; set -u ;\
-	mkdir -p $@ ;\
-	mkdir -pv $(LIB_DIRS); \
-	for dir in ${LIB_BASENAME}; do\
+	$(HIDE)echo " ** $(make) $@: ENTER"
+	source ./$</bin/activate \
+	&& set -u \
+	&& echo \
+	&& echo " ** $(make) $@: robot.libdoc" \
+	&& mkdir -pv $(addprefix $@/,$(LIB_DIRS)) \
+	&& for dir in $(LIB_BASENAME); do\
 	    python -m robot.libdoc --format HTML $$dir.robot $@/$$dir.html ;\
-	done ;\
-	for dir in ${TEST_DIRS}; do mkdir -p $@/$$dir; done;\
-	for dir in ${TEST_BASENAME}; do\
+	done \
+	&& echo \
+	&& echo " ** $(make) $@: robot.testdoc" \
+	&& mkdir -vp $(addprefix $@/,$(TEST_DIRS)) \
+	&& for dir in $(TEST_BASENAME); do\
 		python -m robot.testdoc $$dir.robot $@/$$dir.html ;\
 	done
+	$(HIDE)echo " ** $(make) $@: LEAVE"
 
 ## -----------------------------------------------------------------------
 ## -----------------------------------------------------------------------
