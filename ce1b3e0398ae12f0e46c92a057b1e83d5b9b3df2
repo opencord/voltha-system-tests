@@ -16,6 +16,23 @@
       "message": "Hi Andrea, there are still some unresolved comments. Please resolve them first.\nThanks, Torsten\n\nPS: Not sure, but I think Hardik will not do a review anymore. Maybe you invite further guys e.g. Mahir or Amit?",
       "revId": "ce1b3e0398ae12f0e46c92a057b1e83d5b9b3df2",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4b0a9220_cf1d65ca",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2022-12-09T12:46:20Z",
+      "side": 1,
+      "message": "After rebase I will give you a +1, but you have to edit the VERSION File too, please do not forget.",
+      "revId": "ce1b3e0398ae12f0e46c92a057b1e83d5b9b3df2",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     }
   ]
 }
