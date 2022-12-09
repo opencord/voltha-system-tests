@@ -75,6 +75,30 @@
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "39ec61c8_6dac77f0",
+        "filename": "tests/data/bbsim-bbf-adapter.yaml",
+        "patchSetId": 6
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1000938
+      },
+      "writtenOn": "2022-12-09T11:23:07Z",
+      "side": 1,
+      "message": "Same comment of:\ntests/data/bbsim-bbf-adapter_addDelete_tests.yaml at line 20",
+      "parentUuid": "29d53453_b4af6147",
+      "range": {
+        "startLine": 20,
+        "startChar": 0,
+        "endLine": 20,
+        "endChar": 13
+      },
+      "revId": "7d25a1e84405f5622db72b11c57db3a9b757fa99",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0d0ddf2c_cb19c2ad",
@@ -98,6 +122,30 @@
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9202ff46_ee05b029",
+        "filename": "tests/data/bbsim-bbf-adapter_addDelete_tests.yaml",
+        "patchSetId": 6
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1000938
+      },
+      "writtenOn": "2022-12-09T11:23:07Z",
+      "side": 1,
+      "message": "BBF-Adapter is indipendent from the WorkFLow, i select TIM Because i use it.\nProbably in future i will eliminate this file and move the test to point classic ATT, TT, DT and TIM Workflow File already present.\nNow i prefer to have a separate File (to allow me to do multiple configuration).",
+      "parentUuid": "0d0ddf2c_cb19c2ad",
+      "range": {
+        "startLine": 20,
+        "startChar": 0,
+        "endLine": 20,
+        "endChar": 13
+      },
+      "revId": "7d25a1e84405f5622db72b11c57db3a9b757fa99",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1aff50d1_afe47d29",
@@ -111,6 +159,30 @@
       "writtenOn": "2022-10-17T09:03:08Z",
       "side": 1,
       "message": "You have 4 host sources, so please define also only 4 destinations.\nRemove the 4 lines please.",
+      "range": {
+        "startLine": 80,
+        "startChar": 0,
+        "endLine": 83,
+        "endChar": 14
+      },
+      "revId": "7d25a1e84405f5622db72b11c57db3a9b757fa99",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "61c8de05_b126e324",
+        "filename": "tests/data/bbsim-bbf-adapter_addDelete_tests.yaml",
+        "patchSetId": 6
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1000938
+      },
+      "writtenOn": "2022-12-09T11:23:07Z",
+      "side": 1,
+      "message": "Yes you Right!",
+      "parentUuid": "1aff50d1_afe47d29",
       "range": {
         "startLine": 80,
         "startChar": 0,
