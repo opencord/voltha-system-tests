@@ -33,6 +33,24 @@
       "message": "After rebase I will give you a +1, but you have to edit the VERSION File too, please do not forget.",
       "revId": "ce1b3e0398ae12f0e46c92a057b1e83d5b9b3df2",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c7c8ed8f_3872830e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000938
+      },
+      "writtenOn": "2022-12-12T14:02:59Z",
+      "side": 1,
+      "message": "Hi Torsten!\n\nI have rebase all and also the VERSION file was update to the 2.11.6\n\nNow i move it to 2.11.7\n\nIf it is ok thanks for all!",
+      "parentUuid": "4b0a9220_cf1d65ca",
+      "revId": "ce1b3e0398ae12f0e46c92a057b1e83d5b9b3df2",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     }
   ]
 }

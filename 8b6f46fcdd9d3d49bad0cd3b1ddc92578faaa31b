@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0d2ac64a_f77b2a31",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000938
+      },
+      "writtenOn": "2022-12-12T14:02:59Z",
+      "side": 1,
+      "message": "Rebase done and Version file at 2.11.7",
+      "revId": "8b6f46fcdd9d3d49bad0cd3b1ddc92578faaa31b",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    }
+  ]
+}
