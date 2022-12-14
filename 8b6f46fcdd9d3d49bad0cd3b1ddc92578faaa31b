@@ -16,6 +16,23 @@
       "message": "Rebase done and Version file at 2.11.7",
       "revId": "8b6f46fcdd9d3d49bad0cd3b1ddc92578faaa31b",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d99a6067_c3e64f1e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2022-12-14T10:53:23Z",
+      "side": 1,
+      "message": "Great work!\n\nJust one question for info only:\nWhy do you move \u0027${onu_device_id}\u003d    Get Device ID From SN    ${src[\u0027onu\u0027]}\u0027 one keyword call up?\nThanks Torsten",
+      "revId": "8b6f46fcdd9d3d49bad0cd3b1ddc92578faaa31b",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     }
   ]
 }
