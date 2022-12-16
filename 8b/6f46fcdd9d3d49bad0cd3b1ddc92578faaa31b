@@ -1,0 +1,8 @@
+Verified+1: Jenkins Technical User <do-not-reply@opennetworking.org>
+Code-Review+1: Amit Ghosh <amit.ghosh@radisys.com>
+Code-Review+2: Torsten Thieme <torsten.thieme@adtran.com>
+Submitted-by: Torsten Thieme <torsten.thieme@adtran.com>
+Submitted-at: Fri, 16 Dec 2022 09:59:55 +0000
+Reviewed-on: https://gerrit.opencord.org/c/voltha-system-tests/+/33159
+Project: voltha-system-tests
+Branch: refs/heads/master
