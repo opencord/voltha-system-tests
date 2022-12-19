@@ -1152,3 +1152,29 @@ Read Group Metric Dict
         Set To Dictionary    ${groupmetric_dict}    ${name}=${subdict}
     END
     [return]    ${groupmetric_dict}
+
+# openonu-go-adapter OMCI counter statistics
+Get OMCI counter statistics
+    [Documentation]    Delivers the openonu-go-adapter OMCI counter statistics
+    [Arguments]    ${dev_id}
+    ${rc}    ${output}=    Run and Return Rc and Output
+    ...    voltctl -c ${VOLTCTL_CONFIG} device getextval onu_omci_stats ${dev_id}
+    [return]    ${rc}    ${output}
+
+Get OMCI counter statistics dictionary
+    [Documentation]    Delivers the openonu-go-adapter OMCI counter statistics as dictionary
+    [Arguments]    ${dev_id}
+    ${rc}    ${output}=    Get OMCI counter statistics    ${dev_id}
+    # check rc
+    &{output_dict}= 	Create Dictionary
+    Return From Keyword If    ${rc} != 0    ${rc}    ${output_dict}
+    @{Results}=    Split String    ${output}    \n
+    FOR    ${Line}    IN     @{Results}
+        ${matched}=    Set Variable    False
+        @{words}=    Split String    ${Line}
+        ${name}=    Set Variable    ${words[0]}
+        ${value}=    Set Variable    ${words[1]}
+        ${name}=    Remove String    ${name}    :
+        Set To Dictionary    ${output_dict}    ${name}    ${value}
+    END
+    [return]    ${rc}    ${output_dict}
