@@ -746,6 +746,26 @@ Do ONU Upgrade Compare OMCI Message Version
     Log    ONU ${src['onu']}: downloaded SW upgrade in ${baselineonu} sec for OMCI baseline message.    console=yes
     Append To File    ${outputfile}
     ...    \r\nONU ${src['onu']} downloaded SW upgrade in ${baselineonu} sec for OMCI baseline message.
+    # get ONU OMCI counter statistics
+    ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
+    ${rc}    ${OMCI_counter_dict}=    Get OMCI counter statistics dictionary   ${onu_device_id}
+    Run Keyword If    ${rc} != 0    LOG    \r\nCould not get baseline ONU OMCI counter statistic of ONU ${src['onu']}!
+    ${BaseTxNoArFrames}=    Run Keyword If    ${rc} == 0   Get From Dictionary   ${OMCI_counter_dict}   BaseTxNoArFrames
+    ...    ELSE    Set Variable    -1
+    Run Keyword If    ${rc} == 0    Should Be True   0 < ${BaseTxNoArFrames}    No BaseTxNoArFrames found in baseline OMCI!
+    # some additional checks
+    ${ExtRxAkFrames}=           Run Keyword If   ${rc} == 0   Get From Dictionary   ${OMCI_counter_dict}   ExtRxAkFrames
+    ${ExtRxNoAkFrames}=         Run Keyword If   ${rc} == 0   Get From Dictionary   ${OMCI_counter_dict}   ExtRxNoAkFrames
+    ${ExtTxArFrames}=           Run Keyword If   ${rc} == 0   Get From Dictionary   ${OMCI_counter_dict}   ExtTxArFrames
+    ${ExtTxNoArFrames}=         Run Keyword If   ${rc} == 0   Get From Dictionary   ${OMCI_counter_dict}   ExtTxNoArFrames
+    ${TxOmciCounterRetries}=    Run Keyword If   ${rc} == 0   Get From Dictionary   ${OMCI_counter_dict}   TxOmciCounterRetries
+    ${TxOmciCounterTimeouts}=   Run Keyword If   ${rc} == 0   Get From Dictionary   ${OMCI_counter_dict}   TxOmciCounterTimeouts
+    Run Keyword If    ${rc} == 0    Should Be Equal   0   ${ExtRxAkFrames}          ExtRxAkFrames found in baseline OMCI!
+    Run Keyword If    ${rc} == 0    Should Be Equal   0   ${ExtRxNoAkFrames}        ExtRxNoAkFrames found in baseline OMCI!
+    Run Keyword If    ${rc} == 0    Should Be Equal   0   ${ExtTxArFrames}          ExtTxArFrames found in baseline OMCI!
+    Run Keyword If    ${rc} == 0    Should Be Equal   0   ${ExtTxNoArFrames}        ExtTxNoArFrames found in baseline OMCI!
+    Run Keyword If    ${rc} == 0    Should Be Equal   0   ${TxOmciCounterRetries}   TxOmciCounterRetries found in baseline OMCI!
+    Run Keyword If    ${rc} == 0    Should Be Equal   0   ${TxOmciCounterTimeouts}  TxOmciCounterTimeouts found in baseline OMCI!
     Delete All Devices and Verify
     # Restart BBSIM with OMCI Extended Message
     ${extra_helm_flags}=    Run Keyword If    ${is_omcc_extended}     Catenate    --set omccVersion=${omcc_version}
@@ -763,6 +783,23 @@ Do ONU Upgrade Compare OMCI Message Version
     ...    \r\nONU ${src['onu']} downloaded SW upgrade in ${extendedonu} sec for OMCI extended message.
     ${duration_compare}=    Evaluate    ${baselineonu}*0.8 > ${extendedonu}
     Should Be True    ${duration_compare}   SW Upgrade too slow for OMCI extended message!
+    # get ONU OMCI counter statistics
+    ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
+    ${rc}    ${OMCI_counter_dict}=    Get OMCI counter statistics dictionary   ${onu_device_id}
+    Run Keyword If    ${rc} != 0    LOG    \r\nCould not get extended ONU OMCI counter statistic of ONU ${src['onu']}!
+    ${rc}=    Set Variable If    ${BaseTxNoArFrames} == -1    -1    ${rc}
+    ${ExtTxNoArFrames}=    Run Keyword If    ${rc} == 0    Get From Dictionary    ${OMCI_counter_dict}    ExtTxNoArFrames
+    ...    ELSE    Set Variable    -1
+    Run Keyword If    ${rc} == 0    Should Be True   0 < ${ExtTxNoArFrames}    No ExtTxNoArFrames found in extended OMCI!
+    # check baseline and extended OMCI frames counter
+    ${TxNoArFrames_compare}=   Run Keyword If  ${rc} == 0   Evaluate   ${BaseTxNoArFrames}*0.05 > ${ExtTxNoArFrames}
+    ...    ELSE    Set Variable    True
+    Should Be True    ${TxNoArFrames_compare}   Comparison of TxNoArFrames failed (${BaseTxNoArFrames}:${ExtTxNoArFrames})!
+    # some additional checks
+    ${TxOmciCounterRetries}=    Run Keyword If   ${rc} == 0   Get From Dictionary   ${OMCI_counter_dict}   TxOmciCounterRetries
+    ${TxOmciCounterTimeouts}=   Run Keyword If   ${rc} == 0   Get From Dictionary   ${OMCI_counter_dict}   TxOmciCounterTimeouts
+    Run Keyword If    ${rc} == 0    Should Be Equal   0   ${TxOmciCounterRetries}   TxOmciCounterRetries found in extended OMCI!
+    Run Keyword If    ${rc} == 0    Should Be Equal   0   ${TxOmciCounterTimeouts}  TxOmciCounterTimeouts found in extended OMCI!
     # Restart BBSIM with OMCI Message Version read at begin of test
     ${extra_helm_flags}=    Catenate    --set omccVersion=${omcc_version}
     Run Keyword Unless   ${is_omcc_extended}   Restart BBSIM by Helm Charts   ${NAMESPACE}   extra_helm_flags=${extra_helm_flags}

@@ -110,6 +110,21 @@ ONU Negative State Test
     Build ONU Device Id List    ${list_onu_device_id}
     Run Keyword If    ${print2console}    Log    Check for device events that indicate a failed OMCI communication.   console=yes
     Wait Until Keyword Succeeds    ${timeout}    5s    Validate Failed OMCI Communication All ONUs    ${list_onu_device_id}
+    # Validate OMCI counter statistics
+    Build ONU Device Id List    ${list_onu_device_id}
+    FOR    ${onu_device_id}     IN      @{list_onu_device_id}
+        # get ONU OMCI counter statistics per ONU
+        ${rc}    ${OMCI_counter_dict}=    Get OMCI counter statistics dictionary   ${onu_device_id}
+        Run Keyword If    ${rc} != 0    LOG    \r\nCould not get ONU OMCI counter statistic of ONU ${src['onu']}!
+        ${TxOmciCounterRetries}=    Run Keyword If    ${rc} == 0
+        ...    Get From Dictionary    ${OMCI_counter_dict}    TxOmciCounterRetries
+        ${TxOmciCounterTimeouts}=    Run Keyword If    ${rc} == 0
+        ...    Get From Dictionary    ${OMCI_counter_dict}    TxOmciCounterTimeouts
+        Run Keyword If    ${rc} == 0    Should Be True   0 < ${TxOmciCounterRetries}
+        ...   No TxOmciCounterRetries found in baseline OMCI!
+        Run Keyword If    ${rc} == 0    Should Be True   0 < ${TxOmciCounterTimeouts}
+        ...  No TxOmciCounterTimeouts found in baseline OMCI!
+    END
     [Teardown]    Run Keywords   Printout ONU Serial Number and Device Id    print2console=${print2console}
     ...    AND    Run Keyword If    ${logging}    Collect Logs
     ...    AND    Stop Logging    ONUStateTest

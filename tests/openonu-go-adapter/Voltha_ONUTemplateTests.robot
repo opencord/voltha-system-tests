@@ -270,6 +270,29 @@ Perform ONU MIB Template Compare OMCI Baseline and Extended Message
     Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    3s
     ...    Verify MIB Template Data Available    ${INFRA_NAMESPACE}
     ${MibTemplateDataBaseline}=    Get ONU MIB Template Data    ${INFRA_NAMESPACE}
+    # get ONU OMCI counter statistics
+    ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
+    ${rc}    ${OMCI_counter_dict}=    Get OMCI counter statistics dictionary   ${onu_device_id}
+    Run Keyword If    ${rc} != 0    LOG    \r\nCould not get baseline ONU OMCI counter statistic of ONU ${src['onu']}!
+    ${BaseTxArFrames}=    Run Keyword If    ${rc} == 0   Get From Dictionary   ${OMCI_counter_dict}   BaseTxArFrames
+    ...    ELSE    Set Variable    -1
+    ${BaseRxAkFrames}=    Run Keyword If    ${rc} == 0   Get From Dictionary   ${OMCI_counter_dict}   BaseRxAkFrames
+    ...    ELSE    Set Variable    -1
+    Run Keyword If    ${rc} == 0    Should Be Equal As Integers   ${BaseTxArFrames}   ${BaseRxAkFrames}
+    ...                             Number of baseline Rx and Tx frames do not match!
+    # some additional checks
+    ${ExtRxAkFrames}=           Run Keyword If   ${rc} == 0   Get From Dictionary   ${OMCI_counter_dict}   ExtRxAkFrames
+    ${ExtRxNoAkFrames}=         Run Keyword If   ${rc} == 0   Get From Dictionary   ${OMCI_counter_dict}   ExtRxNoAkFrames
+    ${ExtTxArFrames}=           Run Keyword If   ${rc} == 0   Get From Dictionary   ${OMCI_counter_dict}   ExtTxArFrames
+    ${ExtTxNoArFrames}=         Run Keyword If   ${rc} == 0   Get From Dictionary   ${OMCI_counter_dict}   ExtTxNoArFrames
+    ${TxOmciCounterRetries}=    Run Keyword If   ${rc} == 0   Get From Dictionary   ${OMCI_counter_dict}   TxOmciCounterRetries
+    ${TxOmciCounterTimeouts}=   Run Keyword If   ${rc} == 0   Get From Dictionary   ${OMCI_counter_dict}   TxOmciCounterTimeouts
+    Run Keyword If    ${rc} == 0    Should Be Equal   0   ${ExtRxAkFrames}          ExtRxAkFrames found in baseline OMCI!
+    Run Keyword If    ${rc} == 0    Should Be Equal   0   ${ExtRxNoAkFrames}        ExtRxNoAkFrames found in baseline OMCI!
+    Run Keyword If    ${rc} == 0    Should Be Equal   0   ${ExtTxArFrames}          ExtTxArFrames found in baseline OMCI!
+    Run Keyword If    ${rc} == 0    Should Be Equal   0   ${ExtTxNoArFrames}        ExtTxNoArFrames found in baseline OMCI!
+    Run Keyword If    ${rc} == 0    Should Be Equal   0   ${TxOmciCounterRetries}   TxOmciCounterRetries found in baseline OMCI!
+    Run Keyword If    ${rc} == 0    Should Be Equal   0   ${TxOmciCounterTimeouts}  TxOmciCounterTimeouts found in baseline OMCI!
     Delete All Devices and Verify
     Delete MIB Template Data    ${INFRA_NAMESPACE}
     # Restart BBSIM with OMCI Extended Message
@@ -307,6 +330,29 @@ Perform ONU MIB Template Compare OMCI Baseline and Extended Message
     ${MibTemplateDataExtended}=    Remove String Using Regexp    ${MibTemplateDataExtended}    ${remove_regexp}
     # end of handling for VOL-4721
     Should Be Equal As Strings    ${MibTemplateDataBaseline}    ${MibTemplateDataExtended}    MIB Templates not equal!
+    # get ONU OMCI counter statistics
+    ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
+    ${rc}    ${OMCI_counter_dict}=    Get OMCI counter statistics dictionary   ${onu_device_id}
+    Run Keyword If    ${rc} != 0    LOG    \r\nCould not get extended ONU OMCI counter statistic of ONU ${src['onu']}!
+    ${rc}=    Set Variable If    ${BaseTxArFrames} == -1    -1    ${rc}
+    ${ExtTxArFrames}=    Run Keyword If    ${rc} == 0    Get From Dictionary    ${OMCI_counter_dict}    ExtTxArFrames
+    ...    ELSE    Set Variable    -1
+    ${ExtRxAkFrames}=    Run Keyword If    ${rc} == 0    Get From Dictionary    ${OMCI_counter_dict}    ExtRxAkFrames
+    ...    ELSE    Set Variable    -1
+    Run Keyword If    ${rc} == 0    Should Be Equal As Integers   ${ExtTxArFrames}   ${ExtRxAkFrames}
+    ...                             Number of extended Rx and Tx frames do not match!
+    # check baseline and extended OMCI frames counter
+    ${TxArFrames_compare}=    Run Keyword If    ${rc} == 0    Evaluate    ${BaseTxArFrames}*0.05 > ${ExtTxArFrames}
+    ...    ELSE    Set Variable    True
+    Should Be True    ${TxArFrames_compare}   Comparison of TxArFrames failed (${BaseTxArFrames}:${ExtTxArFrames})!
+    ${RxAkFrames_compare}=    Run Keyword If    ${rc} == 0    Evaluate    ${BaseRxAkFrames}*0.05 > ${ExtRxAkFrames}
+    ...    ELSE    Set Variable    True
+    Should Be True    ${RxAkFrames_compare}   Comparison of RxAkFrames failed (${BaseRxAkFrames}:${ExtRxAkFrames})!
+    # some additional checks
+    ${TxOmciCounterRetries}=    Run Keyword If   ${rc} == 0   Get From Dictionary   ${OMCI_counter_dict}   TxOmciCounterRetries
+    ${TxOmciCounterTimeouts}=   Run Keyword If   ${rc} == 0   Get From Dictionary   ${OMCI_counter_dict}   TxOmciCounterTimeouts
+    Run Keyword If    ${rc} == 0    Should Be Equal   0   ${TxOmciCounterRetries}   TxOmciCounterRetries found in extended OMCI!
+    Run Keyword If    ${rc} == 0    Should Be Equal   0   ${TxOmciCounterTimeouts}  TxOmciCounterTimeouts found in extended OMCI!
     # Restart BBSIM with OMCI Message Version read at begin of test
     ${extra_helm_flags}=    Catenate
     ...    --set onu=2,pon=2,controlledActivation=only-onu,injectOmciUnknownAttributes=true,injectOmciUnknownMe=true
