@@ -24,6 +24,30 @@
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b53d64d4_1201f6e3",
+        "filename": "tests/openonu-go-adapter/Voltha_ONUNegativeStateTests.robot",
+        "patchSetId": 3
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2022-12-20T10:34:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dc2266c9_fef6c9c5",
+      "range": {
+        "startLine": 118,
+        "startChar": 40,
+        "endLine": 118,
+        "endChar": 44
+      },
+      "revId": "e3dcbb742c25d4b20ebe01f593ba74b6a734d5a2",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b2d18228_4cf5d399",
@@ -37,6 +61,30 @@
       "writtenOn": "2022-12-19T13:18:29Z",
       "side": 1,
       "message": "Should lead to an error. Please use keyword \"FAIL\".\nHint: Please remove \"\\r\\n\".",
+      "range": {
+        "startLine": 276,
+        "startChar": 36,
+        "endLine": 276,
+        "endChar": 43
+      },
+      "revId": "e3dcbb742c25d4b20ebe01f593ba74b6a734d5a2",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d02050cf_ecaae0bc",
+        "filename": "tests/openonu-go-adapter/Voltha_ONUTemplateTests.robot",
+        "patchSetId": 3
+      },
+      "lineNbr": 276,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2022-12-20T10:34:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b2d18228_4cf5d399",
       "range": {
         "startLine": 276,
         "startChar": 36,
@@ -70,6 +118,30 @@
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0fa71e64_65c8c862",
+        "filename": "tests/openonu-go-adapter/Voltha_ONUTemplateTests.robot",
+        "patchSetId": 3
+      },
+      "lineNbr": 336,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2022-12-20T10:34:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0022828c_d8c370b8",
+      "range": {
+        "startLine": 336,
+        "startChar": 36,
+        "endLine": 336,
+        "endChar": 43
+      },
+      "revId": "e3dcbb742c25d4b20ebe01f593ba74b6a734d5a2",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "99d306c5_7665df63",
@@ -93,6 +165,30 @@
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1f2687bd_ed805641",
+        "filename": "tests/software-upgrades/ONU_Upgrade.robot",
+        "patchSetId": 3
+      },
+      "lineNbr": 752,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2022-12-20T10:34:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "99d306c5_7665df63",
+      "range": {
+        "startLine": 752,
+        "startChar": 36,
+        "endLine": 752,
+        "endChar": 43
+      },
+      "revId": "e3dcbb742c25d4b20ebe01f593ba74b6a734d5a2",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9a5f9313_2fe4673d",
@@ -106,6 +202,30 @@
       "writtenOn": "2022-12-19T13:18:29Z",
       "side": 1,
       "message": "Should lead to an error. Please use keyword \"FAIL\".\nHint: Please remove \"\\r\\n\".",
+      "range": {
+        "startLine": 789,
+        "startChar": 36,
+        "endLine": 789,
+        "endChar": 43
+      },
+      "revId": "e3dcbb742c25d4b20ebe01f593ba74b6a734d5a2",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f803d3bd_f944ce1f",
+        "filename": "tests/software-upgrades/ONU_Upgrade.robot",
+        "patchSetId": 3
+      },
+      "lineNbr": 789,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2022-12-20T10:34:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9a5f9313_2fe4673d",
       "range": {
         "startLine": 789,
         "startChar": 36,
