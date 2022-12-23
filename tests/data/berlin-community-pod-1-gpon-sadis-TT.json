@@ -132,7 +132,7 @@
             "downstreamBandwidthProfile" : "VOIP",
             "upstreamBandwidthProfile" : "TCONT_TYPE1_200Mbps_Fixed_ForVOIP",
             "isDhcpRequired" : "true",
-            "configuredMacAddress" : "2c:60:0c:ee:d6:27",
+            "configuredMacAddress" : "d4:f5:ef:42:87:db",
             "serviceName" : "VOIP"
           }, {
             "uniTagMatch" : 55,
@@ -145,7 +145,7 @@
             "technologyProfileId" : 66,
             "downstreamBandwidthProfile" : "High-Speed-Internet",
             "upstreamBandwidthProfile" : "TCONT_TYPE2_500Mbps_Assured_ForVoD",
-            "configuredMacAddress" : "2c:60:0c:ee:d6:27",
+            "configuredMacAddress" : "d4:f5:ef:42:87:db",
             "serviceName" : "VOD",
             "isDhcpRequired" : "true",
             "isIgmpRequired" : "true"
