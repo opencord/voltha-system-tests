@@ -1,0 +1,2761 @@
+{
+  "name": "17GemPortErrorCasePrioQueue",
+  "profile_type": "XGS-PON",
+  "version": 1,
+  "num_gem_ports": 65,
+  "instance_control": {
+    "onu": "multi-instance",
+    "uni": "single-instance",
+    "max_gem_payload_size": "auto"
+  },
+  "us_scheduler": {
+    "additional_bw": "AdditionalBW_BestEffort",
+    "direction": "UPSTREAM",
+    "priority": 0,
+    "weight": 0,
+    "q_sched_policy": "StrictPriority"
+  },
+  "ds_scheduler": {
+    "additional_bw": "AdditionalBW_BestEffort",
+    "direction": "DOWNSTREAM",
+    "priority": 0,
+    "weight": 0,
+    "q_sched_policy": "StrictPriority"
+  },
+  "upstream_gem_port_attribute_list": [
+    {
+      "pbit_map": "0b00000001",
+      "aes_encryption": "True",
+      "scheduling_policy": "StrictPriority",
+      "priority_q": 0,
+      "weight": 100,
+      "discard_policy": "TailDrop",
+      "max_q_size": "auto",
+      "discard_config": {
+        "max_threshold": 0,
+        "min_threshold": 0,
+        "max_probability": 0
+      }
+    },
+    {
+      "pbit_map": "0b00000010",
+      "aes_encryption": "True",
+      "scheduling_policy": "StrictPriority",
+      "priority_q": 1,
+      "weight": 100,
+      "discard_policy": "TailDrop",
+      "max_q_size": "auto",
+      "discard_config": {
+        "max_threshold": 0,
+        "min_threshold": 0,
+        "max_probability": 0
+      }
+    },
+    {
+      "pbit_map": "0b00000011",
+      "aes_encryption": "True",
+      "scheduling_policy": "StrictPriority",
+      "priority_q": 2,
+      "weight": 100,
+      "discard_policy": "TailDrop",
+      "max_q_size": "auto",
+      "discard_config": {
+        "max_threshold": 0,
+        "min_threshold": 0,
+        "max_probability": 0
+      }
+    },
+    {
+      "pbit_map": "0b00000100",
+      "aes_encryption": "True",
+      "scheduling_policy": "StrictPriority",
+      "priority_q": 3,
+      "weight": 100,
+      "discard_policy": "TailDrop",
+      "max_q_size": "auto",
+      "discard_config": {
+        "max_threshold": 0,
+        "min_threshold": 0,
+        "max_probability": 0
+      }
+    },
+    {
+      "pbit_map": "0b00000101",
+      "aes_encryption": "True",
+      "scheduling_policy": "StrictPriority",
+      "priority_q": 4,
+      "weight": 100,
+      "discard_policy": "TailDrop",
+      "max_q_size": "auto",
+      "discard_config": {
+        "max_threshold": 0,
+        "min_threshold": 0,
+        "max_probability": 0
+      }
+    },
+    {
+      "pbit_map": "0b00000110",
+      "aes_encryption": "True",
+      "scheduling_policy": "StrictPriority",
+      "priority_q": 5,
+      "weight": 100,
+      "discard_policy": "TailDrop",
+      "max_q_size": "auto",
+      "discard_config": {
+        "min_threshold": 0,
+        "max_threshold": 0,
+        "max_probability": 0
+      }
+    },
+    {
+      "pbit_map": "0b00000111",
+      "aes_encryption": "True",
+      "scheduling_policy": "StrictPriority",
+      "priority_q": 6,
+      "weight": 100,
+      "discard_policy": "TailDrop",
+      "max_q_size": "auto",
+      "discard_config": {
+        "min_threshold": 0,
+        "max_threshold": 0,
+        "max_probability": 0
+      }
+    },
+    {
+      "pbit_map": "0b0001000",
+      "aes_encryption": "True",
+      "scheduling_policy": "StrictPriority",
+      "priority_q": 7,
+      "weight": 100,
+      "discard_policy": "TailDrop",
+      "max_q_size": "auto",
+      "discard_config": {
+        "min_threshold": 0,
+        "max_threshold": 0,
+        "max_probability": 0
+      }
+    },
+    {
+      "pbit_map": "0b00001001",
+      "aes_encryption": "True",
+      "scheduling_policy": "StrictPriority",
+      "priority_q": 8,
+      "weight": 100,
+      "discard_policy": "TailDrop",
+      "max_q_size": "auto",
+      "discard_config": {
+        "max_threshold": 0,
+        "min_threshold": 0,
+        "max_probability": 0
+      }
+    },
+    {
+      "pbit_map": "0b00001010",
+      "aes_encryption": "True",
+      "scheduling_policy": "StrictPriority",
+      "priority_q": 9,
+      "weight": 100,
+      "discard_policy": "TailDrop",
+      "max_q_size": "auto",
+      "discard_config": {
+        "max_threshold": 0,
+        "min_threshold": 0,
+        "max_probability": 0
+      }
+    },
+    {
+      "pbit_map": "0b00001011",
+      "aes_encryption": "True",
+      "scheduling_policy": "StrictPriority",
+      "priority_q": 10,
+      "weight": 100,
+      "discard_policy": "TailDrop",
+      "max_q_size": "auto",
+      "discard_config": {
+        "max_threshold": 0,
+        "min_threshold": 0,
+        "max_probability": 0
+      }
+    },
+    {
+      "pbit_map": "0b00001100",
+      "aes_encryption": "True",
+      "scheduling_policy": "StrictPriority",
+      "priority_q": 11,
+      "weight": 100,
+      "discard_policy": "TailDrop",
+      "max_q_size": "auto",
+      "discard_config": {
+        "max_threshold": 0,
+        "min_threshold": 0,
+        "max_probability": 0
+      }
+    },
+    {
+      "pbit_map": "0b00001101",
+      "aes_encryption": "True",
+      "scheduling_policy": "StrictPriority",
+      "priority_q": 12,
+      "weight": 100,
+      "discard_policy": "TailDrop",
+      "max_q_size": "auto",
+      "discard_config": {
+        "max_threshold": 0,
+        "min_threshold": 0,
+        "max_probability": 0
+      }
+    },
+    {
+      "pbit_map": "0b000001110",
+      "aes_encryption": "True",
+      "scheduling_policy": "StrictPriority",
+      "priority_q": 13,
+      "weight": 100,
+      "discard_policy": "TailDrop",
+      "max_q_size": "auto",
+      "discard_config": {
+        "min_threshold": 0,
+        "max_threshold": 0,
+        "max_probability": 0
+      }
+    },
+    {
+      "pbit_map": "0b00001111",
+      "aes_encryption": "True",
+      "scheduling_policy": "StrictPriority",
+      "priority_q": 14,
+      "weight": 100,
+      "discard_policy": "TailDrop",
+      "max_q_size": "auto",
+      "discard_config": {
+        "min_threshold": 0,
+        "max_threshold": 0,
+        "max_probability": 0
+      }
+    },
+    {
+      "pbit_map": "0b00010000",
+      "aes_encryption": "True",
+      "scheduling_policy": "StrictPriority",
+      "priority_q": 15,
+      "weight": 100,
+      "discard_policy": "TailDrop",
+      "max_q_size": "auto",
+      "discard_config": {
+        "min_threshold": 0,
+        "max_threshold": 0,
+        "max_probability": 0
+      }
+    },
+    {
+      "pbit_map": "0b00010001",
+      "aes_encryption": "True",
+      "scheduling_policy": "StrictPriority",
+      "priority_q": 16,
+      "weight": 100,
+      "discard_policy": "TailDrop",
+      "max_q_size": "auto",
+      "discard_config": {
+        "min_threshold": 0,
+        "max_threshold": 0,
+        "max_probability": 0
+      }
+    },
+    {
+      "pbit_map": "0b00010010",
+      "aes_encryption": "True",
+      "scheduling_policy": "StrictPriority",
+      "priority_q": 17,
+      "weight": 100,
+      "discard_policy": "TailDrop",
+      "max_q_size": "auto",
+      "discard_config": {
+        "max_threshold": 0,
+        "min_threshold": 0,
+        "max_probability": 0
+      }
+    },
+    {
+      "pbit_map": "0b00010011",
+      "aes_encryption": "True",
+      "scheduling_policy": "StrictPriority",
+      "priority_q": 18,
+      "weight": 100,
+      "discard_policy": "TailDrop",
+      "max_q_size": "auto",
+      "discard_config": {
+        "max_threshold": 0,
+        "min_threshold": 0,
+        "max_probability": 0
+      }
+    },
+    {
+      "pbit_map": "0b00010100",
+      "aes_encryption": "True",
+      "scheduling_policy": "StrictPriority",
+      "priority_q": 19,
+      "weight": 100,
+      "discard_policy": "TailDrop",
+      "max_q_size": "auto",
+      "discard_config": {
+        "max_threshold": 0,
+        "min_threshold": 0,
+        "max_probability": 0
+      }
+    },
+    {
+      "pbit_map": "0b00010101",
+      "aes_encryption": "True",
+      "scheduling_policy": "StrictPriority",
+      "priority_q": 20,
+      "weight": 100,
+      "discard_policy": "TailDrop",
+      "max_q_size": "auto",
+      "discard_config": {
+        "max_threshold": 0,
+        "min_threshold": 0,
+        "max_probability": 0
+      }
+    },
+    {
+      "pbit_map": "0b00010110",
+      "aes_encryption": "True",
+      "scheduling_policy": "StrictPriority",
+      "priority_q": 21,
+      "weight": 100,
+      "discard_policy": "TailDrop",
+      "max_q_size": "auto",
+      "discard_config": {
+        "max_threshold": 0,
+        "min_threshold": 0,
+        "max_probability": 0
+      }
+    },
+    {
+      "pbit_map": "0b00010111",
+      "aes_encryption": "True",
+      "scheduling_policy": "StrictPriority",
+      "priority_q": 22,
+      "weight": 100,
+      "discard_policy": "TailDrop",
+      "max_q_size": "auto",
+      "discard_config": {
+        "min_threshold": 0,
+        "max_threshold": 0,
+        "max_probability": 0
+      }
+    },
+    {
+      "pbit_map": "0b00011000",
+      "aes_encryption": "True",
+      "scheduling_policy": "StrictPriority",
+      "priority_q": 23,
+      "weight": 100,
+      "discard_policy": "TailDrop",
+      "max_q_size": "auto",
+      "discard_config": {
+        "min_threshold": 0,
+        "max_threshold": 0,
+        "max_probability": 0
+      }
+    },
+    {
+      "pbit_map": "0b00011001",
+      "aes_encryption": "True",
+      "scheduling_policy": "StrictPriority",
+      "priority_q": 24,
+      "weight": 100,
+      "discard_policy": "TailDrop",
+      "max_q_size": "auto",
+      "discard_config": {
+        "min_threshold": 0,
+        "max_threshold": 0,
+        "max_probability": 0
+      }
+    },
+    {
+      "pbit_map": "0b00011010",
+      "aes_encryption": "True",
+      "scheduling_policy": "StrictPriority",
+      "priority_q": 25,
+      "weight": 100,
+      "discard_policy": "TailDrop",
+      "max_q_size": "auto",
+      "discard_config": {
+        "min_threshold": 0,
+        "max_threshold": 0,
+        "max_probability": 0
+      }
+    },
+    {
+      "pbit_map": "0b00011011",
+      "aes_encryption": "True",
+      "scheduling_policy": "StrictPriority",
+      "priority_q": 26,
+      "weight": 100,
+      "discard_policy": "TailDrop",
+      "max_q_size": "auto",
+      "discard_config": {
+        "min_threshold": 0,
+        "max_threshold": 0,
+        "max_probability": 0
+      }
+    },
+    {
+      "pbit_map": "0b00011100",
+      "aes_encryption": "True",
+      "scheduling_policy": "StrictPriority",
+      "priority_q": 27,
+      "weight": 100,
+      "discard_policy": "TailDrop",
+      "max_q_size": "auto",
+      "discard_config": {
+        "min_threshold": 0,
+        "max_threshold": 0,
+        "max_probability": 0
+      }
+    },
+    {
+      "pbit_map": "0b00011101",
+      "aes_encryption": "True",
+      "scheduling_policy": "StrictPriority",
+      "priority_q": 28,
+      "weight": 100,
+      "discard_policy": "TailDrop",
+      "max_q_size": "auto",
+      "discard_config": {
+        "min_threshold": 0,
+        "max_threshold": 0,
+        "max_probability": 0
+      }
+    },
+    {
+      "pbit_map": "0b00011110",
+      "aes_encryption": "True",
+      "scheduling_policy": "StrictPriority",
+      "priority_q": 29,
+      "weight": 100,
+      "discard_policy": "TailDrop",
+      "max_q_size": "auto",
+      "discard_config": {
+        "min_threshold": 0,
+        "max_threshold": 0,
+        "max_probability": 0
+      }
+    },
+    {
+      "pbit_map": "0b00011111",
+      "aes_encryption": "True",
+      "scheduling_policy": "StrictPriority",
+      "priority_q": 30,
+      "weight": 100,
+      "discard_policy": "TailDrop",
+      "max_q_size": "auto",
+      "discard_config": {
+        "min_threshold": 0,
+        "max_threshold": 0,
+        "max_probability": 0
+      }
+    },
+    {
+      "pbit_map": "0b00100000",
+      "aes_encryption": "True",
+      "scheduling_policy": "StrictPriority",
+      "priority_q": 31,
+      "weight": 100,
+      "discard_policy": "TailDrop",
+      "max_q_size": "auto",
+      "discard_config": {
+        "min_threshold": 0,
+        "max_threshold": 0,
+        "max_probability": 0
+      }
+    },
+    {
+      "pbit_map": "0b00100001",
+      "aes_encryption": "True",
+      "scheduling_policy": "StrictPriority",
+      "priority_q": 32,
+      "weight": 100,
+      "discard_policy": "TailDrop",
+      "max_q_size": "auto",
+      "discard_config": {
+        "min_threshold": 0,
+        "max_threshold": 0,
+        "max_probability": 0
+      }
+    },
+    {
+      "pbit_map": "0b00100010",
+      "aes_encryption": "True",
+      "scheduling_policy": "StrictPriority",
+      "priority_q": 33,
+      "weight": 100,
+      "discard_policy": "TailDrop",
+      "max_q_size": "auto",
+      "discard_config": {
+        "min_threshold": 0,
+        "max_threshold": 0,
+        "max_probability": 0
+      }
+    },
+    {
+      "pbit_map": "0b00100011",
+      "aes_encryption": "True",
+      "scheduling_policy": "StrictPriority",
+      "priority_q": 34,
+      "weight": 100,
+      "discard_policy": "TailDrop",
+      "max_q_size": "auto",
+      "discard_config": {
+        "min_threshold": 0,
+        "max_threshold": 0,
+        "max_probability": 0
+      }
+    },
+    {
+      "pbit_map": "0b00100100",
+      "aes_encryption": "True",
+      "scheduling_policy": "StrictPriority",
+      "priority_q": 35,
+      "weight": 100,
+      "discard_policy": "TailDrop",
+      "max_q_size": "auto",
+      "discard_config": {
+        "min_threshold": 0,
+        "max_threshold": 0,
+        "max_probability": 0
+      }
+    },
+    {
+      "pbit_map": "0b00100101",
+      "aes_encryption": "True",
+      "scheduling_policy": "StrictPriority",
+      "priority_q": 36,
+      "weight": 100,
+      "discard_policy": "TailDrop",
+      "max_q_size": "auto",
+      "discard_config": {
+        "min_threshold": 0,
+        "max_threshold": 0,
+        "max_probability": 0
+      }
+    },
+    {
+      "pbit_map": "0b00100110",
+      "aes_encryption": "True",
+      "scheduling_policy": "StrictPriority",
+      "priority_q": 37,
+      "weight": 100,
+      "discard_policy": "TailDrop",
+      "max_q_size": "auto",
+      "discard_config": {
+        "min_threshold": 0,
+        "max_threshold": 0,
+        "max_probability": 0
+      }
+    },
+    {
+      "pbit_map": "0b00100111",
+      "aes_encryption": "True",
+      "scheduling_policy": "StrictPriority",
+      "priority_q": 38,
+      "weight": 100,
+      "discard_policy": "TailDrop",
+      "max_q_size": "auto",
+      "discard_config": {
+        "min_threshold": 0,
+        "max_threshold": 0,
+        "max_probability": 0
+      }
+    },
+    {
+      "pbit_map": "0b00101000",
+      "aes_encryption": "True",
+      "scheduling_policy": "StrictPriority",
+      "priority_q": 39,
+      "weight": 100,
+      "discard_policy": "TailDrop",
+      "max_q_size": "auto",
+      "discard_config": {
+        "min_threshold": 0,
+        "max_threshold": 0,
+        "max_probability": 0
+      }
+    },
+    {
+      "pbit_map": "0b00101001",
+      "aes_encryption": "True",
+      "scheduling_policy": "StrictPriority",
+      "priority_q": 40,
+      "weight": 100,
+      "discard_policy": "TailDrop",
+      "max_q_size": "auto",
+      "discard_config": {
+        "min_threshold": 0,
+        "max_threshold": 0,
+        "max_probability": 0
+      }
+    },
+    {
+      "pbit_map": "0b00101010",
+      "aes_encryption": "True",
+      "scheduling_policy": "StrictPriority",
+      "priority_q": 41,
+      "weight": 100,
+      "discard_policy": "TailDrop",
+      "max_q_size": "auto",
+      "discard_config": {
+        "min_threshold": 0,
+        "max_threshold": 0,
+        "max_probability": 0
+      }
+    },
+    {
+      "pbit_map": "0b00101011",
+      "aes_encryption": "True",
+      "scheduling_policy": "StrictPriority",
+      "priority_q": 42,
+      "weight": 100,
+      "discard_policy": "TailDrop",
+      "max_q_size": "auto",
+      "discard_config": {
+        "min_threshold": 0,
+        "max_threshold": 0,
+        "max_probability": 0
+      }
+    },
+    {
+      "pbit_map": "0b00101100",
+      "aes_encryption": "True",
+      "scheduling_policy": "StrictPriority",
+      "priority_q": 43,
+      "weight": 100,
+      "discard_policy": "TailDrop",
+      "max_q_size": "auto",
+      "discard_config": {
+        "min_threshold": 0,
+        "max_threshold": 0,
+        "max_probability": 0
+      }
+    },
+    {
+      "pbit_map": "0b00101101",
+      "aes_encryption": "True",
+      "scheduling_policy": "StrictPriority",
+      "priority_q": 44,
+      "weight": 100,
+      "discard_policy": "TailDrop",
+      "max_q_size": "auto",
+      "discard_config": {
+        "min_threshold": 0,
+        "max_threshold": 0,
+        "max_probability": 0
+      }
+    },
+    {
+      "pbit_map": "0b00101110",
+      "aes_encryption": "True",
+      "scheduling_policy": "StrictPriority",
+      "priority_q": 45,
+      "weight": 100,
+      "discard_policy": "TailDrop",
+      "max_q_size": "auto",
+      "discard_config": {
+        "min_threshold": 0,
+        "max_threshold": 0,
+        "max_probability": 0
+      }
+    },
+    {
+      "pbit_map": "0b00101111",
+      "aes_encryption": "True",
+      "scheduling_policy": "StrictPriority",
+      "priority_q": 46,
+      "weight": 100,
+      "discard_policy": "TailDrop",
+      "max_q_size": "auto",
+      "discard_config": {
+        "min_threshold": 0,
+        "max_threshold": 0,
+        "max_probability": 0
+      }
+    },
+    {
+      "pbit_map": "0b00110000",
+      "aes_encryption": "True",
+      "scheduling_policy": "StrictPriority",
+      "priority_q": 47,
+      "weight": 100,
+      "discard_policy": "TailDrop",
+      "max_q_size": "auto",
+      "discard_config": {
+        "min_threshold": 0,
+        "max_threshold": 0,
+        "max_probability": 0
+      }
+    },
+    {
+      "pbit_map": "0b00110001",
+      "aes_encryption": "True",
+      "scheduling_policy": "StrictPriority",
+      "priority_q": 48,
+      "weight": 100,
+      "discard_policy": "TailDrop",
+      "max_q_size": "auto",
+      "discard_config": {
+        "min_threshold": 0,
+        "max_threshold": 0,
+        "max_probability": 0
+      }
+    },
+    {
+      "pbit_map": "0b00110010",
+      "aes_encryption": "True",
+      "scheduling_policy": "StrictPriority",
+      "priority_q": 49,
+      "weight": 100,
+      "discard_policy": "TailDrop",
+      "max_q_size": "auto",
+      "discard_config": {
+        "min_threshold": 0,
+        "max_threshold": 0,
+        "max_probability": 0
+      }
+    },
+    {
+      "pbit_map": "0b00110011",
+      "aes_encryption": "True",
+      "scheduling_policy": "StrictPriority",
+      "priority_q": 50,
+      "weight": 100,
+      "discard_policy": "TailDrop",
+      "max_q_size": "auto",
+      "discard_config": {
+        "min_threshold": 0,
+        "max_threshold": 0,
+        "max_probability": 0
+      }
+    },
+    {
+      "pbit_map": "0b00110100",
+      "aes_encryption": "True",
+      "scheduling_policy": "StrictPriority",
+      "priority_q": 51,
+      "weight": 100,
+      "discard_policy": "TailDrop",
+      "max_q_size": "auto",
+      "discard_config": {
+        "min_threshold": 0,
+        "max_threshold": 0,
+        "max_probability": 0
+      }
+    },
+    {
+      "pbit_map": "0b00110101",
+      "aes_encryption": "True",
+      "scheduling_policy": "StrictPriority",
+      "priority_q": 52,
+      "weight": 100,
+      "discard_policy": "TailDrop",
+      "max_q_size": "auto",
+      "discard_config": {
+        "min_threshold": 0,
+        "max_threshold": 0,
+        "max_probability": 0
+      }
+    },
+    {
+      "pbit_map": "0b00110110",
+      "aes_encryption": "True",
+      "scheduling_policy": "StrictPriority",
+      "priority_q": 53,
+      "weight": 100,
+      "discard_policy": "TailDrop",
+      "max_q_size": "auto",
+      "discard_config": {
+        "min_threshold": 0,
+        "max_threshold": 0,
+        "max_probability": 0
+      }
+    },
+    {
+      "pbit_map": "0b00110111",
+      "aes_encryption": "True",
+      "scheduling_policy": "StrictPriority",
+      "priority_q": 54,
+      "weight": 100,
+      "discard_policy": "TailDrop",
+      "max_q_size": "auto",
+      "discard_config": {
+        "min_threshold": 0,
+        "max_threshold": 0,
+        "max_probability": 0
+      }
+    },
+    {
+      "pbit_map": "0b00111000",
+      "aes_encryption": "True",
+      "scheduling_policy": "StrictPriority",
+      "priority_q": 55,
+      "weight": 100,
+      "discard_policy": "TailDrop",
+      "max_q_size": "auto",
+      "discard_config": {
+        "min_threshold": 0,
+        "max_threshold": 0,
+        "max_probability": 0
+      }
+    },
+    {
+      "pbit_map": "0b00111001",
+      "aes_encryption": "True",
+      "scheduling_policy": "StrictPriority",
+      "priority_q": 56,
+      "weight": 100,
+      "discard_policy": "TailDrop",
+      "max_q_size": "auto",
+      "discard_config": {
+        "min_threshold": 0,
+        "max_threshold": 0,
+        "max_probability": 0
+      }
+    },
+    {
+      "pbit_map": "0b00111010",
+      "aes_encryption": "True",
+      "scheduling_policy": "StrictPriority",
+      "priority_q": 57,
+      "weight": 100,
+      "discard_policy": "TailDrop",
+      "max_q_size": "auto",
+      "discard_config": {
+        "min_threshold": 0,
+        "max_threshold": 0,
+        "max_probability": 0
+      }
+    },
+    {
+      "pbit_map": "0b00111011",
+      "aes_encryption": "True",
+      "scheduling_policy": "StrictPriority",
+      "priority_q": 58,
+      "weight": 100,
+      "discard_policy": "TailDrop",
+      "max_q_size": "auto",
+      "discard_config": {
+        "min_threshold": 0,
+        "max_threshold": 0,
+        "max_probability": 0
+      }
+    },
+    {
+      "pbit_map": "0b00111100",
+      "aes_encryption": "True",
+      "scheduling_policy": "StrictPriority",
+      "priority_q": 59,
+      "weight": 100,
+      "discard_policy": "TailDrop",
+      "max_q_size": "auto",
+      "discard_config": {
+        "min_threshold": 0,
+        "max_threshold": 0,
+        "max_probability": 0
+      }
+    },
+    {
+      "pbit_map": "0b00111101",
+      "aes_encryption": "True",
+      "scheduling_policy": "StrictPriority",
+      "priority_q": 60,
+      "weight": 100,
+      "discard_policy": "TailDrop",
+      "max_q_size": "auto",
+      "discard_config": {
+        "min_threshold": 0,
+        "max_threshold": 0,
+        "max_probability": 0
+      }
+    },
+    {
+      "pbit_map": "0b00111110",
+      "aes_encryption": "True",
+      "scheduling_policy": "StrictPriority",
+      "priority_q": 61,
+      "weight": 100,
+      "discard_policy": "TailDrop",
+      "max_q_size": "auto",
+      "discard_config": {
+        "min_threshold": 0,
+        "max_threshold": 0,
+        "max_probability": 0
+      }
+    },
+    {
+      "pbit_map": "0b00111111",
+      "aes_encryption": "True",
+      "scheduling_policy": "StrictPriority",
+      "priority_q": 62,
+      "weight": 100,
+      "discard_policy": "TailDrop",
+      "max_q_size": "auto",
+      "discard_config": {
+        "min_threshold": 0,
+        "max_threshold": 0,
+        "max_probability": 0
+      }
+    },
+    {
+      "pbit_map": "0b01000000",
+      "aes_encryption": "True",
+      "scheduling_policy": "StrictPriority",
+      "priority_q": 63,
+      "weight": 100,
+      "discard_policy": "TailDrop",
+      "max_q_size": "auto",
+      "discard_config": {
+        "min_threshold": 0,
+        "max_threshold": 0,
+        "max_probability": 0
+      }
+    },
+    {
+      "pbit_map": "0b01000001",
+      "aes_encryption": "True",
+      "scheduling_policy": "StrictPriority",
+      "priority_q": 64,
+      "weight": 100,
+      "discard_policy": "TailDrop",
+      "max_q_size": "auto",
+      "discard_config": {
+        "min_threshold": 0,
+        "max_threshold": 0,
+        "max_probability": 0
+      }
+    }
+  ],
+  "downstream_gem_port_attribute_list": [
+    {
+      "pbit_map": "0b00000001",
+      "aes_encryption": "True",
+      "scheduling_policy": "StrictPriority",
+      "priority_q": 0,
+      "weight": 100,
+      "discard_policy": "TailDrop",
+      "max_q_size": "auto",
+      "discard_config": {
+        "max_threshold": 0,
+        "min_threshold": 0,
+        "max_probability": 0
+      }
+    },
+    {
+      "pbit_map": "0b00000010",
+      "aes_encryption": "True",
+      "scheduling_policy": "StrictPriority",
+      "priority_q": 1,
+      "weight": 100,
+      "discard_policy": "TailDrop",
+      "max_q_size": "auto",
+      "discard_config": {
+        "max_threshold": 0,
+        "min_threshold": 0,
+        "max_probability": 0
+      }
+    },
+    {
+      "pbit_map": "0b00000011",
+      "aes_encryption": "True",
+      "scheduling_policy": "StrictPriority",
+      "priority_q": 2,
+      "weight": 100,
+      "discard_policy": "TailDrop",
+      "max_q_size": "auto",
+      "discard_config": {
+        "max_threshold": 0,
+        "min_threshold": 0,
+        "max_probability": 0
+      }
+    },
+    {
+      "pbit_map": "0b00000100",
+      "aes_encryption": "True",
+      "scheduling_policy": "StrictPriority",
+      "priority_q": 3,
+      "weight": 100,
+      "discard_policy": "TailDrop",
+      "max_q_size": "auto",
+      "discard_config": {
+        "max_threshold": 0,
+        "min_threshold": 0,
+        "max_probability": 0
+      }
+    },
+    {
+      "pbit_map": "0b00000101",
+      "aes_encryption": "True",
+      "scheduling_policy": "StrictPriority",
+      "priority_q": 4,
+      "weight": 100,
+      "discard_policy": "TailDrop",
+      "max_q_size": "auto",
+      "discard_config": {
+        "max_threshold": 0,
+        "min_threshold": 0,
+        "max_probability": 0
+      }
+    },
+    {
+      "pbit_map": "0b00000110",
+      "aes_encryption": "True",
+      "scheduling_policy": "StrictPriority",
+      "priority_q": 5,
+      "weight": 100,
+      "discard_policy": "TailDrop",
+      "max_q_size": "auto",
+      "discard_config": {
+        "min_threshold": 0,
+        "max_threshold": 0,
+        "max_probability": 0
+      }
+    },
+    {
+      "pbit_map": "0b00000111",
+      "aes_encryption": "True",
+      "scheduling_policy": "StrictPriority",
+      "priority_q": 6,
+      "weight": 100,
+      "discard_policy": "TailDrop",
+      "max_q_size": "auto",
+      "discard_config": {
+        "min_threshold": 0,
+        "max_threshold": 0,
+        "max_probability": 0
+      }
+    },
+    {
+      "pbit_map": "0b0001000",
+      "aes_encryption": "True",
+      "scheduling_policy": "StrictPriority",
+      "priority_q": 7,
+      "weight": 100,
+      "discard_policy": "TailDrop",
+      "max_q_size": "auto",
+      "discard_config": {
+        "min_threshold": 0,
+        "max_threshold": 0,
+        "max_probability": 0
+      }
+    },
+    {
+      "pbit_map": "0b00001001",
+      "aes_encryption": "True",
+      "scheduling_policy": "StrictPriority",
+      "priority_q": 8,
+      "weight": 100,
+      "discard_policy": "TailDrop",
+      "max_q_size": "auto",
+      "discard_config": {
+        "max_threshold": 0,
+        "min_threshold": 0,
+        "max_probability": 0
+      }
+    },
+    {
+      "pbit_map": "0b00001010",
+      "aes_encryption": "True",
+      "scheduling_policy": "StrictPriority",
+      "priority_q": 9,
+      "weight": 100,
+      "discard_policy": "TailDrop",
+      "max_q_size": "auto",
+      "discard_config": {
+        "max_threshold": 0,
+        "min_threshold": 0,
+        "max_probability": 0
+      }
+    },
+    {
+      "pbit_map": "0b00001011",
+      "aes_encryption": "True",
+      "scheduling_policy": "StrictPriority",
+      "priority_q": 10,
+      "weight": 100,
+      "discard_policy": "TailDrop",
+      "max_q_size": "auto",
+      "discard_config": {
+        "max_threshold": 0,
+        "min_threshold": 0,
+        "max_probability": 0
+      }
+    },
+    {
+      "pbit_map": "0b00001100",
+      "aes_encryption": "True",
+      "scheduling_policy": "StrictPriority",
+      "priority_q": 11,
+      "weight": 100,
+      "discard_policy": "TailDrop",
+      "max_q_size": "auto",
+      "discard_config": {
+        "max_threshold": 0,
+        "min_threshold": 0,
+        "max_probability": 0
+      }
+    },
+    {
+      "pbit_map": "0b00001101",
+      "aes_encryption": "True",
+      "scheduling_policy": "StrictPriority",
+      "priority_q": 12,
+      "weight": 100,
+      "discard_policy": "TailDrop",
+      "max_q_size": "auto",
+      "discard_config": {
+        "max_threshold": 0,
+        "min_threshold": 0,
+        "max_probability": 0
+      }
+    },
+    {
+      "pbit_map": "0b000001110",
+      "aes_encryption": "True",
+      "scheduling_policy": "StrictPriority",
+      "priority_q": 13,
+      "weight": 100,
+      "discard_policy": "TailDrop",
+      "max_q_size": "auto",
+      "discard_config": {
+        "min_threshold": 0,
+        "max_threshold": 0,
+        "max_probability": 0
+      }
+    },
+    {
+      "pbit_map": "0b00001111",
+      "aes_encryption": "True",
+      "scheduling_policy": "StrictPriority",
+      "priority_q": 14,
+      "weight": 100,
+      "discard_policy": "TailDrop",
+      "max_q_size": "auto",
+      "discard_config": {
+        "min_threshold": 0,
+        "max_threshold": 0,
+        "max_probability": 0
+      }
+    },
+    {
+      "pbit_map": "0b00010000",
+      "aes_encryption": "True",
+      "scheduling_policy": "StrictPriority",
+      "priority_q": 15,
+      "weight": 100,
+      "discard_policy": "TailDrop",
+      "max_q_size": "auto",
+      "discard_config": {
+        "min_threshold": 0,
+        "max_threshold": 0,
+        "max_probability": 0
+      }
+    },
+    {
+      "pbit_map": "0b00010001",
+      "aes_encryption": "True",
+      "scheduling_policy": "StrictPriority",
+      "priority_q": 16,
+      "weight": 100,
+      "discard_policy": "TailDrop",
+      "max_q_size": "auto",
+      "discard_config": {
+        "min_threshold": 0,
+        "max_threshold": 0,
+        "max_probability": 0
+      }
+    },
+    {
+      "pbit_map": "0b00010010",
+      "aes_encryption": "True",
+      "scheduling_policy": "StrictPriority",
+      "priority_q": 17,
+      "weight": 100,
+      "discard_policy": "TailDrop",
+      "max_q_size": "auto",
+      "discard_config": {
+        "max_threshold": 0,
+        "min_threshold": 0,
+        "max_probability": 0
+      }
+    },
+    {
+      "pbit_map": "0b00010011",
+      "aes_encryption": "True",
+      "scheduling_policy": "StrictPriority",
+      "priority_q": 18,
+      "weight": 100,
+      "discard_policy": "TailDrop",
+      "max_q_size": "auto",
+      "discard_config": {
+        "max_threshold": 0,
+        "min_threshold": 0,
+        "max_probability": 0
+      }
+    },
+    {
+      "pbit_map": "0b00010100",
+      "aes_encryption": "True",
+      "scheduling_policy": "StrictPriority",
+      "priority_q": 19,
+      "weight": 100,
+      "discard_policy": "TailDrop",
+      "max_q_size": "auto",
+      "discard_config": {
+        "max_threshold": 0,
+        "min_threshold": 0,
+        "max_probability": 0
+      }
+    },
+    {
+      "pbit_map": "0b00010101",
+      "aes_encryption": "True",
+      "scheduling_policy": "StrictPriority",
+      "priority_q": 20,
+      "weight": 100,
+      "discard_policy": "TailDrop",
+      "max_q_size": "auto",
+      "discard_config": {
+        "max_threshold": 0,
+        "min_threshold": 0,
+        "max_probability": 0
+      }
+    },
+    {
+      "pbit_map": "0b00010110",
+      "aes_encryption": "True",
+      "scheduling_policy": "StrictPriority",
+      "priority_q": 21,
+      "weight": 100,
+      "discard_policy": "TailDrop",
+      "max_q_size": "auto",
+      "discard_config": {
+        "max_threshold": 0,
+        "min_threshold": 0,
+        "max_probability": 0
+      }
+    },
+    {
+      "pbit_map": "0b00010111",
+      "aes_encryption": "True",
+      "scheduling_policy": "StrictPriority",
+      "priority_q": 22,
+      "weight": 100,
+      "discard_policy": "TailDrop",
+      "max_q_size": "auto",
+      "discard_config": {
+        "min_threshold": 0,
+        "max_threshold": 0,
+        "max_probability": 0
+      }
+    },
+    {
+      "pbit_map": "0b00011000",
+      "aes_encryption": "True",
+      "scheduling_policy": "StrictPriority",
+      "priority_q": 23,
+      "weight": 100,
+      "discard_policy": "TailDrop",
+      "max_q_size": "auto",
+      "discard_config": {
+        "min_threshold": 0,
+        "max_threshold": 0,
+        "max_probability": 0
+      }
+    },
+    {
+      "pbit_map": "0b00011001",
+      "aes_encryption": "True",
+      "scheduling_policy": "StrictPriority",
+      "priority_q": 24,
+      "weight": 100,
+      "discard_policy": "TailDrop",
+      "max_q_size": "auto",
+      "discard_config": {
+        "min_threshold": 0,
+        "max_threshold": 0,
+        "max_probability": 0
+      }
+    },
+    {
+      "pbit_map": "0b00011010",
+      "aes_encryption": "True",
+      "scheduling_policy": "StrictPriority",
+      "priority_q": 25,
+      "weight": 100,
+      "discard_policy": "TailDrop",
+      "max_q_size": "auto",
+      "discard_config": {
+        "min_threshold": 0,
+        "max_threshold": 0,
+        "max_probability": 0
+      }
+    },
+    {
+      "pbit_map": "0b00011011",
+      "aes_encryption": "True",
+      "scheduling_policy": "StrictPriority",
+      "priority_q": 26,
+      "weight": 100,
+      "discard_policy": "TailDrop",
+      "max_q_size": "auto",
+      "discard_config": {
+        "min_threshold": 0,
+        "max_threshold": 0,
+        "max_probability": 0
+      }
+    },
+    {
+      "pbit_map": "0b00011100",
+      "aes_encryption": "True",
+      "scheduling_policy": "StrictPriority",
+      "priority_q": 27,
+      "weight": 100,
+      "discard_policy": "TailDrop",
+      "max_q_size": "auto",
+      "discard_config": {
+        "min_threshold": 0,
+        "max_threshold": 0,
+        "max_probability": 0
+      }
+    },
+    {
+      "pbit_map": "0b00011101",
+      "aes_encryption": "True",
+      "scheduling_policy": "StrictPriority",
+      "priority_q": 28,
+      "weight": 100,
+      "discard_policy": "TailDrop",
+      "max_q_size": "auto",
+      "discard_config": {
+        "min_threshold": 0,
+        "max_threshold": 0,
+        "max_probability": 0
+      }
+    },
+    {
+      "pbit_map": "0b00011110",
+      "aes_encryption": "True",
+      "scheduling_policy": "StrictPriority",
+      "priority_q": 29,
+      "weight": 100,
+      "discard_policy": "TailDrop",
+      "max_q_size": "auto",
+      "discard_config": {
+        "min_threshold": 0,
+        "max_threshold": 0,
+        "max_probability": 0
+      }
+    },
+    {
+      "pbit_map": "0b00011111",
+      "aes_encryption": "True",
+      "scheduling_policy": "StrictPriority",
+      "priority_q": 30,
+      "weight": 100,
+      "discard_policy": "TailDrop",
+      "max_q_size": "auto",
+      "discard_config": {
+        "min_threshold": 0,
+        "max_threshold": 0,
+        "max_probability": 0
+      }
+    },
+    {
+      "pbit_map": "0b00100000",
+      "aes_encryption": "True",
+      "scheduling_policy": "StrictPriority",
+      "priority_q": 31,
+      "weight": 100,
+      "discard_policy": "TailDrop",
+      "max_q_size": "auto",
+      "discard_config": {
+        "min_threshold": 0,
+        "max_threshold": 0,
+        "max_probability": 0
+      }
+    },
+    {
+      "pbit_map": "0b00100001",
+      "aes_encryption": "True",
+      "scheduling_policy": "StrictPriority",
+      "priority_q": 32,
+      "weight": 100,
+      "discard_policy": "TailDrop",
+      "max_q_size": "auto",
+      "discard_config": {
+        "min_threshold": 0,
+        "max_threshold": 0,
+        "max_probability": 0
+      }
+    },
+    {
+      "pbit_map": "0b00100010",
+      "aes_encryption": "True",
+      "scheduling_policy": "StrictPriority",
+      "priority_q": 33,
+      "weight": 100,
+      "discard_policy": "TailDrop",
+      "max_q_size": "auto",
+      "discard_config": {
+        "min_threshold": 0,
+        "max_threshold": 0,
+        "max_probability": 0
+      }
+    },
+    {
+      "pbit_map": "0b00100011",
+      "aes_encryption": "True",
+      "scheduling_policy": "StrictPriority",
+      "priority_q": 34,
+      "weight": 100,
+      "discard_policy": "TailDrop",
+      "max_q_size": "auto",
+      "discard_config": {
+        "min_threshold": 0,
+        "max_threshold": 0,
+        "max_probability": 0
+      }
+    },
+    {
+      "pbit_map": "0b00100100",
+      "aes_encryption": "True",
+      "scheduling_policy": "StrictPriority",
+      "priority_q": 35,
+      "weight": 100,
+      "discard_policy": "TailDrop",
+      "max_q_size": "auto",
+      "discard_config": {
+        "min_threshold": 0,
+        "max_threshold": 0,
+        "max_probability": 0
+      }
+    },
+    {
+      "pbit_map": "0b00100101",
+      "aes_encryption": "True",
+      "scheduling_policy": "StrictPriority",
+      "priority_q": 36,
+      "weight": 100,
+      "discard_policy": "TailDrop",
+      "max_q_size": "auto",
+      "discard_config": {
+        "min_threshold": 0,
+        "max_threshold": 0,
+        "max_probability": 0
+      }
+    },
+    {
+      "pbit_map": "0b00100110",
+      "aes_encryption": "True",
+      "scheduling_policy": "StrictPriority",
+      "priority_q": 37,
+      "weight": 100,
+      "discard_policy": "TailDrop",
+      "max_q_size": "auto",
+      "discard_config": {
+        "min_threshold": 0,
+        "max_threshold": 0,
+        "max_probability": 0
+      }
+    },
+    {
+      "pbit_map": "0b00100111",
+      "aes_encryption": "True",
+      "scheduling_policy": "StrictPriority",
+      "priority_q": 38,
+      "weight": 100,
+      "discard_policy": "TailDrop",
+      "max_q_size": "auto",
+      "discard_config": {
+        "min_threshold": 0,
+        "max_threshold": 0,
+        "max_probability": 0
+      }
+    },
+    {
+      "pbit_map": "0b00101000",
+      "aes_encryption": "True",
+      "scheduling_policy": "StrictPriority",
+      "priority_q": 39,
+      "weight": 100,
+      "discard_policy": "TailDrop",
+      "max_q_size": "auto",
+      "discard_config": {
+        "min_threshold": 0,
+        "max_threshold": 0,
+        "max_probability": 0
+      }
+    },
+    {
+      "pbit_map": "0b00101001",
+      "aes_encryption": "True",
+      "scheduling_policy": "StrictPriority",
+      "priority_q": 40,
+      "weight": 100,
+      "discard_policy": "TailDrop",
+      "max_q_size": "auto",
+      "discard_config": {
+        "min_threshold": 0,
+        "max_threshold": 0,
+        "max_probability": 0
+      }
+    },
+    {
+      "pbit_map": "0b00101010",
+      "aes_encryption": "True",
+      "scheduling_policy": "StrictPriority",
+      "priority_q": 41,
+      "weight": 100,
+      "discard_policy": "TailDrop",
+      "max_q_size": "auto",
+      "discard_config": {
+        "min_threshold": 0,
+        "max_threshold": 0,
+        "max_probability": 0
+      }
+    },
+    {
+      "pbit_map": "0b00101011",
+      "aes_encryption": "True",
+      "scheduling_policy": "StrictPriority",
+      "priority_q": 42,
+      "weight": 100,
+      "discard_policy": "TailDrop",
+      "max_q_size": "auto",
+      "discard_config": {
+        "min_threshold": 0,
+        "max_threshold": 0,
+        "max_probability": 0
+      }
+    },
+    {
+      "pbit_map": "0b00101100",
+      "aes_encryption": "True",
+      "scheduling_policy": "StrictPriority",
+      "priority_q": 43,
+      "weight": 100,
+      "discard_policy": "TailDrop",
+      "max_q_size": "auto",
+      "discard_config": {
+        "min_threshold": 0,
+        "max_threshold": 0,
+        "max_probability": 0
+      }
+    },
+    {
+      "pbit_map": "0b00101101",
+      "aes_encryption": "True",
+      "scheduling_policy": "StrictPriority",
+      "priority_q": 44,
+      "weight": 100,
+      "discard_policy": "TailDrop",
+      "max_q_size": "auto",
+      "discard_config": {
+        "min_threshold": 0,
+        "max_threshold": 0,
+        "max_probability": 0
+      }
+    },
+    {
+      "pbit_map": "0b00101110",
+      "aes_encryption": "True",
+      "scheduling_policy": "StrictPriority",
+      "priority_q": 45,
+      "weight": 100,
+      "discard_policy": "TailDrop",
+      "max_q_size": "auto",
+      "discard_config": {
+        "min_threshold": 0,
+        "max_threshold": 0,
+        "max_probability": 0
+      }
+    },
+    {
+      "pbit_map": "0b00101111",
+      "aes_encryption": "True",
+      "scheduling_policy": "StrictPriority",
+      "priority_q": 46,
+      "weight": 100,
+      "discard_policy": "TailDrop",
+      "max_q_size": "auto",
+      "discard_config": {
+        "min_threshold": 0,
+        "max_threshold": 0,
+        "max_probability": 0
+      }
+    },
+    {
+      "pbit_map": "0b00110000",
+      "aes_encryption": "True",
+      "scheduling_policy": "StrictPriority",
+      "priority_q": 47,
+      "weight": 100,
+      "discard_policy": "TailDrop",
+      "max_q_size": "auto",
+      "discard_config": {
+        "min_threshold": 0,
+        "max_threshold": 0,
+        "max_probability": 0
+      }
+    },
+    {
+      "pbit_map": "0b00110001",
+      "aes_encryption": "True",
+      "scheduling_policy": "StrictPriority",
+      "priority_q": 48,
+      "weight": 100,
+      "discard_policy": "TailDrop",
+      "max_q_size": "auto",
+      "discard_config": {
+        "min_threshold": 0,
+        "max_threshold": 0,
+        "max_probability": 0
+      }
+    },
+    {
+      "pbit_map": "0b00110010",
+      "aes_encryption": "True",
+      "scheduling_policy": "StrictPriority",
+      "priority_q": 49,
+      "weight": 100,
+      "discard_policy": "TailDrop",
+      "max_q_size": "auto",
+      "discard_config": {
+        "min_threshold": 0,
+        "max_threshold": 0,
+        "max_probability": 0
+      }
+    },
+    {
+      "pbit_map": "0b00110011",
+      "aes_encryption": "True",
+      "scheduling_policy": "StrictPriority",
+      "priority_q": 50,
+      "weight": 100,
+      "discard_policy": "TailDrop",
+      "max_q_size": "auto",
+      "discard_config": {
+        "min_threshold": 0,
+        "max_threshold": 0,
+        "max_probability": 0
+      }
+    },
+    {
+      "pbit_map": "0b00110100",
+      "aes_encryption": "True",
+      "scheduling_policy": "StrictPriority",
+      "priority_q": 51,
+      "weight": 100,
+      "discard_policy": "TailDrop",
+      "max_q_size": "auto",
+      "discard_config": {
+        "min_threshold": 0,
+        "max_threshold": 0,
+        "max_probability": 0
+      }
+    },
+    {
+      "pbit_map": "0b00110101",
+      "aes_encryption": "True",
+      "scheduling_policy": "StrictPriority",
+      "priority_q": 52,
+      "weight": 100,
+      "discard_policy": "TailDrop",
+      "max_q_size": "auto",
+      "discard_config": {
+        "min_threshold": 0,
+        "max_threshold": 0,
+        "max_probability": 0
+      }
+    },
+    {
+      "pbit_map": "0b00110110",
+      "aes_encryption": "True",
+      "scheduling_policy": "StrictPriority",
+      "priority_q": 53,
+      "weight": 100,
+      "discard_policy": "TailDrop",
+      "max_q_size": "auto",
+      "discard_config": {
+        "min_threshold": 0,
+        "max_threshold": 0,
+        "max_probability": 0
+      }
+    },
+    {
+      "pbit_map": "0b00110111",
+      "aes_encryption": "True",
+      "scheduling_policy": "StrictPriority",
+      "priority_q": 54,
+      "weight": 100,
+      "discard_policy": "TailDrop",
+      "max_q_size": "auto",
+      "discard_config": {
+        "min_threshold": 0,
+        "max_threshold": 0,
+        "max_probability": 0
+      }
+    },
+    {
+      "pbit_map": "0b00111000",
+      "aes_encryption": "True",
+      "scheduling_policy": "StrictPriority",
+      "priority_q": 55,
+      "weight": 100,
+      "discard_policy": "TailDrop",
+      "max_q_size": "auto",
+      "discard_config": {
+        "min_threshold": 0,
+        "max_threshold": 0,
+        "max_probability": 0
+      }
+    },
+    {
+      "pbit_map": "0b00111001",
+      "aes_encryption": "True",
+      "scheduling_policy": "StrictPriority",
+      "priority_q": 56,
+      "weight": 100,
+      "discard_policy": "TailDrop",
+      "max_q_size": "auto",
+      "discard_config": {
+        "min_threshold": 0,
+        "max_threshold": 0,
+        "max_probability": 0
+      }
+    },
+    {
+      "pbit_map": "0b00111010",
+      "aes_encryption": "True",
+      "scheduling_policy": "StrictPriority",
+      "priority_q": 57,
+      "weight": 100,
+      "discard_policy": "TailDrop",
+      "max_q_size": "auto",
+      "discard_config": {
+        "min_threshold": 0,
+        "max_threshold": 0,
+        "max_probability": 0
+      }
+    },
+    {
+      "pbit_map": "0b00111011",
+      "aes_encryption": "True",
+      "scheduling_policy": "StrictPriority",
+      "priority_q": 58,
+      "weight": 100,
+      "discard_policy": "TailDrop",
+      "max_q_size": "auto",
+      "discard_config": {
+        "min_threshold": 0,
+        "max_threshold": 0,
+        "max_probability": 0
+      }
+    },
+    {
+      "pbit_map": "0b00111100",
+      "aes_encryption": "True",
+      "scheduling_policy": "StrictPriority",
+      "priority_q": 59,
+      "weight": 100,
+      "discard_policy": "TailDrop",
+      "max_q_size": "auto",
+      "discard_config": {
+        "min_threshold": 0,
+        "max_threshold": 0,
+        "max_probability": 0
+      }
+    },
+    {
+      "pbit_map": "0b00111101",
+      "aes_encryption": "True",
+      "scheduling_policy": "StrictPriority",
+      "priority_q": 60,
+      "weight": 100,
+      "discard_policy": "TailDrop",
+      "max_q_size": "auto",
+      "discard_config": {
+        "min_threshold": 0,
+        "max_threshold": 0,
+        "max_probability": 0
+      }
+    },
+    {
+      "pbit_map": "0b00111110",
+      "aes_encryption": "True",
+      "scheduling_policy": "StrictPriority",
+      "priority_q": 61,
+      "weight": 100,
+      "discard_policy": "TailDrop",
+      "max_q_size": "auto",
+      "discard_config": {
+        "min_threshold": 0,
+        "max_threshold": 0,
+        "max_probability": 0
+      }
+    },
+    {
+      "pbit_map": "0b00111111",
+      "aes_encryption": "True",
+      "scheduling_policy": "StrictPriority",
+      "priority_q": 62,
+      "weight": 100,
+      "discard_policy": "TailDrop",
+      "max_q_size": "auto",
+      "discard_config": {
+        "min_threshold": 0,
+        "max_threshold": 0,
+        "max_probability": 0
+      }
+    },
+    {
+      "pbit_map": "0b01000000",
+      "aes_encryption": "True",
+      "scheduling_policy": "StrictPriority",
+      "priority_q": 63,
+      "weight": 100,
+      "discard_policy": "TailDrop",
+      "max_q_size": "auto",
+      "discard_config": {
+        "min_threshold": 0,
+        "max_threshold": 0,
+        "max_probability": 0
+      }
+    },
+    {
+      "pbit_map": "0b01000001",
+      "aes_encryption": "True",
+      "scheduling_policy": "StrictPriority",
+      "priority_q": 64,
+      "weight": 100,
+      "discard_policy": "TailDrop",
+      "max_q_size": "auto",
+      "discard_config": {
+        "min_threshold": 0,
+        "max_threshold": 0,
+        "max_probability": 0
+      }
+    }
+  ],
+  "downstream_gem_port_attribute_list": [
+    {
+      "pbit_map": "0b00000001",
+      "aes_encryption": "True",
+      "scheduling_policy": "StrictPriority",
+      "priority_q": 0,
+      "weight": 100,
+      "discard_policy": "TailDrop",
+      "max_q_size": "auto",
+      "discard_config": {
+        "max_threshold": 0,
+        "min_threshold": 0,
+        "max_probability": 0
+      }
+    },
+    {
+      "pbit_map": "0b00000010",
+      "aes_encryption": "True",
+      "scheduling_policy": "StrictPriority",
+      "priority_q": 1,
+      "weight": 100,
+      "discard_policy": "TailDrop",
+      "max_q_size": "auto",
+      "discard_config": {
+        "max_threshold": 0,
+        "min_threshold": 0,
+        "max_probability": 0
+      }
+    },
+    {
+      "pbit_map": "0b00000011",
+      "aes_encryption": "True",
+      "scheduling_policy": "StrictPriority",
+      "priority_q": 2,
+      "weight": 100,
+      "discard_policy": "TailDrop",
+      "max_q_size": "auto",
+      "discard_config": {
+        "max_threshold": 0,
+        "min_threshold": 0,
+        "max_probability": 0
+      }
+    },
+    {
+      "pbit_map": "0b00000100",
+      "aes_encryption": "True",
+      "scheduling_policy": "StrictPriority",
+      "priority_q": 3,
+      "weight": 100,
+      "discard_policy": "TailDrop",
+      "max_q_size": "auto",
+      "discard_config": {
+        "max_threshold": 0,
+        "min_threshold": 0,
+        "max_probability": 0
+      }
+    },
+    {
+      "pbit_map": "0b00000101",
+      "aes_encryption": "True",
+      "scheduling_policy": "StrictPriority",
+      "priority_q": 4,
+      "weight": 100,
+      "discard_policy": "TailDrop",
+      "max_q_size": "auto",
+      "discard_config": {
+        "max_threshold": 0,
+        "min_threshold": 0,
+        "max_probability": 0
+      }
+    },
+    {
+      "pbit_map": "0b00000110",
+      "aes_encryption": "True",
+      "scheduling_policy": "StrictPriority",
+      "priority_q": 5,
+      "weight": 100,
+      "discard_policy": "TailDrop",
+      "max_q_size": "auto",
+      "discard_config": {
+        "min_threshold": 0,
+        "max_threshold": 0,
+        "max_probability": 0
+      }
+    },
+    {
+      "pbit_map": "0b00000111",
+      "aes_encryption": "True",
+      "scheduling_policy": "StrictPriority",
+      "priority_q": 6,
+      "weight": 100,
+      "discard_policy": "TailDrop",
+      "max_q_size": "auto",
+      "discard_config": {
+        "min_threshold": 0,
+        "max_threshold": 0,
+        "max_probability": 0
+      }
+    },
+    {
+      "pbit_map": "0b0001000",
+      "aes_encryption": "True",
+      "scheduling_policy": "StrictPriority",
+      "priority_q": 7,
+      "weight": 100,
+      "discard_policy": "TailDrop",
+      "max_q_size": "auto",
+      "discard_config": {
+        "min_threshold": 0,
+        "max_threshold": 0,
+        "max_probability": 0
+      }
+    },
+    {
+      "pbit_map": "0b00001001",
+      "aes_encryption": "True",
+      "scheduling_policy": "StrictPriority",
+      "priority_q": 8,
+      "weight": 100,
+      "discard_policy": "TailDrop",
+      "max_q_size": "auto",
+      "discard_config": {
+        "max_threshold": 0,
+        "min_threshold": 0,
+        "max_probability": 0
+      }
+    },
+    {
+      "pbit_map": "0b00001010",
+      "aes_encryption": "True",
+      "scheduling_policy": "StrictPriority",
+      "priority_q": 9,
+      "weight": 100,
+      "discard_policy": "TailDrop",
+      "max_q_size": "auto",
+      "discard_config": {
+        "max_threshold": 0,
+        "min_threshold": 0,
+        "max_probability": 0
+      }
+    },
+    {
+      "pbit_map": "0b00001011",
+      "aes_encryption": "True",
+      "scheduling_policy": "StrictPriority",
+      "priority_q": 10,
+      "weight": 100,
+      "discard_policy": "TailDrop",
+      "max_q_size": "auto",
+      "discard_config": {
+        "max_threshold": 0,
+        "min_threshold": 0,
+        "max_probability": 0
+      }
+    },
+    {
+      "pbit_map": "0b00001100",
+      "aes_encryption": "True",
+      "scheduling_policy": "StrictPriority",
+      "priority_q": 11,
+      "weight": 100,
+      "discard_policy": "TailDrop",
+      "max_q_size": "auto",
+      "discard_config": {
+        "max_threshold": 0,
+        "min_threshold": 0,
+        "max_probability": 0
+      }
+    },
+    {
+      "pbit_map": "0b00001101",
+      "aes_encryption": "True",
+      "scheduling_policy": "StrictPriority",
+      "priority_q": 12,
+      "weight": 100,
+      "discard_policy": "TailDrop",
+      "max_q_size": "auto",
+      "discard_config": {
+        "max_threshold": 0,
+        "min_threshold": 0,
+        "max_probability": 0
+      }
+    },
+    {
+      "pbit_map": "0b000001110",
+      "aes_encryption": "True",
+      "scheduling_policy": "StrictPriority",
+      "priority_q": 13,
+      "weight": 100,
+      "discard_policy": "TailDrop",
+      "max_q_size": "auto",
+      "discard_config": {
+        "min_threshold": 0,
+        "max_threshold": 0,
+        "max_probability": 0
+      }
+    },
+    {
+      "pbit_map": "0b00001111",
+      "aes_encryption": "True",
+      "scheduling_policy": "StrictPriority",
+      "priority_q": 14,
+      "weight": 100,
+      "discard_policy": "TailDrop",
+      "max_q_size": "auto",
+      "discard_config": {
+        "min_threshold": 0,
+        "max_threshold": 0,
+        "max_probability": 0
+      }
+    },
+    {
+      "pbit_map": "0b00010000",
+      "aes_encryption": "True",
+      "scheduling_policy": "StrictPriority",
+      "priority_q": 15,
+      "weight": 100,
+      "discard_policy": "TailDrop",
+      "max_q_size": "auto",
+      "discard_config": {
+        "min_threshold": 0,
+        "max_threshold": 0,
+        "max_probability": 0
+      }
+    },
+    {
+      "pbit_map": "0b00010001",
+      "aes_encryption": "True",
+      "scheduling_policy": "StrictPriority",
+      "priority_q": 16,
+      "weight": 100,
+      "discard_policy": "TailDrop",
+      "max_q_size": "auto",
+      "discard_config": {
+        "min_threshold": 0,
+        "max_threshold": 0,
+        "max_probability": 0
+      }
+    },
+    {
+      "pbit_map": "0b00010010",
+      "aes_encryption": "True",
+      "scheduling_policy": "StrictPriority",
+      "priority_q": 17,
+      "weight": 100,
+      "discard_policy": "TailDrop",
+      "max_q_size": "auto",
+      "discard_config": {
+        "max_threshold": 0,
+        "min_threshold": 0,
+        "max_probability": 0
+      }
+    },
+    {
+      "pbit_map": "0b00010011",
+      "aes_encryption": "True",
+      "scheduling_policy": "StrictPriority",
+      "priority_q": 18,
+      "weight": 100,
+      "discard_policy": "TailDrop",
+      "max_q_size": "auto",
+      "discard_config": {
+        "max_threshold": 0,
+        "min_threshold": 0,
+        "max_probability": 0
+      }
+    },
+    {
+      "pbit_map": "0b00010100",
+      "aes_encryption": "True",
+      "scheduling_policy": "StrictPriority",
+      "priority_q": 19,
+      "weight": 100,
+      "discard_policy": "TailDrop",
+      "max_q_size": "auto",
+      "discard_config": {
+        "max_threshold": 0,
+        "min_threshold": 0,
+        "max_probability": 0
+      }
+    },
+    {
+      "pbit_map": "0b00010101",
+      "aes_encryption": "True",
+      "scheduling_policy": "StrictPriority",
+      "priority_q": 20,
+      "weight": 100,
+      "discard_policy": "TailDrop",
+      "max_q_size": "auto",
+      "discard_config": {
+        "max_threshold": 0,
+        "min_threshold": 0,
+        "max_probability": 0
+      }
+    },
+    {
+      "pbit_map": "0b00010110",
+      "aes_encryption": "True",
+      "scheduling_policy": "StrictPriority",
+      "priority_q": 21,
+      "weight": 100,
+      "discard_policy": "TailDrop",
+      "max_q_size": "auto",
+      "discard_config": {
+        "max_threshold": 0,
+        "min_threshold": 0,
+        "max_probability": 0
+      }
+    },
+    {
+      "pbit_map": "0b00010111",
+      "aes_encryption": "True",
+      "scheduling_policy": "StrictPriority",
+      "priority_q": 22,
+      "weight": 100,
+      "discard_policy": "TailDrop",
+      "max_q_size": "auto",
+      "discard_config": {
+        "min_threshold": 0,
+        "max_threshold": 0,
+        "max_probability": 0
+      }
+    },
+    {
+      "pbit_map": "0b00011000",
+      "aes_encryption": "True",
+      "scheduling_policy": "StrictPriority",
+      "priority_q": 23,
+      "weight": 100,
+      "discard_policy": "TailDrop",
+      "max_q_size": "auto",
+      "discard_config": {
+        "min_threshold": 0,
+        "max_threshold": 0,
+        "max_probability": 0
+      }
+    },
+    {
+      "pbit_map": "0b00011001",
+      "aes_encryption": "True",
+      "scheduling_policy": "StrictPriority",
+      "priority_q": 24,
+      "weight": 100,
+      "discard_policy": "TailDrop",
+      "max_q_size": "auto",
+      "discard_config": {
+        "min_threshold": 0,
+        "max_threshold": 0,
+        "max_probability": 0
+      }
+    },
+    {
+      "pbit_map": "0b00011010",
+      "aes_encryption": "True",
+      "scheduling_policy": "StrictPriority",
+      "priority_q": 25,
+      "weight": 100,
+      "discard_policy": "TailDrop",
+      "max_q_size": "auto",
+      "discard_config": {
+        "min_threshold": 0,
+        "max_threshold": 0,
+        "max_probability": 0
+      }
+    },
+    {
+      "pbit_map": "0b00011011",
+      "aes_encryption": "True",
+      "scheduling_policy": "StrictPriority",
+      "priority_q": 26,
+      "weight": 100,
+      "discard_policy": "TailDrop",
+      "max_q_size": "auto",
+      "discard_config": {
+        "min_threshold": 0,
+        "max_threshold": 0,
+        "max_probability": 0
+      }
+    },
+    {
+      "pbit_map": "0b00011100",
+      "aes_encryption": "True",
+      "scheduling_policy": "StrictPriority",
+      "priority_q": 27,
+      "weight": 100,
+      "discard_policy": "TailDrop",
+      "max_q_size": "auto",
+      "discard_config": {
+        "min_threshold": 0,
+        "max_threshold": 0,
+        "max_probability": 0
+      }
+    },
+    {
+      "pbit_map": "0b00011101",
+      "aes_encryption": "True",
+      "scheduling_policy": "StrictPriority",
+      "priority_q": 28,
+      "weight": 100,
+      "discard_policy": "TailDrop",
+      "max_q_size": "auto",
+      "discard_config": {
+        "min_threshold": 0,
+        "max_threshold": 0,
+        "max_probability": 0
+      }
+    },
+    {
+      "pbit_map": "0b00011110",
+      "aes_encryption": "True",
+      "scheduling_policy": "StrictPriority",
+      "priority_q": 29,
+      "weight": 100,
+      "discard_policy": "TailDrop",
+      "max_q_size": "auto",
+      "discard_config": {
+        "min_threshold": 0,
+        "max_threshold": 0,
+        "max_probability": 0
+      }
+    },
+    {
+      "pbit_map": "0b00011111",
+      "aes_encryption": "True",
+      "scheduling_policy": "StrictPriority",
+      "priority_q": 30,
+      "weight": 100,
+      "discard_policy": "TailDrop",
+      "max_q_size": "auto",
+      "discard_config": {
+        "min_threshold": 0,
+        "max_threshold": 0,
+        "max_probability": 0
+      }
+    },
+    {
+      "pbit_map": "0b00100000",
+      "aes_encryption": "True",
+      "scheduling_policy": "StrictPriority",
+      "priority_q": 31,
+      "weight": 100,
+      "discard_policy": "TailDrop",
+      "max_q_size": "auto",
+      "discard_config": {
+        "min_threshold": 0,
+        "max_threshold": 0,
+        "max_probability": 0
+      }
+    },
+    {
+      "pbit_map": "0b00100001",
+      "aes_encryption": "True",
+      "scheduling_policy": "StrictPriority",
+      "priority_q": 32,
+      "weight": 100,
+      "discard_policy": "TailDrop",
+      "max_q_size": "auto",
+      "discard_config": {
+        "min_threshold": 0,
+        "max_threshold": 0,
+        "max_probability": 0
+      }
+    },
+    {
+      "pbit_map": "0b00100010",
+      "aes_encryption": "True",
+      "scheduling_policy": "StrictPriority",
+      "priority_q": 33,
+      "weight": 100,
+      "discard_policy": "TailDrop",
+      "max_q_size": "auto",
+      "discard_config": {
+        "min_threshold": 0,
+        "max_threshold": 0,
+        "max_probability": 0
+      }
+    },
+    {
+      "pbit_map": "0b00100011",
+      "aes_encryption": "True",
+      "scheduling_policy": "StrictPriority",
+      "priority_q": 34,
+      "weight": 100,
+      "discard_policy": "TailDrop",
+      "max_q_size": "auto",
+      "discard_config": {
+        "min_threshold": 0,
+        "max_threshold": 0,
+        "max_probability": 0
+      }
+    },
+    {
+      "pbit_map": "0b00100100",
+      "aes_encryption": "True",
+      "scheduling_policy": "StrictPriority",
+      "priority_q": 35,
+      "weight": 100,
+      "discard_policy": "TailDrop",
+      "max_q_size": "auto",
+      "discard_config": {
+        "min_threshold": 0,
+        "max_threshold": 0,
+        "max_probability": 0
+      }
+    },
+    {
+      "pbit_map": "0b00100101",
+      "aes_encryption": "True",
+      "scheduling_policy": "StrictPriority",
+      "priority_q": 36,
+      "weight": 100,
+      "discard_policy": "TailDrop",
+      "max_q_size": "auto",
+      "discard_config": {
+        "min_threshold": 0,
+        "max_threshold": 0,
+        "max_probability": 0
+      }
+    },
+    {
+      "pbit_map": "0b00100110",
+      "aes_encryption": "True",
+      "scheduling_policy": "StrictPriority",
+      "priority_q": 37,
+      "weight": 100,
+      "discard_policy": "TailDrop",
+      "max_q_size": "auto",
+      "discard_config": {
+        "min_threshold": 0,
+        "max_threshold": 0,
+        "max_probability": 0
+      }
+    },
+    {
+      "pbit_map": "0b00100111",
+      "aes_encryption": "True",
+      "scheduling_policy": "StrictPriority",
+      "priority_q": 38,
+      "weight": 100,
+      "discard_policy": "TailDrop",
+      "max_q_size": "auto",
+      "discard_config": {
+        "min_threshold": 0,
+        "max_threshold": 0,
+        "max_probability": 0
+      }
+    },
+    {
+      "pbit_map": "0b00101000",
+      "aes_encryption": "True",
+      "scheduling_policy": "StrictPriority",
+      "priority_q": 39,
+      "weight": 100,
+      "discard_policy": "TailDrop",
+      "max_q_size": "auto",
+      "discard_config": {
+        "min_threshold": 0,
+        "max_threshold": 0,
+        "max_probability": 0
+      }
+    },
+    {
+      "pbit_map": "0b00101001",
+      "aes_encryption": "True",
+      "scheduling_policy": "StrictPriority",
+      "priority_q": 40,
+      "weight": 100,
+      "discard_policy": "TailDrop",
+      "max_q_size": "auto",
+      "discard_config": {
+        "min_threshold": 0,
+        "max_threshold": 0,
+        "max_probability": 0
+      }
+    },
+    {
+      "pbit_map": "0b00101010",
+      "aes_encryption": "True",
+      "scheduling_policy": "StrictPriority",
+      "priority_q": 41,
+      "weight": 100,
+      "discard_policy": "TailDrop",
+      "max_q_size": "auto",
+      "discard_config": {
+        "min_threshold": 0,
+        "max_threshold": 0,
+        "max_probability": 0
+      }
+    },
+    {
+      "pbit_map": "0b00101011",
+      "aes_encryption": "True",
+      "scheduling_policy": "StrictPriority",
+      "priority_q": 42,
+      "weight": 100,
+      "discard_policy": "TailDrop",
+      "max_q_size": "auto",
+      "discard_config": {
+        "min_threshold": 0,
+        "max_threshold": 0,
+        "max_probability": 0
+      }
+    },
+    {
+      "pbit_map": "0b00101100",
+      "aes_encryption": "True",
+      "scheduling_policy": "StrictPriority",
+      "priority_q": 43,
+      "weight": 100,
+      "discard_policy": "TailDrop",
+      "max_q_size": "auto",
+      "discard_config": {
+        "min_threshold": 0,
+        "max_threshold": 0,
+        "max_probability": 0
+      }
+    },
+    {
+      "pbit_map": "0b00101101",
+      "aes_encryption": "True",
+      "scheduling_policy": "StrictPriority",
+      "priority_q": 44,
+      "weight": 100,
+      "discard_policy": "TailDrop",
+      "max_q_size": "auto",
+      "discard_config": {
+        "min_threshold": 0,
+        "max_threshold": 0,
+        "max_probability": 0
+      }
+    },
+    {
+      "pbit_map": "0b00101110",
+      "aes_encryption": "True",
+      "scheduling_policy": "StrictPriority",
+      "priority_q": 45,
+      "weight": 100,
+      "discard_policy": "TailDrop",
+      "max_q_size": "auto",
+      "discard_config": {
+        "min_threshold": 0,
+        "max_threshold": 0,
+        "max_probability": 0
+      }
+    },
+    {
+      "pbit_map": "0b00101111",
+      "aes_encryption": "True",
+      "scheduling_policy": "StrictPriority",
+      "priority_q": 46,
+      "weight": 100,
+      "discard_policy": "TailDrop",
+      "max_q_size": "auto",
+      "discard_config": {
+        "min_threshold": 0,
+        "max_threshold": 0,
+        "max_probability": 0
+      }
+    },
+    {
+      "pbit_map": "0b00110000",
+      "aes_encryption": "True",
+      "scheduling_policy": "StrictPriority",
+      "priority_q": 47,
+      "weight": 100,
+      "discard_policy": "TailDrop",
+      "max_q_size": "auto",
+      "discard_config": {
+        "min_threshold": 0,
+        "max_threshold": 0,
+        "max_probability": 0
+      }
+    },
+    {
+      "pbit_map": "0b00110001",
+      "aes_encryption": "True",
+      "scheduling_policy": "StrictPriority",
+      "priority_q": 48,
+      "weight": 100,
+      "discard_policy": "TailDrop",
+      "max_q_size": "auto",
+      "discard_config": {
+        "min_threshold": 0,
+        "max_threshold": 0,
+        "max_probability": 0
+      }
+    },
+    {
+      "pbit_map": "0b00110010",
+      "aes_encryption": "True",
+      "scheduling_policy": "StrictPriority",
+      "priority_q": 49,
+      "weight": 100,
+      "discard_policy": "TailDrop",
+      "max_q_size": "auto",
+      "discard_config": {
+        "min_threshold": 0,
+        "max_threshold": 0,
+        "max_probability": 0
+      }
+    },
+    {
+      "pbit_map": "0b00110011",
+      "aes_encryption": "True",
+      "scheduling_policy": "StrictPriority",
+      "priority_q": 50,
+      "weight": 100,
+      "discard_policy": "TailDrop",
+      "max_q_size": "auto",
+      "discard_config": {
+        "min_threshold": 0,
+        "max_threshold": 0,
+        "max_probability": 0
+      }
+    },
+    {
+      "pbit_map": "0b00110100",
+      "aes_encryption": "True",
+      "scheduling_policy": "StrictPriority",
+      "priority_q": 51,
+      "weight": 100,
+      "discard_policy": "TailDrop",
+      "max_q_size": "auto",
+      "discard_config": {
+        "min_threshold": 0,
+        "max_threshold": 0,
+        "max_probability": 0
+      }
+    },
+    {
+      "pbit_map": "0b00110101",
+      "aes_encryption": "True",
+      "scheduling_policy": "StrictPriority",
+      "priority_q": 52,
+      "weight": 100,
+      "discard_policy": "TailDrop",
+      "max_q_size": "auto",
+      "discard_config": {
+        "min_threshold": 0,
+        "max_threshold": 0,
+        "max_probability": 0
+      }
+    },
+    {
+      "pbit_map": "0b00110110",
+      "aes_encryption": "True",
+      "scheduling_policy": "StrictPriority",
+      "priority_q": 53,
+      "weight": 100,
+      "discard_policy": "TailDrop",
+      "max_q_size": "auto",
+      "discard_config": {
+        "min_threshold": 0,
+        "max_threshold": 0,
+        "max_probability": 0
+      }
+    },
+    {
+      "pbit_map": "0b00110111",
+      "aes_encryption": "True",
+      "scheduling_policy": "StrictPriority",
+      "priority_q": 54,
+      "weight": 100,
+      "discard_policy": "TailDrop",
+      "max_q_size": "auto",
+      "discard_config": {
+        "min_threshold": 0,
+        "max_threshold": 0,
+        "max_probability": 0
+      }
+    },
+    {
+      "pbit_map": "0b00111000",
+      "aes_encryption": "True",
+      "scheduling_policy": "StrictPriority",
+      "priority_q": 55,
+      "weight": 100,
+      "discard_policy": "TailDrop",
+      "max_q_size": "auto",
+      "discard_config": {
+        "min_threshold": 0,
+        "max_threshold": 0,
+        "max_probability": 0
+      }
+    },
+    {
+      "pbit_map": "0b00111001",
+      "aes_encryption": "True",
+      "scheduling_policy": "StrictPriority",
+      "priority_q": 56,
+      "weight": 100,
+      "discard_policy": "TailDrop",
+      "max_q_size": "auto",
+      "discard_config": {
+        "min_threshold": 0,
+        "max_threshold": 0,
+        "max_probability": 0
+      }
+    },
+    {
+      "pbit_map": "0b00111010",
+      "aes_encryption": "True",
+      "scheduling_policy": "StrictPriority",
+      "priority_q": 57,
+      "weight": 100,
+      "discard_policy": "TailDrop",
+      "max_q_size": "auto",
+      "discard_config": {
+        "min_threshold": 0,
+        "max_threshold": 0,
+        "max_probability": 0
+      }
+    },
+    {
+      "pbit_map": "0b00111011",
+      "aes_encryption": "True",
+      "scheduling_policy": "StrictPriority",
+      "priority_q": 58,
+      "weight": 100,
+      "discard_policy": "TailDrop",
+      "max_q_size": "auto",
+      "discard_config": {
+        "min_threshold": 0,
+        "max_threshold": 0,
+        "max_probability": 0
+      }
+    },
+    {
+      "pbit_map": "0b00111100",
+      "aes_encryption": "True",
+      "scheduling_policy": "StrictPriority",
+      "priority_q": 59,
+      "weight": 100,
+      "discard_policy": "TailDrop",
+      "max_q_size": "auto",
+      "discard_config": {
+        "min_threshold": 0,
+        "max_threshold": 0,
+        "max_probability": 0
+      }
+    },
+    {
+      "pbit_map": "0b00111101",
+      "aes_encryption": "True",
+      "scheduling_policy": "StrictPriority",
+      "priority_q": 60,
+      "weight": 100,
+      "discard_policy": "TailDrop",
+      "max_q_size": "auto",
+      "discard_config": {
+        "min_threshold": 0,
+        "max_threshold": 0,
+        "max_probability": 0
+      }
+    },
+    {
+      "pbit_map": "0b00111110",
+      "aes_encryption": "True",
+      "scheduling_policy": "StrictPriority",
+      "priority_q": 61,
+      "weight": 100,
+      "discard_policy": "TailDrop",
+      "max_q_size": "auto",
+      "discard_config": {
+        "min_threshold": 0,
+        "max_threshold": 0,
+        "max_probability": 0
+      }
+    },
+    {
+      "pbit_map": "0b00111111",
+      "aes_encryption": "True",
+      "scheduling_policy": "StrictPriority",
+      "priority_q": 62,
+      "weight": 100,
+      "discard_policy": "TailDrop",
+      "max_q_size": "auto",
+      "discard_config": {
+        "min_threshold": 0,
+        "max_threshold": 0,
+        "max_probability": 0
+      }
+    },
+    {
+      "pbit_map": "0b01000000",
+      "aes_encryption": "True",
+      "scheduling_policy": "StrictPriority",
+      "priority_q": 63,
+      "weight": 100,
+      "discard_policy": "TailDrop",
+      "max_q_size": "auto",
+      "discard_config": {
+        "min_threshold": 0,
+        "max_threshold": 0,
+        "max_probability": 0
+      }
+    },
+    {
+      "pbit_map": "0b01000001",
+      "aes_encryption": "True",
+      "scheduling_policy": "StrictPriority",
+      "priority_q": 64,
+      "weight": 100,
+      "discard_policy": "TailDrop",
+      "max_q_size": "auto",
+      "discard_config": {
+        "min_threshold": 0,
+        "max_threshold": 0,
+        "max_probability": 0
+      }
+    }
+  ]
+}

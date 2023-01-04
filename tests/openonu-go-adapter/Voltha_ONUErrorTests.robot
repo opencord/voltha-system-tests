@@ -180,7 +180,7 @@ Verify ONU capabilities against configuration requirements Priority Queues
     ...                see VOL-4827
     [Tags]    functional    ONUCapabilitiesVsConfigReqPrioQueues
     [Setup]   Run Keywords    Start Logging    ONUCapabilitiesVsConfigReqPrioQueues
-    ...    AND    Set Tech Profile   1T17GEM-error-case-priority-queues
+    ...    AND    Set Tech Profile   1T65GEM-error-case-priority-queues
     ...    AND    Setup Test
     kafka.Records Clear
     FOR    ${I}    IN RANGE    0    ${num_olts}
