@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fe1715f7_59f29f2a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2023-01-04T13:12:24Z",
+      "side": 1,
+      "message": "Fix is necessary due enhancement of priority queues supported by BBSIM from 16 to 64. \nPatch ran successfully here: https://jenkins.opencord.org/view/All%20Jobs/job/periodic-voltha-openonu-go-test-bbsim/1597/",
+      "revId": "52ddc9d297a777b6d0bb8a506655fb3939e5077e",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    }
+  ]
+}
