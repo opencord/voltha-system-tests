@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d498a53e_cef8488d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000948
+      },
+      "writtenOn": "2023-01-11T22:09:44Z",
+      "side": 1,
+      "message": "Help the merge along so we can exercise the logic with a real job in voltha-system-tests",
+      "revId": "3451f62d16f57ee667f3c078facf1f1939792cb0",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    }
+  ]
+}
