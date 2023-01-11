@@ -1,4 +1,4 @@
-# Copyright 2020 Open Networking Foundation
+# Copyright 2020-2023 Open Networking Foundation (ONF) and the ONF Contributors
 # delivered by ADTRAN, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
