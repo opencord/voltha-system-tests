@@ -27,12 +27,17 @@ endif
 
 # -----------------------------------------------------------------------
 # Install the 'kail' tool if needed: https://github.com/boz/kail
+#   o WORKSPACE - jenkins aware
+#   o Default to /usr/local/bin/kail
+#       + revisit this, system directories should not be a default path.
+#       + requires sudo and potential exists for overwrite conflict.
 # -----------------------------------------------------------------------
-KAIL_PATH ?= /usr/local/bin
+KAIL_PATH ?= $(if $(WORKSPACE),$(WORKSPACE)/bin,/usr/local/bin)
 kail-cmd  ?= $(KAIL_PATH)/kail
 $(kail-cmd):
 	etc/godownloader.sh -b .
 	rsync -v --checksum kail "$@"
+	$@ version
 	$(RM) kail
 
 .PHONY: kail
