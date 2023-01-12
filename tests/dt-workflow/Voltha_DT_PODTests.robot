@@ -589,6 +589,101 @@ Data plane verification using UDP for DT
         ...    The downstream bandwidth guarantee was not met (${pct_limit_dn}% of resv)
     END
 
+Reconcile with data plane verification using TCP for DT
+    [Documentation]    Test bandwidth profile is met and not exceeded for each subscriber while reconciling openonu-adapter.
+    ...    Assumes iperf3 and jq installed on client and iperf -s running on DHCP server
+    ...    VOL-4829
+    [Tags]    non-critical  dataplaneDt    ReconcileBandwidthProfileTCPPDt    VOL-4829    soakDataplane
+    [Setup]    Start Logging    ReconcileBandwidthProfileTCPPDt
+    [Teardown]    Run Keywords    Run Keyword If    ${logging}    Collect Logs
+    ...           AND    Stop Logging    ReconcileBandwidthProfileTCPPDt
+    #****
+    Pass Execution If   '${has_dataplane}'=='False'    Bandwidth profile validation can be done only in
+    ...    physical pod.  Skipping this test in BBSIM.
+    Run Keyword If    '${SOAK_TEST}'=='False'    Setup    #Clear All Devices Then Create New Device
+    ...    ELSE    Setup Soak
+    Run Keyword If    ${has_dataplane}    Clean Up Linux
+    Perform Sanity Test DT
+    #****
+    ${podStatusOutput}=    Run    kubectl get pods -n ${NAMESPACE}
+    Log    ${podStatusOutput}
+    ${countBeforeRestart}=    Run    kubectl get pods -n ${NAMESPACE} | grep Running | wc -l
+    ${cmdname}=   Set Variable    sleep 10; kubectl -n ${NAMESPACE} get pods -l app=adapter-open-onu -o name
+    ${cmddelete}=   Set Variable    sleep 10; kubectl -n ${NAMESPACE} delete pods -l app=adapter-open-onu
+    FOR    ${I}    IN RANGE    0    ${num_all_onus}
+        ${src}=    Set Variable    ${hosts.src[${I}]}
+        ${dst}=    Set Variable    ${hosts.dst[${I}]}
+        # Check for iperf3 and jq tools
+        ${stdout}    ${stderr}    ${rc}=    Execute Remote Command    which iperf3 jq
+        ...    ${src['ip']}    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
+        Run Keyword If   ${rc} != 0    Log   iperf3 / jq not found on the RG
+        Continue For Loop If    ${rc} != 0
+
+        # Read bandwidth profile per subscriber
+        ${onu_port}=    Wait Until Keyword Succeeds    ${timeout}    2s    Get ONU Port in ONOS    ${src['onu']}
+        ...    ${of_id}    ${src['uni_id']}
+        ${subscriber_id}=    Set Variable    ${of_id}/${onu_port}
+        ${bandwidth_profile_name}    Get Bandwidth Profile Name For Given Subscriber    ${subscriber_id}
+        ...    upstreamBandwidthProfile
+        ${us_cir}    ${us_cbs}    ${us_pir}    ${us_pbs}    ${us_gir}=    Get Bandwidth Profile Details Ietf Rest
+        ...    ${bandwidth_profile_name}
+        ${limiting_bw_value_upstream}=    Set Variable If    ${us_pir} != 0    ${us_pir}    ${us_gir}
+        ${bandwidth_profile_name}    Get Bandwidth Profile Name For Given Subscriber    ${subscriber_id}
+        ...    downstreamBandwidthProfile
+        ${ds_cir}    ${ds_cbs}    ${ds_pir}    ${ds_pbs}    ${ds_gir}=    Get Bandwidth Profile Details Ietf Rest
+        ...    ${bandwidth_profile_name}
+        ${limiting_bw_value_dnstream}=    Set Variable If    ${ds_pir} != 0    ${ds_pir}    ${ds_gir}
+
+        ${rc}    ${namebefore}=    Run and Return Rc and Output    ${cmdname}
+        ${deleteOpenOnuAdapterHdl}=    Start Process    ${cmddelete}    shell=true
+        Set Suite Variable   ${deleteOpenOnuAdapterHdl}
+
+        # Stream TCP packets bidirectional
+        ${bitrate}=    Evaluate    ${ds_pir}*1000
+        ${bidirdict}=    Run Iperf3 Test Client    ${src}    server=${dst['dp_iface_ip_qinq']}
+        ...    args=--bidir -t 30 --bitrate ${bitrate}
+        ${actual_dnstream_bw_used}=    Evaluate    ${bidirdict['end']['sum_received']['bits_per_second']}/1000
+        ${actual_upstream_bw_used}=    Evaluate    ${bidirdict['end']['sum_sent']['bits_per_second']}/1000
+        ${pct_limit_up}=    Evaluate    100*${actual_upstream_bw_used}/${limiting_bw_value_upstream}
+        ${pct_limit_dn}=    Evaluate    100*${actual_dnstream_bw_used}/${limiting_bw_value_dnstream}
+        Log    Up: bwprof ${limiting_bw_value_upstream}Kbps, got ${actual_upstream_bw_used}Kbps (${pct_limit_up}%)
+        Log    Down: bwprof ${limiting_bw_value_dnstream}Kbps, got ${actual_dnstream_bw_used}Kbps (${pct_limit_dn}%)
+
+        ${result_interval}=    Validate Performance Intervals   ${bidirdict}
+        Should Be True    ${result_interval}    At least one transmission interval data rate was too less.
+
+        ${result}=    Terminate Process    ${deleteOpenOnuAdapterHdl}
+        LOG    ${result}
+        ${rc}    ${nameafter}=    Run and Return Rc and Output    ${cmdname}
+        Should Not Be Equal As Strings    ${namebefore}    ${nameafter}    openonu adpater did not reconciled!
+        ${podStatusOutput}=    Run    kubectl get pods -n ${NAMESPACE}
+        Log    ${podStatusOutput}
+        ${countAfterRestart}=    Run    kubectl get pods -n ${NAMESPACE} | grep Running | wc -l
+        Should Be Equal As Strings    ${countAfterRestart}    ${countBeforeRestart}
+        # Disable and enable ONU to verify accessibility via openonu-adapter
+        ${of_id}=    Get ofID From OLT List    ${src['olt']}
+        ${onu_port}=    Wait Until Keyword Succeeds    ${timeout}    2s    Get ONU Port in ONOS    ${src['onu']}
+        ...    ${of_id}    ${src['uni_id']}
+        ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
+        Disable Device    ${onu_device_id}
+        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
+        ...    Validate Device    DISABLED    UNKNOWN
+        ...    REACHABLE    ${src['onu']}    onu=True    onu_reason=omci-admin-lock
+        Wait Until Keyword Succeeds   ${timeout}    2s
+        ...    Verify UNI Port Is Disabled   ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${src['onu']}    ${src['uni_id']}
+        Sleep    5s
+        Enable Device    ${onu_device_id}
+        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    360s    5s
+        ...    Validate Device    ENABLED    ACTIVE
+        ...    REACHABLE    ${src['onu']}    onu=True    onu_reason=onu-reenabled
+        Wait Until Keyword Succeeds   ${timeout}    2s
+        ...    Verify UNI Port Is Enabled   ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${src['onu']}    ${src['uni_id']}
+        # Workaround for issue seen in VOL-4489. Keep this workaround until VOL-4489 is fixed.
+        Run Keyword If    ${has_dataplane}    Reboot XGSPON ONU    ${src['olt']}    ${src['onu']}    omci-flows-pushed
+        # Workaround ends here for issue seen in VOL-4489.
+    END
+    Run Keyword If    '${SOAK_TEST}'=='False'    Delete All Devices and Verify
+
 Validate parsing of data traffic through voltha using tech profile
     [Documentation]    Assuming that test1 was executed where all the ONUs are authenticated/DHCP/pingable
     ...    Prerequisite tools : Tcpdump and Mausezahn traffic generator on both RG and DHCP/BNG VMs
@@ -857,3 +952,24 @@ Clear All Devices Then Create New Device
     # Execute normal test Setup Keyword
     Setup
 
+Validate Performance Intervals
+    [Documentation]    Validates all intervals of iPerf3 result
+    [Arguments]    ${bidirdict}
+    ${actual_intervals}=    Get From Dictionary    ${bidirdict['intervals'][0]}
+    ${number_intervals}=    Get Length    ${actual_intervals}
+    ${result_interval}=    Set Variable    True
+    FOR    ${INDEX}    IN RANGE    0    ${length}
+        ${interval}=    Get From List    ${actual_intervals}    ${INDEX}
+        ${streams}=     Get From Dictionary    ${interval['streams'][0]}
+        ${interval_upstream}=    Get From List    ${streams}    0
+        ${interval_dnstream}=    Get From List    ${streams}    1
+        ${interval_upstream_bw_used}=    Evaluate    ${interval_upstream['bits_per_second']}/1000
+        ${interval_dnstream_bw_used}=    Evaluate    ${interval_dnstream['bits_per_second']}/1000
+        Run Keyword If    ${interval_upstream_bw_used} < 5000
+        ...    LOG    The upstream bandwidth in interval ${INDEX} was too less (${interval_upstream_bw_used} of resv)
+        Run Keyword If    ${interval_dnstream_bw_used} < 5000
+        ...    LOG:  The upstream bandwidth in interval ${INDEX} was too less (${interval_upstream_bw_used} of resv)
+        ${result_interval}=   Set Variable If   (${interval_upstream_bw_used} < 5000 or ${interval_upstream_bw_used} < 5000)
+        ...    False    ${result_interval}
+    END
+    [Return]     ${result_interval}
