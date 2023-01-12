@@ -15,14 +15,27 @@
 # limitations under the License.
 # -----------------------------------------------------------------------
 
-null         :=#
-space        :=$(null) $(null)
-dot          :=.
-HIDE         ?=@
+MAKEDIR ?= $(error MAKEDIR= is required)
 
-# use bash for pusdh/popd and quick failures.
-# virtual env(s) activate has undefined vars so no -u
-#   ^---+ verify this is still true
-export SHELL := bash -e -o pipefail
+## -----------------------------------------------------------------------
+## -----------------------------------------------------------------------
+help::
+	@echo "  kail            Install the kail command"
+ifdef VERBOSE
+	@echo "                  make kail KAIL_PATH="
+endif
+
+# -----------------------------------------------------------------------
+# Install the 'kail' tool if needed: https://github.com/boz/kail
+# -----------------------------------------------------------------------
+KAIL_PATH ?= /usr/local/bin
+kail-cmd  ?= $(KAIL_PATH)/kail
+$(kail-cmd):
+	etc/godownloader.sh -b .
+	rsync -v --checksum kail "$@"
+	$(RM) kail
+
+.PHONY: kail
+kail : $(kail-cmd)
 
 # [EOF]

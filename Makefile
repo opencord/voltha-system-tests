@@ -1,6 +1,6 @@
 # -*- makefile -*-
 # -----------------------------------------------------------------------
-# Copyright 2022 Open Networking Foundation
+# Copyright 2022-2023 Open Networking Foundation (ONF) and the ONF Contributors
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -26,8 +26,7 @@ ROOT_DIR  := $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
 ##--------------------##
 ##---]  INCLUDES  [---##
 ##--------------------##
-include $(MAKEDIR)/consts.mk
-include $(MAKEDIR)/help.mk
+include $(MAKEDIR)/include.mk
 include $(MAKEDIR)/patches/include.mk
 
 # Configuration and lists of files for linting/testing
@@ -781,10 +780,8 @@ vst_venv:
 	@echo
 
 ##----------------##
-##---]  LINT  [---##
+##---]  TEST  [---##
 ##----------------##
-include $(MAKEDIR)/lint.mk
-
 test: lint
 
 # tidy target will be more useful once issue with removing leading comments
@@ -792,16 +789,6 @@ test: lint
 tidy-robot: vst_venv
 	source ./$</bin/activate ; set -u ;\
 	python -m robot.tidy --inplace $(ROBOT_FILES);
-
-# -----------------------------------------------------------------------
-# Install the 'kail' tool if needed: https://github.com/boz/kail
-# -----------------------------------------------------------------------
-KAIL_PATH ?= /usr/local/bin
-kail-cmd  ?= $(KAIL_PATH)/kail
-$(kail-cmd):
-	etc/godownloader.sh -b .
-	rsync -v --checksum kail "$@"
-	$(RM) kail
 
 ## Variables for gendocs
 TEST_SOURCE := $(wildcard tests/*/*.robot)
