@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1814d209_baf73c8e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 26
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2023-01-17T08:20:09Z",
+      "side": 1,
+      "message": "Patch was running successfully here: https://jenkins.opencord.org/view/Community-PODs/job/build_berlin-community-pod-1-gpon_1T8GEM_voltha_DT_master_test/45/ (Dataplane test suite)\n17:22:28  \u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\n17:22:28  Voltha DT PODTests :: Test various end-to-end scenarios                       \n17:22:28  \u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\n17:22:3017:22:30  Sadis File:None\n17:29:56  Data plane verification using TCP for DT :: Test bandwidth profile... | FAIL |\n17:29:56  The upstream bandwidth guarantee was not met (47.38259311427482% of resv)\n17:29:56  ------------------------------------------------------------------------------\n17:31:34  Data plane verification using UDP for DT :: Test bandwidth profile... | FAIL |\n17:31:34  The upstream bandwidth guarantee was not met (47.89672910453266% of resv)\n17:31:34  ------------------------------------------------------------------------------\n17:34:48  Reconcile with data plane verification using TCP for DT :: Test ba... | PASS |\n17:34:48  ------------------------------------------------------------------------------\n17:36:58  Validate parsing of data traffic through voltha using tech profile... | FAIL |\n17:36:58  SSHClientException: Timed out in 30 seconds\n17:36:58  ------------------------------------------------------------------------------\n17:44:55  Data plane Bandwidth profile update verification for DT :: Test ba... | FAIL |\n17:44:55  The upstream bandwidth guarantee was not met (63.17264532649037% of resv)\n17:44:55  ------------------------------------------------------------------------------\n17:47:05  Voltha DT PODTests :: Test various end-to-end scenarios               | FAIL |\n17:47:05  1 critical test, 0 passed, 1 failed\n17:47:05  5 tests total, 1 passed, 4 failed\n17:47:05  \u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d ",
+      "revId": "beb454f97b952c1cb0ab18dccbd6fa4d1ebfcce1",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    }
+  ]
+}
