@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "721b615a_07a59796",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 28
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000948
+      },
+      "writtenOn": "2023-02-08T13:57:55Z",
+      "side": 1,
+      "message": "A high level review looks good so far.",
+      "revId": "76ee4382557271df7ea989f56e35d806106193a8",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ca1d196a_3d705444",
+        "filename": "tests/dt-workflow/Voltha_DT_PODTests.robot",
+        "patchSetId": 28
+      },
+      "lineNbr": 603,
+      "author": {
+        "id": 1000948
+      },
+      "writtenOn": "2023-02-08T13:57:55Z",
+      "side": 1,
+      "message": "Is there a way to replace the inline sleep 10 call with some form of a polling loop ?\n\nsleep [n] individually is not a big deal but fixed delays accumulate over jobs \u0026 time.  Result of (sleep [n] * job_count * 365-days) can busy-wait a jenkins node for 24 hours or longer depending on job volume.\n\nThis is a general problem and likely not easy to fix, sleep calls are used a lot throughout the code base.",
+      "revId": "76ee4382557271df7ea989f56e35d806106193a8",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    }
+  ]
+}
