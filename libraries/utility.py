@@ -143,7 +143,7 @@ def get_memory_consumptions(address, container, namespace="default"):
     """
     Query Prometheus and generate instantaneous memory consumptions for given pods under test
     :param address: string The address of the Prometheus instance to query
-    :container: string The pod name
+    :param container: string The pod name
     :param namespace: string The pod namespace
     :return: memory consumtion value
     """
@@ -156,5 +156,30 @@ def get_memory_consumptions(address, container, namespace="default"):
     container_cpu = r.json()["data"]["result"]
     if len(container_cpu) > 0:
         return container_cpu[0]["value"][1]
+    else:
+        return -1
+
+def get_memory_consumptions_range(address, container, namespace="default", start=0, end=0):
+    """
+    Query Prometheus and generate instantaneous memory consumptions for given pods under test
+    :param address: string The address of the Prometheus instance to query
+    :param container: string The pod name
+    :param namespace: string The pod namespace
+    :param start: integer The range start time (epoch)
+    :param end: integer The range end time
+    :return: memory consumtion value
+    """
+    container_mem_query = ('sort_desc(container_memory_working_set_bytes{namespace="%s",container="%s"})' %
+                           (namespace, container))
+    mem_params = {
+        "query": container_mem_query,
+        "start":start,
+        "end":end,
+        "step":'1m',
+    }
+    r = requests.get("http://%s/api/v1/query_range" % address, mem_params)
+    container_cpu = r.json()["data"]["result"]
+    if len(container_cpu) > 0:
+        return container_cpu[0]["values"]
     else:
         return -1

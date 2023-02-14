@@ -66,7 +66,7 @@ ROBOT_SANITY_TIM_MULTI_PON_MULTI_ONU_FILE    ?= $(ROOT_DIR)/tests/data/bbsim-kin
 ROBOT_SANITY_TIM_MULTI_OLT_MULTI_PON_MULTI_ONU_FILE    ?= $(ROOT_DIR)/tests/data/bbsim-kind-tim-2OLTx2PONx2ONU.yaml
 ROBOT_SANITY_BBF_ADPATER_SINGLE_PON_FILE    ?= $(ROOT_DIR)/tests/data/bbsim-bbf-adapter.yaml
 ROBOT_SANITY_BBF_ADPATER_ADD_DELETE_FILE    ?= $(ROOT_DIR)/tests/data/bbsim-bbf-adapter_addDelete_tests.yaml
-
+ROBOT_SANITY_DT_SINGLE_PON_FILE    ?= $(ROOT_DIR)/tests/data/bbsim-kind-dt-1OLTx1PONx2ONU.yaml
 
 # for backwards compatibility
 sanity-kind: sanity-single-kind
@@ -656,29 +656,9 @@ voltha-onu-mib-audit-tests: ROBOT_MISC_ARGS += $(ROBOT_DEBUG_LOG_OPT)
 voltha-onu-mib-audit-tests: ROBOT_FILE := Voltha_ONUMibAudit.robot
 voltha-onu-mib-audit-tests: openonu-go-adapter-tests
 
-# Voltha Components Memory Leak tests att workflow single kind
-memory-leak-test-single-kind-att: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_SINGLE_PON_FILE)
-memory-leak-test-single-kind-att: voltha-memory-leak-tests
-
-# Voltha Components Memory Leak tests t workflow single kind
-memory-leak-test-single-kind-dt: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_DT_SINGLE_PON_FILE)
-memory-leak-test-single-kind-dt: voltha-memory-leak-tests
-
-# Voltha Components Memory Leak tests tt workflow single kind
-memory-leak-test-single-kind-tt: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_TT_SINGLE_PON_FILE)
-memory-leak-test-single-kind-tt: voltha-memory-leak-tests
-
-# Voltha Components Memory Leak tests att workflow multiple OLTs
-memory-leak-test-multiolt-kind-att: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_MULTIPLE_OLT_FILE)
-memory-leak-test-multiolt-kind-att: voltha-memory-leak-tests
-
-# Voltha Components Memory Leak tests tt workflow multiple OLTs
-memory-leak-test-multiolt-kind-dt: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_DT_MULTIPLE_OLT_FILE)
-memory-leak-test-multiolt-kind-dt: voltha-memory-leak-tests
-
-# Voltha Components Memory Leak tests tt workflow multiple OLTs
-memory-leak-test-multiolt-kind-tt: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_TT_MULTIPLE_OLT_FILE)
-memory-leak-test-multiolt-kind-tt: voltha-memory-leak-tests
+# Voltha Components Memory Leak tests dt workflow 1 OLT 1 PON 2 ONUs
+memory-leak-test-single-pon-dt: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_DT_SINGLE_PON_FILE)
+memory-leak-test-single-pon-dt: voltha-memory-leak-tests
 
 voltha-memory-leak-tests: ROBOT_MISC_ARGS += -i functionalMemoryLeak -e notready  --noncritical non-critical
 voltha-memory-leak-tests: ROBOT_MISC_ARGS += $(ROBOT_DEBUG_LOG_OPT)
