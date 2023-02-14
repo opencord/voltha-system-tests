@@ -28,7 +28,7 @@ Printout ONU Serial Number and Device Id
     ...               ELSE     Append To List    ${onu_sn_list}    ${onu_sn}
     FOR    ${sn}    IN    @{onu_sn_list}
         ${device_id}=    Get Device ID From SN    ${sn}
-        ${output}=    Catenate    ${output}    ONU Serial Number: ${sn} ONU Device ID: ${device_id}\r\n
+        ${output}=    Catenate    ${output}ONU Serial Number: ${sn} ONU Device ID: ${device_id}\r\n
     END
     Log    ${output}
     Run Keyword If    ${print2console}    Log    ${output}    console=yes
