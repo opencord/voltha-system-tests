@@ -16,6 +16,40 @@
       "message": "Patch is running here: https://jenkins.opencord.org/view/VOLTHA-2.X-Tests/job/periodic-voltha-memory-leak-test-bbsim/367/\n",
       "revId": "c4b8d0cd095cdcfe0e58fa92e9ba47c29496ed89",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6e77f794_7a2ee7a1",
+        "filename": "libraries/utility.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1000948
+      },
+      "writtenOn": "2023-02-21T14:49:17Z",
+      "side": 1,
+      "message": "just fyi: alt syntax\u003e\n   :param namespace: string The pod namespace\n\nsphinx docs also supports two-token syntax \u0027:type \u003cvarname\u003e:\u0027 allowing auto-generation of documentation.\n\nThe parameter block can also be written as:\n\n  :param namespace: The pod namespace\n  :type  namespace: str\n  :type  is_foo: bool, conditional (WHEN: function declares varname\u003dNone as default)",
+      "revId": "c4b8d0cd095cdcfe0e58fa92e9ba47c29496ed89",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6cd66bad_a7c07ea0",
+        "filename": "tests/data/bbsim-kind-dt-1OLTx1PONx2ONU.yaml",
+        "patchSetId": 3
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1000948
+      },
+      "writtenOn": "2023-02-21T14:49:17Z",
+      "side": 1,
+      "message": "Could you update the copyright notice to span date of last edit as 2023:\n    https://github.com/joey-onf/copyright/blob/origin/master/notice\n\nUse of the suffix \u0027-present\u0027 will not provide full legal coverage for the notice.",
+      "revId": "c4b8d0cd095cdcfe0e58fa92e9ba47c29496ed89",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     }
   ]
 }
