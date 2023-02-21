@@ -35,6 +35,24 @@
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6faffb80_2db7b2c7",
+        "filename": "libraries/utility.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2023-02-21T15:18:12Z",
+      "side": 1,
+      "message": "Thanks for the kind comment, but I will keep the old variant for consistency.",
+      "parentUuid": "6e77f794_7a2ee7a1",
+      "revId": "c4b8d0cd095cdcfe0e58fa92e9ba47c29496ed89",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6cd66bad_a7c07ea0",
@@ -48,6 +66,24 @@
       "writtenOn": "2023-02-21T14:49:17Z",
       "side": 1,
       "message": "Could you update the copyright notice to span date of last edit as 2023:\n    https://github.com/joey-onf/copyright/blob/origin/master/notice\n\nUse of the suffix \u0027-present\u0027 will not provide full legal coverage for the notice.",
+      "revId": "c4b8d0cd095cdcfe0e58fa92e9ba47c29496ed89",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8634c80a_1f39c723",
+        "filename": "tests/data/bbsim-kind-dt-1OLTx1PONx2ONU.yaml",
+        "patchSetId": 3
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2023-02-21T15:18:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6cd66bad_a7c07ea0",
       "revId": "c4b8d0cd095cdcfe0e58fa92e9ba47c29496ed89",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     }
