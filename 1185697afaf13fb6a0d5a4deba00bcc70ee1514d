@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9dbd9cc0_b5160d61",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2023-02-23T08:21:46Z",
+      "side": 1,
+      "message": "Hi Vlvek,\ngreat work, but just two small general hints:\n1. use following as Copyright line for new files:\n# Copyright 2023 Open Networking Foundation (ONF) and the ONF Contributors\n2. use \u0027make test\u0027 in your local environment before upload patch(es) to prevent Failures in jenkins check job.\nBest regards Torsten",
+      "revId": "1185697afaf13fb6a0d5a4deba00bcc70ee1514d",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    }
+  ]
+}
