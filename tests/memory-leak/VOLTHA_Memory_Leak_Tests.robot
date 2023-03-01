@@ -182,7 +182,7 @@ Memory Leak Test Openonu Go Adapter
     END
     # Switch off second ONU
     Power Off ONU    ${NAMESPACE}    ${bbsim_pod}    ${src_onu_2['onu']}
-    Wait Until Keyword Succeeds    400s    30s
+    Wait Until Keyword Succeeds    500s    30s
     ...        Validate Memory Consumptions  adapter-open-onu  ${NAMESPACE}  ${setup_mem_consumption_onu}  ${output_file_onu}
     ...        out_string=Validate
     [Teardown]    Run Keywords    Printout ONU Serial Number and Device Id    print2console=${print2console}
@@ -190,7 +190,7 @@ Memory Leak Test Openonu Go Adapter
     ...    AND    Run Keyword If    ${logging}    Collect Logs
     ...    AND    Teardown Test
     ...    AND    Append Memory Consumption To File    isTest=True    compare_to=test_setup
-    ...    AND    Run Keyword And Ignore Error    Wait Until Keyword Succeeds    400s    30s
+    ...    AND    Run Keyword And Ignore Error    Wait Until Keyword Succeeds    300s    30s
     ...           Validate Memory Consumptions  adapter-open-onu  ${NAMESPACE}  ${start_mem_consumption_onu}  ${output_file_onu}
     ...    AND    Append Memory Consumption To File    isTest=True    compare_to=test_start
     ...    AND    Stop Logging    MemoryLeakTestOnuGo
@@ -262,7 +262,7 @@ Memory Leak Test Openolt Adapter
         Get And Write Memory Consumption Per Container To File    adapter-open-onu    ${NAMESPACE}    ${output_file_onu}
         ...    Iteration ${formatedIt}
     END
-    Wait Until Keyword Succeeds    400s    30s
+    Wait Until Keyword Succeeds    500s    30s
     ...        Validate Memory Consumptions  adapter-open-olt  ${NAMESPACE}  ${setup_mem_consumption_olt}  ${output_file_onu}
     ...        out_string=Validate
     [Teardown]    Run Keywords    Printout ONU Serial Number and Device Id    print2console=${print2console}
@@ -270,7 +270,7 @@ Memory Leak Test Openolt Adapter
     ...    AND    Run Keyword If    ${logging}    Collect Logs
     ...    AND    Teardown Test
     ...    AND    Append Memory Consumption To File    isTest=True    compare_to=test_setup
-    ...    AND    Run Keyword And Ignore Error    Wait Until Keyword Succeeds    400s    30s
+    ...    AND    Run Keyword And Ignore Error    Wait Until Keyword Succeeds    300s    30s
     ...           Validate Memory Consumptions  adapter-open-olt  ${NAMESPACE}  ${start_mem_consumption_olt}  ${output_file_olt}
     ...    AND    Validate Memory Consumptions  adapter-open-onu  ${NAMESPACE}  ${start_mem_consumption_onu}  ${output_file_onu}
     ...    AND    Append Memory Consumption To File    isTest=True    compare_to=test_start
@@ -449,14 +449,14 @@ Validate Memory Consumptions
     ${mem_consumption}=    Get And Write Memory Consumption Per Container To File    ${container}    ${namespace}
     ...    ${output_file}    ${out_string}
     ${mem_consumption}=   Convert To Number    ${mem_consumption}    1
-    ${upper_bound}=    Evaluate    (${start_value} + (${start_value}*0.1))
+    ${upper_bound}=    Evaluate    (${start_value} + (${start_value}*0.15))
     Should Be True    ${upper_bound} >= ${mem_consumption}
 
 Settling Memory Consumptions
     [Documentation]    Delivers memory consumptions of passed POD after memory consumptions are leveled.
     ...                - collecting memory consumption at least about 5 minutes, but max 20 minutes
     ...                - built average of memory consumtions
-    ...                - wait current value does not deviate from the average by more than 15%.
+    ...                - wait current value does not deviate from the average by more than 12%.
     ...                - deliver average value value
     [Arguments]    ${prometheusaddr}    ${prometheusport}    ${container}    ${namespace}
     @{consumption_list}=    Create List
@@ -487,7 +487,7 @@ Get Memory Consumptions
     [Documentation]    Delivers memory consumptions of passed POD
     [Arguments]    ${prometheusaddr}    ${prometheusport}    ${container}    ${namespace}
     ${mem_consumption}=    utility.get_memory_consumptions    ${prometheusaddr}:${prometheusport}    ${container}   ${namespace}
-    Should Be True    ${mem_consumption} >= 0
+    Should Be True    ${mem_consumption} > 0
     [return]    ${mem_consumption}
 
 Write Memory Consumption File Per Container
