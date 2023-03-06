@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4fb8d68c_ab3948a6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2023-03-06T12:46:26Z",
+      "side": 1,
+      "message": "In two of the last memory leak test pipelines there were two timing issues regarding zero values by Prometheus. Prometheus needed up to 3:35 minutes to deliver a non zero value of memory consumption. So with this patch the wait time for first non zero value is increased only.",
+      "revId": "f06257c750597d03b134e8dd8d926d06b5f582fd",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    }
+  ]
+}
