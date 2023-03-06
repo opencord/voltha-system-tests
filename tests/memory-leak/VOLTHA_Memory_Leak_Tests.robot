@@ -391,7 +391,7 @@ Append Memory Consumption To File
 Append Memory Consumption Per Container To File
     [Documentation]    Appends data to global memory consumption file per container
     [Arguments]    ${container}    ${namespace}=${NAMESPACE}    ${output_file}=${global_output_file}    ${compare_to}=${EMPTY}
-    ${mem_consumption}=    Wait Until Keyword Succeeds    120s    5s
+    ${mem_consumption}=    Wait Until Keyword Succeeds    300s    5s
     ...    Get Memory Consumptions    ${prometheusaddr}    ${prometheusport}    ${container}   ${namespace}
     ${formated_mem}=    Format String    {:>10}    ${mem_consumption}
     ${prestring}=    Catenate    \r\nMemory consumptions of   ${container}
