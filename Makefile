@@ -40,7 +40,9 @@ JSON_FILES   := $(shell find ./tests -name *.json -print)
 # Robot config
 ROBOT_SANITY_SINGLE_PON_FILE    ?= $(ROOT_DIR)/tests/data/bbsim-kind.yaml
 ROBOT_SANITY_DT_SINGLE_PON_FILE    ?= $(ROOT_DIR)/tests/data/bbsim-kind-dt.yaml
+ROBOT_SANITY_DT_SINGLE_PON_FILE_VGC    ?= $(ROOT_DIR)/tests/data/bbsim-kind-dt-vgc.yaml
 ROBOT_SANITY_MULTIPLE_OLT_FILE    ?= $(ROOT_DIR)/tests/data/bbsim-kind-2OLTx2ONUx2PON.yaml
+ROBOT_SANITY_MULTIPLE_OLT_FILE_VGC    ?= $(ROOT_DIR)/tests/data/bbsim-kind-2OLTx2ONUx2PON_VGC.yaml
 ROBOT_SANITY_DT_MULTIPLE_OLT_FILE    ?= $(ROOT_DIR)/tests/data/bbsim-kind-2OLTx2ONUx2PON-dt.yaml
 ROBOT_SANITY_TT_MULTIPLE_OLT_FILE    ?= $(ROOT_DIR)/tests/data/bbsim-kind-2OLTx2ONUx2PON-tt.yaml
 ROBOT_FAIL_SINGLE_PON_FILE      ?= $(ROOT_DIR)/tests/data/bbsim-kind.yaml
@@ -102,6 +104,13 @@ sanity-kind-dt: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_DT_SINGLE_PON_FILE)
 sanity-kind-dt: ROBOT_FILE := Voltha_DT_PODTests.robot
 sanity-kind-dt: voltha-dt-test
 
+# target to invoke DT Workflow Sanity
+sanity-kind-dt-vgc: ROBOT_MISC_ARGS += -i sanityDt $(ROBOT_DEBUG_LOG_OPT)
+sanity-kind-dt-vgc: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_DT_SINGLE_PON_FILE_VGC)
+sanity-kind-dt-vgc: ROBOT_FILE := Voltha_DT_PODTests_VGC.robot
+sanity-kind-dt-vgc: voltha-dt-test
+
+
 # target to invoke DT FTTB Workflow Sanity
 sanity-kind-dt-fttb: ROBOT_MISC_ARGS += -i sanityDtFttb $(ROBOT_DEBUG_LOG_OPT)
 sanity-kind-dt-fttb: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_DT_FTTB_SINGLE_PON_FILE)
@@ -120,6 +129,13 @@ functional-single-kind-dt: ROBOT_MISC_ARGS += -i sanityDtORfunctionalDt -e Power
 functional-single-kind-dt: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_DT_SINGLE_PON_FILE)
 functional-single-kind-dt: ROBOT_FILE := Voltha_DT_PODTests.robot
 functional-single-kind-dt: voltha-dt-test
+
+# target to invoke DT Workflow Functional scenarios
+functional-single-kind-dt-vgc: ROBOT_MISC_ARGS += -i sanityDtORfunctionalDt -e PowerSwitch $(ROBOT_DEBUG_LOG_OPT)
+functional-single-kind-dt-vgc: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_DT_SINGLE_PON_FILE_VGC)
+functional-single-kind-dt-vgc: ROBOT_FILE := Voltha_DT_PODTests_VGC.robot
+functional-single-kind-dt-vgc: voltha-dt-test
+
 
 # target to invoke TT Workflow Sanity
 sanity-kind-tt: ROBOT_MISC_ARGS += -i sanityTT $(ROBOT_DEBUG_LOG_OPT)
@@ -441,6 +457,16 @@ bbsim-multiolt-kind-dt: ROBOT_MISC_ARGS += -X $(ROBOT_DEBUG_LOG_OPT) -e PowerSwi
 bbsim-multiolt-kind-dt: ROBOT_FILE := Voltha_DT_MultiOLT_Tests.robot
 bbsim-multiolt-kind-dt: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_MULTIPLE_OLT_FILE)
 bbsim-multiolt-kind-dt: voltha-dt-test
+
+bbsim-multiolt-kind-dt-vgc: ROBOT_MISC_ARGS += -X $(ROBOT_DEBUG_LOG_OPT) -e PowerSwitch -e MultiOLTPhysicalRebootDt
+bbsim-multiolt-kind-dt-vgc: ROBOT_FILE := Voltha_DT_MultiOLT_Tests_VGC.robot
+bbsim-multiolt-kind-dt-vgc: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_MULTIPLE_OLT_FILE_VGC)
+bbsim-multiolt-kind-dt-vgc: voltha-dt-test
+
+multiolt-kind-dt-vgc: ROBOT_MISC_ARGS += -X $(ROBOT_DEBUG_LOG_OPT) -i functionalDt
+multiolt-kind-dt-vgc: ROBOT_FILE := Voltha_DT_MultiOLT_Tests_VGC.robot
+multiolt-kind-dt-vgc: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_MULTIPLE_OLT_FILE_VGC)
+multiolt-kind-dt-vgc: voltha-dt-test
 
 multiolt-kind-dt: ROBOT_MISC_ARGS += -X $(ROBOT_DEBUG_LOG_OPT) -i functionalDt
 multiolt-kind-dt: ROBOT_FILE := Voltha_DT_MultiOLT_Tests.robot
