@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b7d7a0fa_3b3fd75a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000968
+      },
+      "writtenOn": "2023-05-05T07:09:44Z",
+      "side": 1,
+      "message": "Hi Team,\n       Have added FTTH and FTTB support for VGC for DT workflow",
+      "revId": "4ff46b6aa37a7d7b7503057f8d50fb1b83ae16b4",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    }
+  ]
+}
