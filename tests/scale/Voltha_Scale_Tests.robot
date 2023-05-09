@@ -52,6 +52,7 @@ Resource          ../../libraries/flows.robot
 Resource          ../../libraries/k8s.robot
 Resource          ../../libraries/utils.robot
 Resource          ../../libraries/bbsim.robot
+Resource          ../../libraries/igmpca.robot
 Resource          ../../variables/variables.robot
 
 *** Variables ***
@@ -62,6 +63,10 @@ ${ONOS_REST_PORT}    30120
 
 ${BBSIM_REST_IP}    127.0.0.1
 ${BBSIM_REST_PORT}    50071
+
+${IGMP_GROUP_ADDRESS}  239.254.0.1
+${IGMPCA_REST_IP}    127.0.0.1
+${IGMPCA_REST_PORT}    9001
 
 ${NAMESPACE}      default
 
@@ -294,10 +299,12 @@ Wait for ONUs Join Igmp Group
     [Documentation]    Checks the ONUs Join the IGMP Group
     ...    Note: Currently, it expects all the ONUs on an OLT joined the same group
     [Tags]    non-critical    igmp    igmp-join    igmp-count-verify    igmp-join-count-verify
-    ${onos_devices}=    Compute Device IDs
-    FOR     ${deviceId}     IN  @{onos_devices}
+    FOR    ${INDEX}    IN RANGE    0    ${olt}
+        ${igmpca_rel}=    Catenate    SEPARATOR=    igmpca    ${INDEX}
+        ${igmpca_rel_local_port}=    Evaluate    ${IGMPCA_REST_PORT}+${INDEX}
+        Create Session    ${igmpca_rel}    http://${IGMPCA_REST_IP}:${igmpca_rel_local_port}
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
-        ...    Verify ONUs in Group Count in ONOS    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${total_onus_per_olt}    ${deviceId}
+        ...    Verify Members in Igmp Group Count   ${igmpca_rel}    ${total_onus_per_olt}    ${IGMP_GROUP_ADDRESS}
     END
 
 Perform Igmp Leave
@@ -317,10 +324,12 @@ Wait for ONUs Leave Igmp Group
     [Documentation]    Checks the ONUs Leave the IGMP Group
     ...    Note: Currently, it expects all the ONUs on an OLT left the same group
     [Tags]    non-critical    igmp    igmp-leave    igmp-count-verify    igmp-leave-count-verify
-    ${onos_devices}=    Compute Device IDs
-    FOR     ${deviceId}     IN  @{onos_devices}
+    FOR    ${INDEX}    IN RANGE    0    ${olt}
+        ${igmpca_rel}=    Catenate    SEPARATOR=    igmpca    ${INDEX}
+        ${igmpca_rel_local_port}=    Evaluate    ${IGMPCA_REST_PORT}+${INDEX}
+        Create Session    ${igmpca_rel}    http://${IGMPCA_REST_IP}:${igmpca_rel_local_port}
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
-        ...    Verify Empty Group in ONOS    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${deviceId}
+        ...    Verify Empty Igmp Group   ${igmpca_rel}    ${IGMP_GROUP_ADDRESS}
     END
 
 Disable and Delete devices
@@ -382,5 +391,5 @@ Perform Igmp Join or Leave Per OLT
     [Documentation]    Performs Igmp Join for all the ONUs of an OLT (based on Rest Endpoint)
     [Arguments]    ${bbsim_rel_session}    ${onu_list}    ${task}
     FOR    ${onu}    IN    @{onu_list}
-        JoinOrLeave Igmp Rest Based    ${bbsim_rel_session}    ${onu}    0    ${task}    224.0.0.22
+        JoinOrLeave Igmp Rest Based    ${bbsim_rel_session}    ${onu}    0    ${task}    ${IGMP_GROUP_ADDRESS}
     END

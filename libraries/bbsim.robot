@@ -91,6 +91,22 @@ Set Wrong MDS Counter ONU
     Should Contain    ${result}    MDS counter of ONU    msg=Can not invalidate MDS counter ${onu}    values=False
     Should Contain    ${result}    , set to    msg=Can not invalidate MDS counter ${onu}    values=False
 
+Get ONU Ponport Id
+    [Documentation]    Retrieves ONU Ponport Id for the specified ONU device via BBSimctl.
+    [Arguments]    ${namespace}    ${bbsim_pod_name}    ${onu}
+    ${ponport_id}    ${rc}=    Exec Pod And Return Output And RC    ${namespace}    ${bbsim_pod_name}
+    ...    bbsimctl onu get ${onu} | awk 'NR==2 {print $1}'
+    Should Be Equal as Integers    ${rc}    0
+    [Return]    ${ponport_id}
+
+Get ONU Id
+    [Documentation]    Retrieves ONU Id for the specified ONU device via BBSimctl.
+    [Arguments]    ${namespace}    ${bbsim_pod_name}    ${onu}
+    ${onu_id}    ${rc}=    Exec Pod And Return Output And RC    ${namespace}    ${bbsim_pod_name}
+    ...    bbsimctl onu get ${onu} | awk 'NR==2 {print $2}'
+    Should Be Equal as Integers    ${rc}    0
+    [Return]    ${onu_id}
+
 Get ONUs List
     [Documentation]    Fetches ONUs via BBSimctl
     [Arguments]    ${namespace}    ${bbsim_pod_name}

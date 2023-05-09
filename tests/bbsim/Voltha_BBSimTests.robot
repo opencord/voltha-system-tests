@@ -30,6 +30,7 @@ Resource          ../../libraries/voltha.robot
 Resource          ../../libraries/utils.robot
 Resource          ../../libraries/k8s.robot
 Resource          ../../libraries/bbsim.robot
+Resource          ../../libraries/igmpca.robot
 Resource          ../../variables/variables.robot
 
 *** Variables ***
@@ -51,7 +52,7 @@ ${logging}    False
 # Per-test logging on failure is turned off by default; set this variable to enable
 ${container_log_dir}    ${None}
 # Number of times to perform ONU Igmp Join and Leave (valid only for TT)
-${igmp_join_leave_count}    1
+${igmp_join_leave_count}    2
 # Number of times the Sanity test needs to be repeated as
 # we want to make sure you can disable/delete the device without needing to restart BBSim
 ${iteration_count}  2
@@ -64,8 +65,12 @@ ${suppressaddsubscriber}    True
 # if set to False, comand used is "volt-add-subscriber-access"
 ${unitag_sub}    False
 
+# IGMPCA variables (valid only for TT)
+${IGMPCA_REST_IP}    127.0.0.1
+${IGMPCA_REST_PORT}    9001
 # Igmp group address to perform join and leave for ONUs
-${igmp_group_address}    224.0.0.22
+${igmp_group_address}    239.254.0.1
+
 
 *** Test Cases ***
 
@@ -82,9 +87,25 @@ Test Perform BBSim Sanity
 
 *** Keywords ***
 
-Perform ONU Igmp Join and Leave
-    [Documentation]    This keyword performs Igmp Leave and Join for ONU
-    [Arguments]    ${bbsim_pod}    ${of_id}    ${onu}    ${onu_port}
+Perform Igmp Sanity Test
+    [Documentation]    This keyword verifies the OLT SN and performs Igmp join and leave per ONU
+    [Arguments]    ${olt_index}    ${bbsim_pod}    ${olt}
+    ${igmpca_rel}=    Catenate    SEPARATOR=    igmpca    ${olt_index}
+    ${igmpca_rel_local_port}=    Evaluate    ${IGMPCA_REST_PORT}+${olt_index}
+    Create Session    ${igmpca_rel}    http://${IGMPCA_REST_IP}:${igmpca_rel_local_port}
+    # Verify IGMPCA connected to the correct OLT
+    ${olt_sn_from_igmpca}=    Get OLT SN from IGMPCA    ${igmpca_rel}
+    Should Be Equal    ${olt}    ${olt_sn_from_igmpca}
+    FOR    ${I}    IN RANGE    0    ${num_all_onus}
+        ${onu}=    Set Variable    ${hosts.src[${I}]['onu']}
+        Perform Igmp Join And Leave Per ONU    ${bbsim_pod}    ${igmpca_rel}    ${onu}
+    END
+
+Perform Igmp Join And Leave Per ONU
+    [Documentation]    This keyword verifies the OLT SN and performs Igmp join and leave per ONU
+    [Arguments]    ${bbsim_pod}    ${igmpca_rel}    ${onu}
+    ${onu_pon_id}=    Get ONU Ponport Id    ${NAMESPACE}    ${bbsim_pod}    ${onu}
+    ${onu_id}=    Get ONU Id    ${NAMESPACE}    ${bbsim_pod}    ${onu}
     FOR    ${Z}    IN RANGE    0    ${igmp_join_leave_count}
         List Service    ${NAMESPACE}    ${bbsim_pod}
         JoinOrLeave Igmp    ${NAMESPACE}    ${bbsim_pod}    ${onu}    0    join    ${igmp_group_address}
@@ -92,13 +113,13 @@ Perform ONU Igmp Join and Leave
         List Service    ${NAMESPACE}    ${bbsim_pod}
         List ONUs    ${NAMESPACE}    ${bbsim_pod}
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
-        ...    Verify ONU in Groups    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${of_id}    ${onu_port}
+        ...    Verify Member in Igmp Group    ${igmpca_rel}    ${onu_pon_id}    ${onu_id}    0    ${igmp_group_address}
         JoinOrLeave Igmp    ${NAMESPACE}    ${bbsim_pod}    ${onu}    0    leave    ${igmp_group_address}
         Sleep    2s
         List Service    ${NAMESPACE}    ${bbsim_pod}
         List ONUs    ${NAMESPACE}    ${bbsim_pod}
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
-        ...    Verify ONU in Groups    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${of_id}    ${onu_port}    False
+        ...    Verify Member Not in Igmp Group    ${igmpca_rel}    ${onu_pon_id}    ${onu_id}    0    ${igmp_group_address}
     END
 
 Perform BBSim Sanity Test
@@ -110,9 +131,7 @@ Perform BBSim Sanity Test
         ${onu_count}=    Set Variable    ${list_olts}[${J}][onucount]
         ${of_id}=    Wait Until Keyword Succeeds    ${timeout}    15s    Validate OLT Device in ONOS
         ...    ${olt_serial_number}
-        ${bbsim_rel}=    Catenate    SEPARATOR=    bbsim    ${J}
-        ${bbsim_pod}=    Get Pod Name By Label    ${NAMESPACE}    release     ${bbsim_rel}
-        Perform BBSim Sanity Test Per OLT    ${bbsim_pod}    ${of_id}    ${olt_serial_number}    ${onu_count}
+        Perform BBSim Sanity Test Per OLT    ${J}    ${of_id}    ${olt_serial_number}    ${onu_count}
     END
     Run Keyword  Delete All Devices and Verify
 
@@ -120,7 +139,9 @@ Perform BBSim Sanity Test Per OLT
     [Documentation]    Validates the BBSim Functionality for ATT, DT and TT workflows
     ...    Also Restart Auth (ATT), Restart Dhcp (ATT and TT), Igmp Join and Leave (TT)
     ...    Once the ONU tests are completed perform a SoftReboot on the OLT.
-    [Arguments]    ${bbsim_pod}    ${of_id}    ${olt_serial_number}   ${num_onus}
+    [Arguments]    ${olt_index}    ${of_id}    ${olt_serial_number}   ${num_onus}
+    ${bbsim_rel}=    Catenate    SEPARATOR=    bbsim    ${olt_index}
+    ${bbsim_pod}=    Get Pod Name By Label    ${NAMESPACE}    release     ${bbsim_rel}
     FOR    ${I}    IN RANGE    0    ${num_all_onus}
         ${src}=    Set Variable    ${hosts.src[${I}]}
         ${dst}=    Set Variable    ${hosts.dst[${I}]}
@@ -164,10 +185,10 @@ Perform BBSim Sanity Test Per OLT
         ...    AND    Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
         ...    Validate Subscriber DHCP Allocation    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${onu_port}
         ...    AND    List ONUs    ${NAMESPACE}    ${bbsim_pod}
-        # Perform Igmp Join and Leave (valid only for TT)
-        Run Keyword If    "${workflow}"=="TT"
-        ...    Perform ONU Igmp Join and Leave    ${bbsim_pod}    ${of_id}    ${src['onu']}    ${onu_port}
     END
+    # Perform Igmp sanity test (valid only for TT)
+    Run Keyword If    "${workflow}"=="TT"
+        ...    Perform Igmp Sanity Test    ${olt_index}    ${bbsim_pod}    ${olt_serial_number}
     # Clean ONOS state before rebooting
     Execute ONOS CLI Command use single connection    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}  aaa-reset-all-devices
     Execute ONOS CLI Command use single connection    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}  dhcpl2relay-clear-allocations
