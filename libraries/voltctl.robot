@@ -22,7 +22,7 @@ Library           Process
 Library           Collections
 Library           RequestsLibrary
 Library           OperatingSystem
-Resource          ./utils.robot
+#Resource          ./utils.robot
 Resource          ./flows.robot
 
 *** Variables ***
