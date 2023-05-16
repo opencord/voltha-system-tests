@@ -45,12 +45,14 @@ hosts:
       service_type: 'hsia'
       uni_id: 1
       tp_id: '64'
-    - onu: 'BBSM000a0002'
+    - onu: 'BBSM000a0001'
       olt: 'BBSIM_OLT_10'
-      uni_tag: '835'
-      c_tag: '100'
+      uni_tag: '836'
+      c_tag: '101'
       s_tag: '4096'
-      service_type: 'hsia'
+      service_type: 'vod'
+      subMcast:
+        - 224.0.0.22
       uni_id: 1
       tp_id: '64'
 
