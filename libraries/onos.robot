@@ -527,9 +527,10 @@ Verify Downstream Flows for Single OLT NNI Port TIM
     ...    ${downstream_lldp_cmd}
     Should Not Be Empty    ${downstream_lldp}
 
-Verify Subscriber Access Flows Added for Single ONU Port TIM
+Verify Subscriber Access Flows Added For HSIA Service Single ONU Port TIM
     [Arguments]    ${ip}    ${port}    ${olt_of_id}    ${onu_port}    ${nni_port}    ${c_tag}   ${uni_tag}
-    [Documentation]    Verifies if the Subscriber Access Flows are added in ONOS for the ONU
+    [Documentation]    Verifies if the Subscriber Access Flows for the HSIA Service are
+    ...     added in ONOS in the manner way for the single consider ONU
 
     # Verify upstream pppoed flow from UNI port to CONTROLLER
     ${upstream_flow_pppoed_added_cmd}=   Catenate    SEPARATOR=
@@ -570,6 +571,74 @@ Verify Subscriber Access Flows Added for Single ONU Port TIM
     ${downstream_form_NNI_to_UNI_in_table_1}=    Execute ONOS CLI Command use single connection    ${ip}    ${port}
     ...    ${downstream_form_NNI_to_UNI_in_table_1_cmd}
     Should Not Be Empty    ${downstream_form_NNI_to_UNI_in_table_1}
+
+Verify Subscriber Access Flows Added For VoD Service On Single ONU Port TIM
+    [Arguments]    ${ip}    ${port}    ${olt_of_id}    ${onu_port}    ${nni_port}    ${c_tag}   ${uni_tag}
+    [Documentation]    Verifies if the Subscriber Access Flows for the VoD Service are
+    ...     added in ONOS in the manner way for the single consider ONU
+
+    # Verify upstream igmp flow from UNI port to CONTROLLER
+    ${upstream_flow_igmp_added_cmd}=   Catenate    SEPARATOR=
+    ...     flows -s ADDED ${olt_of_id} | grep IN_PORT:${onu_port} | grep ETH_TYPE:ipv4 |
+    ...     grep IP_PROTO:2 |grep VLAN_VID:${uni_tag} | grep OUTPUT:CONTROLLER
+    ${upstream_flow_igmp_added}=    Execute ONOS CLI Command use single connection    ${ip}    ${port}
+    ...    ${upstream_flow_igmp_added_cmd}
+    Should Not Be Empty    ${upstream_flow_igmp_added}
+
+    # Verify upstream table=0 flow, from UNI to TABLE 1
+    ${upstream_flow_0_added_cmd}=     Catenate    SEPARATOR=
+    ...     flows -s ADDED ${olt_of_id} | grep IN_PORT:${onu_port} | grep VLAN_VID:${uni_tag} |
+    ...     grep VLAN_ID:${c_tag}  | grep transition=TABLE:1
+    ${upstream_flow_0_added}=    Execute ONOS CLI Command use single connection    ${ip}    ${port}
+    ...    ${upstream_flow_0_added_cmd}
+    Should Not Be Empty    ${upstream_flow_0_added}
+
+    # Verify upstream table=1 flow, from UNI to NNI
+    ${flow_vlan_UNI_to_NNI_cmd}=     Catenate    SEPARATOR=
+    ...    flows -s ADDED ${olt_of_id} | grep table=1 | grep IN_PORT:${onu_port} | grep VLAN_VID:${c_tag} |
+    ...    grep OUTPUT:${nni_port}
+    ${flow_vlan_UNI_to_NNI}=    Execute ONOS CLI Command use single connection    ${ip}    ${port}
+    ...    ${flow_vlan_UNI_to_NNI_cmd}
+    Should Not Be Empty    ${flow_vlan_UNI_to_NNI}
+
+    # Verify downstream table=0 flow, from NNI to TABLE 1
+    ${downstream_flow_0_added_cmd}=     Catenate    SEPARATOR=
+    ...    flows -s ADDED ${olt_of_id} | grep IN_PORT:${nni_port} | grep VLAN_VID:Any |
+    ...    grep transition=TABLE:1
+    ${downstream_flow_0_added}=    Execute ONOS CLI Command use single connection    ${ip}    ${port}
+    ...    ${downstream_flow_0_added_cmd}
+    Should Not Be Empty    ${downstream_flow_0_added}
+
+    # Verify downstream table=1 flow, from NNI to UNI
+    ${downstream_from_NNI_to_UNI_in_table_1_cmd}=     Catenate    SEPARATOR=
+    ...    flows -s ADDED ${olt_of_id} | grep table=1 | grep IN_PORT:${nni_port} | grep VLAN_VID:${c_tag} |
+    ...    grep VLAN_ID:${uni_tag} | grep OUTPUT:${onu_port}
+    ${downstream_from_NNI_to_UNI_in_table_1}=    Execute ONOS CLI Command use single connection    ${ip}    ${port}
+    ...    ${downstream_from_NNI_to_UNI_in_table_1_cmd}
+    Should Not Be Empty    ${downstream_from_NNI_to_UNI_in_table_1}
+
+Verify Mcast Flow Rule Subscription
+    [Arguments]    ${ip}    ${port}    ${olt_of_id}    ${mcastIP}
+    [Documentation]    Prova
+    ${downstream_flow_mcast_added_cmd}=   Catenate    SEPARATOR=
+    ...     flows -s ADDED ${olt_of_id} | grep ETH_TYPE:ipv4 | grep IPV4_DST:${mcastIP}
+    #Ricorda ADDED sopra in production
+    #Prova poi a prenderti con il $5 o qualcosa così il gruppo
+    ${downstram_flow_mcast_added}=    Execute ONOS CLI Command use single connection    ${ip}    ${port}
+    ...    ${downstream_flow_mcast_added_cmd}
+    Should Not Be Empty    ${downstram_flow_mcast_added}
+    [Return]    ${downstram_flow_mcast_added}
+
+Verify Mcast Groups Rules generation
+    [Arguments]    ${ip}    ${port}    ${onu_port}      ${groupID}
+    [Documentation]    Prova
+    ${downstream_flow_mcast_added_cmd}=   Catenate    SEPARATOR=
+    ...     groups | grep id=${groupID} | grep OUTPUT:${onu_port}
+    #Ricorda ADDED sopra in production
+    #Prova poi a prenderti con il $5 o qualcosa così il gruppo
+    ${downstram_flow_mcast_added}=    Execute ONOS CLI Command use single connection    ${ip}    ${port}
+    ...    ${downstream_flow_mcast_added_cmd}
+    Should Not Be Empty    ${downstram_flow_mcast_added}
 
 Get Programmed Subscribers
     [Arguments]    ${ip}    ${port}    ${olt_of_id}    ${onu_port}    ${filter}=${EMPTY}
