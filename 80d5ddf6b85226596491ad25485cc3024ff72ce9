@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8db4d7ab_47d88015",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2023-05-16T11:46:30Z",
+      "side": 1,
+      "message": "Great job, but please update file VERSION too!!!",
+      "revId": "80d5ddf6b85226596491ad25485cc3024ff72ce9",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    }
+  ]
+}
