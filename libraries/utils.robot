@@ -25,6 +25,7 @@ Library           OperatingSystem
 Library           CORDRobot
 Library           ImportResource    resources=CORDRobot
 Resource          ./voltctl.robot
+Resource          ./bbsim.robot
 
 *** Keywords ***
 Check CLI Tools Configured
@@ -1727,41 +1728,36 @@ Perform Sanity Test TIM
         ${of_id}=    Wait Until Keyword Succeeds    ${timeout}    15s    Validate OLT Device in ONOS
         ...    ${olt_serial_number}
         Set Global Variable    ${of_id}
-
         #Permorm test on flow rules that are writen inside ONOS, OLT and ONUs
         ${nni_port}=    Wait Until Keyword Succeeds    ${timeout}    2s    Get NNI Port in ONOS    ${of_id}
         Perform Sanity Test TIM Per OLT    ${of_id}    ${nni_port}    ${olt_serial_number}    ${num_onus}
         ...    ${supress_add_subscriber}
-
         #Scalability Test
         #Extract the total iphotetical number of UNIs that an OLT controll having multiple ONUs connected
-        ${num_of_provisioned_onus_ports}=      Count Number of UNI ports for OLT
-        ...     ${olt_serial_number}    hsia
-
+        ${num_of_provisioned_onus_ports}=       Run Keyword If      '${supress_add_subscriber}' == 'False'
+        ...     Count Number of UNI ports for OLT       ${olt_serial_number}    hsia
+        ...     ELSE    Set Variable    0
         # Verify ONOS Flows
-        # Number of Access Flows for OLT on ONOS are equals to:
-        # a standard downstream flow for the Any VLAN, that flow exist when there are at least 1 onu,
-        # 4 rules for each single ONU/UNI
-        # and there are 3 default flows lldp, igmp and pppoe flow rules for the OLT
         ${onos_flows_count}=    Run Keyword    Calculate Tim flows
         ...     ${num_of_provisioned_onus_ports}    1   true  true     true    true
-
-        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
-        ...    Verify Subscriber Access Flows Added Count TIM    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${of_id}
-        ...    ${onos_flows_count}
-
+        Run Keyword If      '${supress_add_subscriber}' == 'False'
+        ...     Wait Until Keyword Succeeds    ${timeout}    5s
+        ...     Verify Subscriber Access Flows Added Count TIM    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${of_id}
+        ...     ${onos_flows_count}
         # Verify VOLTHA Flows
-        # Number of per OLT Flows are 3 times the Number of Active ONUs
-        # (for downstream and upstream) + 3 on the NNI port the LLDP, IGMP and PPPoE default flows
-        ${olt_flows}=    Evaluate   3 * ${num_of_provisioned_onus_ports} + 3
+        ${olt_flows}=       Run Keyword If      '${supress_add_subscriber}' == 'False'
+        ...     Evaluate   6 * ${num_of_provisioned_onus_ports} + 3
+        ...     ELSE    Set Variable    3
         Run Keyword    Wait Until Keyword Succeeds    ${timeout}    5s    Validate OLT Flows
         ...    ${olt_flows}    ${olt_device_id}
         ${List_ONU_Serial}    Create List
         Set Suite Variable    ${List_ONU_Serial}
         Build ONU SN List    ${List_ONU_Serial}    ${olt_serial_number}
         Log    ${List_ONU_Serial}
-        # Number of per ONU Flows equals 3
-        ${onu_flows}=    Set Variable    3
+        # Number of per ONU Flows equals 6
+        ${onu_flows}=       Run Keyword If      '${supress_add_subscriber}' == 'False'
+        ...     Set Variable    6
+        ...     ELSE    Set Variable    0
         Wait Until Keyword Succeeds    ${timeout}    5s    Validate ONU Flows
         ...    ${List_ONU_Serial}    ${onu_flows}
     END
@@ -1783,14 +1779,9 @@ Perform Sanity Test TIM Per OLT
     [Arguments]    ${of_id}    ${nni_port}    ${olt_serial_number}    ${num_onus}    ${supress_add_subscriber}=False
     [Documentation]    This keyword performs Sanity Test Procedure for TIM Workflow
     ...    Sanity test performs pppoe and flows for all the ONUs (and for each UNIs of a consider ONU)
-    ...    This keyword can be used to call in any other tests where sanity check is required
-    ...    and avoids duplication of code.
-    ...    For repeating sanity test without subscriber changes set flag supress_add_subscriber=True.
-    ...    In all other (common) cases flag has to be set False (default).
     Wait Until Keyword Succeeds    ${timeout}    5s
         ...    Verify Downstream Flows for Single OLT NNI Port TIM    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${of_id}
         ...    ${nni_port}
-
     FOR    ${I}    IN RANGE    0    ${num_all_onus}
         ${src}=    Set Variable    ${hosts.src[${I}]}
         ${dst}=    Set Variable    ${hosts.dst[${I}]}
@@ -1801,27 +1792,128 @@ Perform Sanity Test TIM Per OLT
         # Check ONU port is Enabled in ONOS
         Wait Until Keyword Succeeds   120s   2s
         ...    Verify UNI Port Is Enabled   ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${src['onu']}    ${src['uni_id']}
-
         # Subscribe a RG on a defualt UNI_id=1
         ${add_subscriber_access} =  Set Variable     volt-add-subscriber-access ${of_id} ${onu_port}
         Run Keyword If    '${supress_add_subscriber}' == 'False'
         ...     Execute ONOS CLI Command use single connection    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}   ${add_subscriber_access}
-
         # Verify ONU state in voltha
         ${onu_reasons}=  Create List     omci-flows-pushed
-        Run Keyword    Append To List    ${onu_reasons}    onu-reenabled
+        Run Keyword    Append To List    ${onu_reasons}    initial-mib-downloaded
         Wait Until Keyword Succeeds    ${timeout}    5s    Validate Device
         ...    ENABLED    ACTIVE    REACHABLE
         ...    ${src['onu']}    onu=True    onu_reason=${onu_reasons}
-
-        # Verify subscriber access flows are added for a single ONU puniort
-        Wait Until Keyword Succeeds    ${timeout}    5s
-        ...    Verify Subscriber Access Flows Added For Single ONU Port TIM    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${of_id}
+        # Verify subscriber access flows are added for a single ONU onuport for the HSIA service
+        Run Keyword If    '${supress_add_subscriber}' == 'False' and '${src['service_type']}' == 'hsia'
+        ...    Wait Until Keyword Succeeds    ${timeout}    5s
+        ...    Verify Subscriber Access Flows Added For HSIA Service Single ONU Port TIM
+        ...    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${of_id}
         ...    ${onu_port}    ${nni_port}    ${src['c_tag']}    ${src['uni_tag']}
-
+        # Verify subscriber access flows are added for a single ONU onuport for the VOD service
+        Run Keyword If    '${supress_add_subscriber}' == 'False' and '${src['service_type']}' == 'vod'
+        ...    Wait Until Keyword Succeeds    ${timeout}    5s
+        ...    Verify Subscriber Access Flows Added For VoD Service On Single ONU Port TIM
+        ...    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${of_id}
+        ...    ${onu_port}    ${nni_port}    ${src['c_tag']}    ${src['uni_tag']}
         # TO DO: Verify Meters in ONOS
-        #Wait Until Keyword Succeeds    ${timeout}    5s
-        #...    Verify Meters in ONOS Ietf    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${of_id}    ${onu_port}
+    END
+
+Perform Sanity Test TIM MCAST
+    [Documentation]    This keyword iterate all OLTs and performs Sanity Test Procedure for MCAST TIM workflow
+    ...    Use BBSIM to subscribe on a MCast Group and verify flows and groups rules
+    [Arguments]    ${supress_add_subscriber}=False    ${maclearning_enabled}=False
+    Perform Sanity Test TIM     ${supress_add_subscriber}
+    ...     ${maclearning_enabled}
+    FOR    ${J}    IN RANGE    0    ${num_olts}
+        ${olt_serial_number}=    Set Variable    ${list_olts}[${J}][sn]
+        ${num_onus}=    Set Variable    ${list_olts}[${J}][onucount]
+        ${olt_device_id}=    Get OLTDeviceID From OLT List    ${olt_serial_number}
+        ${of_id}=    Wait Until Keyword Succeeds    ${timeout}    15s    Validate OLT Device in ONOS
+        ...    ${olt_serial_number}
+        Set Global Variable    ${of_id}
+        #Permorm test on flow rules that are writen inside ONOS, OLT and ONUs
+        ${nni_port}=    Wait Until Keyword Succeeds    ${timeout}    2s    Get NNI Port in ONOS    ${of_id}
+        ${mCastSubIps}=    Wait Until Keyword Succeeds    ${timeout}    2s
+        ...     Perform Sanity Test TIM MCAST Per OLT    ${of_id}    ${nni_port}    ${olt_serial_number}    ${num_onus}
+        ...    ${supress_add_subscriber}
+        ${number_of_mCastSubIps}    Get Length    ${mCastSubIps}
+        #Scalability Test
+        ${num_of_provisioned_onus_ports}=      Run Keyword If      '${supress_add_subscriber}' == 'False'
+        ...     Count Number of UNI ports for OLT       ${olt_serial_number}    vod
+        ...     ELSE    Set Variable    0
+        # Verify ONOS Flows
+        ${onos_flows_count}=    Run Keyword    Calculate Tim flows
+        ...     ${num_of_provisioned_onus_ports}    1   true  true     true    true
+        #Tot Number of Onos FLows with Mcast Downstream Flows
+        ${onos_flows_count}=    Evaluate    ${number_of_mCastSubIps} + ${onos_flows_count}
+        Run Keyword If      '${supress_add_subscriber}' == 'False'
+        ...     Wait Until Keyword Succeeds    ${timeout}    5s
+        ...     Verify Subscriber Access Flows Added Count TIM    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${of_id}
+        ...    ${onos_flows_count}
+        # Verify VOLTHA Flows
+        ${olt_flows}=       Run Keyword If      '${supress_add_subscriber}' == 'False'
+        ...     Evaluate   6 * ${num_of_provisioned_onus_ports} + 3 + ${number_of_mCastSubIps}
+        ...     ELSE    Set Variable    4
+        Run Keyword    Wait Until Keyword Succeeds    ${timeout}    5s    Validate OLT Flows
+        ...    ${olt_flows}    ${olt_device_id}
+        ${List_ONU_Serial}    Create List
+        Set Suite Variable    ${List_ONU_Serial}
+        Build ONU SN List    ${List_ONU_Serial}    ${olt_serial_number}
+        Log    ${List_ONU_Serial}
+        # Number of per ONU Flows equals 6
+        ${onu_flows}=       Run Keyword If      '${supress_add_subscriber}' == 'False'
+        ...     Set Variable    6
+        ...     ELSE    Set Variable    0
+        Wait Until Keyword Succeeds    ${timeout}    5s    Validate ONU Flows
+        ...    ${List_ONU_Serial}    ${onu_flows}
+    END
+
+Perform Sanity Test TIM MCAST Per OLT
+    [Arguments]    ${of_id}    ${nni_port}    ${olt_serial_number}    ${num_onus}    ${supress_add_subscriber}=False
+    [Documentation]    This keyword performs Sanity Test Procedure for TIM Workflow
+    ...    Sanity test performs pppoe and flows for all the ONUs (and for each UNIs of a consider ONU)
+    @{subTotalMcast}=      Create List
+    FOR    ${I}    IN RANGE    0    ${num_all_onus}
+        ${src}=    Set Variable    ${hosts.src[${I}]}
+        ${dst}=    Set Variable    ${hosts.dst[${I}]}
+        Continue For Loop If    "${olt_serial_number}"!="${src['olt']}"
+        Continue For Loop If    "${src['service_type']}"!="vod"
+        ${subMcast}=    Set Variable    ${src['subMcast']}
+        #Maintain all the MCast Group subscribed by all ONU/ONT
+        ${subTotalMcast}=    Combine Lists     ${subTotalMcast}     ${subMcast}
+        ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
+        ${onu_port}=    Wait Until Keyword Succeeds    ${timeout}    2s
+        ...    Get ONU Port in ONOS    ${src['onu']}    ${of_id}    ${src['uni_id']}
+        Wait Until Keyword Succeeds    ${timeout}    2s
+        ...     Perform Sanity Test TIM MCAST Per ONU    ${NAMESPACE}
+        ...     ${olt_serial_number}    ${src['onu']}    join    ${subMcast}
+        ...     ${onu_port}     ${of_id}
+    END
+    ${subTotalMcast}=    Remove Duplicates    ${subTotalMcast}
+    [Return]    ${subTotalMcast}
+
+Perform Sanity Test TIM MCAST Per ONU
+    [Documentation]  Joins or Leaves Igmp on a BBSim ONU
+    [Arguments]    ${namespace}     ${olt_serial_number}    ${onu}    ${task}    ${group_address_list}
+    ...     ${onu_port}     ${olt_of_id}
+    #Get the BBSIM, where there are the subscriber
+    ${bbsim_pod_name}=      Set Variable    bbsim
+    FOR    ${J}    IN RANGE    0    ${num_olts}
+        ${bbsim_pod_name}=      Set Variable If    "${olt_serial_number}" == "${list_olts}[${J}][sn]"
+        ...    ${list_olts}[${J}][ip]     ${bbsim_pod_name}
+    END
+    ${num_group_address_list}    Get Length    ${group_address_list}
+    FOR    ${I}    IN RANGE    0    ${num_group_address_list}
+        ${group_address}=   Set Variable    ${group_address_list[${I}]}
+        JoinOrLeave Igmp  ${NAMESPACE}  ${bbsim_pod_name}  ${onu}  ${task}  ${group_address}
+        ${downstram_flow_mcast_added}=    Wait Until Keyword Succeeds    ${timeout}    2s
+        ...     Verify Mcast Flow Rule Subscription     ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}
+        ...     ${olt_of_id}    ${group_address}
+        ${groupID}=     Set Variable    ${EMPTY}
+        #Get the GroupID of the Downstream Flow from the Downstream Flow Rule
+        ${groupID}=     Get Substring   ${downstram_flow_mcast_added}   147     -2
+        #Verify if in Groups is add the correct groups rules with correct GroupID and UNI Port
+        Verify Mcast Groups Rules generation    ${ONOS_SSH_IP}      ${ONOS_SSH_PORT}
+        ...     ${onu_port}     ${groupID}
     END
 
 Perform Sanity Test of BBFadapter Aggregation
@@ -1833,11 +1925,8 @@ Perform Sanity Test of BBFadapter Aggregation
     #Extract from the XML of the Device Aggregation different tipe of data structure
     #One for only OLTs, one for only ONUs and one for Both
     Set Global Variable     ${XML}
-
     ALL DEVICES XML update From BBF     ${XML}  ${scripts}
-
     OLT XML update From BBF     ${XML}  ${scripts}
-
     #Do the verification for each OLT and its ONUs
     FOR    ${J}    IN RANGE    0    ${num_olts}
         ${olt_serial_number}=    Set Variable    ${list_olts}[${J}][sn]
@@ -1858,13 +1947,11 @@ Perform Sanity Test of BBFadapter Aggregation
         #Verify if the OLT in BBF have all the features present in VOLTHA
         #Is like a Viceversa Check
         Correct representation check VOLTHA-IETF     ${olt_serial_number}    False
-
         #NNI_port is a place_holder for future tests on services
         #Do a Test for the OLT configuration and its ONUS
         ${nni_port}=    Set Variable    0
         Perform Sanity BBF Per OLT    ${of_id}    ${nni_port}    ${olt_serial_number}    ${num_onus}
         ...    ${supress_add_subscriber}
-
     END
 
 Perform Sanity BBF Per OLT
@@ -1892,9 +1979,7 @@ Perform Sanity BBF Per OLT
         #Run Keyword If  ${supress_add_subscriber}   Append To List    ${onu_reasons}    initial-mib-downloaded
         Log   ${onu_reasons}
         Log   ${supress_add_subscriber}
-
         ONU XML update From BBF     ${XML}  ${scripts}
-
         #Validate in VOLTHA if the ONU exist and have the correct states
         Wait Until Keyword Succeeds    ${timeout}    5s    Validate Device
         ...    ENABLED    ACTIVE    REACHABLE
