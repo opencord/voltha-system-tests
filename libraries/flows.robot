@@ -135,11 +135,20 @@ Calculate Tt flows
     Return From Keyword     ${flow_count}
 
 Calculate Tim flows
-    [Documentation]  Calculate the flow for the Tim workflow
+    [Documentation]  Calculate the number of flow rules for the Tim workflow in a single OLT,
+    ...     at the variation of the number of ONis provisioned
+    ...     Case 1: ( 1 LLDP + 1 PPPoE + 1 IGMP) for each OLTs before provisioning
+    ...     Case 2: ( 2 Any VLAN) + ( UNIs * 8 ) + (1 LLDP + 1 PPPoE + 1 IGMP) for each OLTs after provisioning
     [Arguments]  ${uni_count}    ${olt_count}   ${provisioned}  ${withPppoe}     ${withIgmp}    ${withLldp}
-    # (1 LLDP + 1 PPPoE + 1 IGMP) for each OLTs before provisioning
-    # 1 Any VLAN + (4 * UNIs) * (1 LLDP + 1 PPPoE + 1 IGMP) for each OLTs after provisioning
-    ${anyVlanFlowsCount}=   Evaluate    1
+
+    #Define the any Vlan Number Flows in a OLT after the subscription of almost one subscriber
+    #One Any Vlan roule for each service ( HSIA , VoD )
+    ${anyVlanFlowsCount}=   Evaluate    2
+
+    #Define the number of flows for single UNIs where there are a subscriber
+    # 4 Flow Rules for HSIA Service and 4 Flow Rules for VoD Service
+    ${uniUpDownFlowsCount}=   Evaluate    8
+
     ${pppoeFlowsCount}=   Run Keyword If   $withPppoe=='true'
     ...     Evaluate     1
     ...     ELSE
@@ -155,8 +164,9 @@ Calculate Tim flows
     ${pppoeFlowsCount}=   Evaluate   ${olt_count} * ${pppoeFlowsCount}
     ${totalLldpFlows}=   Evaluate   ${olt_count} * ${lldpFlowsCount}
     ${totalIgmpFlows}=   Evaluate   ${olt_count} * ${igmpFlowsCount}
+    ${totalPppoeLlldpIgmpFlows}=    Evaluate    ${pppoeFlowsCount} + ${totalLldpFlows} + ${totalIgmpFlows}
     ${flow_count}=  Run Keyword If  $provisioned=='false'
-    ...     Evaluate     ${pppoeFlowsCount} + ${totalLldpFlows} + ${totalIgmpFlows}
+    ...     Set Variable    ${totalPppoeLlldpIgmpFlows}
     ...     ELSE
-    ...     Evaluate    ${anyVlanFlowsCount} + (${uni_count} * 4) + ${pppoeFlowsCount} + ${totalLldpFlows} + ${totalIgmpFlows}
+    ...     Evaluate    ${anyVlanFlowsCount} + (${uniUpDownFlowsCount} * ${uni_count}) + ${totalPppoeLlldpIgmpFlows}
     Return From Keyword     ${flow_count}

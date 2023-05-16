@@ -32,7 +32,7 @@ nodes:
     ip: '127.0.0.1'
 
 olts:
-  - ip: bbsim0.voltha.svc
+  - ip: bbsim0
     serial: BBSIM_OLT_10
 
 hosts:
@@ -45,6 +45,15 @@ hosts:
       service_type: 'hsia'
       uni_id: 1
       tp_id: '64'
+    - onu: 'BBSM000a0001'
+      olt: 'BBSIM_OLT_10'
+      uni_tag: '836'
+      c_tag: '101'
+      s_tag: '4096'
+      service_type: 'vod'
+      uni_id: 1
+      tp_id: '64'
 
   dst:
+    - ip: null
     - ip: null

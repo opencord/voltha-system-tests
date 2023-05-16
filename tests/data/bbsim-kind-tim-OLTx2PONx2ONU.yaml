@@ -32,7 +32,7 @@ nodes:
     ip: '127.0.0.1'
 
 olts:
-  - ip: bbsim0.voltha.svc
+  - ip: bbsim0
     serial: BBSIM_OLT_10
 
 hosts:
