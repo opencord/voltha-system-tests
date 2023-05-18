@@ -382,5 +382,5 @@ Perform Igmp Join or Leave Per OLT
     [Documentation]    Performs Igmp Join for all the ONUs of an OLT (based on Rest Endpoint)
     [Arguments]    ${bbsim_rel_session}    ${onu_list}    ${task}
     FOR    ${onu}    IN    @{onu_list}
-        JoinOrLeave Igmp Rest Based    ${bbsim_rel_session}    ${onu}    ${task}    224.0.0.22
+        JoinOrLeave Igmp Rest Based    ${bbsim_rel_session}    ${onu}    0    ${task}    224.0.0.22
     END

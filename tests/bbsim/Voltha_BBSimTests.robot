@@ -64,6 +64,9 @@ ${suppressaddsubscriber}    True
 # if set to False, comand used is "volt-add-subscriber-access"
 ${unitag_sub}    False
 
+# Igmp group address to perform join and leave for ONUs
+${igmp_group_address}    224.0.0.22
+
 *** Test Cases ***
 
 Test Perform BBSim Sanity
@@ -84,13 +87,13 @@ Perform ONU Igmp Join and Leave
     [Arguments]    ${bbsim_pod}    ${of_id}    ${onu}    ${onu_port}
     FOR    ${Z}    IN RANGE    0    ${igmp_join_leave_count}
         List Service    ${NAMESPACE}    ${bbsim_pod}
-        JoinOrLeave Igmp    ${NAMESPACE}    ${bbsim_pod}    ${onu}    join
+        JoinOrLeave Igmp    ${NAMESPACE}    ${bbsim_pod}    ${onu}    0    join    ${igmp_group_address}
         Sleep    2s
         List Service    ${NAMESPACE}    ${bbsim_pod}
         List ONUs    ${NAMESPACE}    ${bbsim_pod}
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    2s
         ...    Verify ONU in Groups    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${of_id}    ${onu_port}
-        JoinOrLeave Igmp    ${NAMESPACE}    ${bbsim_pod}    ${onu}    leave
+        JoinOrLeave Igmp    ${NAMESPACE}    ${bbsim_pod}    ${onu}    0    leave    ${igmp_group_address}
         Sleep    2s
         List Service    ${NAMESPACE}    ${bbsim_pod}
         List ONUs    ${NAMESPACE}    ${bbsim_pod}
