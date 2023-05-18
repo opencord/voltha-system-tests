@@ -55,16 +55,16 @@ List Service
 
 JoinOrLeave Igmp Rest Based
     [Documentation]  Joins or Leaves Igmp on a BBSim ONU (based on Rest Endpoint)
-    [Arguments]    ${bbsim_rel_session}    ${onu}    ${task}    ${group_address}
+    [Arguments]    ${bbsim_rel_session}    ${onu}    ${uni}    ${task}    ${group_address}    ${vlan}=55
     ${resp}=    Post Request    ${bbsim_rel_session}
-    ...    /v1/olt/onus/${onu}/igmp/${IGMP_TASK_DICT}[${task}]/${group_address}
+    ...    /v1/olt/onus/${onu}/${uni}/igmp/${IGMP_TASK_DICT}[${task}]/${group_address}/${vlan}
     Log    ${resp}
 
 JoinOrLeave Igmp
     [Documentation]  Joins or Leaves Igmp on a BBSim ONU
-    [Arguments]    ${namespace}    ${bbsim_pod_name}    ${onu}    ${task}    ${group_address}=224.0.0.22
+    [Arguments]    ${namespace}    ${bbsim_pod_name}    ${onu}    ${uni}    ${task}    ${group_address}    ${vlan}=55
     ${res}    ${rc}=    Exec Pod And Return Output And RC    ${namespace}    ${bbsim_pod_name}
-    ...    bbsimctl onu igmp ${onu} ${task} ${group_address}
+    ...    bbsimctl onu igmp ${onu} ${uni} ${task} ${group_address} ${vlan}
     Log     ${res}
     Should Be Equal as Integers    ${rc}    0
 
