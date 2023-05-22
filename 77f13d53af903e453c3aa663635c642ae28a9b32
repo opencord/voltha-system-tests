@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "850f2c36_6a9a7c9c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000404
+      },
+      "writtenOn": "2023-05-22T12:14:35Z",
+      "side": 1,
+      "message": "https://jenkins.opencord.org/view/Verify/job/verify_bbsim_sanity-test/1148/ has passed successfully. ",
+      "revId": "77f13d53af903e453c3aa663635c642ae28a9b32",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    }
+  ]
+}
