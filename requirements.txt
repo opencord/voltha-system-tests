@@ -12,7 +12,7 @@ git+https://github.com/zdw/robotframework-importresource@b81b87aabaee0594e966687
 cord-robot==2.1.10
 virtualenv
 matplotlib==3.3.4
-requests==2.24.0
+requests==2.31.0
 grpc-robot>=2.9.3
 kafka-robot>=2.3.2
 voltha-protos>=4.2.0
