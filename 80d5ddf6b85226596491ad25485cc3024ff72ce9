@@ -33,6 +33,23 @@
       "message": "Single OLT was running here: https://jenkins.opencord.org/view/All%20Jobs/job/periodic-voltha-openonu-go-test-bbsim/1891/",
       "revId": "80d5ddf6b85226596491ad25485cc3024ff72ce9",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9d990299_08db3476",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2023-05-31T09:08:03Z",
+      "side": 1,
+      "message": "Please do not forget to update VERSION file!!",
+      "revId": "80d5ddf6b85226596491ad25485cc3024ff72ce9",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     }
   ]
 }
