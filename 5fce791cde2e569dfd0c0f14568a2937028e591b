@@ -16,6 +16,46 @@
       "message": "recheck",
       "revId": "5fce791cde2e569dfd0c0f14568a2937028e591b",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eed00101_3ff10e04",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2023-05-31T09:05:34Z",
+      "side": 1,
+      "message": "Please update the VERSION file too!!!",
+      "revId": "5fce791cde2e569dfd0c0f14568a2937028e591b",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9e893c1c_0cf654fa",
+        "filename": "tests/tim-workflow/Voltha_TIM_PODTests.robot",
+        "patchSetId": 4
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1000643
+      },
+      "writtenOn": "2023-05-31T09:05:34Z",
+      "side": 1,
+      "message": "I think \u0027default\u0027 is the right one, using another one set it via environment variable.",
+      "range": {
+        "startLine": 45,
+        "startChar": 0,
+        "endLine": 45,
+        "endChar": 29
+      },
+      "revId": "5fce791cde2e569dfd0c0f14568a2937028e591b",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     }
   ]
 }
