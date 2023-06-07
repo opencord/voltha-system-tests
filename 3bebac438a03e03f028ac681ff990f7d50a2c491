@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d91a2c8d_3e9104d4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000218
+      },
+      "writtenOn": "2023-06-07T05:21:16Z",
+      "side": 1,
+      "message": "@Andrea Speranza please bump up the version in VERSION file.",
+      "revId": "3bebac438a03e03f028ac681ff990f7d50a2c491",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    }
+  ]
+}
