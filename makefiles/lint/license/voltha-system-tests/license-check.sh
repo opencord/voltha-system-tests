@@ -37,6 +37,9 @@
 ## the only question mark.
 ## ---------------------------------------------------------------------------
 
+echo "BLAH"
+exit 1
+
 set +e -u -o pipefail
 fail_licensecheck=0
 
@@ -49,21 +52,19 @@ gargs+=('-e' 'Apache License')
 # Good regex -- no false positives.
 gargs+=('-e' 'Copyright[[:space:]]+[[:digit:]]{4}')
 
-declare -a excl=()
-excl+=('-name' '.git')
-excl+=('-o' '-name' '.venv')
-excl+=('-o' '-name' 'vst_venv')
-
 while IFS= read -r -d '' path
 do
+    case "$path" in
+	*venv*) echo "GERR: $path"
+		exit 1
+		;;
+    esac
     if ! grep -q "${gargs[@]}" "${path}";
     then
 	echo "ERROR: $path does not contain License Header"
 	fail_licensecheck=1
     fi
-done < <(find . \
-  \( "${excl[@]}" \) \
-  -prune -o -type f \
+done < <(find . \( -name ".git" -o -name '.venv' -o 'vst_venv' \) -prune -o -type f \
   ! -iname "*.png" \
   ! -name "*.asc" \
   ! -name "*.bat" \

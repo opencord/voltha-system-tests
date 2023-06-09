@@ -13,23 +13,22 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+#
+# SPDX-FileCopyrightText: 2022-2023 Open Networking Foundation (ONF) and the ONF Contributors
+# SPDX-License-Identifier: Apache-2.0
 # -----------------------------------------------------------------------
-
-ifndef mk-include--onf-lint-license#       # one-time loader
-ifndef NO-LINT-LICENSE
 
 $(if $(DEBUG),$(warning ENTER))
 
-$(if $(USE_LINT_LICENSE)\
-  ,$(eval include $(ONF_MAKEDIR)/lint/license/voltha-system-tests/include.mk)\
-  ,$(eval include $(ONF_MAKEDIR)/lint/license/common.mk)\
-)
+todo ::
+	@echo '[TODO]'
+	@echo '  o volthaStackDeploy.groovy - post v2.11 release cleanup for 2.8'
 
-  mk-include--onf-lint-license := true
+## -----------------------------------------------------------------------
+## -----------------------------------------------------------------------
+help ::
+	@echo '  todo                Display future enhancement list.'
 
 $(if $(DEBUG),$(warning LEAVE))
-
-endif # NO-LINT-LICENSE
-endif # mk-include--onf-lint-license
 
 # [EOF]

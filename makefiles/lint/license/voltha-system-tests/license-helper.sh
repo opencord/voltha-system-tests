@@ -1,4 +1,4 @@
-# -*- makefile -*-
+#!/bin/bash
 # -----------------------------------------------------------------------
 # Copyright 2022-2023 Open Networking Foundation (ONF) and the ONF Contributors
 #
@@ -15,21 +15,17 @@
 # limitations under the License.
 # -----------------------------------------------------------------------
 
-ifndef mk-include--onf-lint-license#       # one-time loader
-ifndef NO-LINT-LICENSE
+declare -i status=$#
 
-$(if $(DEBUG),$(warning ENTER))
+while [ $# -gt 0 ]; do
+    arg="$1"; shift
+    echo "ERROR: Detected missing license header: ${arg}"
+done
 
-$(if $(USE_LINT_LICENSE)\
-  ,$(eval include $(ONF_MAKEDIR)/lint/license/voltha-system-tests/include.mk)\
-  ,$(eval include $(ONF_MAKEDIR)/lint/license/common.mk)\
-)
+if [ $status -ne 0 ]; then
+    exit 1
+fi
 
-  mk-include--onf-lint-license := true
-
-$(if $(DEBUG),$(warning LEAVE))
-
-endif # NO-LINT-LICENSE
-endif # mk-include--onf-lint-license
+/bin/true # set $?
 
 # [EOF]
