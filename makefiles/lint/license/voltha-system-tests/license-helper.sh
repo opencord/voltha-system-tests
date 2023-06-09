@@ -1,6 +1,6 @@
-# -*- makefile -*-
+#!/bin/bash
 # -----------------------------------------------------------------------
-# Copyright 2017-2022 Open Networking Foundation
+# Copyright 2022-2023 Open Networking Foundation (ONF) and the ONF Contributors
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -15,18 +15,17 @@
 # limitations under the License.
 # -----------------------------------------------------------------------
 
-YAML_FILES ?= $(error YAML_FILES= is required)
+declare -i status=$#
 
-.PHONY: lint-yaml
+while [ $# -gt 0 ]; do
+    arg="$1"; shift
+    echo "ERROR: Detected missing license header: ${arg}"
+done
 
-lint : lint-yaml
+if [ $status -ne 0 ]; then
+    exit 1
+fi
 
-lint-yaml: vst_venv
-	source ./$</bin/activate \
-	    ; set -u \
-	    ; yamllint -s $(YAML_FILES)
-
-help::
-	@echo "  lint-yaml            Syntax check yaml source using yamllint"
+/bin/true # set $?
 
 # [EOF]
