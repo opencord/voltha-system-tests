@@ -17,7 +17,7 @@
 
 set -euo pipefail
 
-dst="vst_venv"
+dst="vst_venv" # rename to .venv
 src="staging"
 pat="patches"
 
@@ -45,6 +45,8 @@ gather - collect potential python files to edit.
 EOH
 	    ;;
 
+	--venv) dst="$1"; shift ;;
+	
 	apply)
 	    pushd "$dst" || { echo "pushd $dst failed"; exit 1; }
 	    for fyl in "${fyls[@]}";

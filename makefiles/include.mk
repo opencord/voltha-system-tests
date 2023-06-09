@@ -1,6 +1,6 @@
 # -*- makefile -*-
 # -----------------------------------------------------------------------
-# Copyright 2022-2023 Open Networking Foundation (ONF) and the ONF Contributors (ONF) and the ONF Contributors
+# Copyright 2022-2023 Open Networking Foundation (ONF) and the ONF Contributors
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -17,13 +17,58 @@
 # SPDX-FileCopyrightText: 2022-2023 Open Networking Foundation (ONF) and the ONF Contributors
 # SPDX-License-Identifier: Apache-2.0
 # -----------------------------------------------------------------------
+# https://gerrit.opencord.org/plugins/gitiles/onf-make
+# ONF.makefile.version = 1.0
+# -----------------------------------------------------------------------
 
-MAKEDIR ?= $(error MAKEDIR= is required)
+$(if $(DEBUG),$(warning ENTER))
 
-include $(MAKEDIR)/consts.mk
-include $(MAKEDIR)/help.mk
+## -----------------------------------------------------------------------
+## Define vars based on relative import (normalize symlinks)
+## Usage: include makefiles/onf/include.mk
+## -----------------------------------------------------------------------
+onf-mk-abs    ?= $(abspath $(lastword $(MAKEFILE_LIST)))
+onf-mk-top    := $(subst /include.mk,$(null),$(onf-mk-abs))
+ONF_MAKEDIR   := $(onf-mk-top)
 
-include $(MAKEDIR)/commands/kail.mk
-include $(MAKEDIR)/lint/include.mk
+MAKEDIR ?= $(ONF_MAKEDIR)#                   # Two dirs needed, local and common
+
+include $(ONF_MAKEDIR)/consts.mk
+include $(ONF_MAKEDIR)/help/include.mk       # render target help
+include $(ONF_MAKEDIR)/utils/include.mk      # dependency-less helper macros
+include $(ONF_MAKEDIR)/etc/include.mk        # banner macros
+
+include $(ONF_MAKEDIR)/commands/include.mk   # Tools and local installers
+
+include $(ONF_MAKEDIR)/virtualenv.mk#        # lint-{jjb,python} depends on venv
+include $(ONF_MAKEDIR)/lint/include.mk
+# include $(ONF_MAKEDIR)/git-submodules.mk
+# include $(ONF_MAKEDIR)/gerrit/include.mk
+
+include $(ONF_MAKEDIR)/todo.mk
+include $(ONF_MAKEDIR)/help/variables.mk
+
+##---------------------##
+##---]  ON_DEMAND  [---##
+##---------------------##
+$(if $(USE_DOCKER_MK),$(eval $(ONF_MAKEDIR)/docker/include.mk))
+
+##-------------------##
+##---]  TARGETS  [---##
+##-------------------##
+include $(ONF_MAKEDIR)/targets/clean.mk
+# include $(ONF_MAKEDIR)/targets/check.mk
+include $(ONF_MAKEDIR)/targets/sterile.mk
+# include $(ONF_MAKEDIR)/targets/test.mk
+
+$(if $(DEBUG),$(warning LEAVE))
+
+## --------------------------------------------------------------------------
+## structure to support pre/post target handling w/o inlining in Makefile (?)
+## --------------------------------------------------------------------------
+##   include makefiles/include.mk
+##     include makefiles/main/enter.mk
+##     [... include *.mk ...]
+##     include makefiles/main/leave.mk
 
 # [EOF]
