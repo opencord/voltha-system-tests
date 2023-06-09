@@ -15,21 +15,31 @@
 # limitations under the License.
 # -----------------------------------------------------------------------
 
-ifndef mk-include--onf-lint-license#       # one-time loader
-ifndef NO-LINT-LICENSE
+ifndef mk-include--onf-lint-python#       # one-time loader
 
 $(if $(DEBUG),$(warning ENTER))
 
-$(if $(USE_LINT_LICENSE)\
-  ,$(eval include $(ONF_MAKEDIR)/lint/license/voltha-system-tests/include.mk)\
-  ,$(eval include $(ONF_MAKEDIR)/lint/license/common.mk)\
-)
+## -----------------------------------------------------------------------
+## Intent: Display early so lint targets are grouped
+## -----------------------------------------------------------------------
+help ::
+#	@echo
+#	@echo '[PYTHON]'
+	@echo '  lint-python         Syntax check python sources (*.py)'
+#	@echo '  help-lint-python-flake8'
+#	@echo '  help-lint-python-pylint'
 
-  mk-include--onf-lint-license := true
+## -----------------------------------------------------------------------
+## -----------------------------------------------------------------------
+  ifndef NO-LINT-PYTHON
+    include $(ONF_MAKEDIR)/lint/python/flake8.mk
+    include $(ONF_MAKEDIR)/lint/python/pylint.mk
+  endif
+
+  mk-include--onf-lint-python := true
 
 $(if $(DEBUG),$(warning LEAVE))
 
-endif # NO-LINT-LICENSE
 endif # mk-include--onf-lint-license
 
 # [EOF]
