@@ -1,6 +1,6 @@
 # -*- makefile -*-
 # -----------------------------------------------------------------------
-# Copyright 2017-2023 Open Networking Foundation
+# Copyright 2017-2023 Open Networking Foundation (ONF) and the ONF Contributors
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -15,30 +15,23 @@
 # limitations under the License.
 # -----------------------------------------------------------------------
 
-ifdef VERBOSE
-  help :: help-patches
-else
-  help ::
-	@echo
-	@echo "[PATCHES] - helper on the road to python 3.10+ based testing"
-	@echo '  see also: help-patches'
-endif
+ifndef mk-include--onf-lint-shellcheck # single-include guard macro
 
-help-patches:
-	@echo
-	@echo "[PATCHES] - helper on the road to python 3.10+ based testing"
-	@echo "  patch-apply          Apply patches to the virtualenv directory"
-	@echo "  patch-create"
-	@echo "  patch-gather         Gather a list of potential patch sources"
-	@echo "  patch-init           Clone the virtualenv directory for patch creation."
+$(if $(DEBUG),$(warning ENTER))
 
+##--------------------##
+##---]  INCLUDES  [---##
+##--------------------##
+# include $(ONF_MAKEDIR)/lint/shellcheck/help.mk
+include $(ONF_MAKEDIR)/lint/shellcheck/find_utils.mk
 
+# Standard lint-yaml targets
+include $(ONF_MAKEDIR)/lint/shellcheck/shellcheck.mk
 
+mk-include--onf-lint-shellcheck := true#        # Flag to inhibit re-including
 
-help-trailer ::
-	@echo "[SEE ALSO] patches-help"
+$(if $(DEBUG),$(warning LEAVE))
 
-help-verbose ::
-	$(HIDE)$(MAKE) --no-print-directory help VERBOSE=1
+endif # mk-include--onf-lint-shellcheck
 
 # [EOF]

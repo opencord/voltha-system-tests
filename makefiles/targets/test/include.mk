@@ -18,28 +18,13 @@
 # SPDX-License-Identifier: Apache-2.0
 # -----------------------------------------------------------------------
 # https://gerrit.opencord.org/plugins/gitiles/onf-make
-# ONF.makefile.version = 1.1
+# ONF.makefile.version = 1.0
 # -----------------------------------------------------------------------
 
 $(if $(DEBUG),$(warning ENTER))
 
-help ::
-	@echo
-	@echo "[LINT]"
-
-include $(ONF_MAKEDIR)/lint/doc8/include.mk
-include $(ONF_MAKEDIR)/lint/groovy/include.mk
-include $(ONF_MAKEDIR)/lint/jjb.mk
-include $(ONF_MAKEDIR)/lint/json.mk
-include $(ONF_MAKEDIR)/lint/license/include.mk
-include $(ONF_MAKEDIR)/lint/makefile.mk
-# include $(ONF_MAKEDIR)/lint/markdown/include.mk
-include $(ONF_MAKEDIR)/lint/python/include.mk
-include $(ONF_MAKEDIR)/lint/shellcheck/include.mk
-include $(ONF_MAKEDIR)/lint/tox/include.mk
-include $(ONF_MAKEDIR)/lint/yaml/include.mk
-
-include $(ONF_MAKEDIR)/lint/help.mk
+# Special snowflake: repository-dependent test target
+-include $(ONF_MAKEDIR)/targets/test/$(--repo-name--).mk
 
 $(if $(DEBUG),$(warning LEAVE))
 

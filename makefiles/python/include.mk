@@ -1,6 +1,6 @@
 # -*- makefile -*-
 # -----------------------------------------------------------------------
-# Copyright 2017-2023 Open Networking Foundation
+# Copyright 2022 Open Networking Foundation (ONF) and the ONF Contributors
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -13,32 +13,15 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+#
+# SPDX-FileCopyrightText: 2022 Open Networking Foundation (ONF) and the ONF Contributors
+# SPDX-License-Identifier: Apache-2.0
 # -----------------------------------------------------------------------
 
-ifdef VERBOSE
-  help :: help-patches
+ifdef PYTHON_FILES
+  include $(ONF_MAKEDIR)/python/test/include.mk
 else
-  help ::
-	@echo
-	@echo "[PATCHES] - helper on the road to python 3.10+ based testing"
-	@echo '  see also: help-patches'
+  include $(ONF_MAKEDIR)/python/test/include.mk
 endif
-
-help-patches:
-	@echo
-	@echo "[PATCHES] - helper on the road to python 3.10+ based testing"
-	@echo "  patch-apply          Apply patches to the virtualenv directory"
-	@echo "  patch-create"
-	@echo "  patch-gather         Gather a list of potential patch sources"
-	@echo "  patch-init           Clone the virtualenv directory for patch creation."
-
-
-
-
-help-trailer ::
-	@echo "[SEE ALSO] patches-help"
-
-help-verbose ::
-	$(HIDE)$(MAKE) --no-print-directory help VERBOSE=1
 
 # [EOF]

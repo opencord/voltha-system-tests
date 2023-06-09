@@ -13,34 +13,33 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-#
-# SPDX-FileCopyrightText: 2022-2023 Open Networking Foundation (ONF) and the ONF Contributors
-# SPDX-License-Identifier: Apache-2.0
 # -----------------------------------------------------------------------
-# https://gerrit.opencord.org/plugins/gitiles/onf-make
-# ONF.makefile.version = 1.1
-# -----------------------------------------------------------------------
+
+ifndef mk-include--onf-lint-python#       # one-time loader
 
 $(if $(DEBUG),$(warning ENTER))
 
+## -----------------------------------------------------------------------
+## Intent: Display early so lint targets are grouped
+## -----------------------------------------------------------------------
 help ::
-	@echo
-	@echo "[LINT]"
+#	@echo
+#	@echo '[PYTHON]'
+	@echo '  lint-python         Syntax check python sources (*.py)'
+#	@echo '  help-lint-python-flake8'
+#	@echo '  help-lint-python-pylint'
 
-include $(ONF_MAKEDIR)/lint/doc8/include.mk
-include $(ONF_MAKEDIR)/lint/groovy/include.mk
-include $(ONF_MAKEDIR)/lint/jjb.mk
-include $(ONF_MAKEDIR)/lint/json.mk
-include $(ONF_MAKEDIR)/lint/license/include.mk
-include $(ONF_MAKEDIR)/lint/makefile.mk
-# include $(ONF_MAKEDIR)/lint/markdown/include.mk
-include $(ONF_MAKEDIR)/lint/python/include.mk
-include $(ONF_MAKEDIR)/lint/shellcheck/include.mk
-include $(ONF_MAKEDIR)/lint/tox/include.mk
-include $(ONF_MAKEDIR)/lint/yaml/include.mk
+## -----------------------------------------------------------------------
+## -----------------------------------------------------------------------
+  ifndef NO-LINT-PYTHON
+    include $(ONF_MAKEDIR)/lint/python/flake8.mk
+    include $(ONF_MAKEDIR)/lint/python/pylint.mk
+  endif
 
-include $(ONF_MAKEDIR)/lint/help.mk
+  mk-include--onf-lint-python := true
 
 $(if $(DEBUG),$(warning LEAVE))
+
+endif # mk-include--onf-lint-license
 
 # [EOF]

@@ -17,29 +17,24 @@
 # SPDX-FileCopyrightText: 2022-2023 Open Networking Foundation (ONF) and the ONF Contributors
 # SPDX-License-Identifier: Apache-2.0
 # -----------------------------------------------------------------------
-# https://gerrit.opencord.org/plugins/gitiles/onf-make
-# ONF.makefile.version = 1.1
-# -----------------------------------------------------------------------
 
 $(if $(DEBUG),$(warning ENTER))
 
-help ::
+## -----------------------------------------------------------------------
+## -----------------------------------------------------------------------
+.PHONY: test
+test: $(venv-activate-script) $(JOBCONFIG_DIR)
+	$(activate) \
+	&& pipdeptree \
+	&& jenkins-jobs -l DEBUG test --recursive --config-xml -o "$(JOBCONFIG_DIR)" jjb/ ;
+
+## -----------------------------------------------------------------------
+## -----------------------------------------------------------------------
+help-verbose += help-test
+help-test ::
 	@echo
-	@echo "[LINT]"
-
-include $(ONF_MAKEDIR)/lint/doc8/include.mk
-include $(ONF_MAKEDIR)/lint/groovy/include.mk
-include $(ONF_MAKEDIR)/lint/jjb.mk
-include $(ONF_MAKEDIR)/lint/json.mk
-include $(ONF_MAKEDIR)/lint/license/include.mk
-include $(ONF_MAKEDIR)/lint/makefile.mk
-# include $(ONF_MAKEDIR)/lint/markdown/include.mk
-include $(ONF_MAKEDIR)/lint/python/include.mk
-include $(ONF_MAKEDIR)/lint/shellcheck/include.mk
-include $(ONF_MAKEDIR)/lint/tox/include.mk
-include $(ONF_MAKEDIR)/lint/yaml/include.mk
-
-include $(ONF_MAKEDIR)/lint/help.mk
+	@echo '[MAKE: test]'
+	@echo '  test                Perform testing that a jenkins job pull request will invoke'
 
 $(if $(DEBUG),$(warning LEAVE))
 

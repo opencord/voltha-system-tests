@@ -1,8 +1,8 @@
 # -*- makefile -*-
 # -----------------------------------------------------------------------
-# Copyright 2017-2023 Open Networking Foundation (ONF) and the ONF Contributors
+# Copyright 2022-2023 Open Networking Foundation (ONF) and the ONF Contributors
 #
-# Licensed under the Apache License, Version 2.0 (the "License")
+# Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
 #
@@ -13,6 +13,9 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+#
+# SPDX-FileCopyrightText: 2022 Open Networking Foundation (ONF) and the ONF Contributors
+# SPDX-License-Identifier: Apache-2.0
 # -----------------------------------------------------------------------
 
 $(if $(DEBUG),$(warning ENTER))
@@ -20,71 +23,67 @@ $(if $(DEBUG),$(warning ENTER))
 ##-------------------##
 ##---]  GLOBALS  [---##
 ##-------------------##
-.PHONY: lint-json lint-json-all lint-json-modified
+.PHONY: lint-tox lint-tox-all lint-tox-modified
 
-have-json-files := $(if $(strip $(JSON_FILES)),true)
-JSON_FILES      ?= $(error JSON_FILES= required)
-
-## -----------------------------------------------------------------------
-## Intent: Use the json command to perform syntax checking.
-##   o If UNSTABLE=1 syntax check all sources
-##   o else only check sources modified by the developer.
-## Usage:
-##   % make lint UNSTABLE=1
-##   % make lint-json-all
-## -----------------------------------------------------------------------
-ifndef NO-LINT-JSON
-  lint-json-mode := $(if $(have-json-files),modified,all)
-  lint : lint-json-$(lint-json-mode)
-endif# NO-LINT-JSON
+PYTHON_FILES      ?= $(error PYTHON_FILES= required)
 
 ## -----------------------------------------------------------------------
-## Intent: exhaustive json syntax checking
+## Intent: Sanity check incoming JJB config changes.
+##   Todo: Depend on makefiles/lint/jjb.mk :: lint-jjb
 ## -----------------------------------------------------------------------
-json-find-args := $(null)
-json-find-args += -name '$(venv-name)'
-lint-json-all:	
-	$(HIDE)$(MAKE) --no-print-directory lint-json-install
-
-	$(activate)\
- && find . \( $(json-find-args) \) -prune -o -name '*.json' -print0 \
-	| $(xargs-n1) python -m json.tool > /dev/null ;\
+ifndef NO-LINT-TOX
+  lint-tox-mode := $(if $(have-python-files),modified,all)
+  lint     : lint-tox
+  lint-tox : lint-tox-$(lint-tox-mode)
+endif# NO-LINT-TOX
 
 ## -----------------------------------------------------------------------
-## Intent: check deps for format and python3 cleanliness
+## Intent: Invoke tox on all sources
+## -----------------------------------------------------------------------
+lint-tox-all: $(venv-activate-script)
+	$(MAKE) --no-print-directory lint-tox-install
+
+	$(activate) && tox -e py310
+
+## -----------------------------------------------------------------------
+## Intent: Invoke tox on modified sources (target is mainly for consistency)
+## -----------------------------------------------------------------------
+lint-tox-modified: $(venv-activate-script)
+	$(MAKE) --no-print-directory lint-tox-install
+
+	$(activate) && tox -e py310 $(PYTHON_FILES)
+
+## -----------------------------------------------------------------------
+## Intent: https://tox.wiki/en/4.6.4/installation.html
+##   python -m pip install pipx-in-pipx --user
+##   pipx install tox
+##   tox --help
+## -----------------------------------------------------------------------
 ## Note:
-##   json --py3k option no longer supported
+##   o simple: Installed through requirements.txt
+##   o This target can make usage on-demand.
 ## -----------------------------------------------------------------------
-lint-json-modified: $(venv-activate-script)
-	$(HIDE)$(MAKE) --no-print-directory lint-json-install
-
-	$(activate)\
- && for jsonfile in $(JSON_FILES); do \
-        echo "Validating json file: $$jsonfile" ;\
-        python -m json.tool $$jsonfile > /dev/null ;\
-    done
-
-## -----------------------------------------------------------------------
-## Intent:
-## -----------------------------------------------------------------------
-.PHONY: lint-json-install
-lint-json-install: $(venv-activate-script)
+.PHONY: lint-tox-install
+lint-tox-install: $(venv-activate-script)
 	@echo
 	@echo "** -----------------------------------------------------------------------"
-	@echo "** json syntax checking"
+	@echo "** python tox syntax checking"
 	@echo "** -----------------------------------------------------------------------"
-#	$(activate) && pip install --upgrade json.tool
-#       $(activate) && python -m json.tool --version (?-howto-?)
+	$(activate) && pip install --upgrade tox
+	$(activate) && tox --version
 	@echo
+
 
 ## -----------------------------------------------------------------------
 ## Intent: Display command usage
 ## -----------------------------------------------------------------------
 help::
-	@echo '  lint-json          Syntax check python using the json command'
+	@echo '  lint-tox             Invoke the tox test command'
   ifdef VERBOSE
-	@echo '  lint-json-all       json checking: exhaustive'
-	@echo '  lint-json-modified  json checking: only modified'
+	@echo '  $(MAKE) lint-tox PYTHON_FILES=...'
+	@echo '  lint-tox-modified  tox checking: only modified'
+	@echo '  lint-tox-all       tox checking: exhaustive'
+	@echo '  lint-tox-install     Install the tox command'
   endif
 
 $(if $(DEBUG),$(warning LEAVE))

@@ -17,29 +17,28 @@
 # SPDX-FileCopyrightText: 2022-2023 Open Networking Foundation (ONF) and the ONF Contributors
 # SPDX-License-Identifier: Apache-2.0
 # -----------------------------------------------------------------------
-# https://gerrit.opencord.org/plugins/gitiles/onf-make
-# ONF.makefile.version = 1.1
-# -----------------------------------------------------------------------
 
 $(if $(DEBUG),$(warning ENTER))
 
-help ::
+## -----------------------------------------------------------------------
+## Intent: Revert sandbox into a pristine checkout stage
+## -----------------------------------------------------------------------
+##   Note: Sterile target behavior differs from clean around handling of
+##         persistent content.  For ex removal of a python virtualenv adds
+##         extra overhead to development iteration:
+##           make clean   - preserve a virtual env
+##           make sterile - force reinstallation
+## -----------------------------------------------------------------------
+.PHONY: sterile
+sterile :: clean
+
+## -----------------------------------------------------------------------
+## -----------------------------------------------------------------------
+help-verbose += help-sterile
+help-sterile ::
 	@echo
-	@echo "[LINT]"
-
-include $(ONF_MAKEDIR)/lint/doc8/include.mk
-include $(ONF_MAKEDIR)/lint/groovy/include.mk
-include $(ONF_MAKEDIR)/lint/jjb.mk
-include $(ONF_MAKEDIR)/lint/json.mk
-include $(ONF_MAKEDIR)/lint/license/include.mk
-include $(ONF_MAKEDIR)/lint/makefile.mk
-# include $(ONF_MAKEDIR)/lint/markdown/include.mk
-include $(ONF_MAKEDIR)/lint/python/include.mk
-include $(ONF_MAKEDIR)/lint/shellcheck/include.mk
-include $(ONF_MAKEDIR)/lint/tox/include.mk
-include $(ONF_MAKEDIR)/lint/yaml/include.mk
-
-include $(ONF_MAKEDIR)/lint/help.mk
+	@echo '[MAKE: sterile]'
+	@echo '  sterile             make clean, also remove persistent content (~venv)'
 
 $(if $(DEBUG),$(warning LEAVE))
 

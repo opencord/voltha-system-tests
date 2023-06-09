@@ -15,30 +15,22 @@
 # limitations under the License.
 # -----------------------------------------------------------------------
 
+# Include variables.mk after library makefiles have been included
+
 ifdef VERBOSE
-  help :: help-patches
+  help :: help-variables
 else
   help ::
 	@echo
-	@echo "[PATCHES] - helper on the road to python 3.10+ based testing"
-	@echo '  see also: help-patches'
+	@echo '[VARIABLES] - Conditional makefile behavior'
+	@echo '  see also: help-variables'
 endif
 
-help-patches:
+help-variables:
 	@echo
-	@echo "[PATCHES] - helper on the road to python 3.10+ based testing"
-	@echo "  patch-apply          Apply patches to the virtualenv directory"
-	@echo "  patch-create"
-	@echo "  patch-gather         Gather a list of potential patch sources"
-	@echo "  patch-init           Clone the virtualenv directory for patch creation."
-
-
-
-
-help-trailer ::
-	@echo "[SEE ALSO] patches-help"
-
-help-verbose ::
-	$(HIDE)$(MAKE) --no-print-directory help VERBOSE=1
+	@echo '[VARIABLES] - Conditional makefile behavior'
+	@echo '  NO_PATCHES=           Do not apply patches to the python virtualenv'
+	@echo '  NO_OTHER_REPO_DOCS=   No foreign repos, only apply target to local sources.'
+	@echo '  VERBOSE=              Display extended help topics'
 
 # [EOF]

@@ -1,4 +1,4 @@
-# -*- makefile -*-
+#!/bin/bash
 # -----------------------------------------------------------------------
 # Copyright 2022-2023 Open Networking Foundation (ONF) and the ONF Contributors
 #
@@ -20,47 +20,58 @@
 # https://gerrit.opencord.org/plugins/gitiles/onf-make
 # ONF.makefile.version = 1.0
 # -----------------------------------------------------------------------
-
-$(if $(DEBUG),$(warning ENTER))
-
-# include makefiles/constants.mk
-export dot          :=.
-export null         :=#
-export space        := $(null) $(null)
-export quote-single := $(null)'$(null)#'
-export quote-double := $(null)"$(null)#"
-
-# [DEBUG] make {target} HIDE=
-HIDE           ?= @
-
-env-clean      ?= /usr/bin/env --ignore-environment
-
-xargs-cmd       := xargs -0 -t --no-run-if-empty
-xargs-n1        := $(xargs-cmd) -n1
-xargs-n1-clean  := $(env-clean) $(xargs-n1)
-xargs-cmd-clean := $(env-clean) $(xargs-cmd)
+# Intent: This script is used to bulk refactor and merge makefile changes
+##  between development repositories and repo:onf-make.
+## -----------------------------------------------------------------------
 
 ## -----------------------------------------------------------------------
-## Intent: NOP command for targets whose dependencies do all heavy lifting
+## Intent:
 ## -----------------------------------------------------------------------
-## usage: foo bar tans
-## <tab>$(nop-command)
-## -----------------------------------------------------------------------
-nop-cmd        := :
+function error
+{
+    echo "$*"
+    exit 1
+}
 
-## -----------------------------------------------------------------------
-## Default shell:
-##   o set -e            enable error checking
-##   o set -u            report undefined errors
-##   o set -o pipefail   propogate shell pipeline failures.
-## -----------------------------------------------------------------------
-SHELL ?= /bin/bash
-have-shell-bash := $(filter bash,$(subst /,$(space),$(SHELL)))
-$(if $(have-shell-bash),$(null),\
-  $(eval export SHELL := bash -euo pipefail))
+##----------------##
+##---]  MAIN  [---##
+##----------------##
+# src="$HOME/projects/sandbox/onf-make/makefiles"
+# src="$HOME/projects/sandbox/ci-management/makefiles"
+src="$HOME/projects/sandbox/onf-make-all/20230709/makefiles"
 
-export SHELL ?= bash -euo pipefail
+dst="$(realpath .)"
 
-$(if $(DEBUG),$(warning LEAVE))
+[[ $# -eq 0 ]] && error "At least one directory or file is required"
+
+while [ $# -gt 0 ]; do
+    fyl=$1; shift
+
+    echo "FYL: $fyl"
+    if [ -d "$fyl" ]; then
+	readarray -t fyls < <(find "$fyl" -type f -print)
+	[[ ${#@} -gt 0 ]] && fyls+=("$@")
+	# declare -p fyls
+	[[ ${#fyls} -gt 0 ]] && set -- "${fyls[@]}"
+	continue
+    fi
+
+    case "$fyl" in
+  	    *~) continue ;;
+  	 '#*#') continue ;;
+	'\.#*') continue ;;
+    esac
+    
+    src0="$src/$fyl"
+    dst0="$dst/$fyl"
+
+    [[ ! -e "$src0" ]] && error "File does not exist in src= $src0"
+    [[ ! -e "$dst0" ]] && error "File does not exist in dst= $dst0"
+
+    if ! diff -qr "$src0" "$dst0"; then
+	emacs "$src0" "$dst0"
+    fi
+done
 
 # [EOF]
+

@@ -17,29 +17,24 @@
 # SPDX-FileCopyrightText: 2022-2023 Open Networking Foundation (ONF) and the ONF Contributors
 # SPDX-License-Identifier: Apache-2.0
 # -----------------------------------------------------------------------
-# https://gerrit.opencord.org/plugins/gitiles/onf-make
-# ONF.makefile.version = 1.1
-# -----------------------------------------------------------------------
 
 $(if $(DEBUG),$(warning ENTER))
 
-help ::
+## -----------------------------------------------------------------------
+## Intent: Sanity check incoming JJB config changes.
+##   Todo: Depend on makefiles/lint/jjb.mk :: lint-jjb
+## -----------------------------------------------------------------------
+# lint : lint-jjb
+lint-tox: lint-jjb
+	tox -e py310
+
+## -----------------------------------------------------------------------
+## -----------------------------------------------------------------------
+help-verbose += help-tox
+help-tox ::
 	@echo
-	@echo "[LINT]"
-
-include $(ONF_MAKEDIR)/lint/doc8/include.mk
-include $(ONF_MAKEDIR)/lint/groovy/include.mk
-include $(ONF_MAKEDIR)/lint/jjb.mk
-include $(ONF_MAKEDIR)/lint/json.mk
-include $(ONF_MAKEDIR)/lint/license/include.mk
-include $(ONF_MAKEDIR)/lint/makefile.mk
-# include $(ONF_MAKEDIR)/lint/markdown/include.mk
-include $(ONF_MAKEDIR)/lint/python/include.mk
-include $(ONF_MAKEDIR)/lint/shellcheck/include.mk
-include $(ONF_MAKEDIR)/lint/tox/include.mk
-include $(ONF_MAKEDIR)/lint/yaml/include.mk
-
-include $(ONF_MAKEDIR)/lint/help.mk
+	@echo '[MAKE: tox]'
+	@echo '  lint-tox            Python unit testing, sanity check incoming JJB changes.'
 
 $(if $(DEBUG),$(warning LEAVE))
 
