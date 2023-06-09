@@ -17,17 +17,17 @@
 
 .DEFAULT_GOAL := sanity-kind
 
-TOP         ?= .
-MAKEDIR     ?= $(TOP)/makefiles
-
 # Assign early: altered by include
 ROOT_DIR  := $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
 
 ##--------------------##
 ##---]  INCLUDES  [---##
 ##--------------------##
-include $(MAKEDIR)/include.mk
-include $(MAKEDIR)/patches/include.mk
+include config.mk
+include makefiles/include.mk
+include makefiles/patches/include.mk
+
+venv-patched    += $(venv-activate-script).patched
 
 # Configuration and lists of files for linting/testing
 VERSION   ?= $(shell cat ./VERSION)
@@ -72,6 +72,8 @@ ROBOT_SANITY_TIM_MCAST_MULTI_OLT_MULTI_PON_MULTI_ONU_FILE    ?= $(ROOT_DIR)/test
 ROBOT_SANITY_BBF_ADPATER_SINGLE_PON_FILE    ?= $(ROOT_DIR)/tests/data/bbsim-bbf-adapter.yaml
 ROBOT_SANITY_BBF_ADPATER_ADD_DELETE_FILE    ?= $(ROOT_DIR)/tests/data/bbsim-bbf-adapter_addDelete_tests.yaml
 ROBOT_SANITY_DT_SINGLE_PON_MULTI_ONU_FILE    ?= $(ROOT_DIR)/tests/data/bbsim-kind-dt-1OLTx1PONx2ONU.yaml
+
+#ROBOT_CONFIG_FILE ?= $(error ROBOT_CONFIG_FILE= is required)
 
 # for backwards compatibility
 sanity-kind: sanity-single-kind
@@ -365,10 +367,10 @@ sanity-bbsim: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_SINGLE_PON_FILE)
 sanity-bbsim: ROBOT_FILE := Voltha_BBSimTests.robot
 sanity-bbsim: voltha-bbsim-test
 
-voltha-bbsim-test: vst_venv
-	source ./$</bin/activate ; set -u ;\
-	cd tests/bbsim ;\
-	robot -V $(ROBOT_CONFIG_FILE) $(ROBOT_MISC_ARGS) $(ROBOT_FILE)
+voltha-bbsim-test: $(venv-activate-patched)
+	$(activate) \
+	  && cd tests/bbsim \
+	  && robot -V $(ROBOT_CONFIG_FILE) $(ROBOT_MISC_ARGS) $(ROBOT_FILE)
 
 rwcore-restart-single-kind: ROBOT_MISC_ARGS += -X -i functionalANDrwcore-restart $(ROBOT_DEBUG_LOG_OPT)
 rwcore-restart-single-kind: ROBOT_CONFIG_FILE := $(ROBOT_FAIL_SINGLE_PON_FILE)
@@ -507,10 +509,10 @@ onos-ha-test: voltha-test
 
 voltha-test: ROBOT_MISC_ARGS += -e notready --noncritical non-critical
 
-voltha-test: vst_venv
-	source ./$</bin/activate ; set -u ;\
-	cd tests/functional ;\
-	robot -V $(ROBOT_CONFIG_FILE) $(ROBOT_MISC_ARGS) $(ROBOT_FILE)
+voltha-test: $(venv-activate-patched)
+	$(activate) \
+	  && cd tests/functional \
+	  && robot -V $(ROBOT_CONFIG_FILE) $(ROBOT_MISC_ARGS) $(ROBOT_FILE)
 
 bbsim-dmi-hw-management-test: ROBOT_MISC_ARGS +=  -e notreadyDMI -i functionalDMI -e bbsimUnimplementedDMI
 bbsim-dmi-hw-management-test: ROBOT_FILE := dmi-hw-management.robot
@@ -522,10 +524,10 @@ voltha-dmi-hw-management-test: ROBOT_FILE := dmi-hw-management.robot
 voltha-dmi-hw-management-test: ROBOT_CONFIG_FILE := $(ROBOT_DMI_SINGLE_ADTRAN_FILE)
 voltha-dmi-hw-management-test: voltha-dmi-test
 
-voltha-dmi-test: vst_venv
-	source ./$</bin/activate ; set -u ;\
-	cd tests/dmi-interface ;\
-	robot -V $(ROBOT_CONFIG_FILE) $(ROBOT_MISC_ARGS) $(ROBOT_FILE)
+voltha-dmi-test: $(venv-activate-patched)
+	$(activate) \
+	  && tests/dmi-interface \
+	  && robot -V $(ROBOT_CONFIG_FILE) $(ROBOT_MISC_ARGS) $(ROBOT_FILE)
 
 # target to invoke single ONU pm data scenarios in ATT workflow
 voltha-pm-data-single-kind-att: ROBOT_MISC_ARGS += -v workflow:ATT
@@ -562,10 +564,10 @@ voltha-pm-data-tests: ROBOT_PM_CONFIG_FILE := $(ROBOT_PM_DATA_FILE)
 voltha-pm-data-tests: ROBOT_FILE := Voltha_ONUPMTests.robot
 voltha-pm-data-tests: voltha-pm-data-test
 
-voltha-pm-data-test: vst_venv
-	source ./$</bin/activate ; set -u ;\
-	cd tests/pm-data ;\
-	robot -V $(ROBOT_CONFIG_FILE) -V $(ROBOT_PM_CONFIG_FILE) $(ROBOT_MISC_ARGS) $(ROBOT_FILE)
+voltha-pm-data-test: $(venv-activate-patched)
+	$(activate) \
+	  && tests/pm-data \
+	  && robot -V $(ROBOT_CONFIG_FILE) -V $(ROBOT_PM_CONFIG_FILE) $(ROBOT_MISC_ARGS) $(ROBOT_FILE)
 
 # target to invoke single ONU OMCI Get scenarios in ATT workflow
 voltha-onu-omci-get-single-kind-att: ROBOT_MISC_ARGS += -v workflow:ATT
@@ -733,52 +735,57 @@ voltha-onu-robustness-tests: ROBOT_MISC_ARGS += $(ROBOT_DEBUG_LOG_OPT)
 voltha-onu-robustness-tests: ROBOT_FILE := Voltha_ONUErrorTests.robot
 voltha-onu-robustness-tests: openonu-go-adapter-tests
 
-software-upgrade-test: vst_venv
-	source ./$</bin/activate ; set -u ;\
-	cd tests/software-upgrades ;\
-	robot -V $(ROBOT_CONFIG_FILE) $(ROBOT_MISC_ARGS) $(ROBOT_FILE)
+software-upgrade-test: $(venv-activate-patched)
+	$(activate) \
+	  && cd tests/software-upgrades \
+	  && robot -V $(ROBOT_CONFIG_FILE) $(ROBOT_MISC_ARGS) $(ROBOT_FILE)
 
 voltha-dt-test: ROBOT_MISC_ARGS += -e notready  --noncritical non-critical
 
-voltha-dt-test: vst_venv
-	source ./$</bin/activate ; set -u ;\
-	cd tests/dt-workflow ;\
-	robot -V $(ROBOT_CONFIG_FILE) $(ROBOT_MISC_ARGS) $(ROBOT_FILE)
+voltha-dt-test: $(venv-activate-patched)
+	$(activate) \
+	  && cd tests/dt-workflow \
+	  && robot -V $(ROBOT_CONFIG_FILE) $(ROBOT_MISC_ARGS) $(ROBOT_FILE)
 
 voltha-tt-test: ROBOT_MISC_ARGS += -e notready  --noncritical non-critical
 
-voltha-tt-test: vst_venv
-	source ./$</bin/activate ; set -u ;\
-	cd tests/tt-workflow ;\
-	robot -V $(ROBOT_CONFIG_FILE) $(ROBOT_MISC_ARGS) $(ROBOT_FILE)
+voltha-tt-test: $(venv-activate-patched)
+	$(activate) \
+	  && cd tests/tt-workflow \
+	  && robot -V $(ROBOT_CONFIG_FILE) $(ROBOT_MISC_ARGS) $(ROBOT_FILE)
 
 voltha-tim-test: ROBOT_MISC_ARGS += -e notready  --noncritical non-critical
 
-voltha-tim-test: vst_venv
-	source ./$</bin/activate ; set -u ;\
-	cd tests/tim-workflow ;\
-	robot -V $(ROBOT_CONFIG_FILE) $(ROBOT_MISC_ARGS) $(ROBOT_FILE)
+voltha-tim-test: $(venv-activate-patched)
+	$(activate) \
+	  && cd tests/tim-workflow \
+	  && robot -V $(ROBOT_CONFIG_FILE) $(ROBOT_MISC_ARGS) $(ROBOT_FILE)
 
-voltha-scale-test: vst_venv
-	source ./$</bin/activate ; set -u ;\
-	cd tests/scale ;\
-	robot $(ROBOT_MISC_ARGS) Voltha_Scale_Tests.robot
+voltha-scale-test: $(venv-activate-patched)
+	$(activate) \
+	  && cd tests/scale \
+	  && robot $(ROBOT_MISC_ARGS) Voltha_Scale_Tests.robot
 
-openonu-go-adapter-tests: vst_venv
-	source ./$</bin/activate ; set -u ;\
-	cd tests/openonu-go-adapter ;\
-	robot -V $(ROBOT_CONFIG_FILE) $(ROBOT_MISC_ARGS) $(ROBOT_FILE)
+openonu-go-adapter-tests: $(venv-activate-patched)
+	$(activate) \
+	  && cd tests/openonu-go-adapter \
+	  && robot -V $(ROBOT_CONFIG_FILE) $(ROBOT_MISC_ARGS) $(ROBOT_FILE)
 
 voltha-bbf-adapter-test: ROBOT_MISC_ARGS += -e notready  --noncritical non-critical
-voltha-bbf-adapter-test: vst_venv
-	source ./$</bin/activate ; set -u ;\
-	cd tests/bbf-adapter ;\
-	robot -V $(ROBOT_CONFIG_FILE) $(ROBOT_MISC_ARGS) $(ROBOT_FILE)
+voltha-bbf-adapter-test: $(venv-activate-patched)
+	$(activate) \
+	  && cd tests/bbf-adapter \
+	  && robot -V $(ROBOT_CONFIG_FILE) $(ROBOT_MISC_ARGS) $(ROBOT_FILE)
 
-voltha-memory-leak-test: vst_venv
-	source ./$</bin/activate ; set -u ;\
-	cd tests/memory-leak ;\
-	robot -V $(ROBOT_CONFIG_FILE) $(ROBOT_MISC_ARGS) $(ROBOT_FILE)
+voltha-memory-leak-test :$(venv-activate-patched)
+	$(activate) \
+	  && cd tests/memory-leak \
+	  && robot -V $(ROBOT_CONFIG_FILE) $(ROBOT_MISC_ARGS) $(ROBOT_FILE)
+
+## -----------------------------------------------------------------------
+## -----------------------------------------------------------------------
+help ::
+	@echo '  voltha-memory-leak-test      Test suite'
 
 # self-test, lint, and setup targets
 
@@ -788,19 +795,7 @@ voltha-memory-leak-test: vst_venv
 # Verify installation: make lint -or- make test
 # vol-4874 - python_310_migration.sh
 # -----------------------------------------------------------------------
-vst_venv:
-	@echo "============================="
-	@echo "Installing python virtual env"
-	@echo "============================="
-	virtualenv -p python3 $@ ;\
-	source ./$@/bin/activate ;\
-	python -m pip install -r requirements.txt
-	@echo
-	@echo "========================================"
-	@echo "Applying python 3.10.x migration patches"
-	@echo "========================================"
-	./patches/python_310_migration.sh 'apply'
-	@echo
+vst_venv          : $(venv-activate-patched)#    # verify not needed then remove
 
 ##----------------##
 ##---]  TEST  [---##
@@ -809,9 +804,9 @@ test: lint
 
 # tidy target will be more useful once issue with removing leading comments
 # is resolved: https://github.com/robotframework/robotframework/issues/3263
-tidy-robot: vst_venv
-	source ./$</bin/activate ; set -u ;\
-	python -m robot.tidy --inplace $(ROBOT_FILES);
+tidy-robot: $(venv-activate-patched)
+	$(activate) \
+	  && python -m robot.tidy --inplace $(ROBOT_FILES);
 
 ## Variables for gendocs
 TEST_SOURCE := $(wildcard tests/*/*.robot)
@@ -822,40 +817,49 @@ LIB_SOURCE   := $(wildcard libraries/*.robot)
 LIB_BASENAME := $(basename $(LIB_SOURCE))
 LIB_DIRS     := $(sort $(dir $(LIB_SOURCE)))
 
+## -----------------------------------------------------------------------
+## -----------------------------------------------------------------------
 .PHONY: gendocs lint test
 # In future explore use of --docformat REST - integration w/Sphinx?
-gendocs: vst_venv
+gendocs: $(venv-activate-patched)
+
 	$(HIDE)echo " ** $(make) $@: ENTER"
-	source ./$</bin/activate \
-	&& set -u \
-	&& echo \
-	&& echo " ** $(make) $@: robot.libdoc" \
-	&& mkdir -pv $(addprefix $@/,$(LIB_DIRS)) \
-	&& for dir in $(LIB_BASENAME); do\
-	    python -m robot.libdoc --format HTML $$dir.robot $@/$$dir.html ;\
-	done \
-	&& echo \
-	&& echo " ** $(make) $@: robot.testdoc" \
-	&& mkdir -vp $(addprefix $@/,$(TEST_DIRS)) \
-	&& for dir in $(TEST_BASENAME); do\
+
+	$(activate) \
+	  && set -u \
+	  && echo \
+	  && echo " ** $(make) $@: robot.libdoc" \
+	  && mkdir -pv $(addprefix $@/,$(LIB_DIRS)) \
+	  && for dir in $(LIB_BASENAME); do\
+	      python -m robot.libdoc --format HTML $$dir.robot $@/$$dir.html ;\
+	  done \
+	  && echo \
+	  && echo " ** $(make) $@: robot.testdoc" \
+	  && mkdir -vp $(addprefix $@/,$(TEST_DIRS)) \
+	  && for dir in $(TEST_BASENAME); do\
 		python -m robot.testdoc $$dir.robot $@/$$dir.html ;\
-	done
+	  done
+
 	$(HIDE)echo " ** $(make) $@: LEAVE"
 
 ## -----------------------------------------------------------------------
 ## -----------------------------------------------------------------------
-clean:
+help ::
+	@echo '  gendocs                Generate robot test framework documentation'
+
+## -----------------------------------------------------------------------
+## -----------------------------------------------------------------------
+clean ::
 	$(RM) -r gendocs
 	find . -name output.xml -print # no action performed ?
-
-clean-all sterile: clean
-	$(RM) -r vst_venv
 
 ## -----------------------------------------------------------------------
 ## -----------------------------------------------------------------------
 voltctl-docker-image-build:
 	cd docker && docker build -t opencord/voltctl:local -f Dockerfile.voltctl .
 
+## -----------------------------------------------------------------------
+## -----------------------------------------------------------------------
 voltctl-docker-image-install-kind:
 	@if [ "`kind get clusters | grep kind`" = '' ]; then echo "no kind cluster found" && exit 1; fi
 	kind load docker-image --name `kind get clusters | grep kind` opencord/voltctl:local
