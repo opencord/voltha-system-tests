@@ -39,8 +39,8 @@ node ("${TestNodeName}") {
                     rm -rf *.log
                     export VOLTCONFIG=/home/cord/.volt/config ; sleep 10
                     cd $WORKSPACE/voltha-system-tests
-                    make vst_venv
-                    source vst_venv/bin/activate
+                    make 'venv-install-patched'
+                    source .venv/bin/activate
                     cd tests
                     robot --removekeywords wuks -i sanity -i functional -e bbsim -e notready -d Log -V $WORKSPACE/${configBaseDir}/${configDeploymentDir}/${configFileName}.yaml -v POD_NAME:${configFileName} -v KUBERNETES_CONFIGS_DIR:$WORKSPACE/${configBaseDir}/${configKubernetesDir} functional/Voltha_PODTests.robot || true
                     //robot --removekeywords wuks -i PowerSwitch -i functional -e bbsim -e notready -d Log -T -V $WORKSPACE/${configBaseDir}/${configDeploymentDir}/${configFileName}.yaml -v POD_NAME:${configFileName} -v KUBERNETES_CONFIGS_DIR:$WORKSPACE/${configBaseDir}/${configKubernetesDir} functional/Voltha_FailureScenarios.robot || true                    

@@ -37,9 +37,12 @@
 ## the only question mark.
 ## ---------------------------------------------------------------------------
 
+<<<<<<< HEAD
 echo "BLAH"
 exit 1
 
+=======
+>>>>>>> dc6caae ([VOL-5064] - Build and deploy voltha-system-tests)
 set +e -u -o pipefail
 fail_licensecheck=0
 
@@ -54,17 +57,24 @@ gargs+=('-e' 'Copyright[[:space:]]+[[:digit:]]{4}')
 
 while IFS= read -r -d '' path
 do
+<<<<<<< HEAD
     case "$path" in
 	*venv*) echo "GERR: $path"
 		exit 1
 		;;
     esac
+=======
+>>>>>>> dc6caae ([VOL-5064] - Build and deploy voltha-system-tests)
     if ! grep -q "${gargs[@]}" "${path}";
     then
 	echo "ERROR: $path does not contain License Header"
 	fail_licensecheck=1
     fi
+<<<<<<< HEAD
 done < <(find . \( -name ".git" -o -name '.venv' -o 'vst_venv' \) -prune -o -type f \
+=======
+done < <(find . -name ".git" -prune -o -type f \
+>>>>>>> dc6caae ([VOL-5064] - Build and deploy voltha-system-tests)
   ! -iname "*.png" \
   ! -name "*.asc" \
   ! -name "*.bat" \
@@ -155,8 +165,13 @@ done < <(find . \( -name ".git" -o -name '.venv' -o 'vst_venv' \) -prune -o -typ
   ! -name "*.pb.h" \
   ! -name "*.pb.cc" \
   ! -path "*/docs/*" \
+<<<<<<< HEAD
   ! -name 'output.xml' \
   ! -path "*/vst_venv/*" \
+=======
+  ! -name 'output.xml' \ 
+  ! -path "*/.venv/*" \
+>>>>>>> dc6caae ([VOL-5064] - Build and deploy voltha-system-tests)
   ! -name '*#*' \
   ! -path '*scripts/flog/*' \
   ! -name '*~' \

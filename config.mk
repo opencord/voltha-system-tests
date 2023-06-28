@@ -16,30 +16,30 @@
 # -----------------------------------------------------------------------
 # https://gerrit.opencord.org/plugins/gitiles/onf-make
 # ONF.makefiles.include.version = 1.1
-# ONF.confg.mk                  = 1.5
+# ONF.confg.mk                  = 1.6
 # -----------------------------------------------------------------------
 
---repo-name-- := votlha-system-tests
+--repo-name-- := voltha-system-tests
 --repo-name-- ?= $(error --repo-name--= is required)
 
 ##--------------------------------##
 ##---]  Disable lint targets  [---##
 ##--------------------------------##
-# NO-LINT-DOC8      := true
-# NO-LINT-GOLANG    := true
-NO-LINT-GROOVY      := true#               # Note[2]
-NO-LINT-JJB         := true#               # Note[2]
-# NO-LINT-JSON      := true#               # Note[1]
-NO-LINT-MAKEFILE    := true#               # Note[1]
-NO-LINT-REUSE       := true                # License check
-# NO-LINT-ROBOT     := true
-NO-LINT-SHELLCHECK  := true#               # Note[1]
-NO-LINT-TOX         := true#               # Note[1]
-# NO-LINT-YAML      := true#               # Note[1]
+# NO-LINT-DOC8        := true
+# NO-LINT-GOLANG      := true
+NO-LINT-GROOVY        := true#               # Note[1]
+NO-LINT-JJB           := true#               # Note[2]
+# NO-LINT-JSON        := true#               # Note[1]
+NO-LINT-MAKEFILE      := true#               # Note[1]
+NO-LINT-REUSE         := true                # License check
+# NO-LINT-ROBOT       := true
+NO-LINT-SHELLCHECK    := true#               # Note[1]
+NO-LINT-TOX           := true#               # Note[1]
+# NO-LINT-YAML        := true#               # Note[1]
 
-# NO-LINT-FLAKE8    := true#               # Note[1]
-NO-LINT-PYTHON      := true#               # Note[1]
-# NO-LINT-PYLINT    := true#               # Note[1]
+# NO-LINT-FLAKE8      := true#               # Note[1]
+NO-LINT-PYTHON        := true#               # Note[1]
+# NO-LINT-PYLINT      := true#               # Note[1]
 
 # Note[1] - A boatload of source to cleanup prior to enable.
 # Note[2] - No sources available

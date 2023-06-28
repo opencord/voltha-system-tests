@@ -1,6 +1,6 @@
 # -*- makefile -*-
 # -----------------------------------------------------------------------
-# Copyright 2022-2024 Open Networking Foundation (ONF) and the ONF Contributors
+# Copyright 2022-2023 Open Networking Foundation (ONF) and the ONF Contributors
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -14,28 +14,52 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 # -----------------------------------------------------------------------
+# Intent: Helper makefile target used to setup for a release
+# -----------------------------------------------------------------------
+
+$(if $(DEBUG),$(warning ENTER))
 
 ##-------------------##
 ##---]  GLOBALS  [---##
 ##-------------------##
+jjb-gen-dir := build
 
 ##-------------------##
 ##---]  TARGETS  [---##
 ##-------------------##
-ifndef NO-LINT-REUSE
-  lint : lint-license
-endif
+all: help
 
 ## -----------------------------------------------------------------------
-## Intent: Perform a lint check on makefile sources
+## Intent: Generate pipeline jobs
 ## -----------------------------------------------------------------------
-lint-license:
-	reuse --root . lint
+.PHONY: jjb-gen
+
+jjb-gen-log := $(jjb-gen-dir)/jjb-gen.log
+jjb-gen:
+	$(call banner-enter,Target $@)
+	@mkdir -p $(jjb-gen-dir)
+	@touch "$(jjb-gen-dir)/.sentinel"
+	( $(activate) \
+	   && jenkins-jobs test $(PWD)/jjb -o $(jjb-gen-dir) 3>&1 2>&1 \
+	) | tee "$(jjb-gen-log)"
+
+  ifdef LOGS
+	-@less "$(jjb-gen-log)"
+  endif
+
+  ifdef VERBOSE
+	@echo
+	@echo "** Display generated pipelines"
+	find "$(jjb-gen-dir)" -newer "$(jjb-gen-dir)/.sentinel" -ls
+  endif
+
+	$(call banner-leave,Target $@)
 
 ## -----------------------------------------------------------------------
-## Intent: Display command help
 ## -----------------------------------------------------------------------
-help-summary ::
-	@echo '  lint-reuse              License syntax checking'
+sterile ::
+	$(RM) -r $(jjb-gen-dir)
+
+$(if $(DEBUG),$(warning LEAVE))
 
 # [EOF]

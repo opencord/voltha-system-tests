@@ -21,9 +21,8 @@ PYTHON_FILES ?= $(error PYTHON_FILES= is required)
 
 lint : lint-python
 
-lint-python: vst_venv
-	-source ./$</bin/activate \
-	    && set -u \
+lint-python: $(venv-activate-script)
+	-$(activate) \
 	    && pylint $(PYTHON_FILES) \
 	    && flake8 --max-line-length=99 --count $(PYTHON_FILE)S
 

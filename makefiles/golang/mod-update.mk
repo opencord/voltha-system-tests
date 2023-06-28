@@ -1,6 +1,6 @@
 # -*- makefile -*-
 # -----------------------------------------------------------------------
-# Copyright 2022-2024 Open Networking Foundation (ONF) and the ONF Contributors
+# Copyright 2017-2023 Open Networking Foundation (ONF) and the ONF Contributors
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -13,61 +13,48 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-#
-# SPDX-FileCopyrightText: 2024 Open Networking Foundation (ONF) and the ONF Contributors
+# -----------------------------------------------------------------------
+# SPDX-FileCopyrightText: 2017-2023 Open Networking Foundation (ONF) and the ONF Contributors
 # SPDX-License-Identifier: Apache-2.0
 # -----------------------------------------------------------------------
-
-$(if $(DEBUG),$(warning ENTER))
-
-## -----------------------------------------------------------------------
-## Intent: Install the yamllint tool
-## -----------------------------------------------------------------------
-.PHONY: lint-yaml-install
-
+# https://gerrit.opencord.org/plugins/gitiles/onf-make
+# ONF.makefiles.include.version = 1.1
 # -----------------------------------------------------------------------
-# We can(/should?) define a command macro
-# wait a bit until use cases are better known.
-# Initial use required inserting xargs bash -c "$(YAMLLINT) {}"
-# -----------------------------------------------------------------------
-# YAMLLINT ?= $(venv-activate-bin)/yamllint
-# YAMLLINT ?= $(activate) && yamllint
 
 ## -----------------------------------------------------------------------
-## Intent: Display yamllint command version string.
-##   Note: As a side effect, install yamllint by dependency
 ## -----------------------------------------------------------------------
-.PHONY: lint-yaml-cmd-version
-lint-yaml-cmd-version : $(venv-activate-bin)/yamllint
-
-	$(HIDE) echo
-	$< --version
+## if dev-mode: make LOCAL_FIX_PERMS=1 mod-update
+.PHONY: mod-update
+mod-update: mod-tidy mod-vendor
 
 ## -----------------------------------------------------------------------
-## Intent: On-demand instalation of the yamllint command
 ## -----------------------------------------------------------------------
-lint-yaml-install := $(venv-activate-bin)/yamllint
-$(lint-yaml-install) : $(venv-activate-script)
-
+.PHONY: mod-tidy
+mod-tidy :
 	$(call banner-enter,Target $@)
-	$(activate) && pip install yamllint
+	${GO} mod tidy
 	$(call banner-leave,Target $@)
 
 ## -----------------------------------------------------------------------
-## Intent: Purge yamllint tool installation
 ## -----------------------------------------------------------------------
-sterile ::
-	$(HIDE)$(RM) "$(venv-abs-bin)/yamllint"
-	$(HIDE)$(RM) -r .venv/lib/*/site-packages/yamllint
+.PHONY: mod-vendor
+mod-vendor : mod-tidy
+mod-vendor :
+	$(call banner-enter,Target $@)
+	$(if $(LOCAL_FIX_PERMS),chmod o+w $(CURDIR))
+	${GO} mod vendor
+	$(if $(LOCAL_FIX_PERMS),chmod o-w $(CURDIR))
+	$(call banner-leave,Target $@)
 
-        # Remove both file:command and dir:libraries
-        # find "$(venv-abs-path)" -iname 'yamllint' -print0 \
-        #    | $(xargs-n1-clean) $(RM) -r {}
+## -----------------------------------------------------------------------
+## -----------------------------------------------------------------------
+help ::
+	@echo '  mod-update             mod-tidy & mod-update'
+	@echo '  mod-tidy               go mod tidy'
+	@echo '  mod-vendor             go mod vendor'
 
-## -----------------------------------------------------------------------
-## Intent: Display command usage
-## -----------------------------------------------------------------------
-help::
-	@echo '  lint-yaml-install       Install the yamllint tool'
+  ifdef VERBOSE
+	@echo '    LOCAL_FIX_PERMS=1    Local hack to fix docker uid/gid volume problem'
+  endif
 
 # [EOF]

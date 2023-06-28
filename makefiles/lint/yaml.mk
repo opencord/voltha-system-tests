@@ -1,6 +1,6 @@
 # -*- makefile -*-
 # -----------------------------------------------------------------------
-# Copyright 2022-2024 Open Networking Foundation (ONF) and the ONF Contributors
+# Copyright 2017-2023 Open Networking Foundation (ONF) and the ONF Contributors
 #
 # Licensed under the Apache License, Version 2.0 (the "License")
 # you may not use this file except in compliance with the License.
@@ -20,73 +20,63 @@ $(if $(DEBUG),$(warning ENTER))
 ##-------------------##
 ##---]  GLOBALS  [---##
 ##-------------------##
-.PHONY: lint-flake8 lint-flake8-all lint-flake8-modified
+.PHONY: lint-yaml lint-yaml-all lint-yaml-modified
 
-PYTHON_FILES      ?= $(error PYTHON_FILES= required)
+have-yaml-files := $(if $(strip $(YAML_FILES)),true)
+YAML_FILES      ?= $(error YAML_FILES= is required)
 
 ## -----------------------------------------------------------------------
-## Intent: Use the flake8 command to perform syntax checking.
+## Intent: Use the yaml command to perform syntax checking.
+##   o If UNSTABLE=1 syntax check all sources
+##   o else only check sources modified by the developer.
 ## Usage:
-##   % make lint
-##   % make lint-flake8-all
+##   % make lint UNSTABLE=1
+##   % make lint-yaml-all
 ## -----------------------------------------------------------------------
-ifndef NO-LINT-FLAKE8
-  lint-flake8-mode := $(if $(have-python-files),modified,all)
-  lint        : lint-flake8
-  lint-flake8 : lint-flake8-$(lint-flake8-mode)
-endif# NO-LINT-FLAKE8
+lint-yaml-mode := $(if $(have-yaml-files),modified,all)
+lint-yaml : lint-yaml-$(lint-yaml-mode)
+
+ifndef NO-LINT-YAML
+  lint : lint-yaml#     # Enable as a default lint target
+endif# NO-LINT-YAML
 
 ## -----------------------------------------------------------------------
-## Intent: exhaustive flake8 syntax checking
+## Intent: exhaustive yaml syntax checking
 ## -----------------------------------------------------------------------
-# Construct: find . \( -name '__ignored__' -o -name dir -o name dir \)
-# flake8-find-filter := $(null)
-# flake8-find-filter += -name '__ignored__'#    # for alignment
-# flake8-find-filter += $(foreach dir,$(onf-excl-dirs),-o -name $(dir)))
+lint-yaml-all:
+	$(HIDE)$(MAKE) --no-print-directory lint-yaml-install
 
-lint-flake8-all: $(venv-activate-script)
-	$(HIDE)$(MAKE) --no-print-directory lint-flake8-install
-
-	$(activate) && $(call gen-python-find-cmd) \
-	    | $(xargs-n1) flake8 --max-line-length=99 --count
-
-#  && find . \( $(flake8-find-filter) \) -prune -o -name '*.py' -print0 \
-# 	| $(xargs-n1) flake8 --max-line-length=99 --count
+	find . \( -iname '*.yaml' -o -iname '*.yml' \) -print0 \
+	    | $(xargs-n1-clean) yamllint --strict
 
 ## -----------------------------------------------------------------------
 ## Intent: check deps for format and python3 cleanliness
 ## Note:
-##   pylint --py3k option no longer supported
+##   yaml --py3k option no longer supported
 ## -----------------------------------------------------------------------
-lint-flake8-modified: $(venv-activate-script)
-	$(HIDE)$(MAKE) --no-print-directory lint-flake8-install
-
-	$(activate)\
- && flake8 --max-line-length=99 --count $(PYTHON_FILES)
+lint-yaml-modified:
+	$(HIDE)$(MAKE) --no-print-directory lint-yaml-install
+	yamllint -s $(YAML_FILES)
 
 ## -----------------------------------------------------------------------
 ## Intent:
 ## -----------------------------------------------------------------------
-.PHONY: lint-flake8-install
-lint-flake8-install: $(venv-activate-script)
+lint-yaml-install:
 	@echo
 	@echo "** -----------------------------------------------------------------------"
-	@echo "** python flake8 syntax checking"
+	@echo "** yaml syntax checking"
 	@echo "** -----------------------------------------------------------------------"
-	$(activate) && pip install --upgrade flake8
-	$(activate) && flake8 --version
+	yamllint --version
 	@echo
 
 ## -----------------------------------------------------------------------
 ## Intent: Display command usage
 ## -----------------------------------------------------------------------
 help::
-	@echo '  lint-flake8          Syntax check python using the flake8 command'
+	@echo '  lint-yaml          Syntax check python using the yaml command'
   ifdef VERBOSE
-	@echo '  $(MAKE) lint-pylint PYTHON_FILES=...'
-	@echo '  lint-flake8-modified  flake8 checking: only modified'
-	@echo '  lint-flake8-all       flake8 checking: exhaustive'
-	@echo '  lint-flake8-install   Install the flake8 command'
+	@echo '  lint-yaml-all       yaml checking: exhaustive'
+	@echo '  lint-yaml-modified  yaml checking: only locally modified'
   endif
 
 $(if $(DEBUG),$(warning LEAVE))

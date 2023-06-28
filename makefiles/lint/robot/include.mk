@@ -1,6 +1,6 @@
 # -*- makefile -*-
 # -----------------------------------------------------------------------
-# Copyright 2017-2024 Open Networking Foundation (ONF) and the ONF Contributors
+# Copyright 2017-2022 Open Networking Foundation
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -18,47 +18,48 @@
 ##-------------------##
 ##---]  GLOBALS  [---##
 ##-------------------##
-.PHONY: lint-doc8 lint-doc8-all lint-doc8-modified
+.PHONY: lint-robot lint-robot-all lint-robot-modified
 
-have-doc8-files := $(if $(strip $(DOC8_SOURCE)),true)
-DOC8_SOURCE     ?= $(error DOC8_SOURCE= is required)
-
-##--------------------##
-##---]  INCLUDES  [---##
-##--------------------##
-# include $(ONF_MAKEDIR)/lint/doc8/help.mk
-include $(ONF_MAKEDIR)/lint/doc8/install.mk
+have-robot-files := $(if $(strip $(ROBOT_FILES)),true)
+ROBOT_FILES ?= $(error ROBOT_FILES= is required)
 
 ## -----------------------------------------------------------------------
 ## -----------------------------------------------------------------------
-ifndef NO-LINT-DOC8
-  lint-doc8-mode := $(if $(have-doc8-files),modified,all)
-  lint : lint-doc8-$(lint-doc8-mode)
-endif# NO-LINT-DOC8
+ifndef NO-LINT-ROBOT
+  lint-robot-mode := $(if $(have-robot-files),modified,all)
+  lint : lint-robot-$(lint-robot-mode)
+endif# NO-LINT-ROBOT
 
 # Consistent targets across lint makefiles
-lint-doc8-all      : lint-doc8
-lint-doc8-modified : lint-doc8
+lint-robot-all      : lint-robot
+lint-robot-modified : lint-robot
+
+LINT_ARGS ?= --verbose --configure LineTooLong:130 -e LineTooLong \
+             --configure TooManyTestSteps:65 -e TooManyTestSteps \
+             --configure TooManyTestCases:50 -e TooManyTestCases \
+             --configure TooFewTestSteps:1 \
+             --configure TooFewKeywordSteps:1 \
+             --configure FileTooLong:2000 -e FileTooLong \
+             -e TrailingWhitespace
 
 ## -----------------------------------------------------------------------
 ## -----------------------------------------------------------------------
-lint-doc8-excl := $(foreach dir,$(onf-excl-dirs),--ignore-path "$(dir)")
-lint-doc8: lint-doc8-cmd-version
-
-	$(call banner-enter,Target $@)
-	$(activate) && doc8 --version
+lint-robot: $(venv-activate-script)
 	@echo
-	$(activate) && doc8 $(lint-doc8-excl)
-	$(call banner-enter,Target $@)
+	@echo '** -----------------------------------------------------------------------'
+	@echo '** robot *.rst syntax checking'
+	@echo '** -----------------------------------------------------------------------'
+#	$(activate) && rflint --version
+	$(activate) && rflint $(LINT_ARGS) $(ROBOT_FILES)
 
 ## -----------------------------------------------------------------------
 ## Intent: Display command usage
 ## -----------------------------------------------------------------------
 help::
-	@echo '  lint-doc8          Syntax check python using the doc8 command'
+	@echo '  lint-robot          Syntax check python using the robot command'
   ifdef VERBOSE
-	@echo '  lint-doc8-all       doc8 checking: exhaustive'
-	@echo '  lint-doc8-modified  doc8 checking: only modified'
+	@echo '  lint-robot-all       robot checking: exhaustive'
+	@echo '  lint-robot-modified  robot checking: only modified'
   endif
 
 # [EOF]

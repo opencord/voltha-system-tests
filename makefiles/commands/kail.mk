@@ -23,6 +23,7 @@ help::
 	@echo "  kail            Install the kail command"
 ifdef VERBOSE
 	@echo "                  make kail KAIL_PATH="
+	@echo "    export WORKSPACE=$(/bin/pwd) # i_am=jenkins"
 endif
 
 # -----------------------------------------------------------------------

@@ -1,6 +1,6 @@
 # -*- makefile -*-
 # -----------------------------------------------------------------------
-# Copyright 2022-2024 Open Networking Foundation (ONF) and the ONF Contributors
+# Copyright 2017-2023 Open Networking Foundation (ONF) and the ONF Contributors
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -15,17 +15,28 @@
 # limitations under the License.
 # -----------------------------------------------------------------------
 
+ifndef --onf-mk-lint-yaml--
+
 $(if $(DEBUG),$(warning ENTER))
 
-##-------------------##
-##---]  GLOBALS  [---##
-##-------------------##
-$(if $(UNSTABLE),$(eval lint-python-all := true))
+##--------------------##
+##---]  INCLUDES  [---##
+##--------------------##
+include $(ONF_MAKEDIR)/lint/yaml/help.mk
+include $(ONF_MAKEDIR)/lint/yaml/find_utils.mk
+include $(ONF_MAKEDIR)/lint/yaml/install.mk
 
-include $(ONF_MAKEDIR)/lint/python/find_utils.mk
-include $(ONF_MAKEDIR)/lint/python/flake8.mk
-include $(ONF_MAKEDIR)/lint/python/pylint.mk
+# [TODO] Consolidate and refactor to support a simpler answer
+# Special snowflake linting requirements
+-include $(ONF_MAKEDIR)/lint/yaml/byrepo/$(--repo-name--)/include.mk
+
+# Standard lint-yaml targets
+include $(ONF_MAKEDIR)/lint/yaml/yamllint.mk
+
+--onf-mk-lint-yaml-- := true#        # Flag to inhibit re-including
 
 $(if $(DEBUG),$(warning LEAVE))
+
+endif # --onf-mk-lint-yaml--
 
 # [EOF]

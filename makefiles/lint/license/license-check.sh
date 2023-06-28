@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-
 # -----------------------------------------------------------------------
 # Copyright 2022-2024 Open Networking Foundation (ONF) and the ONF Contributors
 #
@@ -156,10 +155,12 @@ done < <(find . \
   ! -path "*/docs/*" \
   ! -name 'output.xml' \
   ! -path "*/vst_venv/*" \
+  ! -path '*/\.venv/*' \
   ! -name '*#*' \
   ! -path '*scripts/flog/*' \
   ! -name '*~' \
   ! -name 'VERSION' \
+  ! -name 'kail' \
   ! -name 'patch' \
   -print0 )
 

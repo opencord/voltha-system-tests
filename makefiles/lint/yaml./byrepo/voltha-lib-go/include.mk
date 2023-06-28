@@ -1,6 +1,6 @@
 # -*- makefile -*-
 # -----------------------------------------------------------------------
-# Copyright 2022-2024 Open Networking Foundation (ONF) and the ONF Contributors
+# Copyright 2023 Open Networking Foundation (ONF) and the ONF Contributors
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -17,14 +17,10 @@
 
 $(if $(DEBUG),$(warning ENTER))
 
-##-------------------##
-##---]  GLOBALS  [---##
-##-------------------##
-$(if $(UNSTABLE),$(eval lint-python-all := true))
-
-include $(ONF_MAKEDIR)/lint/python/find_utils.mk
-include $(ONF_MAKEDIR)/lint/python/flake8.mk
-include $(ONF_MAKEDIR)/lint/python/pylint.mk
+##--------------------##
+##---]  INCLUDES  [---##
+##--------------------##
+include $(ONF_MAKEDIR)/lint/yaml/byrepo/$(--repo-name--)/yamllint.mk
 
 $(if $(DEBUG),$(warning LEAVE))
 

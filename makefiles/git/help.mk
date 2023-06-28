@@ -1,6 +1,6 @@
 # -*- makefile -*-
 # -----------------------------------------------------------------------
-# Copyright 2022-2024 Open Networking Foundation (ONF) and the ONF Contributors
+# Copyright 2022-2023 Open Networking Foundation (ONF) and the ONF Contributors
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -14,18 +14,18 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 # -----------------------------------------------------------------------
+# Intent: Helper makefile target used to setup for a release
+# -----------------------------------------------------------------------
 
-$(if $(DEBUG),$(warning ENTER))
+## ---------------------------------------------------------------------------
+## Intent: Display supported targets
+## ---------------------------------------------------------------------------
+help-onf-git :
+	@echo
+	@echo '[GIT]'
+	@echo '  show-submodules     Display a list of repository submodules and versions'
 
-##-------------------##
-##---]  GLOBALS  [---##
-##-------------------##
-$(if $(UNSTABLE),$(eval lint-python-all := true))
-
-include $(ONF_MAKEDIR)/lint/python/find_utils.mk
-include $(ONF_MAKEDIR)/lint/python/flake8.mk
-include $(ONF_MAKEDIR)/lint/python/pylint.mk
-
-$(if $(DEBUG),$(warning LEAVE))
+help ::
+	@echo '  help-onf-git        Display git makefile targets'
 
 # [EOF]

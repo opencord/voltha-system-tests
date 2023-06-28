@@ -1,6 +1,6 @@
 # -*- makefile -*-
 # -----------------------------------------------------------------------
-# Copyright 2022-2024 Open Networking Foundation (ONF) and the ONF Contributors
+# Copyright 2022-2023 Open Networking Foundation (ONF) and the ONF Contributors
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -13,29 +13,29 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+#
+# SPDX-FileCopyrightText: 2022 Open Networking Foundation (ONF) and the ONF Contributors
+# SPDX-License-Identifier: Apache-2.0
 # -----------------------------------------------------------------------
 
-##-------------------##
-##---]  GLOBALS  [---##
-##-------------------##
+YAML_FILES ?= $(error YAML_FILES= is required)
+
+lint-yaml-dep = $(addsuffix ^lint-yaml,$(YAML_FILES))
+lint-yaml-src = $(firstword $(subst ^,$(space),$(1)))
 
 ##-------------------##
 ##---]  TARGETS  [---##
 ##-------------------##
-ifndef NO-LINT-REUSE
-  lint : lint-license
-endif
+.PHONY : lint-yaml
+lint   : lint-yaml
 
-## -----------------------------------------------------------------------
-## Intent: Perform a lint check on makefile sources
-## -----------------------------------------------------------------------
-lint-license:
-	reuse --root . lint
+lint-yaml: $(venv-activate)
+lint-yaml: $(lint-yaml-dep)
 
-## -----------------------------------------------------------------------
-## Intent: Display command help
-## -----------------------------------------------------------------------
-help-summary ::
-	@echo '  lint-reuse              License syntax checking'
+$(lint-yaml-dep):
+	$(vst-env) && yamllint -s $(call lint-yaml-src,$@)
+
+help::
+	@echo "  lint-yaml            Syntax check yaml sources"
 
 # [EOF]
