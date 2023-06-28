@@ -15,27 +15,7 @@
 # limitations under the License.
 # -----------------------------------------------------------------------
 
-##-------------------##
-##---]  GLOBALS  [---##
-##-------------------##
-
-##-------------------##
-##---]  TARGETS  [---##
-##-------------------##
-ifndef NO-LINT-REUSE
-  lint : lint-license
-endif
-
-## -----------------------------------------------------------------------
-## Intent: Perform a lint check on makefile sources
-## -----------------------------------------------------------------------
-lint-license:
-	reuse --root . lint
-
-## -----------------------------------------------------------------------
-## Intent: Display command help
-## -----------------------------------------------------------------------
-help-summary ::
-	@echo '  lint-reuse              License syntax checking'
+## Common library makefiles
+https://github.com/opencord/onf-make
 
 # [EOF]

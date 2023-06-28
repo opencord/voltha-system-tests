@@ -14,28 +14,20 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 # -----------------------------------------------------------------------
+# Intent: Conditionally load when named targets are requested.
+#   var ?= $(error ...) definitions are fatal to "make help" and others
+# -----------------------------------------------------------------------
 
-##-------------------##
-##---]  GLOBALS  [---##
-##-------------------##
+onf-mk-jjb-targets := $(NULL)
+onf-mk-jjb-targets += jjb-gen
+onf-mk-jjb-targets += sterile
 
-##-------------------##
-##---]  TARGETS  [---##
-##-------------------##
-ifndef NO-LINT-REUSE
-  lint : lint-license
-endif
-
-## -----------------------------------------------------------------------
-## Intent: Perform a lint check on makefile sources
-## -----------------------------------------------------------------------
-lint-license:
-	reuse --root . lint
-
-## -----------------------------------------------------------------------
-## Intent: Display command help
-## -----------------------------------------------------------------------
-help-summary ::
-	@echo '  lint-reuse              License syntax checking'
+# -----------------------------------------------------------------------
+# Define a flag to only load release targets when mentioned by name
+# Makefile can also explicitly define the flag to force always loading.
+# -----------------------------------------------------------------------
+$(foreach tgt,$(onf-mk-jjb-targets),\
+  $(if $(findstring $(tgt),$(MAKECMDGOALS)),$(eval USE-ONF-JJB-MK := true))\
+)
 
 # [EOF]

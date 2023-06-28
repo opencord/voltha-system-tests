@@ -18,47 +18,45 @@
 ##-------------------##
 ##---]  GLOBALS  [---##
 ##-------------------##
-.PHONY: lint-doc8 lint-doc8-all lint-doc8-modified
+.PHONY: lint-mdl lint-mdl-all lint-mdl-modified
 
-have-doc8-files := $(if $(strip $(DOC8_SOURCE)),true)
-DOC8_SOURCE     ?= $(error DOC8_SOURCE= is required)
-
-##--------------------##
-##---]  INCLUDES  [---##
-##--------------------##
-# include $(ONF_MAKEDIR)/lint/doc8/help.mk
-include $(ONF_MAKEDIR)/lint/doc8/install.mk
+have-rst-files := $(if $(strip $(RST_SOURCE)),true)
+RST_SOURCE     ?= $(error RST_SOURCE= is required)
 
 ## -----------------------------------------------------------------------
 ## -----------------------------------------------------------------------
-ifndef NO-LINT-DOC8
-  lint-doc8-mode := $(if $(have-doc8-files),modified,all)
-  lint : lint-doc8-$(lint-doc8-mode)
-endif# NO-LINT-DOC8
+ifndef NO-LINT-MARKDOWN
+  lint-mdl-mode := $(if $(have-mdl-files),modified,all)
+  lint : lint-mdl-$(lint-mdl-mode)
+endif# NO-LINT-MDL
 
 # Consistent targets across lint makefiles
-lint-doc8-all      : lint-doc8
-lint-doc8-modified : lint-doc8
+lint-mdl-all      : lint-mdl
+lint-mdl-modified : lint-mdl
 
-## -----------------------------------------------------------------------
-## -----------------------------------------------------------------------
-lint-doc8-excl := $(foreach dir,$(onf-excl-dirs),--ignore-path "$(dir)")
-lint-doc8: lint-doc8-cmd-version
+# onf-excl-dirs
+LINT_STYLE ?= mdl_strict.rb
 
+mdl-excludes := $(foreach path,$(onf-exclude-dirs),! -path "./$(path)/*")
+
+lint-mdl:
 	$(call banner-enter,Target $@)
-	$(activate) && doc8 --version
-	@echo
-	$(activate) && doc8 $(lint-doc8-excl)
-	$(call banner-enter,Target $@)
+	@echo "markdownlint(mdl) version: `mdl --version`"
+	@echo "style config:"
+	@echo "---"
+	@cat $(LINT_STYLE)
+	@echo "---"
+# 	mdl -s $(LINT_STYLE) `find -L $(SOURCEDIR) ! -path "./_$(venv-activate-script)/*" ! -path "./_build/*" ! -path "./repos/*" ! -path "*vendor*" -name "*.md"`
+	mdl -s $(LINT_STYLE) `find -L $(SOURCEDIR) $(mdl-excludes) -iname "*.md"`
 
 ## -----------------------------------------------------------------------
 ## Intent: Display command usage
 ## -----------------------------------------------------------------------
 help::
-	@echo '  lint-doc8          Syntax check python using the doc8 command'
+	@echo '  lint-mdl          Syntax check python using the mdl command'
   ifdef VERBOSE
-	@echo '  lint-doc8-all       doc8 checking: exhaustive'
-	@echo '  lint-doc8-modified  doc8 checking: only modified'
+	@echo '  lint-mdl-all       mdl checking: exhaustive'
+	@echo '  lint-mdl-modified  mdl checking: only modified'
   endif
 
 # [EOF]

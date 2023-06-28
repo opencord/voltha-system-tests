@@ -60,10 +60,6 @@ sterile ::
 	$(HIDE)$(RM) "$(venv-abs-bin)/yamllint"
 	$(HIDE)$(RM) -r .venv/lib/*/site-packages/yamllint
 
-        # Remove both file:command and dir:libraries
-        # find "$(venv-abs-path)" -iname 'yamllint' -print0 \
-        #    | $(xargs-n1-clean) $(RM) -r {}
-
 ## -----------------------------------------------------------------------
 ## Intent: Display command usage
 ## -----------------------------------------------------------------------

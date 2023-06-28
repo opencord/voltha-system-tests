@@ -17,27 +17,48 @@
 
 .DEFAULT_GOAL := sanity-kind
 
+##-------------------##
+##---]  GLOBALS  [---##
+##-------------------##
+TOP ?=$(strip \
+  $(dir \
+    $(abspath $(lastword $(MAKEFILE_LIST)))\
+   )\
+)
+
 # Assign early: altered by include
 ROOT_DIR  := $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
 
 ##--------------------##
 ##---]  INCLUDES  [---##
 ##--------------------##
-include config.mk
-include makefiles/include.mk
-include makefiles/patches/include.mk
-
-venv-patched    += $(venv-activate-script).patched
+include $(TOP)/config.mk#                # configure
+include $(TOP)/makefiles/include.mk      # top level include
 
 # Configuration and lists of files for linting/testing
 VERSION   ?= $(shell cat ./VERSION)
 
-PYTHON_FILES := $(wildcard libraries/*.py)
-ROBOT_FILES  := $(shell find . -name *.robot -print)
-YAML_FILES   := $(shell find ./tests -type f \( -name *.yaml -o -name *.yml \) -print)
-JSON_FILES   := $(shell find ./tests -name *.json -print)
+## -----------------------------------------------------------------------
+## Consumed by makefiles/lint/*/include.mk
+## -----------------------------------------------------------------------
+# JSON_FILES   := $(shell find ./tests -name *.json -print)
+# PYTHON_FILES := $(wildcard libraries/*.py)
+# ROBOT_FILES  := $(shell find . -name *.robot -print)
+# YAML_FILES   := $(shell find ./tests -type f \( -name *.yaml -o -name *.yml \) -print)
 
+## -----------------------------------------------------------------------
+## Intent: Helper macros
+## -----------------------------------------------------------------------
+run-robot-test =$(strip \
+  $(foreach path,$(1),\
+    $(activate) \
+      && cd $(path) \
+      && robot -V $(ROBOT_CONFIG_FILE) $(ROBOT_MISC_ARGS) $(ROBOT_FILE) \
+  ))
+
+## -----------------------------------------------------------------------
 # Robot config
+## -----------------------------------------------------------------------
 ROBOT_SANITY_SINGLE_PON_FILE    ?= $(ROOT_DIR)/tests/data/bbsim-kind.yaml
 ROBOT_SANITY_DT_SINGLE_PON_FILE    ?= $(ROOT_DIR)/tests/data/bbsim-kind-dt.yaml
 ROBOT_SANITY_DT_SINGLE_PON_FILE_VGC    ?= $(ROOT_DIR)/tests/data/bbsim-kind-dt-vgc.yaml
@@ -81,7 +102,15 @@ sanity-kind: sanity-single-kind
 # to simplify ci
 sanity-kind-att: sanity-single-kind
 
+# -----------------------------------------------------------------------
+# -----------------------------------------------------------------------
+help ::
+	@echo '  sanity-kind-multiuni-att'
+	@echo '  functional-single-kind-multiuni-att'
+
+# -----------------------------------------------------------------------
 # ATT Multi-UNI Sanity Target
+# -----------------------------------------------------------------------
 sanity-kind-multiuni-att: ROBOT_MISC_ARGS += -X -i sanity $(ROBOT_DEBUG_LOG_OPT)
 sanity-kind-multiuni-att: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_MULTI_UNI_SINGLE_PON_FILE)
 sanity-kind-multiuni-att: ROBOT_FILE := Voltha_PODTests.robot
@@ -93,7 +122,15 @@ functional-single-kind-multiuni-att: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_MULTI_U
 functional-single-kind-multiuni-att: ROBOT_FILE := Voltha_PODTests.robot
 functional-single-kind-multiuni-att: voltha-test
 
+# -----------------------------------------------------------------------
+# -----------------------------------------------------------------------
+help ::
+	@echo '  voltha-scale'
+	@echo '  voltha-scale-onu-upgrade'
+
+# -----------------------------------------------------------------------
 # for scale pipeline
+# -----------------------------------------------------------------------
 voltha-scale: ROBOT_MISC_ARGS += -i activation -v NAMESPACE:voltha $(ROBOT_DEBUG_LOG_OPT)
 voltha-scale: voltha-scale-test
 
@@ -103,30 +140,56 @@ voltha-scale: voltha-scale-test
 voltha-scale-onu-upgrade: ROBOT_MISC_ARGS += -i setup -i activation -i onu-upgrade -v NAMESPACE:voltha -v image_version:BBSM_IMG_00002 -v image_url:http://bbsim0:50074/images/software-image.img -v image_vendor:BBSM -v image_activate_on_success:false -v image_commit_on_success:false -v image_crc:0 $(ROBOT_DEBUG_LOG_OPT)
 voltha-scale-onu-upgrade: voltha-scale-test
 
+# -----------------------------------------------------------------------
+# -----------------------------------------------------------------------
+help ::
+	@echo '  sanity-kind-dt'
+	@echo '  sanity-kind-dt-vgc'
+	@echo '  sanity-kind-dt-fttb'
+	@echo '  sanity-kind-dt-fttb-vgc'
+
+# -----------------------------------------------------------------------
 # target to invoke DT Workflow Sanity
+# -----------------------------------------------------------------------
 sanity-kind-dt: ROBOT_MISC_ARGS += -i sanityDt $(ROBOT_DEBUG_LOG_OPT)
 sanity-kind-dt: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_DT_SINGLE_PON_FILE)
 sanity-kind-dt: ROBOT_FILE := Voltha_DT_PODTests.robot
 sanity-kind-dt: voltha-dt-test
 
+# -----------------------------------------------------------------------
 # target to invoke DT Workflow Sanity for VGC
+# -----------------------------------------------------------------------
 sanity-kind-dt-vgc: ROBOT_MISC_ARGS += -i sanityDt $(ROBOT_DEBUG_LOG_OPT)
 sanity-kind-dt-vgc: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_DT_SINGLE_PON_FILE_VGC)
 sanity-kind-dt-vgc: ROBOT_FILE := Voltha_DT_PODTests_VGC.robot
 sanity-kind-dt-vgc: voltha-dt-test
 
+# -----------------------------------------------------------------------
 # target to invoke DT FTTB Workflow Sanity
+# -----------------------------------------------------------------------
 sanity-kind-dt-fttb: ROBOT_MISC_ARGS += -i sanityDtFttb $(ROBOT_DEBUG_LOG_OPT)
 sanity-kind-dt-fttb: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_DT_FTTB_SINGLE_PON_FILE)
 sanity-kind-dt-fttb: ROBOT_FILE := Voltha_DT_FTTB_Tests.robot
 sanity-kind-dt-fttb: voltha-dt-test
 
+# -----------------------------------------------------------------------
 # target to invoke DT FTTB Workflow Sanity for VGC
+# -----------------------------------------------------------------------
 sanity-kind-dt-fttb-vgc: ROBOT_MISC_ARGS += -i sanityDtFttb $(ROBOT_DEBUG_LOG_OPT)
 sanity-kind-dt-fttb-vgc: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_DT_FTTB_SINGLE_PON_FILE_VGC)
 sanity-kind-dt-fttb-vgc: ROBOT_FILE := Voltha_DT_FTTB_Tests_VGC.robot
 sanity-kind-dt-fttb-vgc: voltha-dt-test
 
+# -----------------------------------------------------------------------
+# -----------------------------------------------------------------------
+help ::
+	@echo '  functional-single-kind'
+	@echo '  functional-single-kind-att'
+	@echo '  functional-single-kind-dt'
+	@echo '  functional-single-kind-dt-vgc'
+
+# -----------------------------------------------------------------------
+# -----------------------------------------------------------------------
 functional-single-kind: ROBOT_MISC_ARGS += -i sanityORfunctional -e PowerSwitch $(ROBOT_DEBUG_LOG_OPT)
 functional-single-kind: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_SINGLE_PON_FILE)
 functional-single-kind: bbsim-kind
@@ -134,78 +197,132 @@ functional-single-kind: bbsim-kind
 # to simplify ci
 functional-single-kind-att: functional-single-kind
 
+# -----------------------------------------------------------------------
 # target to invoke DT Workflow Functional scenarios
+# -----------------------------------------------------------------------
 functional-single-kind-dt: ROBOT_MISC_ARGS += -i sanityDtORfunctionalDt -e PowerSwitch $(ROBOT_DEBUG_LOG_OPT)
 functional-single-kind-dt: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_DT_SINGLE_PON_FILE)
 functional-single-kind-dt: ROBOT_FILE := Voltha_DT_PODTests.robot
 functional-single-kind-dt: voltha-dt-test
 
+# -----------------------------------------------------------------------
 # target to invoke DT Workflow Functional scenarios
+# -----------------------------------------------------------------------
 functional-single-kind-dt-vgc: ROBOT_MISC_ARGS += -i sanityDtORfunctionalDt -e PowerSwitch $(ROBOT_DEBUG_LOG_OPT)
 functional-single-kind-dt-vgc: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_DT_SINGLE_PON_FILE_VGC)
 functional-single-kind-dt-vgc: ROBOT_FILE := Voltha_DT_PODTests_VGC.robot
 functional-single-kind-dt-vgc: voltha-dt-test
 
+# -----------------------------------------------------------------------
+# -----------------------------------------------------------------------
+help ::
+	@echo '  sanity-kind-tt'
+	@echo '  sanity-kind-tt-maclearning'
+	@echo '  sanity-kind-multiuni-tt'
 
+# -----------------------------------------------------------------------
 # target to invoke TT Workflow Sanity
+# -----------------------------------------------------------------------
 sanity-kind-tt: ROBOT_MISC_ARGS += -i sanityTT $(ROBOT_DEBUG_LOG_OPT)
 sanity-kind-tt: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_TT_SINGLE_PON_FILE)
 sanity-kind-tt: ROBOT_FILE := Voltha_TT_PODTests.robot
 sanity-kind-tt: voltha-tt-test
 
+# -----------------------------------------------------------------------
+# -----------------------------------------------------------------------
 sanity-kind-tt-maclearning: ROBOT_MISC_ARGS += -i sanityTT -v with_maclearning:True $(ROBOT_DEBUG_LOG_OPT)
 sanity-kind-tt-maclearning: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_TT_SINGLE_PON_FILE)
 sanity-kind-tt-maclearning: ROBOT_FILE := Voltha_TT_PODTests.robot
 sanity-kind-tt-maclearning: voltha-tt-test
 
+# -----------------------------------------------------------------------
+# -----------------------------------------------------------------------
 sanity-kind-multiuni-tt: ROBOT_MISC_ARGS += -i sanityTT $(ROBOT_DEBUG_LOG_OPT)
 sanity-kind-multiuni-tt: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_TT_MULTI_UNI_SINGLE_PON_FILE)
 sanity-kind-multiuni-tt: ROBOT_FILE := Voltha_TT_PODTests.robot
 sanity-kind-multiuni-tt: voltha-tt-test
 
+# -----------------------------------------------------------------------
+# -----------------------------------------------------------------------
+help ::
+	@echo '  functional-single-kind-tt'
+	@echo '  functional-single-kind-multiuni-tt'
+
+# -----------------------------------------------------------------------
 # target to invoke TT Workflow Functional scenarios
+# -----------------------------------------------------------------------
 functional-single-kind-tt: ROBOT_MISC_ARGS += -i sanityTTORfunctionalTT -e PowerSwitch $(ROBOT_DEBUG_LOG_OPT)
 functional-single-kind-tt: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_TT_SINGLE_PON_FILE)
 functional-single-kind-tt: ROBOT_FILE := Voltha_TT_PODTests.robot
 functional-single-kind-tt: voltha-tt-test
 
+# -----------------------------------------------------------------------
+# -----------------------------------------------------------------------
 functional-single-kind-multiuni-tt: ROBOT_MISC_ARGS += -i sanityTTORfunctionalTT -e PowerSwitch $(ROBOT_DEBUG_LOG_OPT)
 functional-single-kind-multiuni-tt: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_TT_MULTI_UNI_SINGLE_PON_FILE)
 functional-single-kind-multiuni-tt: ROBOT_FILE := Voltha_TT_PODTests.robot
 functional-single-kind-multiuni-tt: voltha-tt-test
 
+# -----------------------------------------------------------------------
+# -----------------------------------------------------------------------
+help ::
+	@echo '  sanity-kind-tim'
+	@echo '  sanity-kind-tim-multi-onu'
+	@echo '  sanity-kind-tim-multi-pon-multi-onu'
+	@echo '  sanity-kind-tim-multi-olt-multi-pon-multi-onu'
+
+# -----------------------------------------------------------------------
 # target to invoke TIM Workflow Sanity
+# -----------------------------------------------------------------------
 sanity-kind-tim: ROBOT_MISC_ARGS += -i sanityTIM $(ROBOT_DEBUG_LOG_OPT)
 sanity-kind-tim: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_TIM_SINGLE_PON_FILE)
 sanity-kind-tim: ROBOT_FILE := Voltha_TIM_PODTests.robot
 sanity-kind-tim: voltha-tim-test
 
+# -----------------------------------------------------------------------
+# -----------------------------------------------------------------------
 sanity-kind-tim-multi-onu: ROBOT_MISC_ARGS += -i sanityTIM $(ROBOT_DEBUG_LOG_OPT)
 sanity-kind-tim-multi-onu: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_TIM_SINGLE_PON_MULTI_ONU_FILE)
 sanity-kind-tim-multi-onu: ROBOT_FILE := Voltha_TIM_PODTests.robot
 sanity-kind-tim-multi-onu: voltha-tim-test
 
+# -----------------------------------------------------------------------
+# -----------------------------------------------------------------------:
 sanity-kind-tim-multi-pon-multi-onu: ROBOT_MISC_ARGS += -i sanityTIM $(ROBOT_DEBUG_LOG_OPT)
 sanity-kind-tim-multi-pon-multi-onu: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_TIM_MULTI_PON_MULTI_ONU_FILE)
 sanity-kind-tim-multi-pon-multi-onu: ROBOT_FILE := Voltha_TIM_PODTests.robot
 sanity-kind-tim-multi-pon-multi-onu: voltha-tim-test
 
+# -----------------------------------------------------------------------
+# -----------------------------------------------------------------------:
 sanity-kind-tim-multi-olt-multi-pon-multi-onu: ROBOT_MISC_ARGS += -i sanityTIM $(ROBOT_DEBUG_LOG_OPT)
 sanity-kind-tim-multi-olt-multi-pon-multi-onu: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_TIM_MULTI_OLT_MULTI_PON_MULTI_ONU_FILE)
 sanity-kind-tim-multi-olt-multi-pon-multi-onu: ROBOT_FILE := Voltha_TIM_PODTests.robot
 sanity-kind-tim-multi-olt-multi-pon-multi-onu: voltha-tim-test
 
+# -----------------------------------------------------------------------
+# -----------------------------------------------------------------------
+help ::
+	@echo '  sanity-kind-tim-mcast'
+	@echo '  sanity-kind-tim-mcast-multi-olt-multi-pon-multi-onu'
+
+# -----------------------------------------------------------------------
+# -----------------------------------------------------------------------
 sanity-kind-tim-mcast: ROBOT_MISC_ARGS += -i sanityTIM-MCast $(ROBOT_DEBUG_LOG_OPT)
 sanity-kind-tim-mcast: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_TIM_MCAST_SINGLE_PON_FILE)
 sanity-kind-tim-mcast: ROBOT_FILE := Voltha_TIM_PODTests.robot
 sanity-kind-tim-mcast: voltha-tim-test
 
+# -----------------------------------------------------------------------
+# -----------------------------------------------------------------------
 sanity-kind-tim-mcast-multi-olt-multi-pon-multi-onu: ROBOT_MISC_ARGS += -i sanityTIM-MCast $(ROBOT_DEBUG_LOG_OPT)
 sanity-kind-tim-mcast-multi-olt-multi-pon-multi-onu: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_TIM_MCAST_MULTI_OLT_MULTI_PON_MULTI_ONU_FILE)
 sanity-kind-tim-mcast-multi-olt-multi-pon-multi-onu: ROBOT_FILE := Voltha_TIM_PODTests.robot
 sanity-kind-tim-mcast-multi-olt-multi-pon-multi-onu: voltha-tim-test
 
+# -----------------------------------------------------------------------
 # target to invoke multiple OLTs Functional scenarios
+# -----------------------------------------------------------------------
 functional-multi-olt: ROBOT_MISC_ARGS += -i sanityORfunctional -e PowerSwitch $(ROBOT_DEBUG_LOG_OPT)
 functional-multi-olt: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_MULTIPLE_OLT_FILE)
 functional-multi-olt: ROBOT_FILE := Voltha_PODTests.robot
@@ -349,28 +466,52 @@ sanity-single-kind: ROBOT_MISC_ARGS += -i sanity $(ROBOT_DEBUG_LOG_OPT)
 sanity-single-kind: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_SINGLE_PON_FILE)
 sanity-single-kind: bbsim-kind
 
+## -----------------------------------------------------------------------
+## Intent: sanity-bbsim tests
+## -----------------------------------------------------------------------
+help ::
+	@echo '  sanity-bbsim{-att,-dt,-tt}'
+	@echo '  voltha-bbsim-test        Parameterized test target'
+
+## -----------------------------------------------------------------------
+## -----------------------------------------------------------------------
 sanity-bbsim-att: ROBOT_MISC_ARGS += -v workflow:ATT
 sanity-bbsim-att: sanity-bbsim
 
+## -----------------------------------------------------------------------
+## -----------------------------------------------------------------------
 sanity-bbsim-dt: ROBOT_MISC_ARGS += -v workflow:DT
 sanity-bbsim-dt: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_DT_SINGLE_PON_FILE)
 sanity-bbsim-dt: ROBOT_FILE := Voltha_BBSimTests.robot
 sanity-bbsim-dt: voltha-bbsim-test
 
+## -----------------------------------------------------------------------
+## -----------------------------------------------------------------------
 sanity-bbsim-tt: ROBOT_MISC_ARGS += -v workflow:TT
 sanity-bbsim-tt: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_TT_SINGLE_PON_FILE)
 sanity-bbsim-tt: ROBOT_FILE := Voltha_BBSimTests.robot
 sanity-bbsim-tt: voltha-bbsim-test
 
+## -----------------------------------------------------------------------
+## -----------------------------------------------------------------------
 sanity-bbsim: ROBOT_MISC_ARGS += -i bbsimSanity $(ROBOT_DEBUG_LOG_OPT)
 sanity-bbsim: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_SINGLE_PON_FILE)
 sanity-bbsim: ROBOT_FILE := Voltha_BBSimTests.robot
 sanity-bbsim: voltha-bbsim-test
 
-voltha-bbsim-test: $(venv-activate-patched)
-	$(activate) \
-	  && cd tests/bbsim \
-	  && robot -V $(ROBOT_CONFIG_FILE) $(ROBOT_MISC_ARGS) $(ROBOT_FILE)
+## -----------------------------------------------------------------------
+## Intent:
+##   o $(MAKE) Named targets provides macro definitions.
+##   o Alias uninitialized vars to improve readability
+## -----------------------------------------------------------------------
+# ROBOT_CONFIG_FILE ?= $(error ROBOT_CONFIG_FILE= is required)
+# ROBOT_FILE        ?= $(error ROBOT_FILE= is required)
+
+## -----------------------------------------------------------------------
+## Intent: Parameterized test target
+## -----------------------------------------------------------------------
+voltha-bbsim-test: venv-activate-patched
+	$(call run-robot-test,tests/bbsim)
 
 rwcore-restart-single-kind: ROBOT_MISC_ARGS += -X -i functionalANDrwcore-restart $(ROBOT_DEBUG_LOG_OPT)
 rwcore-restart-single-kind: ROBOT_CONFIG_FILE := $(ROBOT_FAIL_SINGLE_PON_FILE)
@@ -509,10 +650,10 @@ onos-ha-test: voltha-test
 
 voltha-test: ROBOT_MISC_ARGS += -e notready --noncritical non-critical
 
-voltha-test: $(venv-activate-patched)
-	$(activate) \
-	  && cd tests/functional \
-	  && robot -V $(ROBOT_CONFIG_FILE) $(ROBOT_MISC_ARGS) $(ROBOT_FILE)
+## -----------------------------------------------------------------------
+## -----------------------------------------------------------------------
+voltha-test: venv-activate-patched
+	$(call run-robot-test,tests/functional)
 
 bbsim-dmi-hw-management-test: ROBOT_MISC_ARGS +=  -e notreadyDMI -i functionalDMI -e bbsimUnimplementedDMI
 bbsim-dmi-hw-management-test: ROBOT_FILE := dmi-hw-management.robot
@@ -524,10 +665,10 @@ voltha-dmi-hw-management-test: ROBOT_FILE := dmi-hw-management.robot
 voltha-dmi-hw-management-test: ROBOT_CONFIG_FILE := $(ROBOT_DMI_SINGLE_ADTRAN_FILE)
 voltha-dmi-hw-management-test: voltha-dmi-test
 
-voltha-dmi-test: $(venv-activate-patched)
-	$(activate) \
-	  && tests/dmi-interface \
-	  && robot -V $(ROBOT_CONFIG_FILE) $(ROBOT_MISC_ARGS) $(ROBOT_FILE)
+## -----------------------------------------------------------------------
+## -----------------------------------------------------------------------
+voltha-dmi-test: venv-activate-patched
+	$(call run-robot-test,tests/dmi-interface)
 
 # target to invoke single ONU pm data scenarios in ATT workflow
 voltha-pm-data-single-kind-att: ROBOT_MISC_ARGS += -v workflow:ATT
@@ -564,9 +705,14 @@ voltha-pm-data-tests: ROBOT_PM_CONFIG_FILE := $(ROBOT_PM_DATA_FILE)
 voltha-pm-data-tests: ROBOT_FILE := Voltha_ONUPMTests.robot
 voltha-pm-data-tests: voltha-pm-data-test
 
-voltha-pm-data-test: $(venv-activate-patched)
+## -----------------------------------------------------------------------
+## -----------------------------------------------------------------------
+voltha-pm-data-test: venv-activate-patched
+# ROBOT_PM_CONFIG_FILE= is differnet
+#	$(call run-robot-test,tests/pm-data)
+
 	$(activate) \
-	  && tests/pm-data \
+	  && cd tests/pm-data \
 	  && robot -V $(ROBOT_CONFIG_FILE) -V $(ROBOT_PM_CONFIG_FILE) $(ROBOT_MISC_ARGS) $(ROBOT_FILE)
 
 # target to invoke single ONU OMCI Get scenarios in ATT workflow
@@ -735,117 +881,108 @@ voltha-onu-robustness-tests: ROBOT_MISC_ARGS += $(ROBOT_DEBUG_LOG_OPT)
 voltha-onu-robustness-tests: ROBOT_FILE := Voltha_ONUErrorTests.robot
 voltha-onu-robustness-tests: openonu-go-adapter-tests
 
-software-upgrade-test: $(venv-activate-patched)
+software-upgrade-test: venv-activate-patched
 	$(activate) \
 	  && cd tests/software-upgrades \
 	  && robot -V $(ROBOT_CONFIG_FILE) $(ROBOT_MISC_ARGS) $(ROBOT_FILE)
 
 voltha-dt-test: ROBOT_MISC_ARGS += -e notready  --noncritical non-critical
 
-voltha-dt-test: $(venv-activate-patched)
+## CHECK
+voltha-dt-test: venv-activate-patched
 	$(activate) \
 	  && cd tests/dt-workflow \
 	  && robot -V $(ROBOT_CONFIG_FILE) $(ROBOT_MISC_ARGS) $(ROBOT_FILE)
 
 voltha-tt-test: ROBOT_MISC_ARGS += -e notready  --noncritical non-critical
 
-voltha-tt-test: $(venv-activate-patched)
+## CHECK
+voltha-tt-test: venv-activate-patched
 	$(activate) \
 	  && cd tests/tt-workflow \
 	  && robot -V $(ROBOT_CONFIG_FILE) $(ROBOT_MISC_ARGS) $(ROBOT_FILE)
 
 voltha-tim-test: ROBOT_MISC_ARGS += -e notready  --noncritical non-critical
 
-voltha-tim-test: $(venv-activate-patched)
+## Check
+voltha-tim-test: venv-activate-patched
 	$(activate) \
 	  && cd tests/tim-workflow \
 	  && robot -V $(ROBOT_CONFIG_FILE) $(ROBOT_MISC_ARGS) $(ROBOT_FILE)
 
-voltha-scale-test: $(venv-activate-patched)
+## CHECK
+voltha-scale-test: venv-activate-patched
 	$(activate) \
 	  && cd tests/scale \
 	  && robot $(ROBOT_MISC_ARGS) Voltha_Scale_Tests.robot
 
-openonu-go-adapter-tests: $(venv-activate-patched)
+## CHECK
+openonu-go-adapter-tests: venv-activate-patched
 	$(activate) \
 	  && cd tests/openonu-go-adapter \
 	  && robot -V $(ROBOT_CONFIG_FILE) $(ROBOT_MISC_ARGS) $(ROBOT_FILE)
 
 voltha-bbf-adapter-test: ROBOT_MISC_ARGS += -e notready  --noncritical non-critical
-voltha-bbf-adapter-test: $(venv-activate-patched)
-	$(activate) \
-	  && cd tests/bbf-adapter \
-	  && robot -V $(ROBOT_CONFIG_FILE) $(ROBOT_MISC_ARGS) $(ROBOT_FILE)
+voltha-bbf-adapter-test: venv-activate-patched
+	$(call run-robot-test,tests/bbf-adapter)
 
-voltha-memory-leak-test :$(venv-activate-patched)
-	$(activate) \
-	  && cd tests/memory-leak \
-	  && robot -V $(ROBOT_CONFIG_FILE) $(ROBOT_MISC_ARGS) $(ROBOT_FILE)
-
-## -----------------------------------------------------------------------
-## -----------------------------------------------------------------------
-help ::
-	@echo '  voltha-memory-leak-test      Test suite'
-
-# self-test, lint, and setup targets
-
-# -----------------------------------------------------------------------
-# virtualenv for the robot tools
-# VOL-2724 Invoke pip via python3 to avoid pathname too long on QA jobs
-# Verify installation: make lint -or- make test
-# vol-4874 - python_310_migration.sh
-# -----------------------------------------------------------------------
-vst_venv          : $(venv-activate-patched)#    # verify not needed then remove
+voltha-memory-leak-test: venv-activate-patched
+	$(call run-robot-test,tests/memory-leak)
 
 ##----------------##
 ##---]  TEST  [---##
 ##----------------##
 test: lint
 
+# -----------------------------------------------------------------------
 # tidy target will be more useful once issue with removing leading comments
 # is resolved: https://github.com/robotframework/robotframework/issues/3263
-tidy-robot: $(venv-activate-patched)
-	$(activate) \
-	  && python -m robot.tidy --inplace $(ROBOT_FILES);
+# -----------------------------------------------------------------------
+tidy-robot: venv-activate-patched
+	$(activate) && python -m robot.tidy --inplace $(ROBOT_FILES)
 
 ## Variables for gendocs
-TEST_SOURCE := $(wildcard tests/*/*.robot)
+TEST_SOURCE   := $(wildcard tests/*/*.robot)
 TEST_BASENAME := $(basename $(TEST_SOURCE))
-TEST_DIRS := $(dir $(TEST_SOURCE))
+TEST_DIRS     := $(dir $(TEST_SOURCE))
 
 LIB_SOURCE   := $(wildcard libraries/*.robot)
 LIB_BASENAME := $(basename $(LIB_SOURCE))
 LIB_DIRS     := $(sort $(dir $(LIB_SOURCE)))
 
-## -----------------------------------------------------------------------
-## -----------------------------------------------------------------------
+# -----------------------------------------------------------------------
+# -----------------------------------------------------------------------
+help ::
+	@echo '  gendocs'
+	@echo '  tidy-robot'
+
+# -----------------------------------------------------------------------
+# -----------------------------------------------------------------------
 .PHONY: gendocs lint test
 # In future explore use of --docformat REST - integration w/Sphinx?
-gendocs: $(venv-activate-patched)
+gendocs: venv-activate-patched
 
-	$(HIDE)echo " ** $(make) $@: ENTER"
+	$(call banner-enter)
+
+	@echo
+	@echo " ** $(MAKE) $@: robot.libdoc"
+	@mkdir -pv $(addprefix $@/,$(LIB_DIRS))
 
 	$(activate) \
-	  && set -u \
-	  && echo \
-	  && echo " ** $(make) $@: robot.libdoc" \
-	  && mkdir -pv $(addprefix $@/,$(LIB_DIRS)) \
 	  && for dir in $(LIB_BASENAME); do\
-	      python -m robot.libdoc --format HTML $$dir.robot $@/$$dir.html ;\
-	  done \
-	  && echo \
-	  && echo " ** $(make) $@: robot.testdoc" \
-	  && mkdir -vp $(addprefix $@/,$(TEST_DIRS)) \
+	    python -m robot.libdoc --format HTML $$dir.robot $@/$$dir.html ;\
+	  done
+
+	@echo
+	@echo " ** $(make) $@: robot.testdoc"
+	@mkdir -vp $(addprefix $@/,$(TEST_DIRS))
+
+	$(activate) \
 	  && for dir in $(TEST_BASENAME); do\
 		python -m robot.testdoc $$dir.robot $@/$$dir.html ;\
 	  done
 
-	$(HIDE)echo " ** $(make) $@: LEAVE"
-
-## -----------------------------------------------------------------------
-## -----------------------------------------------------------------------
-help ::
-	@echo '  gendocs                Generate robot test framework documentation'
+	$(call banner-leave)
 
 ## -----------------------------------------------------------------------
 ## -----------------------------------------------------------------------
@@ -855,8 +992,20 @@ clean ::
 
 ## -----------------------------------------------------------------------
 ## -----------------------------------------------------------------------
+clean-all sterile :: clean
+	$(RM) -r venv-activate-patched
+
+# -----------------------------------------------------------------------
+# -----------------------------------------------------------------------
+help ::
+	@echo '  voltctl-docker-image-build'
+	@echo '  voltctl-docker-image-install-kind'
+
+## -----------------------------------------------------------------------
+## -----------------------------------------------------------------------
 voltctl-docker-image-build:
-	cd docker && docker build -t opencord/voltctl:local -f Dockerfile.voltctl .
+	cd docker \
+	  && docker build -t opencord/voltctl:local -f Dockerfile.voltctl .
 
 ## -----------------------------------------------------------------------
 ## -----------------------------------------------------------------------
@@ -865,14 +1014,11 @@ voltctl-docker-image-install-kind:
 	kind load docker-image --name `kind get clusters | grep kind` opencord/voltctl:local
 
 ## -----------------------------------------------------------------------
-## Intent: [yuck] replace with a standalone reusable installer 4script
 ## -----------------------------------------------------------------------
 .PHONY: voltctl-download-url
 voltctl-download-url:
 	curl --silent https://api.github.com/repos/opencord/voltctl/releases/latest \
 	    | grep 'browser_download_url' \
 	    | grep 'linux-amd64'
-
-# [latest] https://github.com/opencord/voltctl/releases/download/untagged-cd611c39178f25b95a87/voltctl-1.9.1-linux-amd64
 
 # [EOF]

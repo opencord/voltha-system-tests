@@ -20,54 +20,61 @@
 
 $(if $(DEBUG),$(warning ENTER))
 
-## -----------------------------------------------------------------------
-## Intent: Install the yamllint tool
-## -----------------------------------------------------------------------
-.PHONY: lint-yaml-install
-
-# -----------------------------------------------------------------------
-# We can(/should?) define a command macro
-# wait a bit until use cases are better known.
-# Initial use required inserting xargs bash -c "$(YAMLLINT) {}"
-# -----------------------------------------------------------------------
-# YAMLLINT ?= $(venv-activate-bin)/yamllint
-# YAMLLINT ?= $(activate) && yamllint
+GIT ?= git
 
 ## -----------------------------------------------------------------------
-## Intent: Display yamllint command version string.
-##   Note: As a side effect, install yamllint by dependency
+## Intent: Checkout submodules required by ci-management
 ## -----------------------------------------------------------------------
-.PHONY: lint-yaml-cmd-version
-lint-yaml-cmd-version : $(venv-activate-bin)/yamllint
+submodule-repos := $(null)
+submodule-repos += global-jjb
+submodule-repos += lf-ansible
+submodule-repos += packer
 
-	$(HIDE) echo
-	$< --version
+submodule-deps := $(null)
+submodule-deps += submodules#     # named pseudo target
+submodule-deps += $(submodule-repos)
+
+.PHONY: $(submodule-deps)
+$(submodule-deps):
+	@echo
+	@echo "Checkout dependent submodules"
+	$(GIT) submodule init
+	$(GIT) submodule update
+
+# Abstraction: named target for submodule checkout
+checkout-ci-management-sub-modules: $(submodule-repos)
 
 ## -----------------------------------------------------------------------
-## Intent: On-demand instalation of the yamllint command
-## -----------------------------------------------------------------------
-lint-yaml-install := $(venv-activate-bin)/yamllint
-$(lint-yaml-install) : $(venv-activate-script)
-
-	$(call banner-enter,Target $@)
-	$(activate) && pip install yamllint
-	$(call banner-leave,Target $@)
-
-## -----------------------------------------------------------------------
-## Intent: Purge yamllint tool installation
+## Intent: Revert sandbox to a pristine state.
 ## -----------------------------------------------------------------------
 sterile ::
-	$(HIDE)$(RM) "$(venv-abs-bin)/yamllint"
-	$(HIDE)$(RM) -r .venv/lib/*/site-packages/yamllint
+	$(RM) -r $(submodule-repos)
 
-        # Remove both file:command and dir:libraries
-        # find "$(venv-abs-path)" -iname 'yamllint' -print0 \
-        #    | $(xargs-n1-clean) $(RM) -r {}
+        # FIXME:
+        #   o restore hierarchy to avoid git status 'deleted:'
+        #   o remove: externals should not be under revision control
+	$(GIT) co $(submodule-repos)
 
 ## -----------------------------------------------------------------------
-## Intent: Display command usage
 ## -----------------------------------------------------------------------
-help::
-	@echo '  lint-yaml-install       Install the yamllint tool'
+help ::
+	@echo
+	@echo '[GIT-SUBMODULES: docs]'
+	@echo '  reload              Setup to auto-reload sphinx doc changes in browser'
+	@echo
+	@echo '[GIT-SUBMODULES: deps]'
+	@echo '  submodules          Checkout dependent git submodules'
+  ifdef VERBOSE
+	@echo '  global-jjb          Checkout ci-management submodule global-jjb'
+	@echo '  lf-ansible          Checkout ci-management submodule lf-ansible'
+	@echo '  packer              Checkout ci-management submodule packer'
+  endif
+
+## -----------------------------------------------------------------------
+## -----------------------------------------------------------------------
+todo ::
+	@echo "Generalize logc, update to depend on .git/ rather than named targets."
+
+$(if $(DEBUG),$(warning LEAVE))
 
 # [EOF]

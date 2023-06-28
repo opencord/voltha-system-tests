@@ -14,28 +14,18 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 # -----------------------------------------------------------------------
+# Intent: Helper makefile target used to setup for a release
+# -----------------------------------------------------------------------
 
-##-------------------##
-##---]  GLOBALS  [---##
-##-------------------##
+## ---------------------------------------------------------------------------
+## Intent: Display supported targets
+## ---------------------------------------------------------------------------
+help-onf-git :
+	@echo
+	@echo '[GIT]'
+	@echo '  show-submodules     Display a list of repository submodules and versions'
 
-##-------------------##
-##---]  TARGETS  [---##
-##-------------------##
-ifndef NO-LINT-REUSE
-  lint : lint-license
-endif
-
-## -----------------------------------------------------------------------
-## Intent: Perform a lint check on makefile sources
-## -----------------------------------------------------------------------
-lint-license:
-	reuse --root . lint
-
-## -----------------------------------------------------------------------
-## Intent: Display command help
-## -----------------------------------------------------------------------
-help-summary ::
-	@echo '  lint-reuse              License syntax checking'
+help ::
+	@echo '  help-onf-git        Display git makefile targets'
 
 # [EOF]

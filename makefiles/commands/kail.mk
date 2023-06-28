@@ -23,6 +23,7 @@ help::
 	@echo "  kail            Install the kail command"
 ifdef VERBOSE
 	@echo "                  make kail KAIL_PATH="
+	@echo "    export WORKSPACE=$(/bin/pwd) # i_am=jenkins"
 endif
 
 # -----------------------------------------------------------------------
@@ -37,6 +38,7 @@ kail-cmd  ?= $(KAIL_PATH)/kail
 $(kail-cmd):
 	mkdir -p "$(dir $@)"
 	etc/godownloader.sh -b .
+	mkdir -p "$(dir $@)"
 	rsync -v --checksum kail "$@"
 	$@ version
 	$(RM) kail

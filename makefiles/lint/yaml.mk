@@ -20,74 +20,63 @@ $(if $(DEBUG),$(warning ENTER))
 ##-------------------##
 ##---]  GLOBALS  [---##
 ##-------------------##
-.PHONY: lint-pylint lint-pylint-all lint-pylint-modified
+.PHONY: lint-yaml lint-yaml-all lint-yaml-modified
 
-PYTHON_FILES      ?= $(error PYTHON_FILES= required)
+have-yaml-files := $(if $(strip $(YAML_FILES)),true)
+YAML_FILES      ?= $(error YAML_FILES= is required)
 
 ## -----------------------------------------------------------------------
-## Intent: Use the pylint command to perform syntax checking.
+## Intent: Use the yaml command to perform syntax checking.
 ##   o If UNSTABLE=1 syntax check all sources
 ##   o else only check sources modified by the developer.
 ## Usage:
 ##   % make lint UNSTABLE=1
-##   % make lint-pylint-all
+##   % make lint-yaml-all
 ## -----------------------------------------------------------------------
-ifndef NO-LINT-PYLINT
-  lint-pylint-mode := $(if $(have-python-files),modified,all)
-  lint        : lint-pylint
-  lint-pylint : lint-pylint-$(lint-pylint-mode)
-endif# NO-LINT-PYLINT
+lint-yaml-mode := $(if $(have-yaml-files),modified,all)
+lint-yaml : lint-yaml-$(lint-yaml-mode)
+
+ifndef NO-LINT-YAML
+  lint : lint-yaml#     # Enable as a default lint target
+endif# NO-LINT-YAML
 
 ## -----------------------------------------------------------------------
-## Intent: exhaustive pylint syntax checking
+## Intent: exhaustive yaml syntax checking
 ## -----------------------------------------------------------------------
+lint-yaml-all:
+	$(HIDE)$(MAKE) --no-print-directory lint-yaml-install
 
-# Construct: find . \( -name '__ignored__' -o -name dir -o name dir \)
-# pylint-find-filter := $(null)
-# pylint-find-filter += -name '__ignored__'#   # for alignment
-# pylint-find-filter += $(foreach dir,$(onf-excl-dirs),-o -name $(dir)))
-
-# pylint-find-filter := $(call gen-python-find-excl,onf-excl-dirs)
-# $(error pylint-find-filter := $(pylint-find-filter))
-lint-pylint-all: $(venv-activate-script)
-	$(MAKE) --no-print-directory lint-pylint-install
-
-	$(activate) && $(call gen-python-find-cmd) | $(xargs-n1) pylint
-#	    | $(xargs-n1-clean) yamllint --strict
+	find . \( -iname '*.yaml' -o -iname '*.yml' \) -print0 \
+	    | $(xargs-n1-clean) yamllint --strict
 
 ## -----------------------------------------------------------------------
 ## Intent: check deps for format and python3 cleanliness
 ## Note:
-##   pylint --py3k option no longer supported
+##   yaml --py3k option no longer supported
 ## -----------------------------------------------------------------------
-lint-pylint-modified: $(venv-activate-script)
-	$(MAKE) --no-print-directory lint-pylint-install
-
-	$(activate) && pylint $(PYTHON_FILES)
+lint-yaml-modified:
+	$(HIDE)$(MAKE) --no-print-directory lint-yaml-install
+	yamllint -s $(YAML_FILES)
 
 ## -----------------------------------------------------------------------
 ## Intent:
 ## -----------------------------------------------------------------------
-.PHONY: lint-pylint-install
-lint-pylint-install: $(venv-activate-script)
+lint-yaml-install:
 	@echo
 	@echo "** -----------------------------------------------------------------------"
-	@echo "** python pylint syntax checking"
+	@echo "** yaml syntax checking"
 	@echo "** -----------------------------------------------------------------------"
-	$(activate) && pip install --upgrade pylint
-	$(activate) && pylint --version
+	yamllint --version
 	@echo
 
 ## -----------------------------------------------------------------------
 ## Intent: Display command usage
 ## -----------------------------------------------------------------------
 help::
-	@echo '  lint-pylint          Syntax check python using the pylint command'
+	@echo '  lint-yaml          Syntax check python using the yaml command'
   ifdef VERBOSE
-	@echo '  $(MAKE) lint-pylint PYTHON_FILES=...'
-	@echo '  lint-pylint-modified  pylint checking: only modified'
-	@echo '  lint-pylint-all       pylint checking: exhaustive'
-	@echo '  lint-pylint-install   Install the pylint command'
+	@echo '  lint-yaml-all       yaml checking: exhaustive'
+	@echo '  lint-yaml-modified  yaml checking: only locally modified'
   endif
 
 $(if $(DEBUG),$(warning LEAVE))
