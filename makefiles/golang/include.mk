@@ -1,6 +1,6 @@
 # -*- makefile -*-
 # -----------------------------------------------------------------------
-# Copyright 2017-2022 Open Networking Foundation
+# Copyright 2023 Open Networking Foundation (ONF) and the ONF Contributors
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -14,10 +14,13 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 # -----------------------------------------------------------------------
+# SPDX-FileCopyrightText: 2017-2023 Open Networking Foundation (ONF) and the ONF Contributors
+# SPDX-License-Identifier: Apache-2.0
+# -----------------------------------------------------------------------
+# https://gerrit.opencord.org/plugins/gitiles/onf-make
+# ONF.makefiles.include.version = 1.1
+# -----------------------------------------------------------------------
 
-# Parent makefile should include this early so help
-# message will be prefixed by a usage statement.
-help ::
-	@echo "Usage: $(MAKE) [options] [target] ..."
+include $(ONF_MAKEDIR)/golang/mod-update.mk
 
 # [EOF]

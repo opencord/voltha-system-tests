@@ -14,35 +14,20 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 # -----------------------------------------------------------------------
+# Intent: Conditionally load when named targets are requested.
+#   var ?= $(error ...) definitions are fatal to "make help" and others
+# -----------------------------------------------------------------------
 
-MAKEDIR ?= $(error MAKEDIR= is required)
-
-## -----------------------------------------------------------------------
-## -----------------------------------------------------------------------
-help::
-	@echo "  kail            Install the kail command"
-ifdef VERBOSE
-	@echo "                  make kail KAIL_PATH="
-	@echo "    export WORKSPACE=$(/bin/pwd) # i_am=jenkins"
-endif
+onf-mk-jjb-targets := $(NULL)
+onf-mk-jjb-targets += jjb-gen
+onf-mk-jjb-targets += sterile
 
 # -----------------------------------------------------------------------
-# Install the 'kail' tool if needed: https://github.com/boz/kail
-#   o WORKSPACE - jenkins aware
-#   o Default to /usr/local/bin/kail
-#       + revisit this, system directories should not be a default path.
-#       + requires sudo and potential exists for overwrite conflict.
+# Define a flag to only load release targets when mentioned by name
+# Makefile can also explicitly define the flag to force always loading.
 # -----------------------------------------------------------------------
-KAIL_PATH ?= $(if $(WORKSPACE),$(WORKSPACE)/bin,/usr/local/bin)
-kail-cmd  ?= $(KAIL_PATH)/kail
-$(kail-cmd):
-	etc/godownloader.sh -b .
-	mkdir -p "$(dir $@)"
-	rsync -v --checksum kail "$@"
-	$@ version
-	$(RM) kail
-
-.PHONY: kail
-kail : $(kail-cmd)
+$(foreach tgt,$(onf-mk-jjb-targets),\
+  $(if $(findstring $(tgt),$(MAKECMDGOALS)),$(eval USE-ONF-JJB-MK := true))\
+)
 
 # [EOF]

@@ -17,14 +17,24 @@
 
 $(if $(DEBUG),$(warning ENTER))
 
-##-------------------##
-##---]  GLOBALS  [---##
-##-------------------##
-$(if $(UNSTABLE),$(eval lint-python-all := true))
+## ---------------------------------------------------------------------------
+## Intent: Display a help banner early so includes below that also define
+##         help targets will be displayed beneath a high level banner.
+## ---------------------------------------------------------------------------
+help ::
+  ifndef VERBOSE
+	@echo '  lint-yaml          Invoke all yaml linting targets'
+  else
+	$(HIDE)$(MAKE) --no-print-directory help-lint-yaml
+  endif
 
-include $(ONF_MAKEDIR)/lint/python/find_utils.mk
-include $(ONF_MAKEDIR)/lint/python/flake8.mk
-include $(ONF_MAKEDIR)/lint/python/pylint.mk
+## ---------------------------------------------------------------------------
+## Intent: Display extended target help
+## ---------------------------------------------------------------------------
+help-lint-yaml:
+	@echo
+	@echo '[LINT: yaml]   (make lint-yaml VERBOSE=1)'
+	@echo '  lint-yaml          Invoke all yaml linting targets'
 
 $(if $(DEBUG),$(warning LEAVE))
 

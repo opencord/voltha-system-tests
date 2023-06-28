@@ -1,6 +1,6 @@
 # -*- makefile -*-
 # -----------------------------------------------------------------------
-# Copyright 2017-2022 Open Networking Foundation
+# Copyright 2017-2023 Open Networking Foundation (ONF) and the ONF Contributors
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -14,51 +14,47 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 # -----------------------------------------------------------------------
-
-##-------------------##
-##---]  GLOBALS  [---##
-##-------------------##
-.PHONY: lint-doc8 lint-doc8-all lint-doc8-modified
-
-have-doc8-files := $(if $(strip $(DOC8_SOURCE)),true)
-DOC8_SOURCE     ?= $(error DOC8_SOURCE= is required)
-
-##--------------------##
-##---]  INCLUDES  [---##
-##--------------------##
-# include $(ONF_MAKEDIR)/lint/doc8/help.mk
-include $(ONF_MAKEDIR)/lint/doc8/install.mk
+# SPDX-FileCopyrightText: 2017-2023 Open Networking Foundation (ONF) and the ONF Contributors
+# SPDX-License-Identifier: Apache-2.0
+# -----------------------------------------------------------------------
+# https://gerrit.opencord.org/plugins/gitiles/onf-make
+# ONF.makefiles.include.version = 1.1
+# -----------------------------------------------------------------------
 
 ## -----------------------------------------------------------------------
 ## -----------------------------------------------------------------------
-ifndef NO-LINT-DOC8
-  lint-doc8-mode := $(if $(have-doc8-files),modified,all)
-  lint : lint-doc8-$(lint-doc8-mode)
-endif# NO-LINT-DOC8
-
-# Consistent targets across lint makefiles
-lint-doc8-all      : lint-doc8
-lint-doc8-modified : lint-doc8
+## if dev-mode: make LOCAL_FIX_PERMS=1 mod-update
+.PHONY: mod-update
+mod-update: mod-tidy mod-vendor
 
 ## -----------------------------------------------------------------------
 ## -----------------------------------------------------------------------
-lint-doc8-excl := $(foreach dir,$(onf-excl-dirs),--ignore-path "$(dir)")
-lint-doc8: lint-doc8-cmd-version
-
+.PHONY: mod-tidy
+mod-tidy :
 	$(call banner-enter,Target $@)
-	$(activate) && doc8 --version
-	@echo
-	$(activate) && doc8 $(lint-doc8-excl)
-	$(call banner-enter,Target $@)
+	${GO} mod tidy
+	$(call banner-leave,Target $@)
 
 ## -----------------------------------------------------------------------
-## Intent: Display command usage
 ## -----------------------------------------------------------------------
-help::
-	@echo '  lint-doc8          Syntax check python using the doc8 command'
+.PHONY: mod-vendor
+mod-vendor : mod-tidy
+mod-vendor :
+	$(call banner-enter,Target $@)
+	$(if $(LOCAL_FIX_PERMS),chmod o+w $(CURDIR))
+	${GO} mod vendor
+	$(if $(LOCAL_FIX_PERMS),chmod o-w $(CURDIR))
+	$(call banner-leave,Target $@)
+
+## -----------------------------------------------------------------------
+## -----------------------------------------------------------------------
+help ::
+	@echo '  mod-update             mod-tidy & mod-update'
+	@echo '  mod-tidy               go mod tidy'
+	@echo '  mod-vendor             go mod vendor'
+
   ifdef VERBOSE
-	@echo '  lint-doc8-all       doc8 checking: exhaustive'
-	@echo '  lint-doc8-modified  doc8 checking: only modified'
+	@echo '    LOCAL_FIX_PERMS=1    Local hack to fix docker uid/gid volume problem'
   endif
 
 # [EOF]

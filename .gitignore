@@ -1,5 +1,8 @@
+# -*- makefile -*-
+
 # python virtualenv
 vst_venv
+.venv
 
 # robot framework output
 *.html
@@ -12,3 +15,13 @@ vst_venv
 
 # other outputs
 tests/scale/plots
+
+bin/kail
+
+# Junk in the trunk: *.log
+# ------------------------
+tests/dmi-interface/kafka_robot_*.log
+tests/pm-data/kafka_robot_*.log
+tests/openonu-go-adapter/kafka_robot_*.log
+
+# [EOF]

@@ -15,11 +15,19 @@
 # limitations under the License.
 # -----------------------------------------------------------------------
 
+<<<<<<< HEAD
 .PHONY: lint-license-vst
 
 ## -----------------------------------------------------------------------
 ## -----------------------------------------------------------------------
 lint : lint-license-vst
+=======
+.PHONY: lint-license
+
+## -----------------------------------------------------------------------
+## -----------------------------------------------------------------------
+lint : lint-license
+>>>>>>> dc6caae ([VOL-5064] - Build and deploy voltha-system-tests)
 
 lint-license-gargs += --recursive
 
@@ -38,7 +46,11 @@ lint-license-gargs += -e 'Apache License'
 
 # TODO: Normalize into .venv for consistent filtering across projects.
 lint-license-gargs += --exclude-dir='.git'
+<<<<<<< HEAD
 lint-license-gargs += --exclude-dir='vst_venv'
+=======
+lint-license-gargs += --exclude-dir='$(venv-name)'
+>>>>>>> dc6caae ([VOL-5064] - Build and deploy voltha-system-tests)
 lint-license-gargs += --exclude-dir='flog'
 
 lint-license-gargs += --exclude='*.json'
@@ -68,7 +80,11 @@ lint-license-new:
 ## -----------------------------------------------------------------------
 ## Jenkins job checking logic.
 ## -----------------------------------------------------------------------
+<<<<<<< HEAD
 lint-license-vst:
+=======
+lint-license:
+>>>>>>> dc6caae ([VOL-5064] - Build and deploy voltha-system-tests)
 	$(MAKEDIR)/lint/license/license-check.sh
 
 ## -----------------------------------------------------------------------

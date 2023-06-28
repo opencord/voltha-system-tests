@@ -1,6 +1,6 @@
 #!/bin/bash
 # -----------------------------------------------------------------------
-# Copyright 2022 Open Networking Foundation
+# Copyright 2022-2023 Open Networking Foundation (ONF) and the ONF Contributors
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -15,52 +15,71 @@
 # limitations under the License.
 # -----------------------------------------------------------------------
 
+##-------------------##
+##---]  GLOBALS  [---##
+##-------------------##
 set -euo pipefail
 
-dst="vst_venv" # rename to .venv
-src="staging"
-pat="patches"
+## -----------------------------------------------------------------------
+## Intent: Display script documentation.
+## -----------------------------------------------------------------------
+function show_help()
+{
+    cat <<EOH
+Usage: $0
+  apply    Patch virtualenv python modules by version (3.10+).
+  backup   Create a tarball for work-in-progress.
+  gather   Display a list of potential source files to patch.
 
-declare -a fyls=()
-fyls+=('lib/python3.10/site-packages/robot/utils/normalizing.py')
-fyls+=('lib/python3.10/site-packages/robot/utils/robottypes3.py')
+  --venv   Installed venv directory to patch (override default)
+  --help   This message
 
-echo
-echo "==========================================================================="
-echo "CMD: $0"
-echo "PWD: $(/bin/pwd)"
-echo "ARGV: $*"
-echo "==========================================================================="
+See Also
+  patches/README.md       Howto create a patch file.
+
+EOH
+    exit 0
+}
+
+##----------------##
+##---]  MAIN  [---##
+##----------------##
+declare dst='.venv'  # "vst_venv"
+declare src="staging"
+declare pat="patches"
+
+## -----------------------
+## Slurp available patches
+## -----------------------
+pushd "$pat" >/dev/null
+readarray -t fyls < <(find . -name 'patch' -print)
+popd         >/dev/null
 
 if [ $# -eq 0 ]; then set -- apply; fi
 
 while [ $# -gt 0 ]; do
     opt="$1"; shift
     case "$opt" in
-	help)
-	    cat <<EOH
-apply  - generate patches from vault source.
-backup - Archive patch directory
-gather - collect potential python files to edit.
-EOH
-	    ;;
 
-	--venv) dst="$1"; shift ;;
-	
+	-*help) show_help ;;
+	-*venv) dst="$1"; shift ;;
+
 	apply)
-	    pushd "$dst" || { echo "pushd $dst failed"; exit 1; }
+	    pushd "$dst" >/dev/null || { echo "pushd $dst failed"; exit 1; }
 	    for fyl in "${fyls[@]}";
 	    do
+		path="${fyl%/*}"
+
 		# Conditional install, jenkins may not support interpreter yet.
-		if [ ! -e "$fyl" ]; then
-		    echo "[SKIP] No venv file to patch: $fyl"
+		if [ ! -e "$path" ]; then
+		    echo "[SKIP] $path"
 		    continue
 		fi
 		
-		echo "$fyl"
-		patch -R -p1 < "../$pat/$fyl/patch"
+		echo "[APPLY] $path"
+		patch -R -p1 < "../$pat/${path}/patch"
 	    done
-	    popd || { echo "popd $dst failed"; exit 1; }
+	    popd >/dev/null || { echo "popd $dst failed"; exit 1; }
 	    ;;
 
 	backup)
@@ -71,7 +90,6 @@ EOH
 	    ;;
 
 	gather)
-	    set -x
 	    for fyl in "${fyls[@]}";
 	    do
 		patchDir="$pat/$fyl"
@@ -79,14 +97,17 @@ EOH
 		diff -Naur "$src/$fyl" "$dst/$fyl" | tee "$pat/$fyl/patch"
 	    done
 	    find "$pat" -print
-	    set +x
 	    ;;
-	
+
+	help) show_help ;;
+
 	*)
 	    echo "ERROR: Unknown action [$opt]"
 	    exit 1
 	    ;;
     esac
+
+    echo
 done
 
 # [EOF]

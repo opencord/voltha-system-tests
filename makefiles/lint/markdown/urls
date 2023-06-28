@@ -1,0 +1,6 @@
+# -*- makefile -*-
+
+# Consumer: repo:voltha-docs
+https://github.com/markdownlint/markdownlint
+
+# [EOF]
