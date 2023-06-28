@@ -15,19 +15,9 @@
 # limitations under the License.
 # -----------------------------------------------------------------------
 
-ifndef mk-include--onf-lint-license#       # one-time loader
-
-$(if $(DEBUG),$(warning ENTER))
-
-$(if $(USE_LINT_LICENSE)\
-  ,$(eval include $(ONF_MAKEDIR)/lint/license/voltha-system-tests/include.mk)\
-  ,$(eval include $(ONF_MAKEDIR)/lint/license/common.mk)\
-)
-
-  mk-include--onf-lint-license := true
-
-$(if $(DEBUG),$(warning LEAVE))
-
-endif # mk-include--onf-lint-license
+help :
+	@echo "Usage: make [options] [target] ..."
+	@echo "Targets:"
+	@echo "  help                        This message"
 
 # [EOF]

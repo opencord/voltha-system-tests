@@ -1,6 +1,6 @@
 # -*- makefile -*-
 # -----------------------------------------------------------------------
-# Copyright 2022-2023 Open Networking Foundation (ONF) and the ONF Contributors
+# Copyright 2017-2023 Open Networking Foundation
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -15,19 +15,22 @@
 # limitations under the License.
 # -----------------------------------------------------------------------
 
-ifndef mk-include--onf-lint-license#       # one-time loader
+# Include variables.mk after library makefiles have been included
 
-$(if $(DEBUG),$(warning ENTER))
+ifdef VERBOSE
+  help :: help-variables
+else
+  help ::
+	@echo
+	@echo '[VARIABLES] - Conditional makefile behavior'
+	@echo '  see also: help-variables'
+endif
 
-$(if $(USE_LINT_LICENSE)\
-  ,$(eval include $(ONF_MAKEDIR)/lint/license/voltha-system-tests/include.mk)\
-  ,$(eval include $(ONF_MAKEDIR)/lint/license/common.mk)\
-)
-
-  mk-include--onf-lint-license := true
-
-$(if $(DEBUG),$(warning LEAVE))
-
-endif # mk-include--onf-lint-license
+help-variables:
+	@echo
+	@echo '[VARIABLES] - Conditional makefile behavior'
+	@echo '  NO_PATCHES=           Do not apply patches to the python virtualenv'
+	@echo '  NO_OTHER_REPO_DOCS=   No foreign repos, only apply target to local sources.'
+	@echo '  VERBOSE=              Display extended help topics'
 
 # [EOF]

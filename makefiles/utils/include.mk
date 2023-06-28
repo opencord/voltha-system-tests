@@ -13,21 +13,17 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+#
+# SPDX-FileCopyrightText: 2022-2023 Open Networking Foundation (ONF) and the ONF Contributors
+# SPDX-License-Identifier: Apache-2.0
 # -----------------------------------------------------------------------
-
-ifndef mk-include--onf-lint-license#       # one-time loader
 
 $(if $(DEBUG),$(warning ENTER))
 
-$(if $(USE_LINT_LICENSE)\
-  ,$(eval include $(ONF_MAKEDIR)/lint/license/voltha-system-tests/include.mk)\
-  ,$(eval include $(ONF_MAKEDIR)/lint/license/common.mk)\
-)
-
-  mk-include--onf-lint-license := true
+# usage: $(call if-not,false,5)
+if-not = $(info 1=$(1), 2=$(2), 3=$(3))\
+  $(if $(1),$(null),$(2))
 
 $(if $(DEBUG),$(warning LEAVE))
-
-endif # mk-include--onf-lint-license
 
 # [EOF]

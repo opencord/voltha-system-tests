@@ -1,6 +1,6 @@
 # -*- makefile -*-
 ## -----------------------------------------------------------------------
-# Copyright 2017-2022 Open Networking Foundation
+# Copyright 2017-2023 Open Networking Foundation (ONF) and the ONF Contributors
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -13,20 +13,70 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+# -----------------------------------------------------------------------
+# https://gerrit.opencord.org/plugins/gitiles/onf-make
+# ONF.makefile.version = 1.0
+# -----------------------------------------------------------------------
+
+$(if $(DEBUG),$(warning ENTER))
+
+##-------------------##
+##---]  GLOBALS  [---##
+##-------------------##
+.PHONY: venv
+
+##------------------##
+##---]  LOCALS  [---##
+##------------------##
+venv-name            ?= .venv#                            # default install directory
+venv-abs-path        := $(PWD)/$(venv-name)
+
+venv-activate-script := $(venv-name)/bin/activate#        # dependency
+
+# Intent: activate= is a macro for accessing the virtualenv activation script#
+#  Usage: $(activate) && python
+activate             ?= set +u && source $(venv-activate-script) && set -u
+
 ## -----------------------------------------------------------------------
+## Intent: Activate script path dependency
+## Usage:
+##    o place on the right side of colon as a target dependency
+##    o When the script does not exist install the virtual env and display.
+## -----------------------------------------------------------------------
+$(venv-activate-script):
+	@echo
+	@echo "============================="
+	@echo "Installing python virtual env"
+	@echo "============================="
+	virtualenv -p python3 $(venv-name)
+	$(activate) && python -m pip install --upgrade pip
+	$(activate) && pip install --upgrade setuptools
+	$(activate) && [[ -r requirements.txt ]] && { python -m pip install -r requirements.txt; } || { true; }
+	$(activate) && python --version
 
-# virtualenv for the robot tools
-# VOL-2724 Invoke pip via python3 to avoid pathname too long on QA jobs
+## -----------------------------------------------------------------------
+## Intent: Explicit named installer target w/o dependencies.
+##         Makefile targets should depend on venv-activate-script.
+## -----------------------------------------------------------------------
+venv: $(venv-activate-script)
 
-vst_venv-2 : vst_venv/bin/activate requirements.txt
+## -----------------------------------------------------------------------
+## Intent: Revert installation to a clean checkout
+## -----------------------------------------------------------------------
+sterile :: clean
+	$(RM) -r "$(venv-abs-path)"
 
-vst_venv/bin/activate:
-	virtualenv -p python3 $@ ;\
-	source ./$@/bin/activate ;\
-	python -m pip install -r requirements.txt
+## -----------------------------------------------------------------------
+## -----------------------------------------------------------------------
+help ::
+	@echo
+	@echo '[VIRTUAL ENV]'
+	@echo '  venv                Create a python virtual environment'
+	@echo '    venv-name=        Subdir name for virtualenv install'
+	@echo '  venv-activate-script         make macro name'
+	@echo '      $$(target) dependency    install python virtualenv'
+	@echo '      source $$(macro) && cmd  configure env and run cmd'
 
-zzz: xyz
-xyz: vst_venv/bin/activate
-	source vst_venv/bin/activate
+$(if $(DEBUG),$(warning LEAVE))
 
 # [EOF]

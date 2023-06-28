@@ -20,7 +20,7 @@ three python version variants for the robot ramework:
     python < 3.10   (collections.abc optional)
 
 
-# vst_venv/
+# .venv/
 
 Makefile will first create a python virtualenv directory to selectively
 use packages.  After setup patches are applied to venv (as a transition)
@@ -29,15 +29,15 @@ to fully enable support for local interpreter use for newer OS installs.
 
 # staging/
 
-The staging directory is used for comparison with the vst_venv directory
+The staging directory is used for comparison with the .venv directory
 to generate patches.  Populate the directory with a copy of a cleanly
 patched virtual interpreter then modify files benath/ staging to generate
 a patch from.
 
 % make sterile
-% make vst_venv
+% make .venv
 % mkdir staging
-% rsync -rv --checksum vst_venv/. staging/.
+% rsync -rv --checksum .venv/. staging/.
 [NOTE] Make python 3.10+ migration edits beneath staging as needed
 % make patch-gather
 % make sterile

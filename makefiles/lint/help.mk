@@ -1,6 +1,6 @@
 # -*- makefile -*-
 # -----------------------------------------------------------------------
-# Copyright 2022-2023 Open Networking Foundation (ONF) and the ONF Contributors
+# Copyright 2021-2023 Open Networking Foundation (ONF) and the ONF Contributors
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -15,19 +15,17 @@
 # limitations under the License.
 # -----------------------------------------------------------------------
 
-ifndef mk-include--onf-lint-license#       # one-time loader
+help ::
 
-$(if $(DEBUG),$(warning ENTER))
+# -----------------------------------------------------------------------
+# -----------------------------------------------------------------------
+help-summary ::
+	@echo '  help-lint           Display lint target help'
 
-$(if $(USE_LINT_LICENSE)\
-  ,$(eval include $(ONF_MAKEDIR)/lint/license/voltha-system-tests/include.mk)\
-  ,$(eval include $(ONF_MAKEDIR)/lint/license/common.mk)\
-)
-
-  mk-include--onf-lint-license := true
-
-$(if $(DEBUG),$(warning LEAVE))
-
-endif # mk-include--onf-lint-license
+help-simple :: help-lint
+help-lint  :
+	@echo
+	@echo "[LINT]"
+	@echo '  help-lint           Display lint target help'
 
 # [EOF]

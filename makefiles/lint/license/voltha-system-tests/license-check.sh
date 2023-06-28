@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+
 # -----------------------------------------------------------------------
 # Copyright 2022-2023 Open Networking Foundation (ONF) and the ONF Contributors
 #
@@ -146,14 +147,12 @@ done < <(find . -name ".git" -prune -o -type f \
   ! -name "*.pb.h" \
   ! -name "*.pb.cc" \
   ! -path "*/docs/*" \
-  ! -name 'output.xml' \
-  ! -path "*/vst_venv/*" \
-  ! -path '*/\.venv/*' \
+  ! -name 'output.xml' \ 
+  ! -path "*/.venv/*" \
   ! -name '*#*' \
   ! -path '*scripts/flog/*' \
   ! -name '*~' \
   ! -name 'VERSION' \
-  ! -name 'kail' \
   ! -name 'patch' \
   -print0 )
 

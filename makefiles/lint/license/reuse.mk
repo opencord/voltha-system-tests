@@ -15,19 +15,27 @@
 # limitations under the License.
 # -----------------------------------------------------------------------
 
-ifndef mk-include--onf-lint-license#       # one-time loader
+##-------------------##
+##---]  GLOBALS  [---##
+##-------------------##
 
-$(if $(DEBUG),$(warning ENTER))
+##-------------------##
+##---]  TARGETS  [---##
+##-------------------##
+ifndef NO-LINT-REUSE
+  lint : lint-license
+endif
 
-$(if $(USE_LINT_LICENSE)\
-  ,$(eval include $(ONF_MAKEDIR)/lint/license/voltha-system-tests/include.mk)\
-  ,$(eval include $(ONF_MAKEDIR)/lint/license/common.mk)\
-)
+## -----------------------------------------------------------------------
+## Intent: Perform a lint check on makefile sources
+## -----------------------------------------------------------------------
+lint-license:
+	reuse --root . lint
 
-  mk-include--onf-lint-license := true
-
-$(if $(DEBUG),$(warning LEAVE))
-
-endif # mk-include--onf-lint-license
+## -----------------------------------------------------------------------
+## Intent: Display command help
+## -----------------------------------------------------------------------
+help-summary ::
+	@echo '  lint-reuse              License syntax checking"
 
 # [EOF]

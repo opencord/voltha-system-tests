@@ -17,7 +17,7 @@
 
 set -euo pipefail
 
-dst="vst_venv"
+dst=".venv"   # was vst_venv
 src="staging"
 pat="patches"
 

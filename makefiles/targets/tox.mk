@@ -13,36 +13,29 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+#
+# SPDX-FileCopyrightText: 2022-2023 Open Networking Foundation (ONF) and the ONF Contributors
+# SPDX-License-Identifier: Apache-2.0
 # -----------------------------------------------------------------------
 
-MAKEDIR ?= $(error MAKEDIR= is required)
+$(if $(DEBUG),$(warning ENTER))
+
+## -----------------------------------------------------------------------
+## Intent: Sanity check incoming JJB config changes.
+##   Todo: Depend on makefiles/lint/jjb.mk :: lint-jjb
+## -----------------------------------------------------------------------
+# lint : lint-jjb
+lint-tox: lint-jjb
+	tox -e py310
 
 ## -----------------------------------------------------------------------
 ## -----------------------------------------------------------------------
-help::
-	@echo "  kail            Install the kail command"
-ifdef VERBOSE
-	@echo "                  make kail KAIL_PATH="
-	@echo "    export WORKSPACE=$(/bin/pwd) # i_am=jenkins"
-endif
+help-verbose += help-tox
+help-tox ::
+	@echo
+	@echo '[MAKE: tox]'
+	@echo '  lint-tox            Python unit testing, sanity check incoming JJB changes.'
 
-# -----------------------------------------------------------------------
-# Install the 'kail' tool if needed: https://github.com/boz/kail
-#   o WORKSPACE - jenkins aware
-#   o Default to /usr/local/bin/kail
-#       + revisit this, system directories should not be a default path.
-#       + requires sudo and potential exists for overwrite conflict.
-# -----------------------------------------------------------------------
-KAIL_PATH ?= $(if $(WORKSPACE),$(WORKSPACE)/bin,/usr/local/bin)
-kail-cmd  ?= $(KAIL_PATH)/kail
-$(kail-cmd):
-	etc/godownloader.sh -b .
-	mkdir -p "$(dir $@)"
-	rsync -v --checksum kail "$@"
-	$@ version
-	$(RM) kail
-
-.PHONY: kail
-kail : $(kail-cmd)
+$(if $(DEBUG),$(warning LEAVE))
 
 # [EOF]

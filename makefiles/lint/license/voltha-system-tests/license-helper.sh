@@ -1,6 +1,6 @@
-# -*- makefile -*-
+#!/bin/bash
 # -----------------------------------------------------------------------
-# Copyright 2017-2022 Open Networking Foundation
+# Copyright 2022-2023 Open Networking Foundation (ONF) and the ONF Contributors
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -15,19 +15,17 @@
 # limitations under the License.
 # -----------------------------------------------------------------------
 
-PYTHON_FILES ?= $(error PYTHON_FILES= is required)
+declare -i status=$#
 
-.PHONY: lint-python
+while [ $# -gt 0 ]; do
+    arg="$1"; shift
+    echo "ERROR: Detected missing license header: ${arg}"
+done
 
-lint : lint-python
+if [ $status -ne 0 ]; then
+    exit 1
+fi
 
-lint-python: vst_venv
-	-source ./$</bin/activate \
-	    && set -u \
-	    && pylint $(PYTHON_FILES) \
-	    && flake8 --max-line-length=99 --count $(PYTHON_FILES)
-
-help::
-	@echo "  lint-python          Syntax check using pylint and flake8"
+/bin/true # set $?
 
 # [EOF]

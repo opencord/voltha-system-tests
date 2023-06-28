@@ -15,34 +15,35 @@
 # limitations under the License.
 # -----------------------------------------------------------------------
 
-MAKEDIR ?= $(error MAKEDIR= is required)
+##-------------------##
+##---]  GLOBALS  [---##
+##-------------------##
 
-## -----------------------------------------------------------------------
-## -----------------------------------------------------------------------
-help::
-	@echo "  kail            Install the kail command"
-ifdef VERBOSE
-	@echo "                  make kail KAIL_PATH="
-	@echo "    export WORKSPACE=$(/bin/pwd) # i_am=jenkins"
+# Gather sources to check
+# TODO: implement deps, only check modified files
+python-check-find := find . -name '*venv*' -prune\
+  -o \( -name '*.py' \)\
+  -type f -print0
+
+##-------------------##
+##---]  TARGETS  [---##
+##-------------------##
+ifndef NO-LINT-PYTHON-FLAKE8
+  lint        : lint-python-flake8
+  lint-python : lint-python-flake8
 endif
 
-# -----------------------------------------------------------------------
-# Install the 'kail' tool if needed: https://github.com/boz/kail
-#   o WORKSPACE - jenkins aware
-#   o Default to /usr/local/bin/kail
-#       + revisit this, system directories should not be a default path.
-#       + requires sudo and potential exists for overwrite conflict.
-# -----------------------------------------------------------------------
-KAIL_PATH ?= $(if $(WORKSPACE),$(WORKSPACE)/bin,/usr/local/bin)
-kail-cmd  ?= $(KAIL_PATH)/kail
-$(kail-cmd):
-	etc/godownloader.sh -b .
-	mkdir -p "$(dir $@)"
-	rsync -v --checksum kail "$@"
-	$@ version
-	$(RM) kail
+## -----------------------------------------------------------------------
+## Intent: Perform a lint check on makefile sources
+## -----------------------------------------------------------------------
+lint-python-flake8:
+	$(HIDE)$(env-clean) $(python-check-find) \
+	    | $(xargs-n1) flake8 --max-line-length=99 --count
 
-.PHONY: kail
-kail : $(kail-cmd)
+## -----------------------------------------------------------------------
+## Intent: Display command help
+## -----------------------------------------------------------------------
+help-summary ::
+	@echo '  lint-python-flake8  Syntax check python sources (*.py)'
 
 # [EOF]

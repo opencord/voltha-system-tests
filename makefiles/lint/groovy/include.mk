@@ -15,34 +15,37 @@
 # limitations under the License.
 # -----------------------------------------------------------------------
 
-MAKEDIR ?= $(error MAKEDIR= is required)
+##-------------------##
+##---]  GLOBALS  [---##
+##-------------------##
 
-## -----------------------------------------------------------------------
-## -----------------------------------------------------------------------
-help::
-	@echo "  kail            Install the kail command"
-ifdef VERBOSE
-	@echo "                  make kail KAIL_PATH="
-	@echo "    export WORKSPACE=$(/bin/pwd) # i_am=jenkins"
+groovy-check      := npm-groovy-lint
+
+groovy-check-args := $(null)
+# groovy-check-args += --loglevel info
+# groovy-check-args += --ignorepattern
+# groovy-check-args += --verbose
+
+##-------------------##
+##---]  TARGETS  [---##
+##-------------------##
+ifndef NO-LINT-GROOVY
+  lint : lint-groovy
 endif
 
-# -----------------------------------------------------------------------
-# Install the 'kail' tool if needed: https://github.com/boz/kail
-#   o WORKSPACE - jenkins aware
-#   o Default to /usr/local/bin/kail
-#       + revisit this, system directories should not be a default path.
-#       + requires sudo and potential exists for overwrite conflict.
-# -----------------------------------------------------------------------
-KAIL_PATH ?= $(if $(WORKSPACE),$(WORKSPACE)/bin,/usr/local/bin)
-kail-cmd  ?= $(KAIL_PATH)/kail
-$(kail-cmd):
-	etc/godownloader.sh -b .
-	mkdir -p "$(dir $@)"
-	rsync -v --checksum kail "$@"
-	$@ version
-	$(RM) kail
+## -----------------------------------------------------------------------
+## Intent: Perform a lint check on command line script sources
+## -----------------------------------------------------------------------
+lint-groovy:
+	$(groovy-check) --version
+	@echo
+	$(HIDE)$(env-clean) find . -iname '*.groovy' -print0 \
+  | $(xargs-n1) $(groovy-check) $(groovy-check-args)
 
-.PHONY: kail
-kail : $(kail-cmd)
+## -----------------------------------------------------------------------
+## Intent: Display command help
+## -----------------------------------------------------------------------
+help-summary ::
+	@echo '  lint-groovy          Syntax check groovy sources'
 
 # [EOF]

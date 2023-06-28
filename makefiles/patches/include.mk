@@ -17,6 +17,8 @@
 
 include $(MAKEDIR)/patches/help.mk
 
+find-venv = $(find . -maxdepth 3 -name 'activate' -print  | awk -F'/' '{print $$2}')
+
 patch-gather-args += --exclude=Makefile
 patch-gather-args += --exclude-dir=vault
 patch-gather-args += --exclude-dir=makefiles
@@ -31,7 +33,8 @@ patch-gather:
 	grep -r $(patch-gather-args)
 
 patch-diff:
-	$(HIDE)diff -qr staging vst_venv \
+#	$(HIDE)diff -qr staging .venv
+	$(HIDE)diff -qr staging $(find-venv) \
 	    | awk '{print "# diff -Naur "$$2" "$$4}' \
 	    | tee $@.log
 
