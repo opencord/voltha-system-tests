@@ -856,8 +856,21 @@ clean-all sterile: clean
 voltctl-docker-image-build:
 	cd docker && docker build -t opencord/voltctl:local -f Dockerfile.voltctl .
 
+## -----------------------------------------------------------------------
+## -----------------------------------------------------------------------
 voltctl-docker-image-install-kind:
 	@if [ "`kind get clusters | grep kind`" = '' ]; then echo "no kind cluster found" && exit 1; fi
 	kind load docker-image --name `kind get clusters | grep kind` opencord/voltctl:local
+
+## -----------------------------------------------------------------------
+## Intent: [yuck] replace with a standalone reusable installer 4script
+## -----------------------------------------------------------------------
+.PHONY: voltctl-download-url
+voltctl-download-url:
+	curl --silent https://api.github.com/repos/opencord/voltctl/releases/latest \
+	    | grep 'browser_download_url' \
+	    | grep 'linux-amd64'
+
+# [latest] https://github.com/opencord/voltctl/releases/download/untagged-cd611c39178f25b95a87/voltctl-1.9.1-linux-amd64
 
 # [EOF]

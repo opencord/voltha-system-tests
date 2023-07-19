@@ -15,7 +15,47 @@
 FROM busybox:1.31.1-glibc
 
 RUN mkdir -p /usr/bin
-RUN wget -O - https://github.com/opencord/voltctl/releases/download/v1.6.1/voltctl-1.6.1-linux-amd64 > /usr/bin/voltctl
+
+# -------------------------------------------------------------------
+# [VOL-5063] - branch==master install latest (tag ?!?)
+#    else install release(d) version.
+# -------------------------------------------------------------------
+# https://api.github.com/repos/opencord/voltctl/releases/latest
+#   - offers voltctl/releases/download/1.8.45 as released
+# https://github.com/opencord/voltctl/releases
+#   - offers v1.9.1 (latest released via build + tagging).
+# -------------------------------------------------------------------
+# RUN wget -O - https://github.com/opencord/voltctl/releases/download/v1.9.1/voltctl-1.9.1-linux-amd64 
+
+# https://github.com/opencord/voltctl/releases/download/untagged-cd611c39178f25b95a87/voltctl-1.9.1-linux-amd64
+
+RUN wget -q\
+  -O /usr/bin/voltctl.tmp\
+  https://github.com/opencord/voltctl/releases/download/v1.8.45/voltctl-1.8.45-linux-amd64
+
+## -----------------------------------------------------
+## Maintain a tiny window for rename to avoid contention
+##   - Validate download by displaying version
+##     - --version not supported by wget binary
+##   - Detection and error recovery possible if release
+##     binary corrupt or mia but potential for stale
+##     command version to silently persist is a larger
+##     testing issue so explicitly overwrite.
+## -----------------------------------------------------
+RUN chmod a+x /usr/bin/voltctl.tmp && sync
+# RUN /usr/bin/voltctl.tmp --version
 COPY volt.config /root/.volt/config
-RUN chmod a+x /usr/bin/voltctl && sync && voltctl completion bash >> /root/.bashrc
+RUN mv -vf /usr/bin/voltctl.tmp /usr/bin/voltctl
+RUN /usr/bin/voltctl completion bash >> /root/.bashrc
+
+## -----------------------------------------------------------------------
+## Infinite loop -- huh(?!?)
+## Interrogate voltctl startup for status to avoid potential for
+## container accumulation when downstream container shutdown fails.
+## -----------------------------------------------------------------------
+## If sleep is intended to keep the container alive for downstream tasks
+## use handshakes and/or timeouts to avoid long term, idle, resource retention
+## -----------------------------------------------------------------------
 CMD ["sh", "-c", "sleep infinity"]
+
+# [EOF]
