@@ -42,6 +42,7 @@ Create Device
     [Arguments]    ${ip}    ${port}     ${type}=openolt
     [Documentation]    Creates a device in VOLTHA
     #create/preprovision device
+    Log To Console      \nCreating device: IP ${ip}; port ${port}; type ${type}
     ${rc}    ${device_id}=    Run and Return Rc and Output
     ...    voltctl -c ${VOLTCTL_CONFIG} device create -t ${type} -H ${ip}:${port}
     Log     ${device_id}

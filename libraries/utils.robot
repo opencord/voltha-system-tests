@@ -91,7 +91,7 @@ Common Test Suite Setup
     #send sadis file to onos
     ${sadis_file}=    Get Variable Value    ${sadis.file}
     Log To Console    \nSadis File:${sadis_file}
-    Run Keyword Unless    '${sadis_file}' is '${None}'    Send File To Onos    ${sadis_file}    apps/
+    Run Keyword Unless    '${sadis_file}' == '${None}'    Send File To Onos    ${sadis_file}    apps/
     Set Suite Variable    ${num_all_onus}
     Set Suite Variable    ${num_olts}
     Set Suite Variable    ${list_olts}
@@ -321,16 +321,21 @@ Perform Sanity Test DT Per OLT
     ...    and avoids duplication of code.
     ...    For repeating sanity test without subscriber changes set flag supress_add_subscriber=True.
     ...    In all other (common) cases flag has to be set False (default).
+    Log To Console      \n'Perform Sanity Test DT Per OLT' for ${olt_serial_number} (${num_onus} ONUs)
     FOR    ${I}    IN RANGE    0    ${num_all_onus}
         ${src}=    Set Variable    ${hosts.src[${I}]}
         ${dst}=    Set Variable    ${hosts.dst[${I}]}
         Continue For Loop If    "${olt_serial_number}"!="${src['olt']}"
+        Log To Console      \nSource for ${olt_serial_number}: ${src}
+        Log To Console      \nDest. for ${olt_serial_number}: ${dst}
         ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
         ${onu_port}=    Wait Until Keyword Succeeds    ${timeout}    2s
         ...    Get ONU Port in ONOS    ${src['onu']}    ${of_id}    ${src['uni_id']}
+        Log To Console      \nONU device ID: ${onu_device_id}; ONU port: ${onu_port}
         # Check ONU port is Enabled in ONOS
         Wait Until Keyword Succeeds   120s   2s
         ...    Verify UNI Port Is Enabled   ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${src['onu']}    ${src['uni_id']}
+        Log To Console      \nUNI port is enabled
         Run Keyword Unless    ${supress_add_subscriber}
         ...    Execute ONOS CLI Command use single connection    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}
         ...    volt-add-subscriber-access ${of_id} ${onu_port}
@@ -354,6 +359,7 @@ Perform Sanity Test DT Per OLT
         ...    ${dst['dp_iface_name']}    ${dst['ip']}    ${dst['user']}    ${dst['pass']}    ${dst['container_type']}
         ...    ${dst['container_name']}
     END
+    Log To Console      \nEnd of 'Perform Sanity Test DT Per OLT'
 
 Perform Sanity Test DT FTTB
     [Documentation]    This keyword iterate all OLTs and performs Sanity Test Procedure for DT-FTTB workflow
@@ -723,25 +729,33 @@ Setup
         ${olt_device_id}=    Run Keyword If    "${list_olts}[${I}][type]" == "${None}"
         ...    Create Device    ${list_olts}[${I}][ip]    ${list_olts}[${I}][oltport]
         ...    ELSE    Create Device    ${list_olts}[${I}][ip]    ${list_olts}[${I}][oltport]    ${list_olts}[${I}][type]
+        Log To Console      \nCreated device with ID ${olt_device_id}
         ${olt_serial_number}=    Set Variable    ${list_olts}[${I}][sn]
+        Log To Console      \nSerial number: ${olt_serial_number}
         #Set Suite Variable    ${olt_device_id}
         #validate olt states
         Wait Until Keyword Succeeds    ${timeout}    5s
         ...    Validate OLT Device    PREPROVISIONED    UNKNOWN    UNKNOWN    ${olt_device_id}    by_dev_id=True
+        Log To Console      \nOLT device validated with ID ${olt_device_id} as preprovisioned/unknown/unknown
         Sleep    5s
         Enable Device    ${olt_device_id}
+        Log To Console      \nOLT device ${olt_device_id} enabled
         # Increasing the timer to incorporate wait time for in-band
         Wait Until Keyword Succeeds    540s    5s
         ...    Validate OLT Device    ENABLED    ACTIVE    REACHABLE    ${olt_serial_number}
+        Log To Console      \nOLT device validated with SN ${olt_serial_number} as enabled/active/reachable
         ${logical_id}=    Get Logical Device ID From SN    ${olt_serial_number}
         # Set Suite Variable    ${logical_id}
         ${of_id}=    Wait Until Keyword Succeeds    ${timeout}    15s    Validate OLT Device in ONOS
         ...    ${olt_serial_number}
         ${olt}    Create Dictionary    device_id    ${olt_device_id}    logical_id    ${logical_id}
         ...    of_id    ${of_id}    sn    ${olt_serial_number}
+        Log To Console      \nOLT data dict: ${olt}
         Append To List    ${olt_ids}    ${olt}
     END
+    Log To Console      \nAll OLTs: ${olt_ids}
     Set Global Variable    ${olt_ids}
+    Log To Console      \nEnd of Setup
 
 Get ofID From OLT List
     [Documentation]    Retrieves the corresponding of_id for the OLT serial number specified
