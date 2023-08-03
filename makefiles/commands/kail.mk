@@ -35,6 +35,7 @@ endif
 KAIL_PATH ?= $(if $(WORKSPACE),$(WORKSPACE)/bin,/usr/local/bin)
 kail-cmd  ?= $(KAIL_PATH)/kail
 $(kail-cmd):
+	mkdir -p "$(dir $@)"
 	etc/godownloader.sh -b .
 	rsync -v --checksum kail "$@"
 	$@ version
