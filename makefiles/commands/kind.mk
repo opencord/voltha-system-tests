@@ -36,8 +36,9 @@ kind-cmd-ver ?= v0.11.0
 #       + revisit this, system directories should not be a default path.
 #       + requires sudo and potential exists for overwrite conflict.
 # -----------------------------------------------------------------------
-KIND_PATH ?= $(if $(WORKSPACE),$(WORKSPACE)/bin,$(PWD)/bin)
-kind-cmd  ?= $(KIND_PATH)/kind.$(kind-cmd-ver).$(kind-cmd-bin)
+KIND_PATH      ?= $(if $(WORKSPACE),$(WORKSPACE)/bin,$(PWD)/bin)
+kind-cmd-link  ?= $(KIND_PATH)/kind
+kind-cmd       ?= $(kind-cmd-link).$(kind-cmd-ver).$(kind-cmd-bin)
 $(kind-cmd):
 	@echo "kind-cmd = $(kind-cmd)"
 	mkdir -p $(dir $(kind-cmd))
@@ -45,13 +46,13 @@ $(kind-cmd):
 	chmod +x "$@"
 	"$@" --version
 
-bin/kind : $(kind-cmd)
+$(kind-cmd-link) : $(kind-cmd)
 	ln -fns $< $@
 
 ## -----------------------------------------------------------------------
 ## -----------------------------------------------------------------------
 .PHONY: install-command-kind
-install-command-kind : bin/kind
+install-command-kind : $(kind-cmd-link)
 
 clean ::
 	$(RM) bin/kind $(kind-cmd)
