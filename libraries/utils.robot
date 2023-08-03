@@ -718,6 +718,7 @@ Setup Soak
 Setup
     [Documentation]    Pre-test Setup
     [Arguments]    ${skip_empty_device_list_test}=False
+    ${debug}=    Get Environment Variable    DEBUG    False
     #test for empty device list
     Run Keyword If    '${skip_empty_device_list_test}'=='False'    Test Empty Device List
     # TBD: Need for this Sleep
@@ -735,14 +736,14 @@ Setup
         #Set Suite Variable    ${olt_device_id}
         #validate olt states
         Wait Until Keyword Succeeds    ${timeout}    5s
-        ...    Validate OLT Device    PREPROVISIONED    UNKNOWN    UNKNOWN    ${olt_device_id}    by_dev_id=True
+        ...    Validate OLT Device    PREPROVISIONED    UNKNOWN    UNKNOWN    ${olt_device_id}    by_dev_id=True    debug=${debug}
         Log To Console      \nOLT device validated with ID ${olt_device_id} as preprovisioned/unknown/unknown
         Sleep    5s
         Enable Device    ${olt_device_id}
         Log To Console      \nOLT device ${olt_device_id} enabled
         # Increasing the timer to incorporate wait time for in-band
         Wait Until Keyword Succeeds    540s    5s
-        ...    Validate OLT Device    ENABLED    ACTIVE    REACHABLE    ${olt_serial_number}
+        ...    Validate OLT Device    ENABLED    ACTIVE    REACHABLE    ${olt_serial_number}    debug=${debug}
         Log To Console      \nOLT device validated with SN ${olt_serial_number} as enabled/active/reachable
         ${logical_id}=    Get Logical Device ID From SN    ${olt_serial_number}
         # Set Suite Variable    ${logical_id}
