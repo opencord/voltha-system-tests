@@ -33,6 +33,23 @@
       "message": "Kail and kind commands installed successfully.\nLack of log output still a problem",
       "revId": "c1d94d55c2c13cc6ba1f846a909257c917dcad9f",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7072f417_ddb25dbd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000948
+      },
+      "writtenOn": "2023-08-03T19:06:28Z",
+      "side": 1,
+      "message": "recheck",
+      "revId": "c1d94d55c2c13cc6ba1f846a909257c917dcad9f",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     }
   ]
 }
