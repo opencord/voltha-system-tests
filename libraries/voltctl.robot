@@ -42,6 +42,7 @@ Create Device
     [Arguments]    ${ip}    ${port}     ${type}=openolt
     [Documentation]    Creates a device in VOLTHA
     #create/preprovision device
+    Log To Console      \nCreating device: IP ${ip}; port ${port}; type ${type}
     ${rc}    ${device_id}=    Run and Return Rc and Output
     ...    voltctl -c ${VOLTCTL_CONFIG} device create -t ${type} -H ${ip}:${port}
     Log     ${device_id}
@@ -180,7 +181,11 @@ Validate Device
     ...    Note: Set "by_dev_id" to True if Device Id is passed for validation
     ...    otherwise look up will be based on Device Serial Number
     [Arguments]    ${admin_state}    ${oper_status}    ${connect_status}
-    ...    ${id}    ${onu_reason}=${EMPTY}    ${onu}=False    ${by_dev_id}=False
+    ...    ${id}    ${onu_reason}=${EMPTY}    ${onu}=False    ${by_dev_id}=False    ${debug}=False
+    ${rc}    ${output}=    Run and Return Rc and Output
+    ...    voltctl -c ${VOLTCTL_CONFIG} device list -o json
+    Log    ${output}
+    Run Keyword If    ${debug}    Log To Console    ${output}
     ${rc}    ${output}=    Run Keyword If    ${by_dev_id}    Run and Return Rc and Output
     ...    voltctl -c ${VOLTCTL_CONFIG} device list -m ${voltctlGrpcLimit} -f Id=${id} -o json
     ...    ELSE    Run and Return Rc and Output
@@ -227,12 +232,13 @@ Validate Device
     ...    Device ${sn} mib_state incorrect (${mib_state}) values=False
 
 Validate OLT Device
-    [Arguments]    ${admin_state}    ${oper_status}    ${connect_status}    ${id}    ${by_dev_id}=False
+    [Arguments]    ${admin_state}    ${oper_status}    ${connect_status}    ${id}    ${by_dev_id}=False    ${debug}=False
     [Documentation]    Parses the output of "voltctl device list" and inspects device ${id}, specified
     ...    as either its serial numbner or device ID. Match on OLT Serial number or Device Id and inspect states
     ...    Note: Set "by_dev_id" to True if Device Id is passed for validation
     ...    otherwise look up will be based on Device Serial Number
     Validate Device    ${admin_state}    ${oper_status}    ${connect_status}    ${id}    by_dev_id=${by_dev_id}
+    ...     debug=${debug}
 
 Validate OLT Devices
     [Arguments]    ${admin_state}    ${oper_status}    ${connect_status}    ${ids}=${EMPTY}
