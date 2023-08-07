@@ -59,6 +59,8 @@ Execute ONOS CLI Command use single connection
     ...                In case no connection is open a connection will be opened
     ...                Using Write and Read instead of Execute Command to keep connection alive.
     [Arguments]    ${host}    ${port}    ${cmd}
+    Log To Console      \n'Execute ONOS CLI Command use single connection':
+    ...     host=${host}; port=${port}; cmd=${cmd}
     ${connection_list_id}=    Get Conn List Id    ${host}    ${port}
     ${connection_list_id}=    Run Keyword If    "${connection_list_id}"=="${EMPTY}"
                               ...    Open ONOS SSH Connection    ${host}    ${port}
@@ -327,9 +329,12 @@ Verify Subscriber Access Flows Added for ONU
 Verify Subscriber Access Flows Added for ONU DT
     [Arguments]    ${ip}    ${port}    ${olt_of_id}    ${onu_port}    ${nni_port}    ${s_tag}
     [Documentation]    Verifies if the Subscriber Access Flows are added in ONOS for the ONU
+    Log To Console      \nStart 'Verify Subscriber Access Flows Added For ONU DT': ip=${ip}; port=${port};
+    ...     olt_of_id=${olt_of_id}; onu_port=${onu_port}; nni_port=${nni_port}; s_tag=${s_tag}
     # Verify upstream table=0 flow
     ${upstream_flow_0_added}=    Execute ONOS CLI Command use single connection    ${ip}    ${port}
     ...    flows -s ADDED ${olt_of_id} | grep IN_PORT:${onu_port} | grep VLAN_VID:Any | grep transition=TABLE:1
+    Log To Console      \nUpstream flow 0 added: ${upstream_flow_0_added}
     Should Not Be Empty    ${upstream_flow_0_added}
     # Verify upstream table=1 flow
     ${flow_vlan_push_cmd}=    Catenate    SEPARATOR=
@@ -337,6 +342,7 @@ Verify Subscriber Access Flows Added for ONU DT
     ...     grep VLAN_PUSH | grep VLAN_ID:${s_tag} | grep OUTPUT:${nni_port}
     ${upstream_flow_1_added}=    Execute ONOS CLI Command use single connection    ${ip}    ${port}
     ...    ${flow_vlan_push_cmd}
+    Log To Console      \nUpstream flow 1 added: ${upstream_flow_1_added}
     Should Not Be Empty    ${upstream_flow_1_added}
     # Verify downstream table=0 flow
     ${flow_vlan_pop_cmd}=    Catenate    SEPARATOR=
@@ -344,10 +350,12 @@ Verify Subscriber Access Flows Added for ONU DT
     ...     grep VLAN_POP | grep transition=TABLE:1
     ${downstream_flow_0_added}=    Execute ONOS CLI Command use single connection    ${ip}    ${port}
     ...    ${flow_vlan_pop_cmd}
+    Log To Console      \nDownstream flow 0 added: ${downstream_flow_0_added}
     Should Not Be Empty    ${downstream_flow_0_added}
     # Verify downstream table=1 flow
     ${downstream_flow_1_added}=    Execute ONOS CLI Command use single connection    ${ip}    ${port}
     ...    flows -s ADDED ${olt_of_id} | grep IN_PORT:${nni_port} | grep VLAN_VID:Any | grep OUTPUT:${onu_port}
+    Log To Console      \nDownstream flow 1 added: ${downstream_flow_1_added}
     Should Not Be Empty    ${downstream_flow_1_added}
 
 Verify Subscriber Access Flows Added for DT FTTB

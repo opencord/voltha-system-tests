@@ -83,3 +83,4 @@ Setup Suite
     #power_switch.robot needs it to support different vendor's power switch
     ${switch_type}=    Get Variable Value    ${web_power_switch.type}
     Run Keyword If  "${switch_type}"!=""    Set Global Variable    ${powerswitch_type}    ${switch_type}
+    Log To Console      \nEnd of Setup Suite
