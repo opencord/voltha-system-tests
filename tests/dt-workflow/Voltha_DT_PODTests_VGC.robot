@@ -275,7 +275,7 @@ Test Disable and Enable OLT for DT
         ${olt_serial_number}=    Get From Dictionary    ${olt_ids}[${I}]    sn
         ${olt_device_id}=    Get OLTDeviceID From OLT List    ${olt_serial_number}
         ${rc}    ${output}=    Run and Return Rc and Output
-        ...    ${VOLTCTL_CONFIG}; voltctl device disable ${olt_device_id}
+        ...    voltctl -c ${VOLTCTL_CONFIG} device disable ${olt_device_id}
         Should Be Equal As Integers    ${rc}    0
         Wait Until Keyword Succeeds    ${timeout}    5s    Validate OLT Device    DISABLED    UNKNOWN    REACHABLE
         ...    ${olt_serial_number}
@@ -374,7 +374,7 @@ Test Disable ONUs and OLT Then Delete ONUs and OLT for DT
         ${olt_serial_number}=    Get From Dictionary    ${olt_ids}[${I}]    sn
         ${olt_device_id}=    Get OLTDeviceID From OLT List    ${olt_serial_number}
         ${rc}    ${output}=    Run and Return Rc and Output
-        ...    ${VOLTCTL_CONFIG}; voltctl device disable ${olt_device_id}
+        ...    voltctl -c ${VOLTCTL_CONFIG} device disable ${olt_device_id}
         Should Be Equal As Integers    ${rc}    0
         Wait Until Keyword Succeeds    ${timeout}    5s    Validate OLT Device    DISABLED    UNKNOWN    REACHABLE
         ...    ${olt_serial_number}
