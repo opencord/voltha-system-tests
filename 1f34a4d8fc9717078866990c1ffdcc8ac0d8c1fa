@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4e09f97f_a67f35f5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000982
+      },
+      "writtenOn": "2023-09-05T12:57:21Z",
+      "side": 1,
+      "message": "i hope this is an easy fix for the current error output in the functional tests",
+      "revId": "1f34a4d8fc9717078866990c1ffdcc8ac0d8c1fa",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    }
+  ]
+}
