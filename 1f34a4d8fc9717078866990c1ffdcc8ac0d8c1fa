@@ -16,6 +16,23 @@
       "message": "i hope this is an easy fix for the current error output in the functional tests",
       "revId": "1f34a4d8fc9717078866990c1ffdcc8ac0d8c1fa",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6ec6c4fc_c391daaa",
+        "filename": "tests/dt-workflow/Voltha_DT_PODTests.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 325,
+      "author": {
+        "id": 1000948
+      },
+      "writtenOn": "2023-09-05T20:09:02Z",
+      "side": 1,
+      "message": "I would wager $0.50 the intent may have been:\n   source \"$VOLTCTL_CONFIG\" ; to define env vars for voltctl\n\nvoltctl -c is a much better answer, self documenting.\n\n\nAnother form of configuration seems to be use of a default config file:\n   ~/.volt/config\n\nIf ~/.volt/config and VOLTCTL_CONFIG are identical we may be able to drop use of -c altogether.  Hmmm, if rely on static configs and explicitly specify -c that feels like a self-documenting and more reliable answer than relying on a ?-mutable-? default config file.\n\nOnly drawback would be consistent parameter use, maintaining per-repository voltctl configs would be reliable but would also create a maintenance problem for consistent argument use across repositories.\n\nBeginning to think we should create a dedicated repository for tool installers and config file variations and include that as a sub-repository.  Repos could select a default tool config from a handful of defaults available and that would help centralize maintenance editing.",
+      "revId": "1f34a4d8fc9717078866990c1ffdcc8ac0d8c1fa",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     }
   ]
 }

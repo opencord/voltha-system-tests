@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8c826f94_6df0de3f",
+        "filename": "tests/dt-workflow/Voltha_DT_PODTests.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 325,
+      "author": {
+        "id": 1000948
+      },
+      "writtenOn": "2023-09-05T20:09:02Z",
+      "side": 0,
+      "message": "I would wager $0.50 the intent may have been:\n   source \"$VOLTCTL_CONFIG\" ; to define env vars for voltctl",
+      "revId": "c597d309d7b3c69e54322751e9fede6797f5839a",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    }
+  ]
+}
