@@ -52,6 +52,23 @@
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a4c3c6ac_8f221a52",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000983
+      },
+      "writtenOn": "2023-09-22T05:12:20Z",
+      "side": 1,
+      "message": "This commit should fix the exact same bug in tests/dt-workflow/Voltha_DT_PODTests_VGC.robot as well.\n\nAlso, the commit message should mention the error message that is fixed by the change (/bin/sh: 1: /home/jenkins/.volt/config-minimal: Permission denied).",
+      "revId": "1f34a4d8fc9717078866990c1ffdcc8ac0d8c1fa",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6ec6c4fc_c391daaa",
