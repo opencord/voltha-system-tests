@@ -156,6 +156,24 @@
       "parentUuid": "1961516b_bf8ef36c",
       "revId": "c92d698ac639ecfb31baee84f4e92d829e06b96f",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b855d163_a6f03f2c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000982
+      },
+      "writtenOn": "2023-09-27T12:33:26Z",
+      "side": 1,
+      "message": "Thanks for the suggestion Arda! As Roger said, this might be a cool refactoring for later, but currently the goal of this patch is to repair a broken command, not to change anything about the command itself. However, if you could submit you suggestion of how to refactor the voltctl command itself as a PR in gerrit, i would be glad to review and merge it as soon as the pipelines are running again.",
+      "parentUuid": "b357f1da_7e880dc5",
+      "revId": "c92d698ac639ecfb31baee84f4e92d829e06b96f",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     }
   ]
 }
