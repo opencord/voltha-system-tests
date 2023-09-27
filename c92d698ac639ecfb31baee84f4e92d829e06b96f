@@ -102,6 +102,24 @@
       "parentUuid": "22d00edb_f2e72915",
       "revId": "c92d698ac639ecfb31baee84f4e92d829e06b96f",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1961516b_bf8ef36c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000980
+      },
+      "writtenOn": "2023-09-27T11:15:20Z",
+      "side": 1,
+      "message": "Voltctl commands are already wrapped inside the voltctl.robot library.\n\nYou can replace the following command:\n\n ${rc}    ${output}\u003d    Run and Return Rc and Output\n ...    voltctl -c ${VOLTCTL_CONFIG} device disable ${olt_device_id}\n Should Be Equal As Integers    ${rc}    0\n\nby this:\n\n Delete Device    ${olt_device_id}\n\nand it should do the same thing.",
+      "parentUuid": "fdf037ac_46bae4d9",
+      "revId": "c92d698ac639ecfb31baee84f4e92d829e06b96f",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     }
   ]
 }
