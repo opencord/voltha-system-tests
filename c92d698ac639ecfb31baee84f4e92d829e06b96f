@@ -138,6 +138,24 @@
       "parentUuid": "1961516b_bf8ef36c",
       "revId": "c92d698ac639ecfb31baee84f4e92d829e06b96f",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b357f1da_7e880dc5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000983
+      },
+      "writtenOn": "2023-09-27T11:28:28Z",
+      "side": 1,
+      "message": "That is actually quite useful to know, thank you. This should be an item for our refactoring list (there are several other instances of \"voltctl device disable\" in the robot code). For now, we are just trying to fix pipeline errors without breaking anything.",
+      "parentUuid": "1961516b_bf8ef36c",
+      "revId": "c92d698ac639ecfb31baee84f4e92d829e06b96f",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     }
   ]
 }
