@@ -33,6 +33,23 @@
       "message": "recheck\n\nSee if the pipeline job is still failing",
       "revId": "c92d698ac639ecfb31baee84f4e92d829e06b96f",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "096a5675_62356d25",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000989
+      },
+      "writtenOn": "2023-09-27T06:26:26Z",
+      "side": 1,
+      "message": "Looks good to me",
+      "revId": "c92d698ac639ecfb31baee84f4e92d829e06b96f",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     }
   ]
 }
