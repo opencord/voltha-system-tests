@@ -67,6 +67,23 @@
       "message": "recheck",
       "revId": "c92d698ac639ecfb31baee84f4e92d829e06b96f",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "22d00edb_f2e72915",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000980
+      },
+      "writtenOn": "2023-09-27T09:47:03Z",
+      "side": 1,
+      "message": "You can also use \"Disable Device\" from voltctl library",
+      "revId": "c92d698ac639ecfb31baee84f4e92d829e06b96f",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     }
   ]
 }
