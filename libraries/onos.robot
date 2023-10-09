@@ -167,7 +167,7 @@ Validate OLT Device in ONOS
     [Documentation]    Checks if olt has been connected to ONOS
     ${resp}=    Get Request    ONOS    onos/v1/devices
     ${jsondata}=    To Json    ${resp.content}
-    Should Not Be Empty    ${jsondata['devices']}
+    Should Not Be Empty    ${jsondata['devices']}       Could not find devices in ONOS
     ${length}=    Get Length    ${jsondata['devices']}
     @{serial_numbers}=    Create List
     ${matched}=    Set Variable    False
@@ -187,7 +187,7 @@ Get ONU Port in ONOS
     ${onu_serial_number}=    Catenate    SEPARATOR=-    ${onu_serial_number}    ${onu_uni_id}
     ${resp}=    Get Request    ONOS    onos/v1/devices/${olt_of_id}/ports
     ${jsondata}=    To Json    ${resp.content}
-    Should Not Be Empty    ${jsondata['ports']}
+    Should Not Be Empty    ${jsondata['ports']}     Ports list for device with OF ID ${olt_of_id} in ONOS is empty
     ${length}=    Get Length    ${jsondata['ports']}
     @{ports}=    Create List
     ${matched}=    Set Variable    False
@@ -226,7 +226,7 @@ Get NNI Port in ONOS
     [Documentation]    Retrieves NNI port for the OLT in ONOS
     ${resp}=    Get Request    ONOS    onos/v1/devices/${olt_of_id}/ports
     ${jsondata}=    To Json    ${resp.content}
-    Should Not Be Empty    ${jsondata['ports']}
+    Should Not Be Empty    ${jsondata['ports']}     Ports list for device with OF ID ${olt_of_id} in ONOS is empty
     ${length}=    Get Length    ${jsondata['ports']}
     @{ports}=    Create List
     ${matched}=    Set Variable    False
@@ -246,7 +246,7 @@ Get FabricSwitch in ONOS
     [Documentation]    Returns of_id of the Fabric Switch in ONOS
     ${resp}=    Get Request    ONOS    onos/v1/devices
     ${jsondata}=    To Json    ${resp.content}
-    Should Not Be Empty    ${jsondata['devices']}
+    Should Not Be Empty    ${jsondata['devices']}   Could not find devices in ONOS
     ${length}=    Get Length    ${jsondata['devices']}
     ${matched}=    Set Variable    False
     FOR    ${INDEX}    IN RANGE    0    ${length}
@@ -264,7 +264,7 @@ Get Master Instace in ONOS
     [Documentation]    Returns nodeId of the Master instace for a giver device in ONOS
     ${resp}=    Get Request    ONOS    onos/v1/mastership/${of_id}/master
     ${jsondata}=    To Json    ${resp.content}
-    Should Not Be Empty    ${jsondata['nodeId']}
+    Should Not Be Empty    ${jsondata['nodeId']}    Could not find nodeId of the master instance for device with OF ID ${of_id} in ONOS
     ${master_node}=    Get From Dictionary    ${jsondata}    nodeId
     [Return]    ${master_node}
 
@@ -285,28 +285,28 @@ Verify Subscriber Access Flows Added for ONU
     ...     grep VLAN_ID:${c_tag} | grep transition=TABLE:1
     ${upstream_flow_0_added}=    Execute ONOS CLI Command use single connection    ${ip}    ${port}
     ...    ${upstream_flow_0_cmd}
-    Should Not Be Empty    ${upstream_flow_0_added}
+    Should Not Be Empty    ${upstream_flow_0_added}     No matching added upstream flow found for ${olt_of_id} in TABLE 0 (in_port ${onu_port}; c_tag ${c_tag})
     # Verify upstream table=1 flow
     ${flow_vlan_push_cmd}=    Catenate    SEPARATOR=
     ...    flows -s ADDED ${olt_of_id} | grep IN_PORT:${onu_port} | grep VLAN_VID:${c_tag} |
     ...     grep VLAN_PUSH | grep VLAN_ID:${s_tag} | grep OUTPUT:${nni_port}
     ${upstream_flow_1_added}=    Execute ONOS CLI Command use single connection    ${ip}    ${port}
     ...    ${flow_vlan_push_cmd}
-    Should Not Be Empty    ${upstream_flow_1_added}
+    Should Not Be Empty    ${upstream_flow_1_added}     No matching added upstream flow found for ${olt_of_id} in TABLE 1 (in_port ${onu_port}; out_port: ${nni_port}; c_tag ${c_tag}; s_tag: ${s_tag})
     # Verify downstream table=0 flow
     ${flow_vlan_pop_cmd}=    Catenate    SEPARATOR=
     ...    flows -s ADDED ${olt_of_id} | grep IN_PORT:${nni_port} | grep VLAN_VID:${s_tag} |
     ...     grep VLAN_POP | grep transition=TABLE:1
     ${downstream_flow_0_added}=    Execute ONOS CLI Command use single connection    ${ip}    ${port}
     ...    ${flow_vlan_pop_cmd}
-    Should Not Be Empty    ${downstream_flow_0_added}
+    Should Not Be Empty    ${downstream_flow_0_added}   No matching added downstream flow found for ${olt_of_id} in TABLE 0 (in_port ${nni_port}; s_tag: ${s_tag})
     # Verify downstream table=1 flow
     ${downstream_flow_1_cmd}=    Catenate    SEPARATOR=
     ...    flows -s ADDED ${olt_of_id} | grep IN_PORT:${nni_port} | grep VLAN_VID:${c_tag} |
     ...     grep VLAN_ID:0 | grep OUTPUT:${onu_port}
     ${downstream_flow_1_added}=    Execute ONOS CLI Command use single connection    ${ip}    ${port}
     ...    ${downstream_flow_1_cmd}
-    Should Not Be Empty    ${downstream_flow_1_added}
+    Should Not Be Empty    ${downstream_flow_1_added}   No matching added downstream flow found for ${olt_of_id} in TABLE 1 (in_port ${nni_port}; out_port: ${onu_port}; c_tag ${c_tag})
     # Verify ipv4 dhcp upstream flow
     ${upstream_flow_ipv4_cmd}=    Catenate    SEPARATOR=
     ...    flows -s ADDED ${olt_of_id} | grep IN_PORT:${onu_port} | grep ETH_TYPE:ipv4 |
@@ -314,7 +314,7 @@ Verify Subscriber Access Flows Added for ONU
     ...     grep OUTPUT:CONTROLLER
     ${upstream_flow_ipv4_added}=    Execute ONOS CLI Command use single connection    ${ip}    ${port}
     ...    ${upstream_flow_ipv4_cmd}
-    Should Not Be Empty    ${upstream_flow_ipv4_added}
+    Should Not Be Empty    ${upstream_flow_ipv4_added}      No added IPv4 DHCP upstream flow found for ${olt_of_id}
     # Verify ipv4 dhcp downstream flow
     # Note: This flow will be one per nni per olt
     ${downstream_flow_ipv4_cmd}=    Catenate    SEPARATOR=
@@ -322,7 +322,7 @@ Verify Subscriber Access Flows Added for ONU
     ...     grep IP_PROTO:17 | grep UDP_SRC:67 | grep UDP_DST:68 | grep OUTPUT:CONTROLLER
     ${downstream_flow_ipv4_added}=    Execute ONOS CLI Command use single connection    ${ip}    ${port}
     ...    ${downstream_flow_ipv4_cmd}
-    Should Not Be Empty    ${downstream_flow_ipv4_added}
+    Should Not Be Empty    ${downstream_flow_ipv4_added}    No added IPv4 DHCP downstream flow found for ${olt_of_id}
 
 Verify Subscriber Access Flows Added for ONU DT
     [Arguments]    ${ip}    ${port}    ${olt_of_id}    ${onu_port}    ${nni_port}    ${s_tag}
@@ -330,25 +330,25 @@ Verify Subscriber Access Flows Added for ONU DT
     # Verify upstream table=0 flow
     ${upstream_flow_0_added}=    Execute ONOS CLI Command use single connection    ${ip}    ${port}
     ...    flows -s ADDED ${olt_of_id} | grep IN_PORT:${onu_port} | grep VLAN_VID:Any | grep transition=TABLE:1
-    Should Not Be Empty    ${upstream_flow_0_added}
+    Should Not Be Empty    ${upstream_flow_0_added}     No matching added upstream flow found for ${olt_of_id} in TABLE 0 (in_port ${onu_port})
     # Verify upstream table=1 flow
     ${flow_vlan_push_cmd}=    Catenate    SEPARATOR=
     ...    flows -s ADDED ${olt_of_id} | grep IN_PORT:${onu_port} | grep VLAN_VID:Any |
     ...     grep VLAN_PUSH | grep VLAN_ID:${s_tag} | grep OUTPUT:${nni_port}
     ${upstream_flow_1_added}=    Execute ONOS CLI Command use single connection    ${ip}    ${port}
     ...    ${flow_vlan_push_cmd}
-    Should Not Be Empty    ${upstream_flow_1_added}
+    Should Not Be Empty    ${upstream_flow_1_added}     No matching added upstream flow found for ${olt_of_id} in TABLE 1 (in_port ${onu_port}; out_port: ${nni_port}; s_tag: ${s_tag})
     # Verify downstream table=0 flow
     ${flow_vlan_pop_cmd}=    Catenate    SEPARATOR=
     ...    flows -s ADDED ${olt_of_id} | grep IN_PORT:${nni_port} | grep VLAN_VID:${s_tag} |
     ...     grep VLAN_POP | grep transition=TABLE:1
     ${downstream_flow_0_added}=    Execute ONOS CLI Command use single connection    ${ip}    ${port}
     ...    ${flow_vlan_pop_cmd}
-    Should Not Be Empty    ${downstream_flow_0_added}
+    Should Not Be Empty    ${downstream_flow_0_added}   No matching added downstream flow found for ${olt_of_id} in TABLE 0 (in_port ${nni_port}; s_tag: ${s_tag})
     # Verify downstream table=1 flow
     ${downstream_flow_1_added}=    Execute ONOS CLI Command use single connection    ${ip}    ${port}
     ...    flows -s ADDED ${olt_of_id} | grep IN_PORT:${nni_port} | grep VLAN_VID:Any | grep OUTPUT:${onu_port}
-    Should Not Be Empty    ${downstream_flow_1_added}
+    Should Not Be Empty    ${downstream_flow_1_added}   No matching added downstream flow found for ${olt_of_id} in TABLE 1 (in_port ${nni_port}; out_port: ${onu_port})
 
 Verify Subscriber Access Flows Added for DT FTTB
     [Arguments]    ${ip}    ${port}    ${olt_of_id}    ${onu_port}    ${nni_port}    ${s_tag}    ${c_tag}
@@ -357,14 +357,14 @@ Verify Subscriber Access Flows Added for DT FTTB
     # ONU
     ${us_flow_onu_added}=    Execute ONOS CLI Command use single connection    ${ip}    ${port}
     ...    flows -s ADDED ${olt_of_id} | grep IN_PORT:${onu_port} | grep VLAN_VID:${c_tag} | grep transition=TABLE:1
-    Should Not Be Empty    ${us_flow_onu_added}
+    Should Not Be Empty    ${us_flow_onu_added}     No matching added upstream flow found for ${olt_of_id} in TABLE 0 (in_port ${onu_port}; c_tag ${c_tag})
     # OLT
     ${us_flow_olt_cmd}=    Catenate
     ...    flows -s ADDED ${olt_of_id} | grep IN_PORT:${onu_port} | grep VLAN_VID:${c_tag} |
     ...    grep VLAN_ID:${s_tag} | grep OUTPUT:${nni_port}
     ${us_flow_olt_added}=    Execute ONOS CLI Command use single connection    ${ip}    ${port}
     ...    ${us_flow_olt_cmd}
-    Should Not Be Empty    ${us_flow_olt_added}
+    Should Not Be Empty    ${us_flow_olt_added}     No matching added upstream flow found for ${olt_of_id} in TABLE 1 (in_port ${onu_port}; out_port ${nni_port}; c_tag ${c_tag}; s_tag ${s_tag})
     # Downstream
     # OLT
     ${ds_flow_olt_cmd}=    Catenate
@@ -372,11 +372,11 @@ Verify Subscriber Access Flows Added for DT FTTB
     ...    grep VLAN_ID:${c_tag} | grep transition=TABLE:1
     ${ds_flow_olt_added}=    Execute ONOS CLI Command use single connection    ${ip}    ${port}
     ...    ${ds_flow_olt_cmd}
-    Should Not Be Empty    ${ds_flow_olt_added}
+    Should Not Be Empty    ${ds_flow_olt_added}     No matching added downstream flow found for ${olt_of_id} in TABLE 0 (in_port ${nni_port}; c_tag ${c_tag}; s_tag ${s_tag})
     # ONU
     ${ds_flow_onu_added}=    Execute ONOS CLI Command use single connection    ${ip}    ${port}
     ...    flows -s ADDED ${olt_of_id} | grep IN_PORT:${nni_port} | grep VLAN_VID:${c_tag} | grep OUTPUT:${onu_port}
-    Should Not Be Empty    ${ds_flow_onu_added}
+    Should Not Be Empty    ${ds_flow_onu_added}     No matching added downstream flow found for ${olt_of_id} in TABLE 1 (in_port ${nni_port}; out_port ${onu_port}, c_tag ${c_tag})
 
 Verify DPU ANCP Flows Added for DT FTTB
     [Arguments]    ${ip}    ${port}    ${olt_of_id}    ${onu_port}    ${nni_port}    ${s_tag}    ${c_tag}
@@ -388,23 +388,23 @@ Verify DPU ANCP Flows Added for DT FTTB
     ...    grep VLAN_ID:${s_tag} | grep transition=TABLE:1
     ${us_flow_onu_added}=    Execute ONOS CLI Command use single connection    ${ip}    ${port}
     ...    ${us_flow_onu_cmd}
-    Should Not Be Empty    ${us_flow_onu_added}
+    Should Not Be Empty    ${us_flow_onu_added}     No matching added upstream flow found for ${olt_of_id} in TABLE 0 (in_port ${onu_port}; c_tag ${c_tag}; s_tag ${s_tag})
     # OLT
     ${us_flow_olt_added}=    Execute ONOS CLI Command use single connection    ${ip}    ${port}
     ...    flows -s ADDED ${olt_of_id} | grep IN_PORT:${onu_port} | grep VLAN_VID:${s_tag} | grep OUTPUT:${nni_port}
-    Should Not Be Empty    ${us_flow_olt_added}
+    Should Not Be Empty    ${us_flow_olt_added}     No matching added upstream flow found for ${olt_of_id} in TABLE 1 (in_port ${onu_port}; out_port ${nni_port}; s_tag ${s_tag})
     # Downstream
     # OLT
     ${ds_flow_olt_added}=    Execute ONOS CLI Command use single connection    ${ip}    ${port}
     ...    flows -s ADDED ${olt_of_id} | grep IN_PORT:${nni_port} | grep VLAN_VID:${s_tag} | grep transition=TABLE:1
-    Should Not Be Empty    ${ds_flow_olt_added}
+    Should Not Be Empty    ${ds_flow_olt_added}     No matching added downstream flow found for ${olt_of_id} in TABLE 0 (in_port ${nni_port}; s_tag ${s_tag})
     # ONU
     ${ds_flow_onu_cmd}=    Catenate
     ...    flows -s ADDED ${olt_of_id} | grep IN_PORT:${nni_port} | grep VLAN_VID:${s_tag} |
     ...    grep VLAN_ID:${c_tag} | grep OUTPUT:${onu_port}
     ${ds_flow_onu_added}=    Execute ONOS CLI Command use single connection    ${ip}    ${port}
     ...    ${ds_flow_onu_cmd}
-    Should Not Be Empty    ${ds_flow_onu_added}
+    Should Not Be Empty    ${ds_flow_onu_added}     No matching added downstream flow found for ${olt_of_id} in TABLE 1 (in_port ${nni_port}; out_port ${onu_port}; c_tag ${c_tag}; s_tag ${s_tag})
 
 Verify DPU MGMT Flows Added for DT FTTB
     [Arguments]    ${ip}    ${port}    ${olt_of_id}    ${onu_port}    ${nni_port}    ${s_tag}    ${c_tag}
@@ -416,23 +416,23 @@ Verify DPU MGMT Flows Added for DT FTTB
     ...    grep VLAN_ID:${s_tag} | grep transition=TABLE:1
     ${us_flow_onu_added}=    Execute ONOS CLI Command use single connection    ${ip}    ${port}
     ...    ${us_flow_onu_cmd}
-    Should Not Be Empty    ${us_flow_onu_added}
+    Should Not Be Empty    ${us_flow_onu_added}     No matching added upstream flow found for ${olt_of_id} in TABLE 0 (in_port ${onu_port}; c_tag ${c_tag}; s_tag ${s_tag})
     # OLT
     ${us_flow_olt_added}=    Execute ONOS CLI Command use single connection    ${ip}    ${port}
     ...    flows -s ADDED ${olt_of_id} | grep IN_PORT:${onu_port} | grep VLAN_VID:${s_tag} | grep OUTPUT:${nni_port}
-    Should Not Be Empty    ${us_flow_olt_added}
+    Should Not Be Empty    ${us_flow_olt_added}     No matching added upstream flow found for ${olt_of_id} in TABLE 1 (in_port ${onu_port}; out_port ${nni_port}; s_tag ${s_tag})
     # Downstream
     # OLT
     ${ds_flow_olt_added}=    Execute ONOS CLI Command use single connection    ${ip}    ${port}
     ...    flows -s ADDED ${olt_of_id} | grep IN_PORT:${nni_port} | grep VLAN_VID:${s_tag} | grep transition=TABLE:1
-    Should Not Be Empty    ${ds_flow_olt_added}
+    Should Not Be Empty    ${ds_flow_olt_added}     No matching added downstream flow found for ${olt_of_id} in TABLE 0 (in_port ${nni_port}; s_tag ${s_tag})
     # ONU
     ${ds_flow_onu_cmd}=    Catenate
     ...    flows -s ADDED ${olt_of_id} | grep IN_PORT:${nni_port} | grep VLAN_VID:${s_tag} |
     ...    grep VLAN_ID:${c_tag} | grep OUTPUT:${onu_port}
     ${ds_flow_onu_added}=    Execute ONOS CLI Command use single connection    ${ip}    ${port}
     ...    ${ds_flow_onu_cmd}
-    Should Not Be Empty    ${ds_flow_onu_added}
+    Should Not Be Empty    ${ds_flow_onu_added}     No matching added downstream flow found for ${olt_of_id} in TABLE 1 (in_port ${nni_port}; out_port ${onu_port}, c_tag ${c_tag}; s_tag ${s_tag})
 
 Verify ONOS Flows Added for DT FTTB
     [Arguments]    ${ip}    ${port}    ${olt_of_id}    ${onu_port}    ${nni_port}    ${service}
@@ -486,46 +486,46 @@ Verify Default Downstream Flows are added in ONOS for OLT TT
     ...     grep OUTPUT:CONTROLLER
     ${downstream_flow_lldp_added}=    Execute ONOS CLI Command use single connection    ${ip}    ${port}
     ...    ${downstream_flow_lldp_cmd}
-    Should Not Be Empty    ${downstream_flow_lldp_added}
+    Should Not Be Empty    ${downstream_flow_lldp_added}    No matching added LLDP downstream flow found for ${olt_of_id}
     # Verify downstream dhcp flow
     ${downstream_flow_dhcp_cmd}=    Catenate    SEPARATOR=
     ...    flows -s ADDED ${olt_of_id} | grep IP_PROTO:17 | grep UDP_SRC:67 | grep UDP_DST:68 |
     ...     grep OUTPUT:CONTROLLER
     ${downstream_flow_dhcp_added}=    Execute ONOS CLI Command use single connection    ${ip}    ${port}
     ...    ${downstream_flow_dhcp_cmd}
-    Should Not Be Empty    ${downstream_flow_dhcp_added}
+    Should Not Be Empty    ${downstream_flow_dhcp_added}    No matching added DHCP downstream flow found for ${olt_of_id}
     # Verify downstream igmp flow
     ${downstream_flow_igmp_cmd}=    Catenate    SEPARATOR=
     ...    flows -s ADDED ${olt_of_id} | grep IP_PROTO:2 |
     ...     grep OUTPUT:CONTROLLER
     ${downstream_flow_igmp_added}=    Execute ONOS CLI Command use single connection    ${ip}    ${port}
     ...    ${downstream_flow_igmp_cmd}
-    Should Not Be Empty    ${downstream_flow_igmp_added}
+    Should Not Be Empty    ${downstream_flow_igmp_added}    No matching added IGMP downstream flow found for ${olt_of_id}
 
 Verify Downstream Flows for Single OLT NNI Port TIM
     [Arguments]    ${ip}    ${port}    ${olt_of_id}    ${nni_port}
     [Documentation]    Verifies if the downstream flows from the NNI port to the CONTROLLER port are added in ONOS for the OLT
 
-    # Verify PPPoE downstream flow form NNI to CONTROLLER port
+    # Verify PPPoE downstream flow from NNI to CONTROLLER port
     ${downstream_pppoed_cmd}=     Catenate    SEPARATOR=
     ...    flows -s ADDED ${olt_of_id} | grep IN_PORT:${nni_port} | grep ETH_TYPE:pppoed | grep OUTPUT:CONTROLLER
     ${downstream_pppoed}=    Execute ONOS CLI Command use single connection    ${ip}    ${port}
     ...    ${downstream_pppoed_cmd}
-    Should Not Be Empty    ${downstream_pppoed}
+    Should Not Be Empty    ${downstream_pppoed}     No matching added PPPoE downstream flow found for ${olt_of_id} (in_port: ${nni_port}; out_port: controller)
 
-    # Verify IGMP downstream flow form NNI to CONTROLLER port
+    # Verify IGMP downstream flow from NNI to CONTROLLER port
     ${downstream_igmp_cmd}=     Catenate    SEPARATOR=
     ...    flows -s ADDED ${olt_of_id} | grep IN_PORT:${nni_port} | grep ETH_TYPE:ipv4 | grep IP_PROTO:2 | grep OUTPUT:CONTROLLER
     ${downstream_igmp}=    Execute ONOS CLI Command use single connection    ${ip}    ${port}
     ...    ${downstream_igmp_cmd}
-    Should Not Be Empty    ${downstream_igmp}
+    Should Not Be Empty    ${downstream_igmp}   No matching added IGMP downstream flow found for ${olt_of_id} (in_port: ${nni_port}; out_port: controller)
 
-    # Verify LLDP downstream flow form NNI to CONTROLLER port
+    # Verify LLDP downstream flow from NNI to CONTROLLER port
     ${downstream_lldp_cmd}=     Catenate    SEPARATOR=
     ...    flows -s ADDED ${olt_of_id} | grep IN_PORT:${nni_port} | grep ETH_TYPE:lldp | grep OUTPUT:CONTROLLER
     ${downstream_lldp}=    Execute ONOS CLI Command use single connection    ${ip}    ${port}
     ...    ${downstream_lldp_cmd}
-    Should Not Be Empty    ${downstream_lldp}
+    Should Not Be Empty    ${downstream_lldp}   No matching added LLDP downstream flow found for ${olt_of_id} (in_port: ${nni_port}; out_port: controller)
 
 Verify Subscriber Access Flows Added For HSIA Service Single ONU Port TIM
     [Arguments]    ${ip}    ${port}    ${olt_of_id}    ${onu_port}    ${nni_port}    ${c_tag}   ${uni_tag}
@@ -538,7 +538,7 @@ Verify Subscriber Access Flows Added For HSIA Service Single ONU Port TIM
     ...     grep VLAN_VID:${uni_tag} | grep OUTPUT:CONTROLLER
     ${upstream_flow_pppoed_added}=    Execute ONOS CLI Command use single connection    ${ip}    ${port}
     ...    ${upstream_flow_pppoed_added_cmd}
-    Should Not Be Empty    ${upstream_flow_pppoed_added}
+    Should Not Be Empty    ${upstream_flow_pppoed_added}    No matching added PPPoE upstream flow found for ${olt_of_id} (in_port: ${onu_port}; out_port: controller)
 
     # Verify upstream table=0 flow, from UNI to TABLE 1
     ${upstream_flow_0_added_cmd}=     Catenate    SEPARATOR=
@@ -546,7 +546,7 @@ Verify Subscriber Access Flows Added For HSIA Service Single ONU Port TIM
     ...     grep VLAN_ID:${c_tag}  | grep transition=TABLE:1
     ${upstream_flow_0_added}=    Execute ONOS CLI Command use single connection    ${ip}    ${port}
     ...    ${upstream_flow_0_added_cmd}
-    Should Not Be Empty    ${upstream_flow_0_added}
+    Should Not Be Empty    ${upstream_flow_0_added}     No matching added upstream flow found for ${olt_of_id} in TABLE 0 (in_port ${onu_port}; c_tag ${c_tag}; uni_tag ${uni_tag})
 
     # Verify upstream table=1 flow, from UNI to NNI
     ${flow_vlan_UNI_to_NNI_cmd}=     Catenate    SEPARATOR=
@@ -554,7 +554,7 @@ Verify Subscriber Access Flows Added For HSIA Service Single ONU Port TIM
     ...    grep OUTPUT:${nni_port}
     ${flow_vlan_UNI_to_NNI}=    Execute ONOS CLI Command use single connection    ${ip}    ${port}
     ...    ${flow_vlan_UNI_to_NNI_cmd}
-    Should Not Be Empty    ${flow_vlan_UNI_to_NNI}
+    Should Not Be Empty    ${flow_vlan_UNI_to_NNI}      No matching added upstream flow found for ${olt_of_id} in TABLE 1 (in_port ${onu_port}; out_port ${nni_port}; c_tag ${c_tag})
 
     # Verify downstream table=0 flow, from NNI to TABLE 1
     ${downstream_flow_0_added_cmd}=     Catenate    SEPARATOR=
@@ -562,7 +562,7 @@ Verify Subscriber Access Flows Added For HSIA Service Single ONU Port TIM
     ...    grep transition=TABLE:1
     ${downstream_flow_0_added}=    Execute ONOS CLI Command use single connection    ${ip}    ${port}
     ...    ${downstream_flow_0_added_cmd}
-    Should Not Be Empty    ${downstream_flow_0_added}
+    Should Not Be Empty    ${downstream_flow_0_added}   No matching added downstream flow found for ${olt_of_id} in TABLE 0 (in_port ${nni_port})
 
     # Verify downstream table=1 flow, from NNI to UNI
     ${downstream_form_NNI_to_UNI_in_table_1_cmd}=     Catenate    SEPARATOR=
@@ -570,7 +570,7 @@ Verify Subscriber Access Flows Added For HSIA Service Single ONU Port TIM
     ...    grep VLAN_ID:${uni_tag} | grep OUTPUT:${onu_port}
     ${downstream_form_NNI_to_UNI_in_table_1}=    Execute ONOS CLI Command use single connection    ${ip}    ${port}
     ...    ${downstream_form_NNI_to_UNI_in_table_1_cmd}
-    Should Not Be Empty    ${downstream_form_NNI_to_UNI_in_table_1}
+    Should Not Be Empty    ${downstream_form_NNI_to_UNI_in_table_1}     No matching added downstream flow found for ${olt_of_id} in TABLE 1 (in_port ${nni_port}; out_port ${onu_port}; c_tag ${c_tag}: uni_tag ${uni_tag})
 
 Verify Subscriber Access Flows Added For VoD Service On Single ONU Port TIM
     [Arguments]    ${ip}    ${port}    ${olt_of_id}    ${onu_port}    ${nni_port}    ${c_tag}   ${uni_tag}
@@ -583,7 +583,7 @@ Verify Subscriber Access Flows Added For VoD Service On Single ONU Port TIM
     ...     grep IP_PROTO:2 |grep VLAN_VID:${uni_tag} | grep OUTPUT:CONTROLLER
     ${upstream_flow_igmp_added}=    Execute ONOS CLI Command use single connection    ${ip}    ${port}
     ...    ${upstream_flow_igmp_added_cmd}
-    Should Not Be Empty    ${upstream_flow_igmp_added}
+    Should Not Be Empty    ${upstream_flow_igmp_added}      No matching added IGMP upstream flow found for ${olt_of_id} (in_port: ${onu_port}; out_port: controller; uni_tag ${uni_tag})
 
     # Verify upstream table=0 flow, from UNI to TABLE 1
     ${upstream_flow_0_added_cmd}=     Catenate    SEPARATOR=
@@ -591,7 +591,7 @@ Verify Subscriber Access Flows Added For VoD Service On Single ONU Port TIM
     ...     grep VLAN_ID:${c_tag}  | grep transition=TABLE:1
     ${upstream_flow_0_added}=    Execute ONOS CLI Command use single connection    ${ip}    ${port}
     ...    ${upstream_flow_0_added_cmd}
-    Should Not Be Empty    ${upstream_flow_0_added}
+    Should Not Be Empty    ${upstream_flow_0_added}     No matching added upstream flow found for ${olt_of_id} in TABLE 0 (in_port ${onu_port}; c_tag ${c_tag}; uni_tag ${uni_tag})
 
     # Verify upstream table=1 flow, from UNI to NNI
     ${flow_vlan_UNI_to_NNI_cmd}=     Catenate    SEPARATOR=
@@ -599,7 +599,7 @@ Verify Subscriber Access Flows Added For VoD Service On Single ONU Port TIM
     ...    grep OUTPUT:${nni_port}
     ${flow_vlan_UNI_to_NNI}=    Execute ONOS CLI Command use single connection    ${ip}    ${port}
     ...    ${flow_vlan_UNI_to_NNI_cmd}
-    Should Not Be Empty    ${flow_vlan_UNI_to_NNI}
+    Should Not Be Empty    ${flow_vlan_UNI_to_NNI}      No matching added upstream flow found for ${olt_of_id} in TABLE 1 (in_port ${onu_port}; out_port ${nni_port}; c_tag ${c_tag})
 
     # Verify downstream table=0 flow, from NNI to TABLE 1
     ${downstream_flow_0_added_cmd}=     Catenate    SEPARATOR=
@@ -607,7 +607,7 @@ Verify Subscriber Access Flows Added For VoD Service On Single ONU Port TIM
     ...    grep transition=TABLE:1
     ${downstream_flow_0_added}=    Execute ONOS CLI Command use single connection    ${ip}    ${port}
     ...    ${downstream_flow_0_added_cmd}
-    Should Not Be Empty    ${downstream_flow_0_added}
+    Should Not Be Empty    ${downstream_flow_0_added}   No matching added downstream flow found for ${olt_of_id} in TABLE 0 (in_port ${nni_port})
 
     # Verify downstream table=1 flow, from NNI to UNI
     ${downstream_from_NNI_to_UNI_in_table_1_cmd}=     Catenate    SEPARATOR=
@@ -615,7 +615,7 @@ Verify Subscriber Access Flows Added For VoD Service On Single ONU Port TIM
     ...    grep VLAN_ID:${uni_tag} | grep OUTPUT:${onu_port}
     ${downstream_from_NNI_to_UNI_in_table_1}=    Execute ONOS CLI Command use single connection    ${ip}    ${port}
     ...    ${downstream_from_NNI_to_UNI_in_table_1_cmd}
-    Should Not Be Empty    ${downstream_from_NNI_to_UNI_in_table_1}
+    Should Not Be Empty    ${downstream_from_NNI_to_UNI_in_table_1}     No matching added downstream flow found for ${olt_of_id} in TABLE 1 (in_port ${nni_port}; out_port ${onu_port}; c_tag ${c_tag}: uni_tag ${uni_tag})
 
 Verify Mcast Flow Rule Subscription
     [Arguments]    ${ip}    ${port}    ${olt_of_id}    ${mcastIP}
@@ -624,19 +624,19 @@ Verify Mcast Flow Rule Subscription
     ...     flows -s ADDED ${olt_of_id} | grep ETH_TYPE:ipv4 | grep IPV4_DST:${mcastIP}
     ${downstram_flow_mcast_added}=    Execute ONOS CLI Command use single connection    ${ip}    ${port}
     ...    ${downstream_flow_mcast_added_cmd}
-    Should Not Be Empty    ${downstram_flow_mcast_added}
+    Should Not Be Empty    ${downstram_flow_mcast_added}    No matching added downstream multicast flow found for ${olt_of_id} in TABLE 0 (ip ${mcastIP})
     [Return]    ${downstram_flow_mcast_added}
 
 Verify Mcast Groups Rules generation
     [Arguments]    ${ip}    ${port}    ${onu_port}      ${groupID}
     [Documentation]    Verfy the creation of the Group rule trigger by an IGMPJoin
-    ${downstream_flow_mcast_added_cmd}=   Catenate    SEPARATOR=
+    ${mcast_groups_cmd}=   Catenate    SEPARATOR=
     ...     groups | grep id=${groupID} | grep OUTPUT:${onu_port}
     #Ricorda ADDED sopra in production
     #Prova poi a prenderti con il $5 o qualcosa così il gruppo
-    ${downstram_flow_mcast_added}=    Execute ONOS CLI Command use single connection    ${ip}    ${port}
-    ...    ${downstream_flow_mcast_added_cmd}
-    Should Not Be Empty    ${downstram_flow_mcast_added}
+    ${mcast_groups}=    Execute ONOS CLI Command use single connection    ${ip}    ${port}
+    ...    ${mcast_groups_cmd}
+    Should Not Be Empty    ${mcast_groups}    No matching multicast group found with ID ${groupID} for out port ${onu_port}
 
 Get Programmed Subscribers
     [Arguments]    ${ip}    ${port}    ${olt_of_id}    ${onu_port}    ${filter}=${EMPTY}
@@ -656,7 +656,7 @@ Verify Programmed Subscribers DT FTTB
         ${programmed_subscriber}=    Get Programmed Subscribers    ${ip}    ${port}    ${olt_of_id}    ${onu_port}
         ...    ${service_name}
         Log    ${programmed_subscriber}
-        Should Not Be Empty    ${programmed_subscriber}
+        Should Not Be Empty    ${programmed_subscriber}     No programmed subscribers found for ${service_name}
     END
 
 Get Upstream and Downstream Bandwidth Profile Name
@@ -720,7 +720,7 @@ Get Bandwidth Profile Details Rest
     ${bw_profile_id}=    Remove String    ${bw_profile_id}    '    "
     ${resp}=    Get Request    ONOS    onos/sadis/bandwidthprofile/${bw_profile_id}
     ${jsondata}=    To Json    ${resp.content}
-    Should Not Be Empty    ${jsondata['entry']}
+    Should Not Be Empty    ${jsondata['entry']}     Could not find data for bandwidth profile ${bw_profile_id} in ONOS
     ${length}=    Get Length    ${jsondata['entry']}
     ${matched}=    Set Variable    False
     FOR    ${INDEX}    IN RANGE    0    ${length}
@@ -743,7 +743,7 @@ Get Bandwidth Profile Details Ietf Rest
     ${bw_profile_id}=    Remove String    ${bw_profile_id}    '    "
     ${resp}=    Get Request    ONOS    onos/sadis/bandwidthprofile/${bw_profile_id}
     ${jsondata}=    To Json    ${resp.content}
-    Should Not Be Empty    ${jsondata['entry']}
+    Should Not Be Empty    ${jsondata['entry']}     Could not find data for bandwidth profile ${bw_profile_id} in ONOS
     ${length}=    Get Length    ${jsondata['entry']}
     ${matched}=    Set Variable    False
     FOR    ${INDEX}    IN RANGE    0    ${length}
@@ -884,7 +884,7 @@ Verify Pending Flows For ONU
     [Documentation]    Verifies that there are flows "PENDING" state for the ONU in ONOS
     ${pending_flows}=    Execute ONOS CLI Command use single connection    ${ip}    ${port}
     ...    flows -s | grep IN_PORT:${onu_port} | grep PENDING
-    Should Not Be Empty    ${pending_flows}
+    Should Not Be Empty    ${pending_flows}     Could not find pending flows with matching in port ${onu_port}
 
 Verify Eapol Flows Added For ONU
     [Arguments]    ${ip}    ${port}    ${olt_of_id}    ${onu_port}    ${c_tag}=4091
@@ -893,7 +893,7 @@ Verify Eapol Flows Added For ONU
     ...    flows -s ADDED ${olt_of_id} | grep IN_PORT:${onu_port} | grep ETH_TYPE:eapol |
     ...    grep VLAN_ID:${c_tag} | grep OUTPUT:CONTROLLER
     ${eapol_flows_added}=    Execute ONOS CLI Command use single connection    ${ip}    ${port}    ${eapol_flow_cmd}
-    Should Not Be Empty    ${eapol_flows_added}
+    Should Not Be Empty    ${eapol_flows_added}     No matching added EAPOL flows found for ${olt_of_id} (in_port: ${onu_port}; c_tag ${c_tag})
 
 Verify UNI Port Is Enabled
     [Arguments]    ${ip}    ${port}    ${onu_name}    ${onu_uni_id}=1
@@ -901,7 +901,7 @@ Verify UNI Port Is Enabled
     ${onu_port_enabled}=    Execute ONOS CLI Command use single connection    ${ip}    ${port}
     ...    ports -e | grep portName=${onu_name}-${onu_uni_id}
     Log    ${onu_port_enabled}
-    Should Not Be Empty    ${onu_port_enabled}
+    Should Not Be Empty    ${onu_port_enabled}      Could not find operational state of UNI port (${onu_name}-${onu_uni_id}) in ONOS
 
 Verify UNI Port Is Disabled
     [Arguments]    ${ip}    ${port}    ${onu_name}    ${onu_uni_id}=1
@@ -909,7 +909,7 @@ Verify UNI Port Is Disabled
     ${onu_port_disabled}=    Execute ONOS CLI Command use single connection    ${ip}    ${port}
     ...    ports | grep portName=${onu_name}-${onu_uni_id} | grep state=disabled
     Log    ${onu_port_disabled}
-    Should Not Be Empty    ${onu_port_disabled}
+    Should Not Be Empty    ${onu_port_disabled}     Could not find operational state of UNI port (${onu_name}-${onu_uni_id}) in ONOS
 
 Wait For All UNI Ports Are Disabled per ONU
     [Documentation]    Verifies all UNI Ports of passed ONU are disabled
@@ -1075,7 +1075,7 @@ Assert ONU Port Is Disabled
     ${onu_port_disabled}=    Execute ONOS CLI Command use single connection    ${ip}    ${port}
     ...    ports -d ${deviceId} | grep port=${onu_port}
     Log    ${onu_port_disabled}
-    Should Not Be Empty    ${onu_port_disabled}
+    Should Not Be Empty    ${onu_port_disabled}     Could not find operational state of ONU port (${onu_port}) in ONOS
 
 Assert Olts in ONOS
     [Arguments]    ${ip}    ${port}     ${count}

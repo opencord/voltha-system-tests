@@ -301,7 +301,7 @@ Test Disable and Enable OLT
         ${olt_device_id}=    Get OLTDeviceID From OLT List    ${olt_serial_number}
         ${rc}    ${output}=    Run and Return Rc and Output
         ...    voltctl -c ${VOLTCTL_CONFIG} device disable ${olt_device_id}
-        Should Be Equal As Integers    ${rc}    0
+        Should Be Equal As Integers    ${rc}    0   Could not disable device ${olt_device_id}
         Wait Until Keyword Succeeds    ${timeout}    5s    Validate OLT Device    DISABLED    UNKNOWN    REACHABLE
         ...    ${olt_serial_number}
     END
@@ -430,7 +430,7 @@ Test disable ONUs and OLT then delete ONUs and OLT
         ...    REACHABLE    ${src['olt']}
         ${rc}    ${output}=    Run and Return Rc and Output
         ...    voltctl -c ${VOLTCTL_CONFIG} device disable ${onu_device_id}
-        Should Be Equal As Integers    ${rc}    0
+        Should Be Equal As Integers    ${rc}    0   Could not disable device ${olt_device_id}
         Wait Until Keyword Succeeds    ${timeout}    5s
         ...    Validate Device    DISABLED    UNKNOWN
         ...    REACHABLE    ${src['onu']}    onu=false
@@ -445,7 +445,7 @@ Test disable ONUs and OLT then delete ONUs and OLT
         ${olt_device_id}=    Get OLTDeviceID From OLT List    ${olt_serial_number}
         ${rc}    ${output}=    Run and Return Rc and Output
         ...    voltctl -c ${VOLTCTL_CONFIG} device disable ${olt_device_id}
-        Should Be Equal As Integers    ${rc}    0
+        Should Be Equal As Integers    ${rc}    0   Could not disable device ${olt_device_id}
         Wait Until Keyword Succeeds    ${timeout}    5s    Validate OLT Device    DISABLED    UNKNOWN    REACHABLE
         ...    ${olt_serial_number}
     END

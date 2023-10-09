@@ -32,11 +32,11 @@ ${voltctlGrpcLimit}     32M
 Test Empty Device List
     [Documentation]    Verify that there are no devices in the system
     ${rc}    ${output}=    Run and Return Rc and Output    voltctl -c ${VOLTCTL_CONFIG} device list -o json
-    Should Be Equal As Integers    ${rc}    0
+    Should Be Equal As Integers    ${rc}    0   Could not get device list
     ${jsondata}=    To Json    ${output}
     Log    ${jsondata}
     ${length}=    Get Length    ${jsondata}
-    Should Be Equal As Integers    ${length}    0
+    Should Be Equal As Integers    ${length}    0   Device list is not empty
 
 Create Device
     [Arguments]    ${ip}    ${port}     ${type}=openolt
@@ -83,7 +83,7 @@ Disable Devices In Voltha
     ${arg}=    Run Keyword If    len('${filter}'.strip()) != 0    Set Variable    --filter ${filter}
     ${rc}    ${devices}=    Run and Return Rc and Output
     ...    voltctl -c ${VOLTCTL_CONFIG} device list -m ${voltctlGrpcLimit} ${arg} --orderby Root -q | xargs echo -n
-    Should Be Equal As Integers    ${rc}    0
+    Should Be Equal As Integers    ${rc}    0       Could not get device list
     ${rc}    ${output}=    Run Keyword If    len('${devices}') != 0    Run and Return Rc and Output
     ...    voltctl -c ${VOLTCTL_CONFIG} device disable ${devices}
     Run Keyword If    len('${devices}') != 0
@@ -94,8 +94,8 @@ Test Devices Disabled In Voltha
     [Arguments]    ${filter}
     ${rc}    ${count}=    Run and Return Rc and Output
     ...    voltctl -c ${VOLTCTL_CONFIG} device list -m ${voltctlGrpcLimit} --filter '${filter},AdminState!=DISABLED' -q | wc -l
-    Should Be Equal As Integers    ${rc}    0
-    Should Be Equal As Integers    ${count}    0
+    Should Be Equal As Integers    ${rc}    0       Could not get disabled device list
+    Should Be Equal As Integers    ${count}    0    No disabled devices found in VOLTHA
 
 Delete Devices In Voltha
     [Documentation]    Disables all the known devices in voltha
@@ -104,17 +104,17 @@ Delete Devices In Voltha
     ${arg}=    Run Keyword If    len('${filter}'.strip()) != 0    Set Variable    --filter ${filter}
     ${rc}    ${devices}=    Run and Return Rc and Output
     ...    voltctl -c ${VOLTCTL_CONFIG} device list ${arg} -m ${voltctlGrpcLimit} --orderby Root -q | xargs echo -n
-    Should Be Equal As Integers    ${rc}    0
+    Should Be Equal As Integers    ${rc}    0      Could not get device list
     ${rc}    ${output}=    Run Keyword If    len('${devices}') != 0    Run and Return Rc and Output
     ...    voltctl -c ${VOLTCTL_CONFIG} device delete ${devices}
-    Run Keyword If    len('${devices}') != 0    Should Be Equal As Integers    ${rc}    0
+    Run Keyword If    len('${devices}') != 0    Should Be Equal As Integers    ${rc}    0   Could not delete devices: ${devices}
 
 Get Device Flows from Voltha
     [Arguments]    ${device_id}
     [Documentation]    Gets device flows from VOLTHA
     ${rc}    ${output}=    Run and Return Rc and Output
     ...    voltctl -c ${VOLTCTL_CONFIG} device flows ${device_id} -m ${voltctlGrpcLimit}
-    Should Be Equal As Integers    ${rc}    0
+    Should Be Equal As Integers    ${rc}    0   Could not get flows for device ${device_id}
     [Return]    ${output}
 
 Get Logical Device Output from Voltha
@@ -126,8 +126,8 @@ Get Logical Device Output from Voltha
     ...    voltctl -c ${VOLTCTL_CONFIG} logicaldevice port list ${device_id}
     Log    ${flows}
     Log    ${ports}
-    Should Be Equal As Integers    ${rc1}    0
-    Should Be Equal As Integers    ${rc2}    0
+    Should Be Equal As Integers    ${rc1}    0      Could not get flows for local device ${device_id}
+    Should Be Equal As Integers    ${rc2}    0      Could not get port list for local device ${device_id}
 
 Get Device Output from Voltha
     [Arguments]    ${device_id}
@@ -138,20 +138,20 @@ Get Device Output from Voltha
     ...    voltctl -c ${VOLTCTL_CONFIG} device port list ${device_id} -m ${voltctlGrpcLimit}
     Log    ${flows}
     Log    ${ports}
-    Should Be Equal As Integers    ${rc1}    0
-    Should Be Equal As Integers    ${rc2}    0
+    Should Be Equal As Integers    ${rc1}    0      Could not get flows for device ${device_id}
+    Should Be Equal As Integers    ${rc2}    0      Could not get port list for device ${device_id}
 
 Get Device List from Voltha
     [Documentation]    Gets Device List Output from Voltha
     ${rc1}    ${devices}=    Run and Return Rc and Output    voltctl -c ${VOLTCTL_CONFIG} device list -m ${voltctlGrpcLimit}
     Log    ${devices}
-    Should Be Equal As Integers    ${rc1}    0
+    Should Be Equal As Integers    ${rc1}    0      Could not get device list
 
 Get ONUs Device IDs from Voltha
     [Documentation]    Fetches the ONU Device Ids from Voltha
     ${rc}    ${onus}=    Run and Return Rc and Output
     ...    voltctl -c ${VOLTCTL_CONFIG} device list -m ${voltctlGrpcLimit} -f Type=brcm_openomci_onu -q
-    Should Be Equal as Integers    ${rc}    0
+    Should Be Equal as Integers    ${rc}    0       Could not get ONOs device list
     @{onuDevList}=    Split To Lines    ${onus}
     [Return]    ${onuDevList}
 
@@ -161,7 +161,7 @@ Get Device List from Voltha by type
     ${rc1}    ${devices}=    Run and Return Rc and Output
     ...     voltctl -c ${VOLTCTL_CONFIG} device list -m ${voltctlGrpcLimit} -f Type=${type} -o json
     Log    ${devices}
-    Should Be Equal As Integers    ${rc1}    0
+    Should Be Equal As Integers    ${rc1}    0      Could not get device list with type ${type}
     Return From Keyword     ${devices}
 
 Get Logical Device List from Voltha
@@ -169,7 +169,7 @@ Get Logical Device List from Voltha
     ${rc1}    ${devices}=    Run and Return Rc and Output
     ...   voltctl -c ${VOLTCTL_CONFIG} logicaldevice list -m ${voltctlGrpcLimit} -o json
     Log    ${devices}
-    Should Be Equal As Integers    ${rc1}    0
+    Should Be Equal As Integers    ${rc1}    0      Could not get logical device list
     Return From Keyword     ${devices}
 
 Validate Device
@@ -185,7 +185,7 @@ Validate Device
     ...    voltctl -c ${VOLTCTL_CONFIG} device list -m ${voltctlGrpcLimit} -f Id=${id} -o json
     ...    ELSE    Run and Return Rc and Output
     ...    voltctl -c ${VOLTCTL_CONFIG} device list -m ${voltctlGrpcLimit} -f SerialNumber=${id} -o json
-    Should Be Equal As Integers    ${rc}    0
+    Should Be Equal As Integers    ${rc}    0       Could not get device list
     ${jsondata}=    To Json    ${output}
     Log     ${output}
     ${length}=    Get Length    ${jsondata}
@@ -261,7 +261,7 @@ Validate Device Port Types
     [Arguments]    ${device_id}    ${pon_type}    ${ethernet_type}   ${all_active}=True
     ${rc}    ${output}=    Run and Return Rc and Output
     ...    voltctl -c ${VOLTCTL_CONFIG} device port list ${device_id} -m ${voltctlGrpcLimit} -o json
-    Should Be Equal As Integers    ${rc}    0
+    Should Be Equal As Integers    ${rc}    0       Could not find port list for device ${device_id}
     ${jsondata}=    To Json    ${output}
     Log    ${jsondata}
     ${length}=    Get Length    ${jsondata}
@@ -305,7 +305,7 @@ Validate Device Flows
     [Documentation]    Parses the output of voltctl device flows <device_id> and expects flow count > 0
     ${rc}    ${output}=    Run and Return Rc and Output
     ...    voltctl -c ${VOLTCTL_CONFIG} device flows ${device_id} -m ${voltctlGrpcLimit} -o json
-    Should Be Equal As Integers    ${rc}    0
+    Should Be Equal As Integers    ${rc}    0       Could not get flows for device ${device_id}
     ${jsondata}=    To Json    ${output}
     Log    ${jsondata}
     ${length}=    Get Length    ${jsondata}
@@ -796,7 +796,7 @@ Validate Device Removed
         ${device_sn}=    Get From Dictionary    ${value}    serialNumber
         Append To List    ${sns}    ${device_sn}
     END
-    List Should Not Contain Value    ${sns}    ${serialNumber}
+    List Should Not Contain Value    ${sns}    ${serialNumber}      Device ${serial_number} was not correctly removed from VOLTHA
 
 Validate all ONUS for OLT Removed
     [Arguments]    ${num_all_onus}    ${hosts}    ${olt_serial_number}    ${timeout}

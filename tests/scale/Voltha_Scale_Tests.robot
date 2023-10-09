@@ -133,14 +133,14 @@ Flows validation in VOLTHA before subscriber provisioning
     [Documentation]    Check that all the flows has been stored in the logical device
     [Tags]      flow-before   plot-voltha-flows-before
     # NOTE fail the test immediately if we're trying to check flows without provisioning them
-    Should Be Equal   ${enableFlowProvisioning}     true
+    Should Be Equal   ${enableFlowProvisioning}     true    Flow provisioning is not enabled
     Wait for Logical Devices flows   ${workflow}    ${total_onus}    ${olt}    false
     ...     ${withEapol}    ${withDhcp}     ${withIgmp}    ${withLLDP}    ${timeout}
 
 Flows validation in VOLTHA Adapters before subscriber provisioning
     [Documentation]  Check that all flows has been store in devices of type openolt
     [Tags]      flow-before   plot-voltha-openolt-flows-before  only-me
-    Should Be Equal   ${enableFlowProvisioning}     true
+    Should Be Equal   ${enableFlowProvisioning}     true    Flow provisioning is not enabled
     Wait for OpenOLT Devices flows   ${workflow}    ${total_onus}    ${olt}    false
     ...     ${withEapol}    ${withDhcp}     ${withIgmp}    ${withLLDP}
 
@@ -148,7 +148,7 @@ Flows validation in ONOS before subscriber provisioning
     [Documentation]    Check that all the flows has been acknowledged
     [Tags]      flow-before   plot-onos-flows-before
     # NOTE fail the test immediately if we're trying to check flows without provisioning them
-    Should Be Equal   ${enableFlowProvisioning}     true
+    Should Be Equal   ${enableFlowProvisioning}     true    Flow provisioning is not enabled
 
     ${onos_devices}=    Compute Device IDs
     FOR     ${deviceId}     IN  @{onos_devices}
@@ -234,7 +234,7 @@ Image Commit and Validation during ONUs Software Upgrade
 Provision subscribers
     [Documentation]    Provision data plane flows for all the subscribers
     [Tags]      provision
-    Should Be Equal   ${enableSubscriberProvisioning}     true
+    Should Be Equal   ${enableSubscriberProvisioning}     true      Subscriber provisioning is not enabled
     ${onos_devices}=    Compute Device IDs
     FOR     ${olt}  IN  @{onos_devices}
         Provision all subscribers on device  ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${ONOS_SSH_IP}    ${ONOS_REST_PORT}  ${olt}
@@ -244,7 +244,7 @@ Flows validation in VOLTHA after subscriber provisioning
     [Documentation]    Check that all the flows has been stored in the logical device
     [Tags]      flow-after    plot-voltha-flows-after
     # NOTE fail the test immediately if we're trying to check flows without provisioning them
-    Should Be Equal   ${enableFlowProvisioning}     true
+    Should Be Equal   ${enableFlowProvisioning}     true    Flow provisioning is not enabled
 
     Wait for Logical Devices flows   ${workflow}    ${total_onus}    ${olt}    true
     ...     ${withEapol}    ${withDhcp}     ${withIgmp}    ${withLLDP}    ${timeout}
@@ -252,7 +252,7 @@ Flows validation in VOLTHA after subscriber provisioning
 Flows validation in VOLTHA Adapters after subscriber provisioning
     [Documentation]  Check that all flows has been store in devices of type openolt
     [Tags]      flow-after   plot-voltha-openolt-flows-after    only-me
-    Should Be Equal   ${enableFlowProvisioning}     true
+    Should Be Equal   ${enableFlowProvisioning}     true    Flow provisioning is not enabled
     Wait for OpenOLT Devices flows   ${workflow}    ${total_onus}    ${olt}    true
     ...     ${withEapol}    ${withDhcp}     ${withIgmp}    ${withLLDP}
 
@@ -260,7 +260,7 @@ Flows validation in ONOS after subscriber provisioning
     [Documentation]    Check that all the flows has been acknowledged
     [Tags]      flow-after    plot-onos-flows-after
     # NOTE fail the test immediately if we're trying to check flows without provisioning them
-    Should Be Equal   ${enableFlowProvisioning}     true
+    Should Be Equal   ${enableFlowProvisioning}     true    Flow provisioning is not enabled
 
     ${onos_devices}=    Compute Device IDs
     FOR     ${deviceId}     IN  @{onos_devices}
@@ -346,7 +346,7 @@ Disable and Delete devices
 *** Keywords ***
 Setup Suite
     [Documentation]    Setup test global variables, open an SSH connection to ONOS and starts a timer
-    Set Suite Variable    ${KUBECTL_CONFIG}    export KUBECONFIG=%{KUBECONFIG}
+    Set Suite Variable    ${KUBECTL_CONFIG}    %{KUBECONFIG}
     Set Suite Variable    ${VOLTCTL_CONFIG}    %{VOLTCONFIG}
 
     ${total_onus}=   Evaluate    ${olt} * ${pon} * ${onu}

@@ -179,7 +179,7 @@ Get Component Uuid From Inventory
         Log  ${element}
         ${component_uuid}=  utility.get_uuid_from_Inventory_Element  ${element}  ${component_name}
     END
-    Should Not Be Equal  ${None}  ${component_uuid}
+    Should Not Be Equal  ${None}  ${component_uuid}     Could not find UUID for ${component_name}
     [Return]    ${component_uuid}
 
 Loggable Entities

@@ -98,7 +98,7 @@ Get ETCD Replica Count
     [Documentation]    Get the number of configured ETCD nodes
     ${rc}    ${size}=    Run and Return Rc and Output
     ...    kubectl -n ${namespace} get ${ETCD_resources} ${ETCD_name} -o jsonpath='{.status.replicas}'
-    Should Be Equal As Integers    ${rc}    0
+    Should Be Equal As Integers    ${rc}    0   Could not get ETCD replica count
     [Return]    ${size}
 
 Scale ETCD
@@ -106,16 +106,16 @@ Scale ETCD
     [Documentation]    Scale down the number of ETCD pod
     ${rc}=    Run and Return Rc
     ...    kubectl -n ${namespace} patch ${ETCD_resources} ${ETCD_name} -p '{"spec":{"replicas": ${size}}}'
-    Should Be Equal As Integers    ${rc}    0
+    Should Be Equal As Integers    ${rc}    0   Could not scale ETCD
 
 Validate ETCD Size
     [Arguments]    ${namespace}    ${ETCD_cluster_size}
     [Documentation]    Scale down the number of ETCD pod
     ${rc}    ${size}=    Run and Return Rc and Output
     ...    kubectl -n ${namespace} get ${ETCD_resources} ${ETCD_name} -o jsonpath='{.status.replicas}'
-    Should Be Equal As Integers    ${rc}    0
+    Should Be Equal As Integers    ${rc}    0   Could not get ETCD replica count
     Should Be Equal As Integers    ${size}    ${ETCD_cluster_size}    Unexpected number of replicas
     ${rc}    ${size}=    Run and Return Rc and Output
     ...    kubectl -n ${namespace} get ${ETCD_resources} ${ETCD_name} -o jsonpath='{.status.readyReplicas}'
-    Should Be Equal As Integers    ${rc}    0
+    Should Be Equal As Integers    ${rc}    0   Could not get ETC ready replica count
     Should Be Equal As Integers    ${size}    ${ETCD_cluster_size}    Unexpected number of ready replicas

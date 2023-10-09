@@ -156,8 +156,8 @@ Validate Etcd Vlan Rules Added Subscriber
     ${result}=    Prepare ONU Go Adapter ETCD Data For Json    ${etcddata}
     ${jsondata}=    To Json    ${result}
     ${length}=    Get Length    ${jsondata}
-    log    ${jsondata}
-    Should Not Be Empty     ${jsondata}
+    Log    ${jsondata}
+    Should Not Be Empty     ${jsondata}     Could not find ONU Go Adapter ETCD data
     FOR    ${INDEX}    IN RANGE    0    ${length}
         ${value}=    Get From List    ${jsondata}    ${INDEX}
         ${flowparams}=    Get From Dictionary    ${value['uni_config'][0]}    flow_params
@@ -199,7 +199,7 @@ Validate Etcd Vlan Rules Removed Subscriber
     ${jsondata}=    To Json    ${result}
     ${length}=    Get Length    ${jsondata}
     log    ${jsondata}
-    Should Not Be Empty     ${jsondata}
+    Should Not Be Empty     ${jsondata}     Could not find ONU Go Adapter ETCD data
     FOR    ${INDEX}    IN RANGE    0    ${length}
         ${value}=    Get From List    ${jsondata}    ${INDEX}
         @{result_values}=    Run Keyword And Ignore Error

@@ -40,7 +40,7 @@ Check CLI Tools Configured
 
 Common Test Suite Setup
     [Documentation]    Setup the test suite
-    Set Global Variable    ${KUBECTL_CONFIG}    export KUBECONFIG=%{KUBECONFIG}
+    Set Global Variable    ${KUBECTL_CONFIG}    %{KUBECONFIG}
     Set Global Variable    ${VOLTCTL_CONFIG}    %{VOLTCONFIG}
     ${k8s_node_ip}=    Evaluate    ${nodes}[0].get("ip")
     ${VGC_REST_IP}=    Get Environment Variable    VGC_REST_IP    ${k8s_node_ip}
@@ -78,7 +78,7 @@ Common Test Suite Setup
     #send sadis file to vgc
     ${sadis_file}=    Get Variable Value    ${sadis.file}
     Log To Console    \nSadis File:${sadis_file}
-    Run Keyword Unless    '${sadis_file}' is '${None}'    Send File To VGC    ${sadis_file}   # apps/
+    Run Keyword Unless    '${sadis_file}' == '${None}'    Send File To VGC    ${sadis_file}   # apps/
     Set Suite Variable    ${num_all_onus}
     Set Suite Variable    ${num_olts}
     Set Suite Variable    ${list_olts}

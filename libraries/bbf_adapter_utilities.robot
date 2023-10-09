@@ -503,7 +503,7 @@ Correct representation check VOLTHA-IETF
     [Arguments]      ${device_serial_number}    ${isONU}
     ${cmd}=     Catenate    voltctl -c ${VOLTCTL_CONFIG} device list | grep ${device_serial_number}
     ${rc}    ${rest}=    Run and Return Rc and Output    ${cmd}
-    Should Not Be Empty    ${rest}
+    Should Not Be Empty    ${rest}      Could not find device in VOLTHA
     Run Keyword If   ${isONU}
     ...     Correct Representation check ONU Voltha-IETF    ${rest}
     ...     ELSE

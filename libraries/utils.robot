@@ -48,11 +48,11 @@ Send File To Onos
     Log    ${File_Data}
     ${resp}=    Post Request    ONOS
     ...    /onos/v1/network/configuration/${section}    headers=${Headers}    data=${File_Data}
-    Should Be Equal As Strings    ${resp.status_code}    200
+    Should Be Equal As Strings    ${resp.status_code}    200    Error sending file to ONOS (${resp.status_code})
 
 Common Test Suite Setup
     [Documentation]    Setup the test suite
-    Set Global Variable    ${KUBECTL_CONFIG}    export KUBECONFIG=%{KUBECONFIG}
+    Set Global Variable    ${KUBECTL_CONFIG}    %{KUBECONFIG}
     Set Global Variable    ${VOLTCTL_CONFIG}    %{VOLTCONFIG}
     ${k8s_node_ip}=    Evaluate    ${nodes}[0].get("ip")
     ${ONOS_REST_IP}=    Get Environment Variable    ONOS_REST_IP    ${k8s_node_ip}
@@ -91,7 +91,7 @@ Common Test Suite Setup
     #send sadis file to onos
     ${sadis_file}=    Get Variable Value    ${sadis.file}
     Log To Console    \nSadis File:${sadis_file}
-    Run Keyword Unless    '${sadis_file}' is '${None}'    Send File To Onos    ${sadis_file}    apps/
+    Run Keyword Unless    '${sadis_file}' == '${None}'    Send File To Onos    ${sadis_file}    apps/
     Set Suite Variable    ${num_all_onus}
     Set Suite Variable    ${num_olts}
     Set Suite Variable    ${list_olts}
@@ -680,7 +680,7 @@ Sanity Test TT MCAST one ONU
     ...    cat /tmp/rg_output | grep KBytes
     ...    ${src['ip']}    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
     Log    ${output}
-    Should Contain    ${output}    KBytes
+    Should Contain    ${output}    KBytes   Could not find 'KBytes' in iperf output
 
     # Kill iperf  on BNG
     ${rg_output}=    Run Keyword and Continue On Failure    Login And Run Command On Remote System
@@ -835,14 +835,14 @@ Delete Device and Verify
     ${olt_device_id}=    Get Device ID From SN    ${olt_serial_number}
     ${rc}    ${output}=    Run and Return Rc and Output
     ...    voltctl -c ${VOLTCTL_CONFIG} device disable ${olt_device_id}
-    Should Be Equal As Integers    ${rc}    0
+    Should Be Equal As Integers    ${rc}    0       Could not disable device ${olt_device_id}
     Sleep    5s
     Wait Until Keyword Succeeds    ${timeout}    5s
     ...    Validate OLT Device    DISABLED    UNKNOWN    REACHABLE    ${olt_serial_number}
     ${rc}    ${output}=    Run and Return Rc and Output
     ...    voltctl -c ${VOLTCTL_CONFIG} device delete ${olt_device_id}
     Sleep    50s
-    Should Be Equal As Integers    ${rc}    0
+    Should Be Equal As Integers    ${rc}    0   Could not delete device ${olt_device_id}
     Wait Until Keyword Succeeds    ${timeout}    5s    Validate Device Removed    ${olt_device_id}
     Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    15s
     ...    Validate Deleted Device Cleanup In ONOS    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${olt_serial_number}

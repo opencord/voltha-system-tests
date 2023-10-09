@@ -50,7 +50,7 @@ Validate OLT Device in VGC
     ${resp}=    Get Request    VGC    devices
     Log     ${resp}
     ${jsondata}=    To Json   ${resp.content}
-    Should Not Be Empty    ${jsondata['devices']}
+    Should Not Be Empty    ${jsondata['devices']}       No devices data found in VGC
     ${length}=    Get Length    ${jsondata['devices']}
     @{serial_numbers}=    Create List
     ${matched}=    Set Variable    False
@@ -109,7 +109,7 @@ Get NNI Port in VGC
     [Documentation]    Retrieves NNI port for the OLT in VGC
     ${resp}=    Get Request    VGC    devices/${olt_of_id}/ports
     ${jsondata}=    To Json    ${resp.content}
-    Should Not Be Empty    ${jsondata['ports']}
+    Should Not Be Empty    ${jsondata['ports']}     No ports data found for OLT ${olt_of_id} in VGC
     ${length}=    Get Length    ${jsondata['ports']}
     @{ports}=    Create List
     ${matched}=    Set Variable    False
@@ -133,7 +133,7 @@ Get ONU Port in VGC
     ${onu_serial_number}=    Catenate    SEPARATOR=-    ${onu_serial_number}    ${onu_uni_id}
     ${resp}=    Get Request    VGC    devices/${olt_of_id}/ports
     ${jsondata}=    To Json    ${resp.content}
-    Should Not Be Empty    ${jsondata['ports']}
+    Should Not Be Empty    ${jsondata['ports']}     No ports data found for OLT ${olt_of_id} in VGC
     ${length}=    Get Length    ${jsondata['ports']}
     @{ports}=    Create List
     ${matched}=    Set Variable    False
@@ -156,7 +156,7 @@ Verify UNI Port Is Enabled
     ${onu_serial_number}=    Catenate    SEPARATOR=-    ${onu_name}    ${onu_uni_id}
     ${resp}=    Get Request    VGC    devices/ports
     ${jsondata}=    To Json    ${resp.content}
-    Should Not Be Empty    ${jsondata['ports']}
+    Should Not Be Empty    ${jsondata['ports']}     No devices ports data in VGC
     ${length}=    Get Length    ${jsondata['ports']}
     @{ports}=    Create List
     ${matched}=    Set Variable    False
@@ -179,7 +179,7 @@ Verify UNI Port Is Disabled
     ${onu_serial_number}=    Catenate    SEPARATOR=-    ${onu_name}    ${onu_uni_id}
     ${resp}=    Get Request    VGC    devices/ports
     ${jsondata}=    To Json    ${resp.content}
-    Should Not Be Empty    ${jsondata['ports']}
+    Should Not Be Empty    ${jsondata['ports']}     No devices ports data in VGC
     ${length}=    Get Length    ${jsondata['ports']}
     @{ports}=    Create List
     ${matched}=    Set Variable    False
@@ -208,7 +208,7 @@ Verify Subscriber Access Flows Added For ONU DT in VGC
     # Get all flows from VGC
     ${resp}=    Get Request    VGC   flows/${olt_of_id}
     ${jsondata}=    To Json    ${resp.content}
-    Should Not Be Empty    ${jsondata['flows']}
+    Should Not Be Empty    ${jsondata['flows']}     No flows data found for OLT ${olt_of_id} in VGC
     # Verify upstream table=0 flow
     ${length}=    Get Length    ${jsondata['flows']}
     @{flows}=    Create List
@@ -276,7 +276,7 @@ Verify Subscriber Access Flows Added for DT FTTB
     # Get all flows from VGC
     ${resp}=    Get Request    VGC   flows/${olt_of_id}
     ${jsondata}=    To Json    ${resp.content}
-    Should Not Be Empty    ${jsondata['flows']}
+    Should Not Be Empty    ${jsondata['flows']}     No ports data found for OLT ${olt_of_id} in VGC
     # Upstream
     # ONU
     ${length}=    Get Length    ${jsondata['flows']}
@@ -347,7 +347,7 @@ Verify DPU MGMT Flows Added for DT FTTB
     # Get all flows from VGC
     ${resp}=    Get Request    VGC   flows/${olt_of_id}
     ${jsondata}=    To Json    ${resp.content}
-    Should Not Be Empty    ${jsondata['flows']}
+    Should Not Be Empty    ${jsondata['flows']}     No ports data found for OLT ${olt_of_id} in VGC
     # Upstream
     # ONU
     ${length}=    Get Length    ${jsondata['flows']}
@@ -623,7 +623,7 @@ Verify Programmed Subscribers DT FTTB
         ${programmed_subscriber}=    Get Programmed Subscribers    ${olt_of_id}    ${onu_port}
         ...    ${service_name}
         Log    ${programmed_subscriber}
-        Should Not Be Empty    ${programmed_subscriber}
+        Should Not Be Empty    ${programmed_subscriber}     No programmed subscribers found for ${service_name}
     END
 
 Verify Meters in VGC Ietf
@@ -696,7 +696,7 @@ Get Bandwidth Profile Details Ietf Rest
     ${resp}=    Get Request    VGC    profiles/${bw_profile_id}
     Log     ${resp}
     ${jsondata}=    To Json    ${resp.content}
-    Should Not Be Empty    ${jsondata}
+    Should Not Be Empty    ${jsondata}      Could not find data for bandwidth profile ${bw_profile_id} in VGC
     ${matched}=    Set Variable    False
     ${bw_id}=    Get From Dictionary    ${jsondata}    id
     ${matched}=    Set Variable If    '${bw_id}' == '${bw_profile_id}'    True    False
@@ -795,7 +795,7 @@ Device Is Available In VGC
     [Documentation]    Validates the device exists and it has the expected availability in VGC
     ${resp}=    Get Request    VGC    devices
     ${jsondata}=    To Json   ${resp.content}
-    Should Not Be Empty    ${jsondata['devices']}
+    Should Not Be Empty    ${jsondata['devices']}   No devices data found in VGC
     ${length}=    Get Length    ${jsondata['devices']}
     ${matched}=    Set Variable    False
     FOR    ${INDEX}    IN RANGE    0    ${length}

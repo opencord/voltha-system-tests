@@ -460,7 +460,7 @@ Pods Are Ready By Label
     FOR    ${I}    IN RANGE    0    ${lenght}
         ${output}=    Run
         ...    kubectl -n ${namespace} get pods -l ${key}=${value} -o=jsonpath="{.items[${I}].status.containerStatuses[].ready}"
-        Should Not Contain    ${output}    false
+        Should Not Contain    ${output}    false    All pods with label ${key}=${value} are not ready
     END
 
 Wait For Pods Ready

@@ -113,7 +113,7 @@ Test Disable or Enable different device id which is not in the device list
     [Teardown]    Run Keywords    Collect Logs
     ...           AND             Stop Logging    DisableInvalidDevice
     ${rc}  ${output}=    Run and Return Rc and Output    voltctl -c ${VOLTCTL_CONFIG} device list -o json
-    Should Be Equal As Integers    ${rc}    0
+    Should Be Equal As Integers    ${rc}    0   Could not get device list
     ${jsondata}=    To Json    ${output}
     Log    ${jsondata}
     ${length}=    Get Length    ${jsondata}
@@ -127,7 +127,7 @@ Test Disable or Enable different device id which is not in the device list
     ${fakeDeviceId}    Replace String Using Regexp          ${device_id}    \\d\\d     xx    count=1
     Log     ${fakeDeviceId}
     #Ensure that the new id created is not in the device id list
-    List Should Not Contain Value    ${ids}    ${fakeDeviceId}
+    List Should Not Contain Value    ${ids}    ${fakeDeviceId}      Device list should not contain ${fakeDeviceID}, but it does
     #Disable fake device id
     ${rc}  ${output}=    Run and Return Rc and Output    voltctl -c ${VOLTCTL_CONFIG} device disable ${fakeDeviceId}
     Should Contain    ${output}     Error while disabling '${fakeDeviceId}'
@@ -263,10 +263,10 @@ Disable and Delete the logical device directly
         #Check whether logical devices are also created
         ${rc}    ${output}=    Run and Return Rc and Output
         ...    voltctl -c ${VOLTCTL_CONFIG} logicaldevice list
-        Should Be Equal As Integers    ${rc}    0
+        Should Be Equal As Integers    ${rc}    0   Could not get logical device list
         Log    ${output}
         ${logical_id}=    Get Logical Device ID From SN    ${olt_serial_number}
-        Should Not Be Empty    ${logical_id}
+        Should Not Be Empty    ${logical_id}    Could not get logical device ID in VOLTHA for OLT serial number ${olt_serial_number}
         ${rc}    ${output}=    Run and Return Rc and Output
         ...    voltctl -c ${VOLTCTL_CONFIG} logicaldevice disable ${logical_id}
         Should Not Be Equal As Integers    ${rc}    0
@@ -297,7 +297,7 @@ Check logical device creation and deletion
         ${olt_serial_number}=    Get From Dictionary    ${list_olts}[${I}]    sn
         #${olt_device_id}=    Get OLTDeviceID From OLT List    ${olt_serial_number}
         ${logical_id}=    Get Logical Device ID From SN    ${olt_serial_number}
-        Should Be Empty    ${logical_id}
+        Should Be Empty    ${logical_id}    Logical device ID is not empty
         Run Keyword If    ${has_dataplane}    Sleep    180s
         ...    ELSE   Sleep    10s
         ${olt_device_id}=    Run Keyword If    "${list_olts}[${I}][type]" == "${None}"
@@ -310,10 +310,10 @@ Check logical device creation and deletion
         Wait Until Keyword Succeeds    ${timeout}    5s    Validate OLT Device    ENABLED    ACTIVE    REACHABLE
         ...    ${olt_serial_number}
         ${logical_id}=    Get Logical Device ID From SN    ${olt_serial_number}
-        Should Not Be Empty    ${logical_id}
+        Should Not Be Empty    ${logical_id}    Could not get logical device ID in VOLTHA for OLT serial number ${olt_serial_number}
         ${rc}    ${output}=    Run and Return Rc and Output
         ...    voltctl -c ${VOLTCTL_CONFIG} logicaldevice list
-        Should Be Equal As Integers    ${rc}    0
+        Should Be Equal As Integers    ${rc}    0   Could not get logical device list
         Log    ${output}
         Should Contain     ${output}    ${olt_device_id}
         Set Suite Variable    ${logical_id}
