@@ -33,10 +33,13 @@ endif
 #       + requires sudo and potential exists for overwrite conflict.
 # -----------------------------------------------------------------------
 KAIL_PATH ?= $(if $(WORKSPACE),$(WORKSPACE)/bin,/usr/local/bin)
+# pin kail version to current latest usable releases (v0.17.0 did only publish
+# source code, so we can not download the binary in as tarball)
+KAIL_VERSION = 'v0.16.1'
 kail-cmd  ?= $(KAIL_PATH)/kail
 $(kail-cmd):
 	mkdir -p "$(dir $@)"
-	etc/godownloader.sh -b .
+	etc/godownloader.sh -b . "${KAIL_VERSION}"
 	rsync -v --checksum kail "$@"
 	$@ version
 	$(RM) kail
