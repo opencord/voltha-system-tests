@@ -33,6 +33,23 @@
       "message": "pipeline with patched code: https://jenkins.opencord.org/view/vip/job/periodic-voltha-test-bbsim/3065/",
       "revId": "e6038292268b2a057ceb7d6c76df7ca0aa797338",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "83e3292f_7d3a36d5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000982
+      },
+      "writtenOn": "2023-11-07T13:19:36Z",
+      "side": 1,
+      "message": "recheck",
+      "revId": "e6038292268b2a057ceb7d6c76df7ca0aa797338",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     }
   ]
 }
