@@ -430,7 +430,7 @@ Test disable ONUs and OLT then delete ONUs and OLT
         ...    REACHABLE    ${src['olt']}
         ${rc}    ${output}=    Run and Return Rc and Output
         ...    voltctl -c ${VOLTCTL_CONFIG} device disable ${onu_device_id}
-        Should Be Equal As Integers    ${rc}    0   Could not disable device ${olt_device_id}
+        Should Be Equal As Integers    ${rc}    0   Could not disable device ${onu_device_id}
         Wait Until Keyword Succeeds    ${timeout}    5s
         ...    Validate Device    DISABLED    UNKNOWN
         ...    REACHABLE    ${src['onu']}    onu=false
