@@ -415,7 +415,7 @@ Test disable ONUs and OLT then delete ONUs and OLT
     [Setup]    Start Logging    DisableDeleteONUandOLT
     [Teardown]    Run Keywords    Collect Logs
     ...           AND             Stop Logging    DisableDeleteONUandOLT
-    #${olt_device_id}=    Get Device ID From SN    ${olt_serial_number}
+    ${olt_device_id}=    Get Device ID From SN    ${olt_serial_number}
     @{onu_reason}=    Create List    tech-profile-config-downloaded-success    omci-flows-pushed
     FOR    ${I}    IN RANGE    0    ${num_all_onus}
         ${src}=    Set Variable    ${hosts.src[${I}]}
