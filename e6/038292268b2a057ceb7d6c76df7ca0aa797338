@@ -1,0 +1,7 @@
+Code-Review+2: Roger Luethi <roger@opennetworking.org>
+Verified+1: Jenkins Technical User <do-not-reply@opennetworking.org>
+Submitted-by: Roger Luethi <roger@opennetworking.org>
+Submitted-at: Tue, 07 Nov 2023 13:43:56 +0000
+Reviewed-on: https://gerrit.opencord.org/c/voltha-system-tests/+/34823
+Project: voltha-system-tests
+Branch: refs/heads/master
