@@ -158,6 +158,52 @@
             "serviceName" : "MC"
           } ]
         }, {
+          "id" : "SCOM00001c89-1",
+          "nasPortId" : "SCOM00001c89-1",
+          "uniTagList" : [ {
+            "uniTagMatch" : 35,
+            "ponCTag" : 802,
+            "ponSTag" : 222,
+            "usPonCTagPriority" : 0,
+            "usPonSTagPriority" : 0,
+            "dsPonCTagPriority" : 0,
+            "dsPonSTagPriority" : 0,
+            "technologyProfileId" : 64,
+            "downstreamBandwidthProfile" : "High-Speed-Internet",
+            "upstreamBandwidthProfile" : "TCONT_TYPE5_1Gbps_Peak_500Mbps_Assured_200Mbps_Fixed_User1_HSI_Upstream",
+            "isDhcpRequired" : "true",
+            "serviceName" : "HSIA"
+          }, {
+            "uniTagMatch" : 65,
+            "ponCTag" : 444,
+            "ponSTag" : 333,
+            "usPonCTagPriority" : 7,
+            "usPonSTagPriority" : 7,
+            "dsPonCTagPriority" : 7,
+            "dsPonSTagPriority" : 7,
+            "technologyProfileId" : 65,
+            "downstreamBandwidthProfile" : "VOIP",
+            "upstreamBandwidthProfile" : "TCONT_TYPE1_Fixed8.7Gbps",
+            "isDhcpRequired" : "true",
+            "configuredMacAddress" : "d4:f5:ef:42:87:dd",
+            "serviceName" : "VOIP"
+          }, {
+            "uniTagMatch" : 55,
+            "ponCTag" : 55,
+            "ponSTag" : 555,
+            "usPonCTagPriority" : 5,
+            "usPonSTagPriority" : 5,
+            "dsPonCTagPriority" : 5,
+            "dsPonSTagPriority" : 5,
+            "technologyProfileId" : 66,
+            "downstreamBandwidthProfile" : "High-Speed-Internet",
+            "upstreamBandwidthProfile" : "TCONT_TYPE3_700Mbps_Peak_500Mbps_Assured_ForVoD",
+            "configuredMacAddress" : "d4:f5:ef:42:87:dd",
+            "serviceName" : "VOD",
+            "isDhcpRequired" : "true",
+            "isIgmpRequired" : "false"
+          }]
+        }, {
           "id" : "EC1912001823",
           "hardwareIdentifier" : "80:a2:35:4d:2f:c0",
           "nasId": "EC1912001823",
