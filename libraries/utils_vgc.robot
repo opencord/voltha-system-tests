@@ -1016,6 +1016,7 @@ Create traffic with each pbit and capture at other end
         ...    timeout=30 seconds
         Execute Remote Command    sudo pkill mausezahn
         ...    ${src_ip}    ${src_user}    ${src_pass}    ${src_container_type}    ${src_container_name}
+        Should Be Equal As Integers    ${rc}    0
         Run Keyword If    "${tcpdump_filter}"=="tcp"
         ...    Should Match Regexp    ${output}    , p ${pbit},
     END
