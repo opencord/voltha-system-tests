@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2ec0a0ba_0cbac4a6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000948
+      },
+      "writtenOn": "2023-12-07T20:33:58Z",
+      "side": 1,
+      "message": "LGTM - Can add +1 after the copyright notice fix.\n\njson and yaml lint report no complaints about the edits\n\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\n\n% echo \u0027#\u0027 \u003e\u003e tests/data/berlin-community-pod-1-gpon-TT-multi-tcont-tests-input.yaml \n% make lint-yaml-modified\n    \n% sed -e \u00271 a \\  \"bogus\" : { },\u0027 tests/data/berlin-community-pod-1-gpon-sadis-TT.json\n% make lint-json-modified",
+      "revId": "a94c467b21a1836cf3c44bbf7b120bd60654284f",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "21c3bd8f_b1bb77f1",
+        "filename": "tests/data/berlin-community-pod-1-gpon-TT-multi-tcont-tests-input.yaml",
+        "patchSetId": 9
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1000948
+      },
+      "writtenOn": "2023-12-07T20:33:58Z",
+      "side": 1,
+      "message": "Copyright notice will need to be updated to span 2023:\n\nCopyright 2021-2023 Open Networking Foundation (ONF) and the ONF Contributors\n\nhttps://github.com/joey-onf/copyright/blob/origin/master/notice\nhttps://github.com/joey-onf/copyright",
+      "revId": "a94c467b21a1836cf3c44bbf7b120bd60654284f",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    }
+  ]
+}
