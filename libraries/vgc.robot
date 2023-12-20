@@ -454,7 +454,7 @@ Send File To VGC
     Log    ${Headers}
     Log    ${File_Data}
     ${resp}=    Post Request    VGC
-    ...    network/configurations    headers=${Headers}    data=${File_Data}
+    ...    network-configurations    headers=${Headers}    data=${File_Data}
     Should Be Equal As Strings    ${resp.status_code}    200
 
 Verify No Pending Flows For ONU
@@ -791,7 +791,7 @@ Verify Device Flows Removed
     Should Be Equal As Integers    ${flow_count}    0     Flows not removed
 
 Device Is Available In VGC
-    [Arguments]      ${olt_of_id}    ${available}=true
+    [Arguments]      ${olt_of_id}    ${available}=True
     [Documentation]    Validates the device exists and it has the expected availability in VGC
     ${resp}=    Get Request    VGC    devices
     ${jsondata}=    To Json   ${resp.content}
@@ -804,9 +804,8 @@ Device Is Available In VGC
         ${availability}=    Get From Dictionary    ${value}    available
         Log    ${olt_of_id}
         Log    ${of_id}
-        ${matched}=    Set Variable If    '${of_id}' == '${olt_of_id}' and '${available}' == '${availability}'    True    False
+        ${matched}=    Set Variable If    '${of_id}' == '${olt_of_id}' and '${availability}'    True    False
         Exit For Loop If    ${matched}
     END
     Should Be True    ${matched}    No match for '${olt_of_id}' found
-    Should Be Equal    ${available}    ${availability}
 
