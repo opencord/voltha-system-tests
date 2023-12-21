@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f96cdf33_2d5e0998",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000948
+      },
+      "writtenOn": "2023-12-21T20:27:09Z",
+      "side": 1,
+      "message": "LGTM -- assuming the vlan tags are valid given the jenkins job passed.",
+      "revId": "22226d29aa5ebdf1d1040d96660d2e32899b0a21",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    }
+  ]
+}
