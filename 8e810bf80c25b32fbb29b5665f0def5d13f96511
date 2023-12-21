@@ -18,6 +18,24 @@
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c9a603ff_2867f4d3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000948
+      },
+      "writtenOn": "2023-12-21T17:51:09Z",
+      "side": 1,
+      "message": "Opening a jira ticket to add lint-robot target support.",
+      "parentUuid": "6c465258_0f1df668",
+      "revId": "8e810bf80c25b32fbb29b5665f0def5d13f96511",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "68c4a8ee_6f8833fd",
