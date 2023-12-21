@@ -12,8 +12,8 @@
     "org.opencord.kafka" : { },
     "org.onosproject.core" : {
       "multicast" : {
-        "ingressVlan" : 550,
-        "egressVlan" : 550,
+        "ingressVlan" : 650,
+        "egressVlan" : 650,
         "egressInnerVlan" : 55
       }
     },
@@ -109,7 +109,7 @@
           "nasPortId" : "ZYWN8cac752c-1",
           "uniTagList" : [ {
             "uniTagMatch" : 35,
-            "ponCTag" : 801,
+            "ponCTag" : 901,
             "ponSTag" : 111,
             "usPonCTagPriority" : 0,
             "usPonSTagPriority" : 0,
@@ -123,7 +123,7 @@
           }, {
             "uniTagMatch" : 65,
             "ponCTag" : 444,
-            "ponSTag" : 333,
+            "ponSTag" : 433,
             "usPonCTagPriority" : 7,
             "usPonSTagPriority" : 7,
             "dsPonCTagPriority" : 7,
@@ -137,7 +137,7 @@
           }, {
             "uniTagMatch" : 55,
             "ponCTag" : 55,
-            "ponSTag" : 555,
+            "ponSTag" : 655,
             "usPonCTagPriority" : 5,
             "usPonSTagPriority" : 5,
             "dsPonCTagPriority" : 5,
@@ -151,7 +151,7 @@
             "isIgmpRequired" : "true"
           }, {
             "ponCTag" : 55,
-            "ponSTag" : 550,
+            "ponSTag" : 650,
             "dsPonCTagPriority" : 5,
             "dsPonSTagPriority" : 5,
             "technologyProfileId" : 66,
@@ -174,7 +174,7 @@
            "globalConnectPointMode":"true",
            "globalConnectPoint" : "of:0000000000000001/3",
            "sourceDeviceAndPort":"of:0000000000000001/3",
-           "outgoingIgmpVlanId":550,
+           "outgoingIgmpVlanId":650,
            "outgoingIgmpInnerVlanId":55,
            "outgoingIgmpWithV3":"true",
            "IgmpCos":5,
