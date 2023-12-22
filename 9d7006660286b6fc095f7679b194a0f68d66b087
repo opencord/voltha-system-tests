@@ -34,6 +34,23 @@
       "parentUuid": "2e87a6b1_38628e07",
       "revId": "9d7006660286b6fc095f7679b194a0f68d66b087",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7e8d649b_a6268f11",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000218
+      },
+      "writtenOn": "2023-12-22T06:49:06Z",
+      "side": 1,
+      "message": "needs version upgrade and Jira task.",
+      "revId": "9d7006660286b6fc095f7679b194a0f68d66b087",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     }
   ]
 }
