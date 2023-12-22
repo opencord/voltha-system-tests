@@ -545,3 +545,4 @@ Correct Representation check OLT Voltha-IETF
     Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
     ...    Validate Olt in BBF     ${admin_state}      ${oper_state}       ${connect_state}
     ...    ${serial_number}    ${id}
+# [EOF] - delta:force

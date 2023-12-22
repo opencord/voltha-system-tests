@@ -240,3 +240,4 @@ Set Log Endpoint
     Set To Dictionary    ${set_endpoint}    logging_protocol=${defined_protocol}
     ${response}=  Run Keyword  ${lib_instance}.Hw Management Service Set Logging Endpoint  ${set_endpoint}
     Check Dmi Status  ${response}  OK_STATUS
+# [EOF] - delta:force

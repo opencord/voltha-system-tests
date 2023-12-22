@@ -1178,3 +1178,4 @@ Get OMCI counter statistics dictionary
         Set To Dictionary    ${output_dict}    ${name}    ${value}
     END
     [return]    ${rc}    ${output_dict}
+# [EOF] - delta:force

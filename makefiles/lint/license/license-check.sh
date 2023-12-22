@@ -164,3 +164,4 @@ done < <(find . \
   -print0 )
 
 exit ${fail_licensecheck}
+# [EOF] - delta:force

@@ -547,3 +547,4 @@ Get Pod Image And App Version And Helm Chart By Label
     ${helm_chart}=    Run
     ...    kubectl -n ${namespace} get pods -l ${key}=${value} -o=jsonpath="{.items[*].metadata.labels.\\helm\\.sh\\/chart}"
     [Return]    ${image}    ${app_version}    ${helm_chart}
+# [EOF] - delta:force

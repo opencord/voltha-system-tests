@@ -225,3 +225,4 @@ Delete Device and Verify
     ...    ${olt_serial_number}
     Delete Device    ${olt_device_id}
     Wait Until Keyword Succeeds    ${timeout}    5s    Validate Device Removed    ${olt_device_id}
+# [EOF] - delta:force

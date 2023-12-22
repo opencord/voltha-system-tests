@@ -97,3 +97,4 @@ Setup Suite
     ...    ELSE       Perform Sanity Test
     Run Keyword If    ${logging}    Collect Logs
     Stop Logging Setup or Teardown    Setup-${SUITE NAME}
+# [EOF] - delta:force

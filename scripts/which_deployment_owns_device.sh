@@ -40,3 +40,4 @@ if [ -z "$BEST_DEPLOY" ]; then
     exit 1
 fi
 echo "$BEST_DEPLOY"
+# [EOF] - delta:force

@@ -119,3 +119,4 @@ Validate ETCD Size
     ...    kubectl -n ${namespace} get ${ETCD_resources} ${ETCD_name} -o jsonpath='{.status.readyReplicas}'
     Should Be Equal As Integers    ${rc}    0   Could not get ETC ready replica count
     Should Be Equal As Integers    ${size}    ${ETCD_cluster_size}    Unexpected number of ready replicas
+# [EOF] - delta:force

@@ -201,3 +201,4 @@ Validate Failed OMCI Communication All ONUs
         Remove Values From List    ${list_onu_device_id}    ${resource_id}
     END
     Should Be Empty    ${list_onu_device_id}    Missing MIB Audits for ONUs ${list_onu_device_id}!
+# [EOF] - delta:force

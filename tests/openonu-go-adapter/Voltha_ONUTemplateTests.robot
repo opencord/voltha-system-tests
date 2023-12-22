@@ -375,3 +375,4 @@ Bring Up ONU
     Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    1s
     ...    Validate Device    ${admin_state}    ${oper_status}    ${connect_status}
     ...    ${src['onu']}    onu=True    onu_reason=${onu_state}
+# [EOF] - delta:force

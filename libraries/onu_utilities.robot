@@ -856,3 +856,4 @@ Map State
     ...    '${state}'=='11' or '${state}'=='omci-flows-deleted'                     ${state11}
     ...    '${state}'=='12' or '${state}'=='tech-profile-config-delete-success'     ${state12}
     [Return]    ${admin_state}    ${oper_status}    ${connect_status}    ${onu_state_nb}    ${onu_state}
+# [EOF] - delta:force

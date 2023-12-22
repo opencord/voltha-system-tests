@@ -102,3 +102,4 @@ Check Dmi Status
     [Arguments]  ${result}  ${state}
     ${state_in_result}=  Get From Dictionary  ${result}  status
     Should Be Equal  ${state}  ${state_in_result}
+# [EOF] - delta:force

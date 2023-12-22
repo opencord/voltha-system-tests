@@ -165,3 +165,4 @@ done < <(find . \( -name ".git" -o -name '.venv' -o 'vst_venv' \) -prune -o -typ
   -print0 )
 
 exit ${fail_licensecheck}
+# [EOF] - delta:force

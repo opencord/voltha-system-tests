@@ -117,3 +117,4 @@ Setup Suite
     ${switch_type}=    Get Variable Value    ${web_power_switch.type}
     Run Keyword If  "${switch_type}"!=""    Set Global Variable    ${powerswitch_type}    ${switch_type}
 
+# [EOF] - delta:force

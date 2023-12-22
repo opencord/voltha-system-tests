@@ -486,3 +486,4 @@ Verify Header
     ${raisedTs}    Set Variable    ${header}[raisedTs]
     Should Be Newer Than Or Equal To    ${reportedTs}    ${LastEventPostTimestamp}
     Should Be Newer Than Or Equal To    ${raisedTs}    ${LastEventPostTimestamp}
+# [EOF] - delta:force

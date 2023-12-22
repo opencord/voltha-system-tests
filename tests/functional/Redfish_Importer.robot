@@ -88,3 +88,4 @@ Get IP AND PORT
     Set Suite Variable    ${IP1}    ${I1}
     ${P1}=    Fetch From Right    ${ADDR_LIST}[0]    :
     Set Suite Variable    ${PORT1}    ${P1}
+# [EOF] - delta:force

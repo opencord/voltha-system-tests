@@ -673,3 +673,4 @@ Validate Time Unit
     ${seconds}=    Get Substring    ${seconds}    0    -2
     ${seconds}=    Set Variable If    ${unit}    ${seconds}s    ${seconds}
     [return]    ${seconds}
+# [EOF] - delta:force

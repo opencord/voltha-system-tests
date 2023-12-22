@@ -135,3 +135,4 @@ Check Expected EPC Switch Outlet Status
     ...    echo '${resp.text}' | jq -r .outputs[${outlet_number - 1}].state
     Should Be Equal As Integers    0    ${rc}
     Should Be Equal As Strings  ${outlet_status}  ${status}
+# [EOF] - delta:force

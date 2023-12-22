@@ -475,3 +475,4 @@ Do Check Onu Model
     ${onu_vendor}=       Set Variable    BBSM
     ${onu_vendor_id}=    Set Variable    BBSM
     Validate ONU Model   ${list_onus}    ${onu_model}    ${onu_vendor}    ${onu_vendor_id}
+# [EOF] - delta:force
