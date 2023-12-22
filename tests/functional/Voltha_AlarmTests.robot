@@ -91,7 +91,7 @@ Test RaiseDyingGaspAlarm
     [Tags]    active
     ${header}    ${deviceEvent}    Raise Onu Alarm And Get Event    DYING_GASP
     ...     ${onu_sn}    ONU_DYING_GASP_RAISE_EVENT
-    Verify Header   ${header}    Voltha.openolt.ONU_DYING\.(\\d+)    ONU
+    Verify Header   ${header}    Voltha.openolt.ONU_DYING_GASP\.(\\d+)    ONU
     Should Be Equal    ${deviceEvent}[deviceEventName]    ONU_DYING_GASP_RAISE_EVENT
     Should Be Equal    ${deviceEvent}[resourceId]    ${parent_id}
 
