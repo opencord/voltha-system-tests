@@ -72,6 +72,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "70562555_3db8fcf2",
+        "filename": "Makefile",
+        "patchSetId": 3
+      },
+      "lineNbr": 502,
+      "author": {
+        "id": 1000985
+      },
+      "writtenOn": "2023-12-26T13:23:38Z",
+      "side": 1,
+      "message": "Now Don\u0027t have solution to make  Variable names can be derived from tests or targets and configs assigned to them. I will work on this and will take it as separate task.",
+      "parentUuid": "68c4a8ee_6f8833fd",
+      "revId": "8e810bf80c25b32fbb29b5665f0def5d13f96511",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "3dbc87f9_f813a75c",
         "filename": "libraries/vgc.robot",
         "patchSetId": 3
@@ -83,6 +101,24 @@
       "writtenOn": "2023-12-21T17:39:56Z",
       "side": 1,
       "message": "Commented legacy test can be removed since we search and test for first available.",
+      "revId": "8e810bf80c25b32fbb29b5665f0def5d13f96511",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "365cb835_ba07a3ef",
+        "filename": "libraries/vgc.robot",
+        "patchSetId": 3
+      },
+      "lineNbr": 811,
+      "author": {
+        "id": 1000985
+      },
+      "writtenOn": "2023-12-26T13:23:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3dbc87f9_f813a75c",
       "revId": "8e810bf80c25b32fbb29b5665f0def5d13f96511",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     },
@@ -106,6 +142,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "85ad19e1_bee8661b",
+        "filename": "tests/dt-workflow/Voltha_DT_FailureScenarios_VGC.robot",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1000985
+      },
+      "writtenOn": "2023-12-26T13:23:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2759f55a_0ade5dfd",
+      "revId": "8e810bf80c25b32fbb29b5665f0def5d13f96511",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b54d12a1_1c043278",
         "filename": "tests/dt-workflow/Voltha_DT_FailureScenarios_VGC.robot",
         "patchSetId": 3
@@ -117,6 +171,24 @@
       "writtenOn": "2023-12-21T17:39:56Z",
       "side": 1,
       "message": "If ~/pod-configs translates into /home/jenkins/pod-configs that may cause problems.  Multiple jenkins jobs running on the server share jenkins home directory -- so ~/pod-config would force all jobs to use the same config files.",
+      "revId": "8e810bf80c25b32fbb29b5665f0def5d13f96511",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "feb81ee4_ea432226",
+        "filename": "tests/dt-workflow/Voltha_DT_FailureScenarios_VGC.robot",
+        "patchSetId": 3
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1000985
+      },
+      "writtenOn": "2023-12-26T13:23:38Z",
+      "side": 1,
+      "message": "This are dummy variables so removed.",
+      "parentUuid": "b54d12a1_1c043278",
       "revId": "8e810bf80c25b32fbb29b5665f0def5d13f96511",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     },
@@ -140,6 +212,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "25e4179a_1c1467be",
+        "filename": "tests/dt-workflow/Voltha_DT_FailureScenarios_VGC.robot",
+        "patchSetId": 3
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1000985
+      },
+      "writtenOn": "2023-12-26T13:23:38Z",
+      "side": 1,
+      "message": "his are dummy variables so removed.",
+      "parentUuid": "6093c402_95a53a2a",
+      "revId": "8e810bf80c25b32fbb29b5665f0def5d13f96511",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f01be871_690d8e9d",
         "filename": "tests/dt-workflow/Voltha_DT_FailureScenarios_VGC.robot",
         "patchSetId": 3
@@ -151,6 +241,24 @@
       "writtenOn": "2023-12-21T17:39:56Z",
       "side": 1,
       "message": "Minor nit:\nAligning some of the values and documentation within the source file would help make content easier to follow.\n\n[Tags]      Restart-OpenOnu-Dt\n[Setup]     Start Logging\n[Teardown]  Run Keywords\n\nWonder if someone may have written an auto-formatter for robot source to standardize syntax and indentation.",
+      "revId": "8e810bf80c25b32fbb29b5665f0def5d13f96511",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1dfc0edc_3ca50552",
+        "filename": "tests/dt-workflow/Voltha_DT_FailureScenarios_VGC.robot",
+        "patchSetId": 3
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1000985
+      },
+      "writtenOn": "2023-12-26T13:23:38Z",
+      "side": 1,
+      "message": "Robot coding same like above. Alignment is correct. After every keyword need to provide 4spaces or TAB.",
+      "parentUuid": "f01be871_690d8e9d",
       "revId": "8e810bf80c25b32fbb29b5665f0def5d13f96511",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     },
@@ -174,6 +282,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "287d1a3c_c19f4a99",
+        "filename": "tests/dt-workflow/Voltha_DT_FailureScenarios_VGC.robot",
+        "patchSetId": 3
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1000985
+      },
+      "writtenOn": "2023-12-26T13:23:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "16b98f2f_122e6b9c",
+      "revId": "8e810bf80c25b32fbb29b5665f0def5d13f96511",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ab27a51e_d3d5a547",
         "filename": "tests/dt-workflow/Voltha_DT_FailureScenarios_VGC.robot",
         "patchSetId": 3
@@ -185,6 +311,24 @@
       "writtenOn": "2023-12-21T17:39:56Z",
       "side": 1,
       "message": "Hardcoded sleep calls are problematic, could some form of a  polling loop be used here instead ?\n\nFixed sleep times contribute to two issues:\n  - First, they often mask subtle or larger problems.\n  - Second a fixed sleep interval will force jenkins to sit in an idle loop.  An individual 60-sec sleep is nothing major but when sleep calls are accumulated across multiple jobs running daily over one year they can easily prevent jenkins from doing useful work for a period of days or weeks.",
+      "revId": "8e810bf80c25b32fbb29b5665f0def5d13f96511",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ae302460_000a27f8",
+        "filename": "tests/dt-workflow/Voltha_DT_FailureScenarios_VGC.robot",
+        "patchSetId": 3
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1000985
+      },
+      "writtenOn": "2023-12-26T13:23:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ab27a51e_d3d5a547",
       "revId": "8e810bf80c25b32fbb29b5665f0def5d13f96511",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     },
@@ -208,6 +352,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c45f50eb_fe7e17ba",
+        "filename": "tests/dt-workflow/Voltha_DT_FailureScenarios_VGC.robot",
+        "patchSetId": 3
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1000985
+      },
+      "writtenOn": "2023-12-26T13:23:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e4f02da7_f14668fc",
+      "revId": "8e810bf80c25b32fbb29b5665f0def5d13f96511",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d4edd4a3_f4a177d0",
         "filename": "tests/dt-workflow/Voltha_DT_FailureScenarios_VGC.robot",
         "patchSetId": 3
@@ -219,6 +381,24 @@
       "writtenOn": "2023-12-21T17:39:56Z",
       "side": 1,
       "message": "Sleep calls: sleep(60) + sleep(60) + sleep(10) \u003d\u003e 2min 10sec of idle time.",
+      "revId": "8e810bf80c25b32fbb29b5665f0def5d13f96511",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e760da5d_4571cb54",
+        "filename": "tests/dt-workflow/Voltha_DT_FailureScenarios_VGC.robot",
+        "patchSetId": 3
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1000985
+      },
+      "writtenOn": "2023-12-26T13:23:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d4edd4a3_f4a177d0",
       "revId": "8e810bf80c25b32fbb29b5665f0def5d13f96511",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     },
@@ -242,6 +422,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a56ab798_9b9161ee",
+        "filename": "tests/dt-workflow/Voltha_DT_FailureScenarios_VGC.robot",
+        "patchSetId": 3
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 1000985
+      },
+      "writtenOn": "2023-12-26T13:23:38Z",
+      "side": 1,
+      "message": "Robot coding same like above. Alignment is correct. After every keyword need to provide 4spaces or TAB.",
+      "parentUuid": "eacb7e38_29bdc755",
+      "revId": "8e810bf80c25b32fbb29b5665f0def5d13f96511",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a44ada8a_fc02d622",
         "filename": "tests/dt-workflow/Voltha_DT_FailureScenarios_VGC.robot",
         "patchSetId": 3
@@ -253,6 +451,24 @@
       "writtenOn": "2023-12-21T17:39:56Z",
       "side": 1,
       "message": "3 x sleep(60) + sleep(10) \u003d\u003e 3min 10 sec of idle system time.",
+      "revId": "8e810bf80c25b32fbb29b5665f0def5d13f96511",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a004b638_dc9d8412",
+        "filename": "tests/dt-workflow/Voltha_DT_FailureScenarios_VGC.robot",
+        "patchSetId": 3
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 1000985
+      },
+      "writtenOn": "2023-12-26T13:23:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a44ada8a_fc02d622",
       "revId": "8e810bf80c25b32fbb29b5665f0def5d13f96511",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     },
@@ -276,6 +492,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "77832191_101b23c8",
+        "filename": "tests/dt-workflow/Voltha_DT_FailureScenarios_VGC.robot",
+        "patchSetId": 3
+      },
+      "lineNbr": 351,
+      "author": {
+        "id": 1000985
+      },
+      "writtenOn": "2023-12-26T13:23:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "378a9e5d_45a4a69a",
+      "revId": "8e810bf80c25b32fbb29b5665f0def5d13f96511",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "2f039e30_c0f8f413",
         "filename": "tests/dt-workflow/Voltha_DT_FailureScenarios_VGC.robot",
         "patchSetId": 3
@@ -287,6 +521,24 @@
       "writtenOn": "2023-12-21T17:39:56Z",
       "side": 1,
       "message": "Would it be possible to split this robot test suite into individual robot files by scenario name ? \n\nThen morph Voltha_DT_FailureScenarios*.robot into a thin layer that performs general setup/teardown followed by including each test scendario to run (via Library, Resources, etc statments).\n\nWe have a 500 line test suite that is packed with statements.  If robot scenarios could be made smaller and a bit more modular it would help make doing code reviews easier.\n\nAlso since this is an initial suite checkin I have not kept an eye out for refactoring opportunities.  Suspect some of the iteration loops and logic could migrate into a module which would shrink code footprint in each scenario.\n\nhttps://robocorp.com/docs/languages-and-frameworks/robot-framework/cheat-sheet",
+      "revId": "8e810bf80c25b32fbb29b5665f0def5d13f96511",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9f2ccf65_e577f817",
+        "filename": "tests/dt-workflow/Voltha_DT_FailureScenarios_VGC.robot",
+        "patchSetId": 3
+      },
+      "lineNbr": 377,
+      "author": {
+        "id": 1000985
+      },
+      "writtenOn": "2023-12-26T13:23:38Z",
+      "side": 1,
+      "message": "Robot file is little large but we can\u0027t split because all tests which covered under same feature or (same test suite).",
+      "parentUuid": "2f039e30_c0f8f413",
       "revId": "8e810bf80c25b32fbb29b5665f0def5d13f96511",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     }
