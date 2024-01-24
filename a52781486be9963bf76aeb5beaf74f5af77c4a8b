@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fe6b0f6a_e9c1e815",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000948
+      },
+      "writtenOn": "2024-01-24T14:54:59Z",
+      "side": 1,
+      "message": "1+ verify - jenkins\n\nBase build #1 for release:\n1) No behavioral changes simply adding latest version of repo:onf-make :: virtualenv.mk.\n2) Also copy in a subset of makefiles/ to support local linting targets.\n3) Comments, delimiters, etc added in Makefile for readability.\n",
+      "revId": "a52781486be9963bf76aeb5beaf74f5af77c4a8b",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    }
+  ]
+}
