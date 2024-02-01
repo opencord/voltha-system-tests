@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0e7d77be_66e73717",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000948
+      },
+      "writtenOn": "2024-02-01T00:37:49Z",
+      "side": 1,
+      "message": "recheck\n\nwith voltha/voltha-2.12/bbsim-tests.groovy \u003d\u003e voltah/bbsim-tests.groovy path fix.",
+      "revId": "3d054407b560f850137e93bb4a06c5ff1a03f918",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    }
+  ]
+}
