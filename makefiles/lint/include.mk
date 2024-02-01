@@ -35,6 +35,7 @@ include $(ONF_MAKEDIR)/lint/license/include.mk
 include $(ONF_MAKEDIR)/lint/makefile.mk
 # include $(ONF_MAKEDIR)/lint/markdown/include.mk
 include $(ONF_MAKEDIR)/lint/python/include.mk
+include $(ONF_MAKEDIR)/lint/robot/include.mk
 include $(ONF_MAKEDIR)/lint/shellcheck/include.mk
 include $(ONF_MAKEDIR)/lint/tox/include.mk
 include $(ONF_MAKEDIR)/lint/yaml/include.mk
