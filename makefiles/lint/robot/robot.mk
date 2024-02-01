@@ -2,7 +2,7 @@
 # -----------------------------------------------------------------------
 # Copyright 2017-2024 Open Networking Foundation (ONF) and the ONF Contributors
 #
-# Licensed under the Apache License, Version 2.0 (the "License")
+# Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
 #
@@ -20,58 +20,64 @@ $(if $(DEBUG),$(warning ENTER))
 ##-------------------##
 ##---]  GLOBALS  [---##
 ##-------------------##
-.PHONY: lint-yaml lint-yaml-all lint-yaml-modified
+.PHONY: lint-robot lint-robot-all lint-robot-mod lint-robot-src
 
-have-yaml-files := $(if $(strip $(YAML_FILES)),true)
-YAML_FILES      ?= $(error YAML_FILES= is required)
+have-robot-files := $(if $(strip $(ROBOT_FILES)),true)
+ROBOT_FILES      ?= $(error ROBOT_FILES= is required)
 
-YAMLLINT = $(activate) && yamllint
-yamllint-args += --strict
-
-## -----------------------------------------------------------------------
-## Intent: Use the yaml command to perform syntax checking.
-## -----------------------------------------------------------------------
-ifndef NO-LINT-YAML
-  lint-yaml-mode := $(if $(have-yaml-files),modified,all)
-  lint      : lint-yaml
-  lint-yaml : lint-yaml-$(lint-yaml-mode)
-endif# NO-LINT-YAML
+robot-check      = $(activate) && rflint
+# robot-check-args += --verbose
 
 ## -----------------------------------------------------------------------
-## Intent: exhaustive yaml syntax checking
+## Intent: Use the robot command to perform syntax checking.
 ## -----------------------------------------------------------------------
-lint-yaml-all: lint-yaml-cmd-version
+ifndef NO-LINT-ROBOT
+  lint-robot-mode := $(if $(have-robot-files),mod,all)
+  lint       : lint-robot
+  lint-robot : lint-robot-$(lint-robot-mode)
+endif# NO-LINT-ROBOT
+
+## -----------------------------------------------------------------------
+## Intent: exhaustive robot syntax checking
+## -----------------------------------------------------------------------
+lint-robot-all:
 
 	$(call banner-enter,Target $@)
-	$(HIDE)$(MAKE) --no-print-directory lint-yaml-install
-	$(HIDE)$(activate) && $(call gen-yaml-find-cmd) \
-	    | $(env-clean) $(xargs-cmd) -I'{}' \
-		bash -c "$(YAMLLINT) $(yamllint-args) {}"
+
+	$(HIDE)$(MAKE) --no-print-directory lint-robot-version
+	@find . -iname '*.robot' -print0 \
+        | $(xargs-n1) bash -c "$(robot-check) $(robot-check-args)"
+	@echo "DONE"
+
 	$(call banner-leave,Target $@)
 
 ## -----------------------------------------------------------------------
-## Intent: check deps for format and python3 cleanliness
-## Note:
-##   yaml --py3k option no longer supported
+## Intent: On-demand lint checking
 ## -----------------------------------------------------------------------
-lint-yaml-modified: lint-yaml-cmd-version
-
-	$(call banner-enter,Target $@)
-	$(HIDE)$(MAKE) --no-print-directory lint-yaml-install
-	$(YAMLLINT) $(yamllint-args) $(YAML_FILES)
-	$(call banner-leave,Target $@)
-
-## -----------------------------------------------------------------------
-## Intent: Display command usage
-## -----------------------------------------------------------------------
-help::
-	@echo '  lint-yaml          Syntax check python using the yaml command'
-  ifdef VERBOSE
-	@echo '  $(MAKE) lint-yaml YAML_FILES=...'
-	@echo '  lint-yaml-all       yaml checking: exhaustive'
-	@echo '  lint-yaml-modified  yaml checking: only locally modified'
-	@echo '  lint-yaml-install   Install the pylint command'
+lint-robot-src:
+  ifndef ROBOT_SRC
+	@echo "ERROR: Usage: $(MAKE) $@ ROBOT_SRC="
+	@exit 1
   endif
+
+	$(call banner-enter,Target $@)
+
+	$(HIDE)$(MAKE) --no-print-directory lint-robot-version
+	$(HIDE) $(robot-check-args) $(robot-check-args) $(ROBOT_SRC)
+
+	$(call banner-leave,Target $@)
+
+## -----------------------------------------------------------------------
+## Intent: Perform lint check on locally modified sources
+## -----------------------------------------------------------------------
+lint-robot-bygit = $(shell git ls-files -m -o | grep -i '\.robot')
+lint-robot-mod:
+	$(call banner-enter,Target $@)
+
+	$(HIDE)$(MAKE) --no-print-directory lint-robot-version
+	$(foreach fyl,$(lint-robot-bygit),$(robot-check) $(robot-check-args) $(fyl))
+
+	$(call banner-leave,Target $@)
 
 $(if $(DEBUG),$(warning LEAVE))
 

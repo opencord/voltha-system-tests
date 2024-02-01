@@ -1,6 +1,6 @@
 # -*- makefile -*-
 # -----------------------------------------------------------------------
-# Copyright 2022-2024 Open Networking Foundation (ONF) and the ONF Contributors
+# Copyright 2022-2023 Open Networking Foundation (ONF) and the ONF Contributors
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -14,51 +14,39 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 # -----------------------------------------------------------------------
-# Intent: Helper makefile target used to setup for a release
-# -----------------------------------------------------------------------
 
 $(if $(DEBUG),$(warning ENTER))
 
-##-------------------##
-##---]  GLOBALS  [---##
-##-------------------##
-jjb-gen-dir := build
-
-##-------------------##
-##---]  TARGETS  [---##
-##-------------------##
-all: help
-
 ## -----------------------------------------------------------------------
-## Intent: Generate pipeline jobs
+## Intent: Display topic help
 ## -----------------------------------------------------------------------
-.PHONY: jjb-gen
-
-jjb-gen-log := $(jjb-gen-dir)/jjb-gen.log
-jjb-gen:
-	$(call banner-enter,Target $@)
-	@mkdir -p $(jjb-gen-dir)
-	@touch "$(jjb-gen-dir)/.sentinel"
-	( $(activate) \
-	   && jenkins-jobs test $(PWD)/jjb -o $(jjb-gen-dir) 3>&1 2>&1 \
-	) | tee "$(jjb-gen-log)"
-
-  ifdef LOGS
-	-@less "$(jjb-gen-log)"
-  endif
-
+help-summary ::
+	@printf '  %-30s %s\n' 'lint-robot'\
+      'Style check ReStructed Text (rst) documents'
+	@printf '  %-30s %s\n' 'lint-robot-help'\
+	  'Show verbose target help'
   ifdef VERBOSE
-	@echo
-	@echo "** Display generated pipelines"
-	find "$(jjb-gen-dir)" -newer "$(jjb-gen-dir)/.sentinel" -ls
+	@$(MAKE) --no-print-directory lint-robot-help
   endif
 
-	$(call banner-leave,Target $@)
+## -----------------------------------------------------------------------
+## Intent: Display extended topic help
+## -----------------------------------------------------------------------
+.PHONY: lint-robot-help
+lint-robot-help ::
+	@printf '  %-30s %s\n' 'lint-robot-all'\
+	  'Robot check available sources'
+	@printf '  %-30s %s\n' 'lint-robot-mod'\
+	  'Robot check locally modified files (git status)'
+	@printf '  %-30s %s\n' 'lint-robot-src'\
+      'Robot check a list of files passed in'
 
-## -----------------------------------------------------------------------
-## -----------------------------------------------------------------------
-sterile ::
-	$(RM) -r $(jjb-gen-dir)
+	@printf '  %-30s %s\n' 'lint-robot-install'\
+	  'Install robot lint command rflint'
+
+	@printf '  %-30s %s\n' 'rflint-cmd-help'\
+      'Display rflint command usage'
+
 
 $(if $(DEBUG),$(warning LEAVE))
 
