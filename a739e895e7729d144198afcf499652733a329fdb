@@ -68,6 +68,23 @@
       "message": "Can you create a jira ticket with details for this patch and update the commit message ?\nA ticket is required with all patch submissions:\n\nhttps://docs.voltha.org/master/overview/contributing/jira_tickets.html\nhttps://jira.opencord.org",
       "revId": "a739e895e7729d144198afcf499652733a329fdb",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "64052263_dc88b0fe",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000948
+      },
+      "writtenOn": "2024-04-26T17:51:23Z",
+      "side": 1,
+      "message": "One request and an observation:\n\nThe commit message notes \u0027Add rf-tidy pre-commit hook\u0027 but I also see sources being modified with the patch so the commit message does not cover all the patch functionality going in.  Feel free to include a list of files in the commit message like patch 35225 to document sets of files.\n\n    https://gerrit.opencord.org/c/bbsim/+/35225\n\nCould you split this patch into a few patches that contain a smaller set of files (easier to review) ?\nThumbs up on adding the pre-commit hook patch!  Edits seem to mainly contain lint cleanups, whitespace edits, reformatting -- but there is enough file cleanup included that reviewing for actual code changes can be difficult in one setting.\n\nSubmit .pre-commit to the repository as a standalone patch.\nThen submit the remaining batch of files as patches that contain 5 or 6 files.\nSmall batches like this can be reviewed quickly, feel free to include me on the reviewer list.\n",
+      "revId": "a739e895e7729d144198afcf499652733a329fdb",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     }
   ]
 }
