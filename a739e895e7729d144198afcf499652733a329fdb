@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "d82ec779_8d49e5d0",
+        "filename": ".pre-commit-config.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1000948
+      },
+      "writtenOn": "2024-04-26T14:41:56Z",
+      "side": 1,
+      "message": "Hi,\n\nCan you also pull additional linting hooks and directory exclusions in from this repo:\n\nhttps://gerrit.opencord.org/plugins/gitiles/onf-make/+/refs/heads/master/.pre-commit-config.yaml\n\nThe robotframework hook will also need to be added to the common config being deployed to several repos.",
+      "revId": "a739e895e7729d144198afcf499652733a329fdb",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "ddd8940e_995acfde",
@@ -14,6 +31,23 @@
       "writtenOn": "2024-04-26T14:35:56Z",
       "side": 1,
       "message": "joey",
+      "revId": "a739e895e7729d144198afcf499652733a329fdb",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "094839ab_52cc39e3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000948
+      },
+      "writtenOn": "2024-04-26T14:41:56Z",
+      "side": 1,
+      "message": "Can you create a jira ticket with details for this patch and update the commit message ?\nA ticket is required with all patch submissions:\n\nhttps://docs.voltha.org/master/overview/contributing/jira_tickets.html\nhttps://jira.opencord.org",
       "revId": "a739e895e7729d144198afcf499652733a329fdb",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     }
