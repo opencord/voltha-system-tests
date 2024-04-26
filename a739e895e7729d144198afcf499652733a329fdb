@@ -18,6 +18,24 @@
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "1247df19_6e25e7ae",
+        "filename": ".pre-commit-config.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1000948
+      },
+      "writtenOn": "2024-04-26T15:11:25Z",
+      "side": 1,
+      "message": "Oh I just noticed guykisel(s) hook has been deprecated.\nCan you update your patch to use the MarketSquare version\n\n\nhttps://github.com/guykisel/pre-commit-robotframework-tidy\n\nThis repo is obsolete, tidy now has its own hook configured at https://github.com/MarketSquare/robotframework-tidy/blob/main/.pre-commit-hooks.yaml\n\nhttps://gerrit.opencord.org/plugins/gitiles/onf-make/+/refs/heads/master/.pre-commit-config.yaml#116\n\n## -----------------------------------------------------------------------\n## [SOURCE] Testing\n## -----------------------------------------------------------------------\n  - repo: https://github.com/MarketSquare/robotframework-tidy\n    rev: 4.11.0\n    hooks:\n      - id: robotidy",
+      "parentUuid": "d82ec779_8d49e5d0",
+      "revId": "a739e895e7729d144198afcf499652733a329fdb",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "ddd8940e_995acfde",
