@@ -52,7 +52,7 @@ $(venv-activate-script):
 	$(activate) && python -m pip install --upgrade pip
 	$(activate) && pip install --upgrade setuptools
 	$(activate) && [[ -r requirements.txt ]] \
-	    && { python -m pip install -r requirements.txt; } \
+	    && { python --no-cache-dir -m pip install -r requirements.txt; } \
 	    || { /bin/true; }
 
 	$(activate) && python --version
