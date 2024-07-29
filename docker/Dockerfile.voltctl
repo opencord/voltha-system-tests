@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-FROM busybox:1.31.1-glibc
+FROM busybox:stable-glibc
 
 RUN mkdir -p /usr/bin
 
@@ -29,7 +29,7 @@ RUN mkdir -p /usr/bin
 
 # https://github.com/opencord/voltctl/releases/download/untagged-cd611c39178f25b95a87/voltctl-1.9.1-linux-amd64
 
-RUN wget -q\
+RUN wget -q --no-check-certificate\
   -O /usr/bin/voltctl.tmp\
   https://github.com/opencord/voltctl/releases/download/v1.8.45/voltctl-1.8.45-linux-amd64
 
