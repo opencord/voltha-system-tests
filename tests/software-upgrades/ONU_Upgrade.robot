@@ -822,7 +822,7 @@ Get ONU SW Upgrade Duration
     ${timeCurrent} =    Get Current Date
     ${timeTotalMs} =    Subtract Date From Date    ${timeCurrent}    ${timeStart}    result_format=number
     Remove Adapter Image    ${image_version}    ${onu_device_id}
-    [Return]    ${timeTotalMs}
+    RETURN    ${timeTotalMs}
 
 Do ONU Upgrade Image Download Simultaneously
     [Documentation]    This keyword performs the ONU Upgrade Image Download Simultaneously on all ONUs test

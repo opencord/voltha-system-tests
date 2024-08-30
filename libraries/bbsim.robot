@@ -98,7 +98,7 @@ Get ONUs List
     ...    bbsimctl onu list | awk 'NR>1 {print $3}'
     @{onuList}=    Split To Lines    ${onus}
     Should Be Equal as Integers    ${rc}    0
-    [Return]    ${onuList}
+    RETURN    ${onuList}
 
 Restart Grpc Server
     [Documentation]  Restart Grpc Server on a BBSim OLT
@@ -123,7 +123,7 @@ Get Images Count
     Should Be Equal as Integers    ${rc}    0    Could not access images-count of bbsim
     ${value}=    Fetch From Right    ${output}    :
     ${count}=    Fetch From Left     ${value}    }
-    [Return]    ${count}
+    RETURN    ${count}
 
 Restart And Check BBSIM
     [Documentation]    This keyword restarts bbsim and waits for it to come up again
@@ -145,7 +145,7 @@ Get BBSIM Svc and Webserver Port
     ${bbsim_svc}    ${webserver_port}=    Split String    ${SvcAndPort}    :    1
     ${svc_return}    Set Variable If    '${bbsim_svc}'!='${EMPTY}'    ${bbsim_svc}    ${BBSIM_INSTANCE}
     ${port_return}   Set Variable If    '${webserver_port}'!='${EMPTY}'    ${webserver_port}    ${BBSIM_WEBSERVER_PORT}
-    [Return]    ${svc_return}    ${port_return}
+    RETURN    ${svc_return}    ${port_return}
 
 # keywords regarding OMCC message version
 
@@ -175,7 +175,7 @@ Get BBSIM OMCC Version
     END
     Should Be True    ${match}    Unable to read OMCC Version
     ${is_extended}=    Is OMCC Extended Version    ${omcc_version}
-    [return]    ${omcc_version}    ${is_extended}
+    RETURN    ${omcc_version}    ${is_extended}
 
 Is OMCC Extended Version
     [Documentation]    Checks passed value and return False (baseline) or True (extended)
@@ -185,7 +185,7 @@ Is OMCC Extended Version
     ${is_extended}=    Set Variable If    '${omcc_version}'=='150'    True
     ...      '${omcc_version}'>='176' and '${omcc_version}'<='180'    True
     ...                                                               False
-    [return]    ${is_extended}
+    RETURN    ${is_extended}
 
 # Keywords regarding restart BBSIM by Helm Charts
 

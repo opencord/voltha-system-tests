@@ -62,7 +62,7 @@ Validate OLT Device in VGC
         Exit For Loop If    ${matched}
     END
     Should Be True    ${matched}    No match for ${serial_number} found
-    [Return]    ${of_id}
+    RETURN    ${of_id}
 
 
 
@@ -123,7 +123,7 @@ Get NNI Port in VGC
         Exit For Loop If    ${matched}
     END
     Should Be True    ${matched}    No match for NNI found for ${olt_of_id}
-    [Return]    ${nni_port}
+    RETURN    ${nni_port}
 
 
 
@@ -146,7 +146,7 @@ Get ONU Port in VGC
         Exit For Loop If    ${matched}
     END
     Should Be True    ${matched}    No match for ${onu_serial_number} found
-    [Return]    ${onu_port}
+    RETURN    ${onu_port}
 
 
 
@@ -477,7 +477,7 @@ Get Pending Flow Count
     ${resp}=    Get Request    VGC   flows/pending
     ${jsondata}=    To Json    ${resp.content}
     ${length}=    Get Length    ${jsondata['flows']}
-    [Return]    ${length}
+    RETURN    ${length}
 
 Get In Port From Flow
     [Documentation]    Fetches the port Record for IN_PORT
@@ -492,7 +492,7 @@ Get In Port From Flow
            ${matched}=    Set Variable If    '${type}' == 'IN_PORT'    True    False
            Exit For Loop If    ${matched}
     END
-    [Return]    ${port}
+    RETURN    ${port}
 
 
 
@@ -510,7 +510,7 @@ Get Vlan VId From Flow
            ${matched}=    Set Variable If    '${type}' == 'VLAN_VID'    True    False
            Exit For Loop If    ${matched}
     END
-    [Return]    ${vlanid}
+    RETURN    ${vlanid}
 
 
 Get Out Port From Flow
@@ -526,7 +526,7 @@ Get Out Port From Flow
            ${matched}=    Set Variable If    '${type}' == 'OUTPUT'    True    False
            Exit For Loop If    ${matched}
     END
-    [Return]    ${outport}
+    RETURN    ${outport}
 
 
 Get Subtype From Flow
@@ -542,7 +542,7 @@ Get Subtype From Flow
            ${matched}=    Set Variable If    '${type}' == 'L2MODIFICATION'   True    False
            Exit For Loop If    ${matched}
     END
-    [Return]    ${subtype}
+    RETURN    ${subtype}
 
 Get Vlan Id From Flow For Fttb
     [Documentation]    Fetch the VLAN id for L2MODIFICATION
@@ -559,13 +559,13 @@ Get Vlan Id From Flow For Fttb
            ${matched}=    Set Variable If    '${type}' == 'L2MODIFICATION' and '${subtype}' == 'VLAN_SET'   True    False
            Exit For Loop If    ${matched}
     END
-    [Return]      ${vlanId}
+    RETURN      ${vlanId}
 
 Get Table Id From Flow
     [Documentation]    Fetch the TableId
     [Arguments]    ${flow}
     ${tableid}=    Get From Dictionary    ${flow}    tableId
-    [Return]    ${tableid}
+    RETURN    ${tableid}
 
 Get Vlan Id From Flow
     [Documentation]    Fetch the VLAN id for L2MODIFICATION
@@ -582,7 +582,7 @@ Get Vlan Id From Flow
            ${matched}=    Set Variable If    '${type}' == 'L2MODIFICATION' and '${subtype}' == 'VLAN_ID'   True    False
            Exit For Loop If    ${matched}
     END
-    [Return]      ${vlanId}
+    RETURN      ${vlanId}
 
 Get Subscribers for a Particular Service
     [Documentation]    Filters the subscriber for a particular service
@@ -603,7 +603,7 @@ Get Subscribers for a Particular Service
         Exit For Loop If    ${matched}
     END
     Should Be True    ${matched}    No matching subscriber for OLT
-    [Return]    ${subscriber_list}
+    RETURN    ${subscriber_list}
 
 Get Programmed Subscribers
     [Arguments]    ${olt_of_id}    ${onu_port}    ${filter}=${EMPTY}
@@ -612,7 +612,7 @@ Get Programmed Subscribers
     ${programmed_sub_json_resp}=    To Json   ${programmed_sub.content}
     ${filtered_subscriber_list}=    Get Subscribers for a Particular Service    ${olt_of_id}    ${programmed_sub_json_resp}
     ...    ${filter}
-    [Return]    ${filtered_subscriber_list}
+    RETURN    ${filtered_subscriber_list}
 
 Verify Programmed Subscribers DT FTTB
     [Arguments]    ${olt_of_id}    ${onu_port}    ${service}
@@ -687,7 +687,7 @@ Validate Guarenteed Information Rate
     ...    ${meter_json_resp}  3
     ${matched}=    Set Variable If    '${rate}' == '${gir}' and '${burst_size}' == '0'  True    False
     Should Be True    ${matched}
-    [Return]    ${matched}
+    RETURN    ${matched}
 
 Get Bandwidth Profile Details Ietf Rest
     [Arguments]    ${bw_profile_id}
@@ -706,7 +706,7 @@ Get Bandwidth Profile Details Ietf Rest
     ${cbs}=    Get From Dictionary    ${jsondata}    cbs
     ${gir}=    Get From Dictionary    ${jsondata}    gir
     Should Be True    ${matched}    No bandwidth profile found for id: ${bw_profile_id}
-    [Return]    ${cir}    ${cbs}    ${pir}    ${pbs}    ${gir}
+    RETURN    ${cir}    ${cbs}    ${pir}    ${pbs}    ${gir}
 
 
 Get Upstream and Downstream Bandwidth Profile Name
@@ -724,7 +724,7 @@ Get Upstream and Downstream Bandwidth Profile Name
         ${ds_bw_profile}=    Get From Dictionary    ${tagInfo_id}    downstreamBandwidthProfile
         Log    ${ds_bw_profile}
     END
-    [Return]    ${us_bw_profile}    ${ds_bw_profile}
+    RETURN    ${us_bw_profile}    ${ds_bw_profile}
 
 Verify Subscriber Access Flows Added Count DT
     [Arguments]    ${ip}    ${port}    ${olt_of_id}    ${expected_flows}
@@ -747,7 +747,7 @@ Get Meter Param In Details
          ${burst_size}=    Get From Dictionary    ${value}    burstSize
          ${rate}=        Get From Dictionary    ${value}    rate
     END
-    [Return]    ${rate}    ${burst_size}
+    RETURN    ${rate}    ${burst_size}
 
 Delete Subscribers And BW Profile In VGC
     [Documentation]    Delete Subscribers and bw profile  In VGC

@@ -30,7 +30,7 @@ Lookup Service IP
     ${rc}    ${ip}=    Run and Return Rc and Output
     ...    kubectl get svc -n ${namespace} ${name} -o jsonpath={.spec.clusterIP}
     Should Be Equal as Integers    ${rc}    0
-    [Return]    ${ip}
+    RETURN    ${ip}
 
 Lookup Service PORT
     [Arguments]    ${namespace}    ${name}
@@ -38,7 +38,7 @@ Lookup Service PORT
     ${rc}    ${port}=    Run and Return Rc and Output
     ...    kubectl get svc -n ${namespace} ${name} -o jsonpath={.spec.ports[0].port}
     Should Be Equal as Integers    ${rc}    0
-    [Return]    ${port}
+    RETURN    ${port}
 
 Restart Pod By Label
     [Arguments]    ${namespace}    ${label_key}   ${label_value}
@@ -64,7 +64,7 @@ Exec Pod
     ${rc}    ${output}=    Run and Return Rc and Output
     ...    kubectl exec -i ${exec_pod_name} -n ${namespace} -- ${command}
     Log    ${output}
-    [return]    ${output}
+    RETURN    ${output}
 
 Exec Pod In Kube
     [Arguments]    ${namespace}    ${name}    ${command}    ${grep}=${EMPTY}
@@ -79,7 +79,7 @@ Exec Pod In Kube
     ${rc}    ${output}=    Run and Return Rc and Output
     ...    kubectl exec -i ${exec_pod_name} -n ${namespace} -- ${command}
     Log    ${output}
-    [return]    ${output}
+    RETURN    ${output}
 
 Exec Pod And Return Output And RC
     [Arguments]    ${namespace}    ${name}    ${command}
@@ -91,7 +91,7 @@ Exec Pod And Return Output And RC
     ${rc}    ${output}=    Run and Return Rc and Output
     ...    kubectl exec -i ${exec_pod_name} -n ${namespace} -- ${command}
     Log    ${output}
-    [return]    ${output}   ${rc}
+    RETURN    ${output}   ${rc}
 
 Exec Pod Separate Stderr
     [Arguments]    ${namespace}    ${name}    ${command}
@@ -107,7 +107,7 @@ Exec Pod Separate Stderr
     ${stderr}=    Set Variable    ${result.stderr}
     Log    ${stdout}
     Log    ${stderr}
-    [return]    ${stdout}    ${stderr}
+    RETURN    ${stdout}    ${stderr}
 
 Copy File To Pod
     [Arguments]    ${namespace}    ${label}    ${src}    ${dest}
@@ -119,7 +119,7 @@ Copy File To Pod
     ${rc}    ${output}=    Run and Return Rc and Output
     ...    kubectl cp -n ${namespace} ${src} ${exec_pod_name}:${dest}
     Log    ${output}
-    [return]    ${output}
+    RETURN    ${output}
 
 Copy File From Pod
     [Arguments]    ${namespace}    ${label}    ${src}    ${dest}
@@ -131,7 +131,7 @@ Copy File From Pod
     ${rc}    ${output}=     Run and Return Rc and Output
     ...     kubectl cp -n ${namespace} ${exec_pod_name}:${src} ${dest}
     Log    ${output}
-    [return]    ${output}
+    RETURN    ${output}
 
 Apply Kubernetes Resources
     [Arguments]    ${resource_yaml}    ${namespace}
@@ -172,7 +172,7 @@ Get Pod Name By Label
     ${rc}    ${pod_name}=    Run and Return Rc and Output
         ...    kubectl get pods -n ${namespace} -l ${label_key}=${label_value} --no-headers | awk '{print $1}'
     Should Not Be Empty    ${pod_name}    Pod not found
-    [return]  ${pod_name}
+    RETURN  ${pod_name}
 
 Validate Pods Status By Label
     [Arguments]    ${namespace}    ${label_key}   ${label_value}    ${expectedStatus}
@@ -240,7 +240,7 @@ Verify All Voltha Pods For Any Error Logs
         ...    AND    Set to Dictionary    ${errorPodDict}    ${podName}    ${errorDict}
     END
     Print to Console    Error Statement logged in the following pods : ${errorPodDict}
-    [Return]    ${errorPodDict}
+    RETURN    ${errorPodDict}
 
 Check For Error Logs in Pod Type1 Given the Log Output
     [Arguments]    ${logOutput}    ${logLevel}=error    ${errorMessage}=${EMPTY}
@@ -257,7 +257,7 @@ Check For Error Logs in Pod Type1 Given the Log Output
     ...    UnexpectedErrorfound    '${is_exec_status}'=='FAIL'    MatchingErrorlogfound
     Log    {linesContainingError}
     &{errorDict}    Create Dictionary    ${returnStatusFlag}    ${linesContainingLog}
-    [Return]    ${errorDict}
+    RETURN    ${errorDict}
 
 Check For Error Logs in Pod Type2 Given the Log Output
     [Arguments]    ${logOutput}    ${logLevel}=warn    ${errorMessage}=${EMPTY}
@@ -275,7 +275,7 @@ Check For Error Logs in Pod Type2 Given the Log Output
     ...    UnexpectedErrorfound    '${is_exec_status}'=='FAIL'    MatchingErrorlogfound
     Log    {linesContainingError}
     &{errorDict}    Create Dictionary    ${returnStatusFlag}    ${linesContainingLog}
-    [Return]    ${errorDict}
+    RETURN    ${errorDict}
 
 Get Container Dictionary
     [Arguments]    ${namespace}
@@ -292,7 +292,7 @@ Get Container Dictionary
         &{containerDict}    Set To Dictionary    ${containerDict}    ${pod}    ${containerName}
     END
     Log    ${containerDict}
-    [Return]    ${containerDict}
+    RETURN    ${containerDict}
 
 Validate Error For Given Pods
     [Arguments]    ${datetime}    ${podDict}    ${namespace}
@@ -334,7 +334,7 @@ Validate Error For Given Pods
         ...    Run Keywords    Log    Unexpected Error Log found in pod ${podName}
         ...    AND    Append To List    ${errorPodList}    ${podName}
     END
-    [Return]    ${errorPodList}
+    RETURN    ${errorPodList}
 
 Delete K8s Pod
     [Arguments]    ${namespace}    ${name}
@@ -370,7 +370,7 @@ Get K8s Deployment by Pod Label
     ${rc}    ${name}    Run And Return Rc And Output
     ...    kubectl describe rs -n ${namespace} -l ${key}=${value} | grep "Controlled By" | awk -F'/' '{print $2}' | awk 'FNR == 1'
     Should Be Equal as Integers    ${rc}    0
-    [Return]    ${name}
+    RETURN    ${name}
 
 Scale K8s Deployment by Pod Label
     [Arguments]    ${namespace}    ${key}    ${value}    ${count}
@@ -416,7 +416,7 @@ Get Available Deployment Replicas
     ...    kubectl get -n ${namespace} deploy/${name} -o jsonpath='{.status.availableReplicas}'
     ${result}=    Run Keyword If    '${count}' == ''    Set Variable    0
     ...    ELSE    Set Variable    ${count}
-    [Return]    ${result}
+    RETURN    ${result}
 
 Check Expected Available Deployment Replicas By Pod Label
     [Arguments]    ${namespace}    ${key}    ${value}    ${expected}
@@ -438,7 +438,7 @@ Get Deployment Replica Count
     Should Be Equal as Integers    ${rc}    0
     ${replicas}=    Run Keyword If    '${value}' == ''    Set Variable    0
     ...    ELSE    Set Variable    ${value}
-    [Return]    ${replicas}
+    RETURN    ${replicas}
 
 Does Deployment Have Replicas
     [Arguments]    ${namespace}    ${name}    ${expected_count}
@@ -477,7 +477,7 @@ Get Pod Ready Timestamp by Label
     ${cmd}=    Catenate    kubectl -n ${namespace} get pods -l ${key}=${value} -o=json | jq -r
     ...    ".items[].status.containerStatuses[].state.running.startedAt"
     ${output}=    Run   ${cmd}
-    [Return]    ${output}
+    RETURN    ${output}
 
 Check Expected Running Pods Number By Label
     [Arguments]    ${namespace}    ${key}    ${value}    ${number}
@@ -491,21 +491,21 @@ Get Number of Running Pods Number By Label
     [Documentation]   Returns the number of pods for a given label
     ${rc}    ${count}    Run and Return Rc and Output
     ...    kubectl -n ${namespace} get pods -l ${key}=${value} -o name | wc -l
-    [Return]    ${count}
+    RETURN    ${count}
 
 Get Pod Restart Count
     [Arguments]    ${namespace}    ${name}
     [Documentation]    Returns the restart count for the given Pod
     ${rc}    ${count}=    Run and Return Rc and Output
     ...    kubectl get pods -n ${namespace} | grep ${name} | awk 'NR==1{print $4}'
-    [Return]    ${count}
+    RETURN    ${count}
 
 Get Pod Age
     [Arguments]    ${namespace}    ${name}
     [Documentation]    Returns the age for the given Pod
     ${rc}    ${age}=    Run and Return Rc and Output
     ...    kubectl get pods -n ${namespace} | grep ${name} | awk 'NR==1{print $5}'
-    [Return]    ${age}
+    RETURN    ${age}
 
 Verify ONOS Pod Restart
     [Arguments]    ${restarted}=True
@@ -546,4 +546,4 @@ Get Pod Image And App Version And Helm Chart By Label
     ${app_version}=    Run    ${cmd}
     ${helm_chart}=    Run
     ...    kubectl -n ${namespace} get pods -l ${key}=${value} -o=jsonpath="{.items[*].metadata.labels.\\helm\\.sh\\/chart}"
-    [Return]    ${image}    ${app_version}    ${helm_chart}
+    RETURN    ${image}    ${app_version}    ${helm_chart}

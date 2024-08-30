@@ -52,7 +52,7 @@ Open ONOS SSH Connection
     Set Global Variable    ${connection_list}
     # disable highlighting to suppress control sequences
     ${output}=    Execute Single ONOS CLI Command    ${conn_id}    ${disable_highlighter}    do_reconnect=False
-    [Return]    ${conn_list_id}
+    RETURN    ${conn_list_id}
 
 Execute ONOS CLI Command use single connection
     [Documentation]    Execute ONOS CLI Command use an Open Connection
@@ -66,7 +66,7 @@ Execute ONOS CLI Command use single connection
     ${connection_entry}=    Get From List   ${connection_list}    ${connection_list_id}
     ${output}=    Execute Single ONOS CLI Command    ${connection_entry.conn_id}    ${cmd}
     ...           connection_list_id=${connection_list_id}
-    [Return]    ${output}
+    RETURN    ${output}
 
 Execute Single ONOS CLI Command
     [Documentation]    Executes ONOS CLI Command on current connection
@@ -103,7 +103,7 @@ Execute Single ONOS CLI Command
     ${output}=    Remove String Using Regexp    ${output}    \\s*\\r \\r
     # now we have the plain output text
     Log    Stripped Result_values: ${output}
-    [Return]    ${output}
+    RETURN    ${output}
 
 Get Conn List Id
     [Documentation]    Looks up for an Open Connection with passed host and port in conection list
@@ -119,7 +119,7 @@ Get Conn List Id
         ${connection_list_id}=    Set Variable If    ${match}    ${INDEX}    ${EMPTY}
         Exit For Loop If    ${match}
     END
-    [Return]    ${connection_list_id}
+    RETURN    ${connection_list_id}
 
 Reconnect ONOS SSH Connection
     [Documentation]    Reconnect an SSH Connection
@@ -179,7 +179,7 @@ Validate OLT Device in ONOS
         Exit For Loop If    ${matched}
     END
     Should Be True    ${matched}    No match for ${serial_number} found
-    [Return]    ${of_id}
+    RETURN    ${of_id}
 
 Get ONU Port in ONOS
     [Arguments]    ${onu_serial_number}    ${olt_of_id}    ${onu_uni_id}=1
@@ -200,7 +200,7 @@ Get ONU Port in ONOS
         Exit For Loop If    ${matched}
     END
     Should Be True    ${matched}    No match for ${onu_serial_number} found
-    [Return]    ${onu_port}
+    RETURN    ${onu_port}
 
 Get Onu Ports in ONOS For ALL UNI per ONU
     [Documentation]    Retrieves ONU port(s) for the ONU in ONOS for all UNI-IDs, list of ports will return!
@@ -219,7 +219,7 @@ Get Onu Ports in ONOS For ALL UNI per ONU
         ...    ${olt_of_id}    ${uni_id}
         Append To List    ${port_list}    ${onu_port}
     END
-    [return]    ${port_list}
+    RETURN    ${port_list}
 
 Get NNI Port in ONOS
     [Arguments]    ${olt_of_id}
@@ -240,7 +240,7 @@ Get NNI Port in ONOS
         Exit For Loop If    ${matched}
     END
     Should Be True    ${matched}    No match for NNI found for ${olt_of_id}
-    [Return]    ${nni_port}
+    RETURN    ${nni_port}
 
 Get FabricSwitch in ONOS
     [Documentation]    Returns of_id of the Fabric Switch in ONOS
@@ -257,7 +257,7 @@ Get FabricSwitch in ONOS
         Exit For Loop If    ${matched}
     END
     Should Be True    ${matched}    No fabric switch found
-    [Return]    ${of_id}
+    RETURN    ${of_id}
 
 Get Master Instace in ONOS
     [Arguments]    ${of_id}
@@ -266,7 +266,7 @@ Get Master Instace in ONOS
     ${jsondata}=    To Json    ${resp.content}
     Should Not Be Empty    ${jsondata['nodeId']}    Could not find nodeId of the master instance for device with OF ID ${of_id} in ONOS
     ${master_node}=    Get From Dictionary    ${jsondata}    nodeId
-    [Return]    ${master_node}
+    RETURN    ${master_node}
 
 Verify LLDP Flow Added
     [Arguments]    ${ip}    ${port}    ${olt_of_id}    ${expected_flows}
@@ -625,7 +625,7 @@ Verify Mcast Flow Rule Subscription
     ${downstram_flow_mcast_added}=    Execute ONOS CLI Command use single connection    ${ip}    ${port}
     ...    ${downstream_flow_mcast_added_cmd}
     Should Not Be Empty    ${downstram_flow_mcast_added}    No matching added downstream multicast flow found for ${olt_of_id} in TABLE 0 (ip ${mcastIP})
-    [Return]    ${downstram_flow_mcast_added}
+    RETURN    ${downstram_flow_mcast_added}
 
 Verify Mcast Groups Rules generation
     [Arguments]    ${ip}    ${port}    ${onu_port}      ${groupID}
@@ -645,7 +645,7 @@ Get Programmed Subscribers
     ...    volt-programmed-subscribers ${olt_of_id} ${onu_port}
     ...    volt-programmed-subscribers ${olt_of_id} ${onu_port} | grep ${filter} --color=none
     ${programmed_sub}=    Execute ONOS CLI Command use single connection    ${ip}    ${port}    ${cmd}
-    [Return]    ${programmed_sub}
+    RETURN    ${programmed_sub}
 
 Verify Programmed Subscribers DT FTTB
     [Arguments]    ${ip}    ${port}    ${olt_of_id}    ${onu_port}    ${service}
@@ -678,7 +678,7 @@ Get Upstream and Downstream Bandwidth Profile Name
     ${ds_bw_profile}=    Run Keyword If    '${programmed_sub_param}' == ' downstreamBandwidthProfile'
     ...    Set Variable    ${programmed_sub_val}
     Log    ${ds_bw_profile}
-    [Return]    ${us_bw_profile}    ${ds_bw_profile}
+    RETURN    ${us_bw_profile}    ${ds_bw_profile}
 
 Get Bandwidth Profile Details
     [Arguments]    ${ip}    ${port}    ${bw_profile}
@@ -712,7 +712,7 @@ Get Bandwidth Profile Details
     @{bw_val_air}=    Split String    ${bw_val}    }
     ${air}    Run Keyword If    '${bw_param}' == ' assuredInformationRate'
     ...    Set Variable    ${bw_val_air[0]}
-    [Return]    ${cir}    ${cbs}    ${eir}    ${ebs}    ${air}
+    RETURN    ${cir}    ${cbs}    ${eir}    ${ebs}    ${air}
 
 Get Bandwidth Profile Details Rest
     [Arguments]    ${bw_profile_id}
@@ -735,7 +735,7 @@ Get Bandwidth Profile Details Rest
         Exit For Loop If    ${matched}
     END
     Should Be True    ${matched}    No bandwidth profile found for id: ${bw_profile_id}
-    [Return]    ${cir}    ${cbs}    ${eir}    ${ebs}    ${air}
+    RETURN    ${cir}    ${cbs}    ${eir}    ${ebs}    ${air}
 
 Get Bandwidth Profile Details Ietf Rest
     [Arguments]    ${bw_profile_id}
@@ -758,7 +758,7 @@ Get Bandwidth Profile Details Ietf Rest
         Exit For Loop If    ${matched}
     END
     Should Be True    ${matched}    No bandwidth profile found for id: ${bw_profile_id}
-    [Return]    ${cir}    ${cbs}    ${pir}    ${pbs}    ${gir}
+    RETURN    ${cir}    ${cbs}    ${pir}    ${pbs}    ${gir}
 
 Verify Meters in ONOS Ietf
     [Arguments]    ${ip}    ${port}    ${olt_of_id}    ${onu_port}    ${filter}=${EMPTY}
@@ -981,7 +981,7 @@ Verify ONU in Group Bucket
         ${matched}=    Set Variable If    '${port}'=='${onu_port}'    True    False
         Exit For Loop If    ${matched}
     END
-    [Return]    ${matched}
+    RETURN    ${matched}
 
 Verify ONU in Groups
     [Arguments]    ${ip_onos}    ${port_onos}    ${deviceId}    ${onu_port}    ${group_exist}=True
@@ -1145,13 +1145,13 @@ Count Enabled UNI Ports
     ${count}=    Execute ONOS CLI Command use single connection    ${ip}    ${port}
     ...    ports -e ${of_id} | grep -v SWITCH | grep -v nni | wc -l
     Log    ${count}
-    [Return]    ${count}
+    RETURN    ${count}
 
 List Enabled UNI Ports
     [Documentation]  List all the UNI Ports, the only way we have is to filter out the one called NNI
     ...     Creates a list of dictionaries
     [Arguments]     ${ip}    ${port}   ${of_id}
-    [Return]  [{'port': '16', 'of_id': 'of:00000a0a0a0a0a00'}, {'port': '32', 'of_id': 'of:00000a0a0a0a0a00'}]
+    RETURN  [{'port': '16', 'of_id': 'of:00000a0a0a0a0a00'}, {'port': '32', 'of_id': 'of:00000a0a0a0a0a00'}]
     ${result}=      Create List
     ${out}=    Execute ONOS CLI Command use single connection    ${ip}    ${port}
     ...    ports -e ${of_id} | grep -v SWITCH | grep -v nni
@@ -1178,7 +1178,7 @@ List OLTs
     # NOTE this method is not currently used but it can come useful in the future
     [Documentation]  Returns a list of all OLTs known to ONOS
     [Arguments]  ${ip}    ${port}
-    [Return]  ['of:00000a0a0a0a0a00', 'of:00000a0a0a0a0a01']
+    RETURN  ['of:00000a0a0a0a0a00', 'of:00000a0a0a0a0a01']
     ${result}=      Create List
     ${out}=    Execute ONOS CLI Command use single connection    ${ip}    ${port}
     ...     volt-olts
@@ -1202,7 +1202,7 @@ Count flows
     ...        ELSE    Set Variable    ${cmd}
     ${cmd}=    Catenate    SEPARATOR=    ${cmd} | wc -l
     ${flows}=  Execute ONOS CLI Command use single connection    ${ip}    ${port}    ${cmd}
-    [return]   ${flows}
+    RETURN   ${flows}
 
 Validate number of flows
     [Documentation]     Validates number of flows in a particular ${state} in ONOS
@@ -1260,7 +1260,7 @@ Get ONU Ports per OLT
         Continue For Loop If    -1 != ${port_id}
         Append To List    ${onu_port_list}    ${onu_port}
     END
-    [return]    ${onu_port_list}
+    RETURN    ${onu_port_list}
 
 Get Limiting Bandwidth Details
     [Arguments]    ${bandwidth_profile_name}
@@ -1269,7 +1269,7 @@ Get Limiting Bandwidth Details
     ${cir}    ${cbs}    ${eir}    ${ebs}    ${air}=    Get Bandwidth Profile Details Rest
     ...    ${bandwidth_profile_name}
     ${limiting_BW}=    Evaluate    ${eir}+${cir}+${air}
-    [Return]    ${limiting_BW}
+    RETURN    ${limiting_BW}
 
 Get Limiting Bandwidth Details for Fixed and Committed
     [Arguments]    ${bandwidth_profile_name}
@@ -1278,7 +1278,7 @@ Get Limiting Bandwidth Details for Fixed and Committed
     ${cir}    ${cbs}    ${eir}    ${ebs}    ${air}=    Get Bandwidth Profile Details Rest
     ...    ${bandwidth_profile_name}
     ${limiting_BW}=    Evaluate    ${cir}+${air}
-    [Return]    ${limiting_BW}
+    RETURN    ${limiting_BW}
 
 Validate Deleted Device Cleanup In ONOS
     [Arguments]    ${ip}    ${port}    ${olt_serial_number}    ${maclearning_enabled}=False
@@ -1358,7 +1358,7 @@ Get ONOS App Details
     ${rc}    ${output}    Run And Return Rc And Output
     ...    curl --fail -sSL ${url}/onos/v1/applications/${app_name}
     Should Be Equal As Integers    ${rc}    0   Can't read app ${app_name} details from ONOS
-    [Return]    ${output}
+    RETURN    ${output}
 
 Verify UniTag Subscriber
     [Documentation]    Verifies the unitag subscriber is provisioned/un-provisioned

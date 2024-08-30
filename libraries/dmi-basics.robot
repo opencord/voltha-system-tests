@@ -43,7 +43,7 @@ Get Managed Devices
         ${name}=    Get From Dictionary    ${device}    name
         Append To List  ${name_active_olts}     ${name}
     END
-    [Return]    ${name_active_olts}
+    RETURN    ${name_active_olts}
 
 Stop Managing Devices
     [Documentation]     remove given devices from device manager
@@ -70,14 +70,14 @@ Increment If Equal
     [Arguments]    ${condition_1}   ${condition_2}      ${value}
     ${value}=   Set Variable If  ${condition_1} == ${condition_2}
     ...   ${value+1}      ${value}
-    [Return]    ${value}
+    RETURN    ${value}
 
 Increment If Contained
     [Documentation]  increment given value 'string' contained in 'message'
     [Arguments]    ${message}   ${string}      ${value}
     ${hit}=   Run Keyword And Return Status    Should Contain   ${message}  ${string}
     ${value}=   Increment If Equal  ${hit}  ${True}  ${value}
-    [Return]    ${value}
+    RETURN    ${value}
 
 Start Managing Device
     [Documentation]     add a given device to the device manager
@@ -88,7 +88,7 @@ Start Managing Device
     ${list}=    Get From List    ${response}    0
     Run Keyword If   ${check_result} == ${True}  Should Be Equal   ${list}[status]    OK_STATUS
     ${uuid}=    Get From Dictionary    ${list}    device_uuid
-    [Return]  ${uuid}
+    RETURN  ${uuid}
 
 Stop Managing Device
     [Documentation]     remove a given device from the device manager

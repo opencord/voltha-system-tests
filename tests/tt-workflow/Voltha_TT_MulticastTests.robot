@@ -74,8 +74,6 @@ ${unitag_sub}    False
     [Documentation]    Verify that 2 RG which are connected to the same ONU could join the same channel.
     [Tags]    functionalTT    2RGSameOnuSameChannel    multicastTT
     [Setup]    Start Logging    2RGSameOnuSameChannel
-    [Teardown]    Run Keywords    Run Keyword If    ${logging}    Collect Logs
-    ...           AND             Stop Logging    2RGSameOnuSameChannel
     ${test_onus_pon0}=    Set Variable    ${multicast_test_onu_pon_locations.pon_0[0]}
     ${test_onu1_sn}=    Set Variable    ${test_onus_pon0['onu_1']}
     ${test_onu1_uni}=    Set Variable    1
@@ -91,13 +89,14 @@ ${unitag_sub}    False
     ...    ${channel_ip_1}    ${src_onu2}    ${dst_onu2}    ${channel_ip_1}    ${multicast_test_duration}
     # The purpose of this sleep period is to ensure that all groups and flows are deleted from the OLT before the next test.
     Sleep    ${multicast_test_duration}
+    [Teardown]    Run Keywords    Run Keyword If    ${logging}    Collect Logs
+    ...           AND             Stop Logging    2RGSameOnuSameChannel
+
 
 2 RG Same ONU Different Channel Multicast Test
     [Documentation]    Verify that 2 RG which are connected to the same ONU could join the different channel.
     [Tags]    functionalTT    2RGSameOnuDifferentChannel    multicastTT    non-critical
     [Setup]    Start Logging    2RGSameOnuDifferentChannel
-    [Teardown]    Run Keywords    Run Keyword If    ${logging}    Collect Logs
-    ...           AND             Stop Logging    2RGSameOnuDifferentChannel
     ${test_onus_pon0}=    Set Variable    ${multicast_test_onu_pon_locations.pon_0[0]}
     ${test_onu1_sn}=    Set Variable    ${test_onus_pon0['onu_1']}
     ${test_onu1_uni}=    Set Variable    1
@@ -114,14 +113,14 @@ ${unitag_sub}    False
     ...    ${channel_ip_1}    ${src_onu2}    ${dst_onu2}    ${channel_ip_2}    ${multicast_test_duration}
     # The purpose of this sleep period is to ensure that all groups and flows are deleted from the OLT before the next test.
     Sleep    ${multicast_test_duration}
+    [Teardown]    Run Keywords    Run Keyword If    ${logging}    Collect Logs
+    ...           AND             Stop Logging    2RGSameOnuDifferentChannel
 
 2 RG Same PON Different ONU Same Channel Multicast Test
     [Documentation]    Verify that 2 RG which are connected to the different ONUs
     ...    on the same PON Ports could join the same channel.
     [Tags]    functionalTT    2RGSamePonDifferentOnuSameChannel    multicastTT
     [Setup]    Start Logging    2RGSamePonDifferentOnuSameChannel
-    [Teardown]    Run Keywords    Collect Logs
-    ...           AND             Stop Logging    2RGSamePonDifferentOnuSameChannel
     ${test_onus_pon0}=    Set Variable    ${multicast_test_onu_pon_locations.pon_0[0]}
     ${test_onu1_sn}=    Set Variable    ${test_onus_pon0['onu_1']}
     ${test_onu1_uni}=    Set Variable    1
@@ -137,14 +136,14 @@ ${unitag_sub}    False
     ...    ${channel_ip_1}    ${src_onu2}    ${dst_onu2}    ${channel_ip_1}    ${multicast_test_duration}
     # The purpose of this sleep period is to ensure that all groups and flows are deleted from the OLT before the next test.
     Sleep    ${multicast_test_duration}
+    [Teardown]    Run Keywords    Collect Logs
+    ...           AND             Stop Logging    2RGSamePonDifferentOnuSameChannel
 
 2 RG Same PON Different ONU Different Channels Multicast Test
     [Documentation]    Verify that 2 RG which are connected to the different ONUs
     ...    on the same PON Ports could join the different channels.
     [Tags]    functionalTT    2RGSamePonDifferentOnuDifferentChannel    multicastTT    non-critical
     [Setup]    Start Logging    2RGSamePonDifferentOnuDifferentChannel
-    [Teardown]    Run Keywords    Collect Logs
-    ...           AND             Stop Logging    2RGSamePonDifferentOnuDifferentChannel
     ${test_onus_pon0}=    Set Variable    ${multicast_test_onu_pon_locations.pon_0[0]}
     ${test_onu1_sn}=    Set Variable    ${test_onus_pon0['onu_1']}
     ${test_onu1_uni}=    Set Variable    1
@@ -161,14 +160,14 @@ ${unitag_sub}    False
     ...    ${channel_ip_1}    ${src_onu2}    ${dst_onu2}    ${channel_ip_2}    ${multicast_test_duration}
     # The purpose of this sleep period is to ensure that all groups and flows are deleted from the OLT before the next test.
     Sleep    ${multicast_test_duration}
+    [Teardown]    Run Keywords    Collect Logs
+    ...           AND             Stop Logging    2RGSamePonDifferentOnuDifferentChannel
 
 2 RG Different PON Different ONU Same Channel Multicast Test
     [Documentation]    Verify that 2 RG which are connected to the different ONUs
     ...    on the different PON Ports could join the same channel.
     [Tags]    functionalTT    2RGDifferentOnuandPonSameChannel    multicastTT   notready
     [Setup]    Start Logging    2RGDifferentOnuandPonSameChannel
-    [Teardown]    Run Keywords    Collect Logs
-    ...           AND             Stop Logging    2RGDifferentOnuandPonSameChannel
     ${test_onus_pon0}=    Set Variable    ${multicast_test_onu_pon_locations.pon_0[0]}
     ${test_onus_pon1}=    Set Variable    ${multicast_test_onu_pon_locations.pon_1[0]}
     ${test_onu1_sn}=    Set Variable    ${test_onus_pon0['onu_1']}
@@ -185,14 +184,14 @@ ${unitag_sub}    False
     ...    ${channel_ip_1}    ${src_onu2}    ${dst_onu2}    ${channel_ip_1}    ${multicast_test_duration}
     # The purpose of this sleep period is to ensure that all groups and flows are deleted from the OLT before the next test.
     Sleep    ${multicast_test_duration}
+    [Teardown]    Run Keywords    Collect Logs
+    ...           AND             Stop Logging    2RGDifferentOnuandPonSameChannel
 
 2 RG Different PON Different ONU Different Channels Multicast Test
     [Documentation]    Verify that 2 RG which are connected to the different ONUs
     ...    on the different PON Ports could join the different channels.
     [Tags]    functionalTT    2RGDifferentOnuandPonDifferentChannels    multicastTT   notready
     [Setup]    Start Logging    2RGDifferentOnuandPonDifferentChannels
-    [Teardown]    Run Keywords    Collect Logs
-    ...           AND             Stop Logging    2RGDifferentOnuandPonDifferentChannels
     ${test_onus_pon0}=    Set Variable    ${multicast_test_onu_pon_locations.pon_0[0]}
     ${test_onus_pon1}=    Set Variable    ${multicast_test_onu_pon_locations.pon_1[0]}
     ${test_onu1_sn}=    Set Variable    ${test_onus_pon0['onu_1']}
@@ -208,6 +207,8 @@ ${unitag_sub}    False
     ...    ${test_onu2_uni}
     Wait Until Keyword Succeeds    ${timeout}    15    TT 2 RG MCAST Test    ${src_onu1}    ${dst_onu1}
     ...    ${channel_ip_1}    ${src_onu2}    ${dst_onu2}    ${channel_ip_2}    ${multicast_test_duration}
+    [Teardown]    Run Keywords    Collect Logs
+    ...           AND             Stop Logging    2RGDifferentOnuandPonDifferentChannels
 
 *** Keywords ***
 Get ONU details with Given Sn and Service and UNI
@@ -227,7 +228,7 @@ Get ONU details with Given Sn and Service and UNI
         ...    True    False
         Exit For Loop If    ${matched}
     END
-    [Return]    ${matched}    ${src}    ${dst}
+    RETURN    ${matched}    ${src}    ${dst}
 
 
 TT 2 RG MCAST Test
