@@ -100,7 +100,7 @@ Get ONU Count For OLT
         ${count}=    Run Keyword If    '${serial_number}' == '${sn}'    Evaluate    ${count} + 1
         ...          ELSE  Set Variable  ${count}
     END
-    [Return]    ${count}
+    RETURN    ${count}
 
 Get ONU List For OLT
     [Arguments]    ${src}    ${serial_number}
@@ -112,7 +112,7 @@ Get ONU List For OLT
         Run Keyword If    '${serial_number}' == '${sn}'    Append To List     ${onu_list}    ${src}[${I}][onu]
         ...  ELSE  Set Variable  ${onu_list}
     END
-    [Return]    ${onu_list}
+    RETURN    ${onu_list}
 
 WPA Reassociate
     [Documentation]    Executes a particular wpa_cli reassociate, which performs force reassociation
@@ -165,7 +165,7 @@ Send Dhclient Request To Release Assigned IP
     ...    ${pass}    ${container_type}    ${container_name}
     Log    ${result}
     #Should Contain    ${result}    DHCPRELEASE
-    [Return]    ${result}
+    RETURN    ${result}
 
 Check Remote File Contents For WPA Logs
     [Arguments]    ${file_should_exist}    ${file}    ${pattern}    ${ip}    ${user}    ${pass}=${None}
@@ -174,7 +174,7 @@ Check Remote File Contents For WPA Logs
     ${result}=    Login And Run Command On Remote System
     ...    cat ${file} | grep '${pattern}' | wc -l    ${ip}    ${user}    ${pass}
     ...    ${container_type}    ${container_name}    ${prompt}
-    [Return]    ${result}
+    RETURN    ${result}
 
 Perform Sanity Test DT
     [Documentation]    This keyword iterate all OLTs and performs Sanity Test Procedure for DT workflow
@@ -403,7 +403,7 @@ Get ofID From OLT List
         ${of_id}=    Run Keyword IF    "${serial_number}"=="${sn}"
         ...    Get From Dictionary    ${olt_ids}[${I}]    of_id    ELSE    Set Variable    ${of_id}
     END
-    [Return]    ${of_id}
+    RETURN    ${of_id}
 
 Get OLTDeviceID From OLT List
     [Documentation]    Retrieves the corresponding olt_device_id  for the OLT serial number specified
@@ -414,7 +414,7 @@ Get OLTDeviceID From OLT List
         ${olt_device_id}=    Run Keyword IF    "${serial_number}"=="${sn}"
         ...    Get From Dictionary    ${olt_ids}[${I}]    device_id    ELSE    Set Variable    ${olt_device_id}
     END
-    [Return]    ${olt_device_id}
+    RETURN    ${olt_device_id}
 
 Get Num of Onus From OLT SN
     [Documentation]    Retrieves the corresponding number of ONUs for a given OLT based on serial number specified
@@ -425,7 +425,7 @@ Get Num of Onus From OLT SN
         ${num_of_olt_onus}=    Run Keyword IF    "${serial_number}"=="${sn}"
         ...    Get From Dictionary    ${list_olts}[${I}]    onucount    ELSE    Set Variable    ${num_of_olt_onus}
     END
-    [Return]    ${num_of_olt_onus}
+    RETURN    ${num_of_olt_onus}
 
 Validate ONUs After OLT Disable
     [Documentation]    Validates the ONUs state in Voltha, ONUs port state in VGC
@@ -639,7 +639,7 @@ Match ONU in PON OLT Peer List
         ${matched}=    Set Variable If    '${onu_device_id}' == '${olt_peer}'    True    False
         Exit For Loop If    ${matched}
     END
-    [Return]    ${matched}
+    RETURN    ${matched}
 
 Collect Logs
     [Documentation]    Collect Logs from voltha for various commands
@@ -853,14 +853,14 @@ Should Be Newer Than Or Equal To
 Get Current Time
     [Documentation]    Return the current time in RFC3339 format
     ${output}=    Run    date -u +"%FT%T%:z"
-    [return]     ${output}
+    RETURN     ${output}
 
 Parse RFC3339
     [Documentation]     Parse an RFC3339 timestamp
     [Arguments]    ${dateStr}
     ${rc}    ${output}=    Run and Return Rc and Output     date --date="${dateStr}" "+%s"
     Should Be Equal As Numbers    ${rc}    0
-    [return]    ${output}
+    RETURN    ${output}
 
 Execute Remote Command
     [Documentation]    SSH into a remote host and execute a command on the bare host or in a container.
@@ -887,7 +887,7 @@ Execute Remote Command
     Log    ${stderr}
     Log    ${rc}
     SSHLibrary.Close Connection
-    [Return]    ${stdout}    ${stderr}    ${rc}
+    RETURN    ${stdout}    ${stderr}    ${rc}
 
 Start Remote Command
     [Documentation]    SSH into a remote host and execute a command on the bare host or in a container.
@@ -919,7 +919,7 @@ Run Iperf3 Test Client
     ...    ${src['ip']}    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
     Should Be Equal As Integers    ${rc}    0
     ${object}=    Evaluate    json.loads(r'''${output}''')    json
-    [Return]    ${object}
+    RETURN    ${object}
 
 Run Iperf Test Client for MCAST
     [Arguments]    ${src}    ${server}    ${args}
@@ -929,7 +929,7 @@ Run Iperf Test Client for MCAST
     ...    ${src['ip']}    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
     Should Be Equal As Integers    ${rc}    0
     ${object}=    Evaluate    json.loads(r'''${output}''')    json
-    [Return]    ${object}
+    RETURN    ${object}
 
 Run Ping In Background
     [Arguments]    ${output_file}    ${dst_ip}    ${iface}    ${ip}    ${user}    ${pass}=${None}
@@ -959,7 +959,7 @@ Retrieve Remote File Contents
     ${output}=    Login And Run Command On Remote System
     ...    cat ${file}
     ...    ${ip}    ${user}    ${pass}    ${container_type}    ${container_name}    ${prompt}
-    [Return]    ${output}
+    RETURN    ${output}
 
 RestoreONUs
     [Documentation]    Restore all connected ONUs
@@ -1030,7 +1030,7 @@ Determine Number Of ONU
         Run Keyword If    -1 == ${onu_id}    Append To List    ${onu_list}    ${hosts.src[${INDEX}].onu}
     END
     ${real_num_onus}=    Get Length    ${onu_list}
-    [Return]    ${real_num_onus}
+    RETURN    ${real_num_onus}
 
 Validate Cleanup In ETCD
     [Documentation]    The keyword verifies that device, ports, flows, meters are all cleared in ETCD
@@ -1188,4 +1188,4 @@ Count Number of UNI ports for OLT
         Continue For Loop If    "${type_of_service}"!="${src['service_type']}"
         ${num_of_provisioned_onus_ports}=      Evaluate     ${num_of_provisioned_onus_ports} + 1
     END
-    [Return]    ${num_of_provisioned_onus_ports}
+    RETURN    ${num_of_provisioned_onus_ports}

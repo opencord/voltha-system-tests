@@ -41,7 +41,7 @@ Calculate Timeout
     ${new_timeout}=    Set Variable If    (not ${debugmode}) and (${new_timeout}>300)
     ...    300   ${new_timeout}
     ${new_timeout}=    Catenate    SEPARATOR=    ${new_timeout}    s
-    [Return]    ${new_timeout}
+    RETURN    ${new_timeout}
 
 Get Logical Id of OLT
     [Documentation]    Fills the logical id of OLT(s) if missing
@@ -361,7 +361,7 @@ Get ONU MIB Template Data
     ...    ELSE    Set Variable    ${commandget}
     ${result}=    Exec Pod In Kube    ${namespace}    ${podname}    ${commandget}
     log    ${result}
-    [Return]    ${result}
+    RETURN    ${result}
 
 Set Tech Profile
     [Documentation]    This keyword sets the passed TechProfile for the test
@@ -497,7 +497,7 @@ Get Resource Instances ETCD Data
     ...    --print-value-only --hex'
     ${result}=    Exec Pod In Kube    ${namespace}    ${podname}    ${commandget}
     log    ${result}
-    [Return]    ${result}
+    RETURN    ${result}
 
 Validate Tech Profiles and Flows in ETCD Data Per Onu
     [Documentation]    This keyword validates tech profiles and flows data stored in etcd per onu.
@@ -654,7 +654,7 @@ Validate Vlan Rules In Etcd
         ...               Should Not Be Equal As Integers    ${prevsetvid}    ${setvid}
     END
     log Many    ${vlan_rules}
-    [Return]    ${vlan_rules}
+    RETURN    ${vlan_rules}
 
 Get ONU Go Adapter ETCD Data
     [Documentation]    This keyword delivers openonu-go-adapter Data stored in etcd
@@ -675,7 +675,7 @@ Get ONU Go Adapter ETCD Data
     ...    ELSE    Set Variable    ${commandget}
     ${result}=    Exec Pod In Kube    ${namespace}    ${podname}    ${commandget}
     log    ${result}
-    [Return]    ${result}
+    RETURN    ${result}
 
 Prepare ONU Go Adapter ETCD Data For Json
     [Documentation]    This keyword prepares openonu-go-adapter Data stored in etcd for converting
@@ -686,7 +686,7 @@ Prepare ONU Go Adapter ETCD Data For Json
     ${prepresult}=    Strip String    ${prepresult}    mode=right    characters=,
     ${prepresult}=    Set Variable    [${prepresult}]
     log    ${prepresult}
-    [Return]    ${prepresult}
+    RETURN    ${prepresult}
 
 Read Pon Onu Uni String
     [Documentation]    This keyword builds a four digit string using Olt, Pon, Onu and Uni value of given tp-path taken
@@ -699,7 +699,7 @@ Read Pon Onu Uni String
     ${uni}=    Get Value Of Tp Path Element    ${tppathlines}    uni
     ${valuesid}=    Set Variable   ${olt}/${pon}/${onu}/${uni}
     log    ${valuesid}
-    [Return]    ${valuesid}
+    RETURN    ${valuesid}
 
 Get Value Of Tp Path Element
     [Documentation]    This keyword delivers numeric value of given tp path element.
@@ -708,7 +708,7 @@ Get Value Of Tp Path Element
     ${value}=    Remove String    ${value}    ${element}-\{
     ${value}=    Remove String    ${value}    \}
     log    ${value}
-    [Return]    ${value}
+    RETURN    ${value}
 
 Validate Onu Id
     [Documentation]    This keyword validates ONU Id of passed etcd data.
@@ -746,7 +746,7 @@ Delete ONU Go Adapter ETCD Data
     log    ${result}
     Run Keyword If    ${validate}    Wait Until Keyword Succeeds    ${timeout}    1s
     ...    Validate Onu Data In Etcd    namespace=${namespace}    nbofetcddata=0    without_pm_data=False
-    [Return]    ${result}
+    RETURN    ${result}
 
 Validate ONOS Flows per OLT
     [Documentation]    This keyword validates onos flows per olt
@@ -855,4 +855,4 @@ Map State
     ...    '${state}'=='10' or '${state}'=='rebooting'                              ${state10}
     ...    '${state}'=='11' or '${state}'=='omci-flows-deleted'                     ${state11}
     ...    '${state}'=='12' or '${state}'=='tech-profile-config-delete-success'     ${state12}
-    [Return]    ${admin_state}    ${oper_status}    ${connect_status}    ${onu_state_nb}    ${onu_state}
+    RETURN    ${admin_state}    ${oper_status}    ${connect_status}    ${onu_state_nb}    ${onu_state}

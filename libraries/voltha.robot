@@ -30,7 +30,7 @@ Lookup Pod That Owns Device
     ${rc}    ${pod}=    Run and Return Rc and Output
     ...    ../scripts/which_pod_owns_device.sh ${device_id}
     Should Be Equal as Integers    ${rc}    0
-    [Return]    ${pod}
+    RETURN    ${pod}
 
 Lookup Deployment That Owns Device
     [Arguments]    ${device_id}
@@ -38,7 +38,7 @@ Lookup Deployment That Owns Device
     ${rc}    ${deploy}=    Run and Return Rc and Output
     ...    which_deployment_owns_device.sh ${device_id}
     Should Be Equal as Integers    ${rc}    0
-    [Return]    ${deploy}
+    RETURN    ${deploy}
 
 Restart VOLTHA Port Forward
     [Arguments]    ${name}
@@ -64,5 +64,5 @@ Get Kv Store Prefix
     ${kv_store_prefix}=    Get Environment Variable    KVSTOREPREFIX    default=${defaultkvstoreprefix}
     # while Get Environment Variable does not work correctly, a manual correction follows
     ${kv_store_prefix}=    Set Variable If    "${kv_store_prefix}"=="${EMPTY}"    ${defaultkvstoreprefix}    ${kv_store_prefix}
-    [Return]    ${kv_store_prefix}
+    RETURN    ${kv_store_prefix}
 

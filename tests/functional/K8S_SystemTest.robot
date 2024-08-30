@@ -99,7 +99,7 @@ Get ETCD Replica Count
     ${rc}    ${size}=    Run and Return Rc and Output
     ...    kubectl -n ${namespace} get ${ETCD_resources} ${ETCD_name} -o jsonpath='{.status.replicas}'
     Should Be Equal As Integers    ${rc}    0   Could not get ETCD replica count
-    [Return]    ${size}
+    RETURN    ${size}
 
 Scale ETCD
     [Arguments]    ${namespace}    ${size}

@@ -57,7 +57,7 @@ Create Metric Dictionary
         Prepare Interval and Validation Data    ${metric_dict}    ${onu_device_id}    ${interval_dict}
     END
     log    ${metric_dict}
-    [return]    ${metric_dict}
+    RETURN    ${metric_dict}
 
 Get Available Groupmetrics per Device
     [Documentation]    Delivers avaiable groupmetrics incl. validation data of onu
@@ -72,7 +72,7 @@ Get Available Groupmetrics per Device
         ${dict}=       Create Dictionary    ${Item}=${metric}
         Set To Dictionary    ${groupmetric_dict}    ${Item}=${metric}
     END
-    [return]    ${groupmetric_dict}
+    RETURN    ${groupmetric_dict}
 
 Set Validation Operation
     [Documentation]    Sets the validation operation per metric parameter
@@ -85,7 +85,7 @@ Set Validation Operation
         ...    ELSE IF    '${type}'=='GAUGE'      Set Validation Operation For Gauge      ${item_dict}    ${item}    ${group}
         ...    ELSE       Run Keyword And Continue On Failure    FAIL    Type (${type}) is unknown!
     END
-    [return]    ${item_dict}
+    RETURN    ${item_dict}
 
 Set Validation Operation For Counter
     [Documentation]    Sets the validation operation for a counter
@@ -97,7 +97,7 @@ Set Validation Operation For Counter
     ...    ELSE    Create Dictionary    operator=${ge}    operand=0
     ${ValidationOperation}=    Create Dictionary    first=${first}    successor=${successor}
     Set To Dictionary    ${item_dict['${metric}']}  ValidationOperation=${ValidationOperation}
-    [return]    ${item_dict}
+    RETURN    ${item_dict}
 
 Set Validation Operation For Context
     [Documentation]    Sets the validation operation for a context
@@ -107,7 +107,7 @@ Set Validation Operation For Context
     ${successor}=     Create Dictionary    operator=${eq}    operand=previous
     ${ValidationOperation}=    Create Dictionary    first=${first}    successor=${successor}
     Set To Dictionary    ${item_dict['${metric}']}  ValidationOperation=${ValidationOperation}
-    [return]    ${item_dict}
+    RETURN    ${item_dict}
 
 Set Validation Operation For Gauge
     [Documentation]    Sets the validation operation for a gauge
@@ -117,7 +117,7 @@ Set Validation Operation For Gauge
     ${successor}=     Create Dictionary    operator=${ge}    operand=0
     ${ValidationOperation}=    Create Dictionary    first=${first}    successor=${successor}
     Set To Dictionary    ${item_dict['${metric}']}  ValidationOperation=${ValidationOperation}
-    [return]    ${item_dict}
+    RETURN    ${item_dict}
 
 Set User Validation Operation
     [Documentation]    Sets the user validation operation and value per metric parameter if available
@@ -136,7 +136,7 @@ Set User Validation Operation
         ${ValidationOperation}=    Create Dictionary    first=${first}    successor=${successor}
         Set To Dictionary    ${item_dict['${item}']}  ValidationOperation=${ValidationOperation}
     END
-    [return]    ${item_dict}
+    RETURN    ${item_dict}
 
 Set User Precondition Operation for Availability
     [Documentation]    Sets the user precondition operation, value and element per metric parameter if available
@@ -152,7 +152,7 @@ Set User Precondition Operation for Availability
         ${precond}=     Create Dictionary    operator=${operator}    operand=${operand}    element=${element}
         Set To Dictionary    ${item_dict['${item}']}  Precondition=${precond}
     END
-    [return]    ${item_dict}
+    RETURN    ${item_dict}
 
 Prepare Interval and Validation Data
     [Documentation]    Prepares interval and validation data of onu
@@ -181,7 +181,7 @@ Prepare Group Interval List per Device Id
         ${dict}=     Create Dictionary    group=${Item}    interval=${val}
         Run Keyword If    '${group}'=='${EMPTY}' or '${group}'=='${Item}'   Append To List    ${group_interval_list}    ${dict}
     END
-    [return]   ${group_interval_list}
+    RETURN   ${group_interval_list}
 
 Get Longest Interval per Onu
     [Documentation]    Delivers longest group interval per device id
@@ -194,7 +194,7 @@ Get Longest Interval per Onu
         ...        ELSE    Get From Dictionary    ${METRIC_DICT['${dev_id}']['MetricData']['${Item}']['Intervals']}    default
         ${longest_interval}=    Set Variable If    ${val} > ${longest_interval}    ${val}    ${longest_interval}
     END
-    [return]   ${longest_interval}
+    RETURN   ${longest_interval}
 
 Get Longest Interval
     [Documentation]    Delivers longest interval over all devices
@@ -211,7 +211,7 @@ Get Longest Interval
         ${longest_interval}=    Set Variable If    ${onu_longest_interval} > ${longest_interval}    ${onu_longest_interval}
         ...    ${longest_interval}
     END
-    [return]    ${longest_interval}
+    RETURN    ${longest_interval}
 
 Determine Collection Interval
     [Documentation]    Delivers collection interval over all devices
@@ -219,7 +219,7 @@ Determine Collection Interval
     ${longest_interval}=    Get Longest Interval    user=${user}
     ${collect_interval}=    evaluate    (${longest_interval}*2)+6
     ${collect_interval}=    Validate Time Unit    ${collect_interval}
-    [return]    ${collect_interval}
+    RETURN    ${collect_interval}
 
 Set Group Interval per Onu
     [Documentation]    Sets group user interval in METRIC_DICT per device id
@@ -306,7 +306,7 @@ Get Validation Operation per Onu
     ${validation_dict}=    Run Keyword If    '${group}' in ${METRIC_DICT['${device_id}']['MetricData']}
     ...    Get From Dictionary    ${METRIC_DICT['${device_id}']['MetricData']['${group}']['GroupMetrics']['${metric_element}']}
     ...    ValidationOperation
-    [return]    ${validation_dict}
+    RETURN    ${validation_dict}
 
 Get Validation Operation All Onu
     [Documentation]    Delivers group validation data in METRIC_DICT all devices for passed metric element
@@ -321,7 +321,7 @@ Get Validation Operation All Onu
         ${validation_dict}=   Get Validation Operation per Onu    ${onu_device_id}    ${group}    ${metric_element}
         Set To Dictionary    ${validation_dict_with_device}    ${onu_device_id}=${validation_dict}
     END
-    [return]    ${validation_dict_with_device}
+    RETURN    ${validation_dict_with_device}
 
 #################################################################
 # test keywords
@@ -350,32 +350,32 @@ Get Metrics
     Run Keyword If    ${clear}    kafka.Records Clear
     Sleep    ${collect_interval}
     ${Kafka_Records}=    kafka.Records Get    voltha.events
-    [return]    ${Kafka_Records}
+    RETURN    ${Kafka_Records}
 
 Get Title From Metadata
     [Documentation]    Delivers the title of pm data from metadata
     [Arguments]    ${metadata}
     ${title}=    Get From Dictionary    ${metadata}      title
-    [return]    ${title}
+    RETURN    ${title}
 
 Get Device_Id From Metadata
     [Documentation]    Delivers the device-id of pm data from metadata
     [Arguments]    ${metadata}
     ${device_id}=    Get From Dictionary    ${metadata}      device_id
-    [return]    ${device_id}
+    RETURN    ${device_id}
 
 Get Timestamp From Metadata
     [Documentation]    Delivers the device-id of pm data from metadata
     [Arguments]    ${metadata}
     ${timestamp}=    Get From Dictionary    ${metadata}      ts
-    [return]    ${timestamp}
+    RETURN    ${timestamp}
 
 Get Slice Data From Event
     [Documentation]    Delivers the slice data of pm data from event
     [Arguments]    ${event}
     ${kpi_event2}=    Get From Dictionary    ${event}         kpi_event2
     ${slice_data}=    Get From Dictionary    ${kpi_event2}    slice_data
-    [return]    ${slice_data}
+    RETURN    ${slice_data}
 
 Validate Raised Timestamp
     [Documentation]    Validates raisedTs with kpi_event2 ts
@@ -482,7 +482,7 @@ Get Previous Slice Index
     END
     Run Keyword And Continue On Failure    Run Keyword Unless    ${matched}    FAIL
     ...    Could not find previous metrics for ${title} entity_id ${entity_id} of device ${device_id}!
-    [return]    ${prevSliceIndex}
+    RETURN    ${prevSliceIndex}
 
 Validate Timestamp
     [Documentation]    Validates passed timestamp with timestamp of previous metrics
@@ -507,7 +507,7 @@ Get Validation Operation
     ${validation_operand}=    Get From Dictionary
     ...   ${METRIC_DICT['${dev_id}']['MetricData']['${title}']['GroupMetrics']['${item}']['ValidationOperation']['${w_wo_prev}']}
     ...   operand
-    [return]    ${validation_operator}    ${validation_operand}
+    RETURN    ${validation_operator}    ${validation_operand}
 
 Get Previous Value
     [Documentation]    Delivers the previous value
@@ -519,7 +519,7 @@ Get Previous Value
     ${slice}=         Get Slice Data From Event    ${event}
     ${metrics}=       Get From Dictionary    ${slice[${prevSliceIndex}]}    metrics
     ${prev_value}=    Get From Dictionary    ${metrics}    ${item}
-    [return]    ${prev_value}
+    RETURN    ${prev_value}
 
 Validate Metrics Data
     [Documentation]    Validates passed metrics
@@ -548,7 +548,7 @@ Validate Precondition for Availability
     ${element}=             Get From Dictionary    ${precond}    element
     ${current_value}=       Get From Dictionary    ${metrics}    ${element}
     ${result}=    utility.validate    ${current_value}    ${operation}    ${validation_value}
-    [return]    ${result}
+    RETURN    ${result}
 
 Validate Completeness of Metrics Data
     [Documentation]    Validates passed metrics of completness
@@ -573,7 +573,7 @@ Get Previous Timestamp
     ${slice}=    Get Slice Data From Event    ${event}
     ${metadata}=    Get From Dictionary    ${slice[${prevSliceIndex}]}    metadata
     ${timestamp}=    Get Timestamp From Metadata    ${metadata}
-    [return]    ${timestamp}
+    RETURN    ${timestamp}
 
 Set Previous Record
     [Documentation]    Sets the previous record in METRIC_DICT for next validation
@@ -672,4 +672,4 @@ Validate Time Unit
     ${seconds}=    Convert To String    ${seconds}
     ${seconds}=    Get Substring    ${seconds}    0    -2
     ${seconds}=    Set Variable If    ${unit}    ${seconds}s    ${seconds}
-    [return]    ${seconds}
+    RETURN    ${seconds}

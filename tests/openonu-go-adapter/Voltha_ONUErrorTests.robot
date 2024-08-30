@@ -95,9 +95,6 @@ ${ONU_MIB_AUDIT_INTERVAL}    60s
 # MDS mitsmatches per ONU
 # example: -v MDS_MISMATCHES_PER_ONU:2
 ${MDS_MISMATCHES_PER_ONU}    3
-# if True execution will be paused before clean up, only use in case of manual testing, do not use in ci pipeline!
-# example: -v pausebeforecleanup:True
-${pausebeforecleanup}    False
 # if True some outputs to console are done during running tests e.g. long duration flow test
 # example: -v print2console:True
 ${print2console}    False

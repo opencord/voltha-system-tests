@@ -25,8 +25,11 @@ $(if $(DEBUG),$(warning ENTER))
 have-robot-files := $(if $(strip $(ROBOT_FILES)),true)
 ROBOT_FILES      ?= $(error ROBOT_FILES= is required)
 
-robot-check      = $(activate) && rflint
-robot-check-args ?= --verbose --configure LineTooLong:130 -e LineTooLong \
+robot-check      = $(activate) && $(lint-robot-cmd)
+
+robot-check-args ?= 
+
+#robot-check-args ?= --verbose --configure LineTooLong:130 -e LineTooLong \
              --configure TooManyTestSteps:65 -e TooManyTestSteps \
              --configure TooManyTestCases:50 -e TooManyTestCases \
              --configure TooFewTestSteps:1 \
@@ -50,10 +53,8 @@ lint-robot-all:
 
 	$(call banner-enter,Target $@)
 
-	$(HIDE)$(MAKE) --no-print-directory lint-robot-version
 	@find . -iname '*.robot' -print0 \
-        | $(xargs-n1) bash -c "$(robot-check) $(robot-check-args)"
-	@echo "DONE"
+        | xargs bash -c "$(robot-check) $(robot-check-args); echo 'DONE'"
 
 	$(call banner-leave,Target $@)
 

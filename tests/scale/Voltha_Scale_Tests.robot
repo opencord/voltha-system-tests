@@ -376,7 +376,7 @@ Compute device IDs
         Append To List  ${device_ids}    ${id}
     END
 
-    [Return]    ${device_ids}
+    RETURN    ${device_ids}
 
 Perform Igmp Join or Leave Per OLT
     [Documentation]    Performs Igmp Join for all the ONUs of an OLT (based on Rest Endpoint)

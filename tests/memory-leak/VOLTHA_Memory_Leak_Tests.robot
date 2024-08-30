@@ -401,7 +401,7 @@ Append Memory Consumption Per Container To File
     ...    ELSE   Set Variable    ${EMPTY}
     ${out_string}=   Catenate   ${formated_prestring}    :    ${formated_mem} Bytes    ${poststring}
     Append To File    ${output_file}   ${out_string}
-    [return]    ${mem_consumption}
+    RETURN    ${mem_consumption}
 
 Compare Memory Consumptions
     [Documentation]    Compares the current memory consumptions with the compare-to value of passed container and
@@ -416,7 +416,7 @@ Compare Memory Consumptions
     ${formated_perc}=       Format String    {:>7}     ${percentage_value}
     ${out_string}=   Catenate   : Corresponds ${formated_perc}% compared to ${compare_to} (${formated_start} Bytes) :
     ...    Difference: ${formated_diff} Bytes
-    [return]    ${out_string}
+    RETURN    ${out_string}
 
 Get And Write Memory Consumption Per Container To File
     [Documentation]    Gets and write current memory consumptions to memory consumption file per container
@@ -432,7 +432,7 @@ Get And Write Memory Consumption Per Container To File
     ${out_string}=   Catenate   \r\n${formated_prestring}    :    ${formated_mem} Bytes    at ${time}
     Append To File    ${output_file}   ${out_string}
     Run Keyword If    ${print2console}    Log    ${formated_prestring} : ${formated_mem} Bytes at ${time}    console=yes
-    [return]    ${mem_consumption}
+    RETURN    ${mem_consumption}
 
 Check for new ONU Device IDs
     [Documentation]    Checks that no old onu device ids stay
@@ -481,14 +481,14 @@ Settling Memory Consumptions
         Exit For Loop If   ${index}>5 and ${current_consumptions}<${upper_bound} and ${current_consumptions}>${lower_bound}
         Sleep    60s
     END
-    [return]   ${average_value}
+    RETURN   ${average_value}
 
 Get Memory Consumptions
     [Documentation]    Delivers memory consumptions of passed POD
     [Arguments]    ${prometheusaddr}    ${prometheusport}    ${container}    ${namespace}
     ${mem_consumption}=    utility.get_memory_consumptions    ${prometheusaddr}:${prometheusport}    ${container}   ${namespace}
     Should Be True    ${mem_consumption} > 0
-    [return]    ${mem_consumption}
+    RETURN    ${mem_consumption}
 
 Write Memory Consumption File Per Container
     [Documentation]    Writes memory consumptions file of passed POD for later evaluation.

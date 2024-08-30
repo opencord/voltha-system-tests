@@ -963,4 +963,4 @@ Validate Performance Intervals
         ${result_interval}=   Set Variable If   (${interval_upstream_bw_used} < 5000 or ${interval_upstream_bw_used} < 5000)
         ...    False    ${result_interval}
     END
-    [Return]     ${result_interval}
+    RETURN     ${result_interval}

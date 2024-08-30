@@ -375,7 +375,7 @@ Teardown Suite
     ...    kills processes and cleans up interfaces on src+dst servers
     Delete Kubernetes Resources    ./voltctl.yaml    ${VOLTCTL_NAMESPACE}
     Wait Until Keyword Succeeds    ${timeout}    5s    Pod Does Not Exist    ${VOLTCTL_NAMESPACE}    ${VOLTCTL_POD_NAME}
-    Get ONOS Status    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}
+    #Get ONOS Status    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}
     Run Keyword If    ${has_dataplane}    Clean Up Linux
     Run Keyword If    ${teardown_device}    Delete All Devices and Verify
     Run Keyword If    ${teardown_device}    Test Empty Device List
@@ -394,7 +394,7 @@ Raise Onu Alarm And Get Event
     ${header}    ${deviceEvent}    Get Device Event    ${deviceEventName}    ${since}
     ${LastEventPostTimestamp}    Set Variable     ${since}
     Set Suite Variable     ${LastEventPostTimestamp}
-    [return]    ${header}    ${deviceEvent}
+    RETURN    ${header}    ${deviceEvent}
 
 Clear Onu Alarm And Get Event
     [Documentation]    Clear an Alarm and return event
@@ -404,7 +404,7 @@ Clear Onu Alarm And Get Event
     ${header}    ${deviceEvent}    Get Device Event    ${deviceEventName}    ${since}
     ${LastEventPostTimestamp}    Set Variable     ${since}
     Set Suite Variable     ${LastEventPostTimestamp}
-    [return]    ${header}    ${deviceEvent}
+    RETURN    ${header}    ${deviceEvent}
 
 Raise Onu Alarm
     [Documentation]    Raise an Alarm
@@ -430,7 +430,7 @@ Raise Olt Alarm And Get Event
     ${header}    ${deviceEvent}    Get Device Event    ${deviceEventName}    ${since}
     ${LastEventPostTimestamp}    Set Variable     ${since}
     Set Suite Variable     ${LastEventPostTimestamp}
-    [return]    ${header}    ${deviceEvent}
+    RETURN    ${header}    ${deviceEvent}
 
 Clear Olt Alarm And Get Event
     [Documentation]    Clear an Alarm and return event
@@ -440,7 +440,7 @@ Clear Olt Alarm And Get Event
     ${header}    ${deviceEvent}    Get Device Event    ${deviceEventName}    ${since}
     ${LastEventPostTimestamp}    Set Variable     ${since}
     Set Suite Variable     ${LastEventPostTimestamp}
-    [return]    ${header}    ${deviceEvent}
+    RETURN    ${header}    ${deviceEvent}
 
 Raise Olt Alarm
     [Documentation]    Raise an Alarm
@@ -472,7 +472,7 @@ Get Device Event
     ${deviceEvent}    Set Variable   ${lastItem}[deviceEvent]
     Log    ${header}
     Log    ${deviceEvent}
-    [return]    ${header}    ${deviceEvent}
+    RETURN    ${header}    ${deviceEvent}
 
 Verify Header
     [Documentation]    Verify that a DeviceEvent's header is sane and the id matches regex

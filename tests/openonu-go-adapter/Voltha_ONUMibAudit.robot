@@ -193,4 +193,4 @@ Calculate Interval
     ${seconds}=    Convert To String    ${seconds}
     ${seconds}=    Get Substring    ${seconds}    0    -2
     ${seconds}=    Set Variable If    ${unit}    ${seconds}s    ${seconds}
-    [return]    ${seconds}
+    RETURN    ${seconds}

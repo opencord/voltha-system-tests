@@ -169,15 +169,15 @@ Check deletion of OLT/ONU before disabling
         Set Global Variable    ${of_id}
     END
     FOR    ${I}    IN RANGE    0    ${num_all_onus}
-	${src}=    Set Variable    ${hosts.src[${I}]}
-	${dst}=    Set Variable    ${hosts.dst[${I}]}
-	${onu_device_id}=    Get Device ID From SN    ${src['onu']}
-	Wait Until Keyword Succeeds    ${timeout}    5s    Validate Device
-	...    ENABLED    ACTIVE    REACHABLE
-	...    ${src['onu']}    onu=True    onu_reason=omci-flows-pushed
-	${rc}    ${output}=    Run and Return Rc and Output    voltctl -c ${VOLTCTL_CONFIG} device delete ${onu_device_id}
-	Log    ${output}
-	Should Contain     ${output}     expected-admin-state:DISABLED
+	    ${src}=    Set Variable    ${hosts.src[${I}]}
+	    ${dst}=    Set Variable    ${hosts.dst[${I}]}
+	    ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
+	    Wait Until Keyword Succeeds    ${timeout}    5s    Validate Device
+	    ...    ENABLED    ACTIVE    REACHABLE
+	    ...    ${src['onu']}    onu=True    onu_reason=omci-flows-pushed
+	    ${rc}    ${output}=    Run and Return Rc and Output    voltctl -c ${VOLTCTL_CONFIG} device delete ${onu_device_id}
+	    Log    ${output}
+	    Should Contain     ${output}     expected-admin-state:DISABLED
         Wait Until Keyword Succeeds    ${timeout}    5s    Validate Device
         ...    ENABLED    ACTIVE    REACHABLE
         ...    ${src['onu']}    onu=True    onu_reason=omci-flows-pushed
@@ -223,11 +223,11 @@ Check disabling of pre-provisioned OLT before enabling
     END
     ${onu_reason}=    Set Variable If    '${workflow}' == 'DT'    initial-mib-downloaded    omci-flows-pushed
     FOR    ${I}    IN RANGE    0    ${num_all_onus}
-	${src}=    Set Variable    ${hosts.src[${I}]}
-	${dst}=    Set Variable    ${hosts.dst[${I}]}
-	Wait Until Keyword Succeeds    ${timeout}    5s    Validate Device
-	...    ENABLED    ACTIVE    REACHABLE
-	...    ${src['onu']}    onu=True    onu_reason=${onu_reason}
+	    ${src}=    Set Variable    ${hosts.src[${I}]}
+	    ${dst}=    Set Variable    ${hosts.dst[${I}]}
+	    Wait Until Keyword Succeeds    ${timeout}    5s    Validate Device
+	    ...    ENABLED    ACTIVE    REACHABLE
+	    ...    ${src['onu']}    onu=True    onu_reason=${onu_reason}
     END
 
 Disable and Delete the logical device directly

@@ -180,7 +180,7 @@ Get Component Uuid From Inventory
         ${component_uuid}=  utility.get_uuid_from_Inventory_Element  ${element}  ${component_name}
     END
     Should Not Be Equal  ${None}  ${component_uuid}     Could not find UUID for ${component_name}
-    [Return]    ${component_uuid}
+    RETURN    ${component_uuid}
 
 Loggable Entities
     [Documentation]  get the loggable entities of a device
@@ -194,7 +194,7 @@ Loggable Entities
     ${is_loglevels_in}=  Run Keyword And Return Status  Dictionary Should Contain Key  ${response}  logLevels
     ${loggable_entities}=  Run Keyword If  ${is_loglevels_in}==${True}  Get From Dictionary  ${response}  logLevels
     ...  ELSE  Create Dictionary
-    [Return]  ${loggable_entities}
+    RETURN  ${loggable_entities}
 
 Get X Loggable Entities
     [Documentation]  get x (at least!) loggable entities and their loglevel of a device back to the user
@@ -208,7 +208,7 @@ Get X Loggable Entities
         Exit For Loop If    ${number_entities}==${counter}
         ${counter}=  Set Variable  ${counter+1}
     END
-    [Return]  ${entities}
+    RETURN  ${entities}
 
 Set Component Inventory Info
     [Documentation]    This keyword sets a new value

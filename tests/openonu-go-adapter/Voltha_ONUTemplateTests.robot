@@ -362,7 +362,7 @@ Get ONU Startup Duration
     ${timeCurrent} =    Get Current Date
     ${timeTotalMs} =    Subtract Date From Date    ${timeCurrent}    ${startTime}    result_format=number
     Log    ONU ${src['onu']}: reached the state ${onu_state} after ${timeTotalMs} sec.    console=yes
-    [Return]    ${timeTotalMs}
+    RETURN    ${timeTotalMs}
 
 Bring Up ONU
     [Documentation]    This keyword brings up onu

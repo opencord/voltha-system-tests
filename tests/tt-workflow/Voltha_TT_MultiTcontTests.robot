@@ -512,7 +512,7 @@ Read Output File on Remote System
     ${output}=    OperatingSystem.Get File    ${file}
     Log    ${output}
     ${object}=    Evaluate    json.loads(r'''${output}''')    json
-    [Return]    ${object}
+    RETURN    ${object}
 
 Get File from Remote System
     [Arguments]    ${file}    ${ip}    ${user}    ${pass}=${None}
@@ -531,7 +531,7 @@ Read Output File on System
     ${output}=    OperatingSystem.Get File    ${file}
     Log    ${output}
     ${object}=    Evaluate    json.loads(r'''${output}''')    json
-    [Return]    ${object}
+    RETURN    ${object}
 
 Run Iperf3 Test Client in Background
     [Arguments]    ${src}    ${server}    ${args}    ${out_file}
@@ -564,7 +564,7 @@ Get ONU details with Given Sn and Service
         ...    True    False
         Exit For Loop If    ${matched}
     END
-    [Return]    ${matched}    ${src}    ${dst}
+    RETURN    ${matched}    ${src}    ${dst}
 
 Setup Suite
     [Documentation]    Set up the test suite
