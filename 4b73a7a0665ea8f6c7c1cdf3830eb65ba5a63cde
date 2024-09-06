@@ -16,6 +16,24 @@
       "message": "I think to properly test this, we\u0027re going to need to create a second branch. That way, we can set the JJB job to test that branch on an updated builder.",
       "revId": "4b73a7a0665ea8f6c7c1cdf3830eb65ba5a63cde",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2dd5d756_6e4b0e50",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000218
+      },
+      "writtenOn": "2024-09-06T20:51:57Z",
+      "side": 1,
+      "message": "Makes sense.",
+      "parentUuid": "17d61651_02e75593",
+      "revId": "4b73a7a0665ea8f6c7c1cdf3830eb65ba5a63cde",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     }
   ]
 }
