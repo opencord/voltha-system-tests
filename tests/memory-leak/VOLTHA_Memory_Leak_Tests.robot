@@ -263,7 +263,7 @@ Memory Leak Test Openolt Adapter
         ...    Iteration ${formatedIt}
     END
     Wait Until Keyword Succeeds    500s    30s
-    ...        Validate Memory Consumptions  adapter-open-olt  ${NAMESPACE}  ${setup_mem_consumption_olt}  ${output_file_onu}
+    ...        Validate Memory Consumptions  adapter-open-olt  ${NAMESPACE}  ${setup_mem_consumption_olt}  ${output_file_olt}
     ...        out_string=Validate
     [Teardown]    Run Keywords    Printout ONU Serial Number and Device Id    print2console=${print2console}
     ...    AND    Run Keyword If    ${logging}    Get Logical Id of OLT
