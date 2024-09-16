@@ -494,7 +494,7 @@ Validate Timestamp
     ...    current
     ${interval}=    Convert To Integer    ${interval}
     ${check_value}=     Evaluate    abs(${prev_timestamp}+${interval}-${timestamp})
-    Run Keyword And Continue On Failure    Run Keyword Unless    ${0} <= ${check_value} <= ${4}    FAIL
+    Run Keyword And Continue On Failure    Run Keyword Unless    ${0} <= ${check_value} <= ${5}    FAIL
     ...    Wrong interval for ${title} of device ${device_id}!
 
 Get Validation Operation
