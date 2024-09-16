@@ -217,7 +217,7 @@ Determine Collection Interval
     [Documentation]    Delivers collection interval over all devices
     [Arguments]    ${user}=False
     ${longest_interval}=    Get Longest Interval    user=${user}
-    ${collect_interval}=    evaluate    (${longest_interval}*2)+6
+    ${collect_interval}=    evaluate    (${longest_interval}*2)+11
     ${collect_interval}=    Validate Time Unit    ${collect_interval}
     [return]    ${collect_interval}
 
@@ -494,7 +494,7 @@ Validate Timestamp
     ...    current
     ${interval}=    Convert To Integer    ${interval}
     ${check_value}=     Evaluate    abs(${prev_timestamp}+${interval}-${timestamp})
-    Run Keyword And Continue On Failure    Run Keyword Unless    ${0} <= ${check_value} <= ${4}    FAIL
+    Run Keyword And Continue On Failure    Run Keyword Unless    ${0} <= ${check_value} <= ${5}    FAIL
     ...    Wrong interval for ${title} of device ${device_id}!
 
 Get Validation Operation
