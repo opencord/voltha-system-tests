@@ -1,0 +1,8 @@
+Code-Review+2: Mahir Gunyel <mahir.gunyel@netsia.com>
+Code-Review+1: Serkant Uluderya <serkant.uluderya@netsia.com>
+Verified+1: Jenkins Technical User <do-not-reply@opennetworking.org>
+Submitted-by: Mahir Gunyel <mahir.gunyel@netsia.com>
+Submitted-at: Wed, 18 Sep 2024 17:10:37 +0000
+Reviewed-on: https://gerrit.opencord.org/c/voltha-system-tests/+/35392
+Project: voltha-system-tests
+Branch: refs/heads/master
