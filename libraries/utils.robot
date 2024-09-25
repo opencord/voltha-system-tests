@@ -22,8 +22,8 @@ Library           Process
 Library           Collections
 Library           RequestsLibrary
 Library           OperatingSystem
-Library           CORDRobot
-Library           ImportResource    resources=CORDRobot
+#Library           CORDRobot
+#Library           ImportResource    resources=CORDRobot
 Resource          ./voltctl.robot
 Resource          ./bbsim.robot
 
@@ -1162,7 +1162,7 @@ Collect Logs
     END
     #Run Keyword and Ignore Error    Get Device Output from Voltha    ${olt_device_id}
     #Run Keyword and Ignore Error    Get Logical Device Output from Voltha    ${logical_id}
-    Get ONOS Status    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}
+    #Get ONOS Status    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}
 
 Verify ping is successful except for given device
     [Arguments]    ${num_onus}    ${exceptional_onu}
