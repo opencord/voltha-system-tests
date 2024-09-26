@@ -18,7 +18,7 @@
 ##-------------------##
 ##---]  GLOBALS  [---##
 ##-------------------##
-lint-robot-cmd := $(venv-name)/bin/rflint
+lint-robot-cmd := $(venv-name)/bin/robocop
 
 ##-------------------##
 ##---]  TARGETS  [---##
@@ -29,17 +29,6 @@ lint-robot-cmd := $(venv-name)/bin/rflint
 ## -----------------------------------------------------------------------
 $(lint-robot-cmd) : lint-robot-install
 lint-robot-install: venv-activate-patched
-    # Verify package mentioned in requirements.txt
-    # grep 'robotframework-lint' requirements.txt
-	$(activate) && pip freeze | grep 'robotframework-lint'
-
-## ---------------------------------------1--------------------------------
-## Intent: Display command line tool version
-##   - Dependency will install when needed
-## -----------------------------------------------------------------------
-lint-robot-version : lint-robot-install
-	$(activate) && rflint --version
-	@echo
 
 # [EOF]
 

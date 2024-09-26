@@ -168,16 +168,16 @@ Check deletion of OLT/ONU before disabling
         ...    ${olt_serial_number}
         Set Global Variable    ${of_id}
     END
-    FOR    ${I}    IN RANGE    0    ${num_all_onus}
-	${src}=    Set Variable    ${hosts.src[${I}]}
-	${dst}=    Set Variable    ${hosts.dst[${I}]}
-	${onu_device_id}=    Get Device ID From SN    ${src['onu']}
-	Wait Until Keyword Succeeds    ${timeout}    5s    Validate Device
-	...    ENABLED    ACTIVE    REACHABLE
-	...    ${src['onu']}    onu=True    onu_reason=omci-flows-pushed
-	${rc}    ${output}=    Run and Return Rc and Output    voltctl -c ${VOLTCTL_CONFIG} device delete ${onu_device_id}
-	Log    ${output}
-	Should Contain     ${output}     expected-admin-state:DISABLED
+        FOR    ${I}    IN RANGE    0    ${num_all_onus}
+	    ${src}=    Set Variable    ${hosts.src[${I}]}
+	    ${dst}=    Set Variable    ${hosts.dst[${I}]}
+	    ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
+	    Wait Until Keyword Succeeds    ${timeout}    5s    Validate Device
+	    ...    ENABLED    ACTIVE    REACHABLE
+	    ...    ${src['onu']}    onu=True    onu_reason=omci-flows-pushed
+	    ${rc}    ${output}=    Run and Return Rc and Output    voltctl -c ${VOLTCTL_CONFIG} device delete ${onu_device_id}
+	    Log    ${output}
+	    Should Contain     ${output}     expected-admin-state:DISABLED
         Wait Until Keyword Succeeds    ${timeout}    5s    Validate Device
         ...    ENABLED    ACTIVE    REACHABLE
         ...    ${src['onu']}    onu=True    onu_reason=omci-flows-pushed
