@@ -142,7 +142,7 @@ Test Subscriber Delete and Add for DT
         ...    Validate Device    ENABLED    ACTIVE
         ...    REACHABLE    ${src['onu']}
         # Add Subscriber Access
-	Post Request    VGC    services/${of_id}/${onu_port}
+	    Post Request    VGC    services/${of_id}/${onu_port}
         # Verify subscriber access flows are added for the ONU port
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
         ...    Verify Subscriber Access Flows Added for ONU DT in VGC    ${VGC_SSH_IP}    ${VGC_SSH_PORT}    ${of_id}
@@ -296,7 +296,7 @@ Test Disable and Enable OLT for DT
         ...    ${src['ip']}    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
         # Remove Subscriber Access (To replicate DT workflow)
         ${onu_port_name}=    Catenate    SEPARATOR=-    ${src['onu']}    ${src['uni_id']}
-	Wait Until Keyword Succeeds    ${timeout}    2s
+	    Wait Until Keyword Succeeds    ${timeout}    2s
         ...    Delete Request    VGC    services/${onu_port_name}
         # Delete ONU Device (To replicate DT workflow)
         Delete Device    ${onu_device_id}
