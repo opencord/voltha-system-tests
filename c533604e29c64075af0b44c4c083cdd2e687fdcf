@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "011d99fd_6555ec7e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001013
+      },
+      "writtenOn": "2024-10-01T21:50:48Z",
+      "side": 1,
+      "message": "In order to have these changes tested with Python 3.12, the following change will need to be merged: https://gerrit.opencord.org/c/ci-management/+/35403",
+      "revId": "c533604e29c64075af0b44c4c083cdd2e687fdcf",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    }
+  ]
+}
