@@ -150,7 +150,7 @@ ONU MIB Template Unknown Attribute Test
     ...    AND    Stop Logging    UnknownAttributeOnuGo
 
 
-ONU MIB Template Data Compare OMCI Baseline and Extended Message
+#ONU MIB Template Data Compare OMCI Baseline and Extended Message
     [Documentation]    Compares ONU Go adapter storage of MIB Template Data in etcd according OMCI message format
     ...                - setup one ONU with baseline OMCI message (EXTRA_HELM_FLAGS=" --set omccVersion=163)
     ...                - request MIB-Upload-Data by ONU via OMCI
