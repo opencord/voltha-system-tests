@@ -73,6 +73,7 @@ ${data_dir}    ../data
 ${unitag_sub}    False
 
 *** Test Cases ***
+
 ONU MIB Template Data Test
     [Documentation]    Validates ONU Go adapter storage of MIB Template Data in etcd and checks the usage
     ...                - setup one ONU
