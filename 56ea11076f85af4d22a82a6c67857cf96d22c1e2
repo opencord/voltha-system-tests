@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4fa89e53_98c24032",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000218
+      },
+      "writtenOn": "2024-10-31T23:07:57Z",
+      "side": 1,
+      "message": "verification test passed here : https://jenkins.opencord.org/view/VOLTHA%202.x%20verify/job/verify_voltha-system-tests_sanity-test/3702/",
+      "revId": "56ea11076f85af4d22a82a6c67857cf96d22c1e2",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    }
+  ]
+}
