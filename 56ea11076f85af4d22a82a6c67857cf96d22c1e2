@@ -33,6 +33,23 @@
       "message": "recheck",
       "revId": "56ea11076f85af4d22a82a6c67857cf96d22c1e2",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3ccc850e_80949290",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000218
+      },
+      "writtenOn": "2024-11-02T05:06:41Z",
+      "side": 1,
+      "message": "\"17:22:52  vars/getVolthaCode.groovy::Clone voltha-helm-charts @ BRANCH\u003d[python312-update]: ENTER\n17:22:53  ERROR: Couldn\u0027t find any revision to build. Verify the repository and branch configuration for this job.\"\n\nThere isn\u0027t \"python312-update\" branch for voltha-helm-charts. The job shouldn\u0027t checkout the repos other then voltha-system-tests from the branch \"python312-update\".",
+      "revId": "56ea11076f85af4d22a82a6c67857cf96d22c1e2",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     }
   ]
 }
