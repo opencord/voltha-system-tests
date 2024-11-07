@@ -16,6 +16,23 @@
       "message": "Hi Eric,\nThe issue is still seen with the same failure \"Makefile not found at /w/workspace/verify_voltha-system-tests_unit-test/!\" ",
       "revId": "6712a454e33ce845b21b3b557cc61c0f0bec5c2c",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bc3c327e_3d3725a2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001013
+      },
+      "writtenOn": "2024-11-07T00:19:38Z",
+      "side": 1,
+      "message": "recheck",
+      "revId": "6712a454e33ce845b21b3b557cc61c0f0bec5c2c",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     }
   ]
 }
