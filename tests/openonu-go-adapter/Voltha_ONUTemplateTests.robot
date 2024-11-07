@@ -49,7 +49,7 @@ ${has_dataplane}      True
 ${external_libs}      True
 ${teardown_device}    True
 ${scripts}        ../../scripts
-# Per-test logging on failure is turned off by default; set this variable to enable
+#   Per-test logging on failure is turned off by default; set this variable to enable
 ${container_log_dir}    ${None}
 
 # flag debugmode is used, if true timeout calculation various, can be passed via the command line too
