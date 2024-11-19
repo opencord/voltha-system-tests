@@ -158,9 +158,9 @@
             "serviceName" : "MC"
           } ]
         }, {
-          "id" : "EC1912001823",
-          "hardwareIdentifier" : "80:a2:35:4d:2f:c0",
-          "nasId": "EC1912001823",
+          "id" : "722033038194",
+          "hardwareIdentifier" : "28:b9:d9:e3:59:98",
+          "nasId": "722033038194",
           "uplinkPort" : "16777216"
         } ]
       }
