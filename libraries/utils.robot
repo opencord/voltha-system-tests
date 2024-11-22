@@ -1413,7 +1413,7 @@ Execute Remote Command
     ${namespace}=    Run Keyword If    '${container_type}' == 'K8S'    SSHLibrary.Execute Command
     ...    kubectl get pods --all-namespaces | grep ${container_name} | awk '{print $1}'
     ${stdout}    ${stderr}    ${rc}=    Run Keyword If    '${container_type}' == 'LXC'
-    ...        SSHLibrary.Execute Command    lxc exec ${container_name} -- ${cmd}
+    ...        SSHLibrary.Execute Command    lxc exec ${container_name} -- bash -c "${cmd}"
     ...        return_stderr=True    return_rc=True    timeout=${timeout}
     ...    ELSE IF    '${container_type}' == 'K8S'
     ...        SSHLibrary.Execute Command    kubectl -n ${namespace} exec ${container_name} -- ${cmd}
