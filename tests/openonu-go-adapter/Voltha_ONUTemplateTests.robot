@@ -271,25 +271,26 @@ Perform ONU MIB Template Compare OMCI Baseline and Extended Message
     ...    Verify MIB Template Data Available    ${INFRA_NAMESPACE}
     ${MibTemplateDataBaseline}=    Get ONU MIB Template Data    ${INFRA_NAMESPACE}
     # get ONU OMCI counter statistics
-    ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
-    ${rc}    ${OMCI_counter_dict}=    Get OMCI counter statistics dictionary   ${onu_device_id}
-    Run Keyword If    ${rc} != 0    FAIL    Could not get baseline ONU OMCI counter statistic of ONU ${src['onu']}!
-    ${BaseTxArFrames}=    Get From Dictionary    ${OMCI_counter_dict}     BaseTxArFrames
-    ${BaseRxAkFrames}=    Get From Dictionary    ${OMCI_counter_dict}     BaseRxAkFrames
-    Should Be Equal As Integers   ${BaseTxArFrames}   ${BaseRxAkFrames}   Number of baseline Rx and Tx frames do not match!
+    # Validation is commented due to onu_omci_stats is not supported by getextval
+    #${onu_device_id}=    Get Device ID From SN    ${src['onu']}
+    #${rc}    ${OMCI_counter_dict}=    Get OMCI counter statistics dictionary   ${onu_device_id}
+    #Run Keyword If    ${rc} != 0    FAIL    Could not get baseline ONU OMCI counter statistic of ONU ${src['onu']}!
+    #${BaseTxArFrames}=    Get From Dictionary    ${OMCI_counter_dict}     BaseTxArFrames
+    #${BaseRxAkFrames}=    Get From Dictionary    ${OMCI_counter_dict}     BaseRxAkFrames
+    #Should Be Equal As Integers   ${BaseTxArFrames}   ${BaseRxAkFrames}   Number of baseline Rx and Tx frames do not match!
     # some additional checks
-    ${ExtRxAkFrames}=           Get From Dictionary   ${OMCI_counter_dict}   ExtRxAkFrames
-    ${ExtRxNoAkFrames}=         Get From Dictionary   ${OMCI_counter_dict}   ExtRxNoAkFrames
-    ${ExtTxArFrames}=           Get From Dictionary   ${OMCI_counter_dict}   ExtTxArFrames
-    ${ExtTxNoArFrames}=         Get From Dictionary   ${OMCI_counter_dict}   ExtTxNoArFrames
-    ${TxOmciCounterRetries}=    Get From Dictionary   ${OMCI_counter_dict}   TxOmciCounterRetries
-    ${TxOmciCounterTimeouts}=   Get From Dictionary   ${OMCI_counter_dict}   TxOmciCounterTimeouts
-    Should Be Equal   0   ${ExtRxAkFrames}          ExtRxAkFrames found in baseline OMCI!
-    Should Be Equal   0   ${ExtRxNoAkFrames}        ExtRxNoAkFrames found in baseline OMCI!
-    Should Be Equal   0   ${ExtTxArFrames}          ExtTxArFrames found in baseline OMCI!
-    Should Be Equal   0   ${ExtTxNoArFrames}        ExtTxNoArFrames found in baseline OMCI!
-    Should Be Equal   0   ${TxOmciCounterRetries}   TxOmciCounterRetries found in baseline OMCI!
-    Should Be Equal   0   ${TxOmciCounterTimeouts}  TxOmciCounterTimeouts found in baseline OMCI!
+    #${ExtRxAkFrames}=           Get From Dictionary   ${OMCI_counter_dict}   ExtRxAkFrames
+    #${ExtRxNoAkFrames}=         Get From Dictionary   ${OMCI_counter_dict}   ExtRxNoAkFrames
+    #${ExtTxArFrames}=           Get From Dictionary   ${OMCI_counter_dict}   ExtTxArFrames
+    #${ExtTxNoArFrames}=         Get From Dictionary   ${OMCI_counter_dict}   ExtTxNoArFrames
+    #${TxOmciCounterRetries}=    Get From Dictionary   ${OMCI_counter_dict}   TxOmciCounterRetries
+    #${TxOmciCounterTimeouts}=   Get From Dictionary   ${OMCI_counter_dict}   TxOmciCounterTimeouts
+    #Should Be Equal   0   ${ExtRxAkFrames}          ExtRxAkFrames found in baseline OMCI!
+    #Should Be Equal   0   ${ExtRxNoAkFrames}        ExtRxNoAkFrames found in baseline OMCI!
+    #Should Be Equal   0   ${ExtTxArFrames}          ExtTxArFrames found in baseline OMCI!
+    #Should Be Equal   0   ${ExtTxNoArFrames}        ExtTxNoArFrames found in baseline OMCI!
+    #Should Be Equal   0   ${TxOmciCounterRetries}   TxOmciCounterRetries found in baseline OMCI!
+    #Should Be Equal   0   ${TxOmciCounterTimeouts}  TxOmciCounterTimeouts found in baseline OMCI!
     Delete All Devices and Verify
     Delete MIB Template Data    ${INFRA_NAMESPACE}
     # Restart BBSIM with OMCI Extended Message
