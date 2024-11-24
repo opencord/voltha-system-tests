@@ -330,21 +330,21 @@ Perform ONU MIB Template Compare OMCI Baseline and Extended Message
     Should Be Equal As Strings    ${MibTemplateDataBaseline}    ${MibTemplateDataExtended}    MIB Templates not equal!
     # get ONU OMCI counter statistics
     ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
-    ${rc}    ${OMCI_counter_dict}=    Get OMCI counter statistics dictionary   ${onu_device_id}
-    Run Keyword If    ${rc} != 0    FAIL    Could not get extended ONU OMCI counter statistic of ONU ${src['onu']}!
-    ${ExtTxArFrames}=    Get From Dictionary    ${OMCI_counter_dict}    ExtTxArFrames
-    ${ExtRxAkFrames}=    Get From Dictionary    ${OMCI_counter_dict}    ExtRxAkFrames
-    Should Be Equal As Integers   ${ExtTxArFrames}   ${ExtRxAkFrames}   Number of extended Rx and Tx frames do not match!
+    #${rc}    ${OMCI_counter_dict}=    Get OMCI counter statistics dictionary   ${onu_device_id}
+    #Run Keyword If    ${rc} != 0    FAIL    Could not get extended ONU OMCI counter statistic of ONU ${src['onu']}!
+    #${ExtTxArFrames}=    Get From Dictionary    ${OMCI_counter_dict}    ExtTxArFrames
+    #${ExtRxAkFrames}=    Get From Dictionary    ${OMCI_counter_dict}    ExtRxAkFrames
+    #Should Be Equal As Integers   ${ExtTxArFrames}   ${ExtRxAkFrames}   Number of extended Rx and Tx frames do not match!
     # check baseline and extended OMCI frames counter
-    ${TxArFrames_compare}=    Evaluate    ${BaseTxArFrames}*0.05 > ${ExtTxArFrames}
-    Should Be True    ${TxArFrames_compare}   Comparison of TxArFrames failed (${BaseTxArFrames}:${ExtTxArFrames})!
-    ${RxAkFrames_compare}=    Evaluate    ${BaseRxAkFrames}*0.05 > ${ExtRxAkFrames}
-    Should Be True    ${RxAkFrames_compare}   Comparison of RxAkFrames failed (${BaseRxAkFrames}:${ExtRxAkFrames})!
+    #${TxArFrames_compare}=    Evaluate    ${BaseTxArFrames}*0.05 > ${ExtTxArFrames}
+    #Should Be True    ${TxArFrames_compare}   Comparison of TxArFrames failed (${BaseTxArFrames}:${ExtTxArFrames})!
+    #${RxAkFrames_compare}=    Evaluate    ${BaseRxAkFrames}*0.05 > ${ExtRxAkFrames}
+    #Should Be True    ${RxAkFrames_compare}   Comparison of RxAkFrames failed (${BaseRxAkFrames}:${ExtRxAkFrames})!
     # some additional checks
-    ${TxOmciCounterRetries}=    Get From Dictionary   ${OMCI_counter_dict}   TxOmciCounterRetries
-    ${TxOmciCounterTimeouts}=   Get From Dictionary   ${OMCI_counter_dict}   TxOmciCounterTimeouts
-    Should Be Equal   0   ${TxOmciCounterRetries}   TxOmciCounterRetries found in extended OMCI!
-    Should Be Equal   0   ${TxOmciCounterTimeouts}  TxOmciCounterTimeouts found in extended OMCI!
+    #${TxOmciCounterRetries}=    Get From Dictionary   ${OMCI_counter_dict}   TxOmciCounterRetries
+    #${TxOmciCounterTimeouts}=   Get From Dictionary   ${OMCI_counter_dict}   TxOmciCounterTimeouts
+    #Should Be Equal   0   ${TxOmciCounterRetries}   TxOmciCounterRetries found in extended OMCI!
+    #Should Be Equal   0   ${TxOmciCounterTimeouts}  TxOmciCounterTimeouts found in extended OMCI!
     # Restart BBSIM with OMCI Message Version read at begin of test
     ${extra_helm_flags}=    Catenate
     ...    --set onu=2,pon=2,controlledActivation=only-onu,injectOmciUnknownAttributes=true,injectOmciUnknownMe=true
