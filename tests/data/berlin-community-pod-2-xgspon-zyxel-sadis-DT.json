@@ -32,6 +32,40 @@
                 "isDhcpRequired": false
               }
             ]
+          },
+          {
+            "id": "ALPHe3a69d03-1",
+            "nasPortId": "ALPHe3a69d03-1",
+            "circuitId": "ALPHe3a69d03-1",
+            "remoteId": "S210Z14009247",
+            "uniTagList": [
+              {
+                "uniTagMatch": 4096,
+                "ponCTag": 4096,
+                "ponSTag": 11,
+                "technologyProfileId": 64,
+                "upstreamBandwidthProfile": "Default",
+                "downstreamBandwidthProfile": "Default",
+                "isDhcpRequired": false
+              }
+            ]
+          },
+          {
+            "id": "ALPHe3d1cf5c-1",
+            "nasPortId": "ALPHe3d1cf5c-1",
+            "circuitId": "ALPHe3d1cf5c-1",
+            "remoteId": "S210Z14009247",
+            "uniTagList": [
+              {
+                "uniTagMatch": 4096,
+                "ponCTag": 4096,
+                "ponSTag": 12,
+                "technologyProfileId": 64,
+                "upstreamBandwidthProfile": "Default",
+                "downstreamBandwidthProfile": "Default",
+                "isDhcpRequired": false
+              }
+            ]
           }
         ]
       },
