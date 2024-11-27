@@ -46,7 +46,7 @@ ${INFRA_NAMESPACE}      default
 # For below variable value, using deployment name as using grep for
 # parsing radius pod name, we can also use full radius pod name
 ${RESTART_POD_NAME}    radius
-${timeout}        60s
+${timeout}        120s
 ${of_id}          0
 ${logical_id}     0
 ${uprate}         0
