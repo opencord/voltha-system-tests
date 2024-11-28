@@ -51,7 +51,7 @@ cord-robot==2.1.10
 # robotframework-robocop
 
 matplotlib==3.3.4
-requests==2.24.0
+requests==2.31.0
 grpc-robot>=2.9.3
 kafka-robot>=2.3.2
 voltha-protos>=4.2.0
