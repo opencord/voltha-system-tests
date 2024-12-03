@@ -16,6 +16,23 @@
       "message": "recheck",
       "revId": "e6757bed81a6993885bbca1fc50eb59455c347ae",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ac9c15b4_c3678147",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000218
+      },
+      "writtenOn": "2024-12-03T19:41:55Z",
+      "side": 1,
+      "message": "Edits in this patch seems already merge in a this:  https://gerrit.opencord.org/c/voltha-system-tests/+/35462/1/tests/openonu-go-adapter/Voltha_ONUTemplateTests.robot\n\nIs this still needed @Nandita?",
+      "revId": "e6757bed81a6993885bbca1fc50eb59455c347ae",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     }
   ]
 }
