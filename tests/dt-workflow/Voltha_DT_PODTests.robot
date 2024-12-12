@@ -130,7 +130,8 @@ Sanity E2E Test for OLT/ONU on POD for DT
     ...    Inner vlans from the RG should not change
     [Tags]    sanityDt   soak
     [Setup]    Start Logging    SanityTestDt
-    [Teardown]    Run Keywords    Run Keyword If    ${logging}    Collect Logs
+    [Teardown]    Run Keywords    Sleep    ${SLEEP_VAR}
+    ...           AND    Run Keyword If    ${logging}    Collect Logs
     ...           AND             Stop Logging    SanityTestDt
     Setup    ${SOAK_TEST}
     Run Keyword If    ${has_dataplane}    Clean Up Linux
