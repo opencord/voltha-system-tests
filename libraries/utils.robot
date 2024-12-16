@@ -813,6 +813,7 @@ Delete All Devices and Verify
         ...    Validate Deleted Device Cleanup In ONOS    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${olt_serial_number}
         ...    ${maclearning_enabled}
     END
+    Sleep    10s
     Wait Until Keyword Succeeds    ${timeout}    5s    Validate Cleanup In ETCD    ${INFRA_NAMESPACE}
 
 Teardown
