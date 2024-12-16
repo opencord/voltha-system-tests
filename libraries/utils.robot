@@ -803,6 +803,7 @@ Delete All Devices and Verify
     [Documentation]    Remove any devices from VOLTHA and ONOS
     [Arguments]    ${maclearning_enabled}=False
     # Clear devices from VOLTHA
+    Sleep    10s
     Disable Devices In Voltha    Root=true
     Wait Until Keyword Succeeds    ${timeout}    2s    Test Devices Disabled In Voltha    Root=true
     Delete Devices In Voltha    Root=true
