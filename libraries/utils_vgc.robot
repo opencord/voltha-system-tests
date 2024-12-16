@@ -473,6 +473,7 @@ Delete All Devices and Verify
         ...    Validate Deleted Device Cleanup In VGC    ${VGC_SSH_IP}    ${VGC_SSH_PORT}    ${olt_serial_number}    ${device_id}
         ...    ${maclearning_enabled}
     END
+    Sleep    10s
     Wait Until Keyword Succeeds    ${timeout}    5s    Validate Cleanup In ETCD    ${INFRA_NAMESPACE}
 
 Teardown
