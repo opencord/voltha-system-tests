@@ -803,7 +803,6 @@ Delete All Devices and Verify
     [Documentation]    Remove any devices from VOLTHA and ONOS
     [Arguments]    ${maclearning_enabled}=False
     # Clear devices from VOLTHA
-    Sleep    10s
     Disable Devices In Voltha    Root=true
     Wait Until Keyword Succeeds    ${timeout}    2s    Test Devices Disabled In Voltha    Root=true
     Delete Devices In Voltha    Root=true
@@ -814,7 +813,6 @@ Delete All Devices and Verify
         ...    Validate Deleted Device Cleanup In ONOS    ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}    ${olt_serial_number}
         ...    ${maclearning_enabled}
     END
-    Sleep    10s
     Wait Until Keyword Succeeds    ${timeout}    5s    Validate Cleanup In ETCD    ${INFRA_NAMESPACE}
 
 Teardown
