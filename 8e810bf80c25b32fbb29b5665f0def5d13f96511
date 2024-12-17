@@ -71,6 +71,24 @@
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6ad363f4_78dd2a98",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000537
+      },
+      "writtenOn": "2024-12-17T05:04:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cc6e7c48_bb19d672",
+      "revId": "8e810bf80c25b32fbb29b5665f0def5d13f96511",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "68c4a8ee_6f8833fd",
@@ -102,6 +120,24 @@
       "side": 1,
       "message": "Now Don\u0027t have solution to make  Variable names can be derived from tests or targets and configs assigned to them. I will work on this and will take it as separate task.",
       "parentUuid": "68c4a8ee_6f8833fd",
+      "revId": "8e810bf80c25b32fbb29b5665f0def5d13f96511",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "55648943_4eba9d73",
+        "filename": "Makefile",
+        "patchSetId": 3
+      },
+      "lineNbr": 502,
+      "author": {
+        "id": 1000537
+      },
+      "writtenOn": "2024-12-17T05:04:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "70562555_3db8fcf2",
       "revId": "8e810bf80c25b32fbb29b5665f0def5d13f96511",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     },
@@ -141,6 +177,24 @@
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "445707be_0f6fa069",
+        "filename": "libraries/vgc.robot",
+        "patchSetId": 3
+      },
+      "lineNbr": 811,
+      "author": {
+        "id": 1000537
+      },
+      "writtenOn": "2024-12-17T05:04:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "365cb835_ba07a3ef",
+      "revId": "8e810bf80c25b32fbb29b5665f0def5d13f96511",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2759f55a_0ade5dfd",
@@ -176,6 +230,24 @@
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0f859a3f_cf85d48e",
+        "filename": "tests/dt-workflow/Voltha_DT_FailureScenarios_VGC.robot",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1000537
+      },
+      "writtenOn": "2024-12-17T05:04:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "85ad19e1_bee8661b",
+      "revId": "8e810bf80c25b32fbb29b5665f0def5d13f96511",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b54d12a1_1c043278",
@@ -207,6 +279,24 @@
       "side": 1,
       "message": "This are dummy variables so removed.",
       "parentUuid": "b54d12a1_1c043278",
+      "revId": "8e810bf80c25b32fbb29b5665f0def5d13f96511",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8a700e19_d0ccf6fa",
+        "filename": "tests/dt-workflow/Voltha_DT_FailureScenarios_VGC.robot",
+        "patchSetId": 3
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1000537
+      },
+      "writtenOn": "2024-12-17T05:04:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "feb81ee4_ea432226",
       "revId": "8e810bf80c25b32fbb29b5665f0def5d13f96511",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     },
@@ -281,6 +371,24 @@
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e35b1e01_a6417c44",
+        "filename": "tests/dt-workflow/Voltha_DT_FailureScenarios_VGC.robot",
+        "patchSetId": 3
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1000537
+      },
+      "writtenOn": "2024-12-17T05:04:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1dfc0edc_3ca50552",
+      "revId": "8e810bf80c25b32fbb29b5665f0def5d13f96511",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "16b98f2f_122e6b9c",
@@ -312,6 +420,24 @@
       "side": 1,
       "message": "Done",
       "parentUuid": "16b98f2f_122e6b9c",
+      "revId": "8e810bf80c25b32fbb29b5665f0def5d13f96511",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8c430930_c0a8819a",
+        "filename": "tests/dt-workflow/Voltha_DT_FailureScenarios_VGC.robot",
+        "patchSetId": 3
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1000537
+      },
+      "writtenOn": "2024-12-17T05:04:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "287d1a3c_c19f4a99",
       "revId": "8e810bf80c25b32fbb29b5665f0def5d13f96511",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     },
@@ -351,6 +477,24 @@
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bbe8e882_c04c0d24",
+        "filename": "tests/dt-workflow/Voltha_DT_FailureScenarios_VGC.robot",
+        "patchSetId": 3
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1000537
+      },
+      "writtenOn": "2024-12-17T05:04:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ae302460_000a27f8",
+      "revId": "8e810bf80c25b32fbb29b5665f0def5d13f96511",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e4f02da7_f14668fc",
@@ -382,6 +526,24 @@
       "side": 1,
       "message": "Done",
       "parentUuid": "e4f02da7_f14668fc",
+      "revId": "8e810bf80c25b32fbb29b5665f0def5d13f96511",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3b3b18c8_f8ed8f9d",
+        "filename": "tests/dt-workflow/Voltha_DT_FailureScenarios_VGC.robot",
+        "patchSetId": 3
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1000537
+      },
+      "writtenOn": "2024-12-17T05:04:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c45f50eb_fe7e17ba",
       "revId": "8e810bf80c25b32fbb29b5665f0def5d13f96511",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     },
@@ -421,6 +583,24 @@
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e6a1c22a_7c7398b2",
+        "filename": "tests/dt-workflow/Voltha_DT_FailureScenarios_VGC.robot",
+        "patchSetId": 3
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1000537
+      },
+      "writtenOn": "2024-12-17T05:04:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e760da5d_4571cb54",
+      "revId": "8e810bf80c25b32fbb29b5665f0def5d13f96511",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "eacb7e38_29bdc755",
@@ -452,6 +632,24 @@
       "side": 1,
       "message": "Robot coding same like above. Alignment is correct. After every keyword need to provide 4spaces or TAB.",
       "parentUuid": "eacb7e38_29bdc755",
+      "revId": "8e810bf80c25b32fbb29b5665f0def5d13f96511",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "266b34f4_cd88888e",
+        "filename": "tests/dt-workflow/Voltha_DT_FailureScenarios_VGC.robot",
+        "patchSetId": 3
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 1000537
+      },
+      "writtenOn": "2024-12-17T05:04:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a56ab798_9b9161ee",
       "revId": "8e810bf80c25b32fbb29b5665f0def5d13f96511",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     },
@@ -491,6 +689,24 @@
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "dfa27207_5d0f3e8f",
+        "filename": "tests/dt-workflow/Voltha_DT_FailureScenarios_VGC.robot",
+        "patchSetId": 3
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 1000537
+      },
+      "writtenOn": "2024-12-17T05:04:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a004b638_dc9d8412",
+      "revId": "8e810bf80c25b32fbb29b5665f0def5d13f96511",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "378a9e5d_45a4a69a",
@@ -526,6 +742,24 @@
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fe795438_25c59af5",
+        "filename": "tests/dt-workflow/Voltha_DT_FailureScenarios_VGC.robot",
+        "patchSetId": 3
+      },
+      "lineNbr": 351,
+      "author": {
+        "id": 1000537
+      },
+      "writtenOn": "2024-12-17T05:04:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "77832191_101b23c8",
+      "revId": "8e810bf80c25b32fbb29b5665f0def5d13f96511",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2f039e30_c0f8f413",
@@ -557,6 +791,24 @@
       "side": 1,
       "message": "Robot file is little large but we can\u0027t split because all tests which covered under same feature or (same test suite).",
       "parentUuid": "2f039e30_c0f8f413",
+      "revId": "8e810bf80c25b32fbb29b5665f0def5d13f96511",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2f9e2264_dc037ac1",
+        "filename": "tests/dt-workflow/Voltha_DT_FailureScenarios_VGC.robot",
+        "patchSetId": 3
+      },
+      "lineNbr": 377,
+      "author": {
+        "id": 1000537
+      },
+      "writtenOn": "2024-12-17T05:04:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9f2ccf65_e577f817",
       "revId": "8e810bf80c25b32fbb29b5665f0def5d13f96511",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     }
