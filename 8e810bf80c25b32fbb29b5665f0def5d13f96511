@@ -336,6 +336,24 @@
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2326f77c_6c7225a5",
+        "filename": "tests/dt-workflow/Voltha_DT_FailureScenarios_VGC.robot",
+        "patchSetId": 3
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1000537
+      },
+      "writtenOn": "2024-12-17T05:05:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "25e4179a_1c1467be",
+      "revId": "8e810bf80c25b32fbb29b5665f0def5d13f96511",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f01be871_690d8e9d",
