@@ -105,12 +105,12 @@
           }
         },
         "entries" : [ {
-          "id" : "ZYWN8cac752c-1",
-          "nasPortId" : "ZYWN8cac752c-1",
+          "id" : "ALPHe3a69d03-1",
+          "nasPortId" : "ALPHe3a69d03-1",
           "uniTagList" : [ {
             "uniTagMatch" : 35,
             "ponCTag" : 801,
-            "ponSTag" : 211,
+            "ponSTag" : 111,
             "usPonCTagPriority" : 0,
             "usPonSTagPriority" : 0,
             "dsPonCTagPriority" : 0,
@@ -123,7 +123,7 @@
           }, {
             "uniTagMatch" : 65,
             "ponCTag" : 444,
-            "ponSTag" : 433,
+            "ponSTag" : 333,
             "usPonCTagPriority" : 7,
             "usPonSTagPriority" : 7,
             "dsPonCTagPriority" : 7,
@@ -132,12 +132,12 @@
             "downstreamBandwidthProfile" : "VOIP",
             "upstreamBandwidthProfile" : "TCONT_TYPE1_200Mbps_Fixed_ForVOIP",
             "isDhcpRequired" : "true",
-            "configuredMacAddress" : " d4:f5:ef:42:86:05",
+            "configuredMacAddress" : "d4:f5:ef:42:87:d9",
             "serviceName" : "VOIP"
           }, {
             "uniTagMatch" : 55,
             "ponCTag" : 55,
-            "ponSTag" : 655,
+            "ponSTag" : 555,
             "usPonCTagPriority" : 5,
             "usPonSTagPriority" : 5,
             "dsPonCTagPriority" : 5,
@@ -145,13 +145,13 @@
             "technologyProfileId" : 66,
             "downstreamBandwidthProfile" : "High-Speed-Internet",
             "upstreamBandwidthProfile" : "TCONT_TYPE2_500Mbps_Assured_ForVoD",
-            "configuredMacAddress" : " d4:f5:ef:42:86:05",
+            "configuredMacAddress" : " d4:f5:ef:42:87:d9",
             "serviceName" : "VOD",
             "isDhcpRequired" : "true",
             "isIgmpRequired" : "true"
           }, {
             "ponCTag" : 55,
-            "ponSTag" : 650,
+            "ponSTag" : 550,
             "dsPonCTagPriority" : 5,
             "dsPonSTagPriority" : 5,
             "technologyProfileId" : 66,
@@ -159,7 +159,7 @@
           } ]
         }, {
           "id" : "S210Z14009247",
-          "hardwareIdentifier" : "4c:c5:3e:87:4a:57",
+          "hardwareIdentifier" : "4c:c5:3e:9a:ed:9c",
           "nasId": "S210Z14009247",
           "uplinkPort" : "16777216"
         } ]
@@ -174,7 +174,7 @@
            "globalConnectPointMode":"true",
            "globalConnectPoint" : "of:0000000000000001/3",
            "sourceDeviceAndPort":"of:0000000000000001/3",
-           "outgoingIgmpVlanId":650,
+           "outgoingIgmpVlanId":550,
            "outgoingIgmpInnerVlanId":55,
            "outgoingIgmpWithV3":"true",
            "IgmpCos":5,
