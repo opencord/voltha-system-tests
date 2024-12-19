@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "49b3f35b_200630b5",
+        "filename": "libraries/utils.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 802,
+      "author": {
+        "id": 1000537
+      },
+      "writtenOn": "2024-12-19T06:56:50Z",
+      "side": 1,
+      "message": "This probably will be called by many test cases and all will have the delay, can you please move it to the test case where we have the issue",
+      "revId": "b3015911a41bd44270b53f2df0f8fc0f76fdd24d",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    }
+  ]
+}
