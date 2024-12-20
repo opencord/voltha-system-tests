@@ -1254,6 +1254,39 @@ Stop Logging
     ...    Run Keyword If    "${test_logfile}" != "${None}"
     ...    Remove File    ${test_logfile}
     Run Keyword If    ${has_dataplane}    Echo Message to OLT Logs     END ${label}
+    Run Keyword If Test Failed    Restart openolt when error
+
+Restart openolt when error
+    [Documentation]    Restart openolt service when SubscribeIndication failed
+    FOR    ${I}    IN RANGE    0    ${num_olts}
+        ${olt_user}    Evaluate    ${olts}[${I}].get("user")
+        ${olt_pass}    Evaluate    ${olts}[${I}].get("pass")
+        ${olt_ssh_ip}    Evaluate    ${olts}[${I}].get("sship")
+        ${olt_type}    Evaluate    ${olts}[${I}].get("type")
+        Continue For Loop If    "${olt_user}" == "${None}"
+        Continue For Loop If    "${olt_pass}" == "${None}"
+
+        ${output}=    Login And Run Command On Remote System
+        ...    sed '/SubscribeIndication failed/h; //,$ { //!H; }; $!d; x' /var/log/openolt.log
+        ...    ${olt_ssh_ip}    ${olt_user}    ${olt_pass}    prompt=~#
+        ${has_restart}=    Run Keyword And Return Status    Should Contain    ${output}    RESTART openolt service
+        ${has_error}=    Run Keyword And Return Status    Should Contain    ${output}    SubscribeIndication failed
+        Run Keyword If    (${has_error} and not ${has_restart})    Restart openolt    ${olt_ssh_ip}    ${olt_user}    ${olt_pass}
+
+    END
+
+Restart openolt
+    [Arguments]    ${olt_ssh_ip}    ${olt_user}    ${olt_pass}
+    [Documentation]    Restart openolt service
+    Log    Restarting openolt service
+    Login And Run Command On Remote System
+    ...    service openolt restart
+    ...    ${olt_ssh_ip}    ${olt_user}    ${olt_pass}    prompt=~#
+    Wait Until Keyword Succeeds    180s    10s    Execute Remote Command
+        ...    printf '%s\n' '' '' 'RESTART openolt service' '' >> /var/log/openolt.log
+        ...    ${olt_ssh_ip}    ${olt_user}    ${olt_pass}
+    Sleep    180s
+    Run Keyword If    ${has_dataplane}    Sleep    60s
 
 Clean Up Linux
     [Documentation]    Kill processes and clean up interfaces on src+dst servers
