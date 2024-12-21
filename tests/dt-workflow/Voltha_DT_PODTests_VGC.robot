@@ -18,7 +18,7 @@ Documentation     Test various end-to-end scenarios
 Suite Setup       Setup Suite
 Test Setup        Setup
 Test Teardown     Teardown
-Suite Teardown    Teardown Suite
+Suite Teardown    Setup Teardown
 Library           Collections
 Library           String
 Library           OperatingSystem
@@ -84,7 +84,8 @@ Sanity E2E Test for OLT/ONU on POD for DT
     ...    should reach the NNI port on the OLT with the expected double tagged vlan ids
     ...    Inner vlans from the RG should not change
     [Tags]    sanityDt   soak
-    [Setup]    Start Logging    SanityTestDt
+    [Setup]    Run Keywords    Start Logging    SanityTestDt
+    ...        AND    Verify Ofagent Pod Availablity
 #    [Teardown]    Run Keywords    Run Keyword If    ${logging}    Collect Logs
 #    ...           AND             Stop Logging    SanityTestDt
     Setup    ${SOAK_TEST}
@@ -100,6 +101,7 @@ Test Subscriber Delete and Add for DT
     [Tags]    functionalDt    SubAddDeleteDt    soak
     [Setup]    Run Keywords    Start Logging     SubAddDeleteDt
     ...        AND    Run Keyword If    ${has_dataplane}    Set Non-Critical Tag for XGSPON Tech
+    ...        AND    Verify Ofagent Pod Availablity
     [Teardown]    Run Keywords    Run Keyword If    ${logging}    Collect Logs
     ...           AND             Stop Logging    SubAddDeleteDt
     FOR    ${I}    IN RANGE    0    ${num_all_onus}
@@ -169,6 +171,7 @@ Test Disable and Enable ONU for DT
     [Tags]    functionalDt    DisableEnableONUDt    soak
     [Setup]    Run Keywords    Start Logging    DisableEnableONUDt
     ...        AND    Run Keyword If    ${has_dataplane}    Set Non-Critical Tag for XGSPON Tech
+    ...        AND    Verify Ofagent Pod Availablity
     [Teardown]    Run Keywords    Run Keyword If    ${logging}    Collect Logs
     ...           AND             Stop Logging    DisableEnableONUDt
     FOR    ${I}    IN RANGE    0    ${num_all_onus}
@@ -212,6 +215,7 @@ Test Disable and Delete OLT for DT
     ...    Perform delete on the OLT, Re-do Setup (Recreate the OLT) and Perform Sanity Test DT
     [Tags]    functionalDt    DisableDeleteOLTDt    soak
     [Setup]    Start Logging    DisableDeleteOLTDt
+    ...        AND    Verify Ofagent Pod Availablity
     [Teardown]    Run Keywords    Run Keyword If    ${logging}    Collect Logs
     ...           AND             Stop Logging    DisableDeleteOLTDt
     # Disable and Validate OLT Device
@@ -268,6 +272,7 @@ Test Disable and Enable OLT for DT
     ...    Perform enable on the OLT and validate that the pings are successful
     [Tags]    functionalDt    DisableEnableOLTDt   soak
     [Setup]    Start Logging    DisableEnableOLTDt
+    ...        AND    Verify Ofagent Pod Availablity
     [Teardown]    Run Keywords    Run Keyword If    ${logging}    Collect Logs
     ...           AND             Stop Logging    DisableEnableOLTDt
     # Disable and Validate OLT Device
@@ -326,6 +331,7 @@ Test Delete and ReAdd OLT for DT
     ...    Validate DHCP/E2E pings succeed for all the ONUs connected to the OLT
     [Tags]    functionalDt    DeleteReAddOLTDt    soak
     [Setup]    Start Logging    DeleteReAddOLTDt
+    ...        AND    Verify Ofagent Pod Availablity
     [Teardown]    Run Keywords    Run Keyword If    ${logging}    Collect Logs
     ...           AND             Stop Logging    DeleteReAddOLTDt
     FOR    ${I}    IN RANGE    0    ${olt_count}
@@ -348,6 +354,7 @@ Test Disable ONUs and OLT Then Delete ONUs and OLT for DT
     [Tags]    functionalDt    DisableDeleteONUOLTDt
     [Setup]    Run Keywords    Start Logging    DisableDeleteONUOLTDt
     ...        AND    Run Keyword If    ${has_dataplane}    Set Non-Critical Tag for XGSPON Tech
+    ...        AND    Verify Ofagent Pod Availablity
     [Teardown]    Run Keywords    Run Keyword If    ${logging}    Collect Logs
     ...           AND             Stop Logging    DisableDeleteONUOLTDt
     @{onu_reason}=    Create List    initial-mib-downloaded    omci-flows-pushed
@@ -414,6 +421,7 @@ Test Disable and Enable OLT PON Port for DT
     [Tags]    functionalDt    DisableEnableOltPonPortDt    VOL-2577    soak
     [Setup]    Run Keywords    Start Logging   DisableEnableOltPonPortDt
     ...        AND    Run Keyword If    ${has_dataplane}    Set Non-Critical Tag for XGSPON Tech
+    ...        AND    Verify Ofagent Pod Availablity
     [Teardown]    Run Keywords    Run Keyword If    ${logging}    Collect Logs
     ...           AND             Stop Logging    DisableEnableOltPonPortDt
     FOR   ${I}    IN RANGE    0    ${olt_count}
@@ -425,6 +433,7 @@ Test ONU Delete and Auto-Discovery for DT
     [Documentation]    Tests the voltctl delete and Auto-Discovery of the ONU
     [Tags]    functionalDt    VOL-3098    ONUAutoDiscoveryDt
     [Setup]    Start Logging   ONUAutoDiscoveryDt
+    ...        AND    Verify Ofagent Pod Availablity
     [Teardown]    Run Keywords    Run Keyword If    ${logging}    Collect Logs
     ...           AND             Stop Logging    ONUAutoDiscoveryDt
     Clear All Devices Then Create New Device
@@ -493,6 +502,14 @@ Setup Suite
     #power_switch.robot needs it to support different vendor's power switch
     ${switch_type}=    Get Variable Value    ${web_power_switch.type}
     Run Keyword If  "${switch_type}"!=""    Set Global Variable    ${powerswitch_type}    ${switch_type}
+    Scale Down Ofagent Pod
+
+Setup Teardown
+    Scale K8s Deployment by Pod Label    ${NAMESPACE}    app    ${OFAGENT_POD}    1
+    Wait Until Keyword Succeeds    ${timeout}    2s    Pods Do Not Exist By Label    ${NAMESPACE}    app
+    ...    ${OFAGENT_POD}
+    Sleep    10s
+    Teardown Suite
 
 Clear All Devices Then Create New Device
     [Documentation]    Remove any devices from VOLTHA and VGC
@@ -501,3 +518,12 @@ Clear All Devices Then Create New Device
     # Execute normal test Setup Keyword
     Setup
 
+Scale Down Ofagent Pod
+    Scale K8s Deployment by Pod Label    ${NAMESPACE}    app    ${OFAGENT_POD}    0
+    Wait Until Keyword Succeeds    ${timeout}    2s    Pods Do Not Exist By Label    ${NAMESPACE}    app
+    ...    ${OFAGENT_POD}
+    Sleep    10s
+
+Verify Ofagent Pod Availablity
+    ${output}=    Pods Do Not Exist By Label    ${NAMESPACE}    app    ${OFAGENT_POD}
+    Run Keyword If    "${output}"!="True"    Scale Down Ofagent Pod
