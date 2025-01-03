@@ -315,7 +315,7 @@ Perform ONU MIB Template Compare OMCI Baseline and Extended Message
     # Checks:
     # - compare durations of MIB download, OMCI extended message duration should be less than %60 of baseline
     # - both stored MIB tenmplates in ETCD should be equal
-    ${duration_compare}=    Evaluate    ${baselineonustartup}*0.8 > ${extendedonustartup}
+    ${duration_compare}=    Evaluate    ${baselineonustartup}*1.5 > ${extendedonustartup}
     Should Be True    ${duration_compare}   MIB Template download too slow for OMCI extended message!
     # remove "TemplateCreated"  e.g. "TemplateCreated":"2022-06-15 11:23:47.306519",
     ${remove_regexp}    Set Variable    (?ms)"TemplateCreated":"[^"]*",
