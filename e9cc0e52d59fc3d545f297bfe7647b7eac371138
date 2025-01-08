@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ff945c11_6375c2fc",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000985
+      },
+      "writtenOn": "2025-01-08T12:55:32Z",
+      "side": 1,
+      "message": "\u003e Patch Set 2: Verified-1\n\u003e \n\u003e Build Failed \n\u003e \n\u003e https://jenkins.opencord.org/job/verify_voltha-system-tests_sanity-test/3754/ : FAILURE\n\u003e \n\u003e https://jenkins.opencord.org/job/verify_voltha-system-tests_licensed/3852/ : SUCCESS\n\u003e \n\u003e https://jenkins.opencord.org/job/verify_voltha-system-tests_unit-test/3712/ : SUCCESS\n\nrecheck",
+      "revId": "e9cc0e52d59fc3d545f297bfe7647b7eac371138",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    }
+  ]
+}
