@@ -179,7 +179,11 @@ Reconcile Onu Adapter
     ${openonu_ready_ts}=    Get Pod Ready Timestamp by Label    ${namespace}    app    adapter-open-onu
     ${restart_duration}=    Subtract Date From Date    ${openonu_ready_ts}    ${previous_ready_ts}
     Should Be True     ${restart_duration}>0
-    Sleep    20s
+    # "Once the onu adapter is restarted, it takes a bit of time for the ONUs to reconcile, if the OLT is deleted before
+    # the ONUs are reconiled successfully there would be stale entries. This scenario is not handled in VOLTHA as of now.
+    # And there is no other to check if the reconcile has happened for all the ONUs. Due to this limitations a sleep
+    # of 60s is introduced to give enough time for onu adapter to reconcile the ONUs."
+    Sleep    60s
     # delete the olt passed, if available (special feature)
     ${olt_to_be_deleted_device_id}=    Run Keyword IF  "${olt_to_be_deleted_sn}"!="${EMPTY}"
     ...    Get OLTDeviceID From OLT List    ${olt_to_be_deleted_sn}
