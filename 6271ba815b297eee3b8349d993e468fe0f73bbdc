@@ -16,6 +16,24 @@
       "message": "cna you put a comment on why this is needed although sleep is not recommended one",
       "revId": "6271ba815b297eee3b8349d993e468fe0f73bbdc",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f8a81684_d2faebbe",
+        "filename": "libraries/onu_utilities.robot",
+        "patchSetId": 1
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1000537
+      },
+      "writtenOn": "2025-01-09T10:43:57Z",
+      "side": 1,
+      "message": "please put the below comment\n\"once the onu adapter is restarted, it takes a bit of time for the ONUs to reconcile, if the OLT is deleted before the ONUs are reconiled successfully there would be stale entries. This scenario is not handled in VOLTHA as of now. And there is no other to check if the reconcile has happened for all the ONUs. Due to this limitations a sleep of 60s is introduced to give enough time for onu adapter to reconcile the ONUs.\"",
+      "parentUuid": "fe9b329e_2208cea8",
+      "revId": "6271ba815b297eee3b8349d993e468fe0f73bbdc",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     }
   ]
 }
