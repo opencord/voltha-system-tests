@@ -179,7 +179,8 @@ Reconcile Onu Adapter
     ${openonu_ready_ts}=    Get Pod Ready Timestamp by Label    ${namespace}    app    adapter-open-onu
     ${restart_duration}=    Subtract Date From Date    ${openonu_ready_ts}    ${previous_ready_ts}
     Should Be True     ${restart_duration}>0
-    Sleep    20s
+    #Onu Data deletion is failed in Etcd if delete OLT immediately, So introuduce sleep of 1min  
+    Sleep    60s
     # delete the olt passed, if available (special feature)
     ${olt_to_be_deleted_device_id}=    Run Keyword IF  "${olt_to_be_deleted_sn}"!="${EMPTY}"
     ...    Get OLTDeviceID From OLT List    ${olt_to_be_deleted_sn}
