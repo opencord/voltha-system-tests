@@ -16,6 +16,24 @@
       "message": "owhy are we checking ofagent availability ? for VGC ofagent is not required",
       "revId": "0ce017bca3d67ad4ec105bffc0effb325cc1fe05",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cd3b61e1_47b3c4e1",
+        "filename": "tests/dt-workflow/Voltha_DT_PODTests_VGC.robot",
+        "patchSetId": 3
+      },
+      "lineNbr": 334,
+      "author": {
+        "id": 1000537
+      },
+      "writtenOn": "2025-01-10T18:25:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1c8fbfb2_d7aaf58f",
+      "revId": "0ce017bca3d67ad4ec105bffc0effb325cc1fe05",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     }
   ]
 }
