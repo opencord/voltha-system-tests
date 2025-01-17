@@ -11,22 +11,22 @@
         },
         "entries": [
           {
-            "id": "EC1912001823",
-            "hardwareIdentifier": "80:a2:35:4d:2f:c0",
-            "nasId": "EC1912001823",
+            "id": "722033038194",
+            "hardwareIdentifier": "28:b9:d9:e3:59:98",
+            "nasId": "722033038194",
             "uplinkPort": 16777216
           },
           {
-            "id": "EC1729003539",
-            "hardwareIdentifier": "a8:2b:b5:6d:1a:95",
-            "nasId": "EC1729003539",
+            "id": "S210Z14009247",
+            "hardwareIdentifier": "4c:c5:3e:9a:ed:9c",
+            "nasId": "S210Z14009247",
             "uplinkPort": 16777216
           },
           {
             "id": "SCOM00001c82-1",
             "nasPortId": "SCOM00001c82-1",
             "circuitId": "SCOM00001c82-1",
-            "remoteId": "EC1912001823",
+            "remoteId": "722033038194",
             "uniTagList": [{
               "uniTagMatch": 4096,
               "ponCTag": 4096,
@@ -41,7 +41,7 @@
             "id": "SCOM00001c89-1",
             "nasPortId": "SCOM00001c89-1",
             "circuitId": "SCOM00001c89-1",
-            "remoteId": "EC1912001823",
+            "remoteId": "722033038194",
             "uniTagList": [
               {
                 "uniTagMatch": 4096,
@@ -54,26 +54,10 @@
               }]
           },
           {
-            "id": "SCOM00001c96-1",
-            "nasPortId": "SCOM00001c96-1",
-            "circuitId": "SCOM00001c96-1",
-            "remoteId": "EC1912001823",
-            "uniTagList": [
-              {
-                "uniTagMatch": 4096,
-                "ponCTag": 4096,
-                "ponSTag": 33,
-                "technologyProfileId": 64,
-                "upstreamBandwidthProfile": "Default",
-                "downstreamBandwidthProfile": "Default",
-                "isDhcpRequired": false
-              }]
-          },
-          {
             "id": "ALPHe3d1cf5c-1",
             "nasPortId": "ALPHe3d1cf5c-1",
             "circuitId": "ALPHe3d1cf5c-1",
-            "remoteId": "EC1729003539",
+            "remoteId": "S210Z14009247",
             "uniTagList": [
               {
                 "uniTagMatch": 4096,
@@ -89,7 +73,7 @@
             "id": "ALPHe3a69d03-1",
             "nasPortId": "ALPHe3a69d03-1",
             "circuitId": "ALPHe3a69d03-1",
-            "remoteId": "EC1729003539",
+            "remoteId": "S210Z14009247",
             "uniTagList": [
               {
                 "uniTagMatch": 4096,
@@ -98,38 +82,6 @@
                 "technologyProfileId": 64,
                 "upstreamBandwidthProfile": "User_Bandwidth3",
                 "downstreamBandwidthProfile": "User_Bandwidth3",
-                "isDhcpRequired": false
-              }]
-          },
-          {
-            "id": "SCOM00001c0b-1",
-            "nasPortId": "SCOM00001c0b-1",
-            "circuitId": "SCOM00001c0b-1",
-            "remoteId": "EC1912001823",
-            "uniTagList": [
-              {
-                "uniTagMatch": 4096,
-                "ponCTag": 4096,
-                "ponSTag": 34,
-                "technologyProfileId": 64,
-                "upstreamBandwidthProfile": "User_Bandwidth1",
-                "downstreamBandwidthProfile": "User_Bandwidth2",
-                "isDhcpRequired": false
-              }]
-          },
-          {
-            "id": "SCOMa0305f84-1",
-            "nasPortId": "SCOMa0305f84-1",
-            "circuitId": "SCOMa0305f84-1",
-            "remoteId": "EC1912001823",
-            "uniTagList": [
-              {
-                "uniTagMatch": 4096,
-                "ponCTag": 4096,
-                "ponSTag": 39,
-                "technologyProfileId": 64,
-                "upstreamBandwidthProfile": "User_Bandwidth1",
-                "downstreamBandwidthProfile": "User_Bandwidth2",
                 "isDhcpRequired": false
               }]
           }
