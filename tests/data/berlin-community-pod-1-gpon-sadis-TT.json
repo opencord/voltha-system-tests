@@ -105,8 +105,8 @@
           }
         },
         "entries" : [ {
-          "id" : "SCOM00001c82-1",
-          "nasPortId" : "SCOM00001c82-1",
+          "id" : "SCOMa030600f-1",
+          "nasPortId" : "SCOMa030600f-1",
           "uniTagList" : [ {
             "uniTagMatch" : 35,
             "ponCTag" : 801,
@@ -132,7 +132,7 @@
             "downstreamBandwidthProfile" : "VOIP",
             "upstreamBandwidthProfile" : "TCONT_TYPE1_200Mbps_Fixed_ForVOIP",
             "isDhcpRequired" : "true",
-            "configuredMacAddress" : "d4:f5:ef:42:87:db",
+            "configuredMacAddress" : "d4:f5:ef:42:87:d3",
             "serviceName" : "VOIP"
           }, {
             "uniTagMatch" : 55,
@@ -145,7 +145,7 @@
             "technologyProfileId" : 66,
             "downstreamBandwidthProfile" : "High-Speed-Internet",
             "upstreamBandwidthProfile" : "TCONT_TYPE2_500Mbps_Assured_ForVoD",
-            "configuredMacAddress" : "d4:f5:ef:42:87:db",
+            "configuredMacAddress" : "d4:f5:ef:42:87:d3",
             "serviceName" : "VOD",
             "isDhcpRequired" : "true",
             "isIgmpRequired" : "true"
