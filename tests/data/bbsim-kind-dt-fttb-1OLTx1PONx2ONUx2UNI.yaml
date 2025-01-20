@@ -20,8 +20,8 @@
 workflow: DT-FTTB
 has_dataplane: false
 teardown_device: true
-ONOS_REST_PORT: 8181
-ONOS_SSH_PORT: 8101
+VGC_REST_PORT: 8181
+VGC_SSH_PORT: 8101
 OLT_PORT: 50060
 
 nodes:
