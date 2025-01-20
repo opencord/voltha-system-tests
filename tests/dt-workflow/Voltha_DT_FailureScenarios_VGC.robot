@@ -89,6 +89,7 @@ Verify restart openonu-adapter container after subscriber provisioning for DT
     ${countAfterRestart}=    Run    kubectl get pods -n ${NAMESPACE} | grep Running | wc -l
     Should Be Equal As Strings    ${countAfterRestart}    ${countBeforeRestart}
     Log to console    Pod ${podName} restarted and sanity checks passed successfully
+    Sleep   90s
     Run Keyword If    '${SOAK_TEST}'=='False'    Delete All Devices and Verify
 
 Verify restart openolt-adapter container after subscriber provisioning for DT

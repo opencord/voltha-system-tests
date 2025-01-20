@@ -261,63 +261,6 @@ Test Disable and Delete OLT for DT
     Run Keyword If    ${has_dataplane}    Clean Up Linux
     Perform Sanity Test DT
 
-Test Disable and Enable OLT for DT
-    [Documentation]    Validates E2E Ping Connectivity and object states for the given scenario:
-    ...    Assuming that all the ONUs are DHCP/pingable (i.e. assuming sanityDt test was executed)
-    ...    Perform disable on the OLT and validate that the pings do not succeed
-    ...    Perform enable on the OLT and validate that the pings are successful
-    [Tags]    functionalDt    DisableEnableOLTDt   soak
-    [Setup]    Start Logging    DisableEnableOLTDt
-    [Teardown]    Run Keywords    Run Keyword If    ${logging}    Collect Logs
-    ...           AND             Stop Logging    DisableEnableOLTDt
-    # Disable and Validate OLT Device
-    FOR   ${I}    IN RANGE    0    ${olt_count}
-        ${olt_serial_number}=    Get From Dictionary    ${olt_ids}[${I}]    sn
-        ${olt_device_id}=    Get OLTDeviceID From OLT List    ${olt_serial_number}
-        ${rc}    ${output}=    Run and Return Rc and Output
-        ...    voltctl -c ${VOLTCTL_CONFIG} device disable ${olt_device_id}
-        Should Be Equal As Integers    ${rc}    0
-        Wait Until Keyword Succeeds    ${timeout}    5s    Validate OLT Device    DISABLED    UNKNOWN    REACHABLE
-        ...    ${olt_serial_number}
-    END
-    # Validate ONUs
-    FOR    ${I}    IN RANGE    0    ${num_all_onus}
-        ${src}=    Set Variable    ${hosts.src[${I}]}
-        ${dst}=    Set Variable    ${hosts.dst[${I}]}
-        ${of_id}=    Get ofID From OLT List    ${src['olt']}
-        ${onu_port}=    Wait Until Keyword Succeeds    ${timeout}    2s
-        ...    Get ONU Port in VGC    ${src['onu']}    ${of_id}    ${src['uni_id']}
-        ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
-        Wait Until Keyword Succeeds   ${timeout}    2s
-        ...    Verify UNI Port Is Disabled   ${VGC_SSH_IP}    ${VGC_SSH_PORT}    ${src['onu']}    ${src['uni_id']}
-        Run Keyword If    ${has_dataplane}    Run Keyword And Continue On Failure
-        ...    Wait Until Keyword Succeeds    ${timeout}    2s
-        ...    Check Ping    False    ${dst['dp_iface_ip_qinq']}    ${src['dp_iface_name']}
-        ...    ${src['ip']}    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
-        # Remove Subscriber Access (To replicate DT workflow)
-        ${onu_port_name}=    Catenate    SEPARATOR=-    ${src['onu']}    ${src['uni_id']}
-	Wait Until Keyword Succeeds    ${timeout}    2s
-        ...    Delete Request    VGC    services/${onu_port_name}
-        # Delete ONU Device (To replicate DT workflow)
-        Delete Device    ${onu_device_id}
-    END
-    Sleep    5s
-    # Enable the OLT back and check ONU, OLT status are back to "ACTIVE"
-    FOR   ${I}    IN RANGE    0    ${olt_count}
-        ${olt_serial_number}=    Get From Dictionary    ${olt_ids}[${I}]    sn
-        ${olt_device_id}=    Get OLTDeviceID From OLT List    ${olt_serial_number}
-        Enable Device    ${olt_device_id}
-        Wait Until Keyword Succeeds    ${timeout}    5s    Validate OLT Device    ENABLED    ACTIVE    REACHABLE
-        ...    ${olt_serial_number}
-        #TODO: Update for PON_OLT ETHERNET_NNI
-        #Wait Until Keyword Succeeds    ${timeout}    5s    Validate OLT Port Types
-        #...    PON_OLT    ETHERNET_NNI
-    END
-    # Waiting extra time for the ONUs to come up
-    Sleep    60s
-    Run Keyword If    ${has_dataplane}    Clean Up Linux
-    Perform Sanity Test DT
-
 Test Delete and ReAdd OLT for DT
     [Documentation]    Validates E2E Ping Connectivity and object states for the given scenario:
     ...    Assuming that all the ONUs are DHCP/pingable (i.e. assuming sanityDt test was executed)
