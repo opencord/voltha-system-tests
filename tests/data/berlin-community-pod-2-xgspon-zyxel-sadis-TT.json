@@ -12,8 +12,8 @@
     "org.opencord.kafka" : { },
     "org.onosproject.core" : {
       "multicast" : {
-        "ingressVlan" : 650,
-        "egressVlan" : 650,
+        "ingressVlan" : 550,
+        "egressVlan" : 550,
         "egressInnerVlan" : 55
       }
     },
