@@ -671,7 +671,7 @@ Sanity Test TT MCAST one ONU
     # Setup iperf on the RG
     ${rg_output}=    Run Keyword and Continue On Failure    Wait Until Keyword Succeeds     90s    5s
     ...    Login And Run Command On Remote System
-    ...    rm -rf /tmp/rg_output ; sudo iperf -s -u -B ${dst['dp_iface_ip_qinq']} -i 1 -D >> /tmp/rg_output
+    ...    rm -rf /tmp/rg_output ; sudo iperf -s -u -B ${dst['dp_iface_ip_qinq']} -i 1 >> /tmp/rg_output &
     ...    ${src['ip']}    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
     Log    ${rg_output}
     Sleep    60s
