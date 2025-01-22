@@ -664,14 +664,14 @@ Sanity Test TT MCAST one ONU
 
     # Setup iperf on the BNG
     ${server_output}=    Login And Run Command On Remote System
-    ...    sudo iperf -c ${dst['dp_iface_ip_qinq']} -u -T 32 -t 60 -i 1 &
+    ...    sudo nohup iperf -c ${dst['dp_iface_ip_qinq']} -u -T 32 -t 60 -i 1 &
     ...    ${dst['bng_ip']}    ${dst['bng_user']}    ${dst['bng_pass']}    ${dst['container_type']}
     ...    ${dst['container_name']}
 
     # Setup iperf on the RG
     ${rg_output}=    Run Keyword and Continue On Failure    Wait Until Keyword Succeeds     90s    5s
     ...    Login And Run Command On Remote System
-    ...    rm -rf /tmp/rg_output ; sudo iperf -s -u -B ${dst['dp_iface_ip_qinq']} -i 1 -D >> /tmp/rg_output
+    ...    rm -rf /tmp/rg_output ; sudo nohup iperf -s -u -B ${dst['dp_iface_ip_qinq']} -i 1 >> /tmp/rg_output &
     ...    ${src['ip']}    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
     Log    ${rg_output}
     Sleep    60s
