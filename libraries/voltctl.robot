@@ -217,14 +217,14 @@ Validate Device
     END
     Should Be True    ${matched}    No match found for ${id} to validate device
     Log    ${value}
-    Should Be Equal    '${astate}'    '${admin_state}'    Device ${sn} admin_state != ${admin_state}
+    Should Be Equal    '${astate}'    '${admin_state}'    Device ${sn} admin_state ${astate} (actual) != ${admin_state} (expected)
     ...    values=False
-    Should Be Equal    '${opstatus}'    '${oper_status}'    Device ${sn} oper_status != ${oper_status}
+    Should Be Equal    '${opstatus}'    '${oper_status}'    Device ${sn} oper_status ${opstatus} (actual) != ${oper_status} (expected)
     ...    values=False
-    Should Be Equal    '${cstatus}'    '${connect_status}'    Device ${sn} conn_status != ${connect_status}
+    Should Be Equal    '${cstatus}'    '${connect_status}'    Device ${sn} conn_status ${cstatus} (actual) != ${connect_status} (expected)
     ...    values=False
     Run Keyword If    '${onu}' == 'True'    Should Contain    '${onu_reason}'   '${mib_state}'
-    ...    Device ${sn} mib_state incorrect (${mib_state}) values=False
+    ...    Device ${sn} mib_state incorrect (${mib_state})
 
 Validate OLT Device
     [Arguments]    ${admin_state}    ${oper_status}    ${connect_status}    ${id}    ${by_dev_id}=False
