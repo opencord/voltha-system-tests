@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a35bca01_531135a8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000404
+      },
+      "writtenOn": "2025-01-28T23:05:43Z",
+      "side": 1,
+      "message": "As you mentioned in your email,  logging the multicast group in the RG would be nice for debugging. ",
+      "revId": "9e5b0fae492ea96c8a8da7a03b70a8171db0d4d8",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    }
+  ]
+}
