@@ -16,6 +16,24 @@
       "message": "As you mentioned in your email,  logging the multicast group in the RG would be nice for debugging. ",
       "revId": "9e5b0fae492ea96c8a8da7a03b70a8171db0d4d8",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0965af57_b292495b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000989
+      },
+      "writtenOn": "2025-01-29T12:12:06Z",
+      "side": 1,
+      "message": "I added a check for the multicast group and a log for the output value (netstat -ng | grep $group_ip) so it can be seen in the Robot result logs. Test build #183 was run with this change).",
+      "parentUuid": "a35bca01_531135a8",
+      "revId": "9e5b0fae492ea96c8a8da7a03b70a8171db0d4d8",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     }
   ]
 }
