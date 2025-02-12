@@ -1,6 +1,6 @@
 # -*- makefile -*-;
 # -----------------------------------------------------------------------
-# Copyright 2019-2024 Open Networking Foundation Contributors
+# Copyright 2019-2025 Open Networking Foundation Contributors
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -14,53 +14,37 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 # -----------------------------------------------------------------------
-# SPDX-FileCopyrightText: 2019-2024 Open Networking Foundation Contributors
+# SPDX-FileCopyrightText: 2019-2025 Open Networking Foundation Contributors
 # SPDX-License-Identifier: Apache-2.0
 # -----------------------------------------------------------------------
 
 virtualenv
 
-flake8==3.8.2
-pexpect==4.8.0
-pylint==2.5.2
-yamllint==1.23.0
+flake8==7.2.0
+pexpect==4.9.0
+pre-commit==4.2.0
+pylint==3.3.6
+yamllint==1.37.0
 
 # -----------------------------------------------------------------------
 # https://pypi.org/project/robotframework/#history
 # -----------------------------------------------------------------------
-robotframework==3.1.2                    # 2019-05-24
-# robotframework==6.1.1                    # 2019-05-24
+robotframework==7.2.2
+robotframework-importresource==0.2.0
 robotframework-kafkalibrary==0.0.3
-robotframework-lint==1.0
-robotframework-requests==0.7.0
+robotframework-lint==1.1
+robotframework-requests==0.9.7
+robotframework-robocop==6.0.3
 robotframework-sshlibrary==3.8.0
-
-# replace when we can use upstream (needs python 3.6)
-git+https://github.com/zdw/robotframework-importresource@b81b87aabaee0594e966687b41e3674b866f28ee
+robotframework-tidy==4.16.0
 cord-robot==2.1.10
 
-# -----------------------------------------------------------------------
-# https://pypi.org/project/robotframework-tidy/#history
-# robotframework-tidy 2.0 depends on robotframework>=4.0
-# -----------------------------------------------------------------------
-# robotframework-tidy==2.0
-
-# -----------------------------------------------------------------------
-# https://pypi.org/project/robotframework-robocop/#history
-# -----------------------------------------------------------------------
-# robotframework-robocop
-
-matplotlib==3.3.4
-requests==2.24.0
+matplotlib==3.10.1
+requests==2.32.3
+grpcio<=1.39.0  # Required for voltha-protos
 grpc-robot>=2.9.3
 kafka-robot>=2.3.2
-voltha-protos>=4.2.0
+voltha-protos>=5.6.2
 protobuf>=3.15.7,<3.20.0
 protobuf3-to-dict>=0.1.5
 device-management-interface>=1.2.1
-
-pre-commit
-
-# https://github.com/robotframework/robotframework/tree/v6.1.1#readme
-
-# [EOF]
