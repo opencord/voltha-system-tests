@@ -43,6 +43,7 @@ activate             ?= set +u && source $(venv-activate-script) && set -u
 ##    o place on the right side of colon as a target dependency
 ##    o When the script does not exist install the virtual env and display.
 ## ----------------------------------------------------------------------
+venv-activate-script: $(venv-activate-script)
 $(venv-activate-script):
 	@echo
 	@echo "============================="
@@ -56,18 +57,6 @@ $(venv-activate-script):
 	    || { /bin/true; }
 
 	$(activate) && python --version
-
-## -----------------------------------------------------------------------
-## Intent: Explicit named installer target w/o dependencies.
-##         Makefile targets should depend on venv-activate-script.
-## -----------------------------------------------------------------------
-venv-activate-patched := $(venv-activate-script).patched
-venv-activate-patched : $(venv-activate-patched)
-$(venv-activate-patched) : $(venv-activate-script)
-	$(call banner-enter,Target $@)
-	$(onf-mk-top)/../patches/python_310_migration.sh --venv "$(venv-name)" 'apply'
-	touch $@
-	$(call banner-leave,Target $@)
 
 ## -----------------------------------------------------------------------
 ## Intent: Explicit named installer target w/o dependencies.
