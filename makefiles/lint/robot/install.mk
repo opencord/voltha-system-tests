@@ -28,7 +28,7 @@ lint-robot-cmd := $(venv-name)/bin/rflint
 ## Intent: Install rflint python virtualenv package
 ## -----------------------------------------------------------------------
 $(lint-robot-cmd) : lint-robot-install
-lint-robot-install: venv-activate-patched
+lint-robot-install:
     # Verify package mentioned in requirements.txt
     # grep 'robotframework-lint' requirements.txt
 	$(activate) && pip freeze | grep 'robotframework-lint'
@@ -42,4 +42,3 @@ lint-robot-version : lint-robot-install
 	@echo
 
 # [EOF]
-
