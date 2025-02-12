@@ -42,7 +42,6 @@ include $(ONF_MAKEDIR)/etc/include.mk        # banner macros
 include $(ONF_MAKEDIR)/commands/include.mk   # Tools and local installers
 
 include $(ONF_MAKEDIR)/virtualenv.mk#        # lint-{jjb,python} depends on venv
-include $(ONF_MAKEDIR)/patches/include.mk#   # Patch when python 3.10+ in use
 include $(ONF_MAKEDIR)/lint/include.mk
 
 include $(ONF_MAKEDIR)/gerrit/include.mk

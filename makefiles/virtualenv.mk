@@ -61,18 +61,6 @@ $(venv-activate-script):
 ## Intent: Explicit named installer target w/o dependencies.
 ##         Makefile targets should depend on venv-activate-script.
 ## -----------------------------------------------------------------------
-venv-activate-patched := $(venv-activate-script).patched
-venv-activate-patched : $(venv-activate-patched)
-$(venv-activate-patched) : $(venv-activate-script)
-	$(call banner-enter,Target $@)
-	$(onf-mk-top)/../patches/python_310_migration.sh --venv "$(venv-name)" 'apply'
-	touch $@
-	$(call banner-leave,Target $@)
-
-## -----------------------------------------------------------------------
-## Intent: Explicit named installer target w/o dependencies.
-##         Makefile targets should depend on venv-activate-script.
-## -----------------------------------------------------------------------
 venv: $(venv-activate-script)
 
 ## -----------------------------------------------------------------------
