@@ -510,7 +510,7 @@ sanity-bbsim: voltha-bbsim-test
 ## -----------------------------------------------------------------------
 ## Intent: Parameterized test target
 ## -----------------------------------------------------------------------
-voltha-bbsim-test: venv-activate-patched
+voltha-bbsim-test: venv-activate-script
 	$(call run-robot-test,tests/bbsim)
 
 rwcore-restart-single-kind: ROBOT_MISC_ARGS += -X -i functionalANDrwcore-restart $(ROBOT_DEBUG_LOG_OPT)
@@ -653,11 +653,11 @@ onos-ha-test: ROBOT_FILE := Voltha_ONOSHATests.robot
 onos-ha-test: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_SINGLE_PON_FILE)
 onos-ha-test: voltha-test
 
-voltha-test: ROBOT_MISC_ARGS += -e notready --noncritical non-critical
+voltha-test: ROBOT_MISC_ARGS += -e notready
 
 ## -----------------------------------------------------------------------
 ## -----------------------------------------------------------------------
-voltha-test: venv-activate-patched
+voltha-test: venv-activate-script
 	$(call run-robot-test,tests/functional)
 
 bbsim-dmi-hw-management-test: ROBOT_MISC_ARGS +=  -e notreadyDMI -i functionalDMI -e bbsimUnimplementedDMI
@@ -672,7 +672,7 @@ voltha-dmi-hw-management-test: voltha-dmi-test
 
 ## -----------------------------------------------------------------------
 ## -----------------------------------------------------------------------
-voltha-dmi-test: venv-activate-patched
+voltha-dmi-test: venv-activate-script
 	$(call run-robot-test,tests/dmi-interface)
 
 # target to invoke single ONU pm data scenarios in ATT workflow
@@ -712,7 +712,7 @@ voltha-pm-data-tests: voltha-pm-data-test
 
 ## -----------------------------------------------------------------------
 ## -----------------------------------------------------------------------
-voltha-pm-data-test: venv-activate-patched
+voltha-pm-data-test: venv-activate-script
 # ROBOT_PM_CONFIG_FILE= is differnet
 #	$(call run-robot-test,tests/pm-data)
 
@@ -847,7 +847,7 @@ onu-mib-audit-test-multiolt-kind-dt: voltha-onu-mib-audit-tests
 onu-mib-audit-test-multiolt-kind-tt: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_TT_MULTIPLE_OLT_FILE)
 onu-mib-audit-test-multiolt-kind-tt: voltha-onu-mib-audit-tests
 
-voltha-onu-mib-audit-tests: ROBOT_MISC_ARGS += -i functional -e notready  --noncritical non-critical
+voltha-onu-mib-audit-tests: ROBOT_MISC_ARGS += -i functional -e notready
 voltha-onu-mib-audit-tests: ROBOT_MISC_ARGS += $(ROBOT_DEBUG_LOG_OPT)
 voltha-onu-mib-audit-tests: ROBOT_FILE := Voltha_ONUMibAudit.robot
 voltha-onu-mib-audit-tests: openonu-go-adapter-tests
@@ -856,7 +856,7 @@ voltha-onu-mib-audit-tests: openonu-go-adapter-tests
 memory-leak-test-single-pon-multi-onu-dt: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_DT_SINGLE_PON_MULTI_ONU_FILE)
 memory-leak-test-single-pon-multi-onu-dt: voltha-memory-leak-tests
 
-voltha-memory-leak-tests: ROBOT_MISC_ARGS += -i functionalMemoryLeak -e notready  --noncritical non-critical
+voltha-memory-leak-tests: ROBOT_MISC_ARGS += -i functionalMemoryLeak -e notready
 voltha-memory-leak-tests: ROBOT_MISC_ARGS += $(ROBOT_DEBUG_LOG_OPT)
 voltha-memory-leak-tests: ROBOT_FILE := VOLTHA_Memory_Leak_Tests.robot
 voltha-memory-leak-tests: voltha-memory-leak-test
@@ -881,57 +881,57 @@ onu-robustness-test-multi-uni-kind-tt: ROBOT_CONFIG_FILE := $(ROBOT_SANITY_TT_MU
 onu-robustness-test-multi-uni-kind-tt: ROBOT_MISC_ARGS += -v unitag_sub:True -i functionalMultiUni
 onu-robustness-test-multi-uni-kind-tt: voltha-onu-robustness-tests
 
-voltha-onu-robustness-tests: ROBOT_MISC_ARGS += -e notready  --noncritical non-critical
+voltha-onu-robustness-tests: ROBOT_MISC_ARGS += -e notready
 voltha-onu-robustness-tests: ROBOT_MISC_ARGS += $(ROBOT_DEBUG_LOG_OPT)
 voltha-onu-robustness-tests: ROBOT_FILE := Voltha_ONUErrorTests.robot
 voltha-onu-robustness-tests: openonu-go-adapter-tests
 
-software-upgrade-test: venv-activate-patched
+software-upgrade-test: venv-activate-script
 	$(activate) \
 	  && cd tests/software-upgrades \
 	  && robot -V $(ROBOT_CONFIG_FILE) $(ROBOT_MISC_ARGS) $(ROBOT_FILE)
 
-voltha-dt-test: ROBOT_MISC_ARGS += -e notready  --noncritical non-critical
+voltha-dt-test: ROBOT_MISC_ARGS += -e notready
 
 ## CHECK
-voltha-dt-test: venv-activate-patched
+voltha-dt-test: venv-activate-script
 	$(activate) \
 	  && cd tests/dt-workflow \
 	  && robot -V $(ROBOT_CONFIG_FILE) $(ROBOT_MISC_ARGS) $(ROBOT_FILE)
 
-voltha-tt-test: ROBOT_MISC_ARGS += -e notready  --noncritical non-critical
+voltha-tt-test: ROBOT_MISC_ARGS += -e notready
 
 ## CHECK
-voltha-tt-test: venv-activate-patched
+voltha-tt-test: venv-activate-script
 	$(activate) \
 	  && cd tests/tt-workflow \
 	  && robot -V $(ROBOT_CONFIG_FILE) $(ROBOT_MISC_ARGS) $(ROBOT_FILE)
 
-voltha-tim-test: ROBOT_MISC_ARGS += -e notready  --noncritical non-critical
+voltha-tim-test: ROBOT_MISC_ARGS += -e notready
 
 ## Check
-voltha-tim-test: venv-activate-patched
+voltha-tim-test: venv-activate-script
 	$(activate) \
 	  && cd tests/tim-workflow \
 	  && robot -V $(ROBOT_CONFIG_FILE) $(ROBOT_MISC_ARGS) $(ROBOT_FILE)
 
 ## CHECK
-voltha-scale-test: venv-activate-patched
+voltha-scale-test: venv-activate-script
 	$(activate) \
 	  && cd tests/scale \
 	  && robot $(ROBOT_MISC_ARGS) Voltha_Scale_Tests.robot
 
 ## CHECK
-openonu-go-adapter-tests: venv-activate-patched
+openonu-go-adapter-tests: venv-activate-script
 	$(activate) \
 	  && cd tests/openonu-go-adapter \
 	  && robot -V $(ROBOT_CONFIG_FILE) $(ROBOT_MISC_ARGS) $(ROBOT_FILE)
 
-voltha-bbf-adapter-test: ROBOT_MISC_ARGS += -e notready  --noncritical non-critical
-voltha-bbf-adapter-test: venv-activate-patched
+voltha-bbf-adapter-test: ROBOT_MISC_ARGS += -e notready
+voltha-bbf-adapter-test: venv-activate-script
 	$(call run-robot-test,tests/bbf-adapter)
 
-voltha-memory-leak-test: venv-activate-patched
+voltha-memory-leak-test: venv-activate-script
 	$(call run-robot-test,tests/memory-leak)
 
 ##----------------##
@@ -943,7 +943,7 @@ test: lint
 # tidy target will be more useful once issue with removing leading comments
 # is resolved: https://github.com/robotframework/robotframework/issues/3263
 # -----------------------------------------------------------------------
-tidy-robot: venv-activate-patched
+tidy-robot: venv-activate-script
 	$(activate) && python -m robot.tidy --inplace $(ROBOT_FILES)
 
 ## Variables for gendocs
@@ -965,7 +965,7 @@ help ::
 # -----------------------------------------------------------------------
 .PHONY: gendocs lint test
 # In future explore use of --docformat REST - integration w/Sphinx?
-gendocs: venv-activate-patched
+gendocs: venv-activate-script
 
 	$(call banner-enter)
 
@@ -998,7 +998,7 @@ clean ::
 ## -----------------------------------------------------------------------
 ## -----------------------------------------------------------------------
 clean-all sterile :: clean
-	$(RM) -r venv-activate-patched
+	$(RM) -r venv-activate-script
 
 # -----------------------------------------------------------------------
 # -----------------------------------------------------------------------
