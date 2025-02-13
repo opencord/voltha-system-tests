@@ -29,6 +29,7 @@ yamllint
 # https://pypi.org/project/robotframework/#history
 # -----------------------------------------------------------------------
 robotframework
+robotframework-importresource
 robotframework-kafkalibrary
 robotframework-lint
 robotframework-requests
@@ -48,6 +49,7 @@ cord-robot
 
 matplotlib
 requests
+grpcio~=1.48.2
 grpc-robot>=2.9.3
 kafka-robot>=2.3.2
 voltha-protos>=4.2.0
