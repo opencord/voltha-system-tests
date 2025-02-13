@@ -1,0 +1,7 @@
+Verified+1: Jenkins Technical User <do-not-reply@opennetworking.org>
+Code-Review+2: Eric Ball <eball@linuxfoundation.org>
+Submitted-by: Eric Ball <eball@linuxfoundation.org>
+Submitted-at: Thu, 13 Feb 2025 01:16:33 +0000
+Reviewed-on: https://gerrit.opencord.org/c/voltha-system-tests/+/35689
+Project: voltha-system-tests
+Branch: refs/heads/remove-robot-patching
