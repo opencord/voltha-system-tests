@@ -48,6 +48,7 @@ cord-robot
 
 matplotlib
 requests
+grpcio==1.69.0
 grpc-robot>=2.9.3
 kafka-robot>=2.3.2
 voltha-protos>=4.2.0
