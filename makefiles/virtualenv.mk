@@ -43,6 +43,7 @@ activate             ?= set +u && source $(venv-activate-script) && set -u
 ##    o place on the right side of colon as a target dependency
 ##    o When the script does not exist install the virtual env and display.
 ## ----------------------------------------------------------------------
+venv-activate-script: $(venv-activate-script)
 $(venv-activate-script):
 	@echo
 	@echo "============================="
