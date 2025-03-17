@@ -89,6 +89,11 @@ Verify restart openonu-adapter container after subscriber provisioning for DT
     ${countAfterRestart}=    Run    kubectl get pods -n ${NAMESPACE} | grep Running | wc -l
     Should Be Equal As Strings    ${countAfterRestart}    ${countBeforeRestart}
     Log to console    Pod ${podName} restarted and sanity checks passed successfully
+    # "Once the onu adapter is restarted, it takes a bit of time for the OLT's/ONUs to reconcile, if the OLT is deleted 
+    # before the ONUs are reconiled successfully there would be stale entries. This scenario is not handled in VOLTHA as 
+    # of now. And there is no other to check if the reconcile has happened for all the ONUs. Due to this limitations a
+    # sleep of 60s is introduced to give enough time for onu adapter to reconcile the ONUs."
+    Sleep   60s
     Run Keyword If    '${SOAK_TEST}'=='False'    Delete All Devices and Verify
 
 Verify restart openolt-adapter container after subscriber provisioning for DT
@@ -117,6 +122,11 @@ Verify restart openolt-adapter container after subscriber provisioning for DT
     Log    ${podStatusOutput}
     ${countAfterRestart}=    Run    kubectl get pods -n ${NAMESPACE} | grep Running | wc -l
     Should Be Equal As Strings    ${countAfterRestart}    ${countBforRestart}
+    # "Once the olt adapter is restarted, it takes a bit of time for the OLT's/ONUs to reconcile, if try to delete OLT
+    # before the OLT's are reconiled successfully there would be recocile error. This scenario is not handled in VOLTHA as
+    # of now. And there is no other to check if the reconcile has happened for all the OLTs. Due to this limitations a
+    # sleep of 60s is introduced to give enough time for OLT adapter to reconcile the OLTs."
+    Sleep   60s
     Log to console    Pod ${podName} restarted and sanity checks passed successfully
 
 Verify openolt adapter restart before subscriber provisioning for DT
@@ -139,7 +149,7 @@ Verify openolt adapter restart before subscriber provisioning for DT
         ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
         Wait Until Keyword Succeeds    ${timeout}    5s
         ...    Validate Device        ENABLED    ACTIVE    REACHABLE
-        ...    ${onu_device_id}    onu=True    onu_reason=initial-mib-downloaded    by_dev_id=True
+        ...    ${onu_device_id}    onu=True    onu_reason=omci-flows-pushed    by_dev_id=True
     END
     # Scale down the open OLT adapter deployment to 0 PODs and once confirmed, scale it back to 1
     Scale K8s Deployment by Pod Label    ${NAMESPACE}    app    ${OLT_ADAPTER_APP_LABEL}    0
@@ -185,6 +195,11 @@ Verify openolt adapter restart before subscriber provisioning for DT
         ...    ${src['ip']}    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
         ...    ${dst['dp_iface_name']}    ${dst['ip']}    ${dst['user']}    ${dst['pass']}    ${dst['container_type']}
         ...    ${dst['container_name']}
+    # "Once the olt adapter is restarted, it takes a bit of time for the OLT's/ONUs to reconcile, if try to delete OLT
+    # before the OLT's are reconiled successfully there would be recocile error. This scenario is not handled in VOLTHA as
+    # of now. And there is no other to check if the reconcile has happened for all the OLTs. Due to this limitations a
+    # sleep of 60s is introduced to give enough time for OLT adapter to reconcile the OLTs."
+    Sleep   60s
     END
 
 Sanity E2E Test for OLT/ONU on POD With Core Fail and Restart for DT
@@ -216,7 +231,7 @@ Sanity E2E Test for OLT/ONU on POD With Core Fail and Restart for DT
         ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
         # Bring up the device and verify it authenticates
         Wait Until Keyword Succeeds    360s    5s    Validate Device    ENABLED    ACTIVE    REACHABLE
-        ...    ${onu_device_id}    onu=True    onu_reason=initial-mib-downloaded    by_dev_id=True
+        ...    ${onu_device_id}    onu=True    onu_reason=omci-flows-pushed    by_dev_id=True
     END
 
     # Scale down the rw-core deployment to 0 PODs and once confirmed, scale it back to 1
@@ -224,13 +239,13 @@ Sanity E2E Test for OLT/ONU on POD With Core Fail and Restart for DT
     Wait Until Keyword Succeeds    ${timeout}    2s    Pod Does Not Exist    voltha    voltha-voltha-rw-core
     # Ensure the ofagent POD goes "not-ready" as expected
     Wait Until keyword Succeeds    ${timeout}    2s
-    ...    Check Expected Available Deployment Replicas    voltha    voltha-voltha-ofagent    0
+    ...    Check Expected Available Deployment Replicas    voltha    voltha-voltha-go-controller    1
     # Scale up the core deployment and make sure both it and the ofagent deployment are back
     Scale K8s Deployment    voltha    voltha-voltha-rw-core    1
     Wait Until Keyword Succeeds    ${timeout}    2s
     ...    Check Expected Available Deployment Replicas    voltha    voltha-voltha-rw-core    1
     Wait Until Keyword Succeeds    ${timeout}    2s
-    ...    Check Expected Available Deployment Replicas    voltha    voltha-voltha-ofagent    1
+    ...    Check Expected Available Deployment Replicas    voltha    voltha-voltha-go-controller    1
     # For some reason scaling down and up the POD behind a service causes the port forward to stop working,
     # so restart the port forwarding for the API service
     Restart VOLTHA Port Forward    voltha-api
@@ -364,6 +379,11 @@ Verify restart openonu-adapter container for DT
         Run Keyword If    ${has_dataplane}    Check Ping Result    True    ${ping_output}
     END
     # Verify Control Plane Functionality by Deleting and Re-adding the Subscriber
+    # "Once the onu adapter is restarted, it takes a bit of time for the OLT's/ONUs to reconcile, if the OLT is deleted
+    # before the ONUs are reconiled successfully there would be stale entries. This scenario is not handled in VOLTHA as
+    # of now. And there is no other to check if the reconcile has happened for all the ONUs. Due to this limitations a
+    # sleep of 60s is introduced to give enough time for onu adapter to reconcile the ONUs."
+    Sleep   60s
     Verify Control Plane After Pod Restart DT
 
 Verify restart openolt-adapter container for DT
@@ -420,6 +440,11 @@ Verify restart openolt-adapter container for DT
         Run Keyword If    ${has_dataplane}    Check Ping Result    True    ${ping_output}
     END
     # Verify Control Plane Functionality by Deleting and Re-adding the Subscriber
+    # "Once the olt adapter is restarted, it takes a bit of time for the OLT's/ONUs to reconcile, if try to delete OLT
+    # before the OLT's are reconiled successfully there would be recocile error. This scenario is not handled in VOLTHA as
+    # of now. And there is no other to check if the reconcile has happened for all the OLTs. Due to this limitations a
+    # sleep of 60s is introduced to give enough time for OLT adapter to reconcile the OLTs."
+    Sleep   60s
     Verify Control Plane After Pod Restart DT
 
 Verify restart rw-core container for DT
@@ -479,6 +504,11 @@ Verify restart rw-core container for DT
         Run Keyword If    ${has_dataplane}    Check Ping Result    True    ${ping_output}
     END
     # Verify Control Plane Functionality by Deleting and Re-adding the Subscriber
+    # "Once the rw core is restarted, it takes a bit of time for the OLT's/ONUs to reconcile, if try to delete OLT
+    # before the OLT's are reconiled successfully there would be recocile error. This scenario is not handled in VOLTHA as
+    # of now. And there is no other to check if the reconcile has happened for all the OLTs. Due to this limitations a
+    # sleep of 60s is introduced to give enough time for rw core to reconcile the OLTs."
+    Sleep   60s
     Verify Control Plane After Pod Restart DT
 
 *** Keywords ***
