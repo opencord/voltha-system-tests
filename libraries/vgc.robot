@@ -423,11 +423,9 @@ Verify VGC Flows Added for DT FTTB
         ${service_name}=    Set Variable    ${service[${I}]['name']}
         ${stag}=    Set Variable    ${service[${I}]['s_tag']}
         ${ctag}=    Set Variable    ${service[${I}]['c_tag']}
-        Run Keyword If    '${service_name}' == 'FTTB_SUBSCRIBER_TRAFFIC'
-        ...    Verify Subscriber Access Flows Added for DT FTTB    ${olt_of_id}
-        ...    ${onu_port}    ${nni_port}    ${stag}    ${ctag}
-        ...    Verify DPU MGMT Flows Added for DT FTTB    ${olt_of_id}
-        ...    ${onu_port}    ${nni_port}    ${stag}    ${ctag}
+        Run Keyword If    '${service_name}' == 'FTTB_SUBSCRIBER_TRAFFIC'   Run Keywords
+             Verify Subscriber Access Flows Added for DT FTTB    ${olt_of_id}    ${onu_port}    ${nni_port}    ${stag}        ${ctag}
+             Verify DPU MGMT Flows Added for DT FTTB    ${olt_of_id}    ${onu_port}    ${nni_port}    ${stag}    ${ctag    }
     END
 
 
