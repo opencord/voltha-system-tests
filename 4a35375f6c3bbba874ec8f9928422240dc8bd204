@@ -16,6 +16,24 @@
       "message": "why this change",
       "revId": "4a35375f6c3bbba874ec8f9928422240dc8bd204",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0dcd6fdf_00ba6ebb",
+        "filename": "tests/data/berlin-community-pod-1-gpon-sadis-TT.json",
+        "patchSetId": 1
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1000985
+      },
+      "writtenOn": "2025-03-24T10:10:51Z",
+      "side": 1,
+      "message": "This changes are not required so reverted back",
+      "parentUuid": "21d20eb6_4c21cc0f",
+      "revId": "4a35375f6c3bbba874ec8f9928422240dc8bd204",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     }
   ]
 }
