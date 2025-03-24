@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a9682637_438298cc",
+        "filename": "tests/data/bbsim-kind-dt-fttb-1OLTx1PONx2ONUx2UNI.yaml",
+        "patchSetId": 3
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1000537
+      },
+      "writtenOn": "2025-03-24T07:51:27Z",
+      "side": 1,
+      "message": "the onos test will fail for this",
+      "revId": "5929d30da7590996c4c0f4274ac59228fedf82ce",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    }
+  ]
+}
