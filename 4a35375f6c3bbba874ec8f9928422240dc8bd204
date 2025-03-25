@@ -34,6 +34,24 @@
       "parentUuid": "21d20eb6_4c21cc0f",
       "revId": "4a35375f6c3bbba874ec8f9928422240dc8bd204",
       "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ec8bbea4_4d082f91",
+        "filename": "tests/data/berlin-community-pod-1-gpon-sadis-TT.json",
+        "patchSetId": 1
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1000537
+      },
+      "writtenOn": "2025-03-25T10:08:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0dcd6fdf_00ba6ebb",
+      "revId": "4a35375f6c3bbba874ec8f9928422240dc8bd204",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
     }
   ]
 }
