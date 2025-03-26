@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6712c522_c6429d5f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000985
+      },
+      "writtenOn": "2025-03-26T08:21:13Z",
+      "side": 1,
+      "message": "\u003e Patch Set 3: Verified+1\n\u003e \n\u003e Build Successful \n\u003e \n\u003e https://jenkins.opencord.org/job/verify_voltha-system-tests_sanity-test/3788/ : SUCCESS\n\u003e \n\u003e https://jenkins.opencord.org/job/verify_voltha-system-tests_unit-test/3753/ : SUCCESS\n\u003e \n\u003e https://jenkins.opencord.org/job/verify_voltha-system-tests_licensed/3892/ : SUCCESS\n\nrecheck",
+      "revId": "fe5bb1549c4732b0d6006d2751173acac6abdba9",
+      "serverId": "2a2bfe1b-c5c2-48ed-9ac8-16438ab24388"
+    }
+  ]
+}
