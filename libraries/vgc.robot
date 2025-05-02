@@ -421,13 +421,22 @@ Verify VGC Flows Added for DT FTTB
     ${num_services}=    Get Length    ${service}
     FOR     ${I}    IN RANGE    0    ${num_services}
         ${service_name}=    Set Variable    ${service[${I}]['name']}
+<<<<<<< HEAD
         ${stag}=    Set Variable    ${service[${I}]['s_tag']}
         ${ctag}=    Set Variable    ${service[${I}]['c_tag']}
         Run Keyword If    '${service_name}' == 'FTTB_SUBSCRIBER_TRAFFIC'   Run Keywords
              Verify Subscriber Access Flows Added for DT FTTB    ${olt_of_id}    ${onu_port}    ${nni_port}    ${stag}        ${ctag}
              Verify DPU MGMT Flows Added for DT FTTB    ${olt_of_id}    ${onu_port}    ${nni_port}    ${stag}    ${ctag    }
+=======
+        ${dpustag}=    Set Variable    ${service[0]['s_tag']}
+        ${dpuctag}=    Set Variable    ${service[0]['c_tag']}
+        ${stag}=    Set Variable    ${service[1]['s_tag']}
+        ${ctag}=    Set Variable    ${service[1]['c_tag']}
+        Run Keyword If    '${service_name}' == 'FTTB_SUBSCRIBER_TRAFFIC'   Run Keywords
+             Verify Subscriber Access Flows Added for DT FTTB    ${olt_of_id}    ${onu_port}    ${nni_port}    ${stag}        ${ctag}
+             Verify DPU MGMT Flows Added for DT FTTB    ${olt_of_id}    ${onu_port}    ${nni_port}    ${dpustag}    ${dpuctag}
+>>>>>>> 4cebd3d... [VOL-5435]VGC validations fix
     END
-
 
 Add Subscriber Details
     [Documentation]    Adds a particular subscriber

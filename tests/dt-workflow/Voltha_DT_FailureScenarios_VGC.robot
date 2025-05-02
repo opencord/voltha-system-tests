@@ -46,6 +46,8 @@ ${timeout}        120s
 ${of_id}          0
 ${logical_id}     0
 ${has_dataplane}    True
+${kafka}    voltha-voltha-api
+${KAFKA_PORT}    55555
 ${teardown_device}    False
 ${scripts}        ../../scripts
 
@@ -136,6 +138,8 @@ Verify openolt adapter restart before subscriber provisioning for DT
     [Teardown]   Run Keywords    Run Keyword If    ${logging}    Collect Logs
     ...          AND             Stop Logging    OltAdapterRestart-Dt
     # Add OLT device
+    Sleep    120s
+    Deactivate Subscribers In VGC
     Clear All Devices Then Create New Device
     Run Keyword If    ${has_dataplane}    Clean Up Linux
     Set Global Variable    ${of_id}
@@ -201,6 +205,7 @@ Verify openolt adapter restart before subscriber provisioning for DT
     # sleep of 60s is introduced to give enough time for OLT adapter to reconcile the OLTs."
     Sleep   60s
     END
+    Deactivate Subscribers In VGC
 
 Sanity E2E Test for OLT/ONU on POD With Core Fail and Restart for DT
     [Documentation]    Deploys an device instance and waits for it to authenticate. After
@@ -248,7 +253,7 @@ Sanity E2E Test for OLT/ONU on POD With Core Fail and Restart for DT
     ...    Check Expected Available Deployment Replicas    voltha    voltha-voltha-go-controller    1
     # For some reason scaling down and up the POD behind a service causes the port forward to stop working,
     # so restart the port forwarding for the API service
-    Restart VOLTHA Port Forward    voltha-api
+    Restart VOLTHA Port Forward    voltha-api 55555:55555
     # Ensure that the ofagent pod is up and ready and the device is available in ONOS, this
     # represents system connectivity being restored
     FOR   ${I}    IN RANGE    0    ${olt_count}
@@ -279,6 +284,8 @@ Sanity E2E Test for OLT/ONU on POD With Core Fail and Restart for DT
         ...    ${dst['dp_iface_name']}    ${dst['ip']}    ${dst['user']}    ${dst['pass']}    ${dst['container_type']}
         ...    ${dst['container_name']}
     END
+    Restart VOLTHA Port Forward    voltha-api
+    ${port_fwd}    Start Process    kubectl -n voltha port-forward svc/${kafka} ${KAFKA_PORT}:${KAFKA_PORT} --address 0.0.0.0 &    shell=true
 
 Verify OLT Soft Reboot for DT
     [Documentation]    Test soft reboot of the OLT using voltctl command
@@ -293,7 +300,7 @@ Verify OLT Soft Reboot for DT
         ...    Validate OLT Device    ENABLED    ACTIVE
         ...    REACHABLE    ${olt_serial_number}
         # Reboot the OLT using "voltctl device reboot" command
-        Reboot Device    ${olt_device_id}
+        Wait Until Keyword Succeeds    360s    5s    Reboot Device    ${olt_device_id}
         # Wait for the OLT to actually go down
         Wait Until Keyword Succeeds    360s    5s    Validate OLT Device    ENABLED    UNKNOWN    UNREACHABLE
         ...    ${olt_serial_number}
@@ -509,6 +516,10 @@ Verify restart rw-core container for DT
     # of now. And there is no other to check if the reconcile has happened for all the OLTs. Due to this limitations a
     # sleep of 60s is introduced to give enough time for rw core to reconcile the OLTs."
     Sleep   60s
+<<<<<<< HEAD
+=======
+    ${port_fwd}    Start Process    kubectl -n voltha port-forward svc/${kafka} ${KAFKA_PORT}:${KAFKA_PORT} --address 0.0.0.0 &    shell=true
+>>>>>>> 4cebd3d... [VOL-5435]VGC validations fix
     Verify Control Plane After Pod Restart DT
 
 *** Keywords ***
