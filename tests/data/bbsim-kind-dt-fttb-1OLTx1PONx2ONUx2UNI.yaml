@@ -26,6 +26,9 @@ ONOS_SSH_PORT: 8101
 VGC_SSH_PORT: 8101
 OLT_PORT: 50060
 
+# Actual Unused sadis.file but ready to future implementation
+sadis.file: ../data/dt-sadis-config-fttb-vgc.json
+
 nodes:
   -
     ip: '127.0.0.1'
@@ -44,53 +47,13 @@ hosts:
       service:
         -
           name: DPU_MGMT_TRAFFIC
-          c_tag: '6'
-          s_tag: '60'
+          c_tag: '4090'
+          s_tag: '4'
         -
           name: FTTB_SUBSCRIBER_TRAFFIC
           c_tag: '101'
           s_tag: '3101'
         -
-          name: DPU_ANCP_TRAFFIC
-          c_tag: '4'
-          s_tag: '40'
       uni_id: '1'
-    -
-      onu: 'BBSM000a0001'
-      olt: 'BBSIM_OLT_10'
-      service:
-        -
-          name: DPU_MGMT_TRAFFIC
-          c_tag: '6'
-          s_tag: '60'
-        -
-          name: FTTB_SUBSCRIBER_TRAFFIC
-          c_tag: '102'
-          s_tag: '3102'
-        -
-          name: DPU_ANCP_TRAFFIC
-          c_tag: '4'
-          s_tag: '40'
-      uni_id: '2'
-    -
-      onu: 'BBSM000a0002'
-      olt: 'BBSIM_OLT_10'
-      service:
-        -
-          name: DPU_MGMT_TRAFFIC
-          c_tag: '6'
-          s_tag: '60'
-        -
-          name: FTTB_SUBSCRIBER_TRAFFIC
-          c_tag: '105'
-          s_tag: '3105'
-        -
-          name: DPU_ANCP_TRAFFIC
-          c_tag: '4'
-          s_tag: '40'
-      uni_id: '1'
-
   dst:
-    - ip: null
-    - ip: null
     - ip: null
