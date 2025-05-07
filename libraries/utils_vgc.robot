@@ -66,6 +66,8 @@ Common Test Suite Setup
         ${orig_olt_port}    Evaluate    ${olts}[${I}].get("oltPort")
         ${port}=    Set Variable If    "${orig_olt_port}" == "None"    ${OLT_PORT}    ${orig_olt_port}
         ${onu_count}=    Get ONU Count For OLT    ${hosts.src}    ${serial_number}
+        Log    ${hosts.src}
+        Log    ${hosts}
         ${onu_list}=    Get ONU List For OLT    ${hosts.src}    ${serial_number}
         ${olt}    Create Dictionary    ip    ${ip}    user    ${user}    pass
         ...    ${pass}    sn    ${serial_number}   onucount   ${onu_count}    type    ${type}
@@ -281,13 +283,15 @@ Perform Sanity Test DT FTTB Per OLT
     ...    In all other (common) cases flag has to be set False (default).
     FOR    ${I}    IN RANGE    0    ${num_all_onus}
         ${src}=    Set Variable    ${hosts.src[${I}]}
+        Log    ${src}
         ${dst}=    Set Variable    ${hosts.dst[${I}]}
+        Log    ${dst}
         Continue For Loop If    "${olt_serial_number}"!="${src['olt']}"
         ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
         ${onu_port}=    Wait Until Keyword Succeeds    ${timeout}    2s
         ...    Get ONU Port in VGC    ${src['onu']}    ${of_id}    ${src['uni_id']}
         # Check ONU port is Enabled in VGC
-        Wait Until Keyword Succeeds   120s   2s
+        Wait Until Keyword Succeeds    120s    2s
         ...    Verify UNI Port Is Enabled      ${src['onu']}    ${src['uni_id']}
         Run Keyword Unless    ${supress_add_subscriber}
         ...     Add Subscriber Details   ${of_id}    ${onu_port}

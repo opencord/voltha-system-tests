@@ -679,11 +679,108 @@ Verify Meters in VGC Ietf
     Run Keyword If    ${ds_gir} != 0
     ...    Validate Guarenteed Information Rate    ${ds_gir}  ${meter_json_resp}
 
+Verify Meters in VGC Ietf For FTTB Subscribers
+    [Arguments]    ${ip}    ${port}    ${olt_of_id}    ${onu_port}    ${filter}=${EMPTY}
+    [Documentation]    Verifies the meters with BW Ietf format for FTTB Subscriber (currently, DT workflow uses this format)
+    ${programmed_sub_json_resp}=    Get Programmed Subscribers    ${olt_of_id}    ${onu_port}
+    ...    ${filter}
+    Log    ${programmed_sub_json_resp}
+    ${us_bw_profile}    ${ds_bw_profile}    Get Upstream and Downstream Bandwidth Profile Name
+    ...    ${programmed_sub_json_resp}
+    # Get upstream bandwidth profile details
+    ${us_cir}    ${us_cbs}    ${us_pir}    ${us_pbs}    ${us_gir}    Get Bandwidth Profile Details Ietf Rest
+    ...    ${us_bw_profile}
+    # Verify meter for upstream bandwidth profile
+    ${meter}=      Get Request    VGC    meters
+    ${meter_json_resp}=    To Json   ${meter.content}
+    ${meters}=    Get From Dictionary    ${meter_json_resp}    meters
+    Log    ${meter_json_resp}
+    Log    ${meters}
+    ${meter_length}    Get Length    ${meters}
+    FOR    ${i}    IN RANGE    ${meter_length}
+        ${id}=    Get From Dictionary    ${meters[${i}]}    id
+        Run Keyword If    '${id}' == '2'    Set Suite Variable    ${meter_json_resp}    ${meters[${i}]}
+    END
+    ${meter_json_Length}    Get Length    ${meter_json_resp['bands']}
+    FOR    ${I}    IN RANGE    0     ${meter_json_Length}
+        ${burst_size}=    Get From Dictionary    ${meter_json_resp['bands'][${I}]}    burstSize
+        ${rate}=        Get From Dictionary    ${meter_json_resp['bands'][${I}]}    rate
+        Log    ${rate}
+        Log    ${burst_size}
+        # for cir & cbs
+        ${matched}=    Set Variable If    '${rate}' == '${us_cir}' and '${burst_size}' == '${us_cbs}'   True    False
+        ${res1}=    Evaluate    '${rate}' == '${us_cir}' and '${burst_size}' == '${us_cbs}'
+        Exit For Loop If    ${matched}
+    END
+    Should Be True    ${matched}
+    #for pir & pbs
+    FOR    ${I}    IN RANGE    0     3
+        ${burst_size}=    Get From Dictionary    ${meter_json_resp['bands'][${I}]}    burstSize
+        ${rate}=        Get From Dictionary    ${meter_json_resp['bands'][${I}]}    rate
+        ${matched}=    Set Variable If    '${rate}' == '${us_pir}' and '${burst_size}' == '${us_pbs}'   True    False
+        ${res2}=    Evaluate    '${rate}' == '${us_pir}' and '${burst_size}' == '${us_pbs}'
+        Exit For Loop If    ${matched}
+    END
+    Should Be True    ${matched}
+    #for gir
+    Run Keyword if  ${us_gir} != 0    Validate Guarenteed Information Rate For FTTB    ${us_gir}  ${meter_json_resp}
+    # Get downstream bandwidth profile details
+    ${ds_cir}    ${ds_cbs}    ${ds_pir}    ${ds_pbs}    ${ds_gir}    Get Bandwidth Profile Details Ietf Rest
+    ...    ${ds_bw_profile}
+    ${meter}=      Get Request    VGC    meters
+    ${meter_json_resp}=    To Json   ${meter.content}
+    Log    ${meter_json_resp}
+    Log    ${rate}
+    Log    ${burst_size}
+     ${meters}=    Get From Dictionary    ${meter_json_resp}    meters
+     Log    ${meter_json_resp}
+     Log    ${meters}
+     FOR    ${i}    IN RANGE    2
+         ${id}=    Get From Dictionary    ${meters[${i}]}    id
+         Run Keyword If    '${id}' == '2'    Set Suite Variable    ${meter_json_resp}    ${meters[${i}]}
+     END
+     FOR    ${I}    IN RANGE    0     3
+         ${burst_size}=    Get From Dictionary    ${meter_json_resp['bands'][${I}]}    burstSize
+         ${rate}=        Get From Dictionary    ${meter_json_resp['bands'][${I}]}    rate
+         Log    ${rate}
+         Log    ${burst_size}
+         # for cir & cbs
+         ${matched}=    Set Variable If    '${rate}' == '${ds_cir}' and '${burst_size}' == '${ds_cbs}'   True    False
+         ${res1}=    Evaluate    '${rate}' == '${ds_cir}' and '${burst_size}' == '${ds_cbs}'
+         Exit For Loop If    ${matched}
+    END
+    Should Be True    ${matched}
+
+    # for cir & cbs
+      FOR    ${I}    IN RANGE    0     3
+          ${burst_size}=    Get From Dictionary    ${meter_json_resp['bands'][${I}]}    burstSize
+          ${rate}=        Get From Dictionary    ${meter_json_resp['bands'][${I}]}    rate
+          Log    ${rate}
+          Log    ${burst_size}
+          ${matched}=    Set Variable If    '${rate}' == '${ds_cir}' and '${burst_size}' == '${ds_cbs}'   True    False
+          ${res1}=    Evaluate    '${rate}' == '${ds_pir}' and '${burst_size}' == '${ds_pbs}'
+          Exit For Loop If    ${matched}
+     END
+     Should Be True    ${matched}
+    #for pir & pbs
+    #for gir
+    Run Keyword If    ${ds_gir} != 0
+    ...    Validate Guarenteed Information Rate For FTTB    ${ds_gir}  ${meter_json_resp}
+
 Validate Guarenteed Information Rate
+     [Documentation]    Validate gir for both upstream and downstream meters
+     [Arguments]    ${gir}    ${meter_json_resp}
+     ${rate}    ${burst_size}   Get Meter Param In Details
+     ...    ${meter_json_resp}  3
+     ${matched}=    Set Variable If    '${rate}' == '${gir}' and '${burst_size}' == '0'  True    False
+     Should Be True    ${matched}
+     [Return]    ${matched}
+
+Validate Guarenteed Information Rate For FTTB
     [Documentation]    Validate gir for both upstream and downstream meters
     [Arguments]    ${gir}    ${meter_json_resp}
-    ${rate}    ${burst_size}   Get Meter Param In Details
-    ...    ${meter_json_resp}  3
+    ${burst_size}=    Get From Dictionary    ${meter_json_resp['bands'][2]}    burstSize
+    ${rate}=    Get From Dictionary    ${meter_json_resp['bands'][2]}    rate
     ${matched}=    Set Variable If    '${rate}' == '${gir}' and '${burst_size}' == '0'  True    False
     Should Be True    ${matched}
     [Return]    ${matched}
