@@ -310,7 +310,7 @@ Perform Sanity Test DT FTTB Per OLT
         ...    ${src['onu']}    onu=True    onu_reason=${onu_reasons}
         # Verify Meters in VGC
         Wait Until Keyword Succeeds    ${timeout}    5s
-        ...    Verify Meters in VGC Ietf    ${VGC_SSH_IP}    ${VGC_SSH_PORT}    ${of_id}    ${onu_port}
+        ...    Verify Meters in VGC Ietf For FTTB Subscribers    ${VGC_SSH_IP}    ${VGC_SSH_PORT}    ${of_id}    ${onu_port}
         ...    FTTB_SUBSCRIBER_TRAFFIC
         Run Keyword If    ${has_dataplane}    Validate DHCP and Ping    True
         ...    True    ${src['dp_iface_name']}    ${src['s_tag']}    ${src['c_tag']}    ${dst['dp_iface_ip_qinq']}
