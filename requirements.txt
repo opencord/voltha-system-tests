@@ -34,7 +34,7 @@ robotframework-importresource==0.2.0
 robotframework-kafkalibrary==0.0.3
 robotframework-lint==1.1
 robotframework-requests==0.9.7
-robotframework-robocop>=5.5.0,<=6.0.3
+robotframework-robocop>=2.8.1,<=6.0.3
 robotframework-sshlibrary==3.8.0
 cord-robot==2.1.10
 
