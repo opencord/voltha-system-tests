@@ -27,7 +27,8 @@ OLT_PORT: 50060
 
 # Actual Unused sadis.file but ready to future implementation
 sadis.file: ../data/dt-sadis-multiolt-config-vgc.json
-
+oltconfig.file: ../data/oltdeviceconfig.json
+oltconfig1.file: ../data/oltdeviceconfig_1.json
 
 nodes:
   -
