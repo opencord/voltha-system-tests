@@ -447,13 +447,13 @@ Remove Subscriber Access
 Send File To VGC
     [Documentation]    Send the content of the file to VGC to selected section of configuration
     ...   using Post Request
-    [Arguments]    ${CONFIG_FILE}    #${section}=${EMPTY}
+    [Arguments]    ${CONFIG_FILE}    ${dest}    #${section}=${EMPTY}
     ${Headers}=    Create Dictionary    Content-Type    application/json
     ${File_Data}=    OperatingSystem.Get File    ${CONFIG_FILE}
     Log    ${Headers}
     Log    ${File_Data}
     ${resp}=    Post Request    VGC
-    ...    network-configurations    headers=${Headers}    data=${File_Data}
+    ...    ${dest}    headers=${Headers}    data=${File_Data}
     Should Be Equal As Strings    ${resp.status_code}    200
 
 Verify No Pending Flows For ONU
@@ -699,7 +699,7 @@ Verify Meters in VGC Ietf For FTTB Subscribers
     ${meter_length}    Get Length    ${meters}
     FOR    ${i}    IN RANGE    ${meter_length}
         ${id}=    Get From Dictionary    ${meters[${i}]}    id
-        Run Keyword If    '${id}' == '2'    Set Suite Variable    ${meter_json_resp}    ${meters[${i}]}
+        Run Keyword If    '${id}' == '1'    Set Suite Variable    ${meter_json_resp}    ${meters[${i}]}
     END
     ${meter_json_Length}    Get Length    ${meter_json_resp['bands']}
     FOR    ${I}    IN RANGE    0     ${meter_json_Length}
@@ -737,7 +737,7 @@ Verify Meters in VGC Ietf For FTTB Subscribers
      Log    ${meters}
      FOR    ${i}    IN RANGE    2
          ${id}=    Get From Dictionary    ${meters[${i}]}    id
-         Run Keyword If    '${id}' == '2'    Set Suite Variable    ${meter_json_resp}    ${meters[${i}]}
+         Run Keyword If    '${id}' == '1'    Set Suite Variable    ${meter_json_resp}    ${meters[${i}]}
      END
      FOR    ${I}    IN RANGE    0     3
          ${burst_size}=    Get From Dictionary    ${meter_json_resp['bands'][${I}]}    burstSize

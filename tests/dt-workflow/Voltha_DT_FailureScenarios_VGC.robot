@@ -284,8 +284,10 @@ Sanity E2E Test for OLT/ONU on POD With Core Fail and Restart for DT
         ...    ${dst['dp_iface_name']}    ${dst['ip']}    ${dst['user']}    ${dst['pass']}    ${dst['container_type']}
         ...    ${dst['container_name']}
     END
-    Restart VOLTHA Port Forward    voltha-api
-    ${port_fwd}    Start Process    kubectl -n voltha port-forward svc/${kafka} ${KAFKA_PORT}:${KAFKA_PORT} --address 0.0.0.0 &    shell=true
+    Restart VOLTHA Port Forward    voltha-api 55555:55555\
+    ${cmd}    Set Variable    ps -ef | grep -E "[k]ubectl.*-n[[:space:]]*voltha.*port-forward.*voltha-voltha-api.*55555:55555" | awk '{print $2}' | xargs -r kill -9
+    ${rc}    ${pid}    Run And Return Rc And Output    ${cmd}
+    ${port_fwd}    Start Process    kubectl -n voltha port-forward svc/${kafka} ${KAFKA_PORT}:${KAFKA_PORT} &    shell=true
 
 Verify OLT Soft Reboot for DT
     [Documentation]    Test soft reboot of the OLT using voltctl command
@@ -516,7 +518,9 @@ Verify restart rw-core container for DT
     # of now. And there is no other to check if the reconcile has happened for all the OLTs. Due to this limitations a
     # sleep of 60s is introduced to give enough time for rw core to reconcile the OLTs."
     Sleep   60s
-    ${port_fwd}    Start Process    kubectl -n voltha port-forward svc/${kafka} ${KAFKA_PORT}:${KAFKA_PORT} --address 0.0.0.0 &    shell=true
+    ${cmd}    Set Variable    ps -ef | grep -E "[k]ubectl.*-n[[:space:]]*voltha.*port-forward.*voltha-voltha-api.*55555:55555" | awk '{print $2}' | xargs -r kill -9
+    ${rc}    ${pid}    Run And Return Rc And Output    ${cmd}
+    ${port_fwd}    Start Process    kubectl -n voltha port-forward svc/${kafka} ${KAFKA_PORT}:${KAFKA_PORT} &    shell=true
     Verify Control Plane After Pod Restart DT
 
 *** Keywords ***
