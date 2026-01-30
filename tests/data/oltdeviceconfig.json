@@ -1,0 +1,9 @@
+{
+  "id": "BBSIM_OLT_10",
+  "nasId": "BBSIM_OLT_10",
+  "hardwareIdentifier": "28:b9:d9:e2:93:d6",
+  "uplinkPort": "16777216",
+  "nniDhcpTrapVid": 4,
+  "nniPorts":["16777216","16777217"]
+}
+

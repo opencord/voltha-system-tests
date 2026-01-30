@@ -78,9 +78,15 @@ Common Test Suite Setup
     ${num_all_onus}=    Get Length    ${hosts.src}
     ${num_all_onus}=    Convert to String    ${num_all_onus}
     #send sadis file to vgc
+    ${oltconfig_file}=    Get Variable Value    ${oltconfig.file}
+    ${oltconfig1_file}=    Get Variable Value    ${oltconfig1.file}
     ${sadis_file}=    Get Variable Value    ${sadis.file}
     Log To Console    \nSadis File:${sadis_file}
-    Run Keyword Unless    '${sadis_file}' == '${None}'    Send File To VGC    ${sadis_file}   # apps/
+    Log To Console    \noltconfig File:${oltconfig_file}
+    Log To Console    \noltconfig File:${oltconfig1_file}
+    Run Keyword Unless    '${oltconfig_file}' == '${None}'    Send File To VGC    ${oltconfig_file}    olt/BBSIM_OLT_10
+    Run Keyword Unless    '${oltconfig1_file}' == '${None}'    Send File To VGC    ${oltconfig1_file}    olt/BBSIM_OLT_11
+    Run Keyword Unless    '${sadis_file}' == '${None}'    Send File To VGC    ${sadis_file}    network-configurations   #apps/
     Set Suite Variable    ${num_all_onus}
     Set Suite Variable    ${num_olts}
     Set Suite Variable    ${list_olts}
