@@ -699,7 +699,7 @@ Verify Meters in VGC Ietf For FTTB Subscribers
     ${meter_length}    Get Length    ${meters}
     FOR    ${i}    IN RANGE    ${meter_length}
         ${id}=    Get From Dictionary    ${meters[${i}]}    id
-        Run Keyword If    '${id}' == '2'    Set Suite Variable    ${meter_json_resp}    ${meters[${i}]}
+        Run Keyword If    '${id}' == '1'    Set Suite Variable    ${meter_json_resp}    ${meters[${i}]}
     END
     ${meter_json_Length}    Get Length    ${meter_json_resp['bands']}
     FOR    ${I}    IN RANGE    0     ${meter_json_Length}
@@ -737,7 +737,7 @@ Verify Meters in VGC Ietf For FTTB Subscribers
      Log    ${meters}
      FOR    ${i}    IN RANGE    2
          ${id}=    Get From Dictionary    ${meters[${i}]}    id
-         Run Keyword If    '${id}' == '2'    Set Suite Variable    ${meter_json_resp}    ${meters[${i}]}
+         Run Keyword If    '${id}' == '1'    Set Suite Variable    ${meter_json_resp}    ${meters[${i}]}
      END
      FOR    ${I}    IN RANGE    0     3
          ${burst_size}=    Get From Dictionary    ${meter_json_resp['bands'][${I}]}    burstSize

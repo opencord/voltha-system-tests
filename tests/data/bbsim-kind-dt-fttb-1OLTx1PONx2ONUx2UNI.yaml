@@ -28,6 +28,7 @@ OLT_PORT: 50060
 
 # Actual Unused sadis.file but ready to future implementation
 sadis.file: ../data/dt-sadis-config-fttb-vgc.json
+oltconfig.file: ../data/oltdeviceconfig.json
 
 nodes:
   -
