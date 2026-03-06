@@ -394,7 +394,7 @@ Raise Onu Alarm And Get Event
     ${header}    ${deviceEvent}    Get Device Event    ${deviceEventName}    ${since}
     ${LastEventPostTimestamp}    Set Variable     ${since}
     Set Suite Variable     ${LastEventPostTimestamp}
-    [return]    ${header}    ${deviceEvent}
+    RETURN    ${header}    ${deviceEvent}
 
 Clear Onu Alarm And Get Event
     [Documentation]    Clear an Alarm and return event
@@ -404,7 +404,7 @@ Clear Onu Alarm And Get Event
     ${header}    ${deviceEvent}    Get Device Event    ${deviceEventName}    ${since}
     ${LastEventPostTimestamp}    Set Variable     ${since}
     Set Suite Variable     ${LastEventPostTimestamp}
-    [return]    ${header}    ${deviceEvent}
+    RETURN    ${header}    ${deviceEvent}
 
 Raise Onu Alarm
     [Documentation]    Raise an Alarm
@@ -430,7 +430,7 @@ Raise Olt Alarm And Get Event
     ${header}    ${deviceEvent}    Get Device Event    ${deviceEventName}    ${since}
     ${LastEventPostTimestamp}    Set Variable     ${since}
     Set Suite Variable     ${LastEventPostTimestamp}
-    [return]    ${header}    ${deviceEvent}
+    RETURN    ${header}    ${deviceEvent}
 
 Clear Olt Alarm And Get Event
     [Documentation]    Clear an Alarm and return event
@@ -440,7 +440,7 @@ Clear Olt Alarm And Get Event
     ${header}    ${deviceEvent}    Get Device Event    ${deviceEventName}    ${since}
     ${LastEventPostTimestamp}    Set Variable     ${since}
     Set Suite Variable     ${LastEventPostTimestamp}
-    [return]    ${header}    ${deviceEvent}
+    RETURN    ${header}    ${deviceEvent}
 
 Raise Olt Alarm
     [Documentation]    Raise an Alarm
@@ -472,7 +472,7 @@ Get Device Event
     ${deviceEvent}    Set Variable   ${lastItem}[deviceEvent]
     Log    ${header}
     Log    ${deviceEvent}
-    [return]    ${header}    ${deviceEvent}
+    RETURN    ${header}    ${deviceEvent}
 
 Verify Header
     [Documentation]    Verify that a DeviceEvent's header is sane and the id matches regex
