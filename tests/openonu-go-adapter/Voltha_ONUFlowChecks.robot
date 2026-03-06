@@ -228,7 +228,7 @@ Collect Tags Per ONU
         ...                                  ${src['onu']}    ${src['c_tag']}    ${src['s_tag']}
     END
     log    ${onu_tags_dict}
-    [return]    ${onu_tags_dict}
+    RETURN    ${onu_tags_dict}
 
 Update ONU Tags Dict
     [Documentation]    This keyword update passed dictionary with the s- and c-tags for passed ONU.
@@ -240,7 +240,7 @@ Update ONU Tags Dict
     ${s_tags_list}=    Get From Dictionary    ${onu_tags_dict['${onu}']}    s_tags
     Append To List    ${s_tags_list}    ${s_tag}
     Set To Dictionary    ${onu_tags_dict['${onu}']}    c_tags    ${c_tags_list}    s_tags    ${s_tags_list}
-    [return]    ${onu_tags_dict}
+    RETURN    ${onu_tags_dict}
 
 Append To ONU Tags Dict
     [Documentation]    This keyword append the s- and c-tags of passed ONU to passed dictionary .
@@ -251,4 +251,4 @@ Append To ONU Tags Dict
     ${s_tags_list}=    Create List    ${s_tag}
     ${onu_dict}=    Create Dictionary    c_tags    ${c_tags_list}    s_tags    ${s_tags_list}
     Set To Dictionary    ${onu_tags_dict}    ${onu}    ${onu_dict}
-    [return]    ${onu_tags_dict}
+    RETURN    ${onu_tags_dict}

@@ -227,7 +227,7 @@ Get ONU details with Given Sn and Service and UNI
         ...    True    False
         Exit For Loop If    ${matched}
     END
-    [Return]    ${matched}    ${src}    ${dst}
+    RETURN    ${matched}    ${src}    ${dst}
 
 
 TT 2 RG MCAST Test
