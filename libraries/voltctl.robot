@@ -46,7 +46,7 @@ Create Device
     ...    voltctl -c ${VOLTCTL_CONFIG} device create -t ${type} -H ${ip}:${port}
     Log     ${device_id}
     Should Be Equal As Integers    ${rc}    0   Failed to Create Device beause of ${device_id}
-    [Return]    ${device_id}
+    RETURN    ${device_id}
 
 Enable Device
     [Arguments]    ${device_id}
@@ -115,7 +115,7 @@ Get Device Flows from Voltha
     ${rc}    ${output}=    Run and Return Rc and Output
     ...    voltctl -c ${VOLTCTL_CONFIG} device flows ${device_id} -m ${voltctlGrpcLimit}
     Should Be Equal As Integers    ${rc}    0   Could not get flows for device ${device_id}
-    [Return]    ${output}
+    RETURN    ${output}
 
 Get Logical Device Output from Voltha
     [Arguments]    ${device_id}
@@ -153,7 +153,7 @@ Get ONUs Device IDs from Voltha
     ...    voltctl -c ${VOLTCTL_CONFIG} device list -m ${voltctlGrpcLimit} -f Type=brcm_openomci_onu -q
     Should Be Equal as Integers    ${rc}    0       Could not get ONOs device list
     @{onuDevList}=    Split To Lines    ${onus}
-    [Return]    ${onuDevList}
+    RETURN    ${onuDevList}
 
 Get Device List from Voltha by type
     [Documentation]    Gets Device List Output from Voltha applying filtering by device type
@@ -477,7 +477,7 @@ Get Onu Image List
     [Arguments]    ${dev_id}
     ${rc}    ${output}=    Run and Return Rc and Output
     ...    voltctl -c ${VOLTCTL_CONFIG} device onuimage list ${dev_id}
-    [return]    ${rc}    ${output}
+    RETURN    ${rc}    ${output}
 
 Compare Lists
     [Documentation]
@@ -490,7 +490,7 @@ Compare Lists
         ${onu_id}=    Get Index From List    ${ListCompare}   ${sn}
         Run Keyword If    -1 != ${onu_id}    Append To List    ${list}    ${sn}
     END
-    [Return]    ${list}
+    RETURN    ${list}
 
 Validate Logical Device
     [Documentation]    Validate Logical Device is listed
@@ -510,7 +510,7 @@ Validate Logical Device
     Should Be Equal    '${rootdev}'    '${olt_device_id}'    Root Device does not match ${olt_device_id}    values=False
     Should Be Equal    '${sn}'    '${BBSIM_OLT_SN}'    Logical Device ${sn} does not match ${BBSIM_OLT_SN}
     ...    values=False
-    [Return]    ${devid}
+    RETURN    ${devid}
 
 Validate Logical Device Ports
     [Arguments]    ${logical_device_id}
@@ -553,7 +553,7 @@ Retrieve ONU UNI Ports
         Run Keyword If    '${type}'=='ETHERNET_UNI' and '${adminstate}'=='ENABLED' and '${operstate}'=='ACTIVE'
         ...    Append To List    ${onu_uni_list}    ${portno}
     END
-    [Return]    ${onu_uni_list}
+    RETURN    ${onu_uni_list}
 
 Retrieve OLT PON Ports
     [Arguments]    ${olt_device_id}
@@ -574,7 +574,7 @@ Retrieve OLT PON Ports
         Run Keyword If    '${type}' == 'PON_OLT' and ${len_peers} > 0
         ...    Append To List    ${olt_pon_list}    ${portno}
     END
-    [Return]    ${olt_pon_list}
+    RETURN    ${olt_pon_list}
 
 Retrieve Peer List From OLT PON Port
     [Arguments]    ${olt_device_id}    ${pon_port}    ${expected_num_peers}=0
@@ -604,7 +604,7 @@ Retrieve Peer List From OLT PON Port
         ${peer_id}=    Get From Dictionary    ${value}    deviceId
         Append To List    ${olt_peer_list}    ${peer_id}
     END
-    [Return]    ${olt_peer_list}
+    RETURN    ${olt_peer_list}
 
 Validate OLT PON Port Status
     [Arguments]    ${olt_device_id}    ${pon_port}    ${admin_state}    ${oper_status}
@@ -729,7 +729,7 @@ Get Device ID From SN
     ...    voltctl -c ${VOLTCTL_CONFIG} device list --filter=SerialNumber=${serial_number} --format='{{.Id}}'
     Should Be Equal As Integers    ${rc}    0   "Error while fetching device list from VOLTHA"
     Log    ${id}
-    [Return]    ${id}
+    RETURN    ${id}
 
 Get Logical Device ID From SN
     [Arguments]    ${serial_number}
@@ -738,7 +738,7 @@ Get Logical Device ID From SN
     ...    voltctl -c ${VOLTCTL_CONFIG} logicaldevice list --filter=Desc.SerialNum=${serial_number} --format='{{.Id}}'
     Should Be Equal As Integers    ${rc}    0
     Log    ${id}
-    [Return]    ${id}
+    RETURN    ${id}
 
 Build ONU SN List
     [Arguments]    ${serial_numbers}    ${olt_serial_number}=${EMPTY}    ${num_onus}=${num_all_onus}
@@ -771,7 +771,7 @@ Get SN From Device ID
     ...    voltctl -c ${VOLTCTL_CONFIG} device list --filter=Id=${device_id} --format='{{.SerialNumber}}'
     Should Be Equal As Integers    ${rc}    0
     Log    ${sn}
-    [Return]    ${sn}
+    RETURN    ${sn}
 
 Get Parent ID From Device ID
     [Arguments]    ${device_id}
@@ -780,7 +780,7 @@ Get Parent ID From Device ID
     ...    voltctl -c ${VOLTCTL_CONFIG} device list --filter=Id=${device_id} --format='{{.ParentId}}'
     Should Be Equal As Integers    ${rc}    0
     Log    ${pid}
-    [Return]    ${pid}
+    RETURN    ${pid}
 
 Validate Device Removed
     [Arguments]    ${serialNumber}
@@ -1064,7 +1064,7 @@ Read Default Interval From Pmconfig
     @{words}=    Split String    ${result}
     ${interval}=    Get From List    ${words}    3
     log    ${interval}
-    [return]    ${interval}
+    RETURN    ${interval}
 
 Read Group Interval From Pmconfig
     [Documentation]    Reads default interval from pm config
@@ -1075,7 +1075,7 @@ Read Group Interval From Pmconfig
     @{words}=    Split String    ${result}
     ${interval}=    Get From List    ${words}    -1
     log    ${interval}
-    [return]    ${interval}
+    RETURN    ${interval}
 
 Set and Validate Default Interval
     [Documentation]    Sets and validates default interval of pm data
@@ -1114,7 +1114,7 @@ Read Group List
         Append To List    ${group_list}    ${group}
         Set To Dictionary    ${interval_dict}    ${group}=${interval}
     END
-    [return]    ${group_list}    ${interval_dict}
+    RETURN    ${group_list}    ${interval_dict}
 
 Read Group Metric List
     [Documentation]    Reads group metric list of given device and group
@@ -1133,7 +1133,7 @@ Read Group Metric List
         ${dict}=       Create Dictionary    ${name}=${subdict}
         Append To List    ${groupmetric_list}    ${dict}
     END
-    [return]    ${groupmetric_list}
+    RETURN    ${groupmetric_list}
 
 Read Group Metric Dict
     [Documentation]    Reads group metric list of given device and group
@@ -1151,7 +1151,7 @@ Read Group Metric Dict
         ${subdict}=       Create Dictionary    type=${type}    enabled=${enabled}
         Set To Dictionary    ${groupmetric_dict}    ${name}=${subdict}
     END
-    [return]    ${groupmetric_dict}
+    RETURN    ${groupmetric_dict}
 
 # openonu-go-adapter OMCI counter statistics
 Get OMCI counter statistics
@@ -1159,7 +1159,7 @@ Get OMCI counter statistics
     [Arguments]    ${dev_id}
     ${rc}    ${output}=    Run and Return Rc and Output
     ...    voltctl -c ${VOLTCTL_CONFIG} device getextval onu_omci_stats ${dev_id}
-    [return]    ${rc}    ${output}
+    RETURN    ${rc}    ${output}
 
 Get OMCI counter statistics dictionary
     [Documentation]    Delivers the openonu-go-adapter OMCI counter statistics as dictionary
@@ -1177,4 +1177,4 @@ Get OMCI counter statistics dictionary
         ${name}=    Remove String    ${name}    :
         Set To Dictionary    ${output_dict}    ${name}    ${value}
     END
-    [return]    ${rc}    ${output_dict}
+    RETURN    ${rc}    ${output_dict}

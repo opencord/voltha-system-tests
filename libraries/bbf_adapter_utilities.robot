@@ -103,7 +103,7 @@ Get Devices By Type
         Append To List    ${bbf_olts_xml}    ${device}[${I}]
     END
     Log     ${bbf_olts_xml}
-    [Return]    ${bbf_olts_xml}
+    RETURN    ${bbf_olts_xml}
 
 Get Olts From XML
     [Documentation]     Extract ALL the OLTs viewed by the BBF-Adapter
@@ -144,7 +144,7 @@ Get Olts From XML
         Append To List    ${bbf_olts_Info}    ${bbf_olt}
     END
     Log     ${bbf_olts_Info}
-    [Return]    ${bbf_olts_Info}
+    RETURN    ${bbf_olts_Info}
 
 Get Onus From XML
     [Documentation]     Extract ALL the ONUs viewed by the BBF-Adapter
@@ -196,7 +196,7 @@ Get Onus From XML
         Append To List    ${bbf_onus_Info}    ${bbf_onu}
     END
     Log     ${bbf_onus_Info}
-    [Return]    ${bbf_onus_Info}
+    RETURN    ${bbf_onus_Info}
 
 Get Interfaces From Onu XML Interfaces
     [Documentation]     Extract ALL the Interfaces of a ONU viewed by the BBF-Adapter
@@ -221,7 +221,7 @@ Get Interfaces From Onu XML Interfaces
         Append To List    ${interfaces_Info}    ${onu_interface}
     END
     Log     ${interfaces_Info}
-    [Return]    ${interfaces_Info}
+    RETURN    ${interfaces_Info}
 
 Get All Devices
     [Documentation]     Extract all the Device (OLTs and ONUS) in a unique List of Devices
@@ -229,7 +229,7 @@ Get All Devices
     ${onus_bbf}=    Get Onus From XML  ${XML}
     ${olts_bbf}=    Get Olts From XML   ${XML}
     ${all_devices_bbf}=     Combine Lists     ${onus_bbf}      ${olts_bbf}
-    [Return]    ${all_devices_bbf}
+    RETURN    ${all_devices_bbf}
 
 Admin State Translation From IETF to VOLTHA
     [Documentation]     Allow to translate the IETF of a Admin-State to VOLTHA
@@ -244,7 +244,7 @@ Admin State Translation From IETF to VOLTHA
     ...    ELSE
     ...    Set Variable     UNKNOWN
     Log     ${voltha_admin_state}
-    [Return]    ${voltha_admin_state}
+    RETURN    ${voltha_admin_state}
 
 Create Device in BBF
     [Arguments]    ${device_id}
@@ -280,7 +280,7 @@ Admin State Translation From VOLTHA to IETF
     ...    Set Variable     unlocked
     ...    ELSE
     ...    Set Variable     unknown
-    [Return]    ${ietf_admin_state}
+    RETURN    ${ietf_admin_state}
 
 Oper State Translation From IETF to VOLTHA
     [Documentation]     Allow to translate the IETF of a Oper-State to VOLTHA
@@ -297,7 +297,7 @@ Oper State Translation From IETF to VOLTHA
     ...    ELSE
     ...    Set Variable     UNKNOWN
     Log     ${voltha_oper_state}
-    [Return]    ${voltha_oper_state}
+    RETURN    ${voltha_oper_state}
 
 Oper State Translation From VOLTHA to IETF
     [Documentation]     Allow to translate the VOLTHA of a Oper-State to IETF Standard
@@ -314,20 +314,20 @@ Oper State Translation From VOLTHA to IETF
     ...    ELSE
     ...    Set Variable     unknown
     Log     ${ietf_oper_state}
-    [Return]    ${ietf_oper_state}
+    RETURN    ${ietf_oper_state}
 
 Connect State Translation From IETF to VOLTHA
     [Documentation]     Allow to translate the IETF of a Connect-State to VOLTHA
     [Arguments]     ${bbf_connect_state}
     #Only REACHABLE because we don't know the IETF status
     ${voltha_connect_state}=   Set Variable     REACHABLE
-    [Return]    ${voltha_connect_state}
+    RETURN    ${voltha_connect_state}
 
 Connect State Translation From VOLTHA to IETF
     [Documentation]     Allow to translate the VOLTHA of a Connect-State to IETF Standard
     [Arguments]     ${voltha_connect_state}
     ${bbf_connect_state}=   Set Variable     unknown
-    [Return]    ${bbf_connect_state}
+    RETURN    ${bbf_connect_state}
 
 Validate Onu in BBF
     [Documentation]    Validate an ONU in BBF and its states
@@ -493,7 +493,7 @@ Get Device ID From SN in BBF
         ${Device_ID}=   Set Variable    ${all_devices_bbf}[${I}][name]
         Log     ${Device_ID}
     END
-    [Return]    ${Device_ID}
+    RETURN    ${Device_ID}
 
 Correct representation check VOLTHA-IETF
     [Documentation]     Check if all the information the VOLTHA have about a device
