@@ -66,7 +66,7 @@ Delete Device
     [Arguments]    ${device_id}
     [Documentation]    Deletes a device in VOLTHA
     ${rc}    ${output}=    Run and Return Rc and Output
-    ...    voltctl -c ${VOLTCTL_CONFIG} device delete ${device_id}
+    ...    voltctl -c ${VOLTCTL_CONFIG} device delete ${device_id} --force
     Should Be Equal As Integers    ${rc}    0   Failed to Delete Device beause of ${output}
 
 Reboot Device
