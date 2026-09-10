@@ -84,9 +84,15 @@ Common Test Suite Setup
     Log To Console    \nSadis File:${sadis_file}
     Log To Console    \noltconfig File:${oltconfig_file}
     Log To Console    \noltconfig File:${oltconfig1_file}
-    Run Keyword Unless    '${oltconfig_file}' == '${None}'    Send File To VGC    ${oltconfig_file}    olt/BBSIM_OLT_10
-    Run Keyword Unless    '${oltconfig1_file}' == '${None}'    Send File To VGC    ${oltconfig1_file}    olt/BBSIM_OLT_11
-    Run Keyword Unless    '${sadis_file}' == '${None}'    Send File To VGC    ${sadis_file}    network-configurations   #apps/
+    IF    not ('${oltconfig_file}' == '${None}')
+        Send File To VGC    ${oltconfig_file}    olt/BBSIM_OLT_10
+    END
+    IF    not ('${oltconfig1_file}' == '${None}')
+        Send File To VGC    ${oltconfig1_file}    olt/BBSIM_OLT_11
+    END
+    IF    not ('${sadis_file}' == '${None}')
+        Send File To VGC    ${sadis_file}    network-configurations    #apps/
+    END
     Set Suite Variable    ${num_all_onus}
     Set Suite Variable    ${num_olts}
     Set Suite Variable    ${list_olts}
@@ -242,8 +248,9 @@ Perform Sanity Test DT Per OLT
         # Check ONU port is Enabled in VGC
         Wait Until Keyword Succeeds   120s   2s
         ...    Verify UNI Port Is Enabled      ${src['onu']}    ${src['uni_id']}
-        Run Keyword Unless    ${supress_add_subscriber}
-        ...     Add Subscriber Details   ${of_id}    ${onu_port}
+        IF    not ${supress_add_subscriber}
+            Add Subscriber Details   ${of_id}    ${onu_port}
+        END
         Wait Until Keyword Succeeds    ${timeout}    5s
         ...    Verify Subscriber Access Flows Added For ONU DT in VGC   ${VGC_SSH_IP}    ${VGC_SSH_PORT}    ${of_id}
         ...    ${onu_port}    ${nni_port}    ${src['s_tag']}
@@ -299,8 +306,9 @@ Perform Sanity Test DT FTTB Per OLT
         # Check ONU port is Enabled in VGC
         Wait Until Keyword Succeeds    120s    2s
         ...    Verify UNI Port Is Enabled      ${src['onu']}    ${src['uni_id']}
-        Run Keyword Unless    ${supress_add_subscriber}
-        ...     Add Subscriber Details   ${of_id}    ${onu_port}
+        IF    not ${supress_add_subscriber}
+            Add Subscriber Details   ${of_id}    ${onu_port}
+        END
         Wait Until Keyword Succeeds    ${timeout}    5s
         ...    Verify VGC Flows Added For DT FTTB    ${of_id}
         ...    ${onu_port}    ${nni_port}    ${src['service']}
@@ -465,8 +473,8 @@ Delete All Devices and Verify
     [Documentation]    Remove any devices from VOLTHA and VGC
     [Arguments]    ${maclearning_enabled}=False
     # Clear devices from VOLTHA
-    ${resp}=    Get Request    VGC    devices
-    ${jsondata}=    To Json   ${resp.content}
+    ${resp}=    GET On Session    VGC    devices    expected_status=anything
+    ${jsondata}=    Evaluate    json.loads($resp.content)    json
     ${length}=    Get Length    ${jsondata['devices']}
     ${matched}=    Set Variable     False
     ${matched}=    Set Variable If   '${length}' == '${num_olts}'    True    False

@@ -51,7 +51,11 @@ $(venv-activate-script):
 	@echo "============================="
 	virtualenv -p python3 $(venv-name)
 	$(activate) && python -m pip install --upgrade pip
-	$(activate) && pip install --upgrade setuptools
+	# setuptools 81 dropped the bundled pkg_resources; grpc_robot still
+	# imports it, so an unpinned upgrade breaks 'Importing library
+	# grpc_robot.VolthaTools' with ModuleNotFoundError: No module named
+	# 'pkg_resources'.
+	$(activate) && pip install --upgrade 'setuptools<81'
 	$(activate) && [[ -r requirements.txt ]] \
 	    && { python -m pip install -r requirements.txt; } \
 	    || { /bin/true; }

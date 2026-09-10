@@ -472,7 +472,7 @@ Validate Resource Instances Used Gem Ports
     ${etcddata}=    Get ONU Go Adapter ETCD Data    namespace=${namespace}    defaultkvstoreprefix=${kvstoreprefix}
     #prepare result for json convert
     ${result}=    Prepare ONU Go Adapter ETCD Data For Json    ${etcddata}
-    ${jsondata}=    To Json    ${result}
+    ${jsondata}=    Evaluate    json.loads($result)    json
     ${length}=    Get Length    ${jsondata}
     log    ${jsondata}
     FOR    ${INDEX}    IN RANGE    0    ${length}
@@ -514,7 +514,7 @@ Validate Tech Profiles and Flows in ETCD Data Per Onu
     ${etcddata}=    Get ONU Go Adapter ETCD Data    namespace=${namespace}    defaultkvstoreprefix=${kvstoreprefix}
     #prepare result for json convert
     ${result}=    Prepare ONU Go Adapter ETCD Data For Json    ${etcddata}
-    ${jsondata}=    To Json    ${result}
+    ${jsondata}=    Evaluate    json.loads($result)    json
     ${length}=    Get Length    ${jsondata}
     log    ${jsondata}
     ${matched}=    Set Variable    False
@@ -578,7 +578,7 @@ Validate Onu Data In Etcd
     ${etcddata}=    Get ONU Go Adapter ETCD Data    ${namespace}    ${kvstoreprefix}    ${without_prefix}    ${without_pm_data}
     #prepare result for json convert
     ${result}=    Prepare ONU Go Adapter ETCD Data For Json    ${etcddata}
-    ${jsondata}=    To Json    ${result}
+    ${jsondata}=    Evaluate    json.loads($result)    json
     ${length}=    Get Length    ${jsondata}
     log    ${jsondata}
     Run Keyword And Continue On Failure    Should Be Equal As Integers    ${length}    ${nbofetcddata}
@@ -629,7 +629,7 @@ Validate Vlan Rules In Etcd
     ${etcddata}=    Get ONU Go Adapter ETCD Data    ${namespace}    ${kvstoreprefix}    ${without_prefix}    ${without_pm_data}
     #prepare result for json convert
     ${result}=    Prepare ONU Go Adapter ETCD Data For Json    ${etcddata}
-    ${jsondata}=    To Json    ${result}
+    ${jsondata}=    Evaluate    json.loads($result)    json
     ${length}=    Get Length    ${jsondata}
     log    ${jsondata}
     ${vlan_rules}=    Create Dictionary
@@ -769,7 +769,7 @@ Validate OLT Flows Per Onu
     ${rc}    ${output}=    Run and Return Rc and Output
     ...    voltctl -c ${VOLTCTL_CONFIG} device flows ${onu_device_id} -m 32MB -o json
     Should Be Equal As Integers    ${rc}    0
-    ${jsondata}=    To Json    ${output}
+    ${jsondata}=    Evaluate    json.loads($output)    json
     Log    ${jsondata}
     # in case of ATT for ONU with removed flows there is default flow established
     ${length}=    Get Length    ${jsondata}

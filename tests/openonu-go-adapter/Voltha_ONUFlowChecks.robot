@@ -154,7 +154,7 @@ Validate Etcd Vlan Rules Added Subscriber
     ${etcddata}=    Get ONU Go Adapter ETCD Data    ${INFRA_NAMESPACE}    ${kvstoreprefix}    True    True
     #prepare result for json convert
     ${result}=    Prepare ONU Go Adapter ETCD Data For Json    ${etcddata}
-    ${jsondata}=    To Json    ${result}
+    ${jsondata}=    Evaluate    json.loads($result)    json
     ${length}=    Get Length    ${jsondata}
     Log    ${jsondata}
     Should Not Be Empty     ${jsondata}     Could not find ONU Go Adapter ETCD data
@@ -196,7 +196,7 @@ Validate Etcd Vlan Rules Removed Subscriber
     ${etcddata}=    Get ONU Go Adapter ETCD Data    ${INFRA_NAMESPACE}    ${kvstoreprefix}    True    True
     #prepare result for json convert
     ${result}=    Prepare ONU Go Adapter ETCD Data For Json    ${etcddata}
-    ${jsondata}=    To Json    ${result}
+    ${jsondata}=    Evaluate    json.loads($result)    json
     ${length}=    Get Length    ${jsondata}
     log    ${jsondata}
     Should Not Be Empty     ${jsondata}     Could not find ONU Go Adapter ETCD data

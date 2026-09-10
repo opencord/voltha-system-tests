@@ -271,8 +271,10 @@ Teardown Suite
     Run Keyword If    ${pausebeforecleanup}    Log    Teardown will be continued...    console=yes
     Run Keyword If    ${teardown_device}    Delete All Devices and Verify
     Run Keyword If    ${usekill2restart}    Restart Pod By Label    ${NAMESPACE}    app    adapter-open-onu
-    Run Keyword Unless    ${etcdcheckintestteardown}    Wait Until Keyword Succeeds    ${timeout}    1s
-    ...    Validate Onu Data In Etcd    ${INFRA_NAMESPACE}    0    ${kvstoreprefix}    without_pm_data=False
+    IF    not ${etcdcheckintestteardown}
+        Wait Until Keyword Succeeds    ${timeout}    1s
+        ...    Validate Onu Data In Etcd    ${INFRA_NAMESPACE}    0    ${kvstoreprefix}    without_pm_data=False
+    END
     Wait for Ports in ONOS for all OLTs      ${ONOS_SSH_IP}    ${ONOS_SSH_PORT}  0   BBSM    ${timeout}
     Run Keyword If    ${logging}    Collect Logs
     Stop Logging Setup or Teardown   Teardown-${SUITE NAME}
@@ -522,7 +524,7 @@ Do Flow Deletion After Adapter Restart
         ${rc}    ${output}=    Run and Return Rc and Output
         ...    voltctl -c ${VOLTCTL_CONFIG} device flows ${onu_device_id} -m 32MB -o json
         Should Be Equal As Integers    ${rc}    0
-        ${jsondata}=    To Json    ${output}
+        ${jsondata}=    Evaluate    json.loads($output)    json
         Log    ${jsondata}
     END
     # Collect data for remove flow(s)

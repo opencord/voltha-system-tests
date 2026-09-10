@@ -461,7 +461,7 @@ Get Device Event
     [Arguments]    ${deviceEventName}    ${since}
     ${output}    ${raiseErr}    Exec Pod Separate Stderr   ${VOLTCTL_NAMESPACE}     ${VOLTCTL_POD_NAME}
     ...    voltctl event listen --show-body -t 1 -o json -f Titles=${deviceEventName}
-    ${json}    To Json    ${output}
+    ${json}    Evaluate    json.loads($output)    json
     ${count}    Get Length    ${json}
     # If there is more than one event (which could happen if we quickly do a raise and a clear),
     # then return the most recent one.

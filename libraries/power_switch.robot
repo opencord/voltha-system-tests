@@ -88,7 +88,7 @@ Enable DLI Switch Outlet
     # Port number starts from 0 in DLI API
     # Pass the original outlet number to Check function to avoid duplicated calculation
     ${new_outlet_number}=   Evaluate    ${outlet_number}-1
-    ${resp}=    Put Request    alias=${alias_name}    uri==${new_outlet_number}/state/    data=value=true
+    ${resp}=    PUT On Session    alias=${alias_name}    url==${new_outlet_number}/state/    data=value=true    expected_status=anything
     Should Be Equal As Strings  ${resp.status_code}  207
     Wait Until Keyword Succeeds    ${timeout}    2s
     ...    Check Expected DLI Switch Outlet Status    ${outlet_number}    true
@@ -96,7 +96,7 @@ Enable DLI Switch Outlet
 Enable EPC Switch Outlet
     [Arguments]    ${outlet_number}
     [Documentation]    Enable specific outlet of EPC power switch
-    ${resp}=    Get Request    alias=${alias_name}    uri=ov.html?cmd=1&p=${outlet_number}&s=1
+    ${resp}=    GET On Session    alias=${alias_name}    url=ov.html?cmd=1&p=${outlet_number}&s=1    expected_status=anything
     Wait Until Keyword Succeeds    ${timeout}    2s
     ...    Check Expected EPC Switch Outlet Status    ${outlet_number}    1
 
@@ -106,7 +106,7 @@ Disable DLI Switch Outlet
     # Port number starts from 0 in DLI API
     # Pass the original outlet number to Check function to avoid duplicated calculation
     ${new_outlet_number}=   Evaluate    ${outlet_number}-1
-    ${resp}=    Put Request    alias=${alias_name}    uri==${new_outlet_number}/state/    data=value=false
+    ${resp}=    PUT On Session    alias=${alias_name}    url==${new_outlet_number}/state/    data=value=false    expected_status=anything
     Should Be Equal As Strings  ${resp.status_code}  207
     Wait Until Keyword Succeeds    ${timeout}    2s
     ...    Check Expected DLI Switch Outlet Status    ${outlet_number}    false
@@ -114,7 +114,7 @@ Disable DLI Switch Outlet
 Disable EPC Switch Outlet
     [Arguments]    ${outlet_number}
     [Documentation]    Disable specific outlet of EPC Power Switch
-    ${resp}=    Get Request    alias=${alias_name}    uri=ov.html?cmd=1&p=${outlet_number}&s=0
+    ${resp}=    GET On Session    alias=${alias_name}    url=ov.html?cmd=1&p=${outlet_number}&s=0    expected_status=anything
     Wait Until Keyword Succeeds    ${timeout}    2s
     ...    Check Expected EPC Switch Outlet Status    ${outlet_number}    0
 
@@ -123,13 +123,13 @@ Check Expected DLI Switch Outlet Status
     [Documentation]    Succeeds if the status of the desired DLI switch outlet is expected
     # Port number starts from 0 in DLI API
     ${outlet_number}=   Evaluate    ${outlet_number}-1
-    ${resp}=    Get Request    alias=${alias_name}    uri==${outlet_number}/state/
+    ${resp}=    GET On Session    alias=${alias_name}    url==${outlet_number}/state/    expected_status=anything
     Should Be Equal As Strings  ${resp.text}  [${status}]
 
 Check Expected EPC Switch Outlet Status
     [Arguments]    ${outlet_number}    ${status}
     [Documentation]    Succeeds if the status of the desired EPC switch outlet is expected
-    ${resp}=    Get Request    alias=${alias_name}    uri=statusjsn.js?components=1
+    ${resp}=    GET On Session    alias=${alias_name}    url=statusjsn.js?components=1    expected_status=anything
     ${outlet_number}=  Convert To Number  ${outlet_number}
     ${rc}    ${outlet_status}    Run and Return Rc And Output
     ...    echo '${resp.text}' | jq -r .outputs[${outlet_number - 1}].state

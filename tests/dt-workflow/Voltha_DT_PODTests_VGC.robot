@@ -113,7 +113,7 @@ Test Subscriber Delete and Add for DT
         ${onu_port}=    Wait Until Keyword Succeeds    ${timeout}    2s    Get ONU Port in VGC    ${src['onu']}
         ...    ${of_id}    ${src['uni_id']}
         # Remove Subscriber Access
-	    Delete Request    VGC    services/${of_id}/${onu_port}
+	    DELETE On Session    VGC    services/${of_id}/${onu_port}    expected_status=anything
         Run Keyword If    ${has_dataplane}    Run Keyword And Continue On Failure
         ...    Wait Until Keyword Succeeds    ${timeout}    2s
         ...    Check Ping    False    ${dst['dp_iface_ip_qinq']}    ${src['dp_iface_name']}
@@ -142,7 +142,7 @@ Test Subscriber Delete and Add for DT
         ...    Validate Device    ENABLED    ACTIVE
         ...    REACHABLE    ${src['onu']}
         # Add Subscriber Access
-	Post Request    VGC    services/${of_id}/${onu_port}
+	POST On Session    VGC    services/${of_id}/${onu_port}    expected_status=anything
         # Verify subscriber access flows are added for the ONU port
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
         ...    Verify Subscriber Access Flows Added for ONU DT in VGC    ${VGC_SSH_IP}    ${VGC_SSH_PORT}    ${of_id}
@@ -383,7 +383,7 @@ Test ONU Delete and Auto-Discovery for DT
         ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
         ${nni_port}=    Wait Until Keyword Succeeds    ${timeout}    2s    Get NNI Port in VGC    ${of_id}
         # Remove Subscriber
-        Delete Request    VGC    services/${of_id}/${onu_port}
+        DELETE On Session    VGC    services/${of_id}/${onu_port}    expected_status=anything
         # Additional sleep to let subscriber delete process
         Sleep    10s
         # Delete ONU and Verify Ping Fails
@@ -403,7 +403,7 @@ Test ONU Delete and Auto-Discovery for DT
         Run Keyword If    ${has_dataplane}    Clean Up Linux    ${onu_device_id}
         # Re-Add Subscriber
         Add Subscriber Details    ${of_id}     ${onu_port}
-        #Post Request    VGC    services/${of_id}/${onu_port}
+        #POST On Session    VGC    services/${of_id}/${onu_port}
         # Verify ONU state in voltha
         Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
         ...    Validate Device    ENABLED    ACTIVE    REACHABLE

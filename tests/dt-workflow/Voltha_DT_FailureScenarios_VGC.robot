@@ -273,7 +273,7 @@ Sanity E2E Test for OLT/ONU on POD With Core Fail and Restart for DT
         ${onu_port}=    Wait Until Keyword Succeeds    ${timeout}    2s
         ...    Get ONU Port in VGC    ${src['onu']}    ${of_id}    ${src['uni_id']}
         # Add subscriber access and verify that DHCP completes to ensure system is still functioning properly
-        Post Request    VGC    services/${of_id}/${onu_port}
+        POST On Session    VGC    services/${of_id}/${onu_port}    expected_status=anything
         # Verify subscriber access flows are added for the ONU port
         Wait Until Keyword Succeeds    ${timeout}    5s
         ...    Verify Subscriber Access Flows Added for ONU DT in VGC    ${VGC_SSH_IP}    ${VGC_SSH_PORT}    ${of_id}

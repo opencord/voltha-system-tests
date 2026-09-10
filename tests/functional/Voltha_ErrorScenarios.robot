@@ -114,7 +114,7 @@ Test Disable or Enable different device id which is not in the device list
     ...           AND             Stop Logging    DisableInvalidDevice
     ${rc}  ${output}=    Run and Return Rc and Output    voltctl -c ${VOLTCTL_CONFIG} device list -o json
     Should Be Equal As Integers    ${rc}    0   Could not get device list
-    ${jsondata}=    To Json    ${output}
+    ${jsondata}=    Evaluate    json.loads($output)    json
     Log    ${jsondata}
     ${length}=    Get Length    ${jsondata}
     @{ids}=    Create List

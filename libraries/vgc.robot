@@ -47,9 +47,9 @@ Validate OLT Device in VGC
     [Arguments]    ${serial_number}
     [Documentation]    Checks if olt has been connected to VGC
     Create VGC Session
-    ${resp}=    Get Request    VGC    devices
+    ${resp}=    GET On Session    VGC    devices    expected_status=anything
     Log     ${resp}
-    ${jsondata}=    To Json   ${resp.content}
+    ${jsondata}=    Evaluate    json.loads($resp.content)    json
     Should Not Be Empty    ${jsondata['devices']}       No devices data found in VGC
     ${length}=    Get Length    ${jsondata['devices']}
     @{serial_numbers}=    Create List
@@ -75,27 +75,27 @@ Verify meters response
          ${matched}=    Evaluate    '${rate}' == '${us_cir}' and '${burst_size}' == '${us_cbs}'
          Exit For Loop If    ${matched}
      END
-    [Return]    ${matched}
+    RETURN    ${matched}
 
 
 Validate Deleted Device Cleanup In VGC
     [Arguments]    ${ip}    ${port}    ${olt_serial_number}    ${olt_of_id}    ${maclearning_enabled}=False
     [Documentation]    The keyword verifies that ports, flows, meters, subscribers, dhcp are all cleared in VGC
     # Verify Ports are Removed
-    ${ports}=    Get Request    VGC    devices/ports
-    ${port_json_resp}=    To Json   ${ports.content}
+    ${ports}=    GET On Session    VGC    devices/ports    expected_status=anything
+    ${port_json_resp}=    Evaluate    json.loads($ports.content)    json
     Should Not Contain    ${port_json_resp}     ${olt_of_id}    Ports have not been removed from VGC after cleanup
     # Verify Subscribers are Removed
-    ${sub}=    Get Request    VGC    programmed-subscribers
-    ${sub_json_resp}=    To Json   ${sub.content}
+    ${sub}=    GET On Session    VGC    programmed-subscribers    expected_status=anything
+    ${sub_json_resp}=    Evaluate    json.loads($sub.content)    json
     Should Not Contain    ${sub_json_resp}     ${olt_of_id}   Subscriber have not been removed from VGC after cleanup
     # Verify Flows are Removed
-    ${flows}=    Get Request    VGC    flows
-    ${flow_json_resp}=    To Json   ${flows.content}
+    ${flows}=    GET On Session    VGC    flows    expected_status=anything
+    ${flow_json_resp}=    Evaluate    json.loads($flows.content)    json
     Should Not Contain    ${flow_json_resp}     ${olt_of_id}    Flows have not been removed from VGC after cleanup
     # Verify Meters are Removed
-    ${meter}=    Get Request    VGC    meters
-    ${meter_json_resp}=    To Json   ${meter.content}
+    ${meter}=    GET On Session    VGC    meters    expected_status=anything
+    ${meter_json_resp}=    Evaluate    json.loads($meter.content)    json
     Should Not Contain    ${meter_json_resp}     ${olt_of_id}   Meter have not been removed from VGC after cleanup
     # Verify AAA-Users are Removed
     # ${aaa}=    Execute ONOS CLI Command use single connection     ${ip}    ${port}
@@ -103,8 +103,8 @@ Validate Deleted Device Cleanup In VGC
     # ${aaa_count}=      Get Line Count      ${aaa}
     #Should Be Equal As Integers    ${aaa_count}    0    AAA Users have not been removed from ONOS after cleanup
     # Verify Dhcp-Allocations are Removed
-    ${dhcp}=    Get Request    VGC    allocations/${olt_of_id}
-    ${dhcp_json_resp}=    To Json   ${dhcp.content}
+    ${dhcp}=    GET On Session    VGC    allocations/${olt_of_id}    expected_status=anything
+    ${dhcp_json_resp}=    Evaluate    json.loads($dhcp.content)    json
     ${dhcp_count} =    Get Length      ${dhcp_json_resp}
     #Should Be Equal    ${dhcp_json_resp}     ${None}     DHCP Allocations have not been removed from VGC after cleanup
     Should Be Equal As Integers    ${dhcp_count}    0   DHCP Allocations have not been removed from VGC after cleanup
@@ -119,8 +119,8 @@ Validate Deleted Device Cleanup In VGC
 Get NNI Port in VGC
     [Arguments]    ${olt_of_id}
     [Documentation]    Retrieves NNI port for the OLT in VGC
-    ${resp}=    Get Request    VGC    devices/${olt_of_id}/ports
-    ${jsondata}=    To Json    ${resp.content}
+    ${resp}=    GET On Session    VGC    devices/${olt_of_id}/ports    expected_status=anything
+    ${jsondata}=    Evaluate    json.loads($resp.content)    json
     Should Not Be Empty    ${jsondata['ports']}     No ports data found for OLT ${olt_of_id} in VGC
     ${length}=    Get Length    ${jsondata['ports']}
     @{ports}=    Create List
@@ -143,8 +143,8 @@ Get ONU Port in VGC
     [Arguments]    ${onu_serial_number}    ${olt_of_id}    ${onu_uni_id}=1
     [Documentation]    Retrieves ONU port for the ONU in VGC
     ${onu_serial_number}=    Catenate    SEPARATOR=-    ${onu_serial_number}    ${onu_uni_id}
-    ${resp}=    Get Request    VGC    devices/${olt_of_id}/ports
-    ${jsondata}=    To Json    ${resp.content}
+    ${resp}=    GET On Session    VGC    devices/${olt_of_id}/ports    expected_status=anything
+    ${jsondata}=    Evaluate    json.loads($resp.content)    json
     Should Not Be Empty    ${jsondata['ports']}     No ports data found for OLT ${olt_of_id} in VGC
     ${length}=    Get Length    ${jsondata['ports']}
     @{ports}=    Create List
@@ -166,8 +166,8 @@ Verify UNI Port Is Enabled
     [Arguments]      ${onu_name}    ${onu_uni_id}=1
     [Documentation]    Verifies if the ONU's UNI port is enabled in VGC
     ${onu_serial_number}=    Catenate    SEPARATOR=-    ${onu_name}    ${onu_uni_id}
-    ${resp}=    Get Request    VGC    devices/ports
-    ${jsondata}=    To Json    ${resp.content}
+    ${resp}=    GET On Session    VGC    devices/ports    expected_status=anything
+    ${jsondata}=    Evaluate    json.loads($resp.content)    json
     Should Not Be Empty    ${jsondata['ports']}     No devices ports data in VGC
     ${length}=    Get Length    ${jsondata['ports']}
     @{ports}=    Create List
@@ -189,8 +189,8 @@ Verify UNI Port Is Disabled
     [Arguments]      ${ip}    ${port}    ${onu_name}    ${onu_uni_id}=1
     [Documentation]    Verifies if the ONU's UNI port is enabled in VGC
     ${onu_serial_number}=    Catenate    SEPARATOR=-    ${onu_name}    ${onu_uni_id}
-    ${resp}=    Get Request    VGC    devices/ports
-    ${jsondata}=    To Json    ${resp.content}
+    ${resp}=    GET On Session    VGC    devices/ports    expected_status=anything
+    ${jsondata}=    Evaluate    json.loads($resp.content)    json
     Should Not Be Empty    ${jsondata['ports']}     No devices ports data in VGC
     ${length}=    Get Length    ${jsondata['ports']}
     @{ports}=    Create List
@@ -218,8 +218,8 @@ Verify Subscriber Access Flows Added For ONU DT in VGC
     [Arguments]    ${ip}    ${port}    ${olt_of_id}    ${onu_port}    ${nni_port}    ${s_tag}
     [Documentation]    Verifies if the Subscriber Access Flows are added in VGC for the ONU
     # Get all flows from VGC
-    ${resp}=    Get Request    VGC   flows/${olt_of_id}
-    ${jsondata}=    To Json    ${resp.content}
+    ${resp}=    GET On Session    VGC   flows/${olt_of_id}    expected_status=anything
+    ${jsondata}=    Evaluate    json.loads($resp.content)    json
     Should Not Be Empty    ${jsondata['flows']}     No flows data found for OLT ${olt_of_id} in VGC
     # Verify upstream table=0 flow
     ${length}=    Get Length    ${jsondata['flows']}
@@ -286,8 +286,8 @@ Verify Subscriber Access Flows Added for DT FTTB
     [Arguments]    ${olt_of_id}    ${onu_port}    ${nni_port}    ${s_tag}    ${c_tag}
     [Documentation]    Verifies if the Subscriber Access Flows are added in ONOS for the ONU
     # Get all flows from VGC
-    ${resp}=    Get Request    VGC   flows/${olt_of_id}
-    ${jsondata}=    To Json    ${resp.content}
+    ${resp}=    GET On Session    VGC   flows/${olt_of_id}    expected_status=anything
+    ${jsondata}=    Evaluate    json.loads($resp.content)    json
     Should Not Be Empty    ${jsondata['flows']}     No ports data found for OLT ${olt_of_id} in VGC
     # Upstream
     # ONU
@@ -357,8 +357,8 @@ Verify DPU MGMT Flows Added for DT FTTB
     [Arguments]    ${olt_of_id}    ${onu_port}    ${nni_port}    ${s_tag}    ${c_tag}
     [Documentation]    Verifies if the DPU MGMT Flows are added in VGC for the ONU
     # Get all flows from VGC
-    ${resp}=    Get Request    VGC   flows/${olt_of_id}
-    ${jsondata}=    To Json    ${resp.content}
+    ${resp}=    GET On Session    VGC   flows/${olt_of_id}    expected_status=anything
+    ${jsondata}=    Evaluate    json.loads($resp.content)    json
     Should Not Be Empty    ${jsondata['flows']}     No ports data found for OLT ${olt_of_id} in VGC
     # Upstream
     # ONU
@@ -445,34 +445,34 @@ Verify VGC Flows Added for DT FTTB
 Add Subscriber Details
     [Documentation]    Adds a particular subscriber
     [Arguments]    ${of_id}    ${onu_port}
-    ${resp}=    Post Request    VGC    services/${of_id}/${onu_port}
+    ${resp}=    POST On Session    VGC    services/${of_id}/${onu_port}    expected_status=anything
     Log   ${resp}
     Should Be Equal As Strings    ${resp.status_code}    200
 
 Remove Subscriber Access
     [Documentation]    Removes a particular subscriber
     [Arguments]    ${of_id}    ${onu_port}
-    ${resp}=    Delete Request    VGC    services/${of_id}/${onu_port}
+    ${resp}=    DELETE On Session    VGC    services/${of_id}/${onu_port}    expected_status=anything
     Log   ${resp}
     Should Be Equal As Strings    ${resp.status_code}    200
 
 Send File To VGC
     [Documentation]    Send the content of the file to VGC to selected section of configuration
-    ...   using Post Request
+    ...   using POST On Session
     [Arguments]    ${CONFIG_FILE}    ${dest}    #${section}=${EMPTY}
     ${Headers}=    Create Dictionary    Content-Type    application/json
     ${File_Data}=    OperatingSystem.Get File    ${CONFIG_FILE}
     Log    ${Headers}
     Log    ${File_Data}
-    ${resp}=    Post Request    VGC
-    ...    ${dest}    headers=${Headers}    data=${File_Data}
+    ${resp}=    POST On Session    VGC
+    ...    ${dest}    headers=${Headers}    data=${File_Data}    expected_status=anything
     Should Be Equal As Strings    ${resp.status_code}    200
 
 Verify No Pending Flows For ONU
     [Arguments]    ${ip}    ${port}    ${onu_port}
     [Documentation]    Verifies that there are no flows "PENDING" state for the ONU in VGC
-    ${resp}=    Get Request    VGC   flows/pending
-    ${jsondata}=    To Json    ${resp.content}
+    ${resp}=    GET On Session    VGC   flows/pending    expected_status=anything
+    ${jsondata}=    Evaluate    json.loads($resp.content)    json
     ${length}=    Get Length    ${jsondata['flows']}
     ${matched}=    Set Variable    False
     FOR    ${INDEX}    IN RANGE    0    ${length}
@@ -485,8 +485,8 @@ Verify No Pending Flows For ONU
 
 Get Pending Flow Count
     [Documentation]    Get the count for flows "PENDING" state for the ONU in VGC
-    ${resp}=    Get Request    VGC   flows/pending
-    ${jsondata}=    To Json    ${resp.content}
+    ${resp}=    GET On Session    VGC   flows/pending    expected_status=anything
+    ${jsondata}=    Evaluate    json.loads($resp.content)    json
     ${length}=    Get Length    ${jsondata['flows']}
     RETURN    ${length}
 
@@ -619,8 +619,8 @@ Get Subscribers for a Particular Service
 Get Programmed Subscribers
     [Arguments]    ${olt_of_id}    ${onu_port}    ${filter}=${EMPTY}
     [Documentation]    Retrieves the subscriber details at a given location
-    ${programmed_sub}=      Get Request    VGC    programmed-subscribers
-    ${programmed_sub_json_resp}=    To Json   ${programmed_sub.content}
+    ${programmed_sub}=      GET On Session    VGC    programmed-subscribers    expected_status=anything
+    ${programmed_sub_json_resp}=    Evaluate    json.loads($programmed_sub.content)    json
     ${filtered_subscriber_list}=    Get Subscribers for a Particular Service    ${olt_of_id}    ${programmed_sub_json_resp}
     ...    ${filter}
     RETURN    ${filtered_subscriber_list}
@@ -649,8 +649,8 @@ Verify Meters in VGC Ietf
     ${us_cir}    ${us_cbs}    ${us_pir}    ${us_pbs}    ${us_gir}    Get Bandwidth Profile Details Ietf Rest
     ...    ${us_bw_profile}
     # Verify meter for upstream bandwidth profile
-    ${meter}=      Get Request    VGC    meters
-    ${meter_json_resp}=    To Json   ${meter.content}
+    ${meter}=      GET On Session    VGC    meters    expected_status=anything
+    ${meter_json_resp}=    Evaluate    json.loads($meter.content)    json
     Log    ${meter_json_resp}
     ${rate}    ${burst_size}   Get Meter Param In Details
     ...    ${meter_json_resp}  1
@@ -672,8 +672,8 @@ Verify Meters in VGC Ietf
     ${ds_cir}    ${ds_cbs}    ${ds_pir}    ${ds_pbs}    ${ds_gir}    Get Bandwidth Profile Details Ietf Rest
     ...    ${ds_bw_profile}
     # Verify meter for downstream bandwidth profile
-    ${meter}=      Get Request    VGC    meters
-    ${meter_json_resp}=    To Json   ${meter.content}
+    ${meter}=      GET On Session    VGC    meters    expected_status=anything
+    ${meter_json_resp}=    Evaluate    json.loads($meter.content)    json
     Log    ${meter_json_resp}
     ${rate}    ${burst_size}   Get Meter Param In Details
     ...    ${meter_json_resp}  1
@@ -703,8 +703,8 @@ Verify Meters in VGC Ietf For FTTB Subscribers
     ${us_cir}    ${us_cbs}    ${us_pir}    ${us_pbs}    ${us_gir}    Get Bandwidth Profile Details Ietf Rest
     ...    ${us_bw_profile}
     # Verify meter for upstream bandwidth profile
-    ${meter}=      Get Request    VGC    meters
-    ${meter_json_resp}=    To Json   ${meter.content}
+    ${meter}=      GET On Session    VGC    meters    expected_status=anything
+    ${meter_json_resp}=    Evaluate    json.loads($meter.content)    json
     ${meters}=    Get From Dictionary    ${meter_json_resp}    meters
     Log    ${meter_json_resp}
     Log    ${meters}
@@ -728,8 +728,8 @@ Verify Meters in VGC Ietf For FTTB Subscribers
     Should Be True    ${matched}
     ${ds_cir}    ${ds_cbs}    ${ds_pir}    ${ds_pbs}    ${ds_gir}    Get Bandwidth Profile Details Ietf Rest
     ...    ${ds_bw_profile}
-    ${meter}=      Get Request    VGC    meters
-    ${meter_json_resp}=    To Json   ${meter.content}
+    ${meter}=      GET On Session    VGC    meters    expected_status=anything
+    ${meter_json_resp}=    Evaluate    json.loads($meter.content)    json
     Log    ${meter_json_resp}
     ${meters}=    Get From Dictionary    ${meter_json_resp}    meters
     Log    ${meter_json_resp}
@@ -773,9 +773,9 @@ Get Bandwidth Profile Details Ietf Rest
     [Arguments]    ${bw_profile_id}
     [Documentation]    Retrieves the details of the given Ietf standard based bandwidth profile using REST API
     ${bw_profile_id}=    Remove String    ${bw_profile_id}    '    "
-    ${resp}=    Get Request    VGC    profiles/${bw_profile_id}
+    ${resp}=    GET On Session    VGC    profiles/${bw_profile_id}    expected_status=anything
     Log     ${resp}
-    ${jsondata}=    To Json    ${resp.content}
+    ${jsondata}=    Evaluate    json.loads($resp.content)    json
     Should Not Be Empty    ${jsondata}      Could not find data for bandwidth profile ${bw_profile_id} in VGC
     ${matched}=    Set Variable    False
     ${bw_id}=    Get From Dictionary    ${jsondata}    id
@@ -809,8 +809,8 @@ Get Upstream and Downstream Bandwidth Profile Name
 Verify Subscriber Access Flows Added Count DT
     [Arguments]    ${ip}    ${port}    ${olt_of_id}    ${expected_flows}
     [Documentation]    Matches for total number of subscriber access flows added for all onus
-    ${resp}=    Get Request    VGC   flows/${olt_of_id}
-    ${jsondata}=    To Json    ${resp.content}
+    ${resp}=    GET On Session    VGC   flows/${olt_of_id}    expected_status=anything
+    ${jsondata}=    Evaluate    json.loads($resp.content)    json
     ${access_flows_added_count}=      Get Length      ${jsondata['flows']}
     Should Be Equal As Integers    ${access_flows_added_count}    ${expected_flows}
 
@@ -832,9 +832,9 @@ Get Meter Param In Details
 Delete Subscribers And BW Profile In VGC
     [Documentation]    Delete Subscribers and bw profile  In VGC
     Create VGC Session
-    ${resp}=    Get Request    VGC    programmed-subscribers
+    ${resp}=    GET On Session    VGC    programmed-subscribers    expected_status=anything
     Log     ${resp}
-    ${jsondata}=    To Json   ${resp.content}
+    ${jsondata}=    Evaluate    json.loads($resp.content)    json
     ${length}=    Get Length    ${jsondata['subscribers']}
     @{serial_numbers}=    Create List
     FOR    ${INDEX}    IN RANGE    0    ${length}
@@ -843,38 +843,38 @@ Delete Subscribers And BW Profile In VGC
         ${service_id}=    Get From Dictionary    ${taginfo}    serviceName
         ${upstream_bw_id}=    Get From Dictionary    ${taginfo}    upstreamBandwidthProfile
         ${downstream_bw_id}=    Get From Dictionary   ${taginfo}    downstreamBandwidthProfile
-        Delete Request    VGC    subscribers/${service_id}
-        Delete Request    VGC    profiles/${upstream_bw_id}
-        Delete Request    VGC    profiles/${downstream_bw_id}
+        DELETE On Session    VGC    subscribers/${service_id}    expected_status=anything
+        DELETE On Session    VGC    profiles/${upstream_bw_id}    expected_status=anything
+        DELETE On Session    VGC    profiles/${downstream_bw_id}    expected_status=anything
     END
 
 Deactivate Subscribers In VGC
     [Documentation]    Deactivate Subscribers In VGC
     Create VGC Session
-    ${resp}=    Get Request    VGC    devices/ports
+    ${resp}=    GET On Session    VGC    devices/ports    expected_status=anything
     Log     ${resp}
-    ${jsondata}=    To Json   ${resp.content}
+    ${jsondata}=    Evaluate    json.loads($resp.content)    json
     ${length}=    Get Length    ${jsondata['ports']}
     FOR    ${INDEX}    IN RANGE    0    ${length}
         ${value}=    Get From List    ${jsondata['ports']}    ${INDEX}
         ${annotations}=    Get From Dictionary    ${value}    annotations
         ${portname}=    Get From Dictionary    ${annotations}    portName
-        Delete Request    VGC    services/${portname}
+        DELETE On Session    VGC    services/${portname}    expected_status=anything
     END
 
 Verify Device Flows Removed
     [Arguments]    ${ip}    ${port}    ${olt_of_id}
     [Documentation]    Verifies all flows are removed from the device
-    ${resp}=    Get Request    VGC   flows/${olt_of_id}
-    ${jsondata}=    To Json    ${resp.content}
+    ${resp}=    GET On Session    VGC   flows/${olt_of_id}    expected_status=anything
+    ${jsondata}=    Evaluate    json.loads($resp.content)    json
     ${flow_count}=      Get Length      ${jsondata['flows']}
     Should Be Equal As Integers    ${flow_count}    0     Flows not removed
 
 Device Is Available In VGC
     [Arguments]      ${olt_of_id}    ${available}=True
     [Documentation]    Validates the device exists and it has the expected availability in VGC
-    ${resp}=    Get Request    VGC    devices
-    ${jsondata}=    To Json   ${resp.content}
+    ${resp}=    GET On Session    VGC    devices    expected_status=anything
+    ${jsondata}=    Evaluate    json.loads($resp.content)    json
     Should Not Be Empty    ${jsondata['devices']}   No devices data found in VGC
     ${length}=    Get Length    ${jsondata['devices']}
     ${matched}=    Set Variable    False

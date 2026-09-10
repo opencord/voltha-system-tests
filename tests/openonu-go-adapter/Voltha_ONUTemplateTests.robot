@@ -108,7 +108,7 @@ ONU MIB Template Unknown ME Test
     Bring Up ONU
     ${MibTemplateData}=    Get ONU MIB Template Data    ${INFRA_NAMESPACE}
     ${MibTemplatePrep}=    Prepare ONU Go Adapter ETCD Data For Json    ${MibTemplateData}
-    ${MibTemplateJson}=    To Json    ${MibTemplatePrep}
+    ${MibTemplateJson}=    Evaluate    json.loads($MibTemplatePrep)    json
     Dictionary Should Contain Key    ${MibTemplateJson[0]}    UnknownItuG988ManagedEntity
     ${UnknownME}=    Get From Dictionary    ${MibTemplateJson[0]}    UnknownItuG988ManagedEntity
     Dictionary Should Contain Key    ${UnknownME}    37
@@ -135,7 +135,7 @@ ONU MIB Template Unknown Attribute Test
     Bring Up ONU
     ${MibTemplateData}=    Get ONU MIB Template Data    ${INFRA_NAMESPACE}
     ${MibTemplatePrep}=    Prepare ONU Go Adapter ETCD Data For Json    ${MibTemplateData}
-    ${MibTemplateJson}=    To Json    ${MibTemplatePrep}
+    ${MibTemplateJson}=    Evaluate    json.loads($MibTemplatePrep)    json
     Dictionary Should Contain Key    ${MibTemplateJson[0]}    UnknownAttributesManagedEntity
     ${UnknownME}=    Get From Dictionary    ${MibTemplateJson[0]}    UnknownAttributesManagedEntity
     Dictionary Should Contain Key    ${UnknownME}    257
@@ -349,7 +349,9 @@ Perform ONU MIB Template Compare OMCI Baseline and Extended Message
     ${extra_helm_flags}=    Catenate
     ...    --set onu=2,pon=2,controlledActivation=only-onu,injectOmciUnknownAttributes=true,injectOmciUnknownMe=true
     ...    --set omccVersion=${omcc_version}
-    Run Keyword Unless   ${is_omcc_extended}   Restart BBSIM by Helm Charts   ${NAMESPACE}   extra_helm_flags=${extra_helm_flags}
+    IF    not ${is_omcc_extended}
+        Restart BBSIM by Helm Charts    ${NAMESPACE}    extra_helm_flags=${extra_helm_flags}
+    END
 
 Get ONU Startup Duration
     [Documentation]    This keyword delivers startup duration of onu

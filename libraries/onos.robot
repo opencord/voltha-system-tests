@@ -165,8 +165,8 @@ Validate OLT Device in ONOS
     #    FIXME use volt-olts to check that the OLT is ONOS
     [Arguments]    ${serial_number}
     [Documentation]    Checks if olt has been connected to ONOS
-    ${resp}=    Get Request    ONOS    onos/v1/devices
-    ${jsondata}=    To Json    ${resp.content}
+    ${resp}=    GET On Session    ONOS    onos/v1/devices    expected_status=anything
+    ${jsondata}=    Evaluate    json.loads($resp.content)    json
     Should Not Be Empty    ${jsondata['devices']}       Could not find devices in ONOS
     ${length}=    Get Length    ${jsondata['devices']}
     @{serial_numbers}=    Create List
@@ -185,8 +185,8 @@ Get ONU Port in ONOS
     [Arguments]    ${onu_serial_number}    ${olt_of_id}    ${onu_uni_id}=1
     [Documentation]    Retrieves ONU port for the ONU in ONOS
     ${onu_serial_number}=    Catenate    SEPARATOR=-    ${onu_serial_number}    ${onu_uni_id}
-    ${resp}=    Get Request    ONOS    onos/v1/devices/${olt_of_id}/ports
-    ${jsondata}=    To Json    ${resp.content}
+    ${resp}=    GET On Session    ONOS    onos/v1/devices/${olt_of_id}/ports    expected_status=anything
+    ${jsondata}=    Evaluate    json.loads($resp.content)    json
     Should Not Be Empty    ${jsondata['ports']}     Ports list for device with OF ID ${olt_of_id} in ONOS is empty
     ${length}=    Get Length    ${jsondata['ports']}
     @{ports}=    Create List
@@ -224,8 +224,8 @@ Get Onu Ports in ONOS For ALL UNI per ONU
 Get NNI Port in ONOS
     [Arguments]    ${olt_of_id}
     [Documentation]    Retrieves NNI port for the OLT in ONOS
-    ${resp}=    Get Request    ONOS    onos/v1/devices/${olt_of_id}/ports
-    ${jsondata}=    To Json    ${resp.content}
+    ${resp}=    GET On Session    ONOS    onos/v1/devices/${olt_of_id}/ports    expected_status=anything
+    ${jsondata}=    Evaluate    json.loads($resp.content)    json
     Should Not Be Empty    ${jsondata['ports']}     Ports list for device with OF ID ${olt_of_id} in ONOS is empty
     ${length}=    Get Length    ${jsondata['ports']}
     @{ports}=    Create List
@@ -244,8 +244,8 @@ Get NNI Port in ONOS
 
 Get FabricSwitch in ONOS
     [Documentation]    Returns of_id of the Fabric Switch in ONOS
-    ${resp}=    Get Request    ONOS    onos/v1/devices
-    ${jsondata}=    To Json    ${resp.content}
+    ${resp}=    GET On Session    ONOS    onos/v1/devices    expected_status=anything
+    ${jsondata}=    Evaluate    json.loads($resp.content)    json
     Should Not Be Empty    ${jsondata['devices']}   Could not find devices in ONOS
     ${length}=    Get Length    ${jsondata['devices']}
     ${matched}=    Set Variable    False
@@ -262,8 +262,8 @@ Get FabricSwitch in ONOS
 Get Master Instace in ONOS
     [Arguments]    ${of_id}
     [Documentation]    Returns nodeId of the Master instace for a giver device in ONOS
-    ${resp}=    Get Request    ONOS    onos/v1/mastership/${of_id}/master
-    ${jsondata}=    To Json    ${resp.content}
+    ${resp}=    GET On Session    ONOS    onos/v1/mastership/${of_id}/master    expected_status=anything
+    ${jsondata}=    Evaluate    json.loads($resp.content)    json
     Should Not Be Empty    ${jsondata['nodeId']}    Could not find nodeId of the master instance for device with OF ID ${of_id} in ONOS
     ${master_node}=    Get From Dictionary    ${jsondata}    nodeId
     RETURN    ${master_node}
@@ -718,8 +718,8 @@ Get Bandwidth Profile Details Rest
     [Arguments]    ${bw_profile_id}
     [Documentation]    Retrieves the details of the given bandwidth profile using REST API
     ${bw_profile_id}=    Remove String    ${bw_profile_id}    '    "
-    ${resp}=    Get Request    ONOS    onos/sadis/bandwidthprofile/${bw_profile_id}
-    ${jsondata}=    To Json    ${resp.content}
+    ${resp}=    GET On Session    ONOS    onos/sadis/bandwidthprofile/${bw_profile_id}    expected_status=anything
+    ${jsondata}=    Evaluate    json.loads($resp.content)    json
     Should Not Be Empty    ${jsondata['entry']}     Could not find data for bandwidth profile ${bw_profile_id} in ONOS
     ${length}=    Get Length    ${jsondata['entry']}
     ${matched}=    Set Variable    False
@@ -741,8 +741,8 @@ Get Bandwidth Profile Details Ietf Rest
     [Arguments]    ${bw_profile_id}
     [Documentation]    Retrieves the details of the given Ietf standard based bandwidth profile using REST API
     ${bw_profile_id}=    Remove String    ${bw_profile_id}    '    "
-    ${resp}=    Get Request    ONOS    onos/sadis/bandwidthprofile/${bw_profile_id}
-    ${jsondata}=    To Json    ${resp.content}
+    ${resp}=    GET On Session    ONOS    onos/sadis/bandwidthprofile/${bw_profile_id}    expected_status=anything
+    ${jsondata}=    Evaluate    json.loads($resp.content)    json
     Should Not Be Empty    ${jsondata['entry']}     Could not find data for bandwidth profile ${bw_profile_id} in ONOS
     ${length}=    Get Length    ${jsondata['entry']}
     ${matched}=    Set Variable    False
@@ -988,7 +988,7 @@ Verify ONU in Groups
     [Documentation]    Verifies that the specified onu_port exists in groups output
     ${result}=    Execute ONOS CLI Command use single connection    ${ip_onos}    ${port_onos}    groups -j
     Log    Groups: ${result}
-    ${groups}=    To Json    ${result}
+    ${groups}=    Evaluate    json.loads($result)    json
     ${length}=    Get Length    ${groups}
     ${buckets}=    Create List
     ${matched}=    Set Variable    False
@@ -1135,8 +1135,8 @@ Wait for DHCP Ack
 Provision subscriber REST
     [Documentation]     Uses the rest APIs to provision a subscriber
     [Arguments]     ${of_id}    ${onu_port}
-    ${resp}=    Post Request    ONOS
-    ...    /onos/olt/oltapp/${of_id}/${onu_port}
+    ${resp}=    POST On Session    ONOS
+    ...    /onos/olt/oltapp/${of_id}/${onu_port}    expected_status=anything
     Should Be Equal As Strings    ${resp.status_code}    200
 
 Count Enabled UNI Ports
