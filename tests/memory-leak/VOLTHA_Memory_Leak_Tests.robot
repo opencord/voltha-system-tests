@@ -322,8 +322,10 @@ Teardown Suite
     Run Keyword If    ${pausebeforecleanup}    Pause Execution    Press OK to continue with clean up!
     Run Keyword If    ${pausebeforecleanup}    Log  ${consumption_max}  Teardown will be continued...    console=yes
     Run Keyword If    ${teardown_device} and ${Device_Setup}    Delete All Devices and Verify
-    Run Keyword Unless    ${etcdcheckintestteardown}    Wait Until Keyword Succeeds    ${timeout}    1s
-    ...    Validate Onu Data In Etcd    ${INFRA_NAMESPACE}    0    ${kvstoreprefix}    without_pm_data=False
+    IF    not ${etcdcheckintestteardown}
+        Wait Until Keyword Succeeds    ${timeout}    1s
+        ...    Validate Onu Data In Etcd    ${INFRA_NAMESPACE}    0    ${kvstoreprefix}    without_pm_data=False
+    END
     Run Keyword If   ${Device_Setup}   Wait for Ports in ONOS for all OLTs  ${ONOS_SSH_IP}  ${ONOS_SSH_PORT}  0  BBSM  ${timeout}
     Run Keyword If   ${logging}    Collect Logs
     Stop Logging Setup or Teardown   Teardown-${SUITE NAME}

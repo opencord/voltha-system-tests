@@ -390,7 +390,9 @@ Validate Raised Timestamp
     Run Keyword And Continue On Failure    Should Be Equal    ${raisedTsSec}    ${kpiEvent2Ts}
     ${result}=    utility.validate    ${raisedTsSec}    <=    ${reportedTsSec}
     ${msg}=    Catenate    raisedTs (${raisedTs}) must be earlier or equal than reportedTs (${reportedTs})!
-    Run Keyword Unless    ${result}    Run Keyword And Continue On Failure    FAIL    ${msg}
+    IF    not ${result}
+        Run Keyword And Continue On Failure    FAIL    ${msg}
+    END
 
 Validate Slice Data
     [Documentation]    Validates passed slice data
@@ -480,8 +482,10 @@ Get Previous Slice Index
         ${prevSliceIndex}=    Set Variable If    ${matched}    ${Index}    -1
         Exit For Loop If    ${matched}
     END
-    Run Keyword And Continue On Failure    Run Keyword Unless    ${matched}    FAIL
-    ...    Could not find previous metrics for ${title} entity_id ${entity_id} of device ${device_id}!
+    IF    not ${matched}
+        Run Keyword And Continue On Failure    FAIL
+        ...    Could not find previous metrics for ${title} entity_id ${entity_id} of device ${device_id}!
+    END
     RETURN    ${prevSliceIndex}
 
 Validate Timestamp
@@ -494,8 +498,10 @@ Validate Timestamp
     ...    current
     ${interval}=    Convert To Integer    ${interval}
     ${check_value}=     Evaluate    abs(${prev_timestamp}+${interval}-${timestamp})
-    Run Keyword And Continue On Failure    Run Keyword Unless    ${0} <= ${check_value} <= ${5}    FAIL
-    ...    Wrong interval for ${title} of device ${device_id}!
+    IF    not (${0} <= ${check_value} <= ${5})
+        Run Keyword And Continue On Failure    FAIL
+        ...    Wrong interval for ${title} of device ${device_id}!
+    END
 
 Get Validation Operation
     [Documentation]    Delivers the stored validation operation of passed metrics
@@ -535,7 +541,9 @@ Validate Metrics Data
         ${msg}=    Catenate    Received value (${current_value}) from device (${device_id}) of group (${title}) for '${item}'
         ...    does not match!
         ...    Expected: <value> ${operation} ${validation_value}
-        Run Keyword Unless    ${result}    Run Keyword And Continue On Failure    FAIL    ${msg}
+        IF    not ${result}
+            Run Keyword And Continue On Failure    FAIL    ${msg}
+        END
     END
 
 Validate Precondition for Availability
@@ -622,8 +630,10 @@ Validate Number of Checks per Onu
         ${expected_checks}=    evaluate    ${collect_interval}/${val}
         # remove float format and round down always (e.g. 3.9 -> 3)
         ${expected_checks}=    evaluate    int(${expected_checks})
-        Run Keyword And Continue On Failure    Run Keyword Unless    ${expected_checks} <= ${checks}    FAIL
-        ...    Wrong number of pm-data (${checks}) for ${group} of device ${device_id}!
+        IF    not (${expected_checks} <= ${checks})
+            Run Keyword And Continue On Failure    FAIL
+            ...    Wrong number of pm-data (${checks}) for ${group} of device ${device_id}!
+        END
     END
 
 #################################################################

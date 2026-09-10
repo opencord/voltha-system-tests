@@ -56,8 +56,8 @@ List Service
 JoinOrLeave Igmp Rest Based
     [Documentation]  Joins or Leaves Igmp on a BBSim ONU (based on Rest Endpoint)
     [Arguments]    ${bbsim_rel_session}    ${onu}    ${uni}    ${task}    ${group_address}    ${vlan}=55
-    ${resp}=    Post Request    ${bbsim_rel_session}
-    ...    /v1/olt/onus/${onu}/${uni}/igmp/${IGMP_TASK_DICT}[${task}]/${group_address}/${vlan}
+    ${resp}=    POST On Session    ${bbsim_rel_session}
+    ...    /v1/olt/onus/${onu}/${uni}/igmp/${IGMP_TASK_DICT}[${task}]/${group_address}/${vlan}    expected_status=anything
     Log    ${resp}
 
 JoinOrLeave Igmp

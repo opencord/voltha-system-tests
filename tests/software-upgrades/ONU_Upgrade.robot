@@ -798,7 +798,9 @@ Do ONU Upgrade Compare OMCI Message Version
     Should Be Equal   0   ${TxOmciCounterTimeouts}  TxOmciCounterTimeouts found in extended OMCI!
     # Restart BBSIM with OMCI Message Version read at begin of test
     ${extra_helm_flags}=    Catenate    --set omccVersion=${omcc_version}
-    Run Keyword Unless   ${is_omcc_extended}   Restart BBSIM by Helm Charts   ${NAMESPACE}   extra_helm_flags=${extra_helm_flags}
+    IF    not ${is_omcc_extended}
+        Restart BBSIM by Helm Charts    ${NAMESPACE}    extra_helm_flags=${extra_helm_flags}
+    END
 
 Get ONU SW Upgrade Duration
     [Documentation]    This keyword delivers SW Upgrade duration of onu
