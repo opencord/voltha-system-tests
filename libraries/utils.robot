@@ -609,7 +609,9 @@ Perform Sanity Test TT MCAST
         ${src}=    Set Variable    ${hosts.src[${I}]}
         ${dst}=    Set Variable    ${hosts.dst[${I}]}
         ${service_type}=    Get Variable Value    ${src['service_type']}    "null"
-        Run Keyword IF    '${service_type}' == 'mcast'    Sanity Test TT MCAST one ONU    ${src}
+        Run Keyword IF    '${service_type}' == 'mcast'
+        ...    Wait Until Keyword Succeeds    300s    5s
+        ...    Sanity Test TT MCAST one ONU    ${src}
         ...    ${dst}    ${supress_add_subscriber}
     END
 
@@ -664,16 +666,30 @@ Sanity Test TT MCAST one ONU
 
     # Setup iperf on the BNG
     ${server_output}=    Login And Run Command On Remote System
-    ...    sudo iperf -c ${dst['dp_iface_ip_qinq']} -u -T 32 -t 60 -i 1 &
+    ...    sudo nohup iperf -c ${dst['dp_iface_ip_qinq']} -u -T 32 -t 60 -i 1 &
     ...    ${dst['bng_ip']}    ${dst['bng_user']}    ${dst['bng_pass']}    ${dst['container_type']}
     ...    ${dst['container_name']}
 
     # Setup iperf on the RG
+    ${output}=  Run Keyword and Continue On Failure    Wait Until Keyword Succeeds     90s    5s
+    ...    Login And Run Command On Remote System
+    ...    rm -rf /tmp/rg_output
+    ...    ${src['ip']}    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
+    Log    ${output}
+
     ${rg_output}=    Run Keyword and Continue On Failure    Wait Until Keyword Succeeds     90s    5s
     ...    Login And Run Command On Remote System
-    ...    rm -rf /tmp/rg_output ; sudo iperf -s -u -B ${dst['dp_iface_ip_qinq']} -i 1 -D >> /tmp/rg_output
+    ...    sudo nohup iperf -s -u -B ${dst['dp_iface_ip_qinq']} -i 1 >> /tmp/rg_output &
     ...    ${src['ip']}    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
     Log    ${rg_output}
+
+    # Check RG joins mcast group
+    ${mcast_group_output}=    Run Keyword and Continue On Failure    Wait Until Keyword Succeeds     60s    5s
+    ...    Login And Run Command On Remote System
+    ...    netstat -ng | grep "${dst['dp_iface_ip_qinq']}"
+    ...    ${src['ip']}    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
+    Log    ${mcast_group_output}
+
     Sleep    60s
     ${output}=    Run Keyword and Continue On Failure     Wait Until Keyword Succeeds     90s    5s
     ...    Login And Run Command On Remote System
@@ -683,7 +699,7 @@ Sanity Test TT MCAST one ONU
     Should Contain    ${output}    KBytes   Could not find 'KBytes' in iperf output
 
     # Kill iperf  on BNG
-    ${rg_output}=    Run Keyword and Continue On Failure    Login And Run Command On Remote System
+    ${output}=    Run Keyword and Continue On Failure    Login And Run Command On Remote System
     ...    sudo kill -9 `pidof iperf`
     ...    ${dst['bng_ip']}    ${dst['bng_user']}    ${dst['bng_pass']}    ${dst['container_type']}
     ...    ${dst['container_name']}
