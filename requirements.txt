@@ -29,7 +29,7 @@ yamllint>=1.23.0,<=1.37.0
 # -----------------------------------------------------------------------
 # https://pypi.org/project/robotframework/#history
 # -----------------------------------------------------------------------
-robotframework>=3.1.2,<=7.2.2
+robotframework>=5.0.0,<=7.2.2
 robotframework-importresource==0.2.0
 robotframework-kafkalibrary==0.0.3
 robotframework-lint==1.1
@@ -43,11 +43,11 @@ cord-robot==2.1.10
 
 matplotlib>=3.3.4,<=3.10.1
 requests>=2.24.0,<=2.32.3
-grpcio>=1.62.0  # Required for voltha-protos 5.7+
-grpcio-tools>=1.62.0  # Required for voltha-protos 5.7+
-grpc-robot>=2.11.2
+grpcio>=1.85.3  # Required for voltha-protos 5.7+ with protos 7.x+
+grpcio-tools>=1.85.3  # Required for voltha-protos 5.7+ with protos 7.x+
+grpc-robot>=2.11.4
 kafka-robot>=2.3.2
 voltha-protos>=5.7.0
-protobuf>=4.25,<5.0
+protobuf>=7.35.1,<8.0
 protobuf3-to-dict>=0.1.5
 device-management-interface>=1.18.2
