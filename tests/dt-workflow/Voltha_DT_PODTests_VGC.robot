@@ -97,7 +97,7 @@ Test Subscriber Delete and Add for DT
     ...    Delete a subscriber and validate that the pings do not succeed and state is purged
     ...    Disable and Enable the ONU (This is to replicate the existing DT behaviour)
     ...    Re-add the subscriber, and validate that the flows are present and pings are successful
-    [Tags]    functionalDt    SubAddDeleteDt    soak
+    [Tags]    sanityDt    functionalDt    SubAddDeleteDt    soak
     [Setup]    Run Keywords    Start Logging     SubAddDeleteDt
     ...        AND    Run Keyword If    ${has_dataplane}    Set Non-Critical Tag for XGSPON Tech
     [Teardown]    Run Keywords    Run Keyword If    ${logging}    Collect Logs
@@ -267,7 +267,7 @@ Test Delete and ReAdd OLT for DT
     ...    Disable and Delete the OLT
     ...    Create/Enable the same OLT again
     ...    Validate DHCP/E2E pings succeed for all the ONUs connected to the OLT
-    [Tags]    functionalDt    DeleteReAddOLTDt    soak
+    [Tags]    sanityDt    functionalDt    DeleteReAddOLTDt    soak
     [Setup]    Start Logging    DeleteReAddOLTDt
     [Teardown]    Run Keywords    Run Keyword If    ${logging}    Collect Logs
     ...           AND             Stop Logging    DeleteReAddOLTDt
@@ -288,7 +288,7 @@ Test Disable ONUs and OLT Then Delete ONUs and OLT for DT
     ...    This TC is to confirm that ONU removal is not impacting OLT
     ...    Devices will be removed during the execution of this TC
     ...    so calling setup at the end to add the devices back to avoid the confusion.
-    [Tags]    functionalDt    DisableDeleteONUOLTDt
+    [Tags]    sanityDt    functionalDt    DisableDeleteONUOLTDt
     [Setup]    Run Keywords    Start Logging    DisableDeleteONUOLTDt
     ...        AND    Run Keyword If    ${has_dataplane}    Set Non-Critical Tag for XGSPON Tech
     [Teardown]    Run Keywords    Run Keyword If    ${logging}    Collect Logs
@@ -354,7 +354,7 @@ Test Disable and Enable OLT PON Port for DT
     ...    Assuming that all the ONUs are DHCP/pingable (i.e. assuming sanityDt test was executed)
     ...    Perform disable on the OLT PON Port and validate that the pings do not succeed
     ...    Perform enable on the OLT PON Port and validate that the pings are successful
-    [Tags]    functionalDt    DisableEnableOltPonPortDt    VOL-2577    soak
+    [Tags]    sanityDt    functionalDt    DisableEnableOltPonPortDt    VOL-2577    soak
     [Setup]    Run Keywords    Start Logging   DisableEnableOltPonPortDt
     ...        AND    Run Keyword If    ${has_dataplane}    Set Non-Critical Tag for XGSPON Tech
     [Teardown]    Run Keywords    Run Keyword If    ${logging}    Collect Logs
@@ -366,7 +366,7 @@ Test Disable and Enable OLT PON Port for DT
 
 Test ONU Delete and Auto-Discovery for DT
     [Documentation]    Tests the voltctl delete and Auto-Discovery of the ONU
-    [Tags]    functionalDt    VOL-3098    ONUAutoDiscoveryDt
+    [Tags]    sanityDt    functionalDt    VOL-3098    ONUAutoDiscoveryDt
     [Setup]    Start Logging   ONUAutoDiscoveryDt
     [Teardown]    Run Keywords    Run Keyword If    ${logging}    Collect Logs
     ...           AND             Stop Logging    ONUAutoDiscoveryDt
@@ -423,6 +423,40 @@ Test ONU Delete and Auto-Discovery for DT
         ...    ${src['ip']}    ${src['user']}    ${src['pass']}    ${src['container_type']}    ${src['container_name']}
         ...    ${dst['dp_iface_name']}    ${dst['ip']}    ${dst['user']}    ${dst['pass']}    ${dst['container_type']}
         ...    ${dst['container_name']}
+    END
+    # Verify flows for all OLTs
+    Wait Until Keyword Succeeds    ${timeout}    5s    Validate All OLT Flows
+
+Test ONU Reboot
+    [Documentation]    For each ONU, verify subscriber access flows, reboot the ONU,
+    ...    wait 10 seconds, and verify subscriber access flows again
+    [Tags]    sanityDt    functionalDt    ONURebootDt
+    [Setup]    Run Keywords    Start Logging    ONURebootDt
+    ...        AND    Run Keyword If    ${has_dataplane}    Set Non-Critical Tag for XGSPON Tech
+    [Teardown]    Run Keywords    Run Keyword If    ${logging}    Collect Logs
+    ...           AND             Stop Logging    ONURebootDt
+    FOR    ${I}    IN RANGE    0    ${num_all_onus}
+        ${src}=    Set Variable    ${hosts.src[${I}]}
+        ${of_id}=    Get ofID From OLT List    ${src['olt']}
+        ${onu_device_id}=    Get Device ID From SN    ${src['onu']}
+        ${onu_port}=    Wait Until Keyword Succeeds    ${timeout}    2s
+        ...    Get ONU Port in VGC    ${src['onu']}    ${of_id}    ${src['uni_id']}
+        ${nni_port}=    Wait Until Keyword Succeeds    ${timeout}    2s    Get NNI Port in VGC    ${of_id}
+        # Verify subscriber access flows are present before ONU reboot
+        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
+        ...    Verify Subscriber Access Flows Added for ONU DT in VGC    ${VGC_SSH_IP}    ${VGC_SSH_PORT}    ${of_id}
+        ...    ${onu_port}    ${nni_port}    ${src['s_tag']}
+
+        Reboot Device    ${onu_device_id}
+        Sleep    10s
+
+        ${onu_port}=    Wait Until Keyword Succeeds    ${timeout}    2s
+        ...    Get ONU Port in VGC    ${src['onu']}    ${of_id}    ${src['uni_id']}
+        ${nni_port}=    Wait Until Keyword Succeeds    ${timeout}    2s    Get NNI Port in VGC    ${of_id}
+        # Verify subscriber access flows are present after ONU reboot
+        Run Keyword And Continue On Failure    Wait Until Keyword Succeeds    ${timeout}    5s
+        ...    Verify Subscriber Access Flows Added for ONU DT in VGC    ${VGC_SSH_IP}    ${VGC_SSH_PORT}    ${of_id}
+        ...    ${onu_port}    ${nni_port}    ${src['s_tag']}
     END
     # Verify flows for all OLTs
     Wait Until Keyword Succeeds    ${timeout}    5s    Validate All OLT Flows
